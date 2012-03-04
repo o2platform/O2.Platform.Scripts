@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var panel = O2Gui.open&lt;Panel&gt;("FuzzDb",400,500);
+var fuzzDb = new API_FuzzDB();
+var treeView = panel.add_TreeView();
+if (fuzzDb.isInstalled().isFalse())    		
+	treeView.add_Node("Error:FuzzDB Not installed");
+else
+{
+	treeView.add_Node("XSS Payloads")
+			.add_Nodes(fuzzDb.payloads_Xss())
+			.expand();
+}
+
+//O2File:API_FuzzDB.cs</SourceCode>
+  <ReferencedAssemblies />
+</H2>

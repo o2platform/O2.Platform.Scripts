@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>
+O2Gui.open&lt;Panel&gt;("Download new version of O2",700,500)
+      .add_Browser()
+	  .open("http://code.google.com/p/o2platform/downloads/list");
+//using O2.External.IE.ExtensionMethods
+//O2Ref:O2_External_IE.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

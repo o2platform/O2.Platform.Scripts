@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var IEVAlue =  8000; // can be: 9999 , 9000, 8888, 8000, 7000   
+                     //see for more details http://www.west-wind.com/weblog/posts/2011/May/21/Web-Browser-Control-Specifying-the-IE-Version
+
+var localMachine = Registry.LocalMachine;
+var parentKeyLocation = @"SOFTWARE\Microsoft\Internet Explorer\MAIN\FeatureControl";
+var keyName = "FEATURE_BROWSER_EMULATION";
+var newKey = "yourapplication.exe";
+var keyValue = localMachine.getOrCreateSubKey(parentKeyLocation,keyName,true);
+keyValue.SetValue("O2_XRules_Database.exe", 8000,RegistryValueKind.DWord);
+
+return "all done, now try it on a new process";
+
+
+
+/*
+var ie = panel.clear().add_IE()).silent(true);
+ie.open("http://www.mybrowserinfo.com"); 
+
+//O2File:WatiN_IE_ExtensionMethods.cs 
+//O2Ref:WatiN.Core.1x.dll
+//O2Tag_DontAddExtraO2Files;			
+*/
+
+//using Microsoft.Win32
+//O2File:_Extra_methods_Windows.cs
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

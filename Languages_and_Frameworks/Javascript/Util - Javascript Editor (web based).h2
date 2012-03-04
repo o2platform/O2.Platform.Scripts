@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//panel.clear();
+var topPanel = O2Gui.open&lt;Panel&gt;("Javascript editor",700,400); 
+var ie = topPanel.add_IE().silent(false);
+
+ie.open("http://ajaxorg.github.com/ace/build/editor.html"); 
+
+//return ie.divs();  
+//O2File:WatiN_IE_ExtensionMethods.cs
+//using O2.XRules.Database.Utils.O2
+//O2Ref:WatiN.Core.1x.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

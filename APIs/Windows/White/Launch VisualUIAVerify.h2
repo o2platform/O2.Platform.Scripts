@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>Processes.startProcess("VisualUIAVerify.exe");
+//O2Ref:UIALogging.dll
+//O2Ref:uialoggerxml.dll
+//O2Ref:UIATestLibrary.dll
+//O2Ref:VisualUIAVerify.exe</SourceCode>
+  <ReferencedAssemblies />
+</H2>

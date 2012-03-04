@@ -1,0 +1,147 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - GitHub Browser",1000,400);  
+//var topPanel = panel.clear().add_Panel(); 
+ 
+var folderToSaveSelectedFiles = "";		
+var recursiveDownload = false;
+var stopDownload = true;
+
+var gitObjects = new API_GitHub_Objects();
+ gitObjects.login();
+//gitObjects.add_GitHub_Browser(topPanel);
+//gitObjects.show_GitHub_Browser();
+var folderViewer = topPanel.add_FolderViewer();
+var folders_TreeView = folderViewer.insert_Left().add_TreeView();
+var propertyGrid = folders_TreeView.insert_Below(100).add_PropertyGrid(); 
+
+var actionsPanel = folders_TreeView.insert_Above(70);
+var repository_TextBox = actionsPanel.add_TextBox(0, "repository", "").left(100);
+var rootSha_TextBox = actionsPanel.add_TextBox(20,"root tree (Sha)", "").left(100);
+			
+Action&lt;TreeNode, List&lt;GitModel.Object&gt;&gt; add_Objects =
+	(treeNode, objects)=&gt;{
+							treeNode.add_Nodes(objects, (_object)=&gt; _object.Name);
+						 };
+						 
+Action&lt;TreeNode, GitModel.Object&gt; add_Folders =
+	(treeNode, _object)=&gt;{
+							add_Objects(treeNode,gitObjects.tree(_object.Sha).folders());  
+						 };						 
+						   
+/*folders_TreeView.beforeExpand&lt;GitModel.Object&gt;(
+	(treeNode, _object)=&gt; {
+							treeNode.add_Node(_object);
+						  });
+*/
+folders_TreeView.afterSelect&lt;GitModel.Object&gt;(
+	( _object)=&gt; {
+					propertyGrid.show(_object);
+					if (folders_TreeView.selected().nodes().size()==0)
+						add_Folders(folders_TreeView.selected(), _object);
+				 });  
+Action&lt;string, string, string&gt; downloadTreeFromGit = null;
+downloadTreeFromGit = 
+	(name, sha,rootFolder)
+		=&gt;{
+				if (stopDownload)
+						return;
+				"Downloading {0} tree from Git to folder: {0} ".info(name, rootFolder); 
+				var currentFolder = rootFolder.pathCombine(name);
+				currentFolder.createDir();
+				var treeObjects = gitObjects.tree(sha);    
+				if (recursiveDownload)				
+					foreach(var folder in treeObjects.folders())   
+						downloadTreeFromGit(folder.Name, folder.Sha, currentFolder);
+				foreach(var file in treeObjects.files())  	
+				{
+					var targetFilePath = currentFolder.pathCombine(file.Name);
+					var fileContent = gitObjects.fileContent(file.Name, sha);//file.Sha);					
+					fileContent.saveAs(targetFilePath);
+					if (stopDownload)
+						return;
+				}
+				"name: {0}".info(currentFolder);			 	
+		   };
+		   
+Action downloadSelected = 
+	()=&gt;{
+			var treeNode = folders_TreeView.selected();
+			var selectedObject = (GitModel.Object)treeNode.get_Tag();
+			if (selectedObject.notNull())			
+			{
+				stopDownload = false;
+				var o2Timer = new O2Timer("Download folder from GIT").start();
+				downloadTreeFromGit(treeNode.get_Text(),selectedObject.Sha,folderToSaveSelectedFiles);
+				folderViewer.refresh();
+				o2Timer.stop();
+			}
+		};
+
+
+				  
+folderViewer.insert_Above(20).add_TextBox("Folder to save","")
+					   .onTextChange(
+					   		(text)=&gt;{
+					   					folderToSaveSelectedFiles = text;
+					   					folderViewer.open(text);
+					   				})  
+					   .set_Text("_SavedGitFiles".tempDir(false));
+					   
+var downloadLink = actionsPanel.add_Link("download (files as ascii) from tree from Git", 50,0,
+				  				   		()=&gt;downloadSelected());
+  
+actionsPanel.add_CheckBox("Recursive folder download", 50,250, (value)=&gt; recursiveDownload  = value)
+		    .autoSize();
+		    
+var stopDownloadLink = actionsPanel.add_Link("Stop download", 52 ,440,
+							()=&gt;{ 
+									"Stop download link was clicked".error();
+									stopDownload = true; 
+								});
+						
+
+Action loadTree = 
+	()=&gt;{
+			var rootTree = rootSha_TextBox.get_Text();
+			gitObjects.setupRepository(repository_TextBox.get_Text());	
+			folders_TreeView.clear();
+			add_Objects(folders_TreeView.rootNode(), gitObjects.tree(rootTree).folders());  
+		};
+
+rootSha_TextBox.onEnter((text)=&gt;loadTree());
+repository_TextBox.onEnter((text)=&gt;loadTree()); 
+  
+rootSha_TextBox.set_Text("71419d1c49f6d9c5a6c1");//"dc03519a8e0d766f224f");
+repository_TextBox.set_Text("SecurityInnovation/TeamMentor");//"DinisCruz/TeamMentor");
+
+loadTree();
+ 
+
+//folders_TreeView.nodes()[1].selected(); 
+ 
+//downloadLink.click(); 
+return "ok";  
+
+//O2Ref:GithubSharp.Core.dll 
+//O2Ref:BasicCacher.dll
+//O2Ref:GithubSharp.Plugins.LogProviders.SimpleLogProvider.dll 
+ 
+//O2File:ISecretData;//_ExtensionMethods.cs 
+//O2File:SecretData_ExtensionMethods.cs 
+
+
+
+//using GithubSharp;
+//using GithubSharp.Core;
+//using GithubSharp.Core.Base;
+//using GitModel = GithubSharp.Core.Models;
+//using GitAPI = GithubSharp.Core.API;  
+//using GithubSharp.Core.Services; 
+//using GithubSharp.Plugins.LogProviders.SimpleLogProvider; 
+
+//O2File:API_GitHub_Objects.cs
+
+//O2File:ascx_FolderViewer.cs</SourceCode>
+  <ReferencedAssemblies />
+</H2>

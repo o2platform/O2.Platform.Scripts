@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>
+var topPanel = O2Gui.open&lt;Panel&gt;("Util - Web Encoder (with AntiXss Support)",1000,400); 
+//var topPanel = panel.clear().add_Panel(); 
+var configPanel = topPanel.insert_Above(40,"Config"); 
+var sourceText = topPanel.add_GroupBox("Source Text").add_SourceCodeViewer();  
+var transformedText = topPanel.insert_Right("Transformed Text").add_SourceCodeViewer(); 
+ 
+var transformationsAvailable = new List&lt;string&gt; { "none", 
+												  "HtmlDecode",	"HtmlEncode","UrlDecode", "UrlEncode",
+												  "AntiXss.HtmlEncode", 		 	"AntiXss.UrlEncode", 		 			"AntiXss.JavaScriptEncode",  	"AntiXss.CssEncode",
+												  "AntiXss.HtmlAttributeEncode",	"AntiXss.HtmlFormUrlEncode",		 	"AntiXss.XmlAttributeEncode",	"AntiXss.XmlEncode",
+												  "AntiXss.VisualBasicScriptEncode","AntiXss.LdapDistinguishedNameEncode",	"AntiXss.LdapFilterEncode",
+												  "Sanitizer.GetSafeHtml", 			"Sanitizer.GetSafeHtmlFragment"};
+var transformMode_1 = "";
+var transformMode_2 = "";
+var transformMode_3 = "";
+
+
+
+Func&lt;string,string, string&gt; applyTransformation =
+	(type, text)=&gt;{
+					if (type.valid() &amp;&amp; text.valid() )
+					{
+						switch(type)
+						{
+							case "none":								break;
+							case "HtmlDecode":							return text.htmlDecode();
+							case "HtmlEncode":							return text.htmlEncode();
+							case "UrlDecode":							return text.urlDecode();
+							case "UrlEncode":							return text.urlEncode();		
+							
+							case "AntiXss.HtmlEncode": 					return Encoder.HtmlEncode(text);
+							case "AntiXss.UrlEncode": 					return Encoder.UrlEncode(text);
+							case "AntiXss.JavaScriptEncode": 			return Encoder.JavaScriptEncode(text);	
+							case "AntiXss.CssEncode": 					return Encoder.CssEncode(text);	
+							case "AntiXss.HtmlAttributeEncode": 		return Encoder.HtmlAttributeEncode(text);	
+							case "AntiXss.HtmlFormUrlEncode": 			return Encoder.HtmlFormUrlEncode(text);	
+							case "AntiXss.XmlAttributeEncode": 			return Encoder.XmlAttributeEncode(text);	
+							case "AntiXss.XmlEncode": 					return Encoder.XmlEncode(text);	
+							case "AntiXss.VisualBasicScriptEncode": 	return Encoder.VisualBasicScriptEncode(text);	
+							case "AntiXss.LdapDistinguishedNameEncode": return Encoder.LdapDistinguishedNameEncode(text);	
+							case "AntiXss.LdapFilterEncode": 			return Encoder.LdapFilterEncode(text);	
+							
+							case "Sanitizer.GetSafeHtml":				return Sanitizer.GetSafeHtml(text);
+							case "Sanitizer.GetSafeHtmlFragment":		return Sanitizer.GetSafeHtmlFragment(text);
+							
+							default: 
+								return text + "  not supported: {0}".format(type);
+						}					
+					}
+					return text;
+				  };
+				  
+				  
+Action applyTransformations =
+	()=&gt;{
+			var originalText = sourceText.get_Text();
+			var result = applyTransformation(transformMode_1,originalText);
+			result = applyTransformation(transformMode_2, result);
+			result = applyTransformation(transformMode_3, result);
+			transformedText.set_Text(result);			 
+		};
+
+sourceText.onTextChange(
+	(text)=&gt;{     
+				applyTransformations();
+			});  
+ 
+configPanel.add_Label("Color Code the text as").top(3)
+		   .append_Control&lt;ComboBox&gt;().dropDownList().top(0)
+		   							  .add_Items(".xml",".html",",cs")		   							  
+		   							  .onSelection((value)=&gt; {
+		   							  							transformedText.editor().setDocumentHighlightingStrategy(value.str());
+		   							  							sourceText.editor().setDocumentHighlightingStrategy(value.str());
+		   							  						})
+		   							  .selectFirst()
+		   							  
+			.append_Label("Transform using:").top(3).autoSize()  
+			.append_Control&lt;ComboBox&gt;().dropDownList().top(0).width(170).comboBoxHeight(250)
+		   							  .add_Items(transformationsAvailable)
+		   							  .onSelection&lt;string&gt;((value)=&gt; { transformMode_1 = value; applyTransformations(); } ) 
+		   							  .selectFirst() 
+		   							  
+			.append_Label("and:").top(3).autoSize() 
+			.append_Control&lt;ComboBox&gt;().dropDownList().top(0).width(170).comboBoxHeight(250)
+		   							  .add_Items(transformationsAvailable)
+		   							  .onSelection&lt;string&gt;((value)=&gt; { transformMode_2 = value; applyTransformations(); } )
+		   							  
+			.append_Label("and:").top(3).autoSize()  
+			.append_Control&lt;ComboBox&gt;().dropDownList().top(0).width(170).comboBoxHeight(250)
+		   							  .add_Items(transformationsAvailable)
+		   							  .onSelection&lt;string&gt;((value)=&gt; { transformMode_3 = value; applyTransformations(); } )
+		   							  ;
+ 
+sourceText.set_Text("this is a &lt;b&gt; test &lt;/b&gt;");
+
+return "done";
+//using Microsoft.Security.Application
+//O2Ref:AntiXSSLibrary.dll
+//O2Ref:HtmlSanitizationLibrary.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

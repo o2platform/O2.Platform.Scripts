@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("util - run WSCA on TeamMentor",700,400);
+//var topPanel = panel.clear().add_Panel();
+
+topPanel.insert_LogViewer();
+
+var webConfig = Test_TM.tmWebSiteFolder.pathCombine("web.config");
+var wcsaFolder = @"C:\Users\o2\Downloads\WCSAGUIv1.0\WCSAGUIv1.0";
+Directory.SetCurrentDirectory(wcsaFolder);
+
+
+var scanEngine = new ScanEngine();
+
+Action showVulnsList = 
+	()=&gt;{
+			var tableList = "VulnsList".popupWindow().add_TableList();
+			tableList.add_Columns(scanEngine.vulns[0].type().fields().Select((field)=&gt;field.Name).toList());
+			foreach(var vuln in scanEngine.vulns)
+			{
+				if (vuln.notNull())
+				{
+					var values =  vuln.type().fields().Select((field)=&gt;vuln.field(field.Name).str()).toList();
+					tableList.add_Row(values);	
+				}
+			}
+		};
+
+
+
+var actionsPanel = topPanel.insert_Above(40,"Actions");
+var codeViewer = topPanel.add_SourceCodeEditor();
+var browser = codeViewer.insert_Right().add_WebBrowser_Control();
+
+
+Action scanFile = 
+	()=&gt;{			
+			browser.open("about:blank");
+									
+			var reporter = new Reporter();
+			var rulesToSkip = new List&lt;string&gt; { "Your web application's trust level is higher than Minimal", "Web cookies doesn't require SSL"} ;
+
+			scanEngine.vulns = VulnEngine.LoadVulns();		
+			
+			var newVulns = (from vuln in scanEngine.vulns	
+							where vuln.notNull() 
+							where rulesToSkip.contains(vuln.title).isFalse()
+						    select vuln).toList();
+						    
+			scanEngine.vulns = newVulns.ToArray();		    
+
+			codeViewer.saveSourceCode();
+			var tempFile = Files.Copy(webConfig, "".tempFile());
+			scanEngine.StartScan(tempFile);
+			var fileName = reporter.GenerateReport(scanEngine.vulns, tempFile);
+			var reportFile = wcsaFolder.pathCombine(fileName);
+			browser.open(reportFile);					
+		};
+
+actionsPanel.add_Link("showVulnsList", () =&gt; showVulnsList())
+			.append_Link("Save and Scan File",  ()=&gt; scanFile());
+
+
+codeViewer.open(webConfig);
+
+scanFile();
+
+return topPanel;
+
+//using WCSA
+//using System.IO
+//using O2.SecurityInnovation.TeamMentor
+
+//O2File:Test_TM_Config.cs
+//O2Ref:C:\Users\o2\Downloads\WCSAGUIv1.0\WCSAGUIv1.0\WCSA.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var popupWindow = "IE Execution GUI - IE Google".popupWindow(700,500); 
+popupWindow.add_IE_ExecutionGui("API_TeamMentor_IE.cs");
+ 
+//O2File:API_IE_ExecutionGUI.cs
+//O2Ref:WatiN.Core.1x.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

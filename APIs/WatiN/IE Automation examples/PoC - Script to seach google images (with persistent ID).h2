@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var ie = panel.storeObjectInTag&lt;WatiN_IE&gt;(()=&gt; panel.clear().add_IE() );
+			 
+//these can now be executed individually without needing a new IE object creation
+if (ie.url().isNull() || ie.url().contains("search").isFalse())
+{
+	ie.open("http://www.google.com");    
+	ie.link("Images").click();
+	ie.field("q").value("O2 Platform");
+	ie.button("Search Images").click();
+}
+return ie.links();
+
+//O2File:WatiN_IE_ExtensionMethods.cs
+//O2Ref:WatiN.Core.1x.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

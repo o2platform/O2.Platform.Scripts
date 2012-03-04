@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("CSharp Script Encoder",750,400);
+//topPanel.clear();
+var workArea = topPanel.add_1x1("Original text (encoded text is automatically copied to the Clipboard&gt;","Script text");
+var original_TextBox = workArea[0].add_TextArea().allowTabs();
+var encoded_TextBox = workArea[1].add_TextArea().allowTabs();
+
+original_TextBox.onTextChange(
+	(text) =&gt; 
+		{ 	
+			var scriptText = text.encodeAsO2ScriptText();
+			
+			if (encoded_TextBox.get_Text() != scriptText) 
+				encoded_TextBox.set_Text(scriptText); 
+			
+			if (scriptText.valid())
+				O2Thread.staThread(()=&gt; scriptText.toClipboard());
+		});
+		
+var contextMenu = original_TextBox.add_ContextMenu();
+
+contextMenu.add_MenuItem("Convert script Text into normal Text", 
+	()=&gt;{
+			var originalText = "";
+			foreach(var line in original_TextBox.get_Text().lines())
+			{
+				var originalLine = line.removeFirstChar().removeLastChar().removeLastChar();
+				originalLine = originalLine.replace("\\\"", "\"");				
+				originalText += originalLine.line();
+			}
+			original_TextBox.set_Text(originalText);
+		} );
+		
+contextMenu.add_MenuItem("Replace all \\n with Environment.NewLine", 
+	()=&gt;{
+			original_TextBox.set_Text(original_TextBox.get_Text().Replace("\n",Environment.NewLine));
+		} );
+
+encoded_TextBox.add_ContextMenu()
+			   .add_MenuItem("append .line() on NewLine",true,
+	()=&gt;{
+			var encodedText = encoded_TextBox.get_Text();
+			encodedText = encodedText.Replace("\"+","\".line()+");
+			encodedText = encodedText.Replace("\";","\".line();");
+			encoded_TextBox.set_Text(encodedText);	
+		})
+			  .add_MenuItem("replace tabs with spaces",
+	()=&gt;{
+			var encodedText = encoded_TextBox.get_Text();
+			encodedText = encodedText.Replace("\t", "    ");			
+			encoded_TextBox.set_Text(encodedText);	
+		});</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var dataGridView = panel.clear().add_Panel().add_DataGridView();
+dataGridView.add_Columns("mode1 - mapFolders","mode2 - mapFolderViews","mode3 - mapViews","time", "folderstruture size");
+dataGridView.noSelection();
+
+Action colorCodeDataTable = 
+	()=&gt;{
+			foreach(DataGridViewRow row in dataGridView.Rows)
+				foreach(DataGridViewCell cell in row.Cells)
+					cell.Style.ForeColor = (cell.Value.str() == "True")
+												? Color.Green
+												: (cell.Value.str() == "False")
+													? Color.Red
+													: Color.DarkBlue;		
+		};
+
+
+TMConfig.BaseFolder = Test_TM.tmWebSiteFolder;  
+var tmTestXmlDatabase = new TM_Test_XmlDatabase(TMConfig.BaseFolder); 
+var tmWebServices = tmTestXmlDatabase.webServices();    
+var tmDatabase = tmTestXmlDatabase.xmlDatabase();  
+
+//tmDatabase.reloadData(); 
+ 
+Action&lt;bool,bool,bool&gt; makeRequest = 
+	(mode1, mode2,mode3) =&gt;{  
+								TM_Xml_Database_ExtensionMethods_GuiHelpers.mode1 = mode1;
+								TM_Xml_Database_ExtensionMethods_GuiHelpers.mode2 = mode2;
+								TM_Xml_Database_ExtensionMethods_GuiHelpers.mode3 = mode3;
+								var o2Timer = new O2Timer("in").start();  
+								var folderStructure =  tmWebServices.GetFolderStructure_Libraries();
+								o2Timer.stop(); 
+								dataGridView.add_Row(mode1,mode2,mode3,o2Timer, folderStructure.serialize(false).size());								
+								colorCodeDataTable();
+						   };
+						   
+
+Action makeRequests = 
+	()=&gt;{
+			makeRequest(false,false,false);					
+			makeRequest(true ,false,false);			
+			makeRequest(false,true ,false);
+			makeRequest(true ,true ,false); 
+			makeRequest(false,false, true);
+			makeRequest(true ,false, true);
+			makeRequest(false,true , true);
+			makeRequest(true ,true , true);   
+		};  
+    
+makeRequests();
+//makeRequests();		
+
+return "all done";
+ 
+//using O2.SecurityInnovation.TeamMentor;   
+//using SecurityInnovation.TeamMentor.WebClient; 
+//using O2.SecurityInnovation.TeamMentor.WebClient;
+//using SecurityInnovation.TeamMentor.WebClient.WebServices  
+ 
+//O2File:TM_Test_XmlDatabase.cs																				
+//_O2Ref:TM_WebServices.asmx.dll
+
+//O2Ref:System.Web.Services.dll 
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
+//O2Tag_DontAddExtraO2Files
+ 
+//O2File:C:\_WorkDir\SI\_TeamMentor-v3.0_Latest\Web Applications\TM_Website\App_Code\ExtensionMethods\TM_Xml_Database_ExtensionMethods_GuiHelpers.cs 
+
+ 
+ </SourceCode>
+  <ReferencedAssemblies />
+</H2>

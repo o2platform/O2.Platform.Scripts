@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//panel.clear();
+//var topPanel = panel;  
+var topPanel = O2Gui.open&lt;Panel&gt;("Tool - Method Invocations Creator", 1000,600); 
+ 
+var baseFolder = "";
+O2MappedAstData astData = null;
+var useCachedData = true; //false;//true ;
+var showLogViewer = true;   
+var runOnSeparateAppDomain = true;
+var sourceCodeViewer = topPanel.add_SourceCodeViewer();
+var treeViewPanel = sourceCodeViewer.insert_Left&lt;Panel&gt;();		  	 				     
+treeViewPanel.parent&lt;SplitContainer&gt;().splitterDistance(400);							     
+var referencesToLoad = treeViewPanel.insert_Below&lt;GroupBox&gt;(100).set_Text("References").add_TextArea();
+var optionsPanel = referencesToLoad.insert_Below&lt;Panel&gt;(40);
+var methodMappingsFilter = treeViewPanel.insert_Above&lt;Panel&gt;(20).add_TextBox().fill();
+TreeView methodsMappings_TreeView = null;
+MethodMappings loadedMethodMappings = null;  
+var resultsFolder = "_AstEngine_ExternalMappings".tempDir(); 
+optionsPanel.add_Label("Results Folder")
+			.append_TextBox(resultsFolder)
+			.onTextChange((text)=&gt; resultsFolder=text)
+			.align_Right(optionsPanel);							
+
+Action showMethodMappings =	
+	()=&gt;{ 
+			if (methodsMappings_TreeView.notNull() &amp;&amp; loadedMethodMappings.notNull())
+			{
+				loadedMethodMappings.showInTreeView(methodsMappings_TreeView,methodMappingsFilter.get_Text());
+				methodsMappings_TreeView.selectFirst();				 	        
+			}
+		};
+
+optionsPanel.add_Link("Clear loaded Data", 20,0, 
+	()=&gt;{
+			loadedMethodMappings = new MethodMappings();
+			showMethodMappings();
+		});
+		
+optionsPanel.add_CheckBox("Run on separate AppDomain", 20,100, (value)=&gt; runOnSeparateAppDomain= value)
+			.check()
+			.autoSize(); 
+	
+methodMappingsFilter.onEnter((text)=&gt; showMethodMappings()); 
+
+Action&lt;string&gt; loadFilesFromFolder = null; 
+
+loadFilesFromFolder= 
+	(sourceFolder)=&gt;{
+		O2Thread.mtaThread(
+			()=&gt;{
+					if (sourceFolder.valid().isFalse())
+						return;
+					"loading files from: {0}".info(sourceFolder); 	 									
+					var methodFilder = @"";
+					var references = referencesToLoad.get_Text().lines();					
+					var results = MethodMappings_Engine.calculateMethodMappings(sourceFolder, resultsFolder,references,runOnSeparateAppDomain);     
+					
+					loadedMethodMappings = resultsFolder.files("*.xml").loadAndMergeMethodMappings();					
+					
+					methodsMappings_TreeView = treeViewPanel.CreateTreeViewFor_MethodMappingsView(sourceCodeViewer)
+														    .onDrop(loadFilesFromFolder);
+					showMethodMappings();														
+				});
+			};
+							     
+
+treeViewPanel.onDrop(loadFilesFromFolder);
+
+referencesToLoad.set_Text("System.Web".line() +    
+						  "System.Data");
+ 
+//loadFilesFromFolder(@"C:\O2\DemoData\HacmeBank_v2.0 (7 Dec 08)\HacmeBank_v2_WS");
+
+return astData; 
+
+
+//using O2.API.AST.CSharp
+//using O2.API.AST.ExtensionMethods;
+//using O2.API.AST.ExtensionMethods.CSharp;
+//using O2.External.SharpDevelop.ExtensionMethods;
+//using O2.External.SharpDevelop.AST;
+//using O2.External.SharpDevelop.Ascx;
+//using O2.XRules.Database.Languages_and_Frameworks.DotNet	
+//using ICSharpCode.SharpDevelop.Dom;
+//using ICSharpCode.NRefactory;
+//using ICSharpCode.NRefactory.Ast;
+//O2File:MethodMappings_Engine.cs
+//O2File:ascx_ManualMethodStreams.cs
+//O2File:Ast_Engine_ExtensionMethods.cs
+//O2File:ascx_ManualMethodStreams.cs
+//O2Ref:O2_External_SharpDevelop.dll
+//O2Ref:O2_API_AST.dll  
+//O2Ref:Quickgraph.dll
+//O2Ref:GraphSharp.dll 
+//O2Ref:GraphSharp.Controls.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

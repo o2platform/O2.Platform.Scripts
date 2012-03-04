@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//panel.clear();
+//var topPanel = panel.add_Panel();
+var v1_5_Folder = PublicDI.config.LocalScriptsFolder.pathCombine(@"_Custom_O2s\v1.5");
+var imagesFolder = v1_5_Folder.pathCombine("images");
+var topPanel = O2Gui.open&lt;Panel&gt;("TiddlyWiki Editor",1000,500);
+var optionsPanel = topPanel.insert_Above&lt;GroupBox&gt;(100).set_Text("TiddlyWiki Editor Helper").add_Panel();  
+var ie = topPanel.add_IE(); 
+topPanel.insert_Right&lt;Panel&gt;(200).add_Directory(v1_5_Folder)
+								 .afterFileSelect((file)=&gt;O2Thread.mtaThread(()=&gt;ie.open(file)));
+var currentFile_Label = optionsPanel.add_Label("CurrentFile").append_Label("..").autoSize();
+ie.onNavigate((url)=&gt; currentFile_Label.set_Text(url));
+ 
+topPanel.add_ContextMenu().add_MenuItem("asda");
+var saveImagesTo_TextBox = optionsPanel.add_Label("Save Pasted Images to:",20,0).append_TextBox(imagesFolder).width(500);
+var savedImageName_TextBox = saveImagesTo_TextBox.append_Label("Image Name").autoSize().leftAdd(40).append_TextBox("");
+optionsPanel.add_Link("Get Clipboard Image, save it and put TiddlyWiki link on Clipboard",40,0,
+	()=&gt;{
+			O2Thread.staThread(
+				()=&gt;{ 				
+						var imageName = savedImageName_TextBox.get_Text(); 
+						imageName = ((imageName.valid()) ? imageName : DateTime.Now.safeFileName()) + ".jpg";
+						var saveImageTo = saveImagesTo_TextBox.get_Text().pathCombine(imageName);
+						var baseFolder = ie.url().remove("file:///").directoryName();						
+						
+						var image = topPanel.fromClipboardGetImage(); 
+						if (image.notNull())
+						{
+							image.save(saveImageTo); 
+							if (saveImageTo.fileExists())
+							{
+								savedImageName_TextBox.set_Text("");
+								saveImageTo = saveImageTo.remove(baseFolder).removeFirstChar();
+								var wikiText = "[img[{0}]]".format(saveImageTo);
+								wikiText.toClipboard();
+								"Pasted into clipboard: {0}".info(wikiText);
+							}
+						}												
+						
+						//"[]".toClipboard();
+					});
+		});
+
+
+
+ie.open(@"wiki_Welcome.html".local()); 
+
+
+//O2File:WatiN_IE_ExtensionMethods.cs 
+//O2Ref:WatiN.Core.1x.dll
+//O2Ref:Interop.SHDocVw.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.clear().add_Panel();;
+var topPanel = O2Gui.open&lt;Panel&gt;("Add Site to IE Trusted Domains", 700,120 );       
+var ieKeysLocation = @"Software\Microsoft\Windows\CurrentVersion\Internet Settings\ZoneMap\";
+var domain_TextBox = topPanel.add_TextBox(0,"Root Domain:","owasp.org");
+var subDomain_TextBox = topPanel.add_TextBox(21,"SubDomain:  ","www");
+var addSite_Button = topPanel.add_Button(47 ,78,"Add site (for both http and https)");
+var status_Label = addSite_Button.append_Label("...").topAdd(5).autoSize();
+topPanel.add_Link("Open Registry Viewer", 75,78,()=&gt; "Util - Registry Viewer.h2".local().executeH2Script())
+		.append_Label("(look inside key {0} )".format(ieKeysLocation)).autoSize();  
+
+Action&lt;string,string&gt; addDomain = 
+	(rootDomain,subDomain)=&gt;{
+								var response = rootDomain.makeDomainTrusted(subDomain);
+								status_Label.set_Text(response);
+							};
+
+addSite_Button.onClick(()=&gt; addDomain(domain_TextBox.get_Text(),subDomain_TextBox.get_Text()));
+
+//makeDomainTrusted("wp.com","*");
+//var domain = "wp.com";
+//var subDomain = "sp";
+
+
+
+
+
+//using Microsoft.Win32
+//using O2.XRules.Database.Utils
+//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs 
+
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

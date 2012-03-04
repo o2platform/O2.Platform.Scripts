@@ -1,0 +1,131 @@
+// This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
+//_O2Tag_OnlyAddReferencedAssemblies
+
+using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Windows.Forms;
+using O2.Kernel;
+using O2.Kernel.ExtensionMethods;
+using O2.Interfaces.O2Core;
+using O2.DotNetWrappers.DotNet;
+using O2.DotNetWrappers.Windows;
+using O2.DotNetWrappers.ExtensionMethods;
+using O2.Views.ASCX.ExtensionMethods;
+using O2.Views.ASCX.classes.MainGUI;
+
+//O2:debugSymbols
+//O2Ref:System.dll
+//O2Ref:System.Core.dll
+//O2Ref:System.Xml.dll
+//O2Ref:System.Windows.Forms.dll
+//O2Ref:O2_Kernel.dll
+//O2Ref:O2_Interfaces.dll
+//O2Ref:O2_DotNetWrappers.dll
+//O2Ref:O2_Views_ASCX.dll
+//O2Ref:System.Data.dll
+//O2Ref:System.Xml.dll
+//O2Ref:System.Xml.Linq.dll
+
+namespace O2.Script
+{			
+	
+    public class ascx_Start_Tools: UserControl
+    {        	
+    	public static List<ProcessDetail> processDetails;
+    	public string xmlFile =  Path.Combine(Environment.CurrentDirectory,"StartTools.Xml");
+		public DataGridView dataGridView;
+		
+		
+        public static void startControl()
+    	{   			
+    	 	processDetails = new List<ProcessDetail>(); 
+    		processDetails.createTypeAndAddToList<ProcessDetail>("Reflector",@"C:\_DinisTest\tools\reflector\reflector.exe");
+            processDetails.createTypeAndAddToList<ProcessDetail>("Notepad", @"Notepad.exe", "test");
+            processDetails.createTypeAndAddToList<ProcessDetail>("Cmd", @"Cmd.exe");
+    
+    		O2Gui.open<ascx_Start_Tools>("Start Tools v1.1",400,200);    		
+    	}    	
+    	
+    	public ascx_Start_Tools()
+    	{    		    	    		    		
+    		dataGridView = this.add_DataGridView();
+    		dataGridView.AllowUserToAddRows = true;
+    		dataGridView.AllowUserToDeleteRows = true;
+    		dataGridView.add_Columns(typeof(ProcessDetail));    		
+    		dataGridView.add_Column_Link("Start", true);
+    		dataGridView.onClick(startProcess);    		
+    		dataGridView.onDrop(loadFile);
+    		
+    		var menu  = dataGridView.add_ContextMenu();
+            menu.add_MenuItem("save", (menuItem) => saveCurrentList());
+    		loadList();    		
+     	}   
+		
+		public void startProcess(int row, int column)
+		{
+			if (dataGridView.value(row,column).ToString() == "Start")
+			{
+				var processName = dataGridView.value(row,0).ToString();
+				var processPath = dataGridView.value(row,1).ToString();
+				var processArguments = dataGridView.value(row,2).ToString();			
+				var process = Processes.startProcess(processPath, processArguments);
+			}
+		}
+		
+		public void loadFile(string file)
+		{
+			if (file.exists())
+			{
+                "loading file: {0}".info(file);	
+				var loadedObject = file.deserialize<List<ProcessDetail>>();
+				if (loadedObject != null)
+				{
+					processDetails = loadedObject;
+					loadList();
+				}
+			}
+		}
+		
+		public void loadList()
+		{	
+			dataGridView.remove_Rows();
+			dataGridView.add_Rows(processDetails);			
+		}
+				
+		public void saveCurrentList()
+		{						
+			xmlFile = O2Forms.askUserForFileToSave(xmlFile.directoryName(),xmlFile.fileName());
+			if (xmlFile.valid())
+			{
+				syncProcessDetailsList();				
+				processDetails.serialize(xmlFile);
+			}
+		}
+		
+		public void syncProcessDetailsList()
+		{
+			processDetails.Clear();
+			foreach(var row in dataGridView.rows())
+			{				
+				if (row[0].validString() && row[1].validString())
+				{
+					row.toString().info();
+                    processDetails.createTypeAndAddToList<ProcessDetail>(row[0], row[1], row[2]);
+				}
+			}
+		}			
+    }
+    
+    [Serializable]
+	public class ProcessDetail
+	{
+		public string Name 		{ get; set; }
+		public string Path 		{ get; set; }
+		public string Argument 	{ get; set; }
+	}
+}

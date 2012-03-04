@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var baseUrl = "http://devcheatsheet.com";   
+
+//var topPanel = panel.clear().add_Panel();
+var topPanel = "Util - View CheatSheets at devcheatsheet.com".popupWindow(1000,500); 
+
+var ie = topPanel.add_IE();
+var parsedData = topPanel.insert_Left(200, "Available CheatSheets").add_TreeView_for_HtmlTags();
+
+parsedData.afterSelect&lt;string&gt;(	
+	(location)=&gt;{
+					var cheatSheet_Location = "{0}{1}".format(baseUrl, location);
+					ie.open_ASync(cheatSheet_Location);					
+				});
+
+parsedData.pink();
+
+ie.open(baseUrl);
+
+//var htmlContent = baseUrl.uri().getHtml().save(); 
+var htmlContent = ie.IE.Html;
+
+var htmlDocument = htmlContent.htmlDocument();
+foreach(var tr in htmlDocument.filter("//tr"))
+	foreach(var th in tr.nodes("th"))
+	{
+	 	var titleNode = parsedData.add_Node(th.value().htmlDecode());
+	 	foreach(var a in tr.nodes("td").nodes("a"))
+	 		titleNode.add_Node(a.InnerText, a.attribute("href").value()); 
+	}	 			  
+
+parsedData.white();
+
+//O2File:HtmlAgilityPack_ExtensionMethods.cs
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
+//O2File:WatiN_IE_ExtensionMethods.cs
+//O2Ref:WatiN.Core.1x.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

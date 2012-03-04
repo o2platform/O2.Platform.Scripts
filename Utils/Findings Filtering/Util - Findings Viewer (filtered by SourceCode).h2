@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Findings Viewer (Filtered by Source Code)",1000,400);
+
+var firstScreen = topPanel.add_1x1("Demo Data", "View Finding's File");
+
+Action&lt;List&lt;IO2Finding&gt;&gt; loadFindings = 
+	(o2Findings)=&gt; topPanel.buildGUI_FilterBy_SourceCode(o2Findings);
+
+Action&lt;string&gt; loadFile = 
+	(file)=&gt;{
+				var o2Findings = file.loadFindingsFile();
+				loadFindings(o2Findings);
+			};
+
+
+firstScreen[0].add_Button("Load demo data (HacmeBank Findings File")
+			  .fill()
+			  .onClick(
+			  	()=&gt;{
+			  			topPanel.clear();
+			  			loadFindings(Findings_DemoData.hacmeBank_AllFindings());
+			  		});
+firstScreen[1].add_Button("Drop here finding file to load")
+			  .fill()
+			  .onDrop(
+			  	(fileOrFolder)=&gt;{
+			  						topPanel.clear();
+			  						loadFile(fileOrFolder);						
+			  					});
+
+//using O2.Interfaces.O2Findings;
+//using O2.XRules.Database.Findings
+//O2File:Findings_ExtensionMethods_Gui_Viewers.cs
+//O2File:Findings_DemoData.cs</SourceCode>
+  <ReferencedAssemblies />
+</H2>

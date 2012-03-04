@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.clear().add_Panel();
+var topPanel = O2Gui.open&lt;Panel&gt;("Util - Show Mapping of Ribbon Buttons", 500,500);
+
+Func&lt;string,string&gt; getButtonMapppings =   
+	(customO2Script)=&gt;{
+						var control = (Control)customO2Script.local().executeH2Script(); 
+						var ribbon = (Ribbon)control.prop("Ribbon");
+						
+						//return ribbon.buttons(); 
+						var buttonsMappings = "Buttons Mappings for Custom O2: {0}".line().line().format(customO2Script);  
+						foreach(var tab in ribbon.tabs())
+						{	 
+							buttonsMappings += "       {0}:".line().line().format(tab.header());   
+							foreach(var group in tab.groups()) 
+							{ 
+								buttonsMappings += "             {0}:".line().format(group.header());   
+								foreach(var button in group.buttons())  
+									buttonsMappings += "                       {0}".line().format(button.label());    
+								buttonsMappings +="".line();
+							}
+							buttonsMappings +="".line();
+						}						
+						control.parentForm().close();
+						return buttonsMappings;
+					  };
+
+var textArea = topPanel.add_TextArea();
+
+Action&lt;string&gt; showButtonMapppings =   
+	(customO2Script) =&gt; {
+							O2Thread.mtaThread(()=&gt;textArea.set_Text(getButtonMapppings(customO2Script)));
+						};
+
+
+var defaultControl =  "DotNet Static Analysis (Custom O2).h2";
+
+var showButton = topPanel.insert_Above&lt;Panel&gt;(30)
+					 	 .add_LabelAndTextAndButton("Custom O2 Script", 
+					   						        defaultControl, 
+					   						        "show",
+					   						        showButtonMapppings)
+					 .control&lt;Button&gt;();
+showButton.click();
+
+
+
+//panel.add_TextArea().set_Text(buttonsMappings);
+
+
+
+//return ribbon.buttons().labels();  
+//return ribbon.tabs()[0].items&lt;RibbonGroup&gt;()[0].buttons()[0].label() ;
+
+//return ribbon.typeFullName();
+
+//O2Ref:RibbonControlsLibrary.dll
+//using Microsoft.Windows.Controls.Ribbon; 
+//O2File:WPF_Ribbon.cs
+//O2File:WPF_Ribbon_ExtensionMethods.cs
+//panel.add_Control();
+//O2Ref:WindowsFormsIntegration.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

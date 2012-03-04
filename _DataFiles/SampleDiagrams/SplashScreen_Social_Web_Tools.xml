@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Root>
+  <DesignerItems>
+    <DesignerItem>
+      <Left>68</Left>
+      <Top>9</Top>
+      <Width>NaN</Width>
+      <Height>NaN</Height>
+      <ID>d21e2900-e144-48a4-a167-b4462d649fb0</ID>
+      <zIndex>0</zIndex>
+      <IsGroup>false</IsGroup>
+      <ParentID>00000000-0000-0000-0000-000000000000</ParentID>
+      <Content>&lt;Label FontSize="30" IsHitTestVisible="False" InputMethod.IsInputMethodEnabled="True" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"&gt;Social Web Tools&lt;/Label&gt;</Content>
+    </DesignerItem>
+    <DesignerItem>
+      <Left>0</Left>
+      <Top>3</Top>
+      <Width>64</Width>
+      <Height>53</Height>
+      <ID>0806e271-0266-458f-aa6c-30f87d521419</ID>
+      <zIndex>2</zIndex>
+      <IsGroup>false</IsGroup>
+      <ParentID>00000000-0000-0000-0000-000000000000</ParentID>
+      <Content>&lt;Image Source="file:///C:/O2/O2Scripts_Database/_Scripts/Utils/_Images/O2_Logo_no_Shadow.jpg" IsHitTestVisible="False" InputMethod.IsInputMethodEnabled="True" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" /&gt;</Content>
+    </DesignerItem>
+    <DesignerItem>
+      <Left>101</Left>
+      <Top>112</Top>
+      <Width>137</Width>
+      <Height>113.99999999999999</Height>
+      <ID>b1305362-091c-463b-8674-b8b66b813db2</ID>
+      <zIndex>3</zIndex>
+      <IsGroup>false</IsGroup>
+      <ParentID>00000000-0000-0000-0000-000000000000</ParentID>
+      <Content>&lt;Image Source="file:///C:/O2/_tempDir/6-22-2010/tmp645.tmp.jpeg" IsHitTestVisible="False" InputMethod.IsInputMethodEnabled="True" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" /&gt;</Content>
+    </DesignerItem>
+    <DesignerItem>
+      <Left>77</Left>
+      <Top>64</Top>
+      <Width>NaN</Width>
+      <Height>NaN</Height>
+      <ID>1c6f67f4-1d08-4afb-9c71-a7f183b01cb0</ID>
+      <zIndex>1</zIndex>
+      <IsGroup>false</IsGroup>
+      <ParentID>00000000-0000-0000-0000-000000000000</ParentID>
+      <Content>&lt;Rectangle Stroke="#FF000000" StrokeThickness="1" Width="550" Height="400" Opacity="1" IsHitTestVisible="False" InputMethod.IsInputMethodEnabled="True" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" /&gt;</Content>
+    </DesignerItem>
+    <DesignerItem>
+      <Left>101</Left>
+      <Top>80</Top>
+      <Width>NaN</Width>
+      <Height>NaN</Height>
+      <ID>76056082-d9c8-4711-9d3c-be43df958a5c</ID>
+      <zIndex>4</zIndex>
+      <IsGroup>false</IsGroup>
+      <ParentID>00000000-0000-0000-0000-000000000000</ParentID>
+      <Content>&lt;Label FontSize="17" IsHitTestVisible="False" InputMethod.IsInputMethodEnabled="True" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"&gt;MediaWiki Editor&lt;/Label&gt;</Content>
+    </DesignerItem>
+  </DesignerItems>
+  <Connections />
+</Root>

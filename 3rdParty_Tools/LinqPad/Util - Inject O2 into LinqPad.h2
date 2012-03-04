@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = "Util - Inject O2 into LinqPad".popupWindow(500,200);
+//var topPanel = panel.clear().add_Panel();
+topPanel.add_LogViewer();
+
+var actionsPanel = topPanel.insert_Above(40,"Actions");
+
+var firstRun = true;
+Action startLinqPad = 
+	()=&gt;{
+			if ("LINQPad.UI.MainForm".form_Currently_Running().notNull())
+			{
+				"stopping startLinqPad since there was already an LinqPad Form opened in the current process".error();
+				return;
+			}
+			"starting LinqPad".info();
+			var assembly = "LINQPad.exe".assembly();
+			// we need to run this first (only once per process
+			if (firstRun)
+			{
+				var loader = assembly.GetType("LINQPad.Loader"); 			
+				var main = loader.method("Main");
+				var args = new string [] {};
+				main.invoke(new object[] {args});
+				firstRun = false;
+			}						
+			//the previous main will setup the resources,so this now works
+			
+			var program = assembly.GetType("LINQPad.Program"); 
+			 
+			 
+			string queryToLoad = "";
+			bool runQuery = false;
+			string activationCode = null;
+			bool noForward = true; 
+			bool noUpdate = true;
+			string caller ="";
+			
+			O2Thread.staThread(
+				()=&gt;{
+						program.invokeStatic("Run", queryToLoad, runQuery, activationCode, noForward, noUpdate,caller);
+					});
+
+		};
+		
+Action injectO2IntoLinqPad = 
+	()=&gt;{
+			var linqForm = "LINQPad.UI.MainForm".form_Currently_Running();
+			
+			//linqForm.details();
+			linqForm.set_Text("LinqPad - O2 version")
+					.top(0)
+					.left(0)
+					.width(1000);			
+			var bottomTabControl = linqForm.controls&lt;TabControl&gt;(true)[0];
+			bottomTabControl.add_Tab("O2 Script GUI")
+							.add_Script(false)					
+							.set_Command(@"
+var linqPad = ""LINQPad.UI.MainForm"".form_Currently_Running();
+linqPad.set_Text(""Changing Form's title from inside"");
+return linqPad;
+										
+//O2Ref:C:\Program Files\LINQPad\LINQPad.exe
+									  ");	
+			var menuStrip =  linqForm.control&lt;MenuStrip&gt;(true);
+			var o2Menu = menuStrip.add_MenuItem("O2");
+			o2Menu.add_MenuItem("O2 Log Viewer", ()=&gt;  "O2 Log Viewer".popupWindow(450,200).add_LogViewer() );
+			o2Menu.add_MenuItem("O2 Script Editor", ()=&gt;  "O2 Script Editor".popupWindow(650,300).add_Script(false) );						  		
+		};
+
+actionsPanel.add_Link("Install LinqPad", ()=&gt; "LinqPad.cs".local().executeFirstMethod())
+			.append_Link("Start LinqPad in current Process (ignore the error)", ()=&gt; startLinqPad() )
+			.append_Link("Inject O2 into LinqPad ", ()=&gt; injectO2IntoLinqPad());
+
+
+return "ok";
+
+//O2Ref:C:\Program Files\LINQPad\LINQPad.exe
+//O2File:Scripts_ExtensionMethods.cs</SourceCode>
+  <ReferencedAssemblies />
+</H2>

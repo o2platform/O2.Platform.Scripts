@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - Xml Formating",1000,400);
+//var topPanel = panel.clear().add_Panel();
+topPanel.insert_LogViewer();
+var formatedXml = topPanel.insert_Right("Xml Formated").add_SourceCodeViewer().editor().colorCodeForExtension(".xml");
+var originalXml = topPanel.add_GroupBox("Original Text").add_SourceCodeViewer().editor().colorCodeForExtension(".xml");
+var actionsPanel = topPanel.insert_Above(40,"Actions");
+var realTimeFormat = false;
+
+Action formatXml = 
+	()=&gt;{			
+			try
+			{
+				formatedXml.set_Text(originalXml.getSourceCode().xmlFormat(), ".xml");			
+				actionsPanel.backColor("Control");
+				"Xml Formating was Ok".info();
+			}
+			catch(Exception ex)
+			{
+				ex.log(); 
+				actionsPanel.backColor(Color.Red); 
+			}
+			
+		};
+		
+originalXml.onTextChange((text)=&gt; { if (realTimeFormat) formatXml();});
+
+actionsPanel.add_Link("Show Original Text as Formated Xml", ()=&gt; formatXml())
+		    .append_CheckBox("Show format result in real time?", (value)=&gt; realTimeFormat = value).@check(); 
+		
+
+var testXml = "1234".wrapOnList().add("abc").serialize(false).remove("".line());
+originalXml.set_Text(testXml,".xml");
+formatXml();</SourceCode>
+  <ReferencedAssemblies />
+</H2>

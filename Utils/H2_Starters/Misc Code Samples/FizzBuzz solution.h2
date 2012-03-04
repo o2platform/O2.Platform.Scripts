@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//one simple solution for http://www.codinghorror.com/blog/2007/02/why-cant-programmers-program.html
+//var topPanel = O2Gui.open&lt;Panel&gt;("{name}",700,400);
+
+//"FizzBuzz Results Gui (in one line)".popupWindow(300,500).add_TreeView().add_Nodes(100.loopIntoList&lt;string&gt;(1, (i)=&gt; { return (i.mod0(15)? "FizzBuzz": (i.mod0(3) ? "Fizz": (i.mod0(5) ? "Buzz": i.str()))); } ));
+//save as above but probably easier to read
+"FizzBuzz Results Gui (in one line)".popupWindow(300,500)
+									.add_TreeView()
+									.add_Nodes(100.loopIntoList&lt;string&gt;
+													(1,(i)=&gt; { 
+																return (i.mod0(15)
+																			? "FizzBuzz"
+																			: (i.mod0(3) 
+																				? "Fizz" 
+																				: (i.mod0(5) 
+																					? "Buzz" 
+																					: i.str())
+																		 		   )
+																	    );
+															   } 
+													)
+												);
+/*
+//option 5
+var topPanel = panel.clear().add_Panel();
+
+var results = 100.loopIntoList&lt;string&gt;(1, (i)=&gt; { return (i.mod0(15)? "FizzBuzz": (i.mod0(3) ? "Fizz": (i.mod0(5) ? "Buzz": i.str()))); } );
+topPanel.add_TreeView()
+		.add_Nodes( results); 
+*/
+
+
+
+/*
+var results = new Dictionary&lt;int, string&gt;();
+//option 5
+100.loop(1,(i)=&gt; 
+	results.add(i, (i.mod0(15)
+						? "FizzBuzz"
+						: (i.mod0(3) 							
+							? "Fizz"							
+							: (i.mod0(5) 
+								? "Buzz"
+								: i.str())))
+		  		));
+*/		  		
+/*
+//option 4
+
+100.loop(1,(i)=&gt; 
+	results.add(i, (i.mod0(3) 
+						? (i.mod0(5) 
+							? "FizzBuzz"
+							: "Fizz")
+						: (i.mod0(5) 
+							? "Buzz"
+							: ""))
+		  		));
+*/
+//option 3
+/*
+
+100.loop(1,(i)=&gt; 
+	results.add(i, 
+		((i.mod0(3) ? "Fizz" : "") + (i.mod0(5) ? "Buzz" : "")).ifEmptyUse(i.str())));
+
+/*
+//option 2
+for(var i=1; i &lt; 100 ; i++) 
+	results.add(i, (((i % 3 == 0) ? "Fizz" : "") + 
+					((i % 5 == 0) ? "Buzz" : "")).ifEmptyUse(i.str())  );
+*/	
+/*
+//option 1
+for(var i=1; i &lt; 100 ; i++)
+	if(i % 3 == 0 &amp;&amp; i % 5 == 0)
+		results.add(i, "FizzBuzz");
+	else if(i % 3 == 0)
+		results.add(i, "Fizz");
+	else if (i % 5 == 0)
+		results.add(i, "Buzz");
+	else
+		results.add(i,i.str());
+
+topPanel.add_TableList().show(results);				
+*/
+
+
+return  "ok";</SourceCode>
+  <ReferencedAssemblies />
+</H2>

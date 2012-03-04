@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - Send Spoofed email",500, 320); 
+//var topPanel = panel.clear().add_Panel();
+topPanel.insert_LogViewer();
+
+string fromEmail = "me@thisDomainDoesntExist.com"; 
+string fromName = "me (at no Domain)";
+string toEmail = "myEmail@myDomain.net";
+string toName = "My Email";
+string subject = "Spoof test";
+string body = "This is a spooffed email. And shows that the from address in emails is not that trustworthy)";
+
+
+Action&lt;bool&gt; sendEmail = 
+	(sendIt) =&gt; {
+					"Sending Email".info();
+					var spoofEmail = new API_ActiveUp_SendEmail();	
+					if (spoofEmail.sendEmail(fromEmail, fromName, toEmail, toName, subject, body, sendIt))
+						"Spoofed email sent ok".debug();
+					else
+						"Error sending email".error();
+				}; 
+
+topPanel.add_TextBox(0,"From Email",fromEmail).left(75).onTextChange((text)=&gt;fromEmail = text).align_Right(topPanel); 
+topPanel.add_TextBox(20,"From Name",fromName).left(75).onTextChange((text)=&gt;fromName = text).align_Right(topPanel); 
+topPanel.add_TextBox(40,"To Email",toEmail).left(75).onTextChange((text)=&gt;toEmail = text).align_Right(topPanel); 
+topPanel.add_TextBox(60,"To Name",toName).left(75).onTextChange((text)=&gt;toName = text).align_Right(topPanel); 
+topPanel.add_TextBox(80,"Subject",subject).left(75).onTextChange((text)=&gt;subject = text).align_Right(topPanel); 
+topPanel.add_TextBox(100,"Body",body).left(75).height(50).multiLine().onTextChange((text)=&gt;body = text).align_Right(topPanel); 
+topPanel.add_Button(160,75,"      Send Spoof Email   ").font_bold()
+		.onClick(()=&gt; sendEmail(true));
+
+//panel.controls&lt;TextBox&gt;(true)[2].set_Text("..."); 
+//panel.controls&lt;TextBox&gt;(true)[2].set_Text("..."); 
+//sendEmail(true);
+
+//O2File:API_ActiveUp_SendEmail.cs</SourceCode>
+  <ReferencedAssemblies />
+</H2>

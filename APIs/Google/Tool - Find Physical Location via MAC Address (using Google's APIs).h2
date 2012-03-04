@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Tool - Find Physical Location via MAC Address (using Google's APIs)", 900,400);
+var noDataForMacAddress = ""; 			// variable that will hold the default response to an not mapped mac address
+var tableList = topPanel.add_TableList().add_Columns("IP Address","MACAdress","type");
+var browser = tableList.insert_Right&lt;Panel&gt;(topPanel.width()/2).add_WebBrowser_Control();
+var topRightPanel = browser.insert_Above&lt;Panel&gt;(100);
+var macAddress_TextBox = topRightPanel.add_Label("Mac Address:   ").top(3)
+									  .append_TextBox("")
+									  .align_Right(topPanel);
+
+var jsonResponse_TextBox = topRightPanel.add_Label("Json Response",25,0) 
+										.bringToFront()
+									    .append_Control&lt;TextBox&gt;()
+										.multiLine()
+										.scrollBars() 
+										.height(80)
+										.align_Right(topRightPanel);
+										//.widthAdd(-200);
+										
+Action getLocalMacAddresses = 
+	()=&gt;{
+			var arpResult = Processes.startAsCmdExe("arp","-a");
+			var lines = arpResult.lines();
+			lines.remove(0).remove(0);
+			
+			foreach(var line in lines) 
+				tableList.add_Row(line.split_onSpace().Distinct().toList().remove(""));  			
+		};
+		
+Action&lt;string,string&gt; showLocationInMap = 
+	(latitude, longitude)=&gt; {
+								var urlTemplate = "http://maps.google.co.uk/maps?hl=en&amp;q={0}+{1}".format(latitude, longitude);
+								browser.open(urlTemplate);
+							};
+							
+Func&lt;string,string&gt; getLocationFromMac = 
+	(macAddress)=&gt;{
+						var url = "http://www.google.com/loc/json";
+						var postData = "{\"version\":\"1.1.0\",\"request_address\":true,\"wifi_towers\": [{\"mac_address\":\"" + macAddress + "\",\"ssid\":\"g\",\"signal_strength\":-72}]}";					
+						var response = new Web().getUrlContents_POST(url,postData);
+						return response; 
+				  };
+
+
+
+Action&lt;string&gt; showMacAddressLocation = 
+	(macAddress)=&gt;{
+					macAddress_TextBox.set_Text(macAddress);   
+					jsonResponse_TextBox.set_Text(""); 
+					jsonResponse_TextBox.backColor(Color.LightPink);
+					var response = getLocationFromMac(macAddress);
+					if (response.contains(noDataForMacAddress))
+					{
+						jsonResponse_TextBox.set_Text("There was no data for this Mac address");		
+					}
+					else if (response.valid())
+					{
+						var jsonResponse = JObject.Parse(response);
+						if (jsonResponse.str().valid())
+						{
+							jsonResponse_TextBox.set_Text(jsonResponse.str()); 					
+							var latitude = jsonResponse["location"]["latitude"].str();
+							var longitude = jsonResponse["location"]["longitude"].str();
+							"found values: latitude={0} longitude={1}".debug(latitude,longitude);
+							showLocationInMap(latitude,longitude);
+							jsonResponse_TextBox.backColor(Color.White);
+						}
+						//response.info();
+					}
+					else
+						jsonResponse_TextBox.set_Text("no data received");
+				 };
+
+tableList.afterSelect(
+	(row)=&gt;	{
+				if (row.size()==1)
+				{
+					var selectedMacAddress = row[0].items()[1].Text;
+					showMacAddressLocation(selectedMacAddress);
+				}
+			});
+macAddress_TextBox.onEnter((text)=&gt;	showMacAddressLocation(text.replace(":","-")));			
+
+//this gets a default request so that we can detect when there is no data in Google's Database
+noDataForMacAddress = getLocationFromMac("ff-ff-ff-ff-ff-ff");
+if (noDataForMacAddress.valid() &amp;&amp; noDataForMacAddress.size()&gt;50)
+	noDataForMacAddress = noDataForMacAddress.Substring(0,noDataForMacAddress.size() - 40);
+
+noDataForMacAddress.info();
+
+getLocalMacAddresses();		  	
+showMacAddressLocation("00-11-24-ec-72-cf"); // test with Samy's address (from http://www.samy.pl/mapxss/)
+
+//using Newtonsoft.Json.Linq
+//O2Ref:Newtonsoft.Json.dll
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.clear().add_Panel();     
+var topPanel = "View FVDL file".popupWindow(500,370);
+var xmlFile = @"C:\O2\Demos\Fortify-Sate-2008\sate2008-Fvdl\naim.fvdl";
+var fvdl = FVDL.Load(xmlFile);
+topPanel.add_PropertyGrid().show(fvdl);
+ 
+//using xmlns.www.fortifysoftware.com.schema.fvdl
+//O2File:Fortify.fvdl.1.6.xsd.cs
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

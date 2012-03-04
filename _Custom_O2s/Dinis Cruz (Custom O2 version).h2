@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//need to do this because the call to "Dinis Cruz (Custom O2 version).h2" (this file) is currenlty hardcoded in the click once instaler
+var scriptToExcute = ("Simple O2 Gui.h2".local().fileExists())
+						? "Simple O2 Gui.h2".local().compile_H2Script().executeFirstMethod()
+						: @"C:\O2\O2Scripts_Database\_Scripts\_Custom_O2s\v2.0\Simple O2 Gui.h2".compile_H2Script().executeFirstMethod();</SourceCode>
+  <ReferencedAssemblies />
+</H2>

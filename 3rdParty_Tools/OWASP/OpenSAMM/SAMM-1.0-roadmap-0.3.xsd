@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="sammroadmapdata" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+ xmlns:sch="http://www.ascc.net/xml/schematron" xmlns:fn="http://www.w3.org/2005/xpath-functions">
+
+
+ <xs:element name="maturity">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element name="title" minOccurs="1" maxOccurs="1">
+     <xs:simpleType>
+      <xs:restriction base="xs:string">
+       <xs:whiteSpace value="preserve"/>
+       <xs:minLength value="1"/>
+       <xs:maxLength value="150"/>
+      </xs:restriction>
+     </xs:simpleType>
+    </xs:element>
+    <xs:element name="states" minOccurs="1" maxOccurs="1">
+     <xs:complexType>
+      <xs:sequence>
+       <xs:element name="state" minOccurs="2" maxOccurs="10">
+        <xs:complexType>
+         <xs:sequence>
+          <xs:element name="title" minOccurs="1" maxOccurs="1">
+           <xs:simpleType>
+            <xs:restriction base="xs:string">
+             <xs:whiteSpace value="preserve"/>
+             <xs:minLength value="1"/>
+             <xs:maxLength value="15"/>
+            </xs:restriction>
+           </xs:simpleType>
+          </xs:element>
+          <xs:element name="description" minOccurs="1" maxOccurs="1">
+           <xs:simpleType>
+            <xs:restriction base="xs:string">
+             <xs:whiteSpace value="preserve"/>
+             <xs:minLength value="1"/>
+             <xs:maxLength value="100"/>
+            </xs:restriction>
+           </xs:simpleType>
+          </xs:element>
+          <xs:element name="levels" minOccurs="1" maxOccurs="1">
+           <xs:complexType>
+            <xs:sequence>
+             <xs:element name="level" minOccurs="2" maxOccurs="12">
+              <xs:complexType>
+               <xs:attribute name="security-practice" use="required">
+                <xs:simpleType>
+                 <xs:restriction base="xs:string">
+                  <xs:enumeration value="SM"/>
+                  <xs:enumeration value="PC"/>
+                  <xs:enumeration value="EG"/>
+                  <xs:enumeration value="TA"/>
+                  <xs:enumeration value="SR"/>
+                  <xs:enumeration value="SA"/>
+                  <xs:enumeration value="DR"/>
+                  <xs:enumeration value="CR"/>
+                  <xs:enumeration value="ST"/>
+                  <xs:enumeration value="VM"/>
+                  <xs:enumeration value="EH"/>
+                  <xs:enumeration value="OE"/>
+                 </xs:restriction>
+                </xs:simpleType>
+               </xs:attribute>
+               <xs:attribute name="value" use="required">
+                <xs:simpleType>
+                 <xs:restriction base="xs:string">
+                  <xs:pattern value="[0-2]{1}\+{0,1}|3"/>
+                 </xs:restriction>
+                </xs:simpleType>
+               </xs:attribute>
+              </xs:complexType>
+             </xs:element>
+            </xs:sequence>
+            
+            
+           </xs:complexType>
+           <xs:unique name="levelSecurityPracticesUnique">
+            <xs:selector xpath="level"/>
+            <xs:field xpath="@security-practice"/>
+           </xs:unique>
+          </xs:element>
+         </xs:sequence>
+         <xs:attribute name="number" use="required">
+          <xs:simpleType>
+           <xs:restriction base="xs:nonNegativeInteger">
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="12"/>
+           </xs:restriction>
+          </xs:simpleType>
+         </xs:attribute>
+         <xs:attribute name="marker" use="optional" default="false">
+          <xs:simpleType>
+           <xs:restriction base="xs:string">
+            <xs:pattern value="true|false"/>
+           </xs:restriction>
+          </xs:simpleType>
+         </xs:attribute>
+        </xs:complexType>
+       </xs:element>
+      </xs:sequence>
+     </xs:complexType>
+     <xs:unique name="stateNumbersUnique">
+      <xs:selector xpath="state"/>
+      <xs:field xpath="@number"/>
+     </xs:unique>
+    </xs:element>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="sammroadmapdata">
+  <xs:complexType>
+   <xs:choice minOccurs="1" maxOccurs="1">
+    <xs:element ref="maturity"/>
+   </xs:choice>
+  </xs:complexType>
+ </xs:element>
+
+</xs:schema>

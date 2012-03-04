@@ -1,0 +1,207 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var credential = @"C:\O2\_USERDATA\WikiAccounts.xml".credential("OwaspWiki");
+
+//var topPanel = panel.clear().add_Panel();
+var topPanel = O2Gui.open&lt;Panel&gt;("Calculate Ranking (attendee Stats) page", 1000,500);
+var wikiApi = new OwaspWikiAPI(false);
+var statsPageName = "Summit_2011_Attendee/Summit Attendees Funds - Ranking for 18th Jan 2010";	
+Func&lt;bool&gt; wikiLogin = 
+	()=&gt;{
+			return wikiApi.login(credential.username(),credential.password());  
+		};
+
+Action&lt;string&gt; saveStatsPage = 
+	(pageContents)=&gt;{					  
+						if (wikiLogin())
+						{
+							wikiApi.save(statsPageName,pageContents); 
+							"Save complete".info();
+						}
+						else
+							"Could not Login into WIKI".error();
+					};
+
+
+
+var actionPanel = topPanel.insert_Above&lt;GroupBox&gt;(50).add_Panel();	
+var statsPage = topPanel.add_TextArea();
+
+actionPanel.add_Link("Save page", 0,0,
+				()=&gt;{
+						statsPage.backColor("LightPink");
+						saveStatsPage(statsPage.get_Text()); 
+						statsPage.backColor("White");
+					});
+
+ 
+var summitApi = new API_OWASP_Summit_2011();  
+var useCache = true ;
+var statsText = "==Summit Attendees Funds - Ranking for 18th Jan 2010)==".line();
+var rankingRulesText = "The ranking is calculated the following way.&lt;br/&gt; ".line() +
+					   "The OWASP leader in the list bellow gets a number of points based on his/hers past OWASP contributions:&lt;br&gt;".line() + 
+					   "* Committee Member: 2 Points".line() + 
+					   "* Project/Release leadership: 1 Point".line() +
+					   "* Project/Release contribution: 1 Point".line() +			   
+					   "* Chapter leadership: 2 Points".line() + 
+					   "* Conference Organizer: 3 Points".line() + 
+					   "* Leader funds its own time (or takes holidays) : 1 Point".line() + 
+					   "* Leader was able to secure partial funding: 10 Points".line() +
+					   "&lt;br/&gt;".line();
+statsText += rankingRulesText;
+						
+Action addSeekFunds = 
+	()=&gt;{
+			var budgetAvailable = 17100;
+			//statsText += "==Confirmed need funds==".line();
+			var seekFunds = new Dictionary&lt;string, SummitAttendee&gt;();
+			var attendees = summitApi.getAttendees(summitApi.attendees_SeekingFunds(useCache));
+			foreach(var attendee in attendees) 
+				seekFunds.add(attendee.Name, attendee);
+			var sortedNames = seekFunds.Keys.toList().sort();
+			//foreach(var attendee in sortedNames)  
+			//	statsText += attendee + " , " ;
+			
+			//statsText += "".line().line();  
+			 
+			var rankingData = (from attendee in attendees 
+							   orderby attendee.RankingPoints descending 
+							   select attendee.Name 
+							   );  
+							    
+			statsText += "===Ranking and Funding status ===".line().format(budgetAvailable); 
+			
+			statsText += "Funds Available: {0:c0}&lt;br/&gt;&lt;br&gt;".line().format(budgetAvailable);
+			statsText += "{| border=\"1\"".line() + 					    
+					    "! Position".line() + 
+					    "! Name".line() +
+					    "! # of Points".line() +
+					    "! Projected Cost".line() +
+					    "! Cost SubTotal".line() +
+					    "! Extra Funds needed".line() + 
+					    "! Status".line() ;
+			
+			var costSubTotal = 0;
+			var extraFundsNeeded =0;
+			var position = 1;
+			var status = "";
+			foreach(var name in rankingData)  
+			{ 			
+				var attendee = seekFunds[name];
+				costSubTotal += attendee.ProjectedFundingCost;				
+				if (costSubTotal &lt; budgetAvailable)
+					status = "Approved";
+				else
+				{
+					status = "To be funded next";
+					extraFundsNeeded += attendee.ProjectedFundingCost;
+				}
+				
+				var rowFormat = (status=="Approved")
+									?  "style=\"color:green;\""
+							  		:  "style=\"color:red;\""; 
+				statsText += ("|-" + rowFormat.line()	 + 						   
+							  "| {0}".line() +  
+							  "| [[{1}|{2}]]".line() + 
+							  "| {3}".line() + 
+							  "| {4:c0}".line() +  
+							  "| {5:c0} ".line() +  
+							  "| {6:c0} ".line() + 
+							  "| {7} ".line()
+							  ).format(position++, attendee.AttendeeWikiPage,name, attendee.RankingPoints, attendee.ProjectedFundingCost, costSubTotal ,extraFundsNeeded, status) ; 
+			}
+			statsText +="|}".line();
+			statsText += "==Detailed information on leader's activities==".line();  
+
+			foreach(var name in rankingData)  
+			{
+				var attendee = seekFunds[name];
+				
+				var projectData = attendee.ProjectLeadership_New + attendee.ProjectLeadership_Old + attendee.ProjectContribution_New  + attendee.ProjectContribution_Old;
+				var releasesData = attendee.ReleaseLeadership_New  + attendee.ReleaseLeadership_Old + attendee.ReleaseContribution_New  + attendee.ReleaseContribution_Old;
+				
+				statsText += ("# '''{0}: {1} points ''': ".line() +
+							  (projectData.valid() ? "## ''Projects'': " + projectData  +
+							  					"".line() : "") +
+							  (releasesData.valid() ? "## ''Releases'': " + releasesData   +	 
+							  					"".line() : "") +
+							  (attendee.CommitteeMembership.valid() ? "## ''Committee'': " + attendee.CommitteeMembership + 
+							  					"".line() : "") +
+							  (attendee.ChapterCoLeadership.valid() ? "## ''Chapters'': " + attendee.ChapterCoLeadership + 
+							  				   "".line() : "") +
+							  (attendee.ConferenceCoLeadership.valid()  ? "## ''Conference'': " + attendee.ConferenceCoLeadership + 
+							  				     "".line() : "")
+							 //(attendee.ProjectContribution_Old.valid() ? "Releases:" +  attendee.ProjectContribution_Old : "...") +   
+				             ).format(name, attendee.RankingPoints) ;
+			}
+				
+			//var sorted
+		};
+
+
+Action addConfirmed = 
+	()=&gt;{
+			statsText += "".line().line();
+			statsText += "==Confirmed==".line();
+			var confirmed = summitApi.getAttendees(summitApi.attendees_Confirmed(useCache)); 
+			foreach(var attendee in confirmed)
+				statsText += attendee.Name + " , " ;
+			statsText += "".line().line();
+			var sponsoredByOwasp = 0;
+			var owaspSponsoredText = "";
+			var sponsoredByOthers = 0; 
+			var othersSponsoredText = "";
+			foreach(var attendee in confirmed)
+				if (attendee.ExpensesPaidBy.contains("www.owasp.org"))
+				{
+					sponsoredByOwasp++;
+					owaspSponsoredText += attendee.ExpensesPaidBy + " , " ;
+				}
+				else
+				{
+					sponsoredByOthers++;
+					othersSponsoredText += attendee.ExpensesPaidBy + " , " ;
+				}
+			statsText += "===Sponsored by OWASP: {0}===".format(sponsoredByOwasp).line();
+			//statsText += owaspSponsoredText.line();
+			statsText += "===Sponsored by Others: {0}===".format(sponsoredByOthers).line();
+			statsText += othersSponsoredText.line() ;
+		};
+		
+ Action addUnconfirmed = 
+ 	()=&gt;{ 
+			statsText += "".line().line();	
+			statsText += "==UnConfirmed==".line();
+			var unconfirmed = summitApi.getAttendees(summitApi.attendees_UnConfirmed(useCache)); 
+			foreach(var attendee in unconfirmed)
+				statsText += attendee.Name + " , " ;
+				
+		}; 
+
+
+/*var _attendees = summitApi.getAttendees(summitApi.attendees_SeekingFunds(useCache));
+var totalCost = 0;
+foreach(var _attendee in _attendees)
+	totalCost += _attendee.ProjectedFundingCost;
+return totalCost;
+*/	
+addSeekFunds();
+
+//addConfirmed();
+	
+//addUnconfirmed();
+	
+statsPage.set_Text(statsText);
+//
+
+return wikiApi.raw(statsPageName); 
+     
+//wikiApi.login("O2.user","!!o2");     
+
+return wikiApi;
+ 
+//O2File:API_OWASP_Summit_2011.cs  
+//O2File:SecretData_ExtensionMethods.cs
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

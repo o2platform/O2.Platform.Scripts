@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var localScriptFolder = PublicDI.config.LocalScriptsFolder;
+
+var panel = O2Gui.open&lt;Panel&gt;("Compiling all local O2 Scripts",500,500);
+panel.clear();
+panel.insert_Below&lt;ascx_LogViewer&gt;();
+var dataGridView = panel.add_DataGridView();
+dataGridView.add_Column("File");
+dataGridView.add_Column("Compiler Mode #1",100);
+dataGridView.add_Column("Compiler Mode #2",100); 
+dataGridView.noSelection();
+var progressBar = panel.insert_Above&lt;ProgressBar&gt;(25);
+var targetFiles = localScriptFolder.files("*.cs",true);
+targetFiles.add(localScriptFolder.files("*.o2",true));
+targetFiles.add(localScriptFolder.files("*.h2",true));
+var filesToCompile = targetFiles.size(); 
+var compiledFiles = 0;
+progressBar.maximum(filesToCompile); 
+"There are {0} files to compile".info(filesToCompile);
+var cancelExecution = false;
+dataGridView.add_ContextMenu().add_MenuItem("Cancel Execution", ()=&gt; cancelExecution = true);
+foreach(var file in targetFiles) 
+{		
+	if (cancelExecution)
+	{
+		"Cancel Execution request received".error();
+		break;
+	}
+	"[{0}/{1}] Compiling: {2}".info(compiledFiles++, filesToCompile, file);
+	var compiler1Result = true;
+	var compiler2Result = true;
+	var rowId = 0;
+	
+	if (file.extension(".h2"))
+		compiler1Result = file.compile_H2Script() != null;
+	else
+		if (file.extension(".o2")) 
+			compiler1Result = (file.compile() != null);
+		
+	if (file.extension(".h2").isFalse())
+		compiler2Result = (new O2.DotNetWrappers.DotNet.CompileEngine().compileSourceFile(file) != null); 
+							
+	if (file.extension(".h2"))
+		rowId = dataGridView.add_Row(file,compiler1Result, compiler1Result);
+	else
+		if (file.extension(".o2"))	
+			rowId = dataGridView.add_Row(file,compiler1Result, compiler2Result);
+		else
+			rowId = dataGridView.add_Row(file,compiler2Result, compiler2Result);
+			
+	dataGridView.get_Row(rowId).Cells[0].Style.ForeColor = (compiler1Result &amp;&amp; compiler2Result) ? Color.Green : Color.Red;
+	dataGridView.get_Row(rowId).Cells[1].Style.ForeColor = (compiler1Result) ? Color.Green : Color.Red;
+	dataGridView.get_Row(rowId).Cells[2].Style.ForeColor = (compiler2Result) ? Color.Green : Color.Red;
+	progressBar.increment(1); 		
+}
+ 
+//O2Ref:System.Data.dll
+//O2Ref:System.Xml.dll
+//using O2.Views.ASCX.Ascx.MainGUI</SourceCode>
+  <ReferencedAssemblies />
+</H2>

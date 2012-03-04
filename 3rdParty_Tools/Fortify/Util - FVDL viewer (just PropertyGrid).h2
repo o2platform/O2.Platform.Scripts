@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = "Util - FVDL viewer (just PropertyGrid) - drop file to load".popupWindow(400, 400);
+topPanel.insert_LogViewer(); 
+var propertyGrid = topPanel.add_PropertyGrid().helpVisible(false);    
+Action&lt;string&gt; loadAndShowFile =    
+	(file)=&gt; O2Thread.mtaThread(
+		()=&gt;	propertyGrid.show(new API_Fortify().convertToFortifyScan(file)));
+
+propertyGrid.onDrop(loadAndShowFile);			
+//O2File:API_Fortify_1_6.cs
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll  </SourceCode>
+  <ReferencedAssemblies />
+</H2>

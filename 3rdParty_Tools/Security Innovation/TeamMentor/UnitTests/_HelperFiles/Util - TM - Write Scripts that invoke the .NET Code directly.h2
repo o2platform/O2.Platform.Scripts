@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>TMConfig.BaseFolder = Test_TM.tmWebSiteFolder; 
+var tmXmlDatabase = new TM_Test_XmlDatabase(TMConfig.BaseFolder); 
+var tmWebServices = tmXmlDatabase.webServices();   
+//return tmWebServices.GetAllLibraryIds();
+
+var SI_LIBRARY_GUID = "ea854894-8e16-46c8-9c61-737ef46d7e82".guid(); 
+var siLibrary = tmWebServices.GetLibraryById(SI_LIBRARY_GUID); 
+return siLibrary;
+
+
+return "ok";
+
+//using O2.SecurityInnovation.TeamMentor;
+//using SecurityInnovation.TeamMentor.WebClient;
+//using O2.SecurityInnovation.TeamMentor.WebClient;
+
+//O2File:TM_Test_XmlDatabase.cs
+
+//_O2Ref:TM_WebServices.asmx.dll
+//O2Ref:System.Web.Services.dll
+
+//O2Tag_DontAddExtraO2Files</SourceCode>
+  <ReferencedAssemblies />
+</H2>

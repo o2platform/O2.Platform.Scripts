@@ -1,0 +1,173 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//using System.Globalization
+
+var topPanel = O2Gui.open&lt;Panel&gt;("O2Platform.wordpress.com blogposts",700,600);
+//var topPanel = panel.clear().add_Panel();
+
+var credential = @"C:\O2\_Userdata\accounts.xml"
+					.credential("o2platform");
+var browser = topPanel.add_WebBrowser_Control();
+var code = browser.insert_Below().add_TextArea();
+
+var posts_TreeView = topPanel.insert_Left(300).add_TreeView();  
+var link = topPanel.insert_Above(20).add_TextBox().fill(); 
+
+var actionsPanel = posts_TreeView.insert_Above(60);
+var linksInTextArea = posts_TreeView.insert_Below(100).add_TextArea().wordWrap(false);
+var linksInWebBrowser = linksInTextArea.insert_Right().add_WebBrowser_Control();
+
+var numberOfBlogsToFetch = actionsPanel.add_TextBox("Number of blogs to fetch",""); 
+var fetchBlogs = actionsPanel.add_Button("Fetch blog entries",30,0).align_Right(actionsPanel); 
+
+posts_TreeView.afterSelect&lt;Dictionary&lt;string,string&gt;&gt;(
+	(values) =&gt;	{	
+/*					browser.open(values["description"].fixCRLF()
+													  .htmlDecode()
+													  .Replace("".line(), "&lt;br/&gt;")
+													  .saveWithExtension(".html").info());
+					code.set_Text(values["description"].fixCRLF().htmlDecode()); 
+					link.set_Text(values["link"]);*/
+				});
+				
+Func&lt;int, string&gt; getRequestXml = 
+	(numberOfPosts)=&gt;{			
+						return ("&lt;?xml version=\"1.0\"?&gt;"+
+								"&lt;methodCall&gt;"+
+								"  &lt;methodName&gt;metaWeblog.getRecentPosts&lt;/methodName&gt;"+
+								"  &lt;params&gt;"+
+								"    &lt;param&gt;"+
+								"      &lt;value&gt;"+
+								"        &lt;string&gt;{0}&lt;/string&gt;"+
+								"      &lt;/value&gt;"+
+								"    &lt;/param&gt;"+
+								"    &lt;param&gt;"+
+								"      &lt;value&gt;"+
+								"        &lt;string&gt;{1}&lt;/string&gt;"+
+								"      &lt;/value&gt;"+
+								"    &lt;/param&gt;"+
+								"    &lt;param&gt;"+
+								"      &lt;value&gt;"+
+								"        &lt;string&gt;{2}&lt;/string&gt;"+
+								"      &lt;/value&gt;"+
+								"    &lt;/param&gt;"+
+								"    &lt;param&gt;"+
+								"      &lt;value&gt;"+
+								"        &lt;i4&gt;{3}&lt;/i4&gt;"+
+								"      &lt;/value&gt;"+
+								"    &lt;/param&gt;"+
+								"  &lt;/params&gt;"+
+								"&lt;/methodCall&gt;").format("13405956", credential.username(), credential.password(),numberOfPosts);
+					};
+
+Action&lt;int, TreeView&gt; loadData = 
+	(numberOfPosts,treeView)=&gt;{								
+								treeView.backColor(Color.LightPink);
+								treeView.clear();
+								linksInTextArea.set_Text("");
+								var postData = getRequestXml(numberOfPosts);
+								var response = new Web().getUrlContents_POST("http://o2platform.wordpress.com/xmlrpc.php", postData);																	
+								var blogPosts =  response.xRoot().XPathSelectElement("//data").elements();
+								var linksHtmlCode = ""; 
+								var linksWikiCode = "";
+								linksHtmlCode = "&lt;html&gt;&lt;body&gt;";
+								linksHtmlCode+= "&lt;h2&gt;by post&lt;/h2&gt;&lt;ul&gt;";
+/*								foreach(var blogPost in blogPosts)
+								{
+									var values = new Dictionary&lt;string,string&gt;();
+									foreach(var member in blogPost.XPathSelectElements("./struct/member"))	
+										values.add(member.element("name").value(),member.element("value").value()); 
+									treeView.add_Node("[id:{0}]   -   {1}".format(values["postid"],values["title"]), values);	
+									linksInTextArea.append_Line("{0} {1}".format(values["title"],values["link"]));
+									linksHtmlCode+= "&lt;li&gt;&lt;a href='{0}'&gt;{1}&lt;/a&gt;&lt;/li&gt;".line().format(values["link"],values["title"]);
+								}	
+*/								
+								var mappedByCategory = new Dictionary&lt;string, List&lt;XElement&gt;&gt;();
+								
+								foreach(var blogPost in blogPosts)
+								{
+									var values = new Dictionary&lt;string,string&gt;();
+									foreach(var member in blogPost.XPathSelectElements("./struct/member"))	
+										values.add(member.element("name").value(),member.element("value").value()); 
+										
+									if (values["post_status"] == "publish")
+									{
+										foreach(var category in values["categories"].split("\n").where((text)=&gt;text.valid())) 
+											mappedByCategory.add(category, blogPost);									
+										values["dateCreated"].info();
+										var postDate = DateTime.ParseExact(values["dateCreated"],"yyyyMMddTHH:mm:ss", CultureInfo.CurrentCulture)
+															   .ToString("dd MMMM yy");  
+										//return postDate
+										treeView.add_Node("[id:{0} - ({1})]   -   {2}".format(values["postid"],postDate, values["title"]), values);
+										linksHtmlCode+= "&lt;li&gt;&lt;a href='{0}'&gt;{1}&lt;/a&gt;&lt;/li&gt; &lt;small&gt;({2})&lt;/small&gt;".line().format(values["link"],values["title"],postDate);											
+									}
+								}
+								
+								linksHtmlCode+= "&lt;/ul&gt; &lt;h2&gt;by Category&lt;/h2&gt;&lt;ul&gt;";
+								var categoryList = mappedByCategory.Keys.toList().sort();
+								foreach(var categoryName in categoryList)
+								{
+									linksWikiCode += "* '''{0}'''".line().format(categoryName);
+									linksHtmlCode += "&lt;li&gt;&lt;b&gt;{0}&lt;/b&gt;&lt;/l1&gt;".format(categoryName);
+									linksHtmlCode += "&lt;ul&gt;";
+									foreach(var _blogPost in mappedByCategory[categoryName])
+									{
+										var values = new Dictionary&lt;string,string&gt;(); 
+										foreach(var member in _blogPost.XPathSelectElements("./struct/member"))	
+											values.add(member.element("name").value(),member.element("value").value()); 
+										linksHtmlCode+= "&lt;li&gt;&lt;a href='{0}'&gt;{1}&lt;/a&gt;&lt;/li&gt;".line().format(values["link"],values["title"]);
+										linksWikiCode += "** [{0} {1}]".line().format(values["link"],values["title"]);
+									}
+									linksHtmlCode += "&lt;/ul&gt;";
+								}
+								linksHtmlCode+= "&lt;/ul&gt; ";
+								linksHtmlCode += "&lt;/body&gt;&lt;/html&gt;";
+								linksInWebBrowser.open(linksHtmlCode.saveWithExtension(".html"));
+								
+								linksInTextArea.set_Text(linksWikiCode); 
+								
+								treeView.backColor(Color.White); 
+								treeView.selectFirst();  
+							};			
+							
+Action fetch = ()=&gt; loadData(numberOfBlogsToFetch.get_Text().toInt(),posts_TreeView);
+numberOfBlogsToFetch.onEnter((text)=&gt; fetch());
+
+fetchBlogs.onClick(()=&gt; fetch());
+
+numberOfBlogsToFetch.set_Text("4");
+fetchBlogs.click();
+
+/*var codeViewer = topPanel.clear().add_SourceCodeViewer();
+var _numberOfPosts = 2;
+var _postData = getRequestXml(_numberOfPosts);
+var _response = new Web().getUrlContents_POST("http://o2platform.wordpress.com/xmlrpc.php", _postData);																	
+var _blogPosts =  _response.xRoot().XPathSelectElement("//data").elements();
+codeViewer.set_Text(_response, ".xml");
+
+//var mappedByCategory = new Dictionary&lt;string, List&lt;XElement&gt;&gt;();
+
+foreach(var blogPost in _blogPosts)
+{
+	var values = new Dictionary&lt;string,string&gt;();
+	foreach(var member in blogPost.XPathSelectElements("./struct/member"))	
+		values.add(member.element("name").value(),member.element("value").value()); 
+var date = values["dateCreated"].split("T")[0];		
+
+return DateTime.Parse(date);
+ 		
+/ *	if (values["post_status"] == "publish")
+		foreach(var category in values["categories"].split("\n").where((text)=&gt;text.valid()))
+			mappedByCategory.add(category, blogPost);
+* /	
+}
+//return mappedByCategory;
+ */		
+return "ok";
+
+//using System.Xml.XPath
+
+//O2File:SecretData_ExtensionMethods.cs
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

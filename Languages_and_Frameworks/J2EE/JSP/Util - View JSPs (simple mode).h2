@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.clear().add_Panel();
+var topPanel = "Util - View JSPs (simple mode)".popupWindow(1000,300);
+var sourceCodeEditor = topPanel.add_SourceCodeEditor();
+var treeView = sourceCodeEditor.insert_Left&lt;Panel&gt;(400).add_TreeView().sort();
+treeView.afterSelect&lt;string&gt;((file)=&gt;sourceCodeEditor.open(file).setDocumentHighlightingStrategy(".html"));
+Action&lt;string,string&gt; loadFilesFromFolder = 
+	(folder,extension)=&gt;{
+							treeView.clear();
+							foreach(var file in folder.files(extension,true))
+								treeView.add_Node(file.remove(folder),file);
+							treeView.selectFirst();	 
+						};
+
+var testFolderWithJsps = @"C:\O2\Demos\jPetStore - O2 Demo Pack\sourceCode\war"; 						
+topPanel.insert_Above(20)
+		.add_TextBox("Path to JSPs",testFolderWithJsps) 
+		.onEnter((text)=&gt; loadFilesFromFolder(text , "*.jsp"));
+						
+loadFilesFromFolder(testFolderWithJsps , "*.jsp");
+
+
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

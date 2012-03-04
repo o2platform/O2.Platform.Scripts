@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = O2Gui.open&lt;Panel&gt;("{name}",700,400);
+var path = "http://s3.amazonaws.com/O2_Downloads/O2_Cmd_SpringMvc.msi".uri().download();
+path.startProcess();</SourceCode>
+  <ReferencedAssemblies />
+</H2>

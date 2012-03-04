@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//panel.clear(); 
+//var topPanel = panel.add_Panel();
+
+
+var homepage = "http://o2platform.wordpress.com";
+
+
+var credential = @"C:\O2\_USERDATA\Accounts.xml".credential("o2platform"); 
+if (credential.isNull())
+	credential = ascx_AskUserForLoginDetails.ask();
+	
+var wordPress = new API_WordPress("o2platform.wordpress.com"); 	 
+
+wordPress.addRequiredSitesToIETrustedZone(); //to make sure it works ok in WatiN   
+//wordPress.login(credential.UserName, credential.Password); 
+
+
+var topPanel = O2Gui.open&lt;Panel&gt;("Wordpress Editor", 1024,600);
+var ribbon = topPanel.add_Ribbon_Above(); 
+ribbon.title("WordPress.com API: for o2platform.wordpress.com");
+
+
+var ie = topPanel.add_IE();
+ie.onNavigate((url)=&gt;"in url:{0}".info(url)); 
+ribbon.add_Tab("o2platform.Wordpress.com")  
+	  .add_Group("Main")
+	  .add_Button("Home page", ()=&gt; ie.open(homepage))
+	  .add_Button("Login", 
+	  	()=&gt;{
+	  			ie.open("http://o2platform.wordpress.com/wp-login.php");
+	  			ie.field("log", credential.UserName);
+	  			ie.field("pwd", credential.Password);
+	  			ie.button("Log In").click();
+	  		})
+	  .add_Button("Admin Dashboard", ()=&gt;ie.open("http://o2platform.wordpress.com/wp-admin/"))	  
+	  .add_Button("Media", ()=&gt;ie.open("http://o2platform.wordpress.com/wp-admin/upload.php"));
+
+ribbon.tab("o2platform.Wordpress.com")
+	  .add_Group("Posts")
+	  .add_Button("Edit Posts", ()=&gt;ie.open("http://o2platform.wordpress.com/wp-admin/edit.php"))
+	  .add_Button("New Post", ()=&gt;ie.open("http://o2platform.wordpress.com/wp-admin/post-new.php"));
+
+ribbon.tab("o2platform.Wordpress.com")
+	  .add_Group("Stats")
+	  .add_Button("Main Stats Page",()=&gt;ie.open("http://o2platform.wordpress.com/wp-admin/index.php?page=stats"));
+
+ribbon.tab("o2platform.Wordpress.com")
+	  .add_Group("Post Code utils")
+	  .add_Button("Wrap clipboard data with Source Code tags", ()=&gt; wordPress.wrapClipboardTextInSourceCodeTags() );
+
+	  
+ribbon.button_Click("o2platform.Wordpress.com", "Main", "Home page");
+
+//return ie.fields();
+//var result = wordPress.post("test post title","this is the content");
+//"Post Result: {0}".info(result);
+//panel.add_WebBrowser_Control().open("http://o2platform.wordpress.com");
+
+return "ok";
+
+//O2File:API_WordPress.cs
+//O2File:WPF_Ribbon.cs
+//O2File:Watin_IE.cs
+//O2File:SecretData_ExtensionMethods.cs 
+//O2File:ascx_AskUserForLoginDetails.cs
+//O2Ref:WordPress_XmlRpc_JoeBlogs.dll
+//O2Ref:WindowsFormsIntegration.dll
+//O2Ref:RibbonControlsLibrary.dll
+//O2Ref:WatiN.Core.1x.dll
+//O2Ref:Interop.SHDocVw.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

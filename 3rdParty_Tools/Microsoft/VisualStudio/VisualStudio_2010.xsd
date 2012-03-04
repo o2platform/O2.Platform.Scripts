@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="NewDataSet" targetNamespace="http://schemas.microsoft.com/developer/msbuild/2003" xmlns:mstns="http://schemas.microsoft.com/developer/msbuild/2003" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:element name="Project">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="PropertyGroup" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="DebugSymbols" type="xs:string" minOccurs="0" msdata:Ordinal="0" />
+              <xs:element name="DebugType" type="xs:string" minOccurs="0" msdata:Ordinal="1" />
+              <xs:element name="Optimize" type="xs:string" minOccurs="0" msdata:Ordinal="2" />
+              <xs:element name="OutputPath" type="xs:string" minOccurs="0" msdata:Ordinal="3" />
+              <xs:element name="DefineConstants" type="xs:string" minOccurs="0" msdata:Ordinal="4" />
+              <xs:element name="ErrorReport" type="xs:string" minOccurs="0" msdata:Ordinal="5" />
+              <xs:element name="WarningLevel" type="xs:string" minOccurs="0" msdata:Ordinal="6" />
+              <xs:element name="RunCodeAnalysis" type="xs:string" minOccurs="0" msdata:Ordinal="7" />
+              <xs:element name="CodeAnalysisIgnoreGeneratedCode" type="xs:string" minOccurs="0" msdata:Ordinal="8" />
+              <xs:element name="ProductVersion" type="xs:string" minOccurs="0" msdata:Ordinal="10" />
+              <xs:element name="SchemaVersion" type="xs:string" minOccurs="0" msdata:Ordinal="11" />
+              <xs:element name="ProjectGuid" type="xs:string" minOccurs="0" msdata:Ordinal="12" />
+              <xs:element name="ProjectTypeGuids" type="xs:string" minOccurs="0" msdata:Ordinal="13" />
+              <xs:element name="OutputType" type="xs:string" minOccurs="0" msdata:Ordinal="14" />
+              <xs:element name="AppDesignerFolder" type="xs:string" minOccurs="0" msdata:Ordinal="15" />
+              <xs:element name="RootNamespace" type="xs:string" minOccurs="0" msdata:Ordinal="16" />
+              <xs:element name="AssemblyName" type="xs:string" minOccurs="0" msdata:Ordinal="17" />
+              <xs:element name="TargetFrameworkVersion" type="xs:string" minOccurs="0" msdata:Ordinal="18" />
+              <xs:element name="SccProjectName" type="xs:string" minOccurs="0" msdata:Ordinal="19" />
+              <xs:element name="SccLocalPath" type="xs:string" minOccurs="0" msdata:Ordinal="20" />
+              <xs:element name="SccAuxPath" type="xs:string" minOccurs="0" msdata:Ordinal="21" />
+              <xs:element name="SccProvider" type="xs:string" minOccurs="0" msdata:Ordinal="22" />
+              <xs:element name="SignAssembly" type="xs:string" minOccurs="0" msdata:Ordinal="23" />
+              <xs:element name="AssemblyOriginatorKeyFile" type="xs:string" minOccurs="0" msdata:Ordinal="24" />
+              <xs:element name="FileUpgradeFlags" type="xs:string" minOccurs="0" msdata:Ordinal="25" />
+              <xs:element name="OldToolsVersion" type="xs:string" minOccurs="0" msdata:Ordinal="26" />
+              <xs:element name="UpgradeBackupLocation" type="xs:string" minOccurs="0" msdata:Ordinal="27" />
+              <xs:element name="Configuration" nillable="true" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:simpleContent msdata:ColumnName="Configuration_Text" msdata:Ordinal="1">
+                    <xs:extension base="xs:string">
+                      <xs:attribute name="Condition" form="unqualified" type="xs:string" />
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Platform" nillable="true" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:simpleContent msdata:ColumnName="Platform_Text" msdata:Ordinal="1">
+                    <xs:extension base="xs:string">
+                      <xs:attribute name="Condition" form="unqualified" type="xs:string" />
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="Condition" form="unqualified" type="xs:string" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="ItemGroup" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Compile" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="AutoGen" type="xs:string" minOccurs="0" msdata:Ordinal="0" />
+                    <xs:element name="DesignTimeSharedInput" type="xs:string" minOccurs="0" msdata:Ordinal="1" />
+                    <xs:element name="DependentUpon" type="xs:string" minOccurs="0" msdata:Ordinal="2" />
+                    <xs:element name="SubType" type="xs:string" minOccurs="0" msdata:Ordinal="3" />
+                  </xs:sequence>
+                  <xs:attribute name="Include" form="unqualified" type="xs:string" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Content" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="SubType" type="xs:string" minOccurs="0" msdata:Ordinal="0" />
+                  </xs:sequence>
+                  <xs:attribute name="Include" form="unqualified" type="xs:string" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Reference" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="RequiredTargetFramework" type="xs:string" minOccurs="0" msdata:Ordinal="0" />
+                    <xs:element name="SpecificVersion" type="xs:string" minOccurs="0" msdata:Ordinal="1" />
+                    <xs:element name="HintPath" type="xs:string" minOccurs="0" msdata:Ordinal="2" />
+                  </xs:sequence>
+                  <xs:attribute name="Include" form="unqualified" type="xs:string" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="ProjectReference" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Project" type="xs:string" minOccurs="0" msdata:Ordinal="0" />
+                    <xs:element name="Name" type="xs:string" minOccurs="0" msdata:Ordinal="1" />
+                  </xs:sequence>
+                  <xs:attribute name="Include" form="unqualified" type="xs:string" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="EmbeddedResource" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:attribute name="Include" form="unqualified" type="xs:string" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="None" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Generator" type="xs:string" minOccurs="0" msdata:Ordinal="0" />
+                    <xs:element name="LastGenOutput" type="xs:string" minOccurs="0" msdata:Ordinal="1" />
+                  </xs:sequence>
+                  <xs:attribute name="Include" form="unqualified" type="xs:string" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Folder" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:attribute name="Include" form="unqualified" type="xs:string" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Import" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:attribute name="Project" form="unqualified" type="xs:string" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="ProjectExtensions" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="VisualStudio" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="FlavorProperties" minOccurs="0" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="WebProjectProperties" minOccurs="0" maxOccurs="unbounded">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="UseIIS" type="xs:string" minOccurs="0" />
+                                <xs:element name="AutoAssignPort" type="xs:string" minOccurs="0" />
+                                <xs:element name="DevelopmentServerPort" type="xs:string" minOccurs="0" />
+                                <xs:element name="DevelopmentServerVPath" type="xs:string" minOccurs="0" />
+                                <xs:element name="IISUrl" type="xs:string" minOccurs="0" />
+                                <xs:element name="NTLMAuthentication" type="xs:string" minOccurs="0" />
+                                <xs:element name="UseCustomServer" type="xs:string" minOccurs="0" />
+                                <xs:element name="CustomServerUrl" type="xs:string" minOccurs="0" />
+                                <xs:element name="SaveServerSettingsInUserFile" type="xs:string" minOccurs="0" />
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="GUID" form="unqualified" type="xs:string" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="ToolsVersion" form="unqualified" type="xs:string" />
+      <xs:attribute name="DefaultTargets" form="unqualified" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="Project" />
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

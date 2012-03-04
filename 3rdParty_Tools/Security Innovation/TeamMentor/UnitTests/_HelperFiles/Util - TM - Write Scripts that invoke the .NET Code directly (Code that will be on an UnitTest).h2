@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>
+TMConfig.BaseFolder = Test_TM.tmWebSiteFolder; 
+var tmTestXmlDatabase = new TM_Test_XmlDatabase(TMConfig.BaseFolder); 
+var tmWebServices = tmTestXmlDatabase.webServices();   
+var tmDatabase = tmTestXmlDatabase.xmlDatabase();
+
+var originalName = "createAndDelete";  
+var newName 	 = originalName + "_new";
+var libraryPath_originalName  = tmDatabase.xmlDB_LibraryPath(originalName);
+var libraryPath_newName  	  = tmDatabase.xmlDB_LibraryPath(newName);
+ 
+Files.deleteFile(libraryPath_originalName);
+Files.deleteFile(libraryPath_newName);
+
+Assert.IsFalse(libraryPath_originalName.fileExists() , "libraryPath_originalName should not exists");
+Assert.IsFalse(libraryPath_newName	  .fileExists()	, "libraryPath_newName should not exists");
+
+//Create Library
+var newLibrary = tmWebServices.CreateLibrary(new Library() { caption = originalName });
+Assert.IsNotNull(newLibrary, "newLibrary Created OK");
+Assert.IsTrue(libraryPath_originalName.fileExists() , "libraryPath_originalName should exist after creation");
+
+//Rename Library
+var renameResult = tmWebServices.RenameLibrary(newLibrary.libraryId, newName);  
+Assert.IsTrue(renameResult, "renameResult");
+
+Assert.IsFalse(libraryPath_originalName.fileExists() , "libraryPath_originalName should not exist after rename");
+Assert.IsTrue (libraryPath_newName	   .fileExists() , "libraryPath_newName should exist after rename");
+
+var library_by_Id 				= tmWebServices.GetLibraryById(newLibrary.libraryId);    
+var library_by_originalName 	= tmWebServices.GetLibraryByName(originalName);
+var library_by_newName    		= tmWebServices.GetLibraryByName(newName); 
+var library_by_caption    		= tmWebServices.GetLibraryByName(library_by_Id.caption);
+
+Assert.IsNotNull(library_by_Id			 , "library_by_Id");
+Assert.IsNull   (library_by_originalName , "library_by_originalName");
+Assert.IsNotNull(library_by_newName		 , "library_by_newName");
+Assert.IsNotNull(library_by_caption		 , "library_by_caption");
+
+Assert.IsTrue(tmWebServices.GetLibraries().names().contains(newName), "new name was not on tmWebServices.GetLibraries()") ;
+//Delete Library
+var deleteResult = tmWebServices.DeleteLibrary(newLibrary.libraryId);  
+Assert.IsTrue(deleteResult, "deleteResult");
+
+Assert.IsFalse(libraryPath_newName	   .fileExists() , "libraryPath_newName should not exist after delete");
+Assert.IsFalse(libraryPath_originalName.fileExists() , "libraryPath_originalName should not exist at the end");
+ 
+//var topPanel = panel.clear().add_Panel();
+//topPanel
+return "all good";
+return library_by_Id;
+//using NUnit.Framework
+//O2Ref:Nunit.Framework.dll     
+return "ok";   
+  
+//using O2.SecurityInnovation.TeamMentor;   
+//using SecurityInnovation.TeamMentor.WebClient;
+//using O2.SecurityInnovation.TeamMentor.WebClient;
+//using SecurityInnovation.TeamMentor.WebClient.WebServices 
+ 
+//O2File:TM_Test_XmlDatabase.cs																				
+//_O2Ref:TM_WebServices.asmx.dll
+
+//O2Ref:System.Web.Services.dll
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
+//O2Tag_DontAddExtraO2Files</SourceCode>
+  <ReferencedAssemblies />
+</H2>

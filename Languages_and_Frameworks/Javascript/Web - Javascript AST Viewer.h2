@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Web - Javascript AST Viewer", 1000,500);
+//var topPanel = panel;
+topPanel.clear(); 
+   
+var mainGui = topPanel.add_1x1("Browser","", true, topPanel.width()/3); 
+var browser = (O2BrowserIE)mainGui[0].add_WebBrowserWithLocationBar();
+var javascriptAst = mainGui[1].parent().clear().add_Control&lt;ascx_Javascript_AST&gt;().buildGui();
+var browserTextBox = browser.parent&lt;SplitContainer&gt;().controls&lt;TextBox&gt;(true)[0];
+browser.silent(true);
+
+/*var rawAST = tabControl.add_Tab("Javascript - RAW Ast View")
+					  .add_TreeView()
+					  .showSelection();
+rawAST.jint_configure_showSelectionDetails(sourceCode, codeSnippet); */
+
+
+
+//context menu
+browserTextBox.add_ContextMenu()
+			  .add_MenuItem("Refresh", true, 
+			  		()=&gt; {
+			  				var url = browserTextBox.get_Text();
+			  				browser.open("about:blank");
+			  				browser.open(url);
+			  			})
+			  .add_MenuItem("Un Silent Browser", ()=&gt; browser.silent(false));			  
+
+				
+browser.onDocumentCompleted +=
+	(htmlPage)=&gt; {
+					htmlPage.typeFullName().info();
+					javascriptAst.pagesVisited.insert_Item(htmlPage);		
+					javascriptAst.pagesVisited.select_Item(0);
+		};	
+		
+browser.open("http://www.google.com");	
+				
+return null;
+
+//using Jint
+//using Jint.Expressions
+//using System.Collections
+//using O2.External.IE.ExtensionMethods 
+//using O2.External.IE.Wrapper
+//using O2.External.IE.WebObjects
+//using O2.XRules.Database.APIs
+//using O2.XRules.Database.Languages_and_Frameworks.Javascript
+
+//O2File:Jint_ExtensionMethods.cs
+//O2File:ascx_Javascript_AST.cs
+
+//O2Ref:Jint.dll
+//O2Ref:Antlr3.Runtime.dll
+//O2Ref:O2_External_IE.dll
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll 
+
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

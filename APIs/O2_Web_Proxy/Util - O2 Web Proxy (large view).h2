@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - O2 Web Proxy (Large View)",1200,700); 
+//var topPanel = panel.clear().add_Panel();   
+var o2WebProxy = new O2_Web_Proxy();          
+o2WebProxy.createGui_Proxy_LargeView(topPanel);  
+o2WebProxy.startWebProxy();     
+
+ "http://google.com".uri().getHtml();
+
+//using HTTPProxyServer;
+//O2File:O2_Web_Proxy.cs
+//O2File:ProxyServer.cs  
+//O2File:O2_Web_Proxy_ExtensionMethods_GUI_Helpers.cs
+//O2File:API_ConsoleOut.cs </SourceCode>
+  <ReferencedAssemblies />
+</H2>

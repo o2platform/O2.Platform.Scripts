@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>
+var topPanel = "Tool - Cache from O2 Web Proxy".popupWindow(640,400); 
+//var topPanel = panel.clear().add_Panel();         
+    
+var o2webProxy = "o2Proxy".o2CacheViaTypeConfusion&lt;O2_Web_Proxy&gt;(()=&gt; new O2_Web_Proxy()); 
+o2webProxy.startWebProxy();
+o2webProxy.extraLogging();  
+var proxyCache = o2webProxy.proxyCache()
+						   .enabled(true);    
+var extensionsToIgnore = ".js .css .png .jpg .ico .gif".split(" ").removeEmpty();
+
+proxyCache.ShowItemInLog =
+	(logLine, requestResponseData)=&gt;{
+										//"[Logline]: {0}".debug(logLine);
+										
+										return logLine.contains(extensionsToIgnore).isFalse();
+										//return true;
+									 };
+
+var actionsPanel = topPanel	.add_GroupBox("ProxyCache Logs")  
+							.add_ProxyCacheLogViewer(o2webProxy.proxyCache())       
+							.insert_Below_ProxyCacheActionsPanel(o2webProxy.proxyCache())   
+							.add_Link("show webProxy", 2,158, ()=&gt; o2webProxy.show_WebProxyGui()) ;
+actionsPanel.append_Link("proxy start", ()=&gt; o2webProxy.startWebProxy())
+			.append_Label("Extensions to Ignore").autoSize()
+					.append_TextBox(extensionsToIgnore.join("")).width(200)
+					.onTextChange((text)=&gt; extensionsToIgnore = text.split(" ").removeEmpty());		
+
+return "done";
+ 
+//using HTTPProxyServer
+//O2File:API_WebProxy.cs</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -1,0 +1,157 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode> var topPanel = O2Gui.open&lt;Panel&gt;("JavaScript Stats viewer",1002,502);
+
+var openUsingWebBrowser = false;
+
+var statusStrip = topPanel.parentForm().add_StatusStrip(false);
+ 
+var mainGui = topPanel.add_1x1("Target Websites", "Stats", true, topPanel.width() / 3);
+var targets = mainGui[0].add_TreeView().showSelection();
+targets.insert_Above&lt;TextBox&gt;(20)
+	   .onEnter((text)=&gt;{  
+	   						var newNode = targets.add_Node(text);
+	   						targets.selectNode(newNode);
+	   					}); 
+	   					
+var siteDownloadTabControl = targets.insert_Below&lt;Panel&gt;(200).add_TabControl(); 
+
+var actionsPanel = siteDownloadTabControl.insert_Above&lt;Panel&gt;(50);  
+
+var showStatsButton = actionsPanel.add_Button("download pages and show stats");
+var openPageModeCheckBox = actionsPanel.add_CheckBox("Open Page using WebBrowser (vs making HTTP request)", 30, 0, 
+											(value)=&gt;{
+														openUsingWebBrowser = value;
+														targets.selectedNode(null); 
+													 })
+									   .autoSize();
+									   //.tick();
+
+
+showStatsButton.append_Link("popular websites", 
+	()=&gt;{
+			List&lt;String&gt; top50List;
+			"dowloading list from http://mostpopularwebsites.net".info();
+			// This gets a list of the 50 most populate websites (according to mostpopularwebsites.net)
+			var uri = "http://mostpopularwebsites.net".uri();
+			var html = uri.getHtml();
+			var htmlDocument = html.htmlDocument();  
+			var rawlinks =  htmlDocument.select("//table")[4]
+										.SelectNodes(".//a")
+										.toList&lt;HtmlAgilityPack.HtmlNode&gt;()
+										.values();
+			// getting normalized list (without porn references, and other international websites)
+			top50List = (from link in rawlinks
+						 where link.starts("www") &amp;&amp; link.contains("porn",".cn", "163",".jp").isFalse() &amp;&amp; link.contains(".com").isTrue()
+					 	 select link).toList();
+			top50List.size().info();						 	 
+			
+			targets.add_Nodes(top50List); 
+		})
+			   .top(5);
+
+var tableList = mainGui[1].add_TableList();
+tableList.add_Jint_Stats_Columns();
+
+//ContextMenu
+
+targets.add_ContextMenu()
+	   .add_MenuItem("Clear Target list", true,()=&gt; targets.clear())
+	   .add_MenuItem("Clear Browser tabs", true,()=&gt; siteDownloadTabControl.clear())
+	   .add_MenuItem("Clear Stats", 
+	   		()=&gt;{
+	   				tableList.clearTable();
+	   				tableList.add_Jint_Stats_Columns();	   				
+	   			});
+	   
+//action
+showStatsButton.onClick(
+	()=&gt;{			
+			foreach(var node in targets.nodes())
+				targets.selectNode(node);						
+		});	
+		
+targets.afterSelect(
+	(treeNode)=&gt;{					
+				try
+				{
+					O2Thread.mtaThread( 
+						()=&gt;{ 
+								lock(targets)
+								{
+									var index = treeNode.index() +1 ; 
+									var url = treeNode.get_Text();
+									statusStrip.set_Text("Starting analysis of: {0}".info(url));
+									var uri = url.uri();																	
+									string html = "";
+									List&lt;KeyValuePair&lt;string,string&gt;&gt; javascripts;
+									HtmlAgilityPack.HtmlDocument htmlDocument;
+									if (openUsingWebBrowser)
+									{										
+										var newTab = siteDownloadTabControl.add_Tab(url);										
+										var browser = newTab.add_Browser().silent(true);
+										siteDownloadTabControl.select_Tab(newTab);
+																				 											
+										browser.onDocumentCompleted +=  
+											(htmlPage) =&gt; {
+															"Page load complete:{0}".info(htmlPage.PageUri);
+															html = htmlPage.PageSource;										 	 				
+															htmlDocument = html.htmlDocument();  
+															javascripts	= htmlPage.javaScripts(); 
+															var fetchedUrl = "{0} -&gt; {1}".format(url, htmlPage.PageUri.str());
+															tableList.add_Jint_Stats_Row(index, fetchedUrl, html, htmlDocument, javascripts);																	 
+															statusStrip.set_Text("Completed analysis of: {0}".info(fetchedUrl));
+															};										
+										browser.openSync(uri);	
+									}
+									else 
+									{
+										html = uri.getHtml();
+										var newTab = siteDownloadTabControl.add_Tab(url);
+										siteDownloadTabControl.select_Tab(newTab);
+										newTab.add_SourceCodeViewer()
+											  .set_Text(html);
+										htmlDocument = html.htmlDocument(); 									
+										javascripts = htmlDocument.javaScripts(uri);  									
+										tableList.add_Jint_Stats_Row(index, url, html, htmlDocument, javascripts);												 
+										statusStrip.set_Text("Completed analysis of: {0}".info(url));
+									}								
+								}
+						});
+				}
+				catch(Exception ex)
+				{
+					ex.log("in targets.afterSelect");
+				}
+				
+				
+			});
+//default data
+
+targets.add_Node("www.google.co.uk");
+targets.add_Node("www.bbc.com");
+targets.add_Node("www.owasp.org"); 
+targets.selectFirst();
+			
+
+
+
+
+//using O2.XRules.Database.Languages_and_Frameworks.Javascript
+//using O2.External.IE.ExtensionMethods
+//using O2.External.IE.Wrapper
+//using O2.External.IE.Interfaces
+
+//O2File:HtmlAgilityPack_ExtensionMethods.cs
+//O2File:Jint_ExtensionMethods.cs 
+
+//O2Ref:O2_External_IE.dll
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
+//O2Ref:System.Xml.dll
+//O2Ref:System.Xml.Linq.dll
+//O2Ref:System.Data.dll
+//O2Ref:Jint.dll
+
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

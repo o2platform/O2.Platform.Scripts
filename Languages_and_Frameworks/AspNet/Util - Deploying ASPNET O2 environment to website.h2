@@ -1,0 +1,172 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - Deploying ASPNET O2 environment to website",700,550);
+//var topPanel = panel.clear().add_Panel();
+
+topPanel.insert_LogViewer();
+var actionsPanel = topPanel.insert_Left(300,"Actions");
+var configPanel = actionsPanel.parent().insert_Below(100,"Config Panel");
+MS_VS_WebServer webServer = null;
+var websiteName = "";
+var websiteDir = "";
+var webserverPort = 0;
+var filesToCompile = new List&lt;string&gt;();
+ 
+var websiteName_TextBox = configPanel.add_TextBox(0,"WebSite Name:","").left(100).align_Right(configPanel).onTextChange((text)=&gt;websiteName = text);
+var websiteDir_TextBox = configPanel.add_TextBox(20,"WebSite Dir:","").left(100).align_Right(configPanel).onTextChange((text)=&gt;websiteDir = text); 
+var websitePort_TextBox = configPanel.add_TextBox(40,"WebServer Port:","0").left(100).align_Right(configPanel).onTextChange((text)=&gt;webserverPort = text.toInt()); 
+
+
+var ie = topPanel.add_IE_with_NavigationBar();
+var codeEditor = topPanel.insert_Left().add_SourceCodeViewer();
+
+
+Action&lt;string&gt; addFileToCompile = 
+	(file)=&gt; filesToCompile.add(file);
+		
+
+
+Action&lt;string&gt; openWebPage = 
+	(virtualPath)=&gt; {						
+						var url = webServer.uri(virtualPath).str();				
+						"Opening virtual path '{0}' which mapped to '{1}'".info(virtualPath,url);
+						ie.open(url);  
+					};
+
+
+Action startWebServer = 
+	()=&gt;{
+			"Starting WebServer".info();
+			if (websiteDir.dirExists() &amp;&amp; webserverPort &gt;0)
+			{ 
+				webServer = websiteDir.startWebServer(webserverPort);												
+				"completed starting website".info();
+				openWebPage("/");
+			}
+			else
+				"error with website start details: websiteDir:{0}   webServerPort{1}".error( websiteDir , webserverPort);
+		};
+
+
+Action showTestPage = 
+	()=&gt;{
+			
+			var tempFileName = "a.aspx";
+			var tempFile = websiteDir.pathCombine(tempFileName);									
+			if (tempFile.fileExists().isFalse())
+				("&lt;%@ Page Language=\"C#\" %&gt;".line() + 
+				"&lt;html&gt;&lt;body&gt;&lt;%=\"hello\" %&gt;&lt;/body&gt;&lt;/html&gt;").saveAs(tempFile);		 		
+			codeEditor.open(tempFile);
+			openWebPage(tempFileName);
+			
+		};
+
+Action stopWebServer = 
+	()=&gt;{
+			webServer.stop();
+		};
+
+Action&lt;string,string&gt; copyFileToWebSite = 
+	 (baseFolder, file)=&gt;{
+	 						"Copying file: {0}".debug(file);
+	 						Files.Copy(file,baseFolder);
+	 						Files.Copy(file, baseFolder.pathCombine("bin"));
+	 					 };
+	 	
+var supportDlls = new List&lt;string&gt; {
+										//Needed for FluentSharp
+										"O2_Kernel.dll".assembly().Location,
+										"O2_Interfaces.dll".assembly().Location,
+										"O2_DotNetWrappers.dll".assembly().Location,
+										"O2_Views_ASCX.dll".assembly().Location,
+										//Needed for scripting environment
+										"O2_External_SharpDevelop.dll".assembly().Location,
+										"O2SharpDevelop.dll".assembly().Location,
+										"O2_API_AST.dll".assembly().Location,
+										"O2_XRules_Database.exe".assembly().Location,
+										"O2_External_WinformsUI.dll".assembly().Location,
+										"log4net.dll".assembly().Location
+									};
+									
+Action copySupportFilesToServer = 
+	() =&gt;{
+			var targetFolder = websiteDir;
+			var tempAspxFolder = targetFolder.pathCombine("_O2_AspNet").createDir();			
+			targetFolder.pathCombine("bin").createDir(); 
+			
+			foreach(var dll in supportDlls) 
+				copyFileToWebSite(targetFolder, dll); 
+			var o2FolderWithAspxFiles = @"C:\O2\O2Scripts_Database\_Scripts\Languages_and_Frameworks\AspNet\_O2_AspNet";
+
+			foreach(var file in o2FolderWithAspxFiles.files())
+				Files.Copy(file, tempAspxFolder);
+				
+			var webConfig = targetFolder.pathCombine("web.config");
+			
+			if (webConfig.fileExists().isFalse())
+			{
+				"there was no web.config: ({0}) ".debug(webConfig);
+				Files.Copy("3.5_compiler_web.config".local(), webConfig);
+			}			
+			if (filesToCompile.size()&gt;0 )
+			{
+				"Compiling and publishing files in filesToCompile".debug();
+				foreach(var fileToCompile in filesToCompile)
+					fileToCompile.compileIntoDll_inFolder(targetFolder.pathCombine("bin"));
+			}
+		 };
+
+Action openO2ToolsPage = 
+	()=&gt;{
+			codeEditor.open(websiteDir.pathCombine("/_O2_AspNet/Open_O2_Tools.aspx"));  
+			openWebPage("/_O2_AspNet/Open_O2_Tools.aspx");
+		};
+										
+actionsPanel.add_Link("Start WebServer", 0, 0, ()=&gt;startWebServer()); 
+actionsPanel.add_Link("Copy Support Files To Server", 20, 0, ()=&gt; copySupportFilesToServer()); 
+actionsPanel.add_Link("Show Test Page", 40, 0, ()=&gt;showTestPage()); 
+actionsPanel.add_Link("Open 'Open_O2_Tools.aspx' page", 60,0, () =&gt; openO2ToolsPage());
+actionsPanel.add_Link("Close WebServer", 80, 0, ()=&gt;stopWebServer()); 
+
+actionsPanel.add_Link("Open WebSiteDir in Explorer", 140, 0, ()=&gt;websiteDir.startProcess()); 
+/*
+codeEditor.open(tempFile);
+//codeEditor.set_ColorsForCSharp();
+
+*/
+Action&lt;string, string,int&gt; set_Values = 
+	(name, dir, port)=&gt;{
+			websiteName_TextBox.set_Text(name);
+			websiteDir_TextBox.set_Text(dir);
+			websitePort_TextBox.set_Text(port.str());
+		};
+
+
+actionsPanel.add_Link("Create Test Site", 180, 0, 
+	()=&gt;{
+			set_Values("_temp_IIS", "_temp_IIS".tempDir(false)	, 12345);			
+			startWebServer();
+			showTestPage();
+		});
+
+
+var returnValues = new Dictionary&lt;string,Object&gt;();
+returnValues.add("topPanel",topPanel);
+returnValues.add("actionsPanel",actionsPanel);
+returnValues.add("set_Values",set_Values);
+returnValues.add("copySupportFilesToServer",copySupportFilesToServer);
+returnValues.add("addFileToCompile",addFileToCompile);
+returnValues.add("supportDlls",supportDlls);
+
+
+
+return returnValues;
+ 
+//return iis7.websites();
+
+//using O2.XRules.Database.Languages_and_Frameworks.DotNet
+//O2File:MS_VS_WebServer.cs
+//O2File:WatiN_IE_ExtensionMethods.cs
+//O2Ref:WatiN.Core.1x.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -1,0 +1,122 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.clear().add_Panel();
+var topPanel = O2Gui.open&lt;Panel&gt;("OWASP Summit 2011 - Attendees Mappings", 1000,400 );
+
+var wikiApi = new OwaspWikiAPI(false);  
+var useCacheForFirstPage = true;
+
+
+
+//var fileCache = new FileCache("OWASP MediaWiki");    
+var tabs = topPanel.add_TabControl();  
+var treeView = topPanel.insert_Left&lt;Panel&gt;().add_TreeView().sort();
+var optionsPanel = tabs.insert_Above&lt;Panel&gt;(50).add_GroupBox("Options").add_Panel();
+var numberOfAttendees = optionsPanel.add_Label("Number of Attendees:");
+var textArea = tabs.add_Tab("Raw Wiki Text (cached data)").add_TextArea();
+var pageEditor = tabs.add_Tab("Edit Page (live data)").add_Control&lt;ascx_MediaWiki_PageEditor_Simple&gt;(); 
+var loadPageInEditor = false;
+optionsPanel.add_CheckBox("Load selected page in Editor", 15,200,(value)=&gt;loadPageInEditor = value).autoSize();
+optionsPanel.add_Link("reload current page",15,0,
+				()=&gt;{
+						var currentPage = treeView.selectedNode().get_Tag().str();						
+						wikiApi.WikiContentLocalCache.cacheRemove(currentPage);						
+						var wikiText = wikiApi.raw(currentPage,true);
+						textArea.set_Text(wikiText); 
+					})
+			.append_Link("clear all cache",
+				()=&gt; wikiApi.WikiContentLocalCache.clearCache());//.bringToFront();
+ 
+
+treeView.splitContainer().splitterDistance(400);                    
+          
+
+pageEditor.buildGui(wikiApi);   
+
+var pageName1 = "Template:Summit_2011_Attendee";      
+var pageName2 = "Summit_2011_Confirmed_Attendees";  
+
+
+/*var TextParsed = wikiApi.raw(":Summit_2011_Attendee_Attendee098",true);
+var grammar = new MediaWiki_Grammar();   
+var Parser = new Parser(grammar);     
+var ParseTree = Parser.Parse(TextParsed);   
+grammar.showInTreeView(treeView,ParseTree);
+return TextParsed ;
+*/
+ 
+//var pageName = "Summit 2011"; 
+//var text =  fileCache.cacheGet(pageName,()=&gt;{ return wikiApi.raw(pageName);});    
+var mappings = new WikiText_HeadersAndTemplates()
+				   .useCache(useCacheForFirstPage)
+				   .parse(wikiApi,pageName1)
+				   .parse(wikiApi,pageName2)
+				   .Templates;
+				   
+treeView.beforeExpand&lt;List&lt;string&gt;&gt;(
+	(node,templates) =&gt; {
+							node.nodes().size().str().error();
+							if(node.nodes().size()&gt;0)
+								return;
+						  	var dummyNode = node.add_Node("...");
+							O2Thread.mtaThread(
+								()=&gt;{
+										foreach(var template in templates)
+										{
+											if(template.contains("Summit_2011_Attendee"))
+											{
+												var pageName = template.split("|")[0].trim();
+												var wikiText = wikiApi.raw(pageName,true);
+												var attendeeName = wikiText.lines()[2].split("=")[1].trim();
+												if (attendeeName.valid())
+													node.add_Node(attendeeName,pageName);
+												//"done".info();
+											}
+											//break;
+										}	
+										treeView.remove_Node(dummyNode); 
+										node.nodes()[0].selected();
+										numberOfAttendees.set_Text("Number of Attendees in '{0}': {1}".format(node.get_Text(),node.nodes().size()));
+										//node.FirstNode.selected();
+									});
+									
+				 		});
+				 		
+treeView.afterSelect&lt;string&gt;(
+	(page)=&gt;{
+					//textArea.backColor(Color.DarkSalmon);
+					Application.DoEvents(); 
+					var wikiText = wikiApi.raw(page,true);
+					textArea.set_Text(wikiText);
+					if (loadPageInEditor)
+						pageEditor.loadPage(page); 
+					else
+						pageEditor.setPage(page);					
+					//textArea.backColor(Color.White);
+				});
+				
+treeView.add_Nodes(mappings);
+
+treeView.nodes()[0].expand();//.nodes();//[0].selected();
+treeView.focus();
+return mappings; 
+//var TextParsed = text;      
+//TextParsed = "bbb{{Template:Summit_2011_Attendee|aaa}}aaa";  
+
+
+
+//return ParseTree.Root.ChildNodes;  
+
+//using Irony.Interpreter 
+//return  TextParsed ;
+   
+//using Irony.Parsing;
+
+
+//O2File:OwaspWikiAPI.cs
+//O2File:FileCache.cs 
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
+//O2File:WikiText.cs
+//O2File:ascx_MediaWiki_PageEditor_Simple.cs</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - View Java Mappings",700,400); 
+topPanel.insert_LogViewer(); 
+topPanel.viewJavaMappings(null);   
+ 
+//using O2.XRules.Database.APIs.IKVM  
+//O2File:API_IKVMC.cs
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

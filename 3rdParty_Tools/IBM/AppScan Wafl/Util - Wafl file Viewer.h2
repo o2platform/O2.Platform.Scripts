@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Wafl Viewer",700,400);
+//var topPanel = panel.clear().add_Panel();
+
+wafl waflObject = null;
+
+Action&lt;Panel&gt; mapGlobalBeansDeclarations = 
+	(targetPanel)=&gt;{
+						var dataGridView = targetPanel.add_DataGridView();
+						dataGridView.add_Columns("id", "type", "lifespan");
+						
+						foreach(var objectdecl in waflObject.globalbeandecls.objectdecl)
+							dataGridView.add_Row(objectdecl.id,objectdecl.type, objectdecl.lifespan);	 
+					}; 
+
+Action&lt;Control,string&gt; loadFile = 
+	(targetPanel, file)=&gt;{
+							targetPanel.clear();
+							waflObject = wafl.Load(file); 
+							var sourceCodeViewer = targetPanel.add_SourceCodeEditor();
+							sourceCodeViewer.set_Text(file.fileContents(), ".xml"); 
+						 };
+
+//var xmlFile = @"C:\_WorkDir\IBM\IBM AppScan Source\Applications\jPetStore\jPetStore_frameworksCLI.wafl";
+topPanel.onDrop(
+	(file)=&gt;{
+				loadFile(topPanel.add_GroupBox("SourceCode view of Wafl file"), file);
+				mapGlobalBeansDeclarations(topPanel.insert_Right("Global Bean Declarations"));
+			});
+
+return topPanel.add_Label("Drop Wafl file here", 100,100).font_bold();
+
+//mapGlobalBeansDeclarations(topPanel.insert_Below("Global Bean Declarations"));
+
+
+
+ 
+//return xsdFile.xsdCreateCSharpFile();//.saveAs(xsdFile +".cs");
+ 
+
+
+return "ok";
+
+//O2File:C:\O2\O2Scripts_Database\_Scripts\3rdParty_Tools\IBM\AppScan Wafl\\wafl.cs
+//using www.ibm.com.WAFLSchema
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>"in showing HttpContext details".info();
+
+var context = System.Web.HttpContext.Current;
+if (context.notNull())
+	context.details();
+else
+	"System.Web.HttpContext.Current was null, you must run this script from an ASP.NET page".error();
+
+return "done";	</SourceCode>
+  <ReferencedAssemblies />
+</H2>

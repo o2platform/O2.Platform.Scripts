@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var tmWebServices			  = new TM_WebServices();
+
+//return tmWebServices.GetLibraries();
+
+var libraryName = ".NET 3.5";
+
+var library = tmWebServices.GetLibraryByName(libraryName);
+var guidanceItems = tmWebServices.GetGuidanceItemsInLibrary(library.id.guid());
+
+return guidanceItems;
+
+
+
+//using O2.SecurityInnovation.TeamMentor
+//O2File:TM_WebServices.cs
+//O2File:Test_TM_Config.cs
+//O2Ref:System.Web.Services.dll
+
+//O2File:_Extra_methods_Misc.cs
+//O2Tag_DontAddExtraO2Files
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>Action&lt;string&gt; openScanFile = 
+	(scanFileToLoad)=&gt;{
+							if (scanFileToLoad.fileExists())
+							{
+								var appScan =  AppScan.AppScanFactory.CreateInstance();
+								appScan.Scan.LoadScanDataAsync(scanFileToLoad);
+							}
+							
+						}; 
+
+//run this only once
+Action&lt;string&gt; configureTreeView = 
+	(sourceFolder)
+		=&gt;{
+			if (sourceFolder.dirExists().isFalse())
+				return;
+			//var sourceFolder = @"C:\_WorkDir\IBM\Altoro\AltoroJ2.1-src\WebContent";
+
+			var scanTreeView = MainForm.controls&lt;TreeView&gt;(true)[0];
+			
+			var panelBelowTreeView = scanTreeView.splitContainer().Panel2;
+			panelBelowTreeView.clear();
+			var sourceCodeViewer = panelBelowTreeView.add_SourceCodeViewer();
+			
+			scanTreeView.afterSelect&lt;TreeNodeWithPaint&gt;(
+				(treeNodeWithPaint)=&gt;
+					{
+						try
+						{			
+							var virtualFile = scanTreeView.selected().FullPath.remove(@"My Application\http://www.altoromutual.com:8080/\altoromutual\");
+							var pathToFile = sourceFolder.pathCombine(virtualFile);  
+							if (pathToFile.fileExists())
+							{
+								sourceCodeViewer.open(pathToFile);
+								if (pathToFile.extension(".jsp"))
+									sourceCodeViewer.editor().setDocumentHighlightingStrategy(".aspx");
+							}
+								else
+									sourceCodeViewer.set_Text("");
+						}
+						catch
+						{
+						}
+					}); 
+
+		};
+ 
+Action&lt;string&gt; showSourceCodeReferences = 
+	(ozasmtFile)=&gt;{
+	
+			var o2Findings = ozasmtFile.loadO2Findings(); 
+
+			var selectedFindingTabControl =  MainForm.controls&lt;TabControl&gt;(true)[1];
+			//selectedFindingTabControl.TabPages.Clear();
+
+			var allFindingsViewer =  selectedFindingTabControl.add_Tab("All SAST Findings ")
+												  .add_FindingsViewer(false);
+			var findingsMappedToFileViewer = selectedFindingTabControl.add_Tab("SAST Findings Mapped to Selecteded File")
+												 		  .add_FindingsViewer(true);
+			allFindingsViewer.show(o2Findings);
+
+			Action&lt;string&gt; showFilteredResults = 
+				(filter)=&gt;{	
+							   var filteredResults = (from o2Finding in o2Findings
+												      where o2Finding.file.contains(filter)
+												      select o2Finding).toList();
+							   findingsMappedToFileViewer.show(filteredResults);		 		   
+						 };
+			
+
+			var scanTreeView = MainForm.controls&lt;TreeView&gt;(true)[0];					   
+
+				scanTreeView.afterSelect&lt;TreeNodeWithPaint&gt;(
+					(treeNodeWithPaint)=&gt;
+						{
+							try
+							{			
+								var virtualFile = scanTreeView.selected().FullPath.remove(@"My Application\http://www.altoromutual.com:8080/\altoromutual\");
+								//var pathToFile = sourceFolder.pathCombine(virtualFile);  
+								showFilteredResults(virtualFile);
+							}
+							catch {}
+						});					
+		};
+var menuStrip =  MainForm.controls&lt;MenuStrip&gt;();  
+
+var o2Menu = menuStrip.add_MenuItem("AltoroJ");  
+o2Menu.add_MenuItem("Open AltoroJ", ()=&gt;  openScanFile("Where is the AltoroJ *.Scan file".askUser()) );
+o2Menu.add_MenuItem("Configure AltoroJ source code mapping", ()=&gt;  configureTreeView("Where is the AltoroJ source code".askUser()) );
+o2Menu.add_MenuItem("Map AltoroJ SATS findings", ()=&gt;  showSourceCodeReferences("Where is the *.ozamst assemssment File".askUser()) );
+
+return "ok";
+
+
+//using AppScan.Gui.UserControls
+//using O2.XRules.Database.Findings
+//O2Ref:appscan.exe
+//O2Ref:UserControls.dll
+//O2Ref:AppScanSDK.dll
+//O2File:Findings_ExtensionMethods.cs
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

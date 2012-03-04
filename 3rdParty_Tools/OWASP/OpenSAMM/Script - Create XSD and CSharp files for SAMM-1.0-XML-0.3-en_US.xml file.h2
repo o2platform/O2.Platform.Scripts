@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//panel.clear();
+//var topPanel = panel;
+var topPanel = O2Gui.open&lt;Panel&gt;("SAMM Xml",400,400);
+
+var xmlFile = "SAMM-1.0-XML-0.3-en_US.xml".local();
+var xsdFile = xmlFile.replace(".xml",".xsd");
+var csharpFile = xmlFile.replace(".xml",".cs");
+
+topPanel.add_SourceCodeViewer().open(xmlFile);
+
+xmlFile.xmlCreateXSD().saveAs(xsdFile);
+if (xsdFile.fileExists())
+{
+	"Created XSD for Xml File: {0}".info(xmlFile);	 
+	xsdFile.xsdCreateCSharpFile()
+		   .fileContents()
+		   .insertBefore("//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll".line())
+		   .saveAs(csharpFile);
+	if (csharpFile.fileExists())
+		"Created CSharpFile for Xml File: {0}".info(csharpFile);	
+}
+return "done";</SourceCode>
+  <ReferencedAssemblies />
+</H2>

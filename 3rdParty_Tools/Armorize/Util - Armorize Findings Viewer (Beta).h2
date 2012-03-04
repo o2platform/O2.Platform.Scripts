@@ -1,0 +1,185 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.clear().add_Panel();
+var topPanel = "Util - Armorize Findings Viewer (Beta)".popupWindow(1400,600); 
+//add local path to hacmebank 
+Action&lt;string,string,string&gt; addFileMapping =
+ (fileToMap, virtualPath, fullPath) 
+ 	=&gt;  {
+			if (SourceCodeMappingsUtils.mapFile(fileToMap).fileExists().isFalse()) 
+				new SourceCodeMappingsUtils.resolvedFileMapping("")
+										   .addMappingToCurrentListAndSaveIt(virtualPath, fullPath) ;
+ 			
+ 		};
+
+addFileMapping(@"/HacmeBank_v2.0 (7 Dec 08)/HacmeBank_v2_Website/ascx/PasswordChange.ascx.cs", @"/HacmeBank_v2.0 (7 Dec 08)",@"C:\O2\Demos\HacmeBank\HacmeBank_v2.0 (7 Dec 08)");
+addFileMapping(@"/WebGoat-5.3_RC1/tomcat/webapps/webgoat.war/WEB-INF/classes/java/org/owasp/webgoat/HammerHead.java","/WebGoat-5.3_RC1/tomcat/webapps/webgoat.war",@"C:\O2\Demos\WebGoat\WebGoat-5.3_RC1\tomcat\webapps\webgoat");
+
+
+
+var treeView = topPanel.insert_Left(100).add_TreeView(); 
+var findingsViewer = topPanel.add_FindingsViewer(true); 
+findingsViewer.setTraceTreeViewVisibleStatus(true);
+//var traceViewer = topPanel.insert_Below().add_TraceViewer();
+
+
+Action&lt;string&gt; loadFile = 
+	(fileToLoad)
+		 =&gt; {
+		 		treeView.backColor(Color.LightPink);
+		 		"Processing File: {0}".info(fileToLoad);
+		 		if (fileToLoad.fileExists().isFalse())
+		 		{
+		 			"Could not find file: {0}".error(fileToLoad);
+		 			return;
+		 		}
+		 		treeView.clear();
+		 		O2Thread.mtaThread(()=&gt;treeView.view_XmlFile_in_TreeView(fileToLoad));
+		 		
+		 		
+		 		
+		 		
+				//var xDoc = fileToLoad.xRoot();  
+				var armorize = new API_Armorize(fileToLoad); 
+	         	
+	 			var o2Timer = new O2Timer("Armorize Findings Conversion").start(); 
+				var o2Findings = new List&lt;IO2Finding&gt;();
+
+				foreach(var vulnerability in armorize.vulnerabilities())  
+				{									   
+					foreach(var traceBack in vulnerability.traceBacks())
+					{
+						//Create Finding		 				
+						var o2Finding =traceBack.vulnName().o2Finding();   
+						o2Finding.vulnType = vulnerability.vulnType();
+					
+						o2Finding.file = vulnerability.file(); 
+						o2Finding.lineNumber = vulnerability.line();   						
+						IO2Trace currentTrace = null;
+						var addTracesTo = o2Finding.o2Traces; 
+						//Add Trace			
+						foreach(var element in traceBack.elements())  
+						{			
+							var elementName = element.Name.str();			
+							switch(elementName)   
+							{ 
+								case "{http://ns.armorize.com/Traceback}fe-step":
+								case "{http://ns.armorize.com/Traceback}fr-step":
+								case "{http://ns.armorize.com/Traceback}rc-step":
+								case "{http://ns.armorize.com/Traceback}rv-step":
+								case "{http://ns.armorize.com/Traceback}vm-step":
+								case "{http://ns.armorize.com/Traceback}vo-step": 				 		
+								
+									var indent = element.indent().toUInt();
+									
+									var signature = element.sig();  
+									if (signature.inValid())
+										signature = element._name();
+									if (signature.inValid())
+										signature = element.str();
+									if (currentTrace.notNull() &amp;&amp; indent &gt; currentTrace.ordinal)
+										addTracesTo = currentTrace.childTraces;
+										
+									var newTrace = addTracesTo.add_Trace(signature); 
+									newTrace.file = element.file(); 
+									newTrace.lineNumber = element.line(); 
+									
+									newTrace.ordinal = indent;  
+									
+									var context = "indent:{0}   fun-scope:{1}    name:{2}    type:{3}"
+													.format(element.indent(),
+															element.funScope(),
+															element._name(),
+															element.name());
+																 
+									newTrace.context  = context;				 
+									
+									//if (elementName == "{http://ns.armorize.com/Traceback}fe-step")
+									if(currentTrace==null) // make the first one the source 
+										newTrace.traceType = TraceType.Source;
+									else if (elementName == "{http://ns.armorize.com/Traceback}vo-step")
+										newTrace.traceType = TraceType.Known_Sink;										
+									
+									currentTrace = newTrace;
+									break; 					
+								case "{http://ns.armorize.com/Traceback}severity": break;
+								case "{http://ns.armorize.com/Traceback}entry-point": break;
+								default:
+									"unrecognized traceBack element type:{0}".error(element.Name.str());
+									break;					
+							} 
+							
+						}		
+						o2Finding.vulnName = o2Finding.o2Traces[0].str(); 
+						o2Findings.add(o2Finding);	 		
+					}
+				}
+				o2Timer.stop();
+				findingsViewer.show(o2Findings); 		 				 		
+				treeView.backColor(Color.White);
+			}; 
+			
+treeView.onDrop(
+	(file)=&gt;{
+				switch(file.extension())
+				{
+					case ".xml":
+						loadFile(file);
+						break;
+					case ".zip":
+						"Dropped file was a zip file: {0} ".info(file);
+						var unzippedFiles = file.unzip_FileAndReturnListOfUnzipedFiles();
+						if (unzippedFiles.size()==1)						
+							loadFile(unzippedFiles[0]);
+						else
+							"There were more that 1 unzipped file".error(file);
+						break;
+					default:
+						"unsupported file type: {0}".error(file);				
+						break;
+				}					
+			});
+
+treeView.add_Node("drop Armorize Findings Xml or Zip file here");
+
+
+var baseFolder = @"C:\_WorkDir\Armorize"; 
+var zipFile = baseFolder.pathCombine(@"xmlreport@hackmebank-v2_0.zip");
+var xmlFile = baseFolder.pathCombine(@"15_18 - HacmeBank.xml");
+//var xmlFile = baseFolder.pathCombine("17_16 - webgoat-owasp-5.3RC1.xml"); 
+//loadFile(xmlFile);  
+//loadFile(zipFile );   
+
+//var resultsTreeView = findingsViewer.getResultsTreeView();
+//resultsTreeView.add_Node("as");
+ 
+
+return "ok"; 
+//return o2Finding;
+//var treeView2 = topPanel.add_TreeView().sort(); //.add_Nodes(armorize.vulnerabilites() ); 
+
+
+
+
+/*var traces = (from vulnerability in armorize.vulnerabilities()
+	          from traceBack in vulnerability.traceBacks()
+	          select traceBack.elements()).SelectMany((x)=&gt;x).toList();
+
+return (from trace in traces
+	 	select trace.Name.str()).Distinct().toList() ;   
+*/
+//topPanel.add_FindingsViewer();
+
+//treeView.insert_Below().add_PropertyGrid().show(o2Finding);
+//findingEditor.loadO2Finding(o2Finding);
+
+//findingEditor.details();
+
+
+//using O2.DotNetWrappers.O2Misc
+//using O2.XRules.Database.Findings
+//O2File:Findings_ExtensionMethods.cs
+//using O2.Interfaces.O2Findings 
+//O2File:API_Armorize.cs</SourceCode>
+  <ReferencedAssemblies />
+</H2>

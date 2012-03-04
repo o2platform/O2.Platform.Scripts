@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var astRulesPath = @"C:\O2\O2Scripts_Database\_Scripts\Languages_and_Frameworks\DotNet\DotNet_Ast_Scanner\SecurityRules_AST_DotNet";			
+
+var topPanel = O2Gui.open&lt;Panel&gt;("Util - AST Rules Editor", 800,400);
+
+var path = topPanel.insert_Above&lt;TextBox&gt;(20);
+var sourceCode = topPanel.add_SourceCodeEditor();
+
+var leftPanel = topPanel.insert_Left&lt;Panel&gt;(300);
+
+
+Action&lt;string&gt; loadFiles = 
+	(filesPath)=&gt;{
+					if (filesPath.dirExists())
+					{
+						var filesContent = new Dictionary&lt;string,string&gt;();
+						foreach(var file in filesPath.files("Rule_*.cs",true)) 
+							if (file.isBinaryFormat().isFalse()) 
+								filesContent.add(file.remove(filesPath),file.contents());
+						leftPanel.clear();
+						var treeView = leftPanel.add_TreeViewWithFilter(filesContent); 
+						treeView.afterSelect&lt;string&gt;(
+							(fileContents)=&gt;{
+												sourceCode.open(filesPath + treeView.selected().get_Text());
+											});						
+						sourceCode.colorCodeForExtension(treeView.selected().str());
+					}
+			};
+
+path.onEnter(loadFiles);
+path.onDrop(
+	(fileOrFolder)=&gt;{
+						path.set_Text(fileOrFolder);
+						loadFiles(fileOrFolder);
+					});
+
+
+path.set_Text(astRulesPath);
+loadFiles(astRulesPath); 
+
+								
+
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

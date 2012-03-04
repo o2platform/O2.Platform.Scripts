@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.clear().add_Panel();  
+var topPanel = "Poc - jQuery jsTree".popupWindow(600,200);
+ 
+var ie = topPanel.add_IE();				 
+
+ie.showMessage("loading jstree js");
+
+var jQuery = new IE_JQuery(ie);   
+
+var cssFile = @"jquery.jstree.style.css".local();
+var styleHtml =  "&lt;style type=\"text/css\"&gt; {0} &lt;/style&gt;".format(cssFile.fileContents().remove("".line()));
+var injectCSS = "$('body').append($('"  + styleHtml + "' ))";
+ie.invokeEval(injectCSS);
+
+//ie.invokeEval("http://static.jstree.com/v.1.0pre/jquery.jstree.js".uri().getHtml());  // use to get jstree from jstree.com website
+ie.invokeEval("jquery.jstree.js".local().fileContents());
+jQuery.element("div").html("creating local tree"); 
+ie.invokeEval("$('body').append($('&lt;div id=\"testJsTree\"/&gt;')); $('#testJsTree').html('test JsTree will go here');");
+
+var jsTree = new JsTree();
+jsTree.add_Node("node 1");
+jsTree.add_Node("node 2")  
+	  .add_Node("child 1") 
+	  .add_Nodes("sub child 1", "sub child 2"); 
+jsTree.add_Nodes("node 3", "node 4");
+  
+ie.invokeEval("treeData = " + jsTree.jsonString());  								// this creates a string for the serialized jsTree object
+//ie.invokeEval("treeData = { 'data' : ['firstnode' ,'2ndNode', '3rdNode' ]  }");    // this creates a tree it manually
+ie.invokeEval("jQuery('#testJsTree').jstree({ 'json_data' : treeData ,  'plugins' : [  'themes', 'json_data' , 'dnd']} );");
+
+jQuery.element("div").html("tree created"); 
+
+return "ok"; 
+//O2File:JsTreeNode.cs
+//O2File:IE_JQuery.cs
+//O2Ref:WatiN.Core.1x.dll
+//O2Ref:Microsoft.mshtml.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

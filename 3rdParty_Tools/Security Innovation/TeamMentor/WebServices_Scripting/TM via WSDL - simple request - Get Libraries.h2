@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var tmWebServices = new TM_WebServices();
+
+var libraries = tmWebServices.GetLibraries();
+
+return libraries;
+
+//O2File:TM_WebServices.cs
+//O2Ref:System.Web.Services.dll
+
+//O2Tag_DontAddExtraO2Files
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

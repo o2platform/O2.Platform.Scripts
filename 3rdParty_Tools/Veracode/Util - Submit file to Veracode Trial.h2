@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - Submit file to Veracode Trial",700,180);    
+//var topPanel = panel.clear().add_Panel(); 
+topPanel.insert_LogViewer(); 
+var _email = "o2@o2platform.com"; 
+var _fileToUpload = @"C:\O2\Demos\jPetStore - O2 Demo Pack\apache-tomcat-7.0.16\webapps\jpetstore.war"; 
+
+ 
+Action&lt;string,string&gt; submitFileToVeracode = 
+	(email, fileToUpload)=&gt;
+		{
+			var windowName= "Veracode File Upload - {0}".format(10.randomLetters());
+			var ie = windowName.popupWindow(1000,500)
+							   .add_IE().open("https://trial.veracode.com/freetrials/veracode-free-trial-signup.php");
+			 			 
+			var processId = Processes.getCurrentProcessID(); 			
+			var apiGuiAutomation = new API_GuiAutomation(processId);
+			var window = apiGuiAutomation.window(windowName);
+			"got main window".info();
+			var buttons = window.buttons();
+			"found {0} buttons".info(buttons.size());
+			buttons[1].mouse().click();
+			"clicked button".debug();
+			var selectFileWindow = apiGuiAutomation.window("Choose File to Upload");
+			selectFileWindow.textBoxes()[0].set_Text(fileToUpload);
+			selectFileWindow.button("Open").click();
+			ie.field("email",email);
+			ie.checkBoxes()[0].check();
+			ie.button("Upload").click();
+			//buttons[2].mouse().click();
+		};
+
+
+topPanel.add_TextBox("Email",_email).top(0)
+			.width(100) 
+			.onTextChange((text)=&gt;_email=text)
+		.append_Label("File to upload")
+			.autoSize()
+			.top(3)
+		.append_TextBox(_fileToUpload)
+			.onTextChange((text)=&gt;_fileToUpload=text)
+			.width(300)
+			.align_Right(topPanel);
+topPanel.add_Button(24,"Create Account and Upload File")
+		.font_bold()
+		.align_Right(topPanel)
+		.onClick(()=&gt; submitFileToVeracode(_email, _fileToUpload) );
+
+//O2File:WatiN_IE_ExtensionMethods.cs
+//using O2.XRules.Database.Utils.O2
+//O2Ref:WatiN.Core.1x.dll
+//O2File:API_GuiAutomation.cs
+//O2Ref:White.Core.dll </SourceCode>
+  <ReferencedAssemblies />
+</H2>

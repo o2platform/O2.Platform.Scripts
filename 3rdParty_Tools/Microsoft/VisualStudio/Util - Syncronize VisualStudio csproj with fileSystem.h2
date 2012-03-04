@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var baseDir =  @"C:\_WorkDir\TeamMentor\...\appHarbour_Copy\";
+var csproj = baseDir.pathCombine("TM_Website.csproj");
+
+var project = Project.Load(csproj);
+IList&lt;Project.ItemGroupLocalType.ContentLocalType&gt; targetNone =null;
+var currentContentFiles = new List&lt;string&gt;();
+foreach(var itemGroup in project.ItemGroup)
+{	
+	var contentFiles = (from none in itemGroup.Content select none).toList();	
+	//"content: {0}".info(itemGroup.Content.size());
+	foreach(var contentFile in contentFiles) 
+	{
+		targetNone = itemGroup.Content;
+		var filePath = baseDir.pathCombine(contentFile.Include);
+		if (filePath.fileExists().isFalse())
+		{
+			"file not found: {0} -&gt; {1}" .error(contentFile.Include, filePath);					
+			itemGroup.Content.Remove(contentFile);							
+		}
+		currentContentFiles.Add(filePath);
+	}
+}
+
+var appDataFiles = baseDir.pathCombine("App_Data").files("*.xml",true);
+foreach(var appDataFile in appDataFiles)
+{
+	
+	if (currentContentFiles.contains(appDataFile))
+	{
+		//"ok: {0}".info(appDataFile);
+	}
+	else
+	{
+		var virtualPath = appDataFile.remove(baseDir);
+		var contentItem = new Project.ItemGroupLocalType.ContentLocalType();
+		contentItem.Include = virtualPath;
+		targetNone.Add(contentItem);
+		"not found, so added : {0}".error(virtualPath);
+	}
+}
+//return targetNone;
+"done".info();
+
+project.Save(csproj); 
+return "ok";
+//using schemas.microsoft.com.developer.msbuild.Item2003
+//O2File:VisualStudio_2010.xsd.cs
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

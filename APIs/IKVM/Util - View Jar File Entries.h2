@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - View Jar File Entries",700,400);
+//var topPanel = panel.clear().add_Panel(); 
+
+var treeView = topPanel.add_TreeView().sort();
+ 
+Action&lt;string&gt; showJarEntries =
+	(file)=&gt;{				
+				"Loading file: {0}".info(file);
+				var jarFile = new JarFile(file);
+				var entries = jarFile.entries();
+				var zipEntries = new List&lt;ZipEntry&gt;();				
+				while (entries.hasMoreElements())
+					zipEntries.add((ZipEntry)entries.nextElement());					
+				treeView.add_Nodes(zipEntries);
+			};
+
+treeView.onDrop(
+	(fileOrFolder)=&gt;{
+						treeView.clear();
+						if (fileOrFolder.fileExists())
+							showJarEntries(fileOrFolder);
+						else
+							foreach(var file in fileOrFolder.files("*.jar"))
+								showJarEntries(file);
+					});
+
+//var jarsFolder = @"C:\O2\Demos\WebGoat\WebGoat-5.3_RC1\tomcat\webapps\webgoat\WEB-INF\lib";
+//var commons_Logging_Jar = jarsFolder.pathCombine("commons-logging-1.0.4.jar");
+//showJarEntries(commons_Logging_Jar);
+treeView.add_Node("Drop here a local Jar file or Folder (with Jars) to view its entries");
+
+//using java.util.jar
+//using java.util.zip	 
+//O2Ref:IKVM.OpenJDK.Core.dll
+//O2Ref:IKVM.OpenJDK.Util.dll
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

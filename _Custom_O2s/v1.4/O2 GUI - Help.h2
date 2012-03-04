@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>/*panel.clear();
+var topPanel = panel.add_Panel();
+topPanel.fill(false)
+		.width(800)
+		.height(170); 
+*/
+var currentVersion = "v1.4 Beta";
+var defaultWebsiteOnMainTab = "http://o2-platform.com/wiki/OWASP O2 Platform {0}".format(currentVersion);
+
+var title = "Help";
+var topPanel = O2Gui.open&lt;Panel&gt;("O2 GUI - " + title, 800,570);    
+
+topPanel.parentForm().top(60).left(60); 
+
+var logoNoShadow = "O2_Logo_no_Shadow.jpg".local(); 
+var smallLogo = "O2Logo_Small.gif".local();
+
+var ribbon = topPanel.insert_Above&lt;WPF_Ribbon&gt;(135); 
+	  
+var helpTab = ribbon.Ribbon.add_RibbonTab("Help"); //  "If you are looking for help, here are the best places to start")	  
+helpTab	.add_RibbonGroup("Website, bugs and installer") 	
+		.add_RibbonButton_Web(topPanel,"O2Platform.com website","http://www.o2platform.com")
+		.add_RibbonButton_Web(topPanel,"O2 Mailing List","https://lists.owasp.org/mailman/listinfo/owasp-o2-platform")
+		.add_RibbonButton_Web(topPanel,"Download Source Code","http://code.google.com/p/o2platform/source/checkout")
+		.add_RibbonButton_Web(topPanel,"ClickOnce .NET Installer","http://o2platform.googlecode.com/svn/O2_ClickOnce_Installers/O2_XRules_Database/index.htm")
+		.add_RibbonButton_Web(topPanel,"View O2's Bug Tracking","http://code.google.com/p/o2platform/issues/list");
+
+/*helpTab	.add_RibbonGroup("O2Platform.com Wiki Pages") 		  
+	  .add_Label("O2Platform.com Wiki Pages")
+	  .add_Link_O2Wiki("O2 Documentation","Documentation")	  	  
+	  .add_Link_O2Wiki("All Videos","O2_Videos_on_YouTube")*/
+helpTab .add_RibbonGroup("Debug O2") 		  	  
+	  	.add_RibbonButton_H2Script(topPanel,"Compile ALL Scripts","Compile All Local O2 Scripts.h2")	  
+	  	.add_RibbonButton_Script(topPanel,"Edit O2Platform.com Wiki Page","ascx_MediaWiki_PageEditor_Simple.cs")
+	  	.add_RibbonButton_H2Script(topPanel,"O2Platform.com Latest Changes","Tool - O2Platform.com WIKI Diff of Latests Changes.h2");
+		  		
+
+helpTab	.add_RibbonGroup("O2") 				 	  
+		.add_RibbonButton_H2Script(topPanel,"O2 Log Viewer","Util - LogViewer.h2")
+	    .add_RibbonButton_H2Script(topPanel,"Execute Scripts","Util - Execute O2 Scripts.h2")	   
+	    .add_RibbonButton_Script(topPanel,"O2 Command Prompt","ascx_O2_Command_Prompt.cs.o2");
+	    
+helpTab	.add_RibbonGroup("Power User") 
+	    .add_RibbonButton_H2Script(topPanel,"Power user GUI","O2 Main WPF GUI.h2")
+	  	.add_RibbonButton_Web(topPanel,"O2Platform.com ({0})".format(currentVersion),defaultWebsiteOnMainTab);
+
+
+var demos = ribbon.Ribbon.add_RibbonTab("Demos"); // "Demos: If you are unsure on where to start, check out these demos"
+demos.add_RibbonGroup("WebGoat")
+	 .add_RibbonButton_Script(topPanel,"WebGoat - BlackBox Exploits","WebGoat_BlackBox_Exploits.cs");
+demos.add_RibbonGroup("HacmeBank")	  
+	 .add_RibbonButton_Script(topPanel,"HacmeBank - Start WebServer","Wizard - Start HacmeBank.cs.o2")
+	 .add_RibbonButton_Script(topPanel,"HacmeBank - BlackBox Exploits","HacmeBank_BlackBox_Exploits.cs")
+	 .add_RibbonButton_H2Script(topPanel,"HacmeBank - Custom Scanner","HacmeBank - Custom O2 AST Security Scanner.h2")
+	 .add_RibbonButton_Script(topPanel,"HacmeBank - Map EntryPoints","Map HacmeBank Ascx EntryPoints.h2");
+/*helpTab	.add_RibbonGroup("Videos")	  	  // Mostly created using O2's Movie Editor tool, here are multiple O2 modules in action")	  
+	  .add_Link_YouTube("WebGoat: Exploits","1bbKNvyvLO0")
+	  .add_Link_YouTube("HacmeBank: start server","vucYncGiClE")
+	  .add_Link_YouTube("HacmeBank: Exploits","T2XVufhJLig")
+	  .add_Link_YouTube("Javascript: XSS PoC builder","YsVX5-nGHWI")
+	  .add_Link_YouTube("Javascript: AST Viewer","_pqY_6-P-xU")	  
+	  .add_Link_YouTube("DotNet: O2 .NET Ast Engine","j0d3F3wqfRU")
+	  .add_Link_YouTube("DotNet: Convert C#-&gt;VBNet","3eVeG2Pwa4U")
+	  .add_Link_YouTube("IE: Create a GMail account","rTD31e7HY4E");	  */
+
+
+topPanel.backColor("Control"); 
+
+topPanel.parent&lt;SplitContainer&gt;().backColor(Color.White); 
+var designerCanvas = topPanel.add_DesignerCanvas(); 
+designerCanvas.add_Label(title ,160,140).fontSize(30);     
+ 
+return "ok";
+ 
+//using Microsoft.Windows.Controls.Ribbon;
+//using WPF= System.Windows.Controls
+//using DiagramDesigner
+//O2File:WPF_Ribbon.cs 
+//O2File:WPF_Ribbon_ExtensionMethods.cs
+//O2File:DiagramDesigner_ExtensionMethods.cs
+//O2Ref:WindowsFormsIntegration.dll
+//O2Ref:O2_API_Visualization.dll
+//O2Ref:DiagramDesigner.exe
+//O2Ref:RibbonControlsLibrary.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

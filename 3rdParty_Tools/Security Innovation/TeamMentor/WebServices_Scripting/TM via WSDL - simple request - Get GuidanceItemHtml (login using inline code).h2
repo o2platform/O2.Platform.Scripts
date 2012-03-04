@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var tmWebServices			  = new TM_WebServices();
+tmWebServices.CookieContainer = new System.Net.CookieContainer();
+tmWebServices.Url 			  = Test_TM.tmWebServices;
+
+var username 	 = "reader";  
+var passwordHash = Test_TM.passwordHash_Reader;
+var sessionID  	 =  tmWebServices.Login(username, passwordHash);
+
+var guidanceItemID = "0c85a318-0c32-4417-9d72-7475bb96517e".guid();
+
+var guidanceItemHtml = tmWebServices.GetGuidanceItemHtml(guidanceItemID);
+
+return "{0}".format(guidanceItemHtml);
+
+
+//using O2.SecurityInnovation.TeamMentor
+//O2File:TM_WebServices.cs
+//O2File:Test_TM_Config.cs
+//O2Ref:System.Web.Services.dll
+
+//O2File:_Extra_methods_Misc.cs
+//O2Tag_DontAddExtraO2Files
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

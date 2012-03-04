@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>Processes.startProcess("_SearchEngine (O2 Tool).exe");
+
+//"_SearchEngine (O2 Tool).exe".type("program").invokeStatic("Main");			
+/*var o2AppDomain = new O2.Kernel.Objects.O2AppDomainFactory(10.randomLetters());
+o2AppDomain.load("O2_Kernel.dll");
+var o2Proxy = (O2Proxy)o2AppDomain.getProxyObject("O2Proxy");
+
+o2Proxy.staticInvocation("_SearchEngine (O2 Tool)", "program","Main" , new object[] {}); 	
+
+return null;*/
+
+
+//using O2.Kernel.Objects
+//using O2.Tool.SearchEngine;
+//O2Ref:_SearchEngine (O2 Tool).exe
+//O2Ref:O2_Core_FileViewers.dll
+//O2Ref:O2_Core_CIR.dll
+//O2Ref:O2_External_O2Mono.dll
+//O2Ref:O2_ImportExport_Misc.dll
+//O2Ref:O2_ImportExport_OunceLabs.dll
+//O2Ref:Mono.Cecil.Pdb.dll
+//O2Ref:Mono.Cecil.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

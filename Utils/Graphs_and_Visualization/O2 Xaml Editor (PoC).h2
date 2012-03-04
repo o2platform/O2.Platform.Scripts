@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var panel = O2Gui.open&lt;Panel&gt;("XAML Editor",800,500);
+
+panel.clear();
+var codeSamples = @"C:\O2\O2Scripts_Database\_Scripts\Utils\Graphs_and_Visualization\KaxamlSnippets.xml"; 
+
+var controls = panel.add_1x1("Code Sample","Xaml Preview", true, 250);
+var xamlViewer = controls[1].add_XamlViewer();  
+var xmlCodeBox = controls[1].add_GroupBox("Xaml code");
+var xamlCode = xmlCodeBox.add_SourceCodeViewer();
+xamlViewer.parent&lt;GroupBox&gt;().insert_Below(xmlCodeBox,200);
+
+xamlCode.onTextChanged((code) =&gt; this.sleep(500, ()=&gt;  xamlViewer.showXaml(code)));
+
+var treeView = controls[0].add_TreeView();   	  
+treeView.onDrag&lt;XElement,string&gt;((xElement)=&gt; { return xElement.value();});     
+
+var xRoot = codeSamples.xRoot();
+xRoot.elements().forEach&lt;XElement&gt;(
+	(xElement) =&gt;{
+					treeView.add_Node(xElement.attribute("Name").value(),xElement,true);					
+				 });
+				 
+treeView.beforeExpand&lt;XElement&gt;(
+	(category) =&gt;{
+					treeView.current().clear();
+					category.elements().forEach&lt;XElement&gt;( 
+						(snippet) =&gt;  treeView.current().add_Node(snippet.attribute("Name").value(),snippet));					
+				 }); 
+				 
+treeView.onDoubleClick&lt;XElement&gt;((xElement) =&gt; xamlViewer.showXaml(xElement.value()));
+
+treeView.expandAll(true);  
+
+xamlCode.editor().set_Text("&lt;StackPanel  Background=\"#DDFFFF\"&gt;".line() + 
+				  "	  &lt;TextBlock  FontWeight=\"Bold\" FontSize=\"20pt\"  Height=\"30pt\"  			".line() + 
+				  "			      Text=\"Welcome To O2's Xaml Editor (Poc)\"/&gt;	  					".line() + 
+				  "	  &lt;TextBlock  FontWeight=\"Bold\" FontSize=\"15pt\" Height=\"25pt\"  			".line() + 
+				  "	  			  Text=\"Select a code sample from the left\"/&gt;  					".line() + 
+				  "	  &lt;TextBlock  FontSize=\"10pt\" 												".line() + 
+				  "   			  Text= \"(double click to preview , drag &amp;amp; drop to use)\"/&gt;   	".line() + 
+				  "&lt;/StackPanel&gt;");
+				  
+xamlCode.editor().setDocumentHighlightingStrategy(".xml");
+
+//using System.Xml.Linq
+//using System.Linq
+//using System.Collections.Generic
+//using O2.API.Visualization.ExtensionMethods
+
+//O2File:WPF_ExtensionMethods.cs
+
+//O2Ref:System.Xml.dll
+//O2Ref:System.Xml.Linq.dll
+//O2Ref:O2_API_Visualization.dll
+//O2Ref:PresentationCore.dll
+//O2Ref:PresentationFramework.dll
+//O2Ref:WindowsBase.dll   
+//O2Ref:System.Core.dll
+//O2Ref:WindowsFormsIntegration.dll
+//O2Ref:GraphSharp.dll
+//O2Ref:QuickGraph.dll
+//O2Ref:GraphSharp.Controls.dll
+//O2Ref:ICSharpCode.AvalonEdit.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

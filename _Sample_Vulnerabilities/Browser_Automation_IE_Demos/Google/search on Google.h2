@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>panel.clear();
+var ie = panel.add_IE().silent(true);
+
+ie.open("http://www.google.com");
+ie.field("q").flash().value("OWASP O2 Platform").flash();
+ie.button("Google Search").scrollIntoView().flash().click();
+return ie.fields();
+//O2File:WatiN_IE_ExtensionMethods.cs
+//using O2.XRules.Database.Utils.O2
+//O2Ref:WatiN.Core.1x.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

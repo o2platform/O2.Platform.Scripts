@@ -1,0 +1,154 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("HacmeBank - Custom O2 .NET AST Security Scanner",1100,580);
+
+//HardCoded variables
+var hacmeBankWebSitePort = "12345";
+
+//var topPanel  = panel;
+//global objects
+var taintRules = new O2CodeStreamTaintRules();
+taintRules.add_TaintPropagator("System.Web.HttpServerUtility.HtmlDecode");  
+var o2Findings = new List&lt;IO2Finding&gt;();
+var cancelScan = false;
+O2.ImportExport.OunceLabs.OunceAvailableEngines.addAvailableEnginesToControl(typeof(ascx_FindingsViewer));
+//Canvas
+var designerCanvas = topPanel.add_DesignerCanvas();   
+
+
+// add controls to canvas   
+designerCanvas.add_Image("HameBank_Login_Page.jpg".local(),0,810,273,110);  
+
+designerCanvas.add_Label("HacmeBank - Custom O2 .NET AST Security Scanner",0,5).fontSize(30);  
+var step1_Label = designerCanvas.add_Label("step 1) drag and drop (previously created) HacmeBank's Raw Findings",80,5); 
+var step1_WinForms = designerCanvas.add_WinForms_Panel(160,5,450,100);
+var step1_RawFindings = step1_WinForms.add_FindingsViewer();
+
+var step2_Label = designerCanvas.add_Label("step 2) provide path with HacmeBank WebLayer's Ascx Controls",300,5); 
+var step2_TextBox = designerCanvas.add_TextBox("",340,5,450,20).designMode(false); 
+
+var step3_Button = designerCanvas.add_Button("step 3) Run Custom Analysis and Created Final Findings",400,5,450,30).designMode(false);  
+
+var step3_progressLabel = designerCanvas.add_Label("Analysis Status:",500,5); 
+var step3_winForms = designerCanvas.add_WinForms_Panel(500,100,350,20);
+var step3_progressBar = step3_winForms.add_ProgressBar(); 
+var step3_statusLabel = designerCanvas.add_Label("...",520,95);
+
+var step4_Label = designerCanvas.add_Label("step 3) View Findings Created",80,500,250,25);
+var step4_WinForms = designerCanvas.add_WinForms_Panel(160,500,575,380); 
+var step4_FindingsCreated = step4_WinForms.add_FindingsViewer();
+
+
+// Connections 
+//designerCanvas.connect(step1_Label, step2_Label);
+designerCanvas.add_Connection(step1_Label.designerItem(), step1_WinForms.designerItem(), "Bottom", "Top");      
+designerCanvas.add_Connection(step1_WinForms.designerItem(), step2_Label.designerItem(), "Bottom", "Top");      
+designerCanvas.add_Connection(step2_TextBox.designerItem(), step3_Button.designerItem(), "Bottom", "Top");      
+designerCanvas.add_Connection(step3_Button.designerItem(), step3_progressLabel.designerItem(), "Bottom", "Top");      
+designerCanvas.add_Connection(step3_winForms.designerItem(), step4_Label.designerItem(), "Right", "Left");      
+designerCanvas.add_Connection(step4_Label.designerItem(), step4_WinForms.designerItem(), "Bottom", "Top");      
+
+//Actons
+
+Action&lt;string&gt; loadRawFindings = 
+	(path)=&gt;{
+				//step3_statusLabel.set_Text_Wpf("Loading findings file");
+				step1_RawFindings.show(path.loadFindingsFile());
+				//step3_statusLabel.set_Text_Wpf("Loading findings file completed");
+			};
+
+Action runCustomAnalysis = 
+	()=&gt;{
+			O2Thread.mtaThread(
+				()=&gt;{
+						var pathToWebLayerAscxControls = step2_TextBox.get_Text_Wpf();	
+						if (pathToWebLayerAscxControls.dirExists().isFalse())
+						{
+							step3_statusLabel.set_Text_Wpf("Error: You must provide a valid path with HacmeBank WebLayer's Ascx Controls");
+							return; 
+						}
+						var loadedFindings = step1_RawFindings.currentO2Findings;
+						if (loadedFindings.size() ==0)
+						{
+							step3_statusLabel.set_Text_Wpf("Error: You must load HacmeBank raw findings");
+							return ;
+						}
+						
+						step3_statusLabel.set_Text_Wpf("Starting Custom HacmeBank Analysis Workflow");
+						//step1_RawFindings.show(path.loadFindingsFile());
+						
+						//step3_FindingsCreated.show(loadedFindings);
+						step3_statusLabel.set_Text_Wpf("Analysis Phase 1: Calculating the Url to EntryMethod Mappings");
+						var urlMappings = API_HacmeBank_CustomScanner.calculate_Url_to_EntryMethod_Mappings(pathToWebLayerAscxControls,hacmeBankWebSitePort, step3_progressBar);
+						
+						step3_statusLabel.set_Text_Wpf("Analysis Phase 2: Calculating WebLayer traces into WebServices (with URL as Source)");
+						var webLayerFindings  = API_HacmeBank_CustomScanner.calculate_WebLayer_tracesInto_WebServices_with_URL_as_Source(loadedFindings, urlMappings);
+						
+						step3_statusLabel.set_Text_Wpf("Analysis Phase 3: Joining WebLayer with WebServices traces (with URL as Source)");
+						var jointFindings  = API_HacmeBank_CustomScanner.join_WebLayer_traces_with_WebServices_traces(loadedFindings, webLayerFindings);
+						
+						
+						step3_statusLabel.set_Text_Wpf("Analysis Phase 4: Create SqlInjection Findings)");
+						var finalFindings  = API_HacmeBank_CustomScanner.create_SqlInjection_Findings(jointFindings);
+						step4_FindingsCreated.show(finalFindings);
+						
+						step3_statusLabel.set_Text_Wpf("Custom HacmeBank Analysis Complete");
+					});
+		};
+
+step3_Button.onClick_Wpf(()=&gt; runCustomAnalysis());
+step4_FindingsCreated.add_ContextMenu()
+					 .add_MenuItem("Save findings",
+					 	()=&gt;{
+								var targetFile = O2Forms.askUserForFileToSave(Environment.CurrentDirectory,"_o2Findings.xml");
+								if (targetFile.valid())
+									o2Findings.saveFindings(targetFile);
+							});
+
+
+//using O2.XRules.Database.Languages_and_Frameworks.DotNet;
+
+//using DiagramDesigner
+
+//using O2.Interfaces.O2Findings; 
+//using O2.Views.ASCX.O2Findings;
+//using O2.Views.ASCX.ExtensionMethods;
+//using O2.External.SharpDevelop.ExtensionMethods;
+//using O2.API.AST.CSharp;
+//using O2.API.AST.ExtensionMethods;
+//using O2.API.AST.ExtensionMethods.CSharp;
+//using WPF = System.Windows.Controls
+//using System.Windows.Media
+//using System.Windows.Media.Imaging
+//using System.Windows.Markup
+//using O2.API.Visualization.ExtensionMethods
+//using O2.API.Visualization.Xaml
+//using O2.XRules.Database.Findings
+//using O2.XRules.Database.HacmeBank
+
+//O2File:WPF_ExtensionMethods.cs
+//O2File:DiagramDesigner_ExtensionMethods.cs
+//O2File:Ast_Engine_ExtensionMethods.cs
+//O2File:Rule_DotNet_FindSources.cs 
+//O2File:Findings_ExtensionMethods.cs  
+//O2File:API_HacmeBank.cs
+
+//O2Ref:System.Web.dll
+//O2Ref:System.Xml.dll
+//O2Ref:System.Xml.Linq.dll
+//O2Ref:WindowsFormsIntegration.dll
+//O2Ref:PresentationCore.dll
+//O2Ref:WindowsBase.dll
+//O2Ref:PresentationFramework.dll
+//O2Ref:QuickGraph.dll   
+//O2Ref:GraphSharp.dll
+//O2Ref:GraphSharp.Controls.dll
+//O2Ref:ICSharpCode.AvalonEdit.dll
+//O2Ref:DiagramDesigner.exe
+//O2Ref:WatiN.Core.1x.dll
+
+//O2Ref:O2_API_Visualization.dll
+//O2Ref:O2_API_AST.dll
+//O2Ref:O2_ImportExport_OunceLabs.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

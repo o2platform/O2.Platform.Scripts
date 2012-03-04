@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - Configure for Developmenet or Production",350,250);
+//var topPanel = panel.clear().add_Panel();
+topPanel.insert_LogViewer();
+
+var webConfigFile = Test_TM.tmWebSiteFolder.pathCombine("web.config");
+var xRoot = webConfigFile.xRoot();
+
+
+Action&lt;bool&gt;   compilationDebug = (value)=&gt; xRoot.element("system.web").element("compilation").attribute("debug").value(value.str());
+Action&lt;string&gt; customErrors		= (value)=&gt; xRoot.element("system.web").element("customErrors").attribute("mode").value(value);
+
+Action runUnitTest = 
+	()=&gt;{
+			"SecurityInnovation.TeamMentor.WebClient.TM_WebServices.WebConfig.cs"
+				.local()
+				.nUnit_Run_Show_Console_on_PopupWindow();
+		};
+		
+Action configureForDevelopment = 
+	()=&gt;{
+			compilationDebug(true);
+			customErrors("Off");
+			xRoot.Save(webConfigFile);
+			"Configured TeamMentor for Development".info(); 
+			runUnitTest();
+		};
+	
+Action configureForProduction =  
+	()=&gt;{
+			compilationDebug(false);
+			customErrors("On"); 
+			xRoot.Save(webConfigFile);
+			"Configured TeamMentor for Production".info();
+			runUnitTest();
+		}; 
+		
+topPanel.add_Link		  ("Configure for Development",15, 100 ,()=&gt;	configureForDevelopment())
+		.append_Below_Link("Configure for Production", ()=&gt;	configureForProduction());
+
+topPanel.add_Link		  ("Run web.config Unit Test", 80,100 , ()=&gt;runUnitTest()); 
+ 
+
+//O2File:API_NUnit.cs
+//using O2.SecurityInnovation.TeamMentor
+//O2File:Test_TM_Config.cs
+//O2File:_Extra_methods_XmlLinq.cs
+//O2File:_Extra_methods_WinForms_Controls.cs
+//O2Tag_DontAddExtraO2Files
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

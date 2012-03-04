@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var systemDeploymentDll = "System.Deployment".assembly();
+
+var updateCheck = systemDeploymentDll.type("ApplicationDeployment").prop("CurrentDeployment");
+  
+var updateCheckInfo = updateCheck.invoke("CheckForDetailedUpdate"); 
+
+if ((bool)updateCheckInfo.prop("UpdateAvailable"))
+{
+    DialogResult dialogResult = MessageBox.Show(
+        "There is an update available for this O2 module ".line().line() +        
+        "Would you like to download the installer and update this version?",
+        "O2 Auto Update", MessageBoxButtons.OKCancel);	
+	if (DialogResult.OK == dialogResult)
+    {
+        "Update is going to be installed".info();
+        if ((bool)updateCheck.invoke("Update"))
+        { 
+        	"all done, ready for restart".info();
+        	if (DialogResult.OK == MessageBox.Show("This O2 module was successfull upgraded, please click OK to restart (note that you will lose any unsaved changes)"))
+        	{
+        		"retarting".info();        		
+        		Application.Restart();
+        		PublicDI.config.closeO2Process();
+        	}
+        }
+        else
+        {
+        	MessageBox.Show("Auto Update Failed");
+        }
+    }	
+}
+return "done";	
+//__using System.Deployment.Application
+//O2Ref:System.Deployment.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

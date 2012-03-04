@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>O2Thread.staThread(
+	()=&gt;{
+			try
+			{
+				var packetMonitorForm = new PacketMonitorForm(); // panel.add_Control&lt;PacketMonitorForm&gt;();			
+				packetMonitorForm.ShowDialog();
+			}
+			catch(Exception ex)
+			{		
+				"[PackerMonitor] got this error when starting PacketMonitorForm: {0}".error(ex.Message);
+				PublicDI.CurrentScript.executeH2_as_Admin_askUserBefore();					
+			}			
+		}); 
+
+return "ok";
+
+//using Org.Mentalis.Network.PacketMonitor
+//O2Ref:Mentalis_Tools.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

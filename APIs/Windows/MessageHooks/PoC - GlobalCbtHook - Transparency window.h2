@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>	   
+
+O2Thread.staThread(   
+	()=&gt;{
+				Application.Run(new Form1() { 
+												Text = "PoC - GlobalCbtHook - Transparency window"
+											});
+		});
+ 
+ 
+ return "done"; 
+//using TransparencyMenu
+//O2Download:GlobalCbtHook.dll
+//O2File:GlobalHooks.cs 
+//O2File:Form1.cs
+//O2File:Window.cs
+//O2File:Win32.cs </SourceCode>
+  <ReferencedAssemblies />
+</H2>

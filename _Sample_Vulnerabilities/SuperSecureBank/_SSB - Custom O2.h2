@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var title = "SuperSecureBank";  
+var ipAddress = "127.0.0.1";
+var codeFolder = @"C:\O2\Demos\SI - SuperSecureBank\SecurityInnovation-SuperSecureBank-938fde3\"; 
+var port = 1234; 
+   
+Func&lt;string&gt; getBaseUrl =
+	()=&gt;{
+			return "http://{0}:{1}/".format(ipAddress, port);
+		};
+
+Action&lt;string&gt; openO2AspxPageWithGetRequest = 
+	(page)=&gt;	{
+						var commandUrl = "{0}_O2_AspNet/{1}".format(getBaseUrl(), page); 
+						commandUrl.debug();
+						commandUrl.url().getHtml(); 
+					};
+					
+Action&lt;string&gt; openO2ServerSideControlViaAspx = 
+	(o2Control)=&gt;{
+					openO2AspxPageWithGetRequest("Open_O2_Tools.aspx?action={1}".format(port, o2Control));			
+				};
+		
+
+//var ribbon = CustomO2.create(panel.clear().add_Panel(),title); 		// use when inside 'Quick Development GUI'
+//var currentFolder =  PublicDI.CurrentScript.directoryName();
+
+var ribbon = CustomO2.create(title, 1000,300); 		// stand alone version   
+
+var ssbScripts = ribbon.add_Tab("SSB O2 Scripts");
+ssbScripts.add_Group("Utils")
+	  	  .add_Script("SSB Tool - Open AspNet Page Viewer", "SSB Tool - Open AspNet Page Viewer.h2".local())
+	  	  .add_Script("SSB Tool - Invoke WebServices via WSDL.h2", "SSB Tool - Invoke WebServices via WSDL.h2".local())
+	  	  .add_Script("SSB Tool - Configure O2 on SSB", "SSB Tool - Configure O2 on SSB.h2");	  	  	  	  
+
+
+ssbScripts.add_Group("O2 ServerSide Controls via Aspx") 
+		  .add_Button("LogViewer", ()=&gt; openO2ServerSideControlViaAspx("LogViewer"))
+		  .add_Button("ScriptEditor", ()=&gt; openO2ServerSideControlViaAspx("ScriptEditor"))
+		  .add_Button("QuickDevelopmentGui", ()=&gt; openO2ServerSideControlViaAspx("QuickDevelopmentGui"))
+	   	  .add_Button("AspNetPageRender", ()=&gt; openO2ServerSideControlViaAspx("AspNetPageRender"))
+	   	  .add_Button("Aspx Context Object", ()=&gt; openO2AspxPageWithGetRequest("Show_Aspx_Context.aspx"));;
+	  	 
+//ssbScripts.add_Group("O2 Asp.Net Tools")
+
+var exploits = ribbon.add_Tab("Exploits");
+exploits.add_Group("PoC: XSS") 
+		.add_Script("XSS on 404.aspx page", "SSB PoC - XSS on 404.aspx page.h2".local());
+
+exploits.add_Group("Creation") 
+		.add_Script("Util - XSS PoC Tester - Viewer", "Util - XSS PoC Tester - Viewer.h2".local())
+		.add_Script("Web - XSS PoC Builder", "Web - XSS PoC Builder.h2".local());
+	
+	   
+var configTab = ribbon.add_Tab("Config");
+configTab.add_Group("Server")
+		 .add_Button("Set IpAddress", ()=&gt; { ipAddress = "what is the website's IP address (or URL)".askUser(); })
+		 .add_Button("Set Port", ()=&gt; { port = "what is the website's port".askUser().toInt(); });
+configTab.add_Group("Test site")		 
+		 .add_Button("Open Website in Default Browser", ()=&gt; getBaseUrl().startProcess() ); 
+configTab.add_Group("Folders")		 		
+		.add_Button("Open Website root", ()=&gt; codeFolder.pathCombine("SuperSecureBank").startProcess())
+		.add_Button("Open WebServices root", ()=&gt; codeFolder.pathCombine("SuperSecureBankService").startProcess());
+		
+configTab.add_Group("Source Code")
+ 		 .add_Button("Open Visual Studio Project", ()=&gt; codeFolder.pathCombine("SuperSecureBank.sln").startProcess());
+		
+		 
+var otherO2Utils = ribbon.add_Tab("O2 Utils");
+otherO2Utils.add_RibbonGroup("O2 Scripting")
+			.add_RibbonButton_Script("O2 Available scripts", "Util - O2 Available scripts.h2")
+			.add_RibbonButton_Script("O2 Quick Development GUI", "ascx_Quick_Development_GUI.cs.o2");
+			
+otherO2Utils.add_RibbonGroup("IE")
+			.add_RibbonButton_Script("IE Automation","ascx_IE_ScriptExecution.cs");
+			
+otherO2Utils.add_RibbonGroup("AspX")
+			.add_Script("PreCompile Asp.Net website", "DotNet_AspNet_Compiler.cs".local())
+			.add_Script("Aspx PoC builder (start webserver)","Util - Aspx PoC Builder.h2");
+			
+otherO2Utils.add_RibbonGroup("Deployment tools")					
+			.add_Script("Sql Server Browser", "Util - SqlServer Browser.h2".local())
+			.add_Script("IIS Manager Server Browser", "Tool - IIS Browser and Admin.h2".local())
+			.add_Script("Amazon EC2 Browser", "Tool - Amazon EC2 Browser.h2".local());
+
+
+//ribbon.add_Tab_BrowserAutomation();
+ribbon.add_Tab_MiscTools();
+
+return "ok";
+
+//O2File:CustomO2.cs  
+
+//O2Ref:WindowsFormsIntegration.dll
+//O2Ref:RibbonControlsLibrary.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

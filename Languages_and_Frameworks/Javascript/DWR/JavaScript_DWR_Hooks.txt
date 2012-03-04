@@ -1,0 +1,81 @@
+/*Script to hook on DWR request and response
+ and send it back to CSharp land
+*/
+
+function o2Hooks()
+{
+	return "installed";
+}
+
+function applyHooks()
+{
+     try
+     {
+	var dwrExecutionCount = 0;	
+	var open_data = "";
+	var send_data = "";
+	var eval_data = "";
+
+	 o2Log("####### Applying Hooks");
+	
+	if (typeof(ajax_send) == "undefined")
+	{
+		o2Log("*** First time here, storing original");
+		var ajax_send= XMLHttpRequest.prototype.send;
+	    	var ajax_open= XMLHttpRequest.prototype.open;
+		var dwr_eval = dwr.engine._eval;	
+	}
+	 
+	XMLHttpRequest.prototype.send = function() 
+	{	
+		dwrExecutionCount++
+		o2Log("ajax_send:["+ dwrExecutionCount +"]:" + [].slice.call(arguments));
+		send_data = [].slice.call(arguments);
+		ajax_send.apply(this,arguments);
+	}
+	
+	XMLHttpRequest.prototype.open = function() 
+	{	
+		//o2Log("XMLHttpRequest OPEN:" + [].slice.call(arguments) + "\n");
+		open_data =  [].slice.call(arguments); 
+		ajax_open.apply(this,arguments);
+	}
+	
+	 dwr.engine._eval = function() 
+	{		
+		//o2Log("DWR eval original:" +  [].slice.call(arguments) + "\n");	
+		eval_data =  [].slice.call(arguments); 	
+		//send it here to the CSharp callback
+		window.external.ajaxLog(dwrExecutionCount , open_data, send_data, eval_data);
+
+		arguments[0] = window.external.filter(arguments[0]);
+		dwr_eval.apply(this,arguments);
+	}
+
+      }
+      catch(ex)	
+      {
+  	o2Log("ERROR: " + ex.message);
+      }	
+}
+var maxCount = 10;
+function waitForDwr()
+{
+	if (typeof(dwr) == "undefined")
+	{
+		if (maxCount-- > 0)
+		{
+			o2Log("#### Did not Found DWR");	
+			setTimeout(waitForDwr,1000);
+		}
+		else
+			o2Log("#### Stopped looking for DWR");
+	}
+	else
+	{
+		o2Log("#### Found DWR");
+		applyHooks();
+	}
+}
+waitForDwr();
+o2Log("done");		

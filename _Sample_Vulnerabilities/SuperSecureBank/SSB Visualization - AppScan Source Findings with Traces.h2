@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.clear().add_Panel();
+var topPanel = "Findings Graph".popupWindow(1000,500);
+topPanel.insert_LogViewer();
+var graph = topPanel.add_Graph();	
+//using GraphSharp.Algorithms.Layout.Simple.Tree;
+//using GraphSharp.Algorithms.Layout;
+//using QuickGraph;
+//using GraphSharp.Controls; 
+//var byGraph = new BidirectionalGraph&lt;object, IEdge&lt;object&gt;&gt;();
+
+
+//return byGraph;
+
+var findingsViewer = topPanel.insert_Left(150).add_FindingsViewer();
+
+Func&lt;IO2Trace, string &gt; getNodeText =  
+	(trace)=&gt;{	
+	
+				var signature =  new FilteredSignature(trace.signature);
+				
+				return "{0}.{1}".format(signature.sFunctionClass, signature.sFunctionName).remove("SuperSecureBank").remove("System");
+				
+				if (signature.sFunctionClass.contains("SuperSecureBank"))
+//					return "{0}.{1} [{2}]".format(signature.sFunctionClass, signature.sFunctionName, trace.lineNumber);
+					return "{0}.{1}".format(signature.sFunctionClass, signature.sFunctionName).remove("SuperSecureBank");
+				else
+					return "{0}".format(signature.sFunctionName);
+				
+				//return signature.sFunctionNameAndParams;
+			 };;
+
+
+Action&lt;IO2Trace, IO2Trace&gt; addTraceToGraph =
+	(nodeA, nodeB)=&gt;{ 
+						if (nodeB.isNull())
+							graph.add_Node(getNodeText(nodeA));
+						else
+							graph.add_Edge(getNodeText(nodeB),getNodeText(nodeA));
+					};
+
+Action&lt;IO2Finding&gt; addFindingToGraph = 
+	(o2Finding)=&gt;{					
+						IO2Trace lastTrace = null; 
+						foreach(var trace in o2Finding.allTraces())
+						{
+							addTraceToGraph(trace, lastTrace);
+							lastTrace = trace;
+						}	
+				 };
+
+
+var o2FindingsFile = @"C:\O2\Demos\SI - SuperSecureBank\O2_Data\AppScan Source\SuperSecureBank  11-4-11 1046AM.ozasmt";
+var o2Findings = o2FindingsFile.loadFindingsFile().withTraces();
+ 
+graph.tree();  
+  
+var optionsPanel = topPanel.add_GraphOptions(graph);  			  
+
+
+					
+			// GraphOptionsPanel options &amp; actions 
+						 
+			  
+//O2File:GraphSharp_ExtensionMethods.cs
+//new System.Windows.Forms.ComboBox().dropDownList()
+
+//topPanel.visible(false);
+findingsViewer.show(o2Findings);
+
+foreach(var o2Finding in o2Findings.withTraces()) 
+	addFindingToGraph(o2Finding); 
+//for(var i =0; i &lt; 24 ; i++)
+//	addFindingToGraph(o2Findings[i]); 
+ 
+graph.overlapRemovalParameters(10, 30);
+graph.defaultLayout();
+
+"done".info();
+//graph.sleep(2000);
+//graph.edgeToAll(500);
+//topPanel.visible(true);	
+ 
+
+//return o2Findings.withTraces();
+
+//graph.clear();
+
+
+
+//var topPanel = O2Gui.open&lt;Panel&gt;("{name}",700,400);
+
+
+
+
+//graph.tree();
+//graph.defaultLayout();
+//graph.showAllLayouts(2000);
+//graph.circular();
+ 
+return "ok";
+
+//using O2.Interfaces.O2Findings
+//using O2.DotNetWrappers.O2Findings 
+//using O2.DotNetWrappers.Filters
+//using O2.XRules.Database.Findings 
+//O2File:Findings_ExtensionMethods.cs
+//O2File:VerticesAndEdges_ExtensionMethods.cs
+//O2Ref:O2_API_Visualization.dll
+//O2Ref:PresentationFramework.dll
+//O2Ref:WindowsBase.dll   
+//O2Ref:System.Core.dll
+//O2Ref:WindowsFormsIntegration.dll
+//O2Ref:GraphSharp.dll
+//O2Ref:QuickGraph.dll
+//O2Ref:GraphSharp.Controls.dll
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

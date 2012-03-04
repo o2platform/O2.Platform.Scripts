@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - Copy O2 dependencies into TM dev folder",700,400);
+//var topPanel = panel.clear().add_Panel(); 
+var textArea = topPanel.add_TextArea();
+
+var tmTargetDir = Test_TM.tmWebSiteFolder.pathCombine(@"App_Code/O2_Scripts_APIs");
+var binFolder = Test_TM.tmWebSiteFolder.pathCombine(@"bin");
+ 
+topPanel.insert_Above(20).add_Label("Target Dir").append_TextBox(tmTargetDir)
+												 .align_Right(topPanel)
+												 .onTextChange((text)=&gt;tmTargetDir = text);
+
+Action&lt;string,string&gt; copyFile = 
+	(fileToCopy, targetDir)=&gt;{	
+					if (fileToCopy.fileExists())
+					{
+						Files.Copy(fileToCopy, targetDir);
+					 	textArea.append_Line("Copied file: {0}".format(fileToCopy));
+					 }
+				  };
+
+var tmUnitTestsFolder =  Test_TM.tmSourceCode.pathCombine(@"O2 Scripts\UnitTests"); 
+
+var filesToCopy = new List&lt;string&gt;() 
+		{
+			tmUnitTestsFolder.pathCombine(@"\From Previous version\HelperFiles\Authentication.cs"),
+			tmUnitTestsFolder.pathCombine(@"\From Previous version\HelperFiles\OnlineStorage.cs"),
+			tmUnitTestsFolder.pathCombine(@"\From Previous version\HelperFiles\LinqDB.cs"),
+			tmUnitTestsFolder.pathCombine(@"\From Previous version\HelperFiles\TeamMentorSecurity.cs"),
+			"_Extra_methods_Zip.cs".local(),
+			"_Extra_methods_Web.cs".local(),
+			"_Extra_methods_Misc.cs".local(),
+			"_Extra_methods_Items.cs".local(),
+			"_Extra_methods_Collections.cs".local(),
+			"TM_Gui_Objects.cs".local()
+			
+		};
+		 
+foreach(var file in filesToCopy)		
+	copyFile(file, tmTargetDir);				  
+
+copyFile("Ionic.Zip".assembly().Location, binFolder);
+
+return "ok";
+
+//using O2.SecurityInnovation.TeamMentor
+//O2File:Test_TM_Config.cs</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>panel.clear();
+
+var gitHubLogin = @"C:\O2\_USERDATA\accounts.xml".credential("github"); 
+
+var ie = panel.add_IE().silent(true);
+
+Action homePage = ()=&gt;{  ie.open("https://github.com/");};
+Func&lt;bool&gt; inGitHub = ()=&gt;  { return ie.url().contains("github.com");};
+Func&lt;bool&gt; isLoggedIn = ()=&gt; { return ie.hasLink("Log Out"); }; 
+		
+Action&lt;string,string&gt; login = 
+	(username, password) =&gt; {
+								ie.open("https://github.com/login");
+								ie.field("login").value(username);
+								ie.field("password").value(password); 
+								ie.button("Log in").click();
+							};
+							
+//TeamMentor specific
+Action issues = ()=&gt; { ie.open("https://github.com/DinisCruz/TeamMentor-v3.0/issues"); };
+
+issues();
+
+
+
+//O2File:WatiN_IE_ExtensionMethods.cs
+//using O2.XRules.Database.Utils.O2
+//O2Ref:WatiN.Core.1x.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

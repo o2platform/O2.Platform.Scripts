@@ -1,0 +1,233 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Tool - MethodStream and CodeStream Creator",900,600);
+ 
+//var topPanel = panel.clear().add_Panel();  
+topPanel.insert_Below&lt;Panel&gt;(100).add_LogViewer();
+var sourceCodeFolders = topPanel.add_GroupBox("Source Code Folders").add_TextArea();
+var references = sourceCodeFolders.insert_Below&lt;Panel&gt;().add_GroupBox("References").add_TextArea();
+var statusLabel = topPanel.insert_Below&lt;Panel&gt;(20).add_Label("").autoSize();;
+var progressBar = topPanel.insert_Below&lt;Panel&gt;(30).add_ProgressBar(); 
+
+var targetFolderFiles = topPanel.insert_Left&lt;Panel&gt;(500).add_GroupBox("Files in Target folder").add_TreeView();     
+var configPanel = targetFolderFiles.insert_Above&lt;Panel&gt;(180).add_GroupBox("Config").add_Panel();  
+
+targetFolderFiles.onDoubleClick&lt;string&gt;((file)=&gt; O2Thread.mtaThread(()=&gt;{file.showInCodeViewer();}));
+
+var cancelCreationProcess = false;
+var forceReload = false;//true;  
+var forceCreate = false;  
+var createCodeStreams = false;  
+configPanel.add_CheckBox("Force Reload of Source Code Files", 50,0,(value)=&gt; forceReload= value).autoSize();
+configPanel.add_CheckBox("Force Method Stream Creation", 70,00,(value)=&gt; forceCreate= value).autoSize(); 
+configPanel.add_CheckBox("Create Code Streams", 90,00,(value)=&gt; createCodeStreams= value).autoSize().check(); 
+
+var targetFolder = configPanel.add_TextBox("Target Folder","");
+
+Action&lt;List&lt;string&gt;&gt; addToSourceCodeFolders = 
+	(folders)=&gt; {
+					foreach(var folder in folders)
+						sourceCodeFolders.append_Line(folder);
+				};
+
+Action&lt;List&lt;string&gt;&gt; addReferences = 
+	(referencesToAdd)=&gt; {
+					foreach(var referenceToAdd in referencesToAdd)
+						references.append_Line(referenceToAdd);  
+				};
+
+ 
+Func&lt;O2MappedAstData,string,string , IMethod, string&gt; create_And_Save_MethodStream_Data = 
+ 	(astData,methodStreams_CacheLocation, file, iMethod)=&gt;{ 						  									
+ 										   	var savedMethodStream = Saved_MethodStream.Create(astData, iMethod, methodStreams_CacheLocation, false);   
+ 										   	if (createCodeStreams &amp;&amp; savedMethodStream.hasCodeStreamsMapped().isFalse())
+ 										   		savedMethodStream.codeStreams_CreateInAppDomain();   										   												
+											return "";											
+ 									    };
+ 									    
+Action&lt;O2MappedAstData,string, string&gt; createAllMethodStreamsForFile = 
+	(astData,methodStreams_CacheLocation, file)=&gt;{
+						var o2Timer = new O2Timer("Created all method streams for file: {0}".format(file)).start();
+						var allINodes = astData.FileToINodes[file];				
+						if (allINodes.NodesByType.hasKey("MethodDeclaration"))
+						{						
+							foreach(MethodDeclaration methodDeclaration in allINodes.NodesByType["MethodDeclaration"])
+							{							
+			 					var iMethod = astData.iMethod(methodDeclaration);  
+			 					var savedMethodStream = create_And_Save_MethodStream_Data(astData, methodStreams_CacheLocation,file, iMethod);	 						 				
+			 					if (cancelCreationProcess)
+									break;
+							}
+							o2Timer.stop();
+						}
+					};
+
+Action&lt;O2MappedAstData, string&gt; createMethodStreamForAllFiles = 
+	(astData, methodStreams_CacheLocation)=&gt;{
+					var files = astData.FileToINodes.keys();
+					var max = files.size(); 
+					progressBar.maximum(max);
+					progressBar.value(0);	
+					for(int i=0 ; i &lt; max ; i++)
+					{	
+						var file = files[i];
+						statusLabel.set_Text("[{0}/{1}] Creating MethodStream (and if selected the CodeStreams) for: {2}".debug(i, max,file));
+						createAllMethodStreamsForFile(astData, methodStreams_CacheLocation, file);								
+						progressBar.increment(1);
+						if (cancelCreationProcess)
+							break;
+					}
+				} ;
+
+ 
+Action&lt;string, List&lt;string&gt;, List&lt;string&gt;&gt; createMethodStreams = 
+	(methodStreams_CacheLocation, referencesToAdd, sourceCodeFoldersToProcess )=&gt; 
+		{
+			var rawMethodStreams_CacheLocation = methodStreams_CacheLocation.createDir().pathCombine("Raw");			
+			//var fileCache = new FileCache(rawMethodStreams_CacheLocation); 
+			
+			var astData = (O2MappedAstData)O2LiveObjects.get("astData");										
+			
+			if (forceReload || astData.isNull())
+			{
+				statusLabel.set_Text("Creating and populating O2MappedAstData object");
+				astData = new O2MappedAstData();
+				
+				progressBar.maximum(referencesToAdd.size());
+				progressBar.value(0);	
+				statusLabel.set_Text("Adding {0} references".info(referencesToAdd.size()));
+				foreach(var reference in referencesToAdd) 
+				{
+					progressBar.increment(1);
+					astData.O2AstResolver.addReference(reference); 
+				}				
+				var filesToLoad = new List&lt;string&gt;();	
+				foreach(var sourceFolder in sourceCodeFoldersToProcess) 
+					filesToLoad.add(sourceFolder.files("*.cs",true)); 	
+				statusLabel.set_Text("Loading {0} source code files".info(filesToLoad.size()));
+				progressBar.maximum(filesToLoad.size());
+				progressBar.value(0);	
+				foreach(var fileToLoad in filesToLoad) 
+				{
+					astData.loadFile(fileToLoad);
+					progressBar.increment(1);
+					if (cancelCreationProcess)
+						return;
+				}				
+				O2LiveObjects.set("astData", astData);
+			} 
+			else
+				statusLabel.set_Text("using Cached version of O2MappedAstData");
+			
+			createMethodStreamForAllFiles(astData, methodStreams_CacheLocation);
+			
+		};
+
+Action refreshCreatedFilesList = 
+	()=&gt;{
+			"Refreshing folder: {0}".info(targetFolder.get_Text()); 
+			targetFolderFiles.clear();
+			targetFolderFiles.add_Nodes(targetFolder.get_Text().files(), (file)=&gt; file.fileName());
+		};
+
+var createButton = configPanel.add_Button("Create Method Streams", 120,0)
+							  .align_Right(configPanel)
+							  .anchor_BottomLeftRight()
+							  .height(40); 
+
+var cancelButton = configPanel.add_Button("Cancel", 90,340)   
+						      .align_Right(configPanel)
+						      .anchor_BottomRight()
+							  .enabled(false);
+
+createButton.onClick(()=&gt;{
+							cancelButton.enabled(true);
+							createButton.enabled(false);
+							createMethodStreams(targetFolder.get_Text(),
+												 references.get_Text().trim().split_onLines(), 
+												 sourceCodeFolders.get_Text().trim().split_onLines());
+							cancelButton.enabled(false);
+							createButton.enabled(true);
+						 }); 
+
+cancelButton.onClick(()=&gt;{
+							statusLabel.set_Text("Cancel Button was clicked, stopping create process");
+							cancelCreationProcess = true;		 					
+						 });
+ 
+targetFolderFiles.insert_Above&lt;Panel&gt;(15).add_Link("refresh list below",0,0,  ()=&gt;refreshCreatedFilesList());  
+
+statusLabel.set_Text("Method and Code Streams Creator");
+
+//DemoData
+/*var sourceCodeDir = @"C:\_WorkDir\SI\GitHub\TeamMentor";  
+
+addToSourceCodeFolders(new List&lt;string&gt;()  
+							{
+								sourceCodeDir.pathCombine(@"WebProjects\WebClient")	,	
+								sourceCodeDir.pathCombine(@"Libraries\DataAccess"),
+								sourceCodeDir.pathCombine(@"Libraries\DataAccessBase"), 
+								sourceCodeDir.pathCombine(@"Libraries\UserManagementLib"),
+								sourceCodeDir.pathCombine(@"Authentication")
+							});
+targetFolder.set_Text(@"C:\_WorkDir\SI\O2 Data\WebSite_Library_MethodStreams_ALL_3"); 							
+*/
+addToSourceCodeFolders(@"C:\_WorkDir\SI\_TeamMentor-v3.0_Latest\Web Applications\TM_Website".wrapOnList());
+targetFolder.set_Text(@"C:\_WorkDir\SI\O2 Data\TM_V3_MethodStreams");
+addReferences( new List&lt;string&gt;() { "System.Web","System.Data", "System.Xml", "System.Linq" }); 
+
+refreshCreatedFilesList();
+				
+return "ok";
+
+
+
+
+							
+//var methodStreams_CacheLocation = @"C:\_WorkDir\SI\O2 Data\WebSite_Library_MethodStreams_ALL";
+
+
+ 
+// var astData= astData_LoadedFiles;
+ //astData.debugMode = true;
+ 
+
+/*Func&lt;string , IMethod, MethodDeclaration, Saved_MethodStream&gt; create_Saved_MethodStream = 
+ 	(file, iMethod, methodDeclaration) =&gt;  
+ 		{	 						    
+			var savedMethodStream = new Saved_MethodStream(astData_LoadedFiles, iMethod);     									
+					
+			return savedMethodStream;
+		}; */
+		
+
+
+//createMethodStreamForAllFiles();
+
+
+//var targetFile = astData_LoadedFiles.FileToINodes.keys()[10]; 
+//createMethodStreamForFile(targetFile);   
+
+//return "done";
+//astData_LoadedFiles.createO2MethodStream_UseCache_ReturnFile(iMethod, fileCache, ".cs");
+
+ 
+//astData_LoadedFiles.loadFiles(sourceFolder.files("*.cs",true));
+//return astData_LoadedFiles;
+
+//using ICSharpCode.SharpDevelop.Dom;
+//using ICSharpCode.NRefactory; 
+//using ICSharpCode.NRefactory.Ast;
+
+//using O2.API.AST.CSharp
+//using O2.API.AST.ExtensionMethods.CSharp
+//using O2.XRules.Database.Languages_and_Frameworks.DotNet				
+//O2File:ascx_ManualMethodStreams.cs
+//O2File:SharpDevelop_O2MappedAstData_ExtensionMethods.cs
+//O2File:Ast_Engine_ExtensionMethods.cs 
+//O2File:Saved_MethodStream.cs
+//O2File:ascx_ObjectViewer.cs
+//O2Ref:O2_API_AST.dll
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

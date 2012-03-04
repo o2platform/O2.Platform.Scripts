@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel;
+var topPanel = O2Gui.open&lt;Panel&gt;("StackOverflow API Gui (Questions, Answers and Comments", 700,400);
+
+topPanel.clear();
+
+var soApi = new API_StackOverflow();         
+//soApi.disableGzip();     				// use this when using Fiddler
+
+var browser = topPanel.add_Browser();
+var treeView = browser.insert_Left&lt;TreeView&gt;(topPanel.width()/3);   
+				 	  
+treeView.afterSelect&lt;Question&gt;((question) =&gt; browser.set_Text(question.body()));
+ 
+treeView.afterSelect&lt;Answer&gt;((answer) =&gt; browser.set_Text(answer.body()));
+
+treeView.beforeExpand&lt;Question&gt;(
+	(treeNode, question) =&gt; {
+								var answers = question.answers();
+								"There are {0} answers".info(answers.size());
+								for(int i = 0; i &lt; answers.size(); i++)
+									treeNode.add_Node("answer #{0}".format(i + 1), answers[i]);
+							});
+
+var searchText = treeView.insert_Above&lt;TextBox&gt;(25)
+						 .onEnter((text) =&gt; {
+						 						treeView.backColor(Color.LightGray);
+						 						O2Thread.mtaThread(
+						 							()=&gt;{
+						 									var searchResults = soApi.search(text); 
+															treeView.clear();
+															foreach(var question in searchResults) //("security")) 	
+																treeView.add_Node(question.title(), question,true); 
+															treeView.backColor(Color.White);
+														});
+											});
+											
+O2.DotNetWrappers.Network.Web.DefaultHttpWebRequestTimeout = 30 * 1000;
+
+searchText.sendKeys("owasp".line());
+
+
+  
+//using TheWorldsWorst.ApiWrapper
+//using TheWorldsWorst.ApiWrapper.Model
+//O2File:API_StackOverflow.cs
+//O2Ref:TheWorldsWorst.ApiWrapper.dll
+
+//using O2.External.IE.ExtensionMethods
+//O2Ref:O2_External_IE.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - Quick File Viewer",800,400);
+//var topPanel = panel.clear().add_Panel();
+var textViewer = topPanel.add_RichTextBox();  //add_SourceCodeEditor();
+var treeView = textViewer.insert_Left&lt;Panel&gt;(200).add_TreeView();
+var sourceFolder = treeView.insert_Above&lt;Panel&gt;(20).add_TextBox("Folder:   ",""); 
+var fileFilter = treeView.insert_Above&lt;Panel&gt;(20).add_TextBox("File Filter:","*.cs");
+
+treeView.afterSelect&lt;string&gt;((file)=&gt;textViewer.set_Text(file.fileContents())); 
+Action&lt;string&gt; loadFiles = 
+	(folder) =&gt;	{
+					sourceFolder.set_Text(folder);
+					treeView.clear(); 
+					foreach(var file in folder.files(true, fileFilter.get_Text())) 
+						treeView.add_Node(file.remove(folder), file);
+				};
+
+Action loadFromSourceFolder = 
+	()=&gt;{
+			loadFiles(sourceFolder.get_Text());
+		};
+
+sourceFolder.onEnter((text)=&gt; loadFiles(text));
+fileFilter.onEnter((text)=&gt; loadFromSourceFolder());
+sourceFolder.onDrop((folder)=&gt; loadFiles(folder));
+treeView.onDrop((folder)=&gt; loadFiles(folder));
+textViewer.onDrop((folder)=&gt; loadFiles(folder)); 
+textViewer.set_Text("Drag and Drop folder to open (and list files) into this GUI");
+ 
+ 
+loadFiles(PublicDI.config.LocalScriptsFolder);
+		
+				
+return "done";				
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

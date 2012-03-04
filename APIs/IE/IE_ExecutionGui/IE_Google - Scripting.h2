@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("IE Google - Scripting",1200,700);
+//var topPanel = panel.clear().add_Panel();
+
+var ie =topPanel.add_IE();
+
+var ieGoogle = new IE_Google(ie); 
+ieGoogle.homepage();   
+ieGoogle.maps();
+ieGoogle.videos();
+ieGoogle.images();
+return ie.links();
+
+//if you want to open IE_Google in the execution environment use this
+//new IE_Google("popup".popupWindow());  // 
+
+//O2File:IE_Google.cs 
+//O2Ref:WatiN.Core.1x.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

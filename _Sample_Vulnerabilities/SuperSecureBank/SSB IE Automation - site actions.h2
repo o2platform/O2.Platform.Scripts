@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = panel.clear().add_Panel();
+var ie = topPanel.add_IE_with_NavigationBar().silent(true);
+  
+var ssb = new API_SuperSecureBank(ie, true);  
+
+ssb.homePage(); 
+ssb.login("as","As");   
+  
+//O2File:API_SuperSecureBank.cs
+//O2File:WatiN_IE_ExtensionMethods.cs 
+//using O2.XRules.Database.Utils.O2
+//O2Ref:WatiN.Core.1x.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

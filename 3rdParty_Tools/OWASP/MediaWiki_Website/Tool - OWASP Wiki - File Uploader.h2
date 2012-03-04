@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var userAccount = @"accounts.xml".credential("owasp.dinis");      
+var permitedFileTypes = "vsd, odp, gif, png, jpg, jpeg, doc, ppt, mp3, pdf, psd, zip, tar, tar.gz, tar.bz2, jar, docx, pptx, xls, xlsx";
+
+//var topPanel = panel.clear().add_Panel();
+var topPanel = "Tool - OWASP Wiki - File Uploader : {0}".format(permitedFileTypes).popupWindow(1000,500);  
+topPanel.insert_LogViewer();
+
+var actionsPanel = topPanel.insert_Above(40,"Actions");
+var recentChanges = topPanel.insert_Right("Recent Changes to OWASP Wiki");  
+var filesToUpload = topPanel.insert_Left(recentChanges.width()/2, "Files To Upload").add_TreeView(); 
+var filesUploaded = topPanel.add_GroupBox("Files Uploaded").add_TextArea().wordWrap(false);
+Label messageLabel = null;
+
+var wikiApi = new OwaspWikiAPI(false); 
+
+Action showRecentChanges = `
+	()=&gt;{
+			wikiApi.add_Table_with_RecentChanges(recentChanges.clear());
+		};
+Action login = 
+	()=&gt;{
+			if (userAccount.isNull())
+				userAccount = ascx_AskUserForLoginDetails.ask();
+			
+			if (userAccount.isNull() || userAccount.UserName.inValid() )
+				messageLabel.set_Text("Error, no user provided ").textColor(Color.Red); 
+			else
+			{
+				messageLabel.set_Text("Logging in as user: {0}".format(userAccount.UserName)).textColor(Color.DarkOrange); 
+				if (wikiApi.login(userAccount.UserName, userAccount.Password))
+				{
+					messageLabel.set_Text("Logged in OK as: {0}".format(userAccount.UserName)).textColor(Color.Green); 	
+					filesToUpload.enabled(true);
+					filesUploaded.enabled(true); 
+					//showRecentChanges();
+					return;
+				}				
+				messageLabel.set_Text("Failed to Login as : {0}".format(userAccount.UserName)).textColor(Color.Red); 	
+			} 
+			userAccount = null;			
+		};
+Action&lt;string&gt; uploadFile = 
+	(fileToUpload)=&gt;{		
+						filesToUpload.add_Node(fileToUpload);
+						filesToUpload.pink();
+						O2Thread.mtaThread(
+							()=&gt;{
+									var fileUrl = wikiApi.uploadImage(fileToUpload);
+									if (fileUrl.valid())
+									{
+										filesUploaded.append_Line("Uploaded OK: {0} -&gt;".line() + 
+																  "\t{1}", fileToUpload , fileUrl);
+										messageLabel.set_Text("Uploaded file: {0}".format(fileToUpload)).textColor(Color.Black);
+										showRecentChanges();
+									}
+									else
+										filesUploaded.append_Line("Error uploading: {0}", fileToUpload);
+									filesToUpload.white();																		
+								});						
+					};
+					
+messageLabel = actionsPanel.add_Link("refresh recent changes table", ()=&gt;showRecentChanges())
+							.append_Link("Login", ()=&gt; login())
+							.append_Label("").autoSize();
+
+ 
+filesToUpload.enabled(false);
+filesUploaded.enabled(false);
+messageLabel.set_Text("To Upload files, please login");
+
+
+filesToUpload.add_Node("After login, drop file here to upload");
+filesToUpload.onDrop(
+	(fileOrDir)=&gt;
+		{
+			if(fileOrDir.dirExists())
+			 	foreach(var file in fileOrDir.files())
+			 		uploadFile(file);
+			else
+				uploadFile(fileOrDir);
+		});
+
+login();
+
+showRecentChanges();
+
+//O2File:OwaspWikiAPI.cs 
+//O2File:ISecretData.cs
+//O2File:ascx_AskUserForLoginDetails
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Tool - OWASP WIKI Diff of Latests Changes", 800,500);
+var wikiApi = new O2PlatformWikiAPI(); 
+topPanel.show_Diff_LatestChanges(wikiApi,10);  
+return wikiApi;  
+//O2File:O2MediaWikiAPI.cs 
+//O2File:O2PlatformWikiAPI.cs
+//O2Ref:O2_External_IE.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var windowTitle = "Util - File Search and Replace";
+var topPanel = O2Gui.open&lt;Panel&gt;(windowTitle,700,400);
+//var topPanel = panel.clear().add_Panel();
+var dataGridView = topPanel.add_DataGridView();
+
+var actionsPanel = dataGridView.insert_Above(100);   
+
+var sourceFolder = "";
+var searchExtension = "";
+var searchFor = "";
+var replaceWith = "";
+
+var sourceFolder_TextBox = actionsPanel.add_TextBox(0, "SourceCode Folder:", "")
+									   .left(120)
+									   .onTextChange((text)=&gt;sourceFolder = text);
+var searchExtension_TextBox = actionsPanel.add_TextBox(20, "Search Extension:", "")
+										  .left(120)
+										  .onTextChange((text)=&gt;searchExtension = text);
+var searchFor_TextBox = actionsPanel.add_TextBox(40, "Search For:", "")
+									.left(120)
+									.onTextChange((text)=&gt;searchFor = text);;
+var replaceWith_TextBox = actionsPanel.add_TextBox(60, "Replace With:", "")
+									  .left(120)
+									  .onTextChange((text)=&gt;replaceWith = text);
+
+sourceFolder_TextBox.onTextChange(
+	(text)=&gt; sourceFolder_TextBox.backColor(text.dirExists() ? Color.Azure : Color.LightPink )); 
+				
+
+Action&lt;string&gt; showSearchFor = 
+	(searchText) =&gt;	{
+						if (searchText.valid())
+						{			 
+							var searchResults = new SearchEngine()
+													.loadFiles(sourceFolder.files(searchExtension,true))
+													.searchFor(searchText);				
+							dataGridView.loadInDataGridView_textSearchResults(searchResults);  						
+						}			
+					};
+Action preview = 
+	()=&gt;{						
+			showSearchFor(searchFor);			
+		};
+		
+
+Action replace = 
+	()=&gt;{
+			if (searchFor.inValid())
+				"searchFor value was empty".error();
+			else
+			{
+				"executing search and replace".info();
+				foreach(var file in sourceFolder.files(searchExtension,true))
+				{
+					var fileContents = file.fileContents();
+					if (fileContents.contains(searchFor))
+					{
+						"found match in file: {0}".info(file);
+						fileContents = fileContents.Replace(searchFor, replaceWith);
+						fileContents.saveAs(file);
+					}
+				}
+				showSearchFor(replaceWith);
+			}
+			
+		};
+
+
+actionsPanel.add_Link("Preview",85 ,120, ()=&gt; preview())   
+		    .append_Link("Replace", ()=&gt;replace());  
+
+
+sourceFolder_TextBox.set_Text("".tempDir());
+searchExtension_TextBox.set_Text("*.cs");  
+searchFor_TextBox.set_Text("//TestText");    
+replaceWith_TextBox.set_Text("//newTestText");    
+
+topPanel.link("Preview")		
+		.click();
+
+//O2File:SearchEngine.cs
+//O2File:SearchUtils.cs</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>/*panel.clear();
+var topPanel = panel.add_Panel();
+topPanel.fill(false)
+		.width(800)
+		.height(170);  
+*/
+var title = "OWASP Projects and Website (Custom O2)";
+var topPanel = O2Gui.open&lt;Panel&gt;(title, 800,283);   
+var ribbonPanel = topPanel.insert_Above&lt;Panel&gt;(150);
+ribbonPanel.add_CustomO2_Image("owasp_logo.jpg");
+var ribbon = ribbonPanel.add_Ribbon();
+topPanel.add_LogViewer();
+ 
+var owaspWiki = ribbon.Ribbon.add_RibbonTab("OWASP Wiki");   
+
+owaspWiki.add_RibbonGroup("Tools") 				 	  
+				 .add_Script("Edit the OWASP Website","MediaWikiEditor.cs.o2") 
+				 .add_RibbonButton_H2Script("OWASP Wiki Page Edit","Tool - OWASP Wiki Page Edit.h2")
+				 .add_RibbonButton_H2Script("OWASP Wiki Latest Changes","Tool - OWASP WIKI Diff of Latests Changes.h2");  
+
+//owaspWiki.add_RibbonGroup("History of OWASP Website")
+//				 .add_RibbonButton_H2Script("Show Image Animation of OWASP content","Script - show Image animation of OWASP Content.h2");  
+
+owaspWiki.add_RibbonGroup("OWASP Summit 2011")
+	     .add_Script("OWASP Summit 2011 (Control Center)","OWASP Summit 2011 (Custom O2).h2");				 
+var openSamm = ribbon.Ribbon.add_RibbonTab("Open SAMM");    
+openSamm.add_RibbonGroup("OpenSAMM") 				 	  
+				 .add_RibbonButton_StartProcess("Open SAMM folder","SAMM-1.0-roadmap-0.3.xsd".local().directoryName(),"") 
+				 .add_RibbonButton_H2Script("view SAMM-1.0-XML-0.3-en_US.xml data","Tool - view SAMM-1.0-XML-0.3-en_US.xml data.h2")				 
+				 .add_RibbonButton_ShowCodeFile("SAMM-1.0-roadmap-0.3.xsd","SAMM-1.0-roadmap-0.3.xsd")
+				 .add_RibbonButton_ShowCodeFile("SAMM-1.0-XML-0.3-en_US.cs","SAMM-1.0-XML-0.3-en_US.cs")
+				 .add_RibbonButton_ShowCodeFile("SAMM-1.0-XML-0.3-en_US.xml","SAMM-1.0-XML-0.3-en_US.xml")
+				 .add_RibbonButton_ShowCodeFile("SAMM-1.0-XML-0.3-en_US.xsd","SAMM-1.0-XML-0.3-en_US.xsd") 
+				 //.add_RibbonButton_StartProcess("Colin's Demo Files",@"C:\O2\DemoData\OpenSamm","")
+				 .add_RibbonButton_H2Script("Tool - SVG Viewer and Editor","Tool - SVG Viewer and Editor.h2");
+
+/*var securityFacts = ribbon.Ribbon.add_RibbonTab("Security Facts"); 
+securityFacts.add_RibbonGroup("Security Facts")  
+			 .add_RibbonButton("Scorecard",()=&gt;topPanel.clear().add_Control&lt;WebBrowser&gt;().open("Security Facts.jpg".local()))
+			 .add_RibbonButton("Keys",()=&gt;topPanel.clear().add_Control&lt;WebBrowser&gt;().open("Security Facts - Keys.png".local()));
+*/
+var webGoat = ribbon.Ribbon.add_RibbonTab("WebGoat");
+webGoat.add_RibbonGroup("Exploits")   
+		.add_RibbonButton_Script("WebGoat BlackBox Exploits","WebGoat_BlackBox_Exploits.cs");
+		
+var webScarab = ribbon.Ribbon.add_RibbonTab("WebScarab");
+webScarab.add_RibbonGroup("Tools")  
+		 .add_RibbonButton_H2Script("Load and Filter saved Conversations","Tool - Load and Filter saved Conversations.h2")
+		 .add_RibbonButton_H2Script("Convert Conversations into O2Findings","Tool - Convert Conversations into O2Findings.h2");
+			
+//webScarab.add_RibbonGroup("Demo Files")  			
+//			.add_RibbonButton_StartProcess("Sample Conversation File",@"C:\O2\US_Tour\US_Tour_OWASP_Demos\OWASP WebScarab - Filtering Logs\WebScarab Logs","");
+webScarab.add_RibbonGroup("APIs")  			
+			.add_RibbonButton_StartProcess("WebScarab API files","API_WebScarab.cs".local().directoryName(),""); 
+ 
+
+
+
+				 				 
+return "ok";
+ 
+//using Microsoft.Windows.Controls.Ribbon;
+//O2File:WPF_Ribbon.cs 
+//O2File:WPF_Ribbon_ExtensionMethods.cs
+//O2Ref:WindowsFormsIntegration.dll
+//O2Ref:O2_API_Visualization.dll
+//O2Ref:RibbonControlsLibrary.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

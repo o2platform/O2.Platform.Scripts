@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>
+var manualMethodStreams = O2Gui.open&lt;ascx_ManualMethodStreams&gt;("View MethodStream",600,500);
+manualMethodStreams.buildGui();
+//using O2.XRules.Database.Languages_and_Frameworks.DotNet	
+//O2File:ascx_ManualMethodStreams.cs</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.clear().add_Panel(); 
+var topPanel = "Util - GitHub Issues".popupWindow(1000,400);
+var repository= "DinisCruz/TeamMentor-v3.0";  // SecurityInnovation/TeamMentor
+
+var gitHubIssues = new API_GitHub_Issues();  
+
+
+var actionsPanel = topPanel.insert_Above&lt;Panel&gt;(30);
+var treeView = topPanel.insert_Left&lt;Panel&gt;(200).add_TreeView(); 
+treeView.splitContainer().splitterDistance(300);
+
+
+
+Label Id = null;
+TextBox Title= null;
+TextBox Labels = null;
+TextBox Body = null;
+
+Action buildEditor = 
+	()=&gt;{
+			var editPanel = topPanel.add_GroupBox("Selected Issue").add_Panel();
+						
+			Id = editPanel.add_Label("id:").append_Label("").font_bold().left(50); 
+			Title = editPanel.add_TextBox(20 , "title:   ", "").left(50).bringToFront() ; 
+			Labels =editPanel.add_TextBox(40 , "labels:   ", "").left(50);
+			Body = editPanel.add_TextBox(60, "body: ", "").left(50)
+					.multiLine()  
+					.align_Bottom(topPanel);					
+			//var labels = 		
+		};
+		
+Action&lt;Issue&gt; showIssue = 
+	(issue)=&gt;{
+				var labels = "";
+				foreach(var label in issue.Labels)
+					labels += label+ " , " ;
+				Id.set_Text(issue.Number.str());
+				Title.set_Text(issue.Title);
+				Labels.set_Text(labels);
+				Body.set_Text(issue.Body);  
+				"showing issue: {0}".info(issue.Title);
+			 };
+			 
+Action showIssues_Open = 
+	()=&gt;{
+			treeView.showIssues(gitHubIssues.issues_open());			
+			//treeView.selectFirst().selected().nodes().first().selected(); 
+		};
+Action showIssues_Closed = 
+	()=&gt;{
+			treeView.showIssues(gitHubIssues.issues_closed());			
+		};
+		
+Action loadData =  
+	()=&gt;{
+			gitHubIssues.setupRepository(repository);		
+			gitHubIssues.login();
+			showIssues_Open();
+		};
+
+actionsPanel.add_Label("Repository").top(2)
+			.append_TextBox(repository)
+				.onEnter(
+					(text)=&gt;{
+								repository = text;
+								loadData();
+							})
+			.append_Link("Open Issues"  ,()=&gt; showIssues_Open()).top(2)
+			.append_Link("Closed Issues",()=&gt; showIssues_Closed()); 
+			 
+treeView.afterSelect&lt;Issue&gt;(showIssue);
+actionsPanel.controls&lt;LinkLabel&gt;().click();
+		 
+buildEditor();
+ 
+loadData(); 
+
+return "done";
+//using using GithubSharp.Core.Models; 
+
+//O2File:API_GitHub_Issues.cs
+//O2Ref:GithubSharp.Core.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

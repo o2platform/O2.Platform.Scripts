@@ -1,0 +1,142 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//O2Ref:WatiN.Core.1x.dll
+var topPanel = O2Gui.open&lt;Panel&gt;("Amazon S3 Browser",700,400); 
+var autoPreviewSelectedFile = false; 
+var amazonS3 = new API_AmazonS3();   
+
+topPanel.add_Label("Logging in to S3", 150,300);
+amazonS3.login();
+topPanel.clear();
+var statusLabel = topPanel.parentForm().add_StatusStrip();  
+statusLabel.set_Text("Welcome to O2's Amazon S3 Browser (click on folder to see files)"); 
+var foldersTreeView = topPanel.add_TreeView()
+						   .showSelection();
+						   
+var previewArea = foldersTreeView.insert_Right&lt;Panel&gt;(topPanel.width() /2 ).add_1x1("Selected File Url", "Selected File Contents",false, 65) ; 
+var previewPanel = previewArea[1];
+var selectFile = previewArea[0].add_TextBox().fill(); 
+previewArea[0].add_CheckBox("Auto Preview selected File (to see single files just press enter above)",40,4, (value) =&gt; autoPreviewSelectedFile = value).autoSize();  
+
+var filesTreeView = foldersTreeView.insert_Below&lt;TreeView&gt;(topPanel.height()/2) 
+								   .showSelection();   
+
+MethodInvoker refreshFolders = 
+	()=&gt;{
+			foldersTreeView.clear();
+			foldersTreeView.add_Nodes(amazonS3.folders());
+		};
+		
+MethodInvoker refreshFileView = 
+	()=&gt;{
+			amazonS3.showFilesInTreeView(filesTreeView, foldersTreeView.selected().get_Text());			
+		};		
+								   
+foldersTreeView.insert_Below&lt;Panel&gt;(25)   
+			   .add_LabelAndTextAndButton("New folder name:", "", "create",
+			   			(newFolderName)=&gt;
+			   				{
+								statusLabel.set_Text("Creating folder:{0}".format(newFolderName));
+			   					if (amazonS3.create_Folder(newFolderName).valid())
+			   					{
+			   						foldersTreeView.clear();			   						
+									foldersTreeView.add_Nodes(amazonS3.folders());	
+			   					};
+			   				}); 
+filesTreeView.onDrop(
+	(fileOrFolder)=&gt;{
+						if (fileOrFolder.isFile())
+						{
+							filesTreeView.backColor(Color.LightPink);
+							O2Thread.mtaThread(
+								()=&gt;{
+										statusLabel.set_Text("adding file:{0}".format(fileOrFolder));
+										var currentFolder = foldersTreeView.selected().get_Text();
+										amazonS3.add_S3_Object(currentFolder, fileOrFolder);
+										amazonS3.showFilesInTreeView(filesTreeView, currentFolder);							
+										statusLabel.set_Text("Done");
+										filesTreeView.backColor(Color.White);
+									});
+						}
+							
+					});
+   
+var foldersContextMenu = foldersTreeView.add_ContextMenu();
+var filesContextMenu = filesTreeView.add_ContextMenu();
+
+//menu actions  
+foldersContextMenu.add_MenuItem("Delete Folder",  
+							()=&gt;{
+									var folderToDelete = foldersTreeView.selected().get_Text();
+									if ("Are you sure you want to Delete the folder: {0}".format(folderToDelete).askUserQuestion())
+										if (amazonS3.delete_Folder(folderToDelete).valid())			   						
+										{
+											statusLabel.set_Text("Deleting folder:{0}".format(folderToDelete));
+				   							refreshFolders();
+				   						}
+								});
+ 
+filesContextMenu.add_MenuItem("Delete File",  
+							()=&gt;{
+									//filesTreeView.SelectedNode = 
+									var currentFolder = foldersTreeView.selected().get_Text();
+									var fileToDelete = filesTreeView.selected().get_Text();
+									if ("Are you sure you want to Delete the file: {0}".format(fileToDelete).askUserQuestion())									
+									{
+										statusLabel.set_Text("Deleting File:{0}".format(fileToDelete));
+										if (amazonS3.delete_File(currentFolder, fileToDelete).valid())			   						
+											amazonS3.showFilesInTreeView(filesTreeView, currentFolder);
+									}
+								});
+
+// events 
+foldersTreeView.afterSelect&lt;string&gt;(
+	(folder) =&gt;{
+					statusLabel.set_Text("Showing files in folder: {0}".format(folder));
+					refreshFileView();
+				});
+
+filesTreeView.afterSelect&lt;Uri&gt;(
+	(uri)=&gt;	{				
+				var url = uri.str(); 
+				"url: {0}".info(url);
+				statusLabel.set_Text("Showing details for file: {0} ".format(url));
+				selectFile.set_Text(url);				
+				if (autoPreviewSelectedFile)
+					amazonS3.showFileInControl(previewPanel, uri);										
+			}); 
+
+selectFile.onEnter(
+	(url)=&gt; {				
+				amazonS3.showFileInControl(previewPanel, url.uri());		
+		 	});
+
+// ContextMenu
+
+filesContextMenu.add_MenuItem("Refresh", refreshFileView);
+
+var folders = amazonS3.folders(); 
+foldersTreeView.add_Nodes(folders);	
+amazonS3.showFilesInTreeView(filesTreeView,"");
+
+
+
+
+
+//foldersTreeView.selectFirst();
+
+return "done";
+return null;
+
+
+//using O2.External.IE.ExtensionMethods
+
+//O2File:API_AmazonS3.cs
+//O2Ref:AWSSDK.dll
+//O2Ref:O2_External_IE.dll
+//O2Ref:System.Xml.dll
+//O2Ref:System.Xml.Linq.dll
+
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

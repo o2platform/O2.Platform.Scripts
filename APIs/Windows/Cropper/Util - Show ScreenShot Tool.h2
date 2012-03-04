@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>O2Thread.staThread(new O2Thread.FuncVoid(Program.Main));
+//using Fusion8.Cropper;
+//O2Ref:Cropper.exe
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

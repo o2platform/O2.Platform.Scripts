@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Root>
+  <DesignerItems>
+    <DesignerItem>
+      <Left>0</Left>
+      <Top>0</Top>
+      <Width>222</Width>
+      <Height>54</Height>
+      <ID>c40496a8-e454-4dd9-9517-9ded006b85d4</ID>
+      <zIndex>0</zIndex>
+      <IsGroup>false</IsGroup>
+      <ParentID>00000000-0000-0000-0000-000000000000</ParentID>
+      <Content>&lt;Image Source="file:///C:/O2/_tempDir/temp images/JBroFuzzDownload.png" IsHitTestVisible="False" InputMethod.IsInputMethodEnabled="True" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" /&gt;</Content>
+    </DesignerItem>
+    <DesignerItem>
+      <Left>21</Left>
+      <Top>27</Top>
+      <Width>85.999999999999986</Width>
+      <Height>23</Height>
+      <ID>53b84101-f88d-4077-b9aa-41f8a0c1a459</ID>
+      <zIndex>1</zIndex>
+      <IsGroup>false</IsGroup>
+      <ParentID>00000000-0000-0000-0000-000000000000</ParentID>
+      <Content>&lt;Image Source="file:///C:/O2/_tempDir/6-22-2010/tmp9C9.tmp.jpeg" IsHitTestVisible="False" InputMethod.IsInputMethodEnabled="True" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" /&gt;</Content>
+    </DesignerItem>
+    <DesignerItem>
+      <Left>22</Left>
+      <Top>27</Top>
+      <Width>NaN</Width>
+      <Height>NaN</Height>
+      <ID>f1b07879-d99b-40a1-8ff4-5423a04fb188</ID>
+      <zIndex>2</zIndex>
+      <IsGroup>false</IsGroup>
+      <ParentID>00000000-0000-0000-0000-000000000000</ParentID>
+      <Content>&lt;Label FontSize="10" FontStyle="Italic" IsHitTestVisible="False" InputMethod.IsInputMethodEnabled="True" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"&gt;OWASP O2 Platform v1.0 Beta&lt;/Label&gt;</Content>
+    </DesignerItem>
+  </DesignerItems>
+  <Connections />
+</Root>

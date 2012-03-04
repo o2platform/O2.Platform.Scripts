@@ -1,0 +1,118 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//panel.clear();
+//var mainGui = panel.add_Panel();
+bool applyFileAndNameSpaceFilters = true;
+var mainGui = O2Gui.open&lt;Panel&gt;("Util - Decompile ASP.NET ASPX pages compiled code", 800,600);
+var codeViewer = mainGui.add_SourceCodeViewer();
+var treeView = codeViewer.insert_Left&lt;TreeView&gt;(300)
+					     .showSelection()
+					     .sort();
+var optionsPanel = treeView.insert_Below&lt;Panel&gt;(80)
+					       .add_GroupBox("Options")
+					       .add_Panel();
+
+
+var startNamespaceFilter = "ASP";
+var targetDllFilter = "App_Web_*.dll";
+
+optionsPanel.add_Label("Namespace Filter: " + startNamespaceFilter, 0);
+optionsPanel.add_Label("Target Dll Files Filter: " + targetDllFilter, 20);
+optionsPanel.add_CheckBox("Apply Filters (on Namespace and Files)", 40,0,(value)=&gt;applyFileAndNameSpaceFilters = value)
+			.autoSize()
+			.check();
+
+Action&lt;string&gt; loadDllsFromFolder = 
+	(folderWithDlls)=&gt;{		
+			"Loading from: {0}".info(folderWithDlls);
+			var targetDlls = new List&lt;string&gt;();
+			if (folderWithDlls.fileExists()) // means it is a file and not a folder
+				targetDlls.Add(folderWithDlls);
+			else
+			{
+				treeView.clear();
+				targetDlls.AddRange((applyFileAndNameSpaceFilters) 
+										? folderWithDlls.files(targetDllFilter,true)
+										: folderWithDlls.files("*.dll",true));
+			}			
+			var targetTypes = new List&lt;TypeDefinition&gt;(); 	
+			foreach(var targetDll in targetDlls)
+			{
+				var assemblyDefinition = CecilUtils.getAssembly(targetDll);
+				foreach(var typeDefinition in CecilUtils.getTypes(assemblyDefinition))
+					if (applyFileAndNameSpaceFilters.isFalse() || startNamespaceFilter.valid().isFalse() || typeDefinition.Namespace.starts(startNamespaceFilter))
+						targetTypes.add(typeDefinition);					
+			}
+			treeView.add_Nodes(targetTypes); 
+				treeView.selectFirst();
+	};
+
+Func&lt;TypeDefinition, string&gt; getMethodCode = 
+	(typeDefinition) =&gt; {
+							var code = "";						
+							foreach(var methodDefinition in CecilUtils.getMethods(typeDefinition))
+							{
+								var sourceCode = new CecilDecompiler().getSourceCode(methodDefinition);
+								code+=sourceCode.line();
+							}
+							code = "public partial class {0}".format(typeDefinition.Name).line() +
+								   "{".line() + 
+								   code.tabRight() + 
+								   "}".lineBefore();
+								   
+							if (typeDefinition.Namespace.valid())
+							{							
+								code = "namespace {0}".format(typeDefinition.Namespace).line() +
+								   "{".line() + 
+								   code.tabRight() + 
+								   "}".lineBefore();
+							}
+							var usingStatements = "using System.Web.UI.HtmlControls;".line() + 
+												  "using System.Web.UI.WebControls;".line() + 
+												  "using System.Web.UI;".line() + 
+												  "using System.Web;".line() + 
+												  "using System.Web.Profile;".line() + 
+												  "using Microsoft.VisualBasic;".line() + 
+												  "using System.Runtime.CompilerServices;".line() + 
+												  "".line();
+							return usingStatements + code;
+					    };
+
+
+treeView.afterSelect&lt;TypeDefinition&gt;(
+	(typeDefinition)=&gt;{
+						var code = getMethodCode(typeDefinition);
+						codeViewer.set_Text(code);
+					  });
+					  
+Action&lt;string&gt; decompileAllTypesToFolder = 
+	(targetPath) =&gt; {
+						targetPath.createDir();						
+						"Decompiling all files: {0}".info(targetPath); 
+						targetPath.createDir();
+						foreach(var node in treeView.nodes())
+						{ 
+							var typeDefinition = (TypeDefinition)node.get_Tag();																			
+							var newFile = targetPath.pathCombine("{0}.{1}.cs".format(typeDefinition.Namespace.safeFileName(), typeDefinition.Name.safeFileName()));
+							"Decompiling type: {0} -&gt; {1}".info(typeDefinition, newFile);
+							var code = getMethodCode(typeDefinition);
+							code.save(newFile);
+						}
+				    };
+var tempFolder = PublicDI.config.O2TempDir.pathCombine("_DecompiledFiles");
+
+mainGui.insert_Above&lt;Panel&gt;(25)
+	   .add_LabelAndComboBoxAndButton("target folder", tempFolder, "create files", 
+					decompileAllTypesToFolder);
+
+treeView.onDrop(loadDllsFromFolder);
+
+//using O2.External.O2Mono.CecilDecompiler;
+//using O2.External.O2Mono.MonoCecil;
+//using Mono.Cecil;
+//O2Ref:Cecil.Decompiler.dll
+//O2Ref:O2_External_O2Mono.dll
+//O2Ref:Mono.Cecil.dll
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

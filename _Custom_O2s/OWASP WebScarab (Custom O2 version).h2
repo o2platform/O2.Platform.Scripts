@@ -1,0 +1,129 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//panel.clear();
+//var topPanel = panel.add_Panel(); 
+
+var pathToIE = @"C:\Program Files\Internet Explorer\iexplore.exe";
+var conversationsSavePath = @"";
+var topPanel = O2Gui.open&lt;Panel&gt;("WebScarab - Custom O2", 800,570);    
+
+var webScarab = new API_WebScarab();   
+webScarab.InputSimulator.Move_SleepValue = 10;
+topPanel.parentForm().top(60).left(60);  
+
+topPanel.parentForm().Closed += 			//O2 ext method onClosed is not working
+	(sender,e)=&gt;{
+					"Parent Form close".debug();
+					webScarab.stop();
+				};
+//var logoNoShadow = "O2_Logo_no_Shadow.jpg".local();  
+//var smallLogo = "O2Logo_Small.gif".local(); 
+
+var ribbon = topPanel.insert_Above&lt;WPF_Ribbon&gt;(135);   
+ 
+var o2Panel = topPanel.insert_Right&lt;GroupBox&gt;(300).set_Text("O2 Panel"); 
+var splitContainer = o2Panel.parent&lt;SplitContainer&gt;().panel2Collapsed(true);
+
+var webScarabTab = ribbon.Ribbon.add_RibbonTab("WebScarab");     
+webScarabTab.add_RibbonGroup("Commands") 				  
+		    .add_RibbonButton("Start WebScarab", 
+		    	()=&gt;{
+		    			webScarab.startAndSync(topPanel);		    			
+		    		})
+		    .add_RibbonButton("Restart WebScarab", ()=&gt; webScarab.restart())
+		    .add_RibbonButton("Close WebScarab Gui", 
+		    	()=&gt; { 
+		    			webScarab.stop();
+		    			//topPanel.parentForm().close();
+		    		});
+
+webScarabTab.add_RibbonGroup("Set Interface (via Gui Automation)")
+		    .add_RibbonButton("Set Interface - Lite", 
+		    	()=&gt;{
+		    			webScarab.setInterface_Lite(); 
+		    			webScarab.restart();
+		    		}) 
+		    .add_RibbonButton("Set Interface - Fully Featured", 
+		    	()=&gt;{
+		    			webScarab.setInterface_FullFeatured(); 
+		    			webScarab.restart();
+		    		});
+		    			
+webScarabTab.add_RibbonGroup("O2 Panel")
+			.add_RibbonButton_StartProcess("Open IE",pathToIE) 
+			.add_RibbonButton_StartProcess("Open Google in default browser", "http://www.google.com")
+		    .add_RibbonButton("Add IE Automation Control", 
+		    	()=&gt;{	
+		    			splitContainer.panel2Collapsed(false);
+		    			splitContainer.distance(splitContainer.width()/2);		    			
+		    			o2Panel.clear();
+		    			var script = o2Panel.add_Script(false);
+		    			var initialScript = "var ie = \"about:blank\".ie();".line()+
+											"ie.open(\"http://www.google.com\"); ".line()+
+											"ie.field(\"q\",\"O2 and WebScarab\");".line()+
+											"ie.button(\"Google Search\").click();".line()+
+											"ie.closeInNSeconds(4); ".line()+
+											"//O2File:WatiN_IE_ExtensionMethods.cs".line()+
+											"//using O2.XRules.Database.Utils.O2".line()+
+											"//O2Ref:WatiN.Core.1x.dll".line()+
+											"//O2Ref:O2_External_IE.dll".line();
+						script.onCompileExecuteOnce();
+						script.set_Command(initialScript);			
+		    		});
+
+
+var conversationsTab = ribbon.Ribbon.add_RibbonTab("Conversations (Load, Save, Analyze)");     
+
+var saveDataGroup = conversationsTab.add_RibbonGroup("Save Data (via Gui Automation)");
+var saveConversationPath  = saveDataGroup.add_RibbonTextBox("Save conversations to", conversationsSavePath,200);
+saveDataGroup.add_RibbonButton("Save converstations (Gui Automation)",  
+				    	()=&gt;{ 		    			
+				    			conversationsSavePath = saveConversationPath.get_Text_Wpf();  
+				    			if (conversationsSavePath.valid().isFalse())
+				    			{ 
+				    				conversationsSavePath = "_WebScarab_Conversations".tempDir();
+				    				Files.deleteFolder(conversationsSavePath);
+				    				saveConversationPath.set_Text_Wpf(conversationsSavePath);   
+				    			}		    					    			
+				    			webScarab.saveConversations(topPanel,conversationsSavePath);
+				    		})
+		     .add_RibbonButton("Open Saved Conversations Folder",
+			    		()=&gt; Processes.startProcess(saveConversationPath.get_Text_Wpf()));
+
+conversationsTab.add_RibbonGroup("Load Data (via Gui Automation)")
+			    .add_RibbonButton("Load converstations (Gui Automation)", 
+			    		()=&gt;{
+			    				conversationsSavePath = saveConversationPath.get_Text_Wpf();  
+				    			if (conversationsSavePath.valid().isFalse())
+				    			{ 
+				    				"The conversationsSavePath is not set".error();
+				    				return;
+			    				}
+			    				"Loading WebScarab conversations from: {0}".info(conversationsSavePath);
+			    				webScarab.loadConversations(topPanel, conversationsSavePath);			
+			    			});
+
+conversationsTab.add_RibbonGroup("Tools")
+				.add_RibbonButton_H2Script("Convert Conversations into O2Findings","Tool - Convert Conversations into O2Findings.h2")
+				.add_RibbonButton_H2Script("Tool - Load and Filter saved Conversations.","Tool - Load and Filter saved Conversations.h2");
+				
+				
+
+var adminDevTab = ribbon.Ribbon.add_RibbonTab("Admin/Dev");     
+adminDevTab.add_RibbonGroup("O2 Gui Actions")
+		   .add_RibbonButton("WebScarab Window - Always on Top Enabled ", ()=&gt; webScarab.alwaysOnTop(true))
+		   .add_RibbonButton("WebScarab Window - Always on Top Disabled ", ()=&gt; webScarab.alwaysOnTop(false));
+webScarab.startAndSync(topPanel);	 
+				 
+return webScarab; 
+
+//O2File:API_WebScarab.cs 
+//O2File:ascx_IE_ScriptExecution.cs
+//O2File:WPF_Ribbon.cs
+//O2Ref:WindowsFormsIntegration.dll
+//O2Ref:RibbonControlsLibrary.dll
+//O2Ref:O2_API_Visualization.dll
+
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

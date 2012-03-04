@@ -1,0 +1,126 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//panel.clear(); 
+    
+/*var vStudio = new API_VisualStudio_2010().attach();     
+API_GuiAutomation.Mouse_Move_SleepValue = 1;  
+API_GuiAutomation.Mouse_Move_SkipValue = 5;    
+ 
+
+vStudio.VS_MainWindow.syncWithControl(panel);  
+  
+//vStudio.close_Solution(); 
+vStudio.close_VisualStudio(); 
+//vStudio.VS_MainWindow.alwaysOnTop(false);
+//vStudio.show_PropertiesWindow();
+//vsStudio.run();
+//var localUrl= vStudio.localWebsiteUrl();
+
+//panel.add_WebBrowser_Control().open(localUrl);  
+//return vStudio.localWebsiteUrl();
+
+*/
+
+//return "done";
+
+//vStudio.VS_MainWindow.menu_Click("View","Properties Window"); 
+//vStudio.VS_MainWindow.menu("View").mouse().click()
+//	           		 .menu().mouse().click(); 
+//vStudio.close_Solution();
+//vStudio.open_Solution(solutionPath); 
+
+
+
+//vStudio.solution_SaveAs(solutionPath);   
+//vStudio.openWebSite(websiteToOpen,true);  
+//return "ok";
+
+ 
+//vStudio.saveFileAs(true); 
+							 
+/*   
+ 
+*/				     
+//vStudio.close();
+//return vStudio.VS_MainWindow.menus();
+
+//return vStudio.VS_MainWindow.find&lt;White.Core.UIItems.MenuItems.Menu&gt;("File").mouse(); 
+//return  vStudio.VS_MainWindow.GetMenuBar(SearchCriteria.All).mouse(); 
+
+//using White.Core.UIItems.Finders;
+//vStudio.move(600,0,400,300);   
+//return vStudio.VS_Process.windows();  
+//return vStudio.VS_MainWindow.menuBars()[0].TopLevelMenu[0];
+//vStudio.VS_MainWindow.button("New Project").mouse().click();//"New Project").mouse();//.names();  
+ 
+//using White.Core.UIItems.WindowStripControls
+//using White.Core.UIA; 
+
+//vStudio.closeInNSeconds(2);
+//return vStudio.VS_MainWindow.items();//.names();  
+//"Start Page - Microsoft   
+//mainWindow.Title.str().info();
+//mainWindow.move(500,50,400,400);  
+//vsProcess.TargetProcess.closeInNSeconds(5);  
+//vsProcess.moveWindow(50,50,300,300);[DefaultSelection : StartPosition=(Line 44, Col 38), EndPosition=(Line 44, Col 40)]
+
+//return "ok";
+
+
+API_VisualStudio_2010 vStudio = null;
+
+Action&lt;bool&gt; startOrAttach = 
+	(tryAttach)=&gt;{
+			if (tryAttach)
+			 	vStudio = new API_VisualStudio_2010().attach();
+			 else
+			 	 vStudio = new API_VisualStudio_2010().start();
+						
+			vStudio.bringToFront();
+			vStudio.move(10,200,800,300); 
+			
+		};
+var title = "Visual Studio 2010";  
+
+var baseFolder = PublicDI.config.O2TempDir.pathCombine("..\\_Temp_Visual_StudioProjects");
+var projectFolder = "Test Project";
+var websiteToOpen = baseFolder.pathCombine(projectFolder).createDir();
+var solutionPath = websiteToOpen.pathCombine(projectFolder + ".sln"); 
+
+ 
+var ribbon = CustomO2.create(title); 		// stand alone version
+//var ribbon = CustomO2.create(panel.clear().add_Panel(),title); 		// use when inside 'Quick Development GUI'
+
+  
+ribbon.add_Tab("Visual Studio") 
+	  .add_RibbonGroup("Start")
+	  .add_RibbonButton("Start Visual Studio", ()=&gt; startOrAttach(false))	 		  
+	  .add_RibbonButton("Attach Visual Studio", ()=&gt; startOrAttach(true))
+	  .add_RibbonButton("Close Visual Studio", ()=&gt; vStudio = new API_VisualStudio_2010().close()); 
+
+ribbon.tab("Visual Studio");
+//	  .add_Group("
+
+ribbon.tab("Visual Studio")
+	  .add_Group("Test Files") 
+	  .add_Button_Open_Folder("Temp folder with projects", baseFolder); 
+
+
+
+
+//ribbon.add_Tab_BrowserAutomation();
+ribbon.add_Tab_MiscTools();
+
+return "ok";
+
+//O2File:CustomO2.cs  
+//O2File:API_VisualStudio_2010.cs
+
+//O2Ref:WindowsFormsIntegration.dll
+//O2Ref:RibbonControlsLibrary.dll 
+//O2Ref:White.Core.dll
+//O2File:API_GuiAutomation.cs
+
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>
+var topPanel = O2Gui.open&lt;Panel&gt;("TM Config Central",700,250);
+//var topPanel = panel.clear().add_Panel();
+
+topPanel.insert_LogViewer(); 
+
+topPanel.add_Label("",20,20)
+		.append_Link("Edit Test_TM_Config.cs", ()=&gt; "Test_TM_Config.cs".local().showInCodeEditor())
+		.append_Below_Link("Edit TmConfig.config file", ()=&gt; Test_TM.tmConfigFile.showInCodeEditor())
+		.append_Below_Link("Start Website" , ()=&gt; { new Test_TM_Setup().startServer(); } )
+			.append_Link("Open Homepage in Browser", ()=&gt; Test_TM.tmServer.startProcess() )
+		.append_Below_Link("Util - TeamMentor Library Browser", "Util - TeamMentor Library Browser (direct API access).h2".local()).left(25);
+
+
+
+//topPanel.add_Link("TeamMentor- Custom O2", 50,300, ()=&gt; executeH2Script(@"Tools and Utils\TeamMentor- Custom O2.h2"));
+//topPanel.add_Link("TeamMentor- IE Automation", 70,300, ()=&gt; executeH2Script(@"Tools and Utils\TeamMentor- IE Automation.h2"));
+
+topPanel.add_Label("",20,300)		
+		.append_Link("NotepadXX (TeamMentor Edition)", "NotepadXX (TeamMentor Edition).h2".local())
+		.append_Below_Link("Run TM UnitTests", "Util - Run TM UnitTests.h2".local())		
+		.append_Below_Link("Util - Configure for Developmenet or Production", "Util - Configure for Developmenet or Production.h2".local())
+		.append_Below_Link("Util - Run WSCA on TeamMentor", "Util - Run WSCA on TeamMentor.h2".local()) 
+		.append_Below_Link("TeamMentor - GitHub Browser",  @"Tool - TeamMentor - GitHub Browser.h2".local())
+			.append_Link("TeamMentor - Issues at GitHub", ()=&gt; new API_GitHub_Issues().showEditor("SecurityInnovation/TeamMentor"));	  
+			
+
+return topPanel;
+//using  O2.SecurityInnovation.TeamMentor
+//O2File:Test_TM_Config.cs
+//O2File:Test_TM_Setup.cs
+//O2File:API_GitHub_Issues.cs</SourceCode>
+  <ReferencedAssemblies />
+</H2>

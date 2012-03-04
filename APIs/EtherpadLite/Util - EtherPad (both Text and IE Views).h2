@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - EtherPad (both Text and IE Views)",700,400); 
+//var topPanel = panel.clear().add_Panel();
+
+var etherPad = new API_EtherpadLite();
+ 
+var actionsPanel = topPanel.insert_Above(40,"actions");
+/*topPanel.insert_Right(250,"API_EtherpadLite") 
+	    .add_PropertyGrid() 
+	    .show(etherPad);*/
+
+var ie = topPanel.insert_Right("IE view").add_IE();
+
+var padText = topPanel.add_GroupBox("Text view")
+				      .add_TextArea()
+					  .onTextChange( (text)=&gt; O2Thread.mtaThread(()=&gt; etherPad.set_Text(text)));;		    
+
+
+
+Action refresh = 
+	()=&gt;{
+			padText.set_Text(etherPad.contents().fixCRLF());
+			if (ie.url().isNull() || ie.url() != etherPad.pad_Url())
+				ie.open_ASync(etherPad.pad_Url());
+		};
+
+etherPad.open_Pad("O2_Test_Pad");
+actionsPanel.add_Label("Current Pad").top(2)
+		    .append_TextBox(etherPad.CurrentPad).onTextChange((text)=&gt; etherPad.CurrentPad = text)
+		    .append_Link("refresh", ()=&gt; refresh());
+
+refresh();
+
+return "ok";
+
+
+//var ie = topPanel.add_IE(); 
+//ie.open("about:test");
+var currentText = etherPad.get_Text();
+"currentText: {0}".info(currentText);
+etherPad.set_Text("this is a live test");
+var padUrl = "http://{0}/p/{1}".format(etherPad.Host, etherPad.CurrentPad);
+
+return ie.open_ASync(padUrl);
+
+
+
+return etherPad.open_Pad("aaas").set_Text("asdasd").get_Text(); 
+
+return "ok";  
+
+
+var host = "beta.etherpad.org";
+var apiKey = "EtherpadFTW";
+var EtherpadLite = new EtherpadLiteDotNet(apiKey,host);  
+
+//var groupId = EtherpadLite.CreateGroup().Data.GroupID;   
+//var authorId = EtherpadLite.CreateAuthor("an author").Data.AuthorID;
+
+var padName = "testPad_HBBZG";
+return EtherpadLite.GetText(padName).Data;
+//return EtherpadLite.CreatePad(padName);
+return EtherpadLite.GetRevisionsCount(padName).Data.Revisions;
+//return EtherpadLite.DeletePad("testPad_1");
+return "ok";
+//EtherpadLite.CreateGroupPad(groupId, "testPad11","text");
+//return EtherpadLite.ListPads(groupId).Data.PadIDs;
+
+//using using Etherpad;
+//O2File:API_EtherpadLite.cs 
+//O2Ref:WatiN.Core.1x.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

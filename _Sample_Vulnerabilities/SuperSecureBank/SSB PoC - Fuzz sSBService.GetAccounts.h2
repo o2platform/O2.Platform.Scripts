@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("SSB PoC - Fuzz sSBService.GetAccounts",1000,400);
+//var topPanel = panel.clear().add_Panel();
+var dataGridView = topPanel.add_DataGridView();
+var treeView = topPanel.insert_Left(200).add_TreeView();
+
+Func&lt;long, DataTable&gt; getUser = 
+	(userId)=&gt;{
+				var sSBService = new SSBService();
+				var userID = userId; 
+				var userIDSpecified = true;
+				return sSBService.GetAccounts(userID ,userIDSpecified );
+				};
+				
+//return getUser(1);
+Action&lt;int, DataTable&gt; mapResult = 
+	(id, dataTable)=&gt;{
+					if (dataTable.Rows.size() &gt; 1)
+						treeView.add_Node("id: {0} - {1} rows".format(id, dataTable.Rows.size()), dataTable)
+								.selected(); 
+				 };
+				 
+treeView.afterSelect&lt;DataTable&gt;(
+	(dataTable)=&gt;{
+					"here".info();
+					dataGridView.dataSource(dataTable);
+				 });
+				 
+
+Action&lt;int, int&gt; fuzzRequest = 
+	(start, end) =&gt;{
+						
+						for(int i=start ; i &lt; end ; i++)
+						{
+							"fuzzing sSBService.GetAccounts with value: {0}".info(i);
+							mapResult(i, getUser(i));
+						}
+				 	};
+
+
+fuzzRequest(1,100);
+
+
+return  "ok";
+
+
+//using System.Data;
+//O2File:SSBService.cs
+//O2Ref:System.Web.Services.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

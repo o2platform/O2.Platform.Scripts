@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.clear().add_Panel();
+var topPanel = "Uil - Login to Starbucks via BTOpenZone".popupWindow(800,400);
+var ie = topPanel.add_IE_with_NavigationBar().silent(true);
+Action&lt;string,string&gt; loginOnStarbucksViaByOpenZone = 
+	(username, password)=&gt;{
+							ie.field("username").value(username);
+							ie.field("password").value(password);
+							ie.checkBox("termsCheckBox").check(); 
+							ie.button("Login").click(); 
+						  };
+var fileWithLoginDetails = @"C:\O2\_USERDATA\accounts.xml";
+
+var credential = fileWithLoginDetails.credential("Starbucks");			  
+
+ie.open("https://www.btopenzone.com:8443/sbuxLoyaltyAnteLogon?info=eu"); 
+var clickHereLink = (from link in ie.links() 
+		 	where link.text().regEx("Click.here")
+		 	select link).first();
+clickHereLink.click(); 
+
+loginOnStarbucksViaByOpenZone(credential.UserName, credential.Password); 
+
+//O2File:WatiN_IE_ExtensionMethods.cs
+//using O2.XRules.Database.Utils.O2
+//O2Ref:WatiN.Core.1x.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

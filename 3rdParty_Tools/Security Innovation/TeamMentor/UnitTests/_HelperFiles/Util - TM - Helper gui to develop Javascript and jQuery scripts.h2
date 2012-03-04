@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>
+"ie_Object_".o2Cache(null);
+var ie = "ie_Object_".o2Cache&lt;WatiN_IE&gt;( 
+			()=&gt;{
+					var topPanel = panel.clear().add_Panel();
+					var _ie = topPanel.clear().add_IE().silent(false);
+					
+					var jQueryText = topPanel.insert_Below(200,"jQuery/Javascript")
+											 .add_SourceCodeViewer().maximizeViewer();											 
+					var executeJQuery = jQueryText.insert_Left(100).add_Button("Execute Javascript").fill().font_bold(); 
+					
+					executeJQuery.onClick(
+						()=&gt;{ 
+								var scriptToExecute = jQueryText.editor().getSourceCode();
+								"executing script with size: {0}".info(scriptToExecute.size());
+								_ie.eval(scriptToExecute);
+							});
+
+					return _ie;
+				});
+
+//ie.open(Test_TM.tmServer);
+//return "ok";
+ie.open(Test_TM.tmEmptyPage);
+
+var  testTmIE = new Test_TM_IE();
+testTmIE.set_IE_Object(ie);
+
+
+//ie.open(Test_TM.tmServer + "Javascript/_Javascript_Loaders/jQuery_tmWebServices.html?time="+ DateTime.Now.Ticks);
+
+testTmIE.load_Javascript_jQuery() 
+  	    .load_Javascript_TM_WebServices();
+"fetching GuiObjects".jQuery_Append_Body(ie);
+ie.eval("TM.WebServices.WS_Data.getGUIObjects()");
+//ie.eval("alert(TM.WebServices.Data.GuiObjects)");
+ie.waitForJsVariable("TM.WebServices.Data.GuiObjects"); 
+"got GuiObjects".jQuery_Append_Body(ie);
+var uniqueStrings = ie.getJsVariable("TM.WebServices.Data.GuiObjects.UniqueStrings");
+var guidanceItemsMappings =  ie.getJsVariable("TM.WebServices.Data.GuiObjects.GuidanceItemsMappings");
+
+ie.getJsVariable("TM.WebServices.Data.GuiObjects"); 
+
+"after".info();
+"okish".jQuery_Append_Body(ie);
+
+//ie.injectJavascriptFunctions(true); 
+
+
+//ie.eval("TM.WebServices.WS_Utils.getTime(function(data) { TM.getTimeValue = data.d });");
+//ie.eval("TM.WebServices.WS_Data.getGUIObjects(function() {})");
+//ie.waitForJsVariable("TM.WebServices.Data.lastDataReceived");   
+//return ie.getJsVariable("TM.WebServices.Data.lastDataReceived");
+//ie.eval("allStrings =''; jQuery.each(TM.WebServices.Data.lastDataReceived.d.UniqueStrings,function() { allStrings += this; }) ; $('body').append(allStrings) ;"); 
+
+//ie.inject_FirebugLite();   
+ 
+return "done";
+//return ie.waitForJsVariable("TM.getTimeValue").str().contains(DateTime.Now.str());
+
+//ie.eval("TM.WebServices.WS_Utils.getTime()"); 
+//return ie.setJsObject(null).getJsObject("TM.WebServices.Config.Version");
+
+
+//return ie.getJsObject("this");  // this returns a consumable object
+
+return "ok";
+//ie.open("about:blank"); 
+
+//ie.inject_jQuery();
+ie.eval("$('body').append('...appended text')");
+
+//ie.injectJavascriptFunctions(true)
+//ie.eval("o2Log('hello o2 log')");
+
+
+return "ok";
+
+//using O2.SecurityInnovation.TeamMentor
+//O2File:Test_TM_IE.cs
+//O2Ref:WatiN.Core.1x.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>TMConfig.BaseFolder = Test_TM.tmWebSiteFolder; 
+var tmTestDatabase = new TM_Test_XmlDatabase(TMConfig.BaseFolder); 
+var tmWebServices = tmTestDatabase.webServices();     
+var tmXmlDatabase = tmTestDatabase.xmlDatabase(); 
+
+UserGroup.Reader.setThreadPrincipalWithRoles();
+Assert.DoesNotThrow 			(()=&gt; UserGroup.Reader.demand()  			, "Reader: UserGroup.Reader Demand");
+Assert.Throws&lt;SecurityException&gt;(()=&gt; UserRole.Admin.demand()  				, "Reader: UserRole.Admin Demand");
+Assert.Throws&lt;SecurityException&gt;(()=&gt; UserRole.EditArticles.demand()  		, "Reader: UserRole.EditArticles Demand");
+Assert.DoesNotThrow 			(()=&gt; UserRole.ReadArticles.demand()  		, "Reader: UserRole.ReadArticles Demand");
+Assert.Throws&lt;SecurityException&gt;(()=&gt; UserRole.ManageUsers.demand()  		, "Reader: UserRole.ManageUsers Demand");
+Assert.DoesNotThrow			    (()=&gt; UserRole.ReadArticlesTitles.demand()  , "Reader: UserRole.ReadArticlesTitles Demand");
+
+UserGroup.Reader.demand();
+"ReadArticles".demand();
+"readArticles".demand(); 
+"readarticles".demand(); 
+return "ok"; 
+
+//using SecurityInnovation.TeamMentor.Authentication.ExtensionMethods
+//using SecurityInnovation.TeamMentor.Authentication.AuthorizationRules
+//using SecurityInnovation.TeamMentor.Authentication.WebServices.AuthorizationRules
+//using System.Security.Permissions;	
+//using System.Security
+//using O2.SecurityInnovation.TeamMentor;
+//using SecurityInnovation.TeamMentor.WebClient;
+//using O2.SecurityInnovation.TeamMentor.WebClient;
+//using SecurityInnovation.TeamMentor.WebClient.WebServices
+//using NUnit.Framework
+//O2File:TM_Test_XmlDatabase.cs
+
+//_O2Ref:TM_WebServices.asmx.dll
+//O2Ref:System.Web.Services.dll
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
+//O2Ref:NUnit.Framework.dll
+//O2Tag_DontAddExtraO2Files</SourceCode>
+  <ReferencedAssemblies />
+</H2>

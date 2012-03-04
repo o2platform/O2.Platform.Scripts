@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>
+var topGui = O2Gui.open&lt;Panel&gt;("HacmeBank POc",1000,600);
+var ie = topGui.add_IE().silent(true);
+O2.ImportExport.OunceLabs.OunceAvailableEngines.addAvailableEnginesToControl(typeof(ascx_FindingsViewer));
+var findingsViewer = topGui.insert_Right&lt;ascx_FindingsViewer&gt;(300);
+var sourceCodeViewer = findingsViewer.insert_Below&lt;Panel&gt;(400).add_SourceCodeViewer();
+var loopPoc = true;
+findingsViewer.add_ContextMenu().add_MenuItem("Cancel Execution",()=&gt;loopPoc = false);
+var url = "http://localhost:12345/HacmeBank_v2_Website/aspx/login.aspx"; 
+//if(url.uri().online().isFalse())
+//{
+//	url = "What is Hacmebank's URL:".askUser("HacmeBank Url", url); 	 
+//}
+
+ie.open(url);
+WatiN_IE.FlashingCount = 3;
+WatiN_IE.ScrollOnFlash = false;
+//ie.disableFlashing();
+ie.field("txtUserName").value("jv").flash();
+ie.field("txtPassword").value("jv789").flash(); 
+ie.button("Submit").flash().click();
+ie.link("Posted Messages").flash().click();
+ie.field("_ctl3:txtSubject").flash().value("aaa ' SQL Payload").flash();
+ie.field("_ctl3:txtText").flash().value("noPayload").flash();
+ie.button("Post Message").scrollIntoView().flash(10).click();
+
+this.sleep(2000);
+topGui.parent&lt;SplitContainer&gt;().splitterDistance(200);
+
+var o2Findings = @"C:\O2\DemoData\HacmeBank_Analysis\HacmeBank_Findings\PostMessageExploit.ozasmt".loadFindingsFile();
+//var o2Findings = "HacmeBank_v2_Website.ascx.PostMessageForm.btnPostMessage_Click.cs".local();
+findingsViewer.show(o2Findings);
+var o2Finding = (O2Finding)o2Findings[0];
+
+//sourceCodeViewer.open(o2Finding.file);
+
+foreach(var o2Trace in o2Finding.getUniqueTraces())
+{
+	var line = (int)o2Trace.lineNumber;
+	if (line &gt; 0)
+	{	
+		sourceCodeViewer.open(o2Trace.file);
+		sourceCodeViewer.editor().gotoLine(line);
+		this.sleep(500);
+	}
+}
+
+
+
+return null;
+//O2File:WatiN_IE_ExtensionMethods.cs
+//using O2.XRules.Database.Utils.O2
+//O2Ref:WatiN.Core.1x.dll
+
+//using O2.Interfaces.O2Findings;
+//using O2.Views.ASCX.O2Findings;
+//using O2.XRules.Database.Findings;
+//using O2.DotNetWrappers.O2Findings
+//O2File:Findings_ExtensionMethods.cs
+//O2Ref:O2_ImportExport_OunceLabs.dll
+
+//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.clear().add_Panel();
+var topPanel = "Simple Html Form".popupWindow();
+var ie = topPanel.add_IE().silent(true);
+
+ie.open("Simple_Html_Form.html".local());
+return ie.fields();
+
+//O2File:WatiN_IE_ExtensionMethods.cs
+//using O2.XRules.Database.Utils.O2
+//O2Ref:WatiN.Core.1x.dll
+
+//use these commands to edit the html file
+/*
+panel.clear();
+panel.add_SourceCodeEditor()
+	.open("Simple_Html_Form.html".local());
+*/</SourceCode>
+  <ReferencedAssemblies />
+</H2>

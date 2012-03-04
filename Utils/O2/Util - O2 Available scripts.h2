@@ -1,0 +1,157 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.clear().add_Panel();  
+var topPanel= "Util - O2 Available scripts".popupWindow(300,300); 
+var treeView = topPanel.add_TreeView();  
+var optionsPanel = treeView.insert_Below(65);
+var filterText = optionsPanel.add_TextBox("filter","");
+ 
+var runAsAdmin = false;   
+var startNewProcess = false;
+			 
+optionsPanel.splitContainerFixed();
+
+var path = PublicDI.config.LocalScriptsFolder;
+
+Func&lt;string&gt; selectedNode = ()=&gt; treeView.selected().get_Tag().str();
+
+Action&lt;TreeView, TreeNode&gt; mapFoldersAndFiles =
+    (targetTreeView, treeNode) =&gt;
+    { 
+        targetTreeView.clear(treeNode);
+        var folder = treeNode.Tag.ToString();
+        foreach (var dir in folder.dirs())
+            targetTreeView.add_Node(treeNode, dir.fileName(), dir, true)
+                .ForeColor = Color.SaddleBrown;
+        foreach (var file in folder.files())
+            targetTreeView.add_Node(treeNode, file.fileName(), file, false)
+                .ForeColor = Color.DarkBlue;
+    };
+
+
+treeView.BeforeExpand += (sender, e) =&gt; { mapFoldersAndFiles(treeView, e.Node); };
+
+Action&lt;string&gt; invokeScript = 
+	(target)=&gt;{
+				if (target.isFile())
+				{
+					O2Thread.mtaThread(
+						()=&gt;{
+								"Invoking file: {0}".info(target);								
+								
+						        	treeView.backColor(Color.Azure);
+						        	if (runAsAdmin)
+						        		target.executeH2_as_Admin();
+						        	else
+						        	{
+						        		if (startNewProcess)
+							        		target.startProcess();
+							        	else	
+						        			target.executeFirstMethod();
+						        	}
+						        	treeView.backColor(Color.White);						            						        
+						    });
+				}			
+			  };	
+
+Action invokeSelected = 
+	()=&gt;{
+			var selectedItem = treeView.selected();
+			if (selectedItem.notNull())			
+				invokeScript(selectedItem.get_Tag().str());							
+	    };
+treeView.onDoubleClick&lt;string&gt;(invokeScript);	
+
+    
+treeView.ItemDrag += (sender, e) =&gt;
+    {    	
+        var node = (TreeNode)e.Item;
+        treeView.SelectedNode = node;
+        var target = node.Tag.ToString();
+        if (target.isFile())
+            treeView.DoDragDrop(target, DragDropEffects.Copy);
+    };
+
+Action showDefaultView = 
+	()=&gt;{
+			treeView.clear();
+			var rootNode = treeView.add_Node("Scripts in: " + path + "", path, true);
+			mapFoldersAndFiles(treeView, rootNode);
+			treeView.expand(rootNode);   
+		};
+
+var allScripts = new List&lt;string&gt;();
+
+Action&lt;string&gt; applyFilter = 
+	(filter)=&gt;{
+					if(filter.valid())
+					{
+						treeView.clear(); 
+						var files = allScripts.where((file)=&gt; file.regEx(filter) || file.lower().contains(filter.lower()) );
+						treeView.add_Nodes(files, (file)=&gt; file.fileName());
+						
+						treeView.applyPathFor_1NodeMissingNodeBug(); 												
+					}
+					else
+						showDefaultView(); 
+					
+			  };
+
+filterText.onTextChange(applyFilter);
+
+Action refresh = 
+	()=&gt;{
+			applyFilter("");
+			//now that the user has a gui to play with, let's load the data required for the search 
+			var o2Timer = new O2Timer("Found all Scripts").start();
+			allScripts = new List&lt;string&gt;();
+			allScripts.add(path.files(true,"*.cs","*.h2","*.o2"));
+			o2Timer.stop();
+		};
+
+		
+treeView.add_ContextMenu().add_MenuItem("Execute selected",true, ()=&gt; invokeSelected())						 
+				          .add_MenuItem("Open parent folder in Windows Explorer",true, ()=&gt; selectedNode().directoryName().info().startProcess())
+				          .add_MenuItem("Edit Script",true, 
+				          			()=&gt;{
+											var selectedNodeScript = selectedNode(); 
+											if (selectedNodeScript.extension(".h2") || selectedNodeScript.extension(".o2"))
+												selectedNodeScript.showInCodeEditor(".cs");
+											else
+												selectedNodeScript.showInCodeEditor();
+										})
+						  .add_MenuItem("Copy Script Name to Clipboard",true, 
+				          			()=&gt;{
+											var selectedNodeScript = selectedNode(); 				
+											selectedNodeScript.fileName().toClipboard();
+										})
+						  .add_MenuItem("Copy Script Full Path to Clipboard",true, 
+				          			()=&gt;{
+											var selectedNodeScript = selectedNode(); 				
+											selectedNodeScript.toClipboard();
+										})				
+				          .add_MenuItem("Refresh (reload files)",true, ()=&gt; refresh());
+
+optionsPanel.add_Link("invoke selected script", 22, 0, ()=&gt;invokeSelected()).left(filterText.Left)
+			.append_Link("open log viewer", ()=&gt; "Util - LogViewer.h2".local().executeH2Script());
+						
+/*optionsPanel.add_Link("Show selected Node", 40,0, 
+			()=&gt;{
+					var selectedNode2 = treeView.selected();
+					selectedNode2.showInfo();
+					selectedNode2.details();   
+				});*/
+optionsPanel.add_CheckBox("Run with no UAC)",40 ,0,(value)=&gt;runAsAdmin = value).autoSize().left(filterText.Left)
+			.append_CheckBox("Start new Process", (value)=&gt;startNewProcess = value);
+		    
+
+filterText.onEnter(
+	(text)=&gt;{
+				treeView.selectFirst();
+				invokeSelected();
+			});
+refresh();
+
+return this;</SourceCode>
+  <ReferencedAssemblies />
+</H2>

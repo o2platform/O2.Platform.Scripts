@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = "PoC - Handing IE Error popups".popupWindow().insert_LogViewer();
+var ie = topPanel.add_IE().silent(false);
+
+var moveMouse = false;
+
+Action runPoC = 
+	()=&gt;{
+			ie.showMessage("Lets create a JavasScript error");
+			ie.eval_ASync("document.write('&lt;script&gt; a js error &lt;/script&gt;')");
+			 
+			if ("No".click_Button_in_Window("Script Error", moveMouse)) 
+				ie.showMessage("We found the button and clicked on it");
+			else
+				ie.showMessage("Hummm... where is the button???"); 
+		};
+  
+topPanel.insert_Above(40,"Actions")
+		.add_Link("run again", runPoC)
+		.append_CheckBox("Move Mouse to button before click", (value)=&gt;  moveMouse = value );
+
+runPoC();
+
+//O2File:WatiN_IE_ExtensionMethods.cs
+//O2File:API_GuiAutomation.cs
+//O2Ref:WatiN.Core.1x.dll
+//O2Ref:White.Core.dll
+
+//_O2Tag_DontAddExtraO2Files;</SourceCode>
+  <ReferencedAssemblies />
+</H2>

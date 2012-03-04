@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>
+/*panel.clear();
+var topPanel = panel.add_Panel();
+topPanel.fill(false)
+		.width(800)
+		.height(170); 
+*/
+var title = "Use OWASP Projects";
+var topPanel = O2Gui.open&lt;Panel&gt;("O2 GUI - " + title, 800,570);    
+
+topPanel.parentForm().top(60).left(60); 
+
+var logoNoShadow = "O2_Logo_no_Shadow.jpg".local(); 
+var smallLogo = "O2Logo_Small.gif".local();
+
+var ribbon = topPanel.insert_Above&lt;WPF_Ribbon&gt;(135); 
+
+var owaspWiki = ribbon.Ribbon.add_RibbonTab("OWASP Wiki");   
+
+owaspWiki.add_RibbonGroup("Tools") 				 	  
+				 .add_RibbonButton_H2Script(topPanel,"Edit the OWASP Website","MediaWikiEditor.cs.o2")
+				 .add_RibbonButton_H2Script(topPanel,"OWASP Wiki Page Edit","Tool - OWASP Wiki Page Edit.h2")
+				 .add_RibbonButton_H2Script(topPanel,"OWASP Wiki Latest Changes","Tool - OWASP WIKI Diff of Latests Changes.h2");  
+
+owaspWiki.add_RibbonGroup("History of OWASP Website")
+				 .add_RibbonButton_H2Script(topPanel,"Show Image Animation of OWASP content","Script - show Image animation of OWASP Content.h2");  
+
+				 
+var openSamm = ribbon.Ribbon.add_RibbonTab("OWASP Wiki");   
+openSamm.add_RibbonGroup("OpenSAMM") 				 	  
+				 .add_RibbonButton_StartProcess("Open SAMM",@"C:\O2\O2Scripts_Database\_Scripts\APIs\OWASP\OpenSAMM","")
+				 .add_RibbonButton_H2Script(topPanel,"view SAMM-1.0-XML-0.3-en_US.xml data","Tool - view SAMM-1.0-XML-0.3-en_US.xml data.h2")				 
+				 .add_RibbonButton_ShowCodeFile(topPanel,"SAMM-1.0-roadmap-0.3.xsd","SAMM-1.0-roadmap-0.3.xsd")
+				 .add_RibbonButton_ShowCodeFile(topPanel,"SAMM-1.0-XML-0.3-en_US.cs","SAMM-1.0-XML-0.3-en_US.cs")
+				 .add_RibbonButton_ShowCodeFile(topPanel,"SAMM-1.0-XML-0.3-en_US.xml","SAMM-1.0-XML-0.3-en_US.xml")
+				 .add_RibbonButton_ShowCodeFile(topPanel,"SAMM-1.0-XML-0.3-en_US.xsd","SAMM-1.0-XML-0.3-en_US.xsd")
+				 .add_RibbonButton_StartProcess("Colin's Demo Files",@"C:\O2\DemoData\OpenSamm","")
+				 .add_RibbonButton_H2Script(topPanel,"Tool - SVG Viewer and Editor","Tool - SVG Viewer and Editor.h2");
+
+var securityFacts = ribbon.Ribbon.add_RibbonTab("Security Facts"); 
+securityFacts.add_RibbonGroup("Security Facts")  
+			 .add_RibbonButton("Scorecard",()=&gt;topPanel.clear().add_Control&lt;WebBrowser&gt;().open(@"C:\O2\O2Scripts_Database\_Scripts\APIs\OWASP\SecurityFacts\Security Facts.jpg"))
+			 .add_RibbonButton("Keys",()=&gt;topPanel.clear().add_Control&lt;WebBrowser&gt;().open(@"C:\O2\O2Scripts_Database\_Scripts\APIs\OWASP\SecurityFacts\Security Facts - Keys.png"));
+
+var webGoat = ribbon.Ribbon.add_RibbonTab("WebGoat");
+webGoat.add_RibbonGroup("Exploits")  
+		.add_RibbonButton_Script(topPanel,"WebGoat BlackBox Exploits","WebGoat_BlackBox_Exploits.cs");
+		
+var webScarab = ribbon.Ribbon.add_RibbonTab("WebScarab");
+webScarab.add_RibbonGroup("Tools")  
+		 .add_RibbonButton_H2Script(topPanel,"Load and Filter saved Conversations","Tool - Load and Filter saved Conversations.h2")
+		 .add_RibbonButton_H2Script(topPanel,"Convert Conversations into O2Findings","Tool - Convert Conversations into O2Findings.h2");
+			
+webScarab.add_RibbonGroup("Demo Files")  			
+			.add_RibbonButton_StartProcess("Sample Conversation File",@"C:\O2\US_Tour\US_Tour_OWASP_Demos\OWASP WebScarab - Filtering Logs\WebScarab Logs","");
+webScarab.add_RibbonGroup("APIs")  			
+			.add_RibbonButton_StartProcess("WebScarab API files",@"C:\O2\O2Scripts_Database\_Scripts\APIs\OWASP\WebScarab","");
+
+
+
+
+				 
+				 
+				 
+				 
+				 
+topPanel.backColor("Control"); 
+topPanel.parent&lt;SplitContainer&gt;().backColor(Color.White); 
+var designerCanvas = topPanel.add_DesignerCanvas(); 
+designerCanvas.add_Label(title ,160,140).fontSize(30);     
+ 
+return "ok";
+ 
+//using Microsoft.Windows.Controls.Ribbon;
+//using WPF= System.Windows.Controls
+//using DiagramDesigner
+//O2File:WPF_Ribbon.cs 
+//O2File:WPF_Ribbon_ExtensionMethods.cs
+//O2File:DiagramDesigner_ExtensionMethods.cs
+//O2Ref:WindowsFormsIntegration.dll
+//O2Ref:O2_API_Visualization.dll
+//O2Ref:DiagramDesigner.exe
+//O2Ref:RibbonControlsLibrary.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

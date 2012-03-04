@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var iis7 = new API_IIS7();  
+if (iis7.checkIfUserHasEnoughPermissions().isFalse()) 
+	return null;
+
+
+var topPanel = O2Gui.open&lt;Panel&gt;("Tool - IIS Browser and Admin",700,400);     
+//var topPanel = panel.clear().add_Panel();     
+    
+
+ 
+var actionsPanel = topPanel.insert_Above(60, "Actions");  
+actionsPanel.add_Link("View ServerManager details",0,0, ()=&gt; iis7.serverManager.details()) 
+			.append_Link("View IIS Websites TreeView in New Window", ()=&gt;iis7.show_IIS_Websites_In_TreeView());     
+
+actionsPanel.add_Link("Start Website",20 ,0, ()=&gt; iis7.CurrentSite.start())
+			.append_Link("Stop Website", ()=&gt; iis7.CurrentSite.stop()) 
+			.append_Link("Delete Website", ()=&gt; iis7.delete_Website(iis7.CurrentSite))
+			.append_Link("Add temp Website", ()=&gt; iis7.add_Website("from gui".add_RandomLetters(6),@"C:\O2\_XRules_Local\_localAspPoCs_2"));
+ 
+  
+var iisViewer = iis7.add_IIS_Viewer(topPanel);     
+
+return this;
+
+/*
+//this works 
+iis7.websites()[1].add_Application("/CDrive2___2", "C:\\");   
+iis7.websites()[1].add_VirtualDir("/CDrive2__vdir", "C:\\");  
+iis7.commit();
+return iis7.websites()[1].virtualDirs(); 
+*/
+
+// this config part is not working as expected (more research is needed)
+//var config = iis7.config("testWebsite");    
+//return config.RootSectionGroup.Sections; 
+  
+//iis7.value(config.directoryBrowse(),"enabled", false);     
+//return config.directoryBrowse().value("enabled");  
+//Configuration webConfig = iis7.serverManager.GetWebConfiguration("testWebsite");//Default Web Site");
+
+//      ConfigurationSection directoryBrowseSection = webConfig.GetSection("system.webServer/directoryBrowse"); 
+      
+//return directoryBrowseSection;
+
+//var siteName = "testWebsite";  
+/*
+var siteName = "Default Web Site";  
+var appHost = iis7.serverManager.GetApplicationHostConfiguration(); 
+appHost.details();
+ConfigurationSection configPaths = appHost.GetSection("configPaths");   
+return configPaths;
+
+//appHost.details(); 
+
+//Configuration appHost = iis7.serverManager.GetWebConfiguration(siteName); 
+//ConfigurationSection configPaths = appHost.GetSection("configPaths"); 
+//return appHost;
+*/
+//var treeView = panel.clear().add_TreeView();
+//treeView.add_Nodes(configPaths.GetCollection());  
+
+
+
+
+//site.TraceFailedRequestsLogging.Enabled = true;
+//iis7.commitChanges(); 
+//return site.TraceFailedRequestsLogging;
+
+return "ok"; 
+//using Microsoft.Web.Administration
+//O2Ref:C:\Windows\System32\InetSrv\Microsoft.Web.Administration.dll 
+//O2File:ascx_FolderViewer.cs
+//O2File:API_IIS7.cs</SourceCode>
+  <ReferencedAssemblies />
+</H2>

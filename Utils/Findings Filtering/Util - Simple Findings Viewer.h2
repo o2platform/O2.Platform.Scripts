@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Simple Findings Viewer",400,400);
+topPanel.add_FindingsViewer();
+  
+//using O2.XRules.Database.Findings
+//O2File:Findings_ExtensionMethods.cs</SourceCode>
+  <ReferencedAssemblies />
+</H2>

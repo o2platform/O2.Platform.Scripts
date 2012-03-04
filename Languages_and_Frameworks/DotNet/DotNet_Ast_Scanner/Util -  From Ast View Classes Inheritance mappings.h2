@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//panel.clear();
+//var topPanel = panel.add_Panel();
+var topPanel = O2Gui.open&lt;Panel&gt;("Util - From AST View .NET interfaces Mappings",800,600); 
+var astDataCacheKey = "astData"; 
+var baseFolder = ""; 
+var useCachedData = true ;
+var referencesToLoad = new List&lt;string&gt;(); 
+var astData = (O2MappedAstData)O2LiveObjects.get(astDataCacheKey);
+var codeViewer = topPanel.add_SourceCodeEditor();   
+
+//var treeView = codeViewer.insert_Left&lt;TreeView&gt;(400) 
+//							     .showSelection();
+var sourceCodeViewer = topPanel.add_SourceCodeViewer();
+var leftPanel = sourceCodeViewer.insert_Left&lt;Panel&gt;(200).add_1x1("Mapped by Root Class", "Mapped by Inherited Class",false);
+var treeView_byRootClass = leftPanel[0].add_TreeView().sort();
+var treeView_byInheritedClass = leftPanel[1].add_TreeView().sort();
+
+
+Action&lt;TreeView&gt; setupTreeView = 
+	(treeView)=&gt;{
+					treeView.afterSelect&lt;TypeDeclaration&gt;(
+						(typeDeclaration) =&gt; { 					 										
+											var file = astData.file(typeDeclaration);
+											sourceCodeViewer.open(file);  
+											sourceCodeViewer.editor().caret(typeDeclaration.StartLocation.Line, typeDeclaration.StartLocation.Column); 
+											sourceCodeViewer.editor().gotoLine(typeDeclaration.StartLocation.Line);
+											treeView.focus();																		
+									});
+							};
+
+
+Action&lt;Dictionary&lt;IClass, List&lt;IClass&gt;&gt;,TreeView&gt; loadDataInTreeView = 
+	(classData, treeView) =&gt; {
+								treeView.clear();
+								foreach(var iClass in classData) 
+								{
+									var iClassTypeDeclaration = astData.typeDeclaration(iClass.Key);
+									var classNode = treeView.add_Node(iClass.Key.Name,iClassTypeDeclaration);  
+									classNode.color(iClassTypeDeclaration.notNull() ? Color.DarkGreen : Color.DarkRed); 
+									foreach(var inheritClass in iClass.Value)
+									{ 	 			
+										var inheritTypeDeclaration = astData.typeDeclaration(inheritClass);
+										var node = classNode.add_Node(inheritClass.Name,inheritTypeDeclaration);		
+										node.color(inheritTypeDeclaration.notNull() ? Color.DarkGreen : Color.DarkRed); 	
+									}
+								}	
+								treeView.selectFirst();
+							};
+
+
+
+Action&lt;string&gt; loadAstData = 
+	(folder) =&gt; {
+					treeView_byRootClass.backColor(Color.LightPink);
+					O2Thread.mtaThread(
+						()=&gt;{
+						baseFolder = folder;
+						if (useCachedData.isFalse() || astData == null)
+						{
+							"Loading AstData".info();
+							astData = new O2MappedAstData();
+							foreach(var referenceToLoad in referencesToLoad)
+								astData.O2AstResolver.addReference(referenceToLoad); 
+							astData.loadFiles(folder.files("*.cs",true));	
+							O2LiveObjects.set(astDataCacheKey,astData);											
+						}
+						treeView_byRootClass.backColor(Color.Azure ); 
+						var mappedByRootClass = new Dictionary&lt;IClass, List&lt;IClass&gt;&gt;();
+						var mappedByInheritClass = new Dictionary&lt;IClass, List&lt;IClass&gt;&gt;();
+												
+						foreach(var iClass in astData.iClasses())
+							foreach(var inheritClass in iClass.ClassInheritanceTree)	
+								if (iClass != inheritClass &amp;&amp; inheritClass.Name.neq("Object"))
+								{											
+									mappedByRootClass.add(iClass, inheritClass); 
+									mappedByInheritClass.add(inheritClass,iClass); 
+								}
+						loadDataInTreeView(mappedByRootClass, treeView_byRootClass);
+						loadDataInTreeView(mappedByInheritClass, treeView_byInheritedClass);		
+						treeView_byRootClass.backColor(Color.White);
+					});
+				};
+
+
+treeView_byRootClass.onDrop((folder)=&gt; { useCachedData = false; loadAstData(folder);});
+treeView_byInheritedClass.onDrop((folder)=&gt;{ useCachedData = false; loadAstData(folder);}); 
+
+
+setupTreeView(treeView_byRootClass);
+setupTreeView(treeView_byInheritedClass);
+
+
+
+//var sourceFolder = @"C:\DotNet\AspNet-MVC\NerdDinner_2.0\NerdDinner";
+referencesToLoad.Add("System.Data");
+referencesToLoad.Add("System.Web");
+referencesToLoad.Add("System.Web.Services");
+//loadAstData(sourceFolder); 	
+return null;
+
+//using O2.API.AST.CSharp
+//using O2.API.AST.ExtensionMethods;
+//using O2.API.AST.ExtensionMethods.CSharp;
+//using O2.External.SharpDevelop.ExtensionMethods;
+//using O2.External.SharpDevelop.AST;
+//using O2.External.SharpDevelop.Ascx;
+//using O2.XRules.Database.Languages_and_Frameworks.DotNet	
+//using ICSharpCode.SharpDevelop.Dom;
+//using ICSharpCode.NRefactory;
+//using ICSharpCode.NRefactory.Ast;
+//O2File:ascx_ManualMethodStreams.cs
+//O2File:Ast_Engine_ExtensionMethods.cs
+//O2File:ascx_ManualMethodStreams.cs
+//O2Ref:O2_External_SharpDevelop.dll
+//O2Ref:O2_API_AST.dll 
+//O2Ref:QuickGraph.dll
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>
+var codeSearchUrl = @"http://www.google.com/codesearch?q={0}+package:http://o2platform\.googlecode\.com&amp;origq={0}&amp;btnG=Search+Trunk"; 
+var defaultSearch = "reflection";
+
+var topPanel = O2Gui.open&lt;Panel&gt;("Search O2 Code Base", 700,400); //panel.add_Panel(); 
+var browser = topPanel.add_Browser().silent(true);
+
+Action&lt;string&gt; search = 
+	(text)=&gt;{
+				browser.open(codeSearchUrl.format(text));
+			};
+			
+topPanel.insert_Above&lt;Panel&gt;(20)
+		.add_LabelAndComboBoxAndButton("Search O2 codebase",defaultSearch,"search",search);
+
+
+search(defaultSearch); 
+//using O2.External.IE.ExtensionMethods;
+//O2Ref:O2_External_IE.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//panel.clear(); 
+//var topPanel = panel.add_Panel(); 
+var topPanel = O2Gui.open&lt;Panel&gt;("View and search WebPage code", 800,600);
+var htmlTagViewer = topPanel.insert_Right&lt;ascx_HtmlTagViewer&gt;(topPanel.width()/2);
+var historyList = htmlTagViewer.insert_Above&lt;TreeView&gt;(100).showSelection();;
+var pageProperties = historyList.insert_Right&lt;Panel&gt;(topPanel.width()/2).add_PropertyGrid();
+
+historyList.afterSelect&lt;IO2HtmlPage&gt;(
+	(htmlPage)=&gt;{
+					"loaded page: {0}".info(htmlPage.PageUri); 
+					htmlTagViewer.show(htmlPage.html());
+					pageProperties.show(htmlPage);
+				});	   
+				
+htmlTagViewer.buildGui(false, true);
+htmlTagViewer.HtmlNodeFilter.set_Text("//*[contains(text(),'A')]");
+htmlTagViewer.ViewAsXml = true;
+var browser= topPanel.add_WebBrowserWithLocationBar();
+
+//browser.onDocumentCompleted += (htmlPage)=&gt;htmlTagViewer.show(htmlPage.html()); 
+browser.onDocumentCompleted += (htmlPage)=&gt;
+	{
+		historyList.add_Node(htmlPage.str(),htmlPage).selected();
+		//show.info(htmlPage);
+	};
+ 
+//O2File:WatiN_IE_ExtensionMethods.cs 
+//O2File:ascx_HtmlTagViewer.cs 
+//using O2.XRules.Database.Utils.O2
+//using O2.XRules.Database.Languages_and_Frameworks.DotNet 
+//O2Ref:WatiN.Core.1x.dll
+//O2Ref:O2_External_IE.dll
+//O2Ref:Microsoft.mshtml.dll
+//using O2.External.IE.ExtensionMethods
+//using O2.External.IE.Interfaces
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

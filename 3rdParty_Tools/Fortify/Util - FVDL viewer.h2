@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.clear().add_Panel(); 
+var topPanel = "Util - FVDL viewer (drop *.fvdl on the left-hand-side PropertyGrid)".popupWindow(1000,500);
+topPanel.insert_LogViewer(); 
+//var actionsPanel = topPanel.insert_Above(40,"actions");   
+//var userMessages_Label = topPanel.insert_Below(20).add_Label("...",0,0).autoSize();    
+
+var tabControl = topPanel.add_TabControl();
+var scannedFiles_Table = tabControl.add_Tab("Scanned Files").add_TableList();
+var context_Table = tabControl.add_Tab("Contexts").add_TableList();
+var description_Table = tabControl.add_Tab("Descriptions").add_TableList();
+var calledWithNoDefs_Table = tabControl.add_Tab("CalledWithNoDefs").add_TableList();
+var sinks_Table = tabControl.add_Tab("Sinks").add_TableList();
+var sources_Table = tabControl.add_Tab("Sources").add_TableList();
+var snippets_Table = tabControl.add_Tab("Snippets").add_TableList();
+var vulnerabilities_Table = tabControl.add_Tab("Vulnerabilities").add_TableList();
+
+//var traceNodes_Table = tabControl.add_Tab("TraceNodes").add_TableList();
+
+var propertyGrid = topPanel.insert_Left().add_PropertyGrid();
+
+Fortify_Scan fortifyScan = null;
+var apiFortify = new API_Fortify();
+
+Action&lt;string&gt; showUserMessage =
+	(message)=&gt; {
+//					userMessages_Label.set_Text(message);  					
+					message.info();
+				}; 
+				
+Action&lt;Fortify_Scan&gt; showFvdl =  
+	(scan) =&gt;   
+		{   
+ 			    vulnerabilities_Table.title("Showing {0} Vulnerabilties".format(scan.Vulnerabilities.size()))    
+						 			 .show(scan.Vulnerabilities);         
+				scannedFiles_Table.show(scan.ScannedFiles);
+				context_Table.show(scan.Contexts); //.makeColumnWidthMatchCellWidth();
+				description_Table.show(scan.Descriptions); 
+				calledWithNoDefs_Table.show(scan.CalledWithNoDefs);			 	
+				sinks_Table.show(scan.Sinks);
+				sources_Table.show(scan.Sources);
+				vulnerabilities_Table.show(scan.Vulnerabilities);
+				snippets_Table.show(scan.Snippets);
+//				traceNodes_Table.show((from vulnerability in scan.Vulnerabilities	 
+//									   select vulnerability.Traces).SelectMany(p=&gt;p).toList());  
+		};
+  
+Action&lt;string&gt; loadAndShowFile = 
+	(file)=&gt;{  
+				showUserMessage("... loading file: {0}".format(file.fileName()));  
+				O2Thread.mtaThread(()=&gt;{															 		 	 				
+											fortifyScan = apiFortify.convertToFortifyScan(file); 
+											showFvdl(fortifyScan);		  
+											propertyGrid.show(fortifyScan); 
+											showUserMessage("loaded fvdl file: {0}".format(file.fileName()));
+										});
+			}; 
+
+propertyGrid.onDrop(loadAndShowFile);
+//tableList.onDrop(loadAndShowFile); 
+//tableList.getListViewControl().onDrop(loadAndShowFile);    
+  	 
+//var testFile = @"C:\O2\_tempDir\_Fortify-Sate-2008\Fortify-Sate-2008\sate2008-Fvdl\naim.fvdl";  
+//var testFile = @"C:\O2\_tempDir\_Fortify-Sate-2008\Fortify-Sate-2008\sate2008-Fvdl\dspace.fvdl";
+//loadAndShowFile(testFile); 
+  
+//var _fortifyScan = apiFortify.convertToFortifyScan(testFile);   
+// return _fortifyScan._fvdl.ProgramData.CalledWithNoDef.str();
+ 
+//actionsPanel.add_Link("show Fvdl details" ,0 ,0 , ()=&gt; fortifyScan._fvdl.details()); 
+//tabControl.selectedIndex(7);    
+   
+return "done";        
+       
+//O2File:API_Fortify_1_6.cs
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll  </SourceCode>
+  <ReferencedAssemblies />
+</H2>

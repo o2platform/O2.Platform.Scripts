@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = O2Gui.open&lt;Panel&gt;("{name}",700,400);
+var topPanel = panel.clear().add_Panel();
+topPanel.add_ConsoleOut();
+var appName = "O2 Platform"; 
+var appId = "4QWE42-TP9KTRAE64";  
+Console.WriteLine("Testing  Wolfram Alpha Wrapper Example");
+var wolframExample = new WolframAlphaWrapperExample();
+ 
+/*var query = new WolframAlphaQuery();
+query.APIKey = appId;
+query.Format = "plaintext";
+query.Query = "what day is today?"; 
+//return query; 
+ 
+*/
+//return engine.LoadResponse(query);
+var engine = new WolframAlphaEngine(); 
+
+//wolframExample.Main(appId, "what is your name?");
+//wolframExample.Main(appId, "who is your father?");
+//wolframExample.Main(appId, "is it raining in London?"); 
+//wolframExample.Main(appId, "what is 2*20-5 ?"); 
+//wolframExample.Main(appId, "what is SSL?");
+//wolframExample.Main(appId, "what is MVC?");  //did not find the MVC I was looking for :)
+   
+return "ok";
+ 
+//O2File:Main.cs 
+//O2File:WolframAlphaEngine.cs
+//O2File:API_ConsoleOut.cs
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

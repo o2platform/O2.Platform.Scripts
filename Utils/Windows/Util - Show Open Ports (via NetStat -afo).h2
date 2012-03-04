@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - Show Open Ports (via NetStat -afo)",700,600);
+//var topPanel = panel.clear().add_Panel(); 
+
+var tableList = topPanel.add_TableList();
+tableList.title("Table showing parsed version of netstat command");
+var selectedProcess = 0;
+
+Action showNetStatOnTable =
+	()=&gt;{
+			var lines = "netstat.exe".startProcess_getConsoleOut("-afo") 
+								     .lines()
+								     .removeRange(0,2); 
+			var netstatData = (from line in lines
+							   let fragments = line.split(" ").removeEmpty()
+							   let value0 = fragments.value(0)
+							   let value1 = fragments.value(1)
+							   let value2 = fragments.value(2)
+							   let value3 = (fragments.value(4).isNull()) ? "" : fragments.value(3)
+							   let value4 = fragments.value(4) ?? fragments.value(3)
+							   select new { 
+							   				@Type = value0 ,   
+							   				//Local_Address = value1, 
+							   				Local_Address_IP = value1.replace("::","__").split(":")[0].replace("__","::"), 
+							   				Local_Address_Port =  value1.replace("::","__").split(":")[1] ,
+							   				//Foreign_Address = value2 ,
+							   				Foreign_Address_IP = value2.replace("::","__").split(":")[0].replace("__","::"), 
+							   				Foreign_Address_Port =  value2.replace("::","__").split(":")[1] ,
+							   				State = value3,
+							   				Process_ID = value4,
+							   				Process_Name = Processes.getProcess(value4.toInt()).ProcessName //,
+							   				//Executable = value5
+							   			   });		
+			tableList.show(netstatData);				   			   
+		};  
+		
+Action stopSelectedProcess = 
+	()=&gt;{
+			if (selectedProcess ==0)
+				"Cannot Stop process with ID 0".error();
+			else
+			{
+				var process = Processes.getProcess(selectedProcess);				
+				"Stopping process: {0} (id: {1})".info(process.ProcessName, process.Id);
+				process.stop()
+					   .WaitForExit();
+				showNetStatOnTable();
+			}
+		};
+
+topPanel.insert_Above(40, "Actions")
+	    .add_Link("Refresh", ()=&gt; showNetStatOnTable())
+	    .append_Link("Stop Selected Process", ()=&gt; stopSelectedProcess()).leftAdd(100);
+	    
+
+tableList.add_ContextMenu() 
+		 .add_MenuItem("Stop Selected Process", ()=&gt; stopSelectedProcess());
+		 
+tableList.afterSelect_get_Cell(6, 
+			(value)=&gt; { 
+						selectedProcess = value.toInt(); 
+						"selectedProcess: {0}".info(selectedProcess);
+					  });
+					  
+showNetStatOnTable();
+//return "netstat.exe".startProcess_getConsoleOut("-afo");	    
+return "ok";	    </SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>
+var topPanel = O2Gui.open&lt;Panel&gt;("Tool - View .NET Assembly References Mappings", 800,600);
+
+var last_TargetFileOrFolder = "";
+var dllDependencies_TreeView = topPanel.add_GroupBox("Assemblies Mappings").add_TreeView().sort().showSelection();
+var dllXRefs_TreeView = dllDependencies_TreeView.parent().insert_Right&lt;Panel&gt;(topPanel.width()/2).add_GroupBox("Assemblies XRefs Mappings").add_TreeView().sort().showSelection();
+var optionsPanel = topPanel.insert_Below&lt;Panel&gt;(40).add_GroupBox("Options").add_Panel();
+var showFullPaths = false;
+var recursiveSearch = false;
+var statusStrip = topPanel.parentForm().add_StatusStrip();
+
+
+Action&lt;string&gt; mapAssemblies = 
+	(targetFileOrFolder)=&gt;
+		{
+			last_TargetFileOrFolder = targetFileOrFolder;
+			dllDependencies_TreeView.backColor(Color.Azure).clear();
+			dllXRefs_TreeView.backColor(Color.Azure).clear();
+			O2Thread.mtaThread(
+				()=&gt;{
+						try
+						{
+							var targetAssemblies = (targetFileOrFolder.dirExists())
+													? targetFileOrFolder.files(recursiveSearch,"*.dll", "*.exe")
+													: targetFileOrFolder.wrapOnList();
+							if (targetAssemblies.isNull() || targetAssemblies.size()==0)
+							{
+								dllDependencies_TreeView.add_Node("There were no assemblies mapped in the path provided");
+								dllDependencies_TreeView.add_Node("Check the O2 Log Viewer for permission problems");
+								dllDependencies_TreeView.backColor(Color.LightPink); 
+								return;
+							}
+							
+							var xRefs = new Dictionary&lt;string,List&lt;string&gt;&gt;();
+							foreach(var targetDll in targetAssemblies)
+							{
+								statusStrip.set_Text("Processing Assembly: {0}".format(targetDll));							
+								try
+								{
+									
+									var dllDependencies = CecilAssemblyDependencies. getListOfDependenciesForAssembly(targetDll).remove(targetDll).Distinct();
+									var nodeText = (showFullPaths)
+												 ? targetDll
+												 : targetDll.fileName();
+									if (showFullPaths.isFalse())
+										dllDependencies = (from dependency in dllDependencies select dependency.fileName()).toList();
+									dllDependencies_TreeView.add_Node(nodeText).add_Nodes(dllDependencies);
+									foreach(var dllDependency in dllDependencies)
+										xRefs.add(dllDependency, nodeText);
+								}
+								catch(Exception ex)
+								{
+									ex.Message.error();
+								}
+							}
+							
+							
+							statusStrip.set_Text("Loading Assemblies XReferences");
+						
+							foreach(var item in xRefs)
+								dllXRefs_TreeView.add_Node(item.Key).add_Nodes(item.Value);
+								
+							dllDependencies_TreeView.backColor(Color.White);
+							dllXRefs_TreeView.backColor(Color.White);
+							statusStrip.set_Text("Done - Drop a file or folder to view its dependencies");
+						}
+						catch(Exception ex)
+						{
+							ex.log();
+							dllXRefs_TreeView.add_Node("ERROR: {0}".format(ex.Message));
+							dllXRefs_TreeView.backColor(Color.LightPink);
+						}
+					});
+		};
+		
+optionsPanel.add_CheckBox("Show Full Paths",0,0,
+				(value)=&gt;{
+							showFullPaths= value;
+							mapAssemblies(last_TargetFileOrFolder);
+						 }).autoSize();
+						 
+optionsPanel.add_CheckBox("Recursive Search",0,130,
+				(value)=&gt;{
+							recursiveSearch = value;							
+						 }).autoSize().check()
+			.append_Link("Load from Folder", 
+							()=&gt;{
+									var folder = "which folder do you want to load assemblies from".askUser();
+									mapAssemblies(folder);
+								});
+						 
+			
+dllDependencies_TreeView.onDrop(mapAssemblies);
+dllXRefs_TreeView.onDrop(mapAssemblies);
+mapAssemblies(System.Reflection.Assembly.GetExecutingAssembly().Location);
+
+return "done";
+//using O2.External.O2Mono.MonoCecil
+//O2Ref:O2_External_O2Mono.dll 
+//O2Ref:Cecil.Decompiler.dll 
+//O2Ref:Mono.Cecil.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

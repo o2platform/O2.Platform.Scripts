@@ -1,0 +1,220 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="AssessmentRun">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="AssessmentStats">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="VulnType">
+                <xs:complexType>
+                  <xs:attribute name="name" type="xs:string" use="required" />
+                  <xs:attribute name="total_high_finding" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="total_low_finding" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="total_med_finding" type="xs:unsignedInt" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="class_total" type="xs:unsignedInt" use="required" />
+            <xs:attribute name="date" type="xs:unsignedInt" use="required" />
+            <xs:attribute name="duration" type="xs:unsignedInt" use="required" />
+            <xs:attribute name="error_status" type="xs:unsignedInt" use="required" />
+            <xs:attribute name="language_type" type="xs:unsignedInt" use="required" />
+            <xs:attribute name="line_total" type="xs:unsignedInt" use="required" />
+            <xs:attribute name="max_vdensity" type="xs:decimal" use="required" />
+            <xs:attribute name="max_vkloc" type="xs:decimal" use="required" />
+            <xs:attribute name="method_total" type="xs:unsignedInt" use="required" />
+            <xs:attribute name="total_call_sites" type="xs:unsignedInt" use="required" />
+            <xs:attribute name="total_call_sites_informational" type="xs:unsignedInt" use="required" />
+            <xs:attribute name="total_call_sites_not_vulnerable" type="xs:unsignedInt" use="required" />
+            <xs:attribute name="total_excluded_findings" type="xs:unsignedInt" use="required" />
+            <xs:attribute name="total_files" type="xs:unsignedInt" use="required" />
+            <xs:attribute name="total_findings" type="xs:unsignedInt" use="required" />
+            <xs:attribute name="total_high_finding" type="xs:unsignedInt" use="required" />
+            <xs:attribute name="total_high_high_finding" type="xs:unsignedInt" use="required" />
+            <xs:attribute name="total_high_low_finding" type="xs:unsignedInt" use="required" />
+            <xs:attribute name="total_high_med_finding" type="xs:unsignedInt" use="required" />
+            <xs:attribute name="total_low_finding" type="xs:unsignedInt" use="required" />
+            <xs:attribute name="total_low_high_finding" type="xs:unsignedInt" use="required" />
+            <xs:attribute name="total_low_low_finding" type="xs:unsignedInt" use="required" />
+            <xs:attribute name="total_low_med_finding" type="xs:unsignedInt" use="required" />
+            <xs:attribute name="total_med_finding" type="xs:unsignedInt" use="required" />
+            <xs:attribute name="total_med_high_finding" type="xs:unsignedInt" use="required" />
+            <xs:attribute name="total_med_low_finding" type="xs:unsignedInt" use="required" />
+            <xs:attribute name="total_med_med_finding" type="xs:unsignedInt" use="required" />
+            <xs:attribute name="vdensity" type="xs:decimal" use="required" />
+            <xs:attribute name="vkloc" type="xs:decimal" use="required" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="AssessmentConfig">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Application">
+                <xs:complexType>
+                  <xs:attribute name="name" type="xs:string" use="required" />
+                  <xs:attribute name="path" type="xs:string" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="analysis_type" type="xs:unsignedInt" use="required" />
+            <xs:attribute name="assessment_type" type="xs:unsignedInt" use="required" />
+            <xs:attribute name="stop_on_error" type="xs:boolean" use="required" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="SharedDataStats">
+          <xs:complexType>
+            <xs:attribute name="total_objects" type="xs:unsignedInt" use="required" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="StringPool">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="String">
+                <xs:complexType>
+                  <xs:attribute name="id" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="value" type="xs:string" use="optional" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="FilePool">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="File">
+                <xs:complexType>
+                  <xs:attribute name="id" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="value" type="xs:string" use="optional" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="SitePool">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="Site">
+                <xs:complexType>
+                  <xs:attribute name="caller" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="cn" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="cxt" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="file_id" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="id" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="ln" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="method" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="ord" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="sig" type="xs:unsignedInt" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="TaintPool">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="Taint">
+                <xs:complexType>
+                  <xs:attribute name="arg" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="dir" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="id" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="site_id" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="trace_type" type="xs:unsignedInt" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="FindingDataPool">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="FindingData">
+                <xs:complexType>
+                  <xs:attribute name="ao_id" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="conf" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="id" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="project_name" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="prop_ids" type="xs:string" use="required" />
+                  <xs:attribute name="rec_id" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="sev" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="site_id" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="vtype" type="xs:unsignedInt" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>        
+        <xs:element name="Assessment">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element ref="AssessmentStats"/>
+              <xs:element maxOccurs="unbounded" ref="Assessment"/>              
+            </xs:sequence>               
+            <xs:attribute name="assessee_file" type="xs:string" use="required" />
+            <xs:attribute name="assessee_name" type="xs:string" use="required" />
+            <xs:attribute name="assessee_type" type="xs:string" use="required" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Messages">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="Message">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attribute name="timestamp" type="xs:string" use="required" />
+                      <xs:attribute name="type" type="xs:string" use="required" />
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:string" use="required" />
+      <xs:attribute name="version" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AssessmentStats">
+    <xs:complexType>
+      <xs:attribute name="class_total" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="date" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="duration" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="error_status" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="language_type" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="line_total" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="method_total" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="owner_name" type="xs:string" use="required" />
+      <xs:attribute name="owner_type" type="xs:string" use="required" />
+      <xs:attribute name="total_call_sites" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="total_call_sites_informational" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="total_call_sites_not_vulnerable" type="xs:unsignedInt" use="required" />
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="Assessment">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="AssessmentStats"/>
+        <xs:element maxOccurs="unbounded" name="AsmntFile">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element ref="AssessmentStats"/>
+              <xs:element maxOccurs="unbounded" name="Finding">
+                <xs:complexType>
+                  <xs:attribute name="data_id" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="excluded" type="xs:boolean" use="optional" />
+                  <xs:attribute name="trace" type="xs:string" use="optional" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="file_id" type="xs:unsignedInt" use="required" />
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="assessee_file" type="xs:string" use="required" />
+      <xs:attribute name="assessee_name" type="xs:string" use="required" />
+      <xs:attribute name="assessee_type" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>  
+</xs:schema>

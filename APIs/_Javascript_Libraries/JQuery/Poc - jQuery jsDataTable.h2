@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//based on example from http://www.datatables.net/release-datatables/examples/data_sources/js_array.html
+//var topPanel = panel.clear().add_Panel();  
+var topPanel = "Poc - jQuery jsDataTable".popupWindow(900,400); 
+
+var jsDataTable =  new JsDataTable();
+
+jsDataTable	.add_Row("Trident", "Internet Explorer 4.0", "Win 95+", 4, "X")
+		   	.add_Row("Trident", "Internet Explorer 4.0", "Win 95+", 4, "X")
+			.add_Row("Trident", "Internet Explorer 5.0", "Win 95+", 5, "C")
+			.add_Row("Trident", "Internet Explorer 5.5", "Win 95+", 5.5, "A")
+			.add_Row("Trident", "Internet Explorer 6.0", "Win 98+", 6, "A")
+			.add_Row("Trident", "Internet Explorer 7.0", "Win XP SP2+", 7, "A")
+			.add_Row("Gecko", "Firefox 1.5", "Win 98+ / OSX.2+", 1.8, "A")
+			.add_Row("Gecko", "Firefox 2", "Win 98+ / OSX.2+", 1.8, "A")
+			.add_Row("Gecko", "Firefox 3", "Win 2k+ / OSX.3+", 1.9, "A")
+			.add_Row("Webkit", "Safari 1.2", "OSX.3", 125.5, "A")
+			.add_Row("Webkit", "Safari 1.3", "OSX.3", 312.8, "A")
+			.add_Row("Webkit", "Safari 2.0", "OSX.4+", 419.3, "A")
+			.add_Row("Webkit", "Safari 3.0", "OSX.4+", 522.1, "A");
+
+jsDataTable.add_Columns("Engine", "Browser", "Platform");
+jsDataTable.add_Column("Version", "center");
+jsDataTable.add_Column("Grade", "center");
+//adding without using extension methods
+/*jsDataTable.aaData.Add(new List&lt;string&gt; { "Trident", "Internet Explorer 4.0", "Win 95+", "4", "X" }); 
+jsDataTable.aoColumns.add(new JsDataTable.JsDataColumn { sTitle = "Engine"  });
+jsDataTable.aoColumns.add(new JsDataTable.JsDataColumn { sTitle = "Browser"  });
+jsDataTable.aoColumns.add(new JsDataTable.JsDataColumn { sTitle = "Platform"  });
+jsDataTable.aoColumns.add(new JsDataTable.JsDataColumn { sTitle = "Version" , sClass = "center" });
+jsDataTable.aoColumns.add(new JsDataTable.JsDataColumn { sTitle = "Grade" , sClass = "center" }); */
+
+//return "{0}".info(jsDataTable.jsonString());
+
+ 
+var ie = topPanel.add_IE();			 	 
+
+ie.showMessage("loading dataTable js and css"); 
+
+var jQuery = new IE_JQuery(ie);     
+var cssFile = @"dataTable_demo.css".local();
+var styleHtml =  "&lt;style type=\"text/css\"&gt; {0} &lt;/style&gt;".format(cssFile.fileContents().fixCRLF().remove("".line()).replace("'", "\""));
+
+var injectCSS = "$('body').append($('"  + styleHtml + "' ))";
+ie.invokeEval(injectCSS);
+
+//ie.invokeEval("http://static.jstree.com/v.1.0pre/jquery.jstree.js".uri().getHtml());  // use to get jstree from jstree.com website
+ie.invokeEval("jquery.dataTables.min.js".local().fileContents());
+jQuery.element("div").html("creating local table"); 
+
+ie.invokeEval("$('body').append($('&lt;div id=\"testDataTable\"/&gt;')); $('#testDataTable').html('test DataTable will go here');");
+ie.invokeEval("$('#testDataTable').html( '&lt;table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" class=\"display\" id=\"example\"&gt;&lt;/table&gt;' );");
+//ie.invokeEval("%('#example').html('aaaaaaaaa')"); 
+/*var dataToBuildTable =  "						{ " + 	
+						"								'aaData': [" +
+						"												[ 'Trident', 'Internet Explorer 4.0', 'Win 95+', 4, 'X' ], " + 
+						"												[ 'Trident', 'Internet Explorer 5.0', 'Win 95+', 5, 'C' ], " + 
+						"												[ 'Gecko', 'Firefox 3', 'Win 2k+ / OSX.3+', 1.9, 'A' ], " +
+						"												[ 'Webkit', 'Safari 1.2', 'OSX.3', 125.5, 'A' ]  		" +
+	
+						"										  ]," + 		 
+						"								'aoColumns': [" + 
+						"												{ 'sTitle': 'Engine' }, " +
+						"												{ 'sTitle': 'Browser' }, " +
+						"												{ 'sTitle': 'Platform' }, " +
+						"												{ 'sTitle': 'Version', 'sClass': 'center' }, " +
+						"												{ 'sTitle': 'Grade', 'sClass': 'center' } " +
+						"										  	 ]" + 
+						"						}	  ";	 */
+			 	
+var dataToBuildTable = jsDataTable.jsonString();
+ie.invokeEval(" $('#example').dataTable( " + dataToBuildTable +" );"  ); 
+
+//O2File:JsDataTable.cs
+
+return "done"; 
+
+//O2File:IE_JQuery.cs
+//O2Ref:WatiN.Core.1x.dll
+//O2Ref:Microsoft.mshtml.dll </SourceCode>
+  <ReferencedAssemblies />
+</H2>

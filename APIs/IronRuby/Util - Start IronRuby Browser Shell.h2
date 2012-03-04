@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.clear().add_Panel();
+var topPanel = "Util - Start IronRuby Browser Shell".popupWindow(1000,500);
+
+var actionsPanel = topPanel.insert_Above(40,"Actions");
+var textArea = topPanel.insert_Right(300, "Console Out").add_TextArea().wordWrap(false);
+var ie = topPanel.add_IE().silent(true); 
+
+var rubyInstallDir = @"C:\Program Files\IronRuby 1.1"; 
+var webServer = rubyInstallDir.pathCombine(@"Silverlight\bin\Chiron.exe");
+
+Action&lt;string&gt; consoleOut = 
+	(text)=&gt;{
+				textArea.insertText(text.line()); 
+			};
+
+Action showWebServerHelp = 
+	()=&gt;{
+			Processes.startProcessAndRedirectIO(webServer , "", consoleOut);
+		};
+Action startServer = 
+	()=&gt;{				
+			var testSite = @"C:\Program Files\IronRuby 1.1\Silverlight\script\templates\ruby";			
+			var parameters = "/d:\"{0}\"".format(testSite);
+			Processes.startProcessAndRedirectIO(webServer , parameters, consoleOut);		
+		};
+Action openHomePage = 
+	()=&gt;{
+			ie.open("http://localhost:2060/index.html");
+		};		
+Action stopServer = 
+	()=&gt;{
+			Processes.getProcessCalled("Chiron").stop();
+		};
+		
+actionsPanel.add_Link("show WebServer help (Chiron.exe)", ()=&gt; showWebServerHelp())
+			.append_Link("start WebServer", ()=&gt; startServer())
+			.append_Link("stop WebServer processes", ()=&gt; stopServer())
+			.append_Link("open HomePage", ()=&gt; openHomePage());
+
+startServer();
+openHomePage();
+
+topPanel.onClosed(()=&gt; stopServer());
+
+return "done";
+//O2File:WatiN_IE_ExtensionMethods.cs
+//using O2.XRules.Database.Utils.O2
+//O2Ref:WatiN.Core.1x.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

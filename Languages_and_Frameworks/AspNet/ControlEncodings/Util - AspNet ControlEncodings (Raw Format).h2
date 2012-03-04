@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.clear().add_Panel();
+var topPanel = O2Gui.open&lt;Panel&gt;("Util - AspNet ControlEncodings (Raw Format)",700,400); 
+
+var mappedData  = "AspNetControlEncodings_Raw.xml".local().load&lt;AspNetControlEncodings_Raw&gt;();
+var tableList = topPanel.add_TableList()
+						.show(mappedData); 
+tableList.add_Column("vuln");	
+					
+tableList.visible(false);						
+foreach(var row in tableList.rows())
+{
+	var values = row.values();
+	if (values[2] == "na")
+		row.textColor(Color.Black);  
+	else if (values[3].toBool() &amp;&amp; values[4].toBool())
+		row.textColor(Color.DarkGreen); 
+	else if (values[3].toBool() || values[4].toBool())
+		row.textColor(Color.DarkOrange);
+	else
+	{
+		row.textColor(Color.Red);						
+		row.SubItems[1].Text = "* " + values[1]; 	
+	}
+}
+tableList.visible(true);
+return "ok";
+
+ 
+//O2File:AspNetControlEncodings.cs
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//"ie_KRtur".o2Cache(null); // uncomment to reload ie
+var ie = "ie_KRtur".o2Cache&lt;WatiN_IE&gt;(()=&gt; panel.clear().add_IE()).silent(true);  // ie ramdon value for o2cache makes this object to unique amongst multiple instances of this control
+
+ie.if_NoPageLoaded(
+		()=&gt;{ 
+				var defaultPage = "http://127.0.0.1.:12355/Html_Pages/_UnitTest_Helpers/GuiObjects/onFolderStructureLoaded.html";    
+				ie.open(defaultPage);	
+				//wait for objects to be loaded
+				var value = ie.waitForJsVariable("TM.Debug.UnitTest_Message").str();
+				Assert.AreEqual(value.str(), "Test Complete","UnitTest_Message");
+				//inject firebug
+				ie.eval("$('body').append('&lt;div id=firebug&gt;&lt;/div&gt;');  $('#firebug').load('/Javascript/Firebug/beta/Firebug.html')");		 				
+			});
+
+
+return ie.getJsVariable("TM.WebServices.Data.AllFolders");
+
+return "ok";
+//using NUnit.Framework;
+//O2File:WatiN_IE_ExtensionMethods.cs 
+//O2Ref:WatiN.Core.1x.dll
+//O2Tag_DontAddExtraO2Files;			
+//O2Ref:NUnit.Framework.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

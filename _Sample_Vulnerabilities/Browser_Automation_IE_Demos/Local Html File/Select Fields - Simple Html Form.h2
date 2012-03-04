@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>panel.clear();
+var ie = panel.add_IE().silent(true);
+
+ie.open("Simple_Html_Form.html".local());
+ie.field("field_1").flash().value("modified").flash();
+ie.field("field_2").flash().value("values").flash();
+ie.button("Submit").flash().click();
+return ie.url();
+//O2File:WatiN_IE_ExtensionMethods.cs
+//using O2.XRules.Database.Utils.O2
+//O2Ref:WatiN.Core.1x.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

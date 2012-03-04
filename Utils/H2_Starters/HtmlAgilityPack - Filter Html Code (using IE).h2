@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = "HtmlAgilityPack - Filter Html Code".popupWindow();
+var topPanel = panel.clear().add_Panel();
+var treeView = topPanel.insert_Right("XPath query result")
+					   .add_TreeView_for_HtmlTags();
+
+var ie = topPanel.add_GroupBox("Browser").add_IE().silent(true);
+
+ie.open("http://demo.testfire.net");
+ 
+var htmlContent = ie.IE.Html;
+var query = "//tr";
+
+treeView.add_Nodes(htmlContent.htmlDocument().select(query));
+
+//O2File:HtmlAgilityPack_ExtensionMethods.cs
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
+
+//O2File:WatiN_IE_ExtensionMethods.cs 
+//O2Ref:WatiN.Core.1x.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

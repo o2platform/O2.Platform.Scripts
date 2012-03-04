@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - Two Script Editors",1200,400);
+//var topPanel = panel.clear().add_Panel();
+var controls = topPanel.add_1x1();
+controls[0].add_Script();
+controls[1].add_Script();
+ 
+//O2File:Scripts_ExtensionMethods.cs</SourceCode>
+  <ReferencedAssemblies />
+</H2>

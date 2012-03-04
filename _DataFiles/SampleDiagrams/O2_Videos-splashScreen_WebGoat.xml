@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Root>
+  <DesignerItems>
+    <DesignerItem>
+      <Left>179</Left>
+      <Top>26</Top>
+      <Width>NaN</Width>
+      <Height>NaN</Height>
+      <ID>cbf6b21b-6f61-4cab-9708-16d96ea16e65</ID>
+      <zIndex>5</zIndex>
+      <IsGroup>false</IsGroup>
+      <ParentID>00000000-0000-0000-0000-000000000000</ParentID>
+      <Content>&lt;Label FontFamily="Verdana" FontSize="100" IsHitTestVisible="False" InputMethod.IsInputMethodEnabled="True" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"&gt;VIDEOS&lt;/Label&gt;</Content>
+    </DesignerItem>
+    <DesignerItem>
+      <Left>0</Left>
+      <Top>0</Top>
+      <Width>200</Width>
+      <Height>200</Height>
+      <ID>f75215a1-3839-425f-8f13-6bb0438ab15b</ID>
+      <zIndex>0</zIndex>
+      <IsGroup>false</IsGroup>
+      <ParentID>00000000-0000-0000-0000-000000000000</ParentID>
+      <Content>&lt;Image Source="file:///C:/O2/_tempDir/O2_Logo.gif" IsHitTestVisible="False" InputMethod.IsInputMethodEnabled="True" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" /&gt;</Content>
+    </DesignerItem>
+    <DesignerItem>
+      <Left>11</Left>
+      <Top>304</Top>
+      <Width>624.31</Width>
+      <Height>109</Height>
+      <ID>de04f7bb-3bd6-45f0-9fe3-7040d448643a</ID>
+      <zIndex>4</zIndex>
+      <IsGroup>false</IsGroup>
+      <ParentID>00000000-0000-0000-0000-000000000000</ParentID>
+      <Content>&lt;Button FontSize="30" Height="100" Margin="2,2,2,2" IsHitTestVisible="False" InputMethod.IsInputMethodEnabled="True" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:s="clr-namespace:System;assembly=mscorlib"&gt;&lt;Button.Template&gt;&lt;ControlTemplate TargetType="Button"&gt;&lt;Border CornerRadius="10,10,10,10" Background="#FFADD8E6" Name="Border"&gt;&lt;ContentPresenter Content="{TemplateBinding ContentControl.Content}" ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}" ContentStringFormat="{TemplateBinding ContentControl.ContentStringFormat}" HorizontalAlignment="Center" VerticalAlignment="Center" /&gt;&lt;/Border&gt;&lt;ControlTemplate.Triggers&gt;&lt;Trigger Property="UIElement.IsMouseOver"&gt;&lt;Setter Property="Panel.Background" TargetName="Border"&gt;&lt;Setter.Value&gt;&lt;SolidColorBrush&gt;#FFF0FFFF&lt;/SolidColorBrush&gt;&lt;/Setter.Value&gt;&lt;/Setter&gt;&lt;Trigger.Value&gt;&lt;s:Boolean&gt;True&lt;/s:Boolean&gt;&lt;/Trigger.Value&gt;&lt;/Trigger&gt;&lt;Trigger Property="ButtonBase.IsPressed"&gt;&lt;Setter Property="Panel.Background" TargetName="Border"&gt;&lt;Setter.Value&gt;&lt;SolidColorBrush&gt;#FFFFA500&lt;/SolidColorBrush&gt;&lt;/Setter.Value&gt;&lt;/Setter&gt;&lt;Trigger.Value&gt;&lt;s:Boolean&gt;True&lt;/s:Boolean&gt;&lt;/Trigger.Value&gt;&lt;/Trigger&gt;&lt;/ControlTemplate.Triggers&gt;&lt;/ControlTemplate&gt;&lt;/Button.Template&gt;First Example of O2's WebGoat API&lt;/Button&gt;</Content>
+    </DesignerItem>
+    <DesignerItem>
+      <Left>208</Left>
+      <Top>441</Top>
+      <Width>263.06999999999994</Width>
+      <Height>23.452000000000016</Height>
+      <ID>e217c742-b33a-4234-8499-462cd066f715</ID>
+      <zIndex>3</zIndex>
+      <IsGroup>false</IsGroup>
+      <ParentID>00000000-0000-0000-0000-000000000000</ParentID>
+      <Content>&lt;Label FontSize="10" IsHitTestVisible="False" InputMethod.IsInputMethodEnabled="True" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"&gt;video created by O2's Movie Creator script (June 2010)&lt;/Label&gt;</Content>
+    </DesignerItem>
+    <DesignerItem>
+      <Left>188</Left>
+      <Top>446</Top>
+      <Width>17.999999999999996</Width>
+      <Height>13.200000000000008</Height>
+      <ID>6e9d53af-fc7b-4494-a488-57757fd17f5f</ID>
+      <zIndex>2</zIndex>
+      <IsGroup>false</IsGroup>
+      <ParentID>00000000-0000-0000-0000-000000000000</ParentID>
+      <Content>&lt;Image Source="file:///C:/O2/O2Scripts_Database/_Scripts/_DataFiles/_Images/O2_Logo_no_Shadow.jpg" IsHitTestVisible="False" InputMethod.IsInputMethodEnabled="True" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" /&gt;</Content>
+    </DesignerItem>
+    <DesignerItem>
+      <Left>0</Left>
+      <Top>149</Top>
+      <Width>804</Width>
+      <Height>146</Height>
+      <ID>b81b735c-d019-45de-aeee-8eebbd3f91b3</ID>
+      <zIndex>1</zIndex>
+      <IsGroup>false</IsGroup>
+      <ParentID>00000000-0000-0000-0000-000000000000</ParentID>
+      <Content>&lt;Image Source="file:///C:/O2/_tempDir/6-29-2010/tmp5A33.tmp.jpeg" IsHitTestVisible="False" InputMethod.IsInputMethodEnabled="True" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" /&gt;</Content>
+    </DesignerItem>
+    <DesignerItem>
+      <Left>226</Left>
+      <Top>254</Top>
+      <Width>416.99999999999994</Width>
+      <Height>33.000000000000007</Height>
+      <ID>e32fb788-b647-49b0-b1cb-2a2eab011119</ID>
+      <zIndex>6</zIndex>
+      <IsGroup>false</IsGroup>
+      <ParentID>00000000-0000-0000-0000-000000000000</ParentID>
+      <Content>&lt;Rectangle Fill="#FFFFFFFF" Stroke="#FFFFFFFF" StrokeThickness="0" Width="640" Height="100" Opacity="1" IsHitTestVisible="False" InputMethod.IsInputMethodEnabled="True" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" /&gt;</Content>
+    </DesignerItem>
+  </DesignerItems>
+  <Connections />
+</Root>

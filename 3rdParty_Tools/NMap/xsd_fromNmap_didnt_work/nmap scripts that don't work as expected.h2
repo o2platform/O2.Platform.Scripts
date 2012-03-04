@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = O2Gui.open&lt;Panel&gt;("{name}",700,400);
+var topPanel = panel.clear().add_Panel();
+//var file = "o2platform.com.xml".local();
+
+
+var nmapSavedFile = @"o2platform.com.xml".local();   
+//return nmaprun.Load(nmapSavedFile);  // throws exception 
+var nmap = nmapSavedFile.load&lt;nmaprun&gt;();		//doesn't load the data properly
+//return nmap.host;
+topPanel.add_SourceCodeViewer()
+		.set_Text(nmapSavedFile.fileContents().xmlFormat(),".xml");
+topPanel.insert_Left(400,"loaded nmap file")
+	    .add_PropertyGrid()
+		.show(nmap); 
+return nmap;
+//using tempuri.org.nmap
+//O2File:nmap.cs 
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
+
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

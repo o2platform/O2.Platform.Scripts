@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = "PoC - jQuery IE Automation example".popupWindow(600,700);
+var ie = topPanel.add_IE().silent(true); 
+
+ie.open("http://jquery.bassistance.de/autocomplete/demo/");
+
+var jQuery = new IE_JQuery(ie); 
+
+jQuery.id("suggest1")			// getting reference to html element with id 'suggest1'
+	  .border(12)   			// seeting the border value to 12
+	  .value("London")			// setting the 'value' attribute to 'London' 
+	  .keydown();	  
+	  	
+jQuery.wait(200)				  // wait 200 ms to give time for the '.ac_over:first' to exist
+	  .element(".ac_over:first")  // get reference to '.ac_over:first' element
+	  .parent()					  // invoke the jQuery 'parent' method
+	  .click();					  // invoke the jQuery 'click' method	  
+	  
+jQuery.wait(1000).id("suggest1").border(2);	  // wait 1s before removing the border
+
+return "ok";
+
+
+//O2File:IE_JQuery.cs
+//O2File:WatiN_IE_ExtensionMethods.cs
+//using O2.XRules.Database.Utils.O2
+//O2Ref:WatiN.Core.1x.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

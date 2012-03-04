@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - JInt Compile and Execute",700,400);
+//var topPanel = panel.clear().add_Panel();
+var javascriptCode = topPanel.add_GroupBox("Javascript").add_SourceCodeViewer();  
+javascriptCode.editor().colorCodeForExtension(".js");
+var invokeButton = javascriptCode.parent().insert_Below&lt;Button&gt;(100).set_Text("Execute Javascript (using JInt)").font_bold();    
+var treeView = javascriptCode.insert_Right(300,"Ast").add_TreeView();
+treeView.jint_configureTreeViewFor_JintView();
+var executionResult = invokeButton.insert_Right(300,"Execution Result (or selected Javascript statement)").add_TextArea(); 
+
+
+javascriptCode.onTextChange(
+	(text)=&gt;{				
+				treeView.clear();
+				treeView.jint_Show_AstTree(text.jint_Compile(), javascriptCode, executionResult);
+				//treeView.expand();
+			});
+
+object resultObject = null;
+JintEngine jintEngine = null;
+invokeButton.onClick(
+	()=&gt;{
+			executionResult.set_Text("");
+			executionResult.azure();
+			try
+			{
+				var javascriptToExecute = javascriptCode.editor().getSourceCode();  				
+				jintEngine = new JintEngine();
+	 			resultObject = jintEngine.Run(javascriptToExecute);
+	 			"result Type was: {0}".info(resultObject.typeName());
+	 			executionResult.set_Text(resultObject.str()); 
+	 			executionResult.white();
+	 		}
+	 		catch(Exception ex)
+	 		{
+	 			executionResult.pink();
+	 			executionResult.set_Text("Error: {0}".format(ex.Message));
+	 		}
+		});
+		
+executionResult.insert_Below(20)
+			   .add_Link("info (result)", 0,0,()=&gt; resultObject.showInfo())
+			   .append_Link("details (result)", ()=&gt; resultObject.showDetails())
+			   .append_Link("details (jintEngine)", ()=&gt; jintEngine.showDetails()); 
+
+ 
+var sampleCode = "var fn = function()".line() + 
+				 "	{".line() + 
+				 "		return 12 + 111;".line() + 
+				 "	}".line() + 
+				 "return fn();	".line() ;
+ 
+javascriptCode.set_Text(sampleCode);  
+
+return "ok";
+//using Jint
+//O2Ref:Jint.dll
+//O2File:Jint_ExtensionMethods.cs
+//using O2.XRules.Database.Languages_and_Frameworks.Javascript</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xs:element name="entry" nillable="true">
+    <xs:complexType>
+      <xs:simpleContent msdata:ColumnName="entry_Text" msdata:Ordinal="0">
+        <xs:extension base="xs:string">
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SAMM">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="business-functions" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="business-function" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="title" type="xs:string" minOccurs="0" msdata:Ordinal="0" />
+                    <xs:element name="description" type="xs:string" minOccurs="0" msdata:Ordinal="1" />
+                  </xs:sequence>
+                  <xs:attribute name="number" type="xs:string" />
+                  <xs:attribute name="id" type="xs:string" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="security-practices" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="security-practice" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="title" type="xs:string" minOccurs="0" msdata:Ordinal="0" />
+                    <xs:element name="abbreviation" type="xs:string" minOccurs="0" msdata:Ordinal="1" />
+                    <xs:element name="description-short" type="xs:string" minOccurs="0" msdata:Ordinal="2" />
+                    <xs:element name="description" type="xs:string" minOccurs="0" msdata:Ordinal="3" />
+                    <xs:element name="level" minOccurs="0" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="objective" type="xs:string" minOccurs="0" msdata:Ordinal="0" />
+                          <xs:element name="entry" type="xs:string" minOccurs="0" msdata:Ordinal="2" />
+                          <xs:element name="activities" minOccurs="0" maxOccurs="unbounded">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="title" type="xs:string" minOccurs="0" />
+                                <xs:element name="activity" minOccurs="0" maxOccurs="unbounded">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="title" type="xs:string" minOccurs="0" msdata:Ordinal="0" />
+                                      <xs:element name="content" type="xs:string" minOccurs="0" msdata:Ordinal="1" />
+                                    </xs:sequence>
+                                    <xs:attribute name="number" type="xs:string" />
+                                    <xs:attribute name="id" type="xs:string" />
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="assessment" minOccurs="0" maxOccurs="unbounded">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="title" type="xs:string" minOccurs="0" />
+                                <xs:element ref="entry" minOccurs="0" maxOccurs="unbounded" />
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="results" minOccurs="0" maxOccurs="unbounded">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="title" type="xs:string" minOccurs="0" />
+                                <xs:element ref="entry" minOccurs="0" maxOccurs="unbounded" />
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="metrics" minOccurs="0" maxOccurs="unbounded">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="title" type="xs:string" minOccurs="0" />
+                                <xs:element ref="entry" minOccurs="0" maxOccurs="unbounded" />
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="costs" minOccurs="0" maxOccurs="unbounded">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="title" type="xs:string" minOccurs="0" />
+                                <xs:element ref="entry" minOccurs="0" maxOccurs="unbounded" />
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="personnel" minOccurs="0" maxOccurs="unbounded">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="title" type="xs:string" minOccurs="0" />
+                                <xs:element ref="entry" minOccurs="0" maxOccurs="unbounded" />
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="related" minOccurs="0" maxOccurs="unbounded">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="title" type="xs:string" minOccurs="0" />
+                                <xs:element ref="entry" minOccurs="0" maxOccurs="unbounded" />
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="number" type="xs:string" />
+                        <xs:attribute name="id" type="xs:string" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="number" type="xs:string" />
+                  <xs:attribute name="id" type="xs:string" />
+                  <xs:attribute name="business-function" type="xs:string" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="section" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="title" type="xs:string" minOccurs="0" msdata:Ordinal="0" />
+              <xs:element name="subtitle" type="xs:string" minOccurs="0" msdata:Ordinal="1" />
+              <xs:element name="version" type="xs:string" minOccurs="0" msdata:Ordinal="2" />
+              <xs:element name="content" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="heading-bullets" type="xs:string" minOccurs="0" />
+                    <xs:element name="heading1" nillable="true" minOccurs="0" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:simpleContent msdata:ColumnName="heading1_Text" msdata:Ordinal="0">
+                          <xs:extension base="xs:string">
+                          </xs:extension>
+                        </xs:simpleContent>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="bullet" minOccurs="0" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="emph" type="xs:string" minOccurs="0" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="emph" nillable="true" minOccurs="0" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:simpleContent msdata:ColumnName="emph_Text" msdata:Ordinal="0">
+                          <xs:extension base="xs:string">
+                          </xs:extension>
+                        </xs:simpleContent>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="heading2" nillable="true" minOccurs="0" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:simpleContent msdata:ColumnName="heading2_Text" msdata:Ordinal="0">
+                          <xs:extension base="xs:string">
+                          </xs:extension>
+                        </xs:simpleContent>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="id" type="xs:string" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="section-split" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="title" type="xs:string" minOccurs="0" msdata:Ordinal="0" />
+              <xs:element name="subtitle" type="xs:string" minOccurs="0" msdata:Ordinal="1" />
+              <xs:element name="content" type="xs:string" minOccurs="0" msdata:Ordinal="2" />
+            </xs:sequence>
+            <xs:attribute name="number" type="xs:string" />
+            <xs:attribute name="id" type="xs:string" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="misc-text" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element ref="entry" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="level-data" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="level-value" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:attribute name="id" type="xs:string" />
+                  <xs:attribute name="value" type="xs:string" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="samm-version" type="xs:string" />
+      <xs:attribute name="revision" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="entry" />
+        <xs:element ref="SAMM" />
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

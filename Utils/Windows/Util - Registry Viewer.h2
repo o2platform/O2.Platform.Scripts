@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//panel.clear();
+var topPanel =  O2Gui.open&lt;Panel&gt;("Registry Viewer", 600,400);
+var tableList = topPanel.add_TableList("Registy Values of Selected Key"); 
+var registryKeys = tableList.insert_Left&lt;Panel&gt;(200).add_TreeView();
+//var registryKeys = panel.add_TreeView();
+registryKeys.beforeExpand&lt;RegistryKey&gt;(
+	(currentKey) =&gt; {
+						var currentNode = registryKeys.selected();
+						currentNode.clear();
+						foreach(var keyName in currentKey.GetSubKeyNames())
+						{
+							var subKey = currentKey.OpenSubKey(keyName);
+							currentNode.add_Node(subKey.Name.remove(currentKey.Name+"\\"), subKey, subKey.GetSubKeyNames().size()&gt;0);
+						}
+						"current key {0}".info(currentKey);
+				  	});
+registryKeys.afterSelect&lt;RegistryKey&gt;(			  	
+	(currentKey)=&gt;{
+					 tableList.clearTable();
+					 					 
+					 tableList.add_Columns("Name", "Type", "Value");  
+					 foreach(var name in currentKey.GetValueNames())
+					 {
+					 	var value = currentKey.GetValue(name);
+					 	tableList.add_Row(name, value.typeName(),value.str());
+					 }
+					 tableList.makeColumnWidthMatchCellWidth();
+				  });
+//registryKeys.add_Node(Registry.ClassesRoot.Name, Registry.ClassesRoot ,true);  // this is quite resource intensive
+//registryKeys.add_Node(Registry.CurrentConfig.Name, Registry.CurrentConfig ,true);
+registryKeys.add_Node(Registry.CurrentUser.Name, Registry.CurrentUser ,true);
+//registryKeys.add_Node(Registry.LocalMachine.Name, Registry.LocalMachine ,true);
+//registryKeys.add_Node(Registry.Users.Name, Registry.Users ,true);
+
+registryKeys.expand(); 
+registryKeys.selectFirst();
+return "ok";
+//using Microsoft.Win32</SourceCode>
+  <ReferencedAssemblies />
+</H2>

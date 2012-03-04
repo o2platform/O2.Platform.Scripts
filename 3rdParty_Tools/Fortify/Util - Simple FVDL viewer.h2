@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.clear().add_Panel();
+var topPanel = "Util - Simple FVDL viewer".popupWindow(1000,400);
+
+var tableList = topPanel.clear().add_TableList().title("Drop an *.fvdl file here to load it"); 
+
+Func&lt;string, FVDL&gt; loadFvdl = 
+	(fvdlFile)=&gt;{		
+					try
+					{
+						var chachedFvdl = (FVDL)O2LiveObjects.get(fvdlFile);
+						if (chachedFvdl.notNull())
+							return chachedFvdl;
+					}
+					catch { }
+					 
+					var o2Timer = new O2Timer("loading {0} file".format(fvdlFile.fileName())).start();		
+			 		var _fvdl = FVDL.Load(fvdlFile);	
+			 		O2LiveObjects.set(fvdlFile,_fvdl);
+			 		o2Timer.stop();
+				 	return _fvdl;  
+				}; 
+ 
+ Action&lt;FVDL&gt; showFvdl = 
+ 	(_fvdl)=&gt;{
+				var vulnerabilities = _fvdl.Vulnerabilities.Vulnerability;
+  
+				var results =  (from vulnerability in vulnerabilities
+	  		    select new  {
+			    				kingdom = vulnerability.ClassInfo.Kingdom,
+			    				analyzer = vulnerability.ClassInfo.AnalyzerName,
+			    				classId = vulnerability.ClassInfo.ClassID,
+			    				defaultSeverity = vulnerability.ClassInfo.DefaultSeverity,
+			    				instanceId = vulnerability.InstanceInfo.InstanceID,
+			    				instanceSeverity = vulnerability.InstanceInfo.InstanceSeverity,
+			    				confidence = vulnerability.InstanceInfo.Confidence,  	     			    				
+			    				function = vulnerability.AnalysisInfo.Unified.notNull() &amp;&amp; vulnerability.AnalysisInfo.Unified.Context.Function.notNull()
+			    							? vulnerability.AnalysisInfo.Unified.Context.Function.name
+			    							: "" , 
+			    				file = vulnerability.AnalysisInfo.Unified.notNull() &amp;&amp; vulnerability.AnalysisInfo.Unified.Context.FunctionDeclarationSourceLocation.notNull()
+			    							? vulnerability.AnalysisInfo.Unified.Context.FunctionDeclarationSourceLocation.path
+			    							: "" ,
+			    				line = vulnerability.AnalysisInfo.Unified.notNull() &amp;&amp; vulnerability.AnalysisInfo.Unified.Context.FunctionDeclarationSourceLocation.notNull()
+			    							? vulnerability.AnalysisInfo.Unified.Context.FunctionDeclarationSourceLocation.line
+			    							: 0 
+			    			}).toList(); 
+			    tableList.title("Showing {0} Vulnerabilties".format(results.size())) 
+						 .show(results);			    						 				
+ 			 };
+ 
+//var xmlFile = @"C:\O2\_tempDir\_Fortify-Sate-2008\Fortify-Sate-2008\sate2008-Fvdl\dspace.fvdl";
+
+//var fv = loadFvdl(xmlFile);
+//showFvdl(fv);
+//var vn = fv.Vulnerabilities.Vulnerability;
+//tableList.show(vn);
+
+
+Action&lt;string&gt; loadAndShowFile =
+	(file)=&gt;{ 
+				tableList.title("... loading file: {0}".format(file.fileName())); 
+				O2Thread.mtaThread(()=&gt;{
+											var fvdl = loadFvdl(file);
+											showFvdl(fvdl);
+										});
+			};
+
+tableList.onDrop(loadAndShowFile);
+tableList.getListViewControl().onDrop(loadAndShowFile);
+	
+ 
+return "done";  
+ 
+//using xmlns.www.fortifysoftware.com.schema.fvdl 
+//O2File:Fortify.fvdl.1.6.xsd.cs
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var wikiPageEditor = O2Gui.open&lt;ascx_MediaWiki_PageEditor_Simple&gt;("OWASP Wiki Page Editor", 500,500);
+var wikiApi = new OwaspWikiAPI();
+wikiPageEditor.buildGui(wikiApi);
+
+return "ok";
+//O2File:OwaspWikiAPI.cs
+//O2File:ascx_MediaWiki_PageEditor_Simple.cs</SourceCode>
+  <ReferencedAssemblies />
+</H2>

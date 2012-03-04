@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//panel.clear(); 
+
+//var topPanel = panel.add_Panel();//
+var topPanel = O2Gui.open&lt;Panel&gt;("OWASP O2 Platform v1.5 Beta", 800,600);
+topPanel.parent().backColor(Color.White);
+var menuPanel = topPanel.insert_Above&lt;Panel&gt;(61);
+topPanel.insert_Below&lt;Panel&gt;(100).add_LogViewer();
+var imagePanel = menuPanel.insert_Left&lt;Panel&gt;();
+menuPanel.parent&lt;SplitContainer&gt;().distance(351);  
+imagePanel.add_PictureBox().open("OWASP_O2_Platform.png".local()).fill(false).width(351).height(41).top(10)
+		  .onDrop((script)=&gt;{
+		  						"dropped script: {0}".info(script);
+		  					});
+
+var browser = topPanel.add_IE(); 
+ 
+menuPanel.add_Link("Welcome GUI",15,30,()=&gt; browser.open("wiki_Welcome.html".local())).click(); 
+menuPanel.add_Link("Demos, Animations and Videos",15,140,()=&gt; browser.open("wiki_Demos.html".local()));
+menuPanel.add_Link("Buy O2",15,350,()=&gt; browser.open("wiki_BuyO2.html".local())); 
+menuPanel.add_Link("Open Custom O2s",35,30,()=&gt;browser.open("wiki_CustomO2s.html".local()));//.click();    
+menuPanel.add_Link("Advanced Users and O2 Developers",35,140,()=&gt;browser.open("wiki_Developer.html".local())); 
+menuPanel.add_Link("HELP!",35,350,()=&gt; browser.open("wiki_Help.html".local()));  
+//var browser = topPanel.add_WebBrowser_Control(); 
+
+browser.beforeNavigate(
+	(url)=&gt; {	
+				var fileName = url.fileName();
+				if (fileName.extension(".h2"))
+				{
+					O2Thread.mtaThread(
+						()=&gt;{
+								if (url.fileExists()) 
+									url.executeH2Script();
+								else
+									fileName.local().executeH2Script();
+							});
+					
+					return true;
+				}
+				return false;
+			});
+		
+//var wiki_HomePage = wikisFolder.pathCombine("TiddlyWiki.html");
+/*browser.Navigating +=
+(sender,e)=&gt; {
+					//show.info(e); 
+					"navigating to: {0}".info(e.Url);  
+				 };
+browser.Navigated+= 
+	(sender,e)=&gt; {
+					//show.info(e);  
+					show.info(browser.ObjectForScripting); 
+					"navigated to: {0}".info(e.Url); 
+				 };
+*/
+
+return "ok"; 
+//O2File:Watin_IE.cs
+//O2Ref:WatiN.Core.1x.dll
+//O2Ref:Interop.SHDocVw.dll
+//O2Ref:Microsoft.mshtml.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

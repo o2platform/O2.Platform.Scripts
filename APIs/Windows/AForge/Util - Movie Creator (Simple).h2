@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//O2.DotNetWrappers.DotNet.CompileEngine.resetLocalScriptsFileMappings();
+//panel.clear(); 
+//var topPanel = panel.add_Panel();       
+var topPanel = O2Gui.open&lt;Panel&gt;("Util - Movie Creator (Simple)", 700,160);   
+
+topPanel.parentForm().height(350);   
+    
+var movieEditor = topPanel.add_Control&lt;ascx_MovieEditor&gt;()
+						  .buildGui();  
+
+topPanel.insert_Below(100).add_LogViewer();
+
+var wpfRibbon = topPanel.add_Ribbon_Above();
+wpfRibbon.add_Tab("Movie Creation") 
+		 .add_Group("Load")  
+		 .add_Button_New(" New Movie",()=&gt; movieEditor.newMovie())
+		 .add_Button(" Load Images from Folder ","Open_16x16.png",		 
+		 		()=&gt;{ 
+		 				var folder = API_MiniFramework.askQuestion("Load images", "What is the directory you want to load the images from?"); 
+		 				if (folder.valid())
+		 				{
+			 				"loading images from folder: {0}".info(folder);
+			 				  movieEditor.newMovie(); 
+			 				  movieEditor.loadImages(folder);
+			 				 }
+			 		});		 
+
+RibbonButton FramesRecordedInfo = null;		 
+wpfRibbon.tab("Movie Creation")
+		 .add_Group("Record") 
+		 .add_Button(" Start Recording", "redled.png", 
+		 		()=&gt; movieEditor.start_ImageCapture(
+		 								(count)=&gt;FramesRecordedInfo.prop("Label","{0} Frames Recorded".format(count)) ) )
+		 .add_Button(" Stop Recording", "player_stop.png", ()=&gt; movieEditor.stop_ImageCapture() )
+		 .add_Button(" 0 Frames Recorded"); 
+		 
+FramesRecordedInfo = wpfRibbon.tab("Movie Creation").group("Record").button("0 Frames Recorded");
+
+wpfRibbon.tab("Movie Creation")
+		 .add_Group("Create")
+		 .add_Button_WithSmallImage(" Create Movie from images","video.png", 
+		 		()=&gt;{
+		 				movieEditor.createVideo();
+		 				movieEditor.playLastVideoCreated(); 
+		 			})
+		 .add_Button_WithSmallImage(" Play Movie", "player_play.png", ()=&gt; movieEditor.playLastVideoCreated() )
+		 .add_Button_Save(" Save Movie As",
+		 		()=&gt;{	
+		 				if (movieEditor.movieExists())
+		 				{
+		 					var targetFile = O2Forms.askUserForFileToSave(Environment.CurrentDirectory,"*.avi");
+		 					"Moving created movie from: {0} to {1}".info();
+		 					Files.MoveFile(movieEditor.AForge_Video.PathToAviVideo,targetFile);
+		 					if (targetFile.fileExists())
+		 						movieEditor.AForge_Video.PathToAviVideo =targetFile;
+		 				 }
+		 			});
+
+wpfRibbon.tab("Movie Creation")    
+		 .add_Group("Config")		 		   
+		 	.add_Button("Movie Engine Properties","Paragraph_16x16.png",()=&gt;show.info(movieEditor.AForge_Video))
+		 	.add_Button(" Show Capture Location","OuterBorders_16x16.png", ()=&gt;movieEditor.showMovieCaptureLocation())
+		 	.add_Button(" Show Frames","image.png", ()=&gt; topPanel.parentForm().height(400));
+
+wpfRibbon.add_Tab("Options") 
+	     .add_Group("Slide Editor")
+		 	.add_RibbonCheckBox("On image delete, also delete from disk", (value)=&gt;{ movieEditor.OnImageDeleteAlsoDeleteFromDisk = value;})
+		 	.add_RibbonCheckBox("View Multiple Selected Images", true, (value)=&gt;{ movieEditor.ViewMultipleSelectedImages = value;})		 	
+		 	.add_RibbonCheckBox("Add Duplicate Frames (while capture)", false, (value)=&gt;{ movieEditor.AForge_Video.AddDuplicateFrames = value;})		 	
+		 	.add_Button("Show TempVideoImages folder","Open_16x16.png", ()=&gt; Processes.startProcess(movieEditor.TempVideoImages));				 
+wpfRibbon.tab("Options")  
+		 .add_Group("Temp Images")  		 	
+ 		 .add_Button("Show ListOfImagesToDelete ", ()=&gt; movieEditor.ListOfImagesToDelete.editScript())
+ 		 .add_Button("Delete ListOfImagesToDelete ", ()=&gt; movieEditor.deleteListOfImagesToDelete())
+ 		 .add_Button("Set Movie Path", ()=&gt; movieEditor.setMoviePath(API_MiniFramework.askQuestion("Set Movie Images path", "What folder do you want to use?"))); 		 
+		 	
+return "done"; 	 
+ 
+//using Microsoft.Windows.Controls.Ribbon;
+//O2File:ascx_MovieEditor.cs
+//O2File:WPF_Ribbon.cs
+//O2File:API_WPF_ToolKit.cs
+//O2File:WPF_ExtensionMethods.cs 
+//O2File:API_MiniFramework.cs
+//O2Ref:WindowsFormsIntegration.dll
+//O2Ref:O2_API_Visualization.dll
+//O2Ref:RibbonControlsLibrary.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

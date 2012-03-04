@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var title = "HacmeBank"; 
+//var ribbon = CustomO2.create(panel.clear().add_Panel(),title); 
+var ribbon = CustomO2.create(title); 
+
+  
+var hacmeBankDemos = ribbon.add_Tab("HacmeBank Demos");
+hacmeBankDemos.add_RibbonGroup("HacmeBank")
+	 		  .add_RibbonButton_Script("HacmeBank BlackBox Exploits / Unit tests","HacmeBank_BlackBox_Exploits.cs") 
+	 		  .add_RibbonButton_H2Script("Full PoC (Black Box to WhiteBox)", "HacmeBank_FullPoc.h2")
+	 		  .add_RibbonButton_H2Script("Map HacmeBank Ascx EntryPoints", "Map HacmeBank Ascx EntryPoints.h2");
+
+hacmeBankDemos.add_RibbonGroup("Installion")
+			  .add_RibbonButton_StartProcess("HanmeBank at Google code", "http://code.google.com/p/owasp-hacmebank/")
+			  .add_RibbonButton_StartProcess("HanmeBank Installation", "http://owasp-hacmebank.googlecode.com/files/HacmeBank_v2.0%20%287%20Dec%2008%29.zip");
+			  
+		     
+
+ribbon.add_Tab_BrowserAutomation();
+return "ok";
+
+//O2File:CustomO2.cs  
+
+//using Microsoft.Windows.Controls.Ribbon;
+
+//O2Ref:WindowsFormsIntegration.dll
+//O2Ref:O2_API_Visualization.dll
+//O2Ref:RibbonControlsLibrary.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

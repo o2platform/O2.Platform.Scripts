@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//panel.clear();
+//var topPanel = panel.add_Panel();
+
+var topPanel = O2Gui.open&lt;Panel&gt;("O2 GUI - Browser Automation / BlackBox Testing", 800,570);    
+
+topPanel.parentForm().top(60).left(60); 
+
+var logoNoShadow = "O2_Logo_no_Shadow.jpg".local(); 
+var smallLogo = "O2Logo_Small.gif".local();
+
+var ribbon = topPanel.insert_Above&lt;WPF_Ribbon&gt;(135); 
+ 
+var browserAutomation = ribbon.Ribbon.add_RibbonTab("Browser Automation");   
+browserAutomation.add_RibbonGroup("IE Script development environments") 				 
+				 .add_RibbonButton_Script(topPanel,"IE Automation","ascx_IE_ScriptExecution.cs")
+				 .add_RibbonButton_H2Script(topPanel,"IE Automation Development","IE Automation using WatiN.h2")
+				 .add_RibbonButton_H2Script(topPanel,"WatiN Recorder","WatiN - Open 'Test Recorder' in new process.h2");
+browserAutomation.add_RibbonGroup("Javascript")
+				 .add_RibbonButton_H2Script(topPanel,"XSS PoC Builder","Web - XSS PoC Builder.h2") 
+				 .add_RibbonButton_H2Script(topPanel,"Javascript AST Viewer","Web - Javascript AST Viewer.h2")	  
+				 .add_RibbonButton_H2Script(topPanel,"JavaScript Stats Viewer","Web - JavaScript Stats Viewer.h2");  
+	  
+browserAutomation.add_RibbonGroup("Html") 
+				 .add_RibbonButton_H2Script(topPanel,"Html Tag Viewer","ascx_HtmlTagViewer.cs")
+				 .add_RibbonButton_H2Script(topPanel,"View WebPage details","ascx_View_WebPage_Details.cs.o2")
+				 .add_RibbonButton_H2Script(topPanel,"Quick HtmlCode Viewer","Quick HtmlCode Viewer.h2")
+				 .add_RibbonButton_H2Script(topPanel,"Simple Html Viewer","Util - Simple Html Viewer.h2")
+				 .add_RibbonButton_H2Script(topPanel,"Html Editor","ascx_Html_Editor.cs.o2");      
+
+var demoVulnerableApplications = ribbon.Ribbon.add_RibbonTab("Demo Vulnerable Applications");   
+demoVulnerableApplications.add_RibbonGroup("Browser Automation") 				  
+	.add_RibbonButton_H2Script(topPanel,"Browser Automation - IE Demos","Browser Automation_IE Demos.h2");
+
+
+demoVulnerableApplications.add_RibbonGroup("HacmeBank") 				  
+				 		  .add_RibbonButton_Script(topPanel,"HacmeBank BlackBox Exploits / Unit tests","HacmeBank_BlackBox_Exploits.cs") 
+				 		  .add_RibbonButton_H2Script(topPanel,"Full PoC (Black Box to WhiteBox)", "HacmeBank_FullPoc.h2")
+				 		  .add_RibbonButton_H2Script(topPanel,"Map HacmeBank Ascx EntryPoints", "Map HacmeBank Ascx EntryPoints.h2");
+demoVulnerableApplications.add_RibbonGroup("HacmeBank") 	 			   
+				 		  .add_RibbonButton_Script(topPanel,"WebGoat BlackBox Exploits / Unit tests","WebGoat_BlackBox_Exploits.cs");		  
+				 		  
+				 		  
+ 
+				 
+//O2File:ascx_IE_ScriptExecution.cs 
+//Splash message
+topPanel.parent&lt;SplitContainer&gt;().backColor(Color.White); 
+topPanel.backColor("Control"); 
+var designerCanvas = topPanel.add_DesignerCanvas(); 
+designerCanvas.add_Label("Browser Automation / BlackBox Testing",160,140).fontSize(30);     
+ 
+return "ok";
+ 
+//using Microsoft.Windows.Controls.Ribbon;
+//using WPF= System.Windows.Controls
+//using DiagramDesigner
+//O2File:WPF_Ribbon.cs 
+//O2File:WPF_Ribbon_ExtensionMethods.cs
+//O2File:DiagramDesigner_ExtensionMethods.cs
+//O2Ref:WindowsFormsIntegration.dll
+//O2Ref:O2_API_Visualization.dll
+//O2Ref:DiagramDesigner.exe
+//O2Ref:RibbonControlsLibrary.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

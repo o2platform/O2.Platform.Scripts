@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - Run TM UnitTests",400,500);
+topPanel.parentForm().top(0).left(0);
+//var topPanel = panel.clear().add_Panel();
+topPanel.insert_LogViewer(); 
+
+var currentFolder = PublicDI.CurrentScript.parentFolder();
+var unitTestsFolder = currentFolder;//.pathCombine("UnitTests");
+var tmConsolidatedTestsFolder = "All TM Unit Tests.cs".local().parentFolder();
+ 
+var actionsPanel = topPanel.insert_Above(40,"Actions");
+var availableTests = topPanel.add_TreeView();  
+availableTests.onDrag&lt;string,string&gt;((tag)=&gt; { return tag.str();}); 
+ 
+
+//make sure these are there
+"".tempDir().copyAssembliesToFolder("O2_Kernel.dll", "O2_Interfaces.dll", "O2_DotNetWrappers.dll", "O2_Views_ASCX.dll", "O2_External_Sharpdevelop.dll");
+ 
+//Dictionary&lt;string,object&gt; ncunitLaunher = null;
+
+Action refreshTree =  
+	()=&gt;{ 
+			availableTests.clear();  
+			
+			foreach(var file in unitTestsFolder.files("*.cs",true))
+				if(file.fileContents().contains("[TestFixture]"))
+					availableTests.add_Node(file.str()
+												.remove(unitTestsFolder)
+												.removeFirstChar()
+												.replace("\\", "    -&gt;    ")
+											,file);
+			
+			//availableTests.add_Files(tmConsolidatedTestsFolder, "*.cs");
+			//availableTests.add_Node("_Web_Based  Tests").add_Nodes(tmConsolidatedTestsFolder.parentFolder().files(), (file)=&gt;file.fileName());  
+			//availableTests.add_Node("_BackEdnd  Tests").add_Nodes(@"C:\_WorkDir\SI\_TeamMentor-v3.0_Latest\O2 Scripts\UnitTests_Compiled".files("security*.dll"), (file)=&gt;file.fileName());  
+			
+			availableTests.selectFirst();
+		};
+Action&lt;string&gt; runOnNunitGui = 
+	(assemblyOrProject)=&gt;{
+							"Running on NUnit Gui:{0}".info(assemblyOrProject);
+							new API_NUnit().runProject(assemblyOrProject);
+						 };
+
+Func&lt;string&gt; selectedTest = ()=&gt; (string)availableTests.selected().tag&lt;string&gt;(); 	
+
+Action compileAndRun = 
+	()=&gt;{			
+//			var api_NUnit_Gui = "var api_NUnit_Gui".o2Cache&lt;API_NUnit_Gui&gt;(()=&gt; new API_NUnit_Gui(false));
+			var unitTestToOpen = selectedTest();
+//			api_NUnit_Gui.compileOpenAndRun(unitTestToOpen); 
+			if (unitTestToOpen.extension(".cs"))
+				new API_NUnit().compileAndRun(unitTestToOpen); 
+			else
+				new API_NUnit().runProject(unitTestToOpen); 
+		};		
+    
+Action openInEditor = 
+	()=&gt;{
+			var scriptToExecute ="Util - Execute O2ified tests on NUnitGui.h2".local();
+			var nunitLauncher = (Dictionary&lt;string,object&gt;)scriptToExecute.executeH2Script();
+			
+			var unitTestToOpen = (string)availableTests.selected().tag&lt;string&gt;(); 
+			"[scriptToExecute] {0}".info(unitTestToOpen);			
+			var loadFile = nunitLauncher.value&lt;Action&lt;string&gt;&gt;("loadFile");
+			loadFile(unitTestToOpen); 	
+		};	
+
+actionsPanel.add_Label("")
+			.append_Link("Run test", ()=&gt; compileAndRun())
+			.append_Link("Open test in editor", ()=&gt; openInEditor())
+			.append_Link("Refresh tests list", ()=&gt; refreshTree());
+
+
+availableTests.onDoubleClick(()=&gt;compileAndRun()); 
+
+availableTests.onDrop((file)=&gt; runOnNunitGui(file));
+
+availableTests.add_ContextMenu()
+			  .add_MenuItem("run" , true, ()=&gt; compileAndRun())
+			  .add_MenuItem("edit", true, ()=&gt; openInEditor())
+			  .add_MenuItem("refresh tree", true, ()=&gt; refreshTree())
+			  .add_MenuItem("copy path to clipboard", ()=&gt; selectedTest().toClipboard());
+
+refreshTree();
+
+return "ok";
+
+//O2File:API_NUnit_Gui.cs
+//O2Ref:nunit-gui-runner.dll
+//O2Ref:nunit.util.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("DWR Functions Viewer and Invoker",900,500);
+
+Func&lt;string, List&lt;String&gt;&gt; dwr_getInterfaceJavascriptsFromDebugPage = 
+	(server) =&gt;	{
+					"[DWR] loading demo data from: {0}".debug(server);					
+					var fullUri = (server + "/dwr/index.html").uri();
+					var html = fullUri.getHtml(); 
+					var demoPages =  html.htmlDocument()
+									     .links() 
+									     .values();				 
+					var javascripts = new List&lt;string&gt;(); 
+					foreach(var demoPage in demoPages)
+						javascripts.Add("{0}/dwr/interface/{1}.js".format(server, demoPage));
+					return javascripts; 
+			 	};
+
+Action&lt;string&gt; loadData = 
+	(server)=&gt;{
+			  	 var files = dwr_getInterfaceJavascriptsFromDebugPage(server); 	 	
+			  	 topPanel.clear();
+				 topPanel.createTestGuiFromJavascriptInterfaces(server,files); 					
+			  };
+
+
+var serverTextBox = topPanel.insert_Above&lt;Panel&gt;(20)
+							.add_Label("Dwr Server")
+							.top(5)
+							.append_TextBox("").align_Right(topPanel)
+							.onEnter(loadData);
+
+
+var demoServer = "http://directwebremoting.org/dwr-demo"; 
+serverTextBox.set_Text(demoServer);
+loadData(demoServer);
+
+
+//O2File:API_DWR.cs  
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
+
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

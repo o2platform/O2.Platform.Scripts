@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xs:element name="nmaprun">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="scaninfo" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:attribute name="services" type="xs:string" />
+            <xs:attribute name="protocol" type="xs:string" />
+            <xs:attribute name="numservices" type="xs:string" />
+            <xs:attribute name="type" type="xs:string" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="verbose" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:attribute name="level" type="xs:string" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="debugging" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:attribute name="level" type="xs:string" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="output" nillable="true" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:simpleContent msdata:ColumnName="output_Text" msdata:Ordinal="1">
+              <xs:extension base="xs:string">
+                <xs:attribute name="type" type="xs:string" />
+              </xs:extension>
+            </xs:simpleContent>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="host" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="status" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:attribute name="state" type="xs:string" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="address" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:attribute name="addrtype" type="xs:string" />
+                  <xs:attribute name="vendor" type="xs:string" />
+                  <xs:attribute name="addr" type="xs:string" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="hostnames" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="hostname" minOccurs="0" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:attribute name="type" type="xs:string" />
+                        <xs:attribute name="name" type="xs:string" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="ports" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="extraports" minOccurs="0" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:attribute name="count" type="xs:string" />
+                        <xs:attribute name="state" type="xs:string" />
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="port" minOccurs="0" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="state" minOccurs="0" maxOccurs="unbounded">
+                            <xs:complexType>
+                              <xs:attribute name="reason" type="xs:string" />
+                              <xs:attribute name="state" type="xs:string" />
+                              <xs:attribute name="reason_ttl" type="xs:string" />
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="service" minOccurs="0" maxOccurs="unbounded">
+                            <xs:complexType>
+                              <xs:attribute name="method" type="xs:string" />
+                              <xs:attribute name="conf" type="xs:string" />
+                              <xs:attribute name="name" type="xs:string" />
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="protocol" type="xs:string" />
+                        <xs:attribute name="portid" type="xs:string" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="os" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="portused" minOccurs="0" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:attribute name="state" type="xs:string" />
+                        <xs:attribute name="portid" type="xs:string" />
+                        <xs:attribute name="proto" type="xs:string" />
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="osclass" minOccurs="0" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:attribute name="type" type="xs:string" />
+                        <xs:attribute name="osfamily" type="xs:string" />
+                        <xs:attribute name="vendor" type="xs:string" />
+                        <xs:attribute name="osgen" type="xs:string" />
+                        <xs:attribute name="accuracy" type="xs:string" />
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="osmatch" minOccurs="0" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:attribute name="line" type="xs:string" />
+                        <xs:attribute name="name" type="xs:string" />
+                        <xs:attribute name="accuracy" type="xs:string" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="uptime" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:attribute name="lastboot" type="xs:string" />
+                  <xs:attribute name="seconds" type="xs:string" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="tcpsequence" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:attribute name="index" type="xs:string" />
+                  <xs:attribute name="values" type="xs:string" />
+                  <xs:attribute name="difficulty" type="xs:string" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="ipidsequence" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:attribute name="values" type="xs:string" />
+                  <xs:attribute name="class" type="xs:string" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="tcptssequence" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:attribute name="values" type="xs:string" />
+                  <xs:attribute name="class" type="xs:string" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="trace" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="hop" minOccurs="0" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:attribute name="rtt" type="xs:string" />
+                        <xs:attribute name="host" type="xs:string" />
+                        <xs:attribute name="ipaddr" type="xs:string" />
+                        <xs:attribute name="ttl" type="xs:string" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="port" type="xs:string" />
+                  <xs:attribute name="proto" type="xs:string" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="comment" type="xs:string" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="runstats" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="finished" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:attribute name="timestr" type="xs:string" />
+                  <xs:attribute name="time" type="xs:string" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="hosts" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:attribute name="down" type="xs:string" />
+                  <xs:attribute name="total" type="xs:string" />
+                  <xs:attribute name="up" type="xs:string" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="start" type="xs:string" />
+      <xs:attribute name="profile_name" type="xs:string" />
+      <xs:attribute name="xmloutputversion" type="xs:string" />
+      <xs:attribute name="scanner" type="xs:string" />
+      <xs:attribute name="version" type="xs:string" />
+      <xs:attribute name="startstr" type="xs:string" />
+      <xs:attribute name="args" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="nmaprun" />
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

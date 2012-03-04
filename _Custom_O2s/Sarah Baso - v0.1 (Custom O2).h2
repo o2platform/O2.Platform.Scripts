@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var title = "Sarah Baso";  
+var currentScript = PublicDI.CurrentScript;   
+   
+var ribbon = CustomO2.create(title, 1024,300); 		// stand alone version    
+//var ribbon = CustomO2.create(panel.clear().add_Panel(),title); 		// use when inside 'Quick Development GUI'
+    
+
+var sarahTools = ribbon.add_Tab("Sarah's tools");
+sarahTools.add_Group("Edit OWASP website")
+		  .add_Script("OWASP Wiki Page Edit","Tool - OWASP Wiki Page Edit.h2")
+		  .add_Script("Edit the OWASP Website","MediaWikiEditor.cs.o2") 		  
+		  .add_Script("OWASP Wiki Latest Changes","Tool - OWASP WIKI Diff of Latests Changes.h2");  
+		  
+sarahTools.add_Group("XML Data")
+		  .add_Script("Excel viewer", "API_OpenXml.cs");
+var customO2s = ribbon.add_Tab("Find scripts and Custom O2s"); 
+customO2s.add_Group_FindAndExecuteScripts();
+	  
+customO2s.add_RibbonGroup("Custom O2s")
+	     .add_Script("BlackBox (plus IE Automation, Javascript, Html)", "BlackBox and Browser Automation (Custom O2).h2")	  
+	     .add_Script("DotNet Static Analysis", "DotNet Static Analysis (Custom O2).h2")	  
+	     .add_Script("OWASP Projects and Website", "OWASP Projects and Website (Custom O2).h2")
+	     .add_Script("GitHub", "GitHub - CustomO2.cs")	    					    	        					    
+	     .add_Script("Installers", "Installers (Custom O2).h2");			    					    	        
+ 
+
+	  	  
+var o2Scripting = ribbon.add_Tab("O2 Scripting"); 
+o2Scripting.add_Group_developmentGuis();
+o2Scripting.add_RibbonGroup("Custom O2")
+	 		  .add_RibbonButton("Edit this Custom O2 Script", 
+						() =&gt; O2Gui.open&lt;Panel&gt;("Custom O2",800,400)
+								   .add_SourceCodeEditor()
+								   .open(currentScript));			
+
+ribbon.add_Tab_BrowserAutomation();
+ribbon.add_Tab_MiscTools();
+
+return "done";
+
+//O2File:WPF_Ribbon_ExtensionMethods.cs
+//O2File:CustomO2.cs  
+
+//O2Ref:WindowsFormsIntegration.dll
+//O2Ref:RibbonControlsLibrary.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

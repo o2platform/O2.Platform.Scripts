@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.ibm.com/WAFLSchema" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="wafl">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="global-bean-decls">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="object-decl">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attribute name="id" type="xs:string" use="required" />
+                      <xs:attribute name="type" type="xs:string" use="required" />
+                      <xs:attribute name="lifespan" type="xs:string" use="required" />
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="synthetic-methods">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="synthetic-method">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element minOccurs="0" name="local-decl">
+                      <xs:complexType>
+                        <xs:simpleContent>
+                          <xs:extension base="xs:string">
+                            <xs:attribute name="id" type="xs:string" use="required" />
+                            <xs:attribute name="type" type="xs:string" use="required" />
+                          </xs:extension>
+                        </xs:simpleContent>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="body">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:choice maxOccurs="unbounded">
+                            <xs:element name="call">
+                              <xs:complexType>
+                                <xs:sequence>
+                                  <xs:element maxOccurs="unbounded" name="actual-parameter">
+                                    <xs:complexType>
+                                      <xs:sequence>
+                                        <xs:element minOccurs="0" name="call">
+                                          <xs:complexType>
+                                            <xs:sequence>
+                                              <xs:element name="actual-parameter">
+                                                <xs:complexType>
+                                                  <xs:sequence>
+                                                    <xs:element minOccurs="0" name="taint">
+                                                      <xs:complexType>
+                                                        <xs:attribute name="type" type="xs:string" use="required" />
+                                                        <xs:attribute name="name" type="xs:string" use="required" />
+                                                      </xs:complexType>
+                                                    </xs:element>
+                                                    <xs:element minOccurs="0" name="call">
+                                                      <xs:complexType>
+                                                        <xs:sequence>
+                                                          <xs:element name="actual-parameter">
+                                                            <xs:complexType>
+                                                              <xs:sequence>
+                                                                <xs:element name="taint">
+                                                                  <xs:complexType>
+                                                                    <xs:attribute name="type" type="xs:string" use="required" />
+                                                                    <xs:attribute name="name" type="xs:string" use="required" />
+                                                                  </xs:complexType>
+                                                                </xs:element>
+                                                              </xs:sequence>
+                                                              <xs:attribute name="pos" type="xs:unsignedByte" use="required" />
+                                                            </xs:complexType>
+                                                          </xs:element>
+                                                        </xs:sequence>
+                                                        <xs:attribute name="signature" type="xs:string" use="required" />
+                                                      </xs:complexType>
+                                                    </xs:element>
+                                                  </xs:sequence>
+                                                  <xs:attribute name="pos" type="xs:unsignedByte" use="required" />
+                                                </xs:complexType>
+                                              </xs:element>
+                                            </xs:sequence>
+                                            <xs:attribute name="signature" type="xs:string" use="required" />
+                                          </xs:complexType>
+                                        </xs:element>
+                                        <xs:element minOccurs="0" name="taint">
+                                          <xs:complexType>
+                                            <xs:attribute name="type" type="xs:string" use="required" />
+                                            <xs:attribute name="name" type="xs:string" use="required" />
+                                          </xs:complexType>
+                                        </xs:element>
+                                        <xs:element minOccurs="0" name="object-ref">
+                                          <xs:complexType>
+                                            <xs:sequence>
+                                              <xs:element minOccurs="0" name="call">
+                                                <xs:complexType>
+                                                  <xs:sequence>
+                                                    <xs:element name="actual-parameter">
+                                                      <xs:complexType>
+                                                        <xs:sequence>
+                                                          <xs:element name="object-ref">
+                                                            <xs:complexType>
+                                                              <xs:sequence>
+                                                                <xs:element minOccurs="0" name="call">
+                                                                  <xs:complexType>
+                                                                    <xs:sequence>
+                                                                      <xs:element name="actual-parameter">
+                                                                        <xs:complexType>
+                                                                          <xs:sequence>
+                                                                            <xs:element name="object-ref">
+                                                                              <xs:complexType>
+                                                                                <xs:sequence>
+                                                                                  <xs:element name="local">
+                                                                                    <xs:complexType>
+                                                                                      <xs:attribute name="id" type="xs:string" use="required" />
+                                                                                    </xs:complexType>
+                                                                                  </xs:element>
+                                                                                </xs:sequence>
+                                                                                <xs:attribute name="ap" type="xs:string" use="required" />
+                                                                              </xs:complexType>
+                                                                            </xs:element>
+                                                                          </xs:sequence>
+                                                                          <xs:attribute name="pos" type="xs:unsignedByte" use="required" />
+                                                                        </xs:complexType>
+                                                                      </xs:element>
+                                                                    </xs:sequence>
+                                                                    <xs:attribute name="signature" type="xs:string" use="required" />
+                                                                    <xs:attribute name="filename" type="xs:string" use="required" />
+                                                                    <xs:attribute name="lineNumber" type="xs:unsignedByte" use="required" />
+                                                                    <xs:attribute name="columnNumber" type="xs:unsignedByte" use="required" />
+                                                                  </xs:complexType>
+                                                                </xs:element>
+                                                                <xs:element minOccurs="0" name="local">
+                                                                  <xs:complexType>
+                                                                    <xs:attribute name="id" type="xs:string" use="required" />
+                                                                  </xs:complexType>
+                                                                </xs:element>
+                                                              </xs:sequence>
+                                                              <xs:attribute name="ap" type="xs:string" use="required" />
+                                                            </xs:complexType>
+                                                          </xs:element>
+                                                        </xs:sequence>
+                                                        <xs:attribute name="pos" type="xs:unsignedByte" use="required" />
+                                                      </xs:complexType>
+                                                    </xs:element>
+                                                  </xs:sequence>
+                                                  <xs:attribute name="signature" type="xs:string" use="required" />
+                                                  <xs:attribute name="filename" type="xs:string" use="required" />
+                                                  <xs:attribute name="lineNumber" type="xs:unsignedByte" use="required" />
+                                                  <xs:attribute name="columnNumber" type="xs:unsignedByte" use="required" />
+                                                </xs:complexType>
+                                              </xs:element>
+                                              <xs:element minOccurs="0" name="formal">
+                                                <xs:complexType>
+                                                  <xs:attribute name="pos" type="xs:unsignedByte" use="required" />
+                                                </xs:complexType>
+                                              </xs:element>
+                                              <xs:element minOccurs="0" name="local">
+                                                <xs:complexType>
+                                                  <xs:attribute name="id" type="xs:string" use="required" />
+                                                </xs:complexType>
+                                              </xs:element>
+                                            </xs:sequence>
+                                            <xs:attribute name="ap" type="xs:string" use="required" />
+                                          </xs:complexType>
+                                        </xs:element>
+                                      </xs:sequence>
+                                      <xs:attribute name="pos" type="xs:unsignedByte" use="required" />
+                                    </xs:complexType>
+                                  </xs:element>
+                                </xs:sequence>
+                                <xs:attribute name="signature" type="xs:string" use="required" />
+                                <xs:attribute name="filename" type="xs:string" use="required" />
+                                <xs:attribute name="lineNumber" type="xs:unsignedByte" use="required" />
+                                <xs:attribute name="columnNumber" type="xs:unsignedByte" use="required" />
+                              </xs:complexType>
+                            </xs:element>
+                            <xs:element name="assignment">
+                              <xs:complexType>
+                                <xs:sequence>
+                                  <xs:element name="l-value">
+                                    <xs:complexType>
+                                      <xs:sequence>
+                                        <xs:element name="object-ref">
+                                          <xs:complexType>
+                                            <xs:sequence>
+                                              <xs:element minOccurs="0" name="local">
+                                                <xs:complexType>
+                                                  <xs:attribute name="id" type="xs:string" use="required" />
+                                                </xs:complexType>
+                                              </xs:element>
+                                              <xs:element minOccurs="0" name="global">
+                                                <xs:complexType>
+                                                  <xs:attribute name="id" type="xs:string" use="required" />
+                                                </xs:complexType>
+                                              </xs:element>
+                                            </xs:sequence>
+                                            <xs:attribute name="ap" type="xs:string" use="required" />
+                                          </xs:complexType>
+                                        </xs:element>
+                                      </xs:sequence>
+                                    </xs:complexType>
+                                  </xs:element>
+                                  <xs:element name="r-value">
+                                    <xs:complexType>
+                                      <xs:sequence>
+                                        <xs:element minOccurs="0" name="call">
+                                          <xs:complexType>
+                                            <xs:sequence>
+                                              <xs:element name="actual-parameter">
+                                                <xs:complexType>
+                                                  <xs:sequence>
+                                                    <xs:element name="formal">
+                                                      <xs:complexType>
+                                                        <xs:attribute name="pos" type="xs:unsignedByte" use="required" />
+                                                      </xs:complexType>
+                                                    </xs:element>
+                                                  </xs:sequence>
+                                                  <xs:attribute name="pos" type="xs:unsignedByte" use="required" />
+                                                </xs:complexType>
+                                              </xs:element>
+                                            </xs:sequence>
+                                            <xs:attribute name="signature" type="xs:string" use="required" />
+                                            <xs:attribute name="filename" type="xs:string" use="required" />
+                                            <xs:attribute name="lineNumber" type="xs:unsignedByte" use="required" />
+                                            <xs:attribute name="columnNumber" type="xs:unsignedByte" use="required" />
+                                          </xs:complexType>
+                                        </xs:element>
+                                        <xs:element minOccurs="0" name="object-ref">
+                                          <xs:complexType>
+                                            <xs:sequence>
+                                              <xs:element name="local">
+                                                <xs:complexType>
+                                                  <xs:attribute name="id" type="xs:string" use="required" />
+                                                </xs:complexType>
+                                              </xs:element>
+                                            </xs:sequence>
+                                            <xs:attribute name="ap" type="xs:string" use="required" />
+                                          </xs:complexType>
+                                        </xs:element>
+                                      </xs:sequence>
+                                    </xs:complexType>
+                                  </xs:element>
+                                </xs:sequence>
+                                <xs:attribute name="filename" type="xs:string" use="required" />
+                                <xs:attribute name="lineNumber" type="xs:unsignedByte" use="required" />
+                                <xs:attribute name="columnNumber" type="xs:unsignedByte" use="required" />
+                              </xs:complexType>
+                            </xs:element>
+                          </xs:choice>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="sig" type="xs:string" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="entrypoints">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="entrypoint">
+                <xs:complexType mixed="true">
+                  <xs:sequence minOccurs="0">
+                    <xs:element name="url" type="xs:string" />
+                  </xs:sequence>
+                  <xs:attribute name="sig" type="xs:string" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="call-replacements">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="replace-call">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="call-site-info">
+                      <xs:complexType>
+                        <xs:attribute name="caller" type="xs:string" use="required" />
+                        <xs:attribute name="call-sig" type="xs:string" use="required" />
+                        <xs:attribute name="bytecodeIndex" type="xs:unsignedByte" use="required" />
+                        <xs:attribute name="srcLineNum" type="xs:unsignedByte" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="replacement">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="assignment">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="l-value">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="object-ref">
+                                        <xs:complexType>
+                                          <xs:sequence>
+                                            <xs:element name="global">
+                                              <xs:complexType>
+                                                <xs:attribute name="id" type="xs:string" use="required" />
+                                              </xs:complexType>
+                                            </xs:element>
+                                          </xs:sequence>
+                                          <xs:attribute name="ap" type="xs:string" use="required" />
+                                        </xs:complexType>
+                                      </xs:element>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element name="r-value">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="arg-to-orig-call">
+                                        <xs:complexType>
+                                          <xs:attribute name="pos" type="xs:unsignedByte" use="required" />
+                                        </xs:complexType>
+                                      </xs:element>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute name="filename" type="xs:string" use="required" />
+                              <xs:attribute name="lineNumber" type="xs:unsignedByte" use="required" />
+                              <xs:attribute name="columnNumber" type="xs:unsignedByte" use="required" />
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

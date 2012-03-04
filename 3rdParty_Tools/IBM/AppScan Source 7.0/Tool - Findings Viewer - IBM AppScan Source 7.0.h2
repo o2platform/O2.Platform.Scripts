@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Tool - Findings Filter - IBM AppScan Source 7.x/8.x",1000,400);
+var findingsViewer = topPanel.add_FindingsViewer(true);
+findingsViewer.setFilter1Value("vulnName"); 
+var ounce7_0 = new O2AssessmentLoad_OunceV7_0();
+ascx_FindingsViewer.o2AssessmentLoadEngines.Clear(); 
+ascx_FindingsViewer.addO2AssessmentLoadEngine_static(ounce7_0);
+OunceAvailableEngines.addAvailableEnginesToControl(typeof(ascx_FindingsViewer)); 
+findingsViewer._SimpleViewMode = true;
+
+//using O2.ImportExport.OunceLabs 
+//using O2.Views.ASCX.O2Findings
+//using O2.XRules.Database.Findings
+//using O2.XRules.ThirdPary.IBM 
+//O2File:Findings_ExtensionMethods.cs
+//O2File:O2AssessmentLoad_OunceV7_0.cs
+//O2Ref:O2_ImportExport_OunceLabs.dll
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

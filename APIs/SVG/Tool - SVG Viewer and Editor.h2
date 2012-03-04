@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>
+var topPanel = O2Gui.open&lt;Panel&gt;("SVG Viewer/Editor", 800,300);
+topPanel.insert_Below&lt;Panel&gt;(100).add_LogViewer();
+var sgvCode = topPanel.add_SourceCodeViewer();
+var pictureBox = sgvCode.insert_Right&lt;Panel&gt;(sgvCode.width()/2) 
+						 .add_PictureBox();
+Action&lt;string&gt; showSvg = 
+	(text)=&gt;{
+				if (text.valid())
+				{
+					try
+					{						
+						SvgDocument document = SvgDocument.Open(text.trim().xmlDocument());
+						Bitmap bitmap = document.Draw(); 
+						pictureBox.load(bitmap);
+						"SVG rendered".info();
+					}
+					catch(Exception ex)
+					{
+						ex.log("");
+					}
+				}
+			};
+
+sgvCode.editor().eDocumentDataChanged+=(text)=&gt; showSvg(text); 
+
+//load default data
+sgvCode.set_Text("Sample-3_buttons.svg".local().fileContents(),".xml");
+
+
+return null;
+
+//using Svg
+//using System.IO
+//using System.Drawing.Imaging
+//O2Ref:Svg.dll
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

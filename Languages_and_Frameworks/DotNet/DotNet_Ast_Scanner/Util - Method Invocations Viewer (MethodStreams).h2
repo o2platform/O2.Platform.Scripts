@@ -1,0 +1,252 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>
+
+//panel.clear();
+//var topPanel = panel;  
+var topPanel = O2Gui.open&lt;Panel&gt;("Tool - Method Invocations Viewer (Method Streams)", 1000,600); 
+
+var baseFolder = "";
+O2MappedAstData astData = null;
+/*topPanel.parentForm().onClosed(
+	()=&gt;{
+			if (astData.notNull())
+				astData.dispose();
+		});*/
+var useCachedData = true; //false;//true ; 
+var showLogViewer = true;   
+var useAstCacheData = false;
+//var sourceCodeViewer = topPanel.add_SourceCodeViewer();
+var codeViewerPanel = topPanel.add_Panel();
+var treeViewPanel = codeViewerPanel.insert_Left&lt;Panel&gt;();		  	 				     
+treeViewPanel.parent&lt;SplitContainer&gt;().splitterDistance(400);							     
+var optionsPanel = treeViewPanel.insert_Below&lt;Panel&gt;(100);
+var references = treeViewPanel.insert_Below&lt;GroupBox&gt;(70).set_Text("References").add_TextArea();
+
+
+//var CodeStreamTreeView = sourceCodeViewer.insert_Right&lt;TreeView&gt;(200).fill().showSelection(); 
+//CodeStreamTreeView.afterSelect&lt;O2CodeStreamNode&gt;
+//	((streamNode)=&gt; sourceCodeViewer.editor().setSelectionText(streamNode.INode.StartLocation, streamNode.INode.EndLocation));																				        
+
+var methodMappingsFilter = treeViewPanel.insert_Above&lt;Panel&gt;(20)
+										.add_Label("Filter")										
+										.top(3)
+										.append_TextBox("")
+										.align_Right(treeViewPanel); 
+TreeView methodsMappings_TreeView = null;
+MethodMappings loadedMethodMappings = null;  
+//var resultsFolder = "_AstEngine_ExternalMappings".tempDir(); 
+var resultsFolder = optionsPanel.add_Label("Original Results Folder:")
+								.top(3)
+								.append_TextBox("") 
+								.align_Right(optionsPanel);							
+var sourceCodeFolder = optionsPanel.add_Label("Original Source Code:  ", 23,0)								   
+								   .append_TextBox("") 
+								   .align_Right(optionsPanel);															
+											 
+var loadedMappingsFilePath = optionsPanel.add_Label("Loaded Mappings File(s):", 42,0)
+					  					 .append_Label("")
+					  					 .align_Right(treeViewPanel);	
+					  					 
+var methodStreamsFileCache = optionsPanel.add_Label("MethodStreams File Cache:  ", 80,0)			 					   
+								   .append_TextBox("") 
+								   .align_Right(optionsPanel);															
+
+methodStreamsFileCache.set_Text("".tempDir().pathCombine("_fileCache_MethodStreams"));
+
+bool showMethodStreams = false; 
+
+Action showMethodMappings =	
+	()=&gt;{ 
+			if (methodsMappings_TreeView.notNull() &amp;&amp; loadedMethodMappings.notNull())
+			{
+				loadedMethodMappings.showInTreeView(methodsMappings_TreeView,methodMappingsFilter.get_Text());
+				methodsMappings_TreeView.selectFirst();				 	        
+			}
+			else
+				"in showMethodMappings: methodsMappings_TreeView.notNull() &amp;&amp; loadedMethodMappings.notNull()".error();
+		};
+
+methodMappingsFilter.onEnter((text)=&gt; showMethodMappings()); 
+
+Action&lt;string&gt; loadMethodMappings = null; 
+
+loadMethodMappings= 
+	(fileOrFolder)=&gt;{
+		O2Thread.mtaThread(
+			()=&gt;{
+					baseFolder = fileOrFolder;
+					if (fileOrFolder.valid().isFalse())
+						return;
+					"loading files from: {0}".info(fileOrFolder); 	 									
+					var methodFilder = @"";
+//					var references = referencesToLoad.get_Text().lines();
+					//var results = MethodMappings_Engine.calculateMethodMappings(sourceFolder, resultsFolder,references,false);     
+					loadedMethodMappings = null;
+					loadedMappingsFilePath.set_Text("");
+					treeViewPanel.clear();
+					if (fileOrFolder.fileExists())
+						loadedMethodMappings = fileOrFolder.loadMethodMappings();
+					else 
+					{
+						loadedMethodMappings = fileOrFolder.files("*.xml").loadAndMergeMethodMappings();
+					}
+					
+					if (loadedMethodMappings.notNull())
+					{
+						loadedMappingsFilePath.set_Text(fileOrFolder.fileName());						
+						var originalSourceCodeLocation = loadedMethodMappings.SourceCodeFolder;
+						var originalReferences = loadedMethodMappings.References;
+						sourceCodeFolder.set_Text(originalSourceCodeLocation);
+						resultsFolder.set_Text(	loadedMethodMappings.ResultsFolder);
+						 
+						references.set_Text(originalReferences.str()); 						 
+						codeViewerPanel.clear();
+						if (showMethodStreams)
+						{
+							if (originalSourceCodeLocation.dirExists())
+							{ 																														
+								methodsMappings_TreeView = treeViewPanel.add_TreeView() //CreateTreeViewFor_MethodMappingsView(sourceCodeViewer)
+																		.sort()
+																        .onDrop(loadMethodMappings);
+								var manualMethodStreams = codeViewerPanel.add_Control&lt;ascx_ManualMethodStreams&gt;();	 	
+								manualMethodStreams.buildGui(false);
+								/*if (astData.notNull())
+								{
+									astData.dispose();
+									PublicDI.config.gcCollect();
+								}*/
+								astData = originalSourceCodeLocation.getAstData(originalReferences,true); 
+								//show.info(astData);  
+								
+								methodsMappings_TreeView.afterSelect&lt;MethodMapping&gt;(
+									(methodMapping)=&gt;
+										{
+											methodsMappings_TreeView.backColor(Color.LightPink);
+											O2Thread.mtaThread(
+												()=&gt;{
+								
+														//show.info(methodMapping); 
+														
+														var methodSignature = methodMapping.ParentMethod;
+														var iMethod = astData.iMethod_withSignature(methodSignature);
+														if (iMethod.isNull())
+														{
+															"in loaded astData could not find IMethod with signature: {0}".error(methodSignature);
+															manualMethodStreams.CodeViewer.set_Text("");
+														}
+														else 
+														{															
+															var methodStreamCode = astData.methodStream_UseCache(iMethod, methodStreamsFileCache.get_Text());																
+															
+															manualMethodStreams.loadFile(methodStreamCode, 
+																						 useAstCacheData)		// usually don't chache for memory consumptions rea
+																			   .Join();							// wait for the load Thread to finish 
+															
+															var iNodePosition = astData.getINodePosition(methodMapping);
+															var adjustedINode = manualMethodStreams.AstData_MethodStream.fromFirstMethod_getINodeAtPosition(iNodePosition);
+															
+															
+															manualMethodStreams.createAndShowCodeStream(adjustedINode);
+															methodsMappings_TreeView.backColor(Color.White);
+															
+															// we shouldn't need this data anymore
+															
+															
+															//manualMethodStreams.AstData_MethodStream.dispose_unloadProjectContent();
+															//astData.O2AstResolver.pcRegistry.Dispose();
+															//astData.O2AstResolver.pcRegistry = new ProjectContentRegistry();
+															
+															/*"before clean".info();
+															astData.clearO2MethodStreamCache();
+															PublicDI.config.gcCollect();
+															"after clean".info();*/
+															
+															
+															//var codeStream = astData_MethodStream.createO2CodeStream(methodStreamCode, adjustedINode);
+															
+															//manualMethodStreams.AstData_MethodStream = astData_MethodStream;
+															//manualMethodStreams.CodeViewer.open(methodStreamCode);
+															//astData_MethodStream.showMethodStreamDetailsInTreeViews(manualMethodStreams.ParametersTreeView, manualMethodStreams.MethodsCalledTreeView);
+															/*var sourceCodeViewer = manualMethodStreams.CodeViewer; 
+															sourceCodeViewer.open(methodStreamCode);
+															sourceCodeViewer.editor().clearMarkers();
+															sourceCodeViewer.editor().caret(adjustedINode.StartLocation.Line, adjustedINode.StartLocation.Column);
+															sourceCodeViewer.editor().selectTextWithColor(adjustedINode.StartLocation.Line,
+																										  adjustedINode.StartLocation.Column, 
+																										  adjustedINode.EndLocation.Line, 
+																										  adjustedINode.EndLocation.Column);			
+															sourceCodeViewer.editor().refresh();											  
+															
+															codeStream.show(sourceCodeViewer.editor());
+															*/
+															//codeStream.show(CodeStreamTreeView);
+															//CodeStreamTreeView.expand();
+															//show.info(codeStream);
+															//show.info(iNodesInFirstMethod);
+															//"original:{0}".error(iNodes[position].csharpCode());		 
+															//"fistMethod:{0}".error(iNodesInFirstMethod[position].csharpCode());		 
+															//return;
+															//show.info(firstMethod); 
+															
+														}											
+													});
+									});
+									
+								}						
+						}
+						else								
+						{							
+							var sourceCodeViewer = codeViewerPanel.add_SourceCodeViewer();
+							methodsMappings_TreeView = treeViewPanel.CreateTreeViewFor_MethodMappingsView(sourceCodeViewer)
+																    .onDrop(loadMethodMappings);
+							//sourceCodeViewer.open(methodMapping.File);
+							//sourceCodeViewer.editor().caret(methodMapping.Start_Line, methodMapping.Start_Column);
+							//var iNode = astData.iNode(methodMapping.File,sourceCodeViewer.editor().caret());
+							//"INode:{0}".info(iNode);
+						}
+						showMethodMappings();		
+						"Compleded loading file(s) from: {0}".info(fileOrFolder);
+					}
+				});
+			};
+							     
+optionsPanel.add_CheckBox("Show Method Streams", 60,2,  
+				(value)=&gt;
+					{
+						showMethodStreams = value;
+						loadMethodMappings(baseFolder);
+					})
+			.autoSize();
+treeViewPanel.onDrop(loadMethodMappings);
+
+//referencesToLoad.set_Text("System.Web".line() +     
+//						  "System.Data");
+ 
+//loadFilesFromFolder(@"C:\O2\DemoData\HacmeBank_v2.0 (7 Dec 08)\HacmeBank_v2_WS");
+loadMethodMappings(@"C:\O2\DemoData\HameBank_MethodMappings\WebSite\ConsolidatedMethodMappings.xml");
+return astData; 
+
+
+//using O2.API.AST.CSharp
+//using O2.API.AST.ExtensionMethods;
+//using O2.API.AST.ExtensionMethods.CSharp;
+//using O2.External.SharpDevelop.ExtensionMethods;
+//using O2.External.SharpDevelop.AST;
+//using O2.External.SharpDevelop.Ascx;
+//using O2.XRules.Database.Languages_and_Frameworks.DotNet	
+//using ICSharpCode.SharpDevelop.Dom;
+//using ICSharpCode.NRefactory;
+//using ICSharpCode.NRefactory.Ast;
+//O2File:ascx_ManualMethodStreams.cs
+//O2File:MethodMappings_Engine.cs
+//O2File:ascx_ManualMethodStreams.cs
+//O2File:Ast_Engine_ExtensionMethods.cs
+//O2File:ascx_ManualMethodStreams.cs
+//O2Ref:O2_External_SharpDevelop.dll
+//O2Ref:O2_API_AST.dll  
+//O2Ref:Quickgraph.dll
+//O2Ref:GraphSharp.dll 
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

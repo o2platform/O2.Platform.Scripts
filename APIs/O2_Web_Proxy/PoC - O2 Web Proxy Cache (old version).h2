@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = O2Gui.open&lt;Panel&gt;("{name}",700,400);
+ 
+
+//var webProxy = topPanel.insert_Right_WebProxy();   
+
+  
+//var webProxy = "http://www.google.co.uk/".show_WebProxy_with_Browser(); 
+//var webProxy = panel.add_WebProxy_with_Browser("http://www.google.com");//"http://127.0.0.1.:12345");
+var show = true; 
+//var show = false; 
+if (show)  
+{  
+	var topPanel = panel.clear().add_Panel();    
+	var o2webProxy = panel.add_WebProxy_with_Browser("http://127.0.0.1.:12345");
+	o2webProxy.proxyCache().requestMappings().Clear();
+	
+	return "ok"; 
+}  
+
+ 
+var webProxy = "http://127.0.0.1.:12345/javascript/jQuery.simplymodal/simplemodal.css?asdasd=asd".get_WebProxy();
+   
+var proxyCache = webProxy.proxyCache();  
+//return proxyCache.requestMappings();
+
+//return "http://127.0.0.1.:12345/javascript/jQueryUI/jquery-ui-1.8.14.custom.min.js".html().size();
+//return "http://127.0.0.1.:12345/Aspx_Pages/TM_WebServices.asmx/GetGuidanceItemHtml".html();
+//return "http://127.0.0.1.:12345/javascript/jQuery.simplymodal/simplemodal.css?asdasd=asd".html();
+
+    
+ 
+//panel.clear().add_Panel().add_TreeView_with_PropertyGrid().add_Nodes(requestCache);	
+//return requestCache;
+	 
+var last =  webProxy.requests().last();    
+  
+ 
+var requestMappings = proxyCache.requestMappings();
+requestMappings.Clear(); 
+
+var request = "/javascript/jQuery.simplymodal/simplemodal.css";
+ 
+return proxyCache.requestMappings(); 
+//return proxyCache.response_Bytes("/javascript/jQueryUI/images/ui-bg_gloss-wave_75_2191c0_500x100.png"); 
+
+
+//O2File:ProxyCache.cs
+//return last.Request_Uri.pathNoQuery(); 
+ 
+//topPanel.add_TextArea().set_Text(last.Response_String);  
+  
+return last.Request_Uri; 
+//return ProxyCache._cache;
+ 
+//return webProxy;
+//"http://www.google.co.uk".html();     
+//webProxy.google(); 
+return "ok";   
+
+//using HTTPProxyServer
+ 
+//O2File:API_WebProxy.cs   
+//O2File:ProxyCache.cs
+//O2File:ProxyServer.cs</SourceCode>
+  <ReferencedAssemblies />
+</H2>

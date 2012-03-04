@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.clear().add_Panel();
+var topPanel = "PoC - Visualizing the IEs 'Stop running this script' behaviour".popupWindow(800,410);
+var ie =  topPanel.clear().add_IE().silent(false);	
+var dataGridView = topPanel.insert_Left("results")
+							.add_DataGridView()
+							.add_Columns("Index","Items Created", "Seconds", "MiliSeconds", "popups");
+					;
+dataGridView.splitterDistance(450);
+
+var jsPrototype_Array_unique = 
+	@"
+		Array.prototype.unique = function()
+		{
+			var arrVal = this;
+			var uniqueArr = [];
+			for (var i = arrVal.length; i--; ) 
+			{
+				var val = arrVal[i];
+				if ($.inArray(val, uniqueArr) === -1) 
+				{
+					uniqueArr.unshift(val);
+				}
+			}
+			return uniqueArr; 
+		};
+	";	
+
+var jsFunction_createUniqueList = 
+	@"
+		var TestData = {};
+		
+		var createUniqueList = function(size, maxValue)
+		{				
+			$('body').html('creating ' + size + ' items ' + ' with a max value of ' + maxValue );
+			var list = []; 
+			var startTime = new Date();
+			
+			for(i=0; i&lt;size; i++)  
+				list.push(Math.ceil(Math.random()*maxValue));  
+			
+			var uniqueList = list.unique();				
+			TestData.timeSpan = new Date(new Date() - startTime);			
+			$('body').append($('&lt;hr&gt;')).append('... created unique list in: ' + TestData.timeSpan.getSeconds() + 's ' + TestData.timeSpan.getMilliseconds() + 'ms' );
+			$('body').append($('&lt;br&gt;')).append('... from ' + list.length + ' items there are ' + uniqueList.length + ' unique items');			
+			
+			TestData.testCompleted = true;
+		 
+		}
+	";
+
+Action&lt;int,int&gt; runTest = 
+	(index, multiplier)=&gt;{ 
+							
+							this.sleep(300,false);
+							
+							ie.open("about:loading");
+							ie.inject_jQuery();
+								
+							ie.eval(jsPrototype_Array_unique);	   
+							ie.eval(jsFunction_createUniqueList);
+							
+							
+							
+							var itemsToCreate = index * multiplier;
+							var popups = 0;						
+							O2Thread.mtaThread(
+								()=&gt;{									
+										ie.eval("createUniqueList({0},5000)".format(itemsToCreate));									
+										ie.waitForComplete();
+										var seconds = ie.getJsVariable("TestData.timeSpan.getSeconds()").str().toInt();		
+										var miliSeconds = ie.getJsVariable("TestData.timeSpan.getMilliseconds()").str().toInt();
+										dataGridView.add_Row(index, itemsToCreate, seconds, miliSeconds, popups);																													
+									});
+								
+							this.sleep(500,false);
+						
+							var maxTries = 5;																	
+							for(int i =0 ; i &lt; maxTries; i++)			
+							{
+								this.sleep(100,false);
+								if (ie.getJsObject("TestData.testCompleted").notNull())								 									
+									break;							
+								else
+								{										
+									popups++;
+									 "No".click_Button_in_Window("Web Browser", 5);							
+								}
+							}											
+				};						
+
+Action&lt;int,int&gt; runMultipleTests = 
+	(count, multiplier)=&gt;{
+							for(int i=1 ; i &lt; count+1 ;  i++)
+							{								
+								runTest(i, multiplier);												
+							}
+						};
+//runMultipleTests(1,5000); 						
+//runMultipleTests(15,350); 
+runMultipleTests(15,500); 
+
+
+return "ok";
+
+
+//O2File:WatiN_IE_ExtensionMethods.cs
+//O2Ref:WatiN.Core.1x.dll
+//O2File:API_GuiAutomation.cs
+//O2Ref:White.Core.dll
+
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

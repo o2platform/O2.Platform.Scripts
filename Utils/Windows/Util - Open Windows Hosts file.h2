@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = O2Gui.open&lt;Panel&gt;("{name}",700,400);
+
+var file = @"C:\Windows\System32\drivers\etc\hosts";
+var control = file.showInCodeViewer();
+control.parentForm().height(700).width(800);
+control.insert_LogViewer();</SourceCode>
+  <ReferencedAssemblies />
+</H2>

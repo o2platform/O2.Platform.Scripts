@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//panel.clear();
+
+//var topPanel = panel.clear().add_Panel();
+var topPanel = "SSB Link Browser".popupWindow();
+ 
+var ie = topPanel.add_IE().silent(true);
+
+ie.disableFlashing();
+ie.open("http://127.0.0.1:1234");
+
+Action&lt;string,string&gt; login = 
+	(username, password)=&gt;{		
+							ie.link("Log in").flash().click();
+							
+							ie.field("ctl00_MainContent_UserName").value(username); 
+							ie.field("ctl00_MainContent_Password").value(password); 
+							
+							ie.button("Log In").click();
+						};
+//ie.link("Log out").click();						
+
+var treeView = topPanel.insert_Left("links").add_TreeView();
+
+treeView.afterSelect&lt;string&gt;(
+	(url)=&gt;{
+				url.info();
+				ie.open_ASync(url);
+			}); 
+
+ie.onNavigate(
+	(url)=&gt; {
+				treeView.clear();
+				treeView.add_Nodes(ie.links().urls());
+				//treeView.selectFirst();
+		   }); 
+
+login("admin", "admin");
+
+ie.link(" Apply for a line of credit").click();
+
+return ie.url();
+
+//O2File:WatiN_IE_ExtensionMethods.cs
+//using O2.XRules.Database.Utils.O2
+//O2Ref:WatiN.Core.1x.dll
+//O2Ref:Interop.SHDocVw.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

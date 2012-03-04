@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var panel = O2Gui.open&lt;Panel&gt;("Execute script in separate AppDomain",700,400);
+var script = panel.add_Script(false);
+var leftPanel = script.insert_Above&lt;Panel&gt;(50);  
+var executeButton = leftPanel.add_Button("Execute Script in New AppDomain", 0,0,45,150); 
+
+var appDomainName_TextBox = leftPanel.add_Label("New AppDomain name:", 0,170).top(5) 
+						     .append_TextBox("");
+
+var checkBox1 = leftPanel.add_CheckBox("Open Main 'O2 XRules Database' Gui", 30,170,(value)=&gt;{}) 
+						 .autoSize().visible(false);
+
+Action&lt;string,string,bool&gt; executeInAppDomain =
+	(appDomainName, scriptToExecute, openMainO2Gui)
+		=&gt; {
+				O2Thread.mtaThread(
+					()=&gt;{
+							/*var tempDir = "_appDomain".tempDir();
+							"tempdir: {0}".info(tempDir);
+							
+							Action&lt;string, string&gt; copyFileToAppDomain = 
+							(file, target)=&gt;{
+												var fullPath = Environment.CurrentDirectory.pathCombine(file);												
+												if (fullPath.fileExists())
+													Files.Copy(fullPath,target);		
+												else
+													"file not found: {0}".error(fullPath);
+											}; 
+											
+							copyFileToAppDomain("O2_XRules_Database.exe", tempDir);			
+							copyFileToAppDomain("O2_Kernel.dll", tempDir);
+							copyFileToAppDomain("O2_DotNetWrappers.dll",tempDir);
+							copyFileToAppDomain("O2_Interfaces.dll",tempDir);
+							
+											
+							var o2AppDomain =  new O2.Kernel.Objects.O2AppDomainFactory(appDomainName,tempDir);
+							*/
+							var o2AppDomain =  new O2.Kernel.Objects.O2AppDomainFactory(appDomainName);
+							try
+							{
+								o2AppDomain.load("O2_XRules_Database"); 	
+								o2AppDomain.load("O2_Kernel");
+								o2AppDomain.load("O2_DotNetWrappers");
+							
+								var o2Proxy =  (O2Proxy)o2AppDomain.getProxyObject("O2Proxy");
+								 
+								o2Proxy.InvokeInStaThread = true;
+								o2Proxy.staticInvocation("O2_External_SharpDevelop","FastCompiler_ExtensionMethods","executeSourceCode",new object[]{ scriptToExecute });
+								//if (openMainO2Gui)
+								//	o2Proxy.staticInvocation("O2_XRules_Database","Program","Main",new object[] {});	
+								//var h2Script = @"C:\O2\_XRules_Local\H2Scripts\showConfig.h2";
+							//	C:\O2\_XRules_Local\H2Scripts
+								
+								 
+								//o2Proxy.staticInvocation("O2_External_SharpDevelop","FastCompiler_ExtensionMethods","executeH2Script",new object[]{h2Script});
+							}
+							catch(Exception ex)
+							{
+								ex.log("inside new AppDomain"); 
+							}
+							
+							PublicDI.log.showMessageBox("Click OK to close the '{0}' AppDomain (and close all open windows)".format(appDomainName));
+							//System.Threading.Thread.Sleep(5000); 
+							o2AppDomain.unLoadAppDomain();
+						});
+		  };
+
+executeButton.onClick(
+	()=&gt;{
+			var scriptToExecute = script.commandsToExecute.get_Text();
+			"Command to execute: {0}".info(scriptToExecute);
+			var name = appDomainName_TextBox.get_Text();
+			executeInAppDomain(name, scriptToExecute, checkBox1.value());  
+		});
+//default values
+
+script.set_Command("PublicDI.log.showMessageBox(\"Hello from app domain: \" + AppDomain.CurrentDomain.FriendlyName);"); 
+//script.set_Command("show.info(AppDomain.CurrentDomain);"); 
+appDomainName_TextBox.set_Text("Temp_AppDomain");
+
+
+return "ok";
+
+
+//using O2.Kernel.Objects
+//return appDomain;
+
+//O2File:ascx_Simple_Script_Editor.cs.o2
+//O2File:Scripts_ExtensionMethods.cs
+
+//using O2.XRules.Database.Utils.O2
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

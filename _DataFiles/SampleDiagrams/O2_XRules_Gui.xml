@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Root>
+  <DesignerItems>
+    <DesignerItem>
+      <Left>99</Left>
+      <Top>33</Top>
+      <Width>200</Width>
+      <Height>200</Height>
+      <ID>391333cc-6776-420e-9ee5-012b2a9e3e6c</ID>
+      <zIndex>0</zIndex>
+      <IsGroup>false</IsGroup>
+      <ParentID>00000000-0000-0000-0000-000000000000</ParentID>
+      <Content>&lt;Image Source="file:///C:/O2/_tempDir/O2_Logo.gif" IsHitTestVisible="False" InputMethod.IsInputMethodEnabled="True" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" /&gt;</Content>
+    </DesignerItem>
+    <DesignerItem>
+      <Left>33</Left>
+      <Top>5</Top>
+      <Width>NaN</Width>
+      <Height>NaN</Height>
+      <ID>e3fd4770-3197-406b-907d-3da2294d90a0</ID>
+      <zIndex>1</zIndex>
+      <IsGroup>false</IsGroup>
+      <ParentID>00000000-0000-0000-0000-000000000000</ParentID>
+      <Content>&lt;Label FontSize="20" IsHitTestVisible="False" InputMethod.IsInputMethodEnabled="True" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"&gt;Welcome to the OWASP O2 Platform&lt;/Label&gt;</Content>
+    </DesignerItem>
+    <DesignerItem>
+      <Left>157</Left>
+      <Top>251</Top>
+      <Width>NaN</Width>
+      <Height>NaN</Height>
+      <ID>84f85966-10dc-4753-afda-05d25a7f2133</ID>
+      <zIndex>2</zIndex>
+      <IsGroup>false</IsGroup>
+      <ParentID>00000000-0000-0000-0000-000000000000</ParentID>
+      <Content>&lt;Label FontSize="15" IsHitTestVisible="False" InputMethod.IsInputMethodEnabled="True" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"&gt;Open APIs&lt;/Label&gt;</Content>
+    </DesignerItem>
+    <DesignerItem>
+      <Left>33</Left>
+      <Top>249</Top>
+      <Width>NaN</Width>
+      <Height>NaN</Height>
+      <ID>c5c67eb5-f83b-4bc4-912a-c0604d8ffbb2</ID>
+      <zIndex>3</zIndex>
+      <IsGroup>false</IsGroup>
+      <ParentID>00000000-0000-0000-0000-000000000000</ParentID>
+      <Content>&lt;Label FontSize="15" IsHitTestVisible="False" InputMethod.IsInputMethodEnabled="True" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"&gt;Launch Tools&lt;/Label&gt;</Content>
+    </DesignerItem>
+    <DesignerItem>
+      <Left>280</Left>
+      <Top>252</Top>
+      <Width>NaN</Width>
+      <Height>NaN</Height>
+      <ID>89679121-d8ae-4982-9d8b-6928980ae26a</ID>
+      <zIndex>4</zIndex>
+      <IsGroup>false</IsGroup>
+      <ParentID>00000000-0000-0000-0000-000000000000</ParentID>
+      <Content>&lt;Label FontSize="15" IsHitTestVisible="False" InputMethod.IsInputMethodEnabled="True" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"&gt;Write Scripts&lt;/Label&gt;</Content>
+    </DesignerItem>
+  </DesignerItems>
+  <Connections />
+</Root>

@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Tool - AspNet Page Render",1000,600);
+topPanel.insert_LogViewer();
+//var topPanel = panel.clear().add_Panel();
+var treeView = topPanel.insert_Left("Aspx Pages").add_TreeView();
+var codeViewer = treeView.insert_Below("Select page source code").add_SourceCodeEditor();
+var actionsPanel = codeViewer.insert_Above(20);
+var textBox = topPanel.add_GroupBox("Rendered Html").add_SourceCodeEditor();
+var webBrowser = textBox.parent().insert_Above("WebBrowser View").add_WebBrowser_Control();
+//textBox.set_Text("hello world");	
+
+webBrowser.open("test".saveWithExtension(".html"));
+
+Action&lt;string&gt; renderPage = 
+	(page)=&gt;{	
+				O2Thread.mtaThread(
+					()=&gt;{
+							var o2Timer = new O2Timer("Asp.Net rendering").start();
+							var stringWriter = new StringWriter();
+							var simpleWorkerRequest = new SimpleWorkerRequest(page, string.Empty, stringWriter);
+							"processing request for: {0}".info(page); 
+							HttpRuntime.ProcessRequest(simpleWorkerRequest);
+							var html = stringWriter.str();
+					   	
+							textBox.set_Text(html, "*.html");
+							webBrowser.open(html.saveWithExtension(".html"));
+							o2Timer.stop();
+						});
+			};
+			
+var currentFile = "";
+Action showCurrentFile = 
+	()=&gt;{
+			codeViewer.open(currentFile);
+			renderPage(currentFile.remove(HttpRuntime.AppDomainAppPath));
+		};
+			
+treeView.afterSelect&lt;string&gt;(	
+	(file)=&gt;{ 
+				currentFile = file;
+				showCurrentFile();
+				}); 
+
+actionsPanel.add_Link("Save and Refresh", 0,0, 
+	()=&gt;{
+			codeViewer.editor().saveSourceCode();
+			showCurrentFile();
+		});
+
+
+
+treeView.add_Nodes(HttpRuntime.AppDomainAppPath.files("*.aspx",true),
+				  (file)=&gt; file.remove(HttpRuntime.AppDomainAppPath));
+treeView.nodes()[5].selected();				  
+return "ok";
+//using System.Web;
+//using System.Web.UI;
+//using System.Web.Hosting;
+//using System.Text
+//using System.IO</SourceCode>
+  <ReferencedAssemblies />
+</H2>

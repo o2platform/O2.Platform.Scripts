@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>O2Gui.open&lt;Panel&gt;("Source Code Editor",720, 400)
+     .add_SourceCodeEditor();</SourceCode>
+  <ReferencedAssemblies />
+</H2>

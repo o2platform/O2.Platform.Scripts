@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = O2Gui.open&lt;Panel&gt;("{name}",700,400);
+var topPanel = panel.clear().add_Panel();
+topPanel.add_LogViewer();
+
+"Creating Util - Launch_NUnit_with_TM_UnitTests stand-alone executable".info();
+var tempFolder = "_testCompile".tempDir(false);
+"To Folder: {0}".info(tempFolder);
+
+
+//return tempFolder.pathCombine("UnitUnit_CodeViewer.dll").assembly().executeFirstMethod();
+
+
+
+//var topPanel = panel.clear().add_Panel();
+var folderView =tempFolder.o2Cache&lt;ascx_FolderView&gt;(()=&gt;{ return  panel.clear().add_Panel().add_FolderViewer(tempFolder); });
+
+var file = @"C:\O2\_tempDir\12-12-2011\_testCompile\TM_Launch_NUnit.cs";  
+			  
+var exeFile = file.compileToExe("Util - Launch_NUnit_with_TM_UnitTests.cs".local(), tempFolder);     
+
+tempFolder.copyAssembliesToFolder("O2_Kernel.dll", "O2_Interfaces.dll", "O2_DotNetWrappers.dll", "O2_Views_ASCX.dll");
+tempFolder.copyAssembliesToFolder("nunit-gui-runner.dll","nunit.util.dll","nunit.core.interfaces.dll","nunit.uikit.dll","nunit.core.dll");
+
+folderView.refresh();
+//copyReferenceToTargetFolder(, tempFolder);
+//copyReferenceToTargetFolder("O2_Kernel.dll", tempFolder);
+//copyReferenceToTargetFolder("O2_DotNetWrappers.dll", tempFolder);
+folderView.refresh(); 
+ 
+//return "ok";
+ 
+return exeFile.startProcess();//_getConsoleOut();
+
+//file.compileIntoDll_inFolder(tempFolder);
+ 
+return tempFolder;
+
+//O2File:ascx_FolderViewer.cs
+ </SourceCode>
+  <ReferencedAssemblies />
+</H2>

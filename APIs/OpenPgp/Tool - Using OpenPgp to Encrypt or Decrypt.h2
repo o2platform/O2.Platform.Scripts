@@ -1,0 +1,251 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//panel.clear(); 
+//var topPanel = panel;
+var topPanel = O2Gui.open&lt;Panel&gt;("Tool - Using OpenPgp to Encrypt or Decrypt",800,400); 
+
+var default_TempFolder = PublicDI.config.O2TempDir.pathCombine("..\\_Pgp_Data").createDir(); 
+
+var default_Name = "O2 User";
+var default_PassPhrase = "This**Is**a**Password";
+var default_NewOpenPgpFile = default_TempFolder.pathCombine("{0}{1}".format(default_Name,"_OpenPgp.xml"));		// if the user has created an OpenPgp before using the default username
+var default_TextToEncrypt = "Write the text to encrypt here;";
+var default_TextToDecrypt = "This was an encrypted Text"; 
+
+Action&lt;Panel&gt; createKeys =   
+	(control)=&gt;{    
+					API_OpenPgp openPgp = null;
+ 					control.clear();  					
+					var targetFolder = control.add_TextBox("Save Pgp info and keys to folder",default_TempFolder);
+					var php_Identity = control.add_TextBox(30,"Pgp Identify:",default_Name)
+											  .leftAdd(25);
+					var php_PassPhrase = control.add_TextBox(50,"Pgp PassPhrase:", default_PassPhrase); 
+					
+					var storePassPhrase = control.add_CheckBox(70,97,"Store PassPhase in Config file").tick(); 
+					var createButton = control.add_Button(90,97,"Create");  
+					var message = createButton.append_Label("").autoSize().topAdd(5);
+					var newOpenPgp_propertyGrid = control.add_GroupBox("New OpenPgp details (you can also drop existing *_Open_Pgp.xml files)")
+											  .fill(false).top(130)
+											  .align_Right(control).align_Bottom(control)											  
+											  .add_PropertyGrid()
+											  .helpVisible(false);
+					var newOpenPgpFile_TextBox = newOpenPgp_propertyGrid.insert_Above&lt;Panel&gt;(20)
+																		.add_Label("OpenPgp file").top(3)
+																		.append_TextBox("")
+																		.align_Right(newOpenPgp_propertyGrid)
+																		.widthAdd(-40);
+					newOpenPgpFile_TextBox.append_Link("Save",
+						()=&gt;{
+								openPgp.save(newOpenPgpFile_TextBox.get_Text()); 
+							}).top(3);
+							
+					createButton.onClick(
+						()=&gt;{ 
+								var folderToCreateFilesIn = targetFolder.get_Text();
+								createButton.enabled(false);
+								message.set_Text("Creating new PgP keys");  
+								var openPgpFile = new API_OpenPgp().createKey(php_Identity   
+												 				  .get_Text(), php_PassPhrase.get_Text(), folderToCreateFilesIn);								
+								if (openPgpFile.fileExists())
+								{								
+									openPgp = openPgpFile.openPgp();
+									if (storePassPhrase.@checked().isFalse())
+										openPgp.PassPhrase = "";
+									openPgp.PrivateKey = openPgp.PrivateKey.remove(folderToCreateFilesIn).removeFirstChar();   // make this relative paths (for portability)
+									openPgp.PublicKey = openPgp.PublicKey.remove(folderToCreateFilesIn).removeFirstChar(); 									
+									newOpenPgpFile_TextBox.set_Text(openPgpFile);
+									newOpenPgp_propertyGrid.show(openPgp); 
+									openPgp.save(openPgpFile); 									
+									message.set_Text("New PgP keys created").textColor(Color.DarkGreen);		 
+								}
+								else
+									message.set_Text("There was a problem creating the new  PgP keys").textColor(Color.DarkRed);		 
+								createButton.enabled(true);
+							});					
+							 
+							newOpenPgp_propertyGrid.onDrop(
+								(file)=&gt;{
+											openPgp = file.openPgp();
+											if (openPgp.notNull())
+											{
+												newOpenPgpFile_TextBox.set_Text(file); 
+												newOpenPgp_propertyGrid.show(openPgp); 
+											}
+										});
+											
+										
+				};
+
+Action&lt;Control, Action&lt;API_OpenPgp&gt;&gt; insertOpenPgpPropertyGrid = 
+	(control, setOpenPgp)=&gt;{
+							var propertyGrid =  control.parent().insert_Above&lt;Panel&gt;(110)
+																.add_GroupBox("Drop *_OpenPgp.xml file to load it")
+															    .add_PropertyGrid()
+															    .toolBarVisible(false)
+															    .helpVisible(false) 
+															    .sort_Alphabetical() ;
+							var loadedFile = propertyGrid.insert_Above&lt;Panel&gt;(20).add_TextBox("Loaded *_OpenPgp.xml file:","")
+																				 .align_Right(propertyGrid);
+							
+							Action&lt;string&gt; loadOpenPgPFile = 
+								(file)=&gt;{
+											if (file.fileExists())
+											{
+												loadedFile.set_Text(file); 
+												var openPgp = file.openPgp();
+						   						propertyGrid.show(openPgp);
+						   						openPgp.fixOpenPgpKeysPaths(file);						   							
+						   						setOpenPgp(openPgp);
+						   					};
+						   				};
+								
+							propertyGrid.onDrop(loadOpenPgPFile);
+					
+							if (default_NewOpenPgpFile.fileExists())
+								loadOpenPgPFile(default_NewOpenPgpFile);
+						};
+						
+
+
+Action&lt;Panel, string,string, Func&lt;API_OpenPgp,string,string&gt;&gt; encryptionGui =  	
+	(control, actionType, defaultText, onAction)=&gt; 
+		{		
+					API_OpenPgp openPgp= null;					
+					control.clear();					
+					var text = control.add_GroupBox("Text to {0}".format(actionType)).add_TextArea();  										
+					insertOpenPgpPropertyGrid(text, (setOpenPgp)=&gt;openPgp = setOpenPgp);
+					var resultText = text.parent().insert_Right&lt;Panel&gt;(control.width()/2) 
+									     .add_GroupBox("{0}ed Text".format(actionType))
+									     .add_TextArea();
+					
+					
+					
+					
+					text.onTextChange(
+						(newText)=&gt; {			 
+										var result = onAction(openPgp,newText);
+										if (result.valid())
+										{
+											resultText.backColor(Color.White);
+											resultText.set_Text(result); 
+										}
+										else
+										{
+											resultText.backColor(Color.LightPink);
+											resultText.set_Text(""); 
+										}
+									});
+									
+					
+					if (openPgp.notNull())
+						text.set_Text(defaultText);					
+				};
+				
+Action&lt;Panel&gt; encryptText =  
+	(control)=&gt; { 
+					encryptionGui(control, "Encrypt",default_TextToEncrypt,
+						(openPgp,text)=&gt; {
+											return openPgp.encryptText(text);												
+										 });
+				};		
+				
+Action&lt;Panel&gt; decryptText =  
+	(control)=&gt; { 					
+					var encryptedText = default_TextToDecrypt.pgp_EncryptText(default_NewOpenPgpFile);			
+
+					encryptionGui(control, "Decrypt", encryptedText , 
+						(openPgp,text)=&gt;{											
+											return openPgp.decryptText(text);
+										});
+				};				
+
+Action&lt;Panel&gt; encryptDecryptFiles =
+	(control)=&gt; {
+					API_OpenPgp openPgp= null;		 			
+					control.clear();					
+					var directory = control.add_Panel().add_Directory(default_TempFolder);					
+					directory.handleDrop(false);
+					insertOpenPgpPropertyGrid(directory, (setOpenPgp)=&gt;openPgp = setOpenPgp);					
+					var actionsPanel = directory.insert_Left&lt;Panel&gt;(200).add_GroupBox("Actions").add_Panel();
+					
+					var encryptFile = actionsPanel.add_Button("Encrypt Selected file", 10)
+												  .align_Right(actionsPanel).enabled(false);
+					var decryptFile = actionsPanel.add_Button("Decrypt Selected file", 40)
+												  .align_Right(actionsPanel).enabled(false); 
+					
+					var selectedFile = actionsPanel.add_Label("Original File:",100).append_Label("").autoSize();
+					var newFile = actionsPanel.add_Label("New File:",120).append_Label("").autoSize();  
+					
+					actionsPanel.add_Link("Open Folder in Windows Explorer..",200,0, 
+												()=&gt; Processes.startProcess(directory.getCurrentDirectory()))								
+								.align_Bottom(actionsPanel);
+					
+					directory.afterFileSelect(
+						(file)=&gt;{
+									selectedFile.set_Text(file.fileName());
+									selectedFile.Tag = file; 
+									if (openPgp.notNull())
+									{
+										encryptFile.enabled(true);
+										decryptFile.enabled(true);  
+									}
+								});
+						Action&lt;string&gt; handleResult = 
+							(result) =&gt; {
+											if (result.fileExists())											
+												newFile.set_Text(result.fileName()).textColor(Color.DarkGreen);		
+											else
+												newFile.set_Text("Error!").textColor(Color.DarkRed);		
+										};
+										
+						encryptFile.onClick(
+							()=&gt;{
+									encryptFile.enabled(false);
+									var fileToEncrypt = selectedFile.Tag.str();
+									"Encrypting file: {0}".info(fileToEncrypt);
+									var result = openPgp.encryptFile(fileToEncrypt); 
+									handleResult(result);
+									encryptFile.enabled(true);
+									
+								});
+								
+						decryptFile.onClick(
+							()=&gt;{
+									decryptFile.enabled(false); 
+									var fileToDecrypt = selectedFile.Tag.str();
+									"Decrypting file: {0}".info(fileToDecrypt);
+									var result = openPgp.decryptFile(fileToDecrypt); 
+									handleResult(result);
+									decryptFile.enabled(true); 
+								});		
+				};
+
+				
+			
+//encryptDecryptFiles(panel.add_Panel());				
+//createKeys(panel);	 
+//encryptText(panel); 
+//decryptText(panel);
+//return  "ok";
+//showOpenPhpDetails(panel);			
+//var openPgp = new API_OpenPgp(); 
+//return openPgp;
+				
+var gui = topPanel.add_OutlookBar();				
+gui.add_Section("Open PGP")
+	.add_TextBlock("O2 Pgp tool")
+    .add_Link("Create or Edit Keys",createKeys )
+    .add_Link("Encrypt Text",encryptText)
+    .add_Link("Decrypt Text",decryptText) 
+    .add_Link("Encrypt and Decrypt Files",encryptDecryptFiles);     
+ 
+gui.showMessage("Welcome to O2's Open PGP tool","If this is your first time here&lt;br&gt;click on the first link ('Create or Edit Keys')&lt;br&gt; to create a test key &lt;br&gt;(i.e. an *_OpenPgp.xml file) ");  
+gui.statusMessage("Script loaded OK"); 
+return "ok";
+//O2File:API_OpenPgp.cs
+//O2File:WPF_GUI.cs
+//O2Ref:WindowsFormsIntegration.dll
+//O2Ref:O2_API_Visualization.dll
+//O2Ref:O2_External_IE.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - Java Methods CallTo and IsCalledBy Mappings",1200,700);  
+//var topPanel = panel.clear().add_Panel();          
+   
+JavaMetadata_XRefs javaXRefs = null;    
+
+var filter = "";
+var show_CallsTo = false;
+var show_IsCalledBy = false;	     
+var show_ImplementedBy = false;
+var show_Implements = false; 
+var show_EnclosingMethod = false;
+var show_SourceCode = false; 	
+var showStubTreeNodes = false;
+Action showData = null;     
+     
+var codeViewer = topPanel.add_SourceCodeViewer();        
+  
+      
+//var treeView = topPanel.insert_Left().add_TreeView_with_PropertyGrid();           
+var treeView = topPanel.insert_Left().add_TreeView();    
+var configPanel = treeView.insert_Below(65);	              
+   
+var showCallsTo_Checkbox =    configPanel.add_CheckBox("show 'Calls To' mappings", 0,0, 			(value)=&gt; { show_CallsTo = value; 					showData(); }).autoSize().check();
+							  configPanel.add_CheckBox("show 'ImplementedBy' mappings", 20,0, 		(value)=&gt; { show_ImplementedBy = value ; 			showData(); }).autoSize().check();							  
+var showIsCalledBy_CheckBox = configPanel.add_CheckBox("show 'IsCalledBy' mappings", 0,200,  		(value)=&gt; { show_IsCalledBy= value; 				showData(); }).autoSize().check(); 							  
+							  configPanel.add_CheckBox("show 'Implements' mappings", 20,200, 	(value)=&gt; { show_Implements = value ; 		showData(); }).autoSize().check();							  							  							  
+							  configPanel.add_CheckBox("show 'EnclosingMethod' mappings", 40,200, 	(value)=&gt; { show_EnclosingMethod = value ; 		showData(); }).autoSize().check();							  							  
+							  configPanel.add_CheckBox("Hide 'Type Nodes'", 40,400, 				(value)=&gt; { showStubTreeNodes = value ; 			showData(); }).autoSize().check();							  
+		          							  
+							  configPanel.add_CheckBox("on Select, open Source Code ", 40,0, 		(value)=&gt; { show_SourceCode= value;								}).autoSize().check();
+
+							  configPanel.add_Link("view JavaMetadata XRef object", 0, 400, ()=&gt; javaXRefs.details());
+							  //configPanel.add_Link("view CallMappings object", 20, 400, ()=&gt; callMappings.details()); 
+					   
+//							  configPanel.add_CheckBox("show mappings with no ", 20,200, (value)=&gt; { show_IsCalledBy = value ; showData(); } ).autoSize().check();
+ 
+treeView.beforeExpand&lt;Method_CallMapping&gt;(     
+	(treeNode,callMapping)=&gt;{ 		 
+								//var showStubTreeNodes = (show_CallsTo || show_IsCalledBy  || show_ImplementedBy).isFalse(); 
+								    
+								if (show_CallsTo)  
+									treeNode.add_CallsTo(callMapping, javaXRefs.CallMappings, javaXRefs.Methods_by_Signature, showStubTreeNodes); 		
+								if (show_ImplementedBy)	
+									treeNode.add_ImplementedBy(callMapping, javaXRefs.CallMappings,javaXRefs.Methods_by_Signature, showStubTreeNodes);	
+								if(show_IsCalledBy)    
+									treeNode.add_IsCalledBy(callMapping, javaXRefs.CallMappings, javaXRefs.Methods_by_Signature, showStubTreeNodes);
+								if (show_Implements)		
+									treeNode.add_Implements(callMapping, javaXRefs.CallMappings,javaXRefs.Methods_by_Signature, showStubTreeNodes);	
+								
+								
+								
+								if (show_EnclosingMethod)	 
+									treeNode.add_EnclosingMethod(callMapping, javaXRefs, showStubTreeNodes);	 		 															
+							});    
+							  
+treeView.afterSelect&lt;Method_CallMapping&gt;(  
+	(callMapping)=&gt; {						   
+						if (show_SourceCode)
+						{
+							if (javaXRefs.Methods_by_Signature.hasKey(callMapping.Signature))
+							{
+								var method = javaXRefs.Methods_by_Signature[callMapping.Signature];
+								var methodClass = javaXRefs.Classes_by_Signature[method.ClassName]; 							
+								codeViewer.showInCodeViewer(methodClass,method);
+							}
+							else
+								codeViewer.set_Text("...no code for method");
+							treeView.focus();	
+						}						 
+					});
+
+
+treeView.afterSelect&lt;MethodCall_Location&gt;(
+	(methodCall_Location)=&gt;{	
+								codeViewer.open(methodCall_Location.File);
+								codeViewer.gotoLine(methodCall_Location.Line,4); 
+								treeView.focus();
+							});
+
+treeView.insert_Above(20).add_TextBox("Root Method (RegEx) Filter","")
+		.onEnter((text)=&gt; { filter = text; showData();}) 
+		.onTextChange_AlertOnRegExFail();
+   
+    
+showData =  
+	()=&gt;{			    
+			treeView.clear(); 
+			treeView.visible(false);
+			treeView.add_CallMappings(javaXRefs, 
+									  filter,show_CallsTo, 
+									  show_IsCalledBy, 
+									  show_ImplementedBy, 
+									  show_Implements,
+									  show_EnclosingMethod);
+			treeView.visible(true);  
+			if (treeView.nodes().size()&gt;0)
+				treeView.nodes().first().expand();   
+			
+		}; 
+  
+Action&lt;string&gt; loadData = 
+	(file)=&gt;{ 
+				treeView.azure();
+				O2Thread.mtaThread(
+					()=&gt;{
+							var javaMetadata = file.javaMetadata();
+							
+							if (javaMetadata.isNull())
+								"could not get Java Metadata from file: {0}".error(file);
+							else 
+							{ 								
+								javaXRefs = javaMetadata.map_JavaMetadata_XRefs();					 								
+								showData();		  
+								treeView.focus();	  
+							}     
+							treeView.white();   
+						});     
+			};        
+       
+treeView.onDrop(loadData);           
+treeView.add_Node("Drop here Jar or Class file to view its call mappings");    
+   
+//loadData(@"C:\O2\DemoData\WebGoat\WebGoat-5.3_RC1\tomcat\webapps\webgoat\WEB-INF\lib\commons-logging-1.0.4.jar");
+//loadData(@"C:\O2\DemoData\WebGoat\WebGoat-5.3_RC1\tomcat\webapps\webgoat\WEB-INF\webgoat-classes.zip");
+ 
+
+ 
+return "ok";
+
+//O2File:API_IKVMC_JavaMetadata.cs
+
+//using O2.XRules.Database.APIs.IKVM  
+//O2File:API_IKVMC.cs 
+//O2File:API_IKVMC_CallMapping.cs 
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

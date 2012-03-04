@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - Development Gui and Two Script Editors",1200,600);
+//var topPanel = panel.clear().add_Panel();
+var controls = topPanel.add_1x1();
+controls[0].add_Control&lt;ascx_Panel_With_Inspector&gt;();
+var sideControls = controls[1].add_1x1(false);  
+sideControls[0].add_Script(false);
+sideControls[1].add_Script(false);
+ 
+//O2File:Scripts_ExtensionMethods.cs
+//O2File:ascx_Quick_Development_GUI.cs.o2</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//"ie_Object".o2Cache&lt;string&gt;("");
+var ie = "ie_Object".o2Cache&lt;WatiN_IE&gt;( 
+			()=&gt; panel.clear().add_IE().silent(true));
+ 
+ie.open("about:blank");
+ie.eval("document.write('this is some text')"); 
+ie.inject_jQuery();
+ie.eval("$('body').append('...appended text')");
+ie.injectJavascriptFunctions(true);	
+ie.eval("o2Log('hello o2 log')");
+ie.eval("$o2.write('hello again')");
+
+//ie.inject_FirebugLite(); 
+
+//O2File:WatiN_IE_ExtensionMethods.cs 
+//O2Ref:WatiN.Core.1x.dll
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

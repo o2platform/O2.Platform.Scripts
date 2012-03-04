@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>API_MiniFramework.whoIs();
+
+//O2File:API_MiniFramework.cs 
+//O2Ref:WindowsFormsIntegration.dll
+//O2Ref:MiniFramework.Windows.dll
+
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

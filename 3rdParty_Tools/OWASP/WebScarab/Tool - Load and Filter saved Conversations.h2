@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var testFile = @"C:\O2\US_Tour\O2 Scripts - WebScarab\WebScarab - WebGoat XSS";
+
+//panel.clear();
+//var topPanel = panel; 
+
+var topPanel = O2Gui.open&lt;Panel&gt;("Tool - WebScarab: load and filter conversations",1000,500);
+var tableList = topPanel.add_TableList(); 
+var script = tableList.insert_Above&lt;Panel&gt;(200).add_Script(false);    
+script.onCompileExecuteOnce();
+script.InvocationParameters.add("file","");
+script.InvocationParameters.add("tableList",tableList);   
+
+script.set_Command( "if ((returnData.isNull() || returnData is string)&amp;&amp; file.valid().isFalse())".line()+
+					"	return \"drop a WebScarab conversationLog in the table list below\".line();".line()+
+					"List&lt;IWebscarabConversation&gt; conversations = null;".line()+
+					"if (returnData.isNull() || (returnData is List&lt;IWebscarabConversation&gt;).isFalse())".line()+
+					"	conversations = new API_WebScarab().loadConversationsFile(file); 				".line()+
+					"else".line()+ 
+					" 	conversations = (List&lt;IWebscarabConversation&gt;)returnData; ".line()+
+					"var filter = (from conversation in conversations".line()+
+					"              where conversation.URL.extension().neq(\".gif\") ".line()+
+					"              //where conversation.URL.contains(\"?\")".line()+
+					"              //where conversation.METHOD == \"POST\" ".line()+
+					"              select conversation).toList(); ".line()+
+					"tableList.show(filter);".line()+
+					"tableList._Title = \"Showing {0} WebScarab log entries\".format(filter.size());  ".line()+
+					"return conversations; ".line()+
+					"//O2File:Ref:API_WebScarab.cs ".line()); 
+					
+script.commandsToExecute.editor().gotoLine(8);
+script.commandsToExecute.editor().caret(12,0);   
+script.commandsToExecute.editor().caret(8,0);    
+ 
+Action&lt;string&gt; loadFile = 
+	(file)=&gt;{
+				"file droppped: {0}".info(file);								
+				script.InvocationParameters.add("file", file); 
+				//script.InvocationParameters.add("conversations",conversations.ToArray());  				
+				script.execute();
+			};	
+						  
+topPanel.onDrop((folder)=&gt; loadFile(folder));
+tableList.getListViewControl().onDrop((folder)=&gt; loadFile(folder));
+
+//loadFile(testFile);
+//O2File:Ref:API_WebScarab.cs 
+//O2File:Scripts_ExtensionMethods.cs </SourceCode>
+  <ReferencedAssemblies />
+</H2>

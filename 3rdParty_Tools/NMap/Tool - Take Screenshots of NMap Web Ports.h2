@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Tool - Take Screenshots of NMap Web Ports",1200,400);
+topPanel.insert_LogViewer();
+//var topPanel = panel.clear().add_Panel();
+var actionsPanel = topPanel.insert_Above(40,"Actions");
+
+Func&lt;string, List&lt;string&gt;&gt; resolveWebHosts = 
+	(nmapSavedFile) =&gt;{
+						var nmap = nmaprun.Load(nmapSavedFile);						
+						var webHosts = new List&lt;string&gt;();
+						foreach(var host in nmap.host)	
+							foreach(var hostPort in host.ports)
+								foreach(var port in hostPort.port)
+									if (port.portid == "80" || port.portid == "443")
+									{
+										var type = (port.portid == "80") ? "http" : "https";
+										foreach(var address in host.address)		
+											webHosts.add("{0}://{1}:{2}".format(type, address.addr, port.portid));
+										foreach(var hostHostname in host.hostnames)
+											foreach(var hostname in hostHostname.hostname)	 						
+													webHosts.add("{0}://{1}:{2}".format(type,hostname.name, port.portid));
+									}
+						return webHosts;
+						};
+ 
+
+var targetFolder = "_nmapScreenshots".tempDir(false);
+var urls = new List&lt;string&gt;();
+var urls_TreeView = topPanel.insert_Left(400,"Urls (click to take screenshot)").add_TreeView();
+var screenshots_TreeView = topPanel.insert_Left(400, "Screenshots").add_TreeView();
+var ie = topPanel.add_IE_with_NavigationBar();//.silent(true);
+var alertsHandler = ie.getAlertsHandler();	 // auto closes popup-windows
+var stopExecution = false;
+
+Action&lt;string&gt; takeScreenshotOfWebPage = 
+	(url)=&gt;{
+				"taking screenshot of page: {0}".debug(url);
+				ie.open(url);
+				var screenshot = topPanel.screenshot(); 
+				var screenshotFile	 = targetFolder.pathCombine("{0}.jpg".format(url.safeFileName()));				
+				screenshot.save(screenshotFile);
+				screenshots_TreeView.add_Node(url, screenshotFile);
+		   };
+
+
+Action takeScreenShotsOfAllPages = 
+	()=&gt;{
+			screenshots_TreeView.clear();
+			stopExecution = false;
+			foreach(var url in urls)
+				if(stopExecution.isFalse())
+					takeScreenshotOfWebPage(url);			
+		};
+		
+screenshots_TreeView.afterSelect&lt;string&gt;(
+	(bitmapFile)=&gt;{
+					"here".info();
+					ie.open_ASync(bitmapFile);
+		 		  });
+		 		  
+urls_TreeView.afterSelect&lt;string&gt;(
+	(url)=&gt; {
+				screenshots_TreeView.pink();
+				O2Thread.mtaThread(
+					()=&gt;{
+							takeScreenshotOfWebPage(url);
+							screenshots_TreeView.white();
+						});
+			});
+
+Action&lt;string&gt; loadNmapXmlFile= 
+	(file)=&gt;{			
+				urls_TreeView.clear();
+				urls = resolveWebHosts(file);
+				urls.add("http://www.google.com");
+				urls_TreeView.add_Nodes(urls)
+			 				 .selectFirst();
+			};
+
+urls_TreeView.onDrop(loadNmapXmlFile);		
+actionsPanel.add_Link("take screnshots of all pages", takeScreenShotsOfAllPages)
+			.append_Link("stop execution", ()=&gt; stopExecution = true)
+			.append_Link("View Folder with Screenshots", ()=&gt; targetFolder.startProcess());
+
+			 
+loadNmapXmlFile(@"o2platform.com.xml".local());	 
+return "ok";			
+//O2File:nmap.cs
+//O2File:API_Cropper.cs
+//O2File:WatiN_IE_ExtensionMethods.cs
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
+//O2Ref:WatiN.Core.1x.dll
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

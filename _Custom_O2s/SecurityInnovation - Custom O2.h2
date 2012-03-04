@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var title = "Security Innovation";  
+ 
+var ribbon = CustomO2.create(title); 		// stand alone version
+//var ribbon = CustomO2.create(panel.clear().add_Panel(),title); 		// use when inside 'Quick Development GUI'
+  
+var customO2 = ribbon.add_Tab("Custom O2");
+customO2.add_RibbonGroup("BlackBox Automation")
+		.add_RibbonButton_Script("IE Automation","ascx_IE_ScriptExecution.cs")	 		 
+		.add_RibbonButton_Script("Altoro - FuzzDB on XSS (with screenshots)","PoC - Xss Vulns via FuzzDb with Screenshots.h2");
+		
+customO2.add_RibbonGroup("Go here to find scripts")	
+		.add_Script("O2 Development Environment","Util - O2 Development Environment.h2")	
+		.add_Script("O2 Available scripts","Util - O2 Available scripts.h2");
+		
+		
+
+
+//ribbon.add_Tab_BrowserAutomation();
+ribbon.add_Tab_MiscTools();
+
+//O2File:CustomO2.cs  
+
+//O2Ref:WindowsFormsIntegration.dll
+//O2Ref:RibbonControlsLibrary.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

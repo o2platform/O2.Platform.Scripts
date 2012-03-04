@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.clear().add_Panel();
+var title = "IE Automation (using Windows Automation)";
+var topPanel = title.popupWindow(1200, 700);
+topPanel.parentForm().top(0).left(0);
+var ie = topPanel.add_IE().silent(true);
+ 
+Action&lt;string,string,string&gt; loginToSSB =
+	(url, username, password) =&gt;
+		{
+			ie.open(url);
+			
+			var process = Processes.getCurrentProcess();
+			var guiAutomation = new API_GuiAutomation(process);
+			var window = guiAutomation.window(title);			
+			 
+			window.link("Log in").mouse().click(); 
+			
+			window = guiAutomation.window(title); 
+			window.textBox("Username:").mouse().set_Text(username);
+			guiAutomation.mouse_MoveBy(0,10).mouse_Click(); // weirdly without this the text on username disapers when the password textbox is populated
+			window.textBox("Password:").mouse().set_Text(password);; 
+			window.button("Log In").mouse().click();
+		};
+
+
+loginToSSB("http://127.0.0.1:81", "admin","admin");
+topPanel.closeForm_InNSeconds(5);
+
+
+
+//O2File:WatiN_IE_ExtensionMethods.cs
+//using O2.XRules.Database.Utils.O2
+//O2Ref:WatiN.Core.1x.dll
+//O2File:API_GuiAutomation.cs
+//O2Ref:White.Core.dll </SourceCode>
+  <ReferencedAssemblies />
+</H2>

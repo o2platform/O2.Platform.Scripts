@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Stop all O2 instances (but current) and start new one",900,50);
+var scriptToRun = topPanel.add_Label("*.o2 or *.h2 script to run")
+						  .top(5) 
+				  	   	  .append_TextBox("")
+				  	      .width(300);
+
+Action stopCurrentProcess = 
+	()=&gt;{
+			O2Thread.mtaThread(
+				()=&gt;{
+						this.sleep(1500);
+						Processes.getCurrentProcess().stop();
+					});
+		};
+MethodInvoker stopAllButCurrentO2Process = 
+	()=&gt;{
+			"Stopping all but current O2 Process".info();
+			var currentO2Id = Processes.getCurrentProcessID();
+			foreach(var process in Processes.getProcessesCalled("O2_XRules_Database"))
+				if (process.Id != currentO2Id)
+				{
+					"stopping process '{0}' with ID {1}".debug(process.ProcessName, process.Id);
+					process.stop();
+				}		
+		 };				  	   
+
+var justStop = scriptToRun.append_Link("Just stop all (but current)", 
+	()=&gt;{
+			stopAllButCurrentO2Process();
+		}).top(5);
+		
+var stopAndRunScript = justStop.append_Link("Stop all and run script",
+	()=&gt;{
+			stopAllButCurrentO2Process();
+			Processes.startProcess(scriptToRun.get_Text());			
+		});
+		
+var stopAndStartO2 = stopAndRunScript.append_Link("Stop all and start O2",
+	()=&gt;{
+			stopAllButCurrentO2Process();			
+			var xRulesExe = PublicDI.config.CurrentExecutableDirectory.pathCombine("O2_XRules_Database.exe");					
+			Processes.startProcess(xRulesExe);
+			stopCurrentProcess();
+		});
+var startAsAdmin = stopAndStartO2.append_Link("Start O2 as Admin",
+	()=&gt;{
+			var process = new Process();
+			process.StartInfo.FileName =	PublicDI.config.CurrentExecutableDirectory.pathCombine("O2_XRules_Database.exe");
+			process.StartInfo.Verb = "runas";
+			process.Start();
+		});
+
+scriptToRun.onDrop(
+	(fileOrFolder)=&gt;{
+						if (fileOrFolder.isFile() &amp;&amp; (fileOrFolder.extension(".o2") || fileOrFolder.extension(".h2")))
+							scriptToRun.set_Text(fileOrFolder);
+					});
+
+//using System.Diagnostics
+
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

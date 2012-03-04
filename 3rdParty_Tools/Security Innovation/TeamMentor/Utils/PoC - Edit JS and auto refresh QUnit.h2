@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = "PoC - Edit JS and auto refresh QUnit".popupWindow().maximized();
+
+//var topPanel = panel.clear().add_Panel();
+
+topPanel.insert_LogViewer(); 
+
+var actionsPanel = topPanel.insert_Above(60, "actions");
+var browser = topPanel.title("Browser").add_WebBrowser_Control();
+var codeEditor1 = browser.insert_Right("Source Code Editor #1").add_SourceCodeEditor();
+var codeEditor2 = codeEditor1.parent().insert_Below(200,"Source Code Editor #2").add_SourceCodeEditor();
+
+
+var folderToWatch = @"";
+
+FileSystemWatcher folderWatcher = null;
+
+Action onChanged = 
+	()=&gt;{
+								"there was a file change".info();																
+							};
+
+Action stopWatching = 	
+	()=&gt;{				
+			if (folderWatcher.notNull())
+			{
+				folderWatcher.EnableRaisingEvents = false;
+				"folderWatcher stopped".debug();
+			}	
+			else
+				"folderWatcher wasn't started".error();
+		};		
+
+Action startWatching = 	
+	()=&gt;{
+			if (folderWatcher.notNull())
+				stopWatching();
+			"startWatching".info();
+			folderWatcher = new FileSystemWatcher(folderToWatch);
+			folderWatcher.Changed += (sender,e) =&gt; { onChanged(); };
+			folderWatcher.EnableRaisingEvents = true;
+		};
+
+
+Action testWatching = 
+	()=&gt;{
+			var testFile = folderToWatch.pathCombine("_testFile_{0}.txt".format(10.randomLetters()));
+			"Creating test file: {0}".info(testFile);
+			"This is some test content".saveAs(testFile);
+			if (testFile.fileExists())
+			{
+				"test file was there".debug();				
+				testFile.deleteFile();
+				if (testFile.fileExists().isFalse())
+					"not any more".debug();
+			}
+		};
+
+
+var lastLink = actionsPanel .add_Label("Folder to watch",3).append_TextBox(folderToWatch).onTextChange((text)=&gt; {folderToWatch = text;}).align_Right()
+							.append_Link_Below("start watching", 0,	()=&gt; startWatching() ).topAdd(5)
+							.append_Link("stop Watching", 			()=&gt; stopWatching()  )
+							.append_Link("test Watching", 			()=&gt; testWatching()  ); 
+
+
+var tmJsFolder = @"C:\_WorkDir\SI\_TeamMentor-v3.0_Latest\Web Applications\TM_Website\Html_Pages\_UnitTest_Helpers\TM_qUnit_Tests\js";
+actionsPanel.control&lt;TextBox&gt;().set_Text(tmJsFolder);
+var file1 = tmJsFolder.pathCombine("TM_GUI_LibraryTree.js");
+var file2 = tmJsFolder.pathCombine(@"..\html\QUnit - TM_Gui_LibraryTree.html");
+var file3 = tmJsFolder.pathCombine(@"..\..\..\..\Javascript\TM.Gui\TM.GUI.LibraryTree.js");
+var url = "http://localhost.:12355/Html_Pages/_UnitTest_Helpers/TM_qUnit_Tests/html/QUnit%20-%20TM_GUI_LibraryTree.html";
+codeEditor1.open(file1);
+codeEditor2.open(file3);
+browser.open(url);
+
+onChanged = () =&gt;{
+					"detected Changed, refreshing browser".info();
+					browser.open("about:blank");
+					browser.open(url + "?time=" + DateTime.Now.Ticks);
+				};
+lastLink.append_Link("refresh", ()=&gt; onChanged()).leftAdd(600);
+startWatching();
+topPanel.onClosed(()=&gt; stopWatching());
+
+
+return "ok";
+//using System.IO
+//using O2.DotNetWrappers.Windows
+//O2File:_Extra_methods_WinForms_Controls.cs
+//O2File:_Extra_methods_Files.cs
+//O2Tag_DontAddExtraO2Files</SourceCode>
+  <ReferencedAssemblies />
+</H2>

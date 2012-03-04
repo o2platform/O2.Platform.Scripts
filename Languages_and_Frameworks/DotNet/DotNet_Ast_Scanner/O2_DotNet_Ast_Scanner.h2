@@ -1,0 +1,221 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("O2 .NET AST Security Scanner",1200,600);
+
+//global objects
+var taintRules = new O2CodeStreamTaintRules();
+taintRules.add_TaintPropagator("System.Web.HttpServerUtility.HtmlDecode");  
+var o2Findings = new List&lt;IO2Finding&gt;();
+var cancelScan = false;
+//Canvas
+var designerCanvas = topPanel.add_DesignerCanvas();   
+
+
+// add controls to canvas   
+designerCanvas.add_Label("O2 .NET AST Security Scanner",00,20).fontSize(30); 
+
+var targetFolderLabel = designerCanvas.add_Label("target folder:",10,680);
+var targetFolder = designerCanvas.add_TextBox("",10,750,430,20).designMode(false);  
+var progressLabel = designerCanvas.add_Label("progress:",40,680);
+var winFormsPanel = designerCanvas.add_WinForms_Panel(40,750,430,20);
+var progressBar = winFormsPanel.add_ProgressBar(); 
+var statusLabel = designerCanvas.add_Label("",60,750);
+
+var step1_Label = designerCanvas.add_Label("step 1) drag and drop Source Code files",70,20); 
+var step1_WinForms = designerCanvas.add_WinForms_Panel(100,20,250,250);
+var step1_SourceCodeFiles = step1_WinForms.add_TreeView().sort();  
+
+var step2_Label = designerCanvas.add_Label("step 2) add References",400,20);   
+var step2_References = designerCanvas.add_TextBox("",430,20,250,130).designMode(false); 
+
+//var step3_Label = designerCanvas.add_Label("step 3) Create Analysis Artifacts",550,350);   
+var step3_Button = designerCanvas.add_Button("step 3) Create MethodStreams and Raw Findings/Traces",530,350,350,30).designMode(false);  
+ 
+var step4_Label = designerCanvas.add_Label("step 4) View Created Artifacts",70,350);    
+var step4_WinForms1 = designerCanvas.add_WinForms_Panel(100,350,350,180);
+var step4_WinForms2 = designerCanvas.add_WinForms_Panel(300,350,350,180);
+var step4_WinForms3 = designerCanvas.add_WinForms_Panel(100,750,430,380);
+var step4_MethodStreams = step4_WinForms1.add_TreeView().sort();
+var step4_SourceCode = step4_WinForms2.add_SourceCodeViewer(); 
+var step4_FindingsViewer = step4_WinForms3.add_FindingsViewer(); 
+
+var step5_Button = designerCanvas.add_Button("step 5) Save created Findings",530,750,430,30).designMode(false);  
+
+step4_MethodStreams.afterSelect&lt;string&gt;(
+	(file)=&gt; step4_SourceCode.open(file));
+
+// Connections 
+//designerCanvas.connect(step1_Label, step2_Label);
+designerCanvas.add_Connection(step1_WinForms.designerItem(), step2_Label.designerItem(), "Right", "Top");      
+designerCanvas.add_Connection(step2_References.designerItem(), step3_Button.designerItem(), "Right", "Left");     
+designerCanvas.add_Connection(step3_Button.designerItem(), step4_WinForms2.designerItem(), "Top", "Bottom");       
+designerCanvas.add_Connection(step3_Button.designerItem(), step4_WinForms3.designerItem(), "Right", "Left");       
+
+designerCanvas.add_Connection(step4_WinForms3.designerItem(), step5_Button.designerItem(), "Bottom", "Top");       
+
+//action
+
+Action createMethodStreamsAndRawFiles = 
+	()=&gt; {			
+			System.Threading.Thread scanThread = null;		 	
+			statusLabel.set_Text_Wpf("Starting Scan Workflow");			
+			scanThread = O2Thread.mtaThread(
+				()=&gt;{
+						cancelScan = false;
+						var astData = new O2MappedAstData();
+						statusLabel.set_Text_Wpf("Adding References");		
+						var references = step2_References.get_Text_Wpf().lines(); 
+						progressBar.maximum(references.size());
+						foreach(var reference in references)
+						{
+							astData.O2AstResolver.addReference(reference);
+							progressBar.increment(1);
+						}
+						
+						statusLabel.set_Text_Wpf("Loading Files");
+						progressBar.value(0);
+						progressBar.maximum(step1_SourceCodeFiles.nodes().size());
+						
+						foreach(var node in step1_SourceCodeFiles.nodes())
+						{
+							astData.loadFile(node.get_Tag().str());
+							progressBar.increment(1);
+							if (cancelScan)
+							{
+								statusLabel.set_Text_Wpf("Scan canceled");
+								return;
+							}
+						}
+						var targetFolderPath = targetFolder.get_Text_Wpf();
+						statusLabel.set_Text_Wpf("Creating MethodStreams");	
+						Ast_Engine_Cache.CacheEnabled = false;
+						astData.createAllMethodsStreams(targetFolderPath, progressBar,
+														(message)=&gt;{
+																		"[Scan message]: {0}".info(message);
+																		statusLabel.set_Text_Wpf("Creating Raw Findings/Traces: {0} MethodStreams created so far".format(targetFolderPath.files().size()));	
+																		if (cancelScan)
+																		{
+																			statusLabel.set_Text_Wpf("Scan canceled");
+																			return false;
+																		}
+																		return true;
+																   });
+						step4_MethodStreams.clear();
+						foreach(var file in targetFolderPath.files())
+							step4_MethodStreams.add_Node(file.fileName(), file);
+						
+						statusLabel.set_Text_Wpf("Creating Raw Findings");							
+						progressBar.value(0);
+						progressBar.maximum(step4_MethodStreams.nodes().size());
+						o2Findings = new List&lt;IO2Finding&gt;();  
+						try
+						{
+							var numberOfFiles = step4_MethodStreams.nodes().size(); 
+							var filesProcessed = 0;
+							foreach(var node in step4_MethodStreams.nodes())
+							{	
+								if (cancelScan)
+								{
+									statusLabel.set_Text_Wpf("Scan canceled");
+									break;
+								}
+								var targetFile = node.get_Tag().str();  	 							
+								var rule = new Rule_DotNet_FindSources(); //.execute(targetFile.wrapOnList(),""); 	
+								rule.TaintRules = taintRules; 
+								o2Findings.AddRange(rule.createFindings(targetFile));
+								rule = null;
+								progressBar.increment(1);
+								statusLabel.set_Text_Wpf("Creating Raw Findings/Traces: {0} Findings created so far (in {1}/{2} file)".format(o2Findings.size(),filesProcessed++, numberOfFiles));	
+								
+							}													
+						}
+						catch(Exception ex)
+						{
+							ex.log("in scan");
+						}
+						step4_FindingsViewer.show(o2Findings);
+						if (cancelScan.isFalse())
+							statusLabel.set_Text_Wpf("Scan Workflow Completed");		
+						});
+		 };
+
+//actions		 
+step3_Button.onClick_Wpf(()=&gt;createMethodStreamsAndRawFiles());	
+step5_Button.onClick_Wpf(
+	()=&gt;{
+			var targetFile = O2Forms.askUserForFileToSave(targetFolder.get_Text_Wpf(),"_o2Findings.xml");
+			if (targetFile.valid())
+				o2Findings.saveFindings(targetFile);
+		});
+	 
+step1_SourceCodeFiles.add_ContextMenu().add_MenuItem("Clear files list", ()=&gt;step1_SourceCodeFiles.clear());
+step4_FindingsViewer.add_ContextMenu().add_MenuItem("Show calculated findings", ()=&gt;step4_FindingsViewer.show(o2Findings));
+progressBar.add_ContextMenu().add_MenuItem("Cancel/Stop scan ", ()=&gt; cancelScan = true); 
+
+step1_SourceCodeFiles.onDrop(
+	(fileOrFolder)=&gt;{						
+						if (fileOrFolder.fileExists())
+							step1_SourceCodeFiles.add_Node(fileOrFolder.fileName(),fileOrFolder);	
+						else
+						{
+							//step1_SourceCodeFiles.clear();
+							foreach(var file in fileOrFolder.files(true, "*.cs","*.vb"))
+								step1_SourceCodeFiles.add_Node(file.fileName(),file);
+						}
+					});
+
+//Data
+targetFolder.set_Text_Wpf(PublicDI.config.getTempFolderInTempDirectory("_O2_AST_Scanner_Results"));
+//step1_SourceCodeFiles.add_Node("HacmeBank_v2_Website.ascx.admin.Sql_Query.btExecuteQuery_Click.cs", "HacmeBank_v2_Website.ascx.admin.Sql_Query.btExecuteQuery_Click.cs".local());
+//step1_SourceCodeFiles.add_Node("HacmeBank_v2_WS.WS_UsersCommunity.PostMessage.cs", "HacmeBank_v2_WS.WS_UsersCommunity.PostMessage.cs".local());
+step2_References.set_Text_Wpf("System.Web".line() +
+							  "System.Web.Services".line() + 
+							  "System.Data".line() + 
+							  "System.Xml".line());
+							  
+
+
+//createMethodStreamsAndRawFiles();
+
+//using O2.XRules.Database.Languages_and_Frameworks.DotNet;
+
+//using DiagramDesigner
+
+//using O2.Interfaces.O2Findings; 
+//using O2.Views.ASCX.O2Findings;
+//using O2.Views.ASCX.ExtensionMethods;
+//using O2.External.SharpDevelop.ExtensionMethods;
+//using O2.API.AST.CSharp;
+//using O2.API.AST.ExtensionMethods;
+//using O2.API.AST.ExtensionMethods.CSharp;
+//using WPF = System.Windows.Controls
+//using System.Windows.Media
+//using System.Windows.Media.Imaging
+//using System.Windows.Markup
+//using O2.API.Visualization.ExtensionMethods
+//using O2.API.Visualization.Xaml
+//using O2.XRules.Database.Findings
+
+//O2File:DiagramDesigner_ExtensionMethods.cs
+//O2File:Ast_Engine_ExtensionMethods.cs
+//O2File:Rule_DotNet_FindSources.cs 
+//O2File:Findings_ExtensionMethods.cs  
+
+//O2Ref:System.Web.dll
+//O2Ref:System.Xml.dll
+//O2Ref:System.Xml.Linq.dll
+//O2Ref:WindowsFormsIntegration.dll
+//O2Ref:PresentationCore.dll
+//O2Ref:WindowsBase.dll
+//O2Ref:PresentationFramework.dll
+//O2Ref:QuickGraph.dll   
+//O2Ref:GraphSharp.dll
+//O2Ref:GraphSharp.Controls.dll
+//O2Ref:ICSharpCode.AvalonEdit.dll
+//O2Ref:DiagramDesigner.exe
+
+//O2Ref:O2_API_Visualization.dll
+//O2Ref:O2_API_AST.dll
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

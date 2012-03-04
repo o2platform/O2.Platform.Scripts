@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = "Util - Text RegEx using FuzzDb".popupWindow(1000,400);
+//var topPanel = panel.clear().add_Panel();
+
+var actionsPanel = topPanel.insert_Above(40,"actions");
+var dataGridView = topPanel.add_DataGridView()
+						   .add_Columns("Payload", "Result");
+
+var stop = false;
+var sqli_payloads = false;
+var xss_payloads = false;
+var withUrlEncoding = false;
+var regExString = @"['""].*[+\-*/%=&amp;|^~'""]";
+
+Action startFuzzing = 
+	()=&gt;{
+			var fuzzDb  = new API_FuzzDB();			
+			var startFuzzingLink = actionsPanel.link("Start Fuzzing").enabled(false);;
+			var statusLabel = actionsPanel.controls&lt;Label&gt;(true).last();
+			
+			Action&lt;List&lt;string&gt;&gt; testPayloads = 
+				(payloads)=&gt; {
+								foreach(var payload in payloads)
+								{				
+									if (stop)
+										break;
+									statusLabel.set_Text("testing payload: {0}".format(payload));									
+									if (payload.regEx(regExString).isFalse())				
+										dataGridView.add_Row(payload, false);
+									if (withUrlEncoding)
+									{
+										var encodedPayload = payload.urlEncode();
+										statusLabel.set_Text("testing payload: {0}".format(encodedPayload));									
+										if (encodedPayload.regEx(regExString).isFalse())		 		
+											dataGridView.add_Row(encodedPayload, false);
+										this.sleep(100);	
+									}
+										
+								}
+							};
+			if (sqli_payloads)			
+				testPayloads(fuzzDb.payloads_SQLi_Generic());
+			if (xss_payloads)			 
+				testPayloads(fuzzDb.payloads_Xss());	
+			// we could also apply the transformation into the entire list like this
+			//testPayloads( fuzzDb.payloads_Xss().Select((value)=&gt; value.urlEncode())  ); 
+			stop = false;
+			startFuzzingLink.enabled(true);
+			statusLabel.set_Text("Tests completed");
+		};
+		
+actionsPanel.add_Label("RegEx To test").top(3)
+			.append_TextBox(regExString).onTextChange((text)=&gt; regExString = text).width(200)
+			.append_CheckBox("Xss", (value)=&gt; xss_payloads= value).tick().top(1)
+			.append_CheckBox("Sqli", (value)=&gt; sqli_payloads= value)//.tick() 
+			.append_CheckBox("with UrlEncoding", (value)=&gt; withUrlEncoding= value)//.tick() 
+			.append_Link("Start Fuzzing", ()=&gt; startFuzzing()).font_bold().top(3)
+			.append_Link("stop", ()=&gt; stop = true)
+			.append_Link("clear table", ()=&gt; dataGridView.remove_Rows() )			
+			.append_Label("...").autoSize().top(3);
+			
+//return actionsPanel.controls&lt;Label&gt;(true).last().set_Text("Asd");
+
+startFuzzing();		
+		
+return "ok";
+//O2File:API_FuzzDB.cs
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var simpleSearch  = O2Gui.open&lt;ascx_SimpleFileSearch&gt;("Util - Java, Jsp and Xml File Search", 900,500);			
+simpleSearch.Path.splitContainer().panel1Collapsed(true);   
+Action&lt;string, string &gt; loadFiles = 
+	(path, fileFilters)=&gt;{ 							
+							var files = path.files(true,fileFilters.split(",")
+																   .ToArray());
+							simpleSearch.loadFiles(path, files);  
+						};
+			
+var folderToLoad = @"C:\O2\Demos\jPetStore - O2 Demo Pack\sourceCode"; 
+var filter = "*.jsp,*.xml,*.java";  
+
+Action refresh = 
+	()=&gt;{
+			loadFiles(folderToLoad,filter);
+		};
+		
+simpleSearch.insert_Above(20)
+			.add_TextBox("Path",folderToLoad)
+			.onTextChange((text)=&gt; folderToLoad = text)
+			.onEnter((text)=&gt; refresh() )   
+			.parent()
+			.insert_Right(200) 
+			.add_TextBox("Filter",filter)
+			.onTextChange((text)=&gt; filter = text)
+			.onEnter((text)=&gt; refresh()) ;
+			
+refresh();
+
+//O2File:ascx_SimpleFileSearch.cs</SourceCode>
+  <ReferencedAssemblies />
+</H2>

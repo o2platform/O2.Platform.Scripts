@@ -1,0 +1,156 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - GitHub Browser",1000,400);
+//var topPanel = panel.clear().add_Panel();
+Action&lt;string,string&gt; load = null;
+
+var actionPanel = topPanel.insert_Above(40,"Load repositories"); 
+
+actionPanel.add_Link("SecurityInnovation/YASAT", 0,0, ()=&gt; load("SecurityInnovation/YASAT", "2d94d5d39168e38d2a10"))
+		   .append_Link("SecurityInnovation/TeamMentor", ()=&gt; load("SecurityInnovation/TeamMentor", "71419d1c49f6d9c5a6c1"))		   
+		   .append_Link("DinisCruz/TeamMentor", ()=&gt; load("DinisCruz/TeamMentor", "dc03519a8e0d766f224f")).click();
+
+
+var Cache = new BasicCacher.BasicCacher(); 
+var Log = new SimpleLogProvider();
+
+ICredential gitHubLogin = null;
+try
+{
+	 gitHubLogin = @"C:\O2\_USERDATA\accounts.xml".credential("githubApiKey");   
+}
+catch(Exception ex)
+{
+	ex.log();
+}
+if (gitHubLogin.isNull())
+	gitHubLogin = ascx_AskUserForLoginDetails.ask();
+
+if (gitHubLogin.UserName.inValid()) 
+{
+	topPanel.add_TextArea().set_Text("You need to provide credentials to connect to github");
+	return "no user";
+}
+var user = new GitModel.GithubUser { Name = gitHubLogin.UserName,APIToken = gitHubLogin.Password };
+
+var objects =  new GitAPI.Object(Cache,Log);  
+objects.Authenticate(user);   
+var repository =  new GitAPI.Repository(Cache,Log);  
+repository.Authenticate(user);   
+
+var currentRepository = "";
+
+Action&lt;string, TreeNode&gt; addTree =
+	(shaTree, treeNode)=&gt;
+		{
+			"on repository {0} , fetching tree for ShaTree: {1}".info(currentRepository, shaTree);
+			objects.CacheProvider = new BasicCacher.BasicCacher(); 
+			var treeItems = objects.Trees(currentRepository, shaTree);
+			
+			treeNode.add_Nodes(treeItems, 
+							   (treeItem)=&gt;treeItem.Name, 
+							   (treeItem)=&gt; (treeItem.Type == "tree") ? (object)treeItem : (object)treeItem.Sha, //. shaTree,
+							   (treeItem)=&gt; treeItem.Type == "tree" 
+							  );
+			"There are {0} nodes".info(treeNode.nodes().size());		 						  
+			
+			foreach(var node in treeNode.nodes())		
+			{
+				node.color( (node.nodes().size()==0)
+									? Color.DarkBlue // it is a file
+									: Color.DarkOrange // it is a tree (i.e. a folder
+							  );
+			}
+
+			//treeNode.nodes()[0].selected();
+			
+		};
+
+var treeView = topPanel.add_TreeView();
+var propertyGrid = treeView.insert_Below(100).add_PropertyGrid();
+var sourceCodeViewer = treeView.insert_Right().add_SourceCodeViewer();
+
+treeView.beforeExpand&lt;GitModel.Object&gt;(
+	(treeNode, _object)=&gt;{							
+							addTree(_object.Sha, treeNode); 
+						 });
+
+treeView.afterSelect&lt;string&gt;(
+	(sha)=&gt; {						
+				treeView.backColor(Color.Azure);
+				O2Thread.mtaThread(
+					()=&gt;{
+							try
+							{
+								var fileName = treeView.selected().get_Text().urlEncode();
+								objects.CacheProvider = new BasicCacher.BasicCacher(); 					
+								//var blobContent = objects.Blob(currentRepository, sha,fileName);				
+								//var blobText = blobContent.Data;
+								var blobBinaryContent = objects.RawBinary(currentRepository, sha);
+								
+								var blobText = blobBinaryContent.ascii();
+								sourceCodeViewer.set_Text(blobText, fileName);  
+							}
+							catch(Exception ex)
+							{
+								sourceCodeViewer.set_Text(ex.Message); 
+							}
+							
+							treeView.backColor(Color.White); 
+						});					
+			});
+			
+treeView.afterSelect&lt;GitModel.Object&gt;(
+	(_object)=&gt; {					
+					propertyGrid.show(_object); 
+					if (_object.Type == "blob")
+					{ 
+						var sha = treeView.selected().get_Tag();
+						"Parent sha is: {0}".info(sha);
+						return ;																		
+						
+					}
+					
+				});
+
+
+var actionsPanel = topPanel.insert_Above(50);
+var repository_TextBox = actionsPanel.add_TextBox(0, "repository", "").left(100);
+var rootSha_TextBox = actionsPanel.add_TextBox(20,"root tree (Sha)", "").left(100);
+
+Action loadRootTree = 
+	()=&gt;{ 
+			currentRepository = repository_TextBox.get_Text();
+			treeView.clear();
+			var rootObject = new GitModel.Object { Name = repository_TextBox.get_Text() , Sha = rootSha_TextBox.get_Text() };
+			addTree(rootObject.Sha, treeView.rootNode());
+		};
+		
+rootSha_TextBox.onEnter((text)=&gt;loadRootTree());
+
+load = (repositoryText, rootShaText)=&gt; {
+											repository_TextBox.set_Text(repositoryText);
+											rootSha_TextBox.set_Text(rootShaText);
+											loadRootTree();
+										};									
+
+return "ok";
+
+//O2Ref:GithubSharp.Core.dll 
+//O2Ref:BasicCacher.dll
+//O2Ref:GithubSharp.Plugins.LogProviders.SimpleLogProvider.dll 
+ 
+//O2File:ISecretData;//_ExtensionMethods.cs 
+//O2File:SecretData_ExtensionMethods.cs 
+//O2File:ascx_AskUserForLoginDetails.cs
+
+
+//using GithubSharp;
+//using GithubSharp.Core;
+//using GithubSharp.Core.Base;
+//using GitModel = GithubSharp.Core.Models;
+//using GitAPI = GithubSharp.Core.API;  
+//using GithubSharp.Core.Services; 
+//using GithubSharp.Plugins.LogProviders.SimpleLogProvider; </SourceCode>
+  <ReferencedAssemblies />
+</H2>

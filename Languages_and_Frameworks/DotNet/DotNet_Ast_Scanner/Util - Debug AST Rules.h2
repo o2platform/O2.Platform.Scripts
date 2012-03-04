@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//panel.clear();
+//var topPanel = panel.add_Panel();
+var topPanel = O2Gui.open&lt;Panel&gt;("Util - Debug AST Rules",1000,600);
+var mainGui = topPanel.add_1x1("", "");
+var leftPanel = mainGui[0].parent().clear().add_1x1("Source MethodStreams","Script",false);
+var rightPanel = mainGui[1].parent().clear().add_1x1("Code Streams","Findings",false);
+
+var methodStreamsTreeView = leftPanel[0].add_TreeView();
+var scriptEditor = leftPanel[1].add_Script(false);
+
+var sourceCodeViewer = rightPanel[0].add_Control&lt;ascx_SourceCodeViewer&gt;(); 
+var codeStreamTreeView = sourceCodeViewer.insert_Left&lt;TreeView&gt;().showSelection();
+O2.ImportExport.OunceLabs.OunceAvailableEngines.addAvailableEnginesToControl(typeof(ascx_FindingsViewer));
+var findingsViewer = rightPanel[1].add_Control&lt;ascx_FindingsViewer&gt;();  
+
+
+//findingsViewer.invokeOnThread(()=&gt;findingsViewer._ShowNoEnginesLoadedAlert = false);
+
+topPanel.insert_Below&lt;Panel&gt;(100).add_LogViewer();
+codeStreamTreeView.afterSelect&lt;O2CodeStreamNode&gt;
+			 	((streamNode)=&gt; sourceCodeViewer.editor().setSelectionText(streamNode.INode.StartLocation, streamNode.INode.EndLocation));				
+
+methodStreamsTreeView.afterSelect&lt;string&gt;((file)=&gt; sourceCodeViewer.open(file));
+
+var loadedMethodStreams = new List&lt;string&gt;();
+Action&lt;string&gt; loadMethodStreams = 
+	(fileOrFolder)=&gt;{
+						if (fileOrFolder.dirExists())
+						{
+							loadedMethodStreams.Clear();
+							loadedMethodStreams.AddRange(fileOrFolder.files("*.cs"));
+						}
+						else
+							if (fileOrFolder.fileExists())
+								loadedMethodStreams.Add(fileOrFolder);
+						methodStreamsTreeView.clear();
+						methodStreamsTreeView.add_Nodes(loadedMethodStreams);
+						methodStreamsTreeView.selectFirst();
+					};
+					
+methodStreamsTreeView.onDrop(loadMethodStreams)
+					 .add_ContextMenu()
+					 .add_MenuItem("Clear list",
+					 	()=&gt;{
+					 			methodStreamsTreeView.clear();
+					 			loadedMethodStreams.Clear(); 
+					 		});
+
+var sampleFile = "HacmeBank_v2_Website.ascx.admin.Sql_Query.btExecuteQuery_Click.cs".local();
+loadMethodStreams(sampleFile);
+
+scriptEditor.InvocationParameters.add("methodStreams", methodStreamsTreeView);
+scriptEditor.InvocationParameters.add("sourceCodeViewer", sourceCodeViewer);
+scriptEditor.InvocationParameters.add("codeStreamTreeView", codeStreamTreeView);
+scriptEditor.InvocationParameters.add("findingsViewer", findingsViewer);
+
+scriptEditor.Code = 
+//		"var files = (from node in methodStreams.nodes()".line() + 
+//		"			  select node.get_Text()).toList();".line() + 
+				"var targetFile = methodStreams.selected().get_Text();".line()+
+				"//O2File:Rule_DotNet_FindSources.cs".line()+
+				"var rule = new Rule_DotNet_FindSources();//.execute(targetFile.wrapOnList(),\"\");".line()+
+				"var codeStreams = rule.createCodeStreams(targetFile);".line()+
+				"var codeStream = codeStreams[0];".line()+
+				"if (codeStream.hasPaths()) ".line()+
+				"{".line()+
+				"	codeStream.show(sourceCodeViewer.editor());".line()+
+				"	codeStream.show(codeStreamTreeView);".line()+
+				"	codeStreamTreeView.expand();".line()+
+				"}".line()+
+				"return \"done\".line();".line()+
+				"//using O2.XRules.Database.Languages_and_Frameworks.DotNet".line()+
+				"//O2Ref:O2_API_AST.dll".line();
+
+scriptEditor.onCompileExecuteOnce();	 	
+
+
+//using O2.External.SharpDevelop.ExtensionMethods;
+//using O2.DotNetWrappers.ExtensionMethods
+//using O2.API.AST.CSharp
+//using O2.XRules.Database.Languages_and_Frameworks.DotNet
+//using O2.Views.ASCX.O2Findings
+//O2File:ascx_WriteRule.cs
+//O2File:ascx_ManualMethodStreams.cs
+//O2Ref:O2_API_AST.dll
+//O2Ref:O2_ImportExport_OunceLabs.dll
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

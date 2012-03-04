@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//panel.clear(); 
+//var topPanel = panel.add_Panel();
+var bold = false;
+var topPanel = O2Gui.open&lt;Panel&gt;("Font Viewer", 800,300);  
+var leftPanel = topPanel.insert_Left&lt;Panel&gt;();
+leftPanel.splitContainer().splitterDistance(250);   
+var listBox = leftPanel.add_ListBox(); 
+listBox.add_Items(System.Drawing.FontFamily.Families); 
+var fontSizeValue = listBox.insert_Above&lt;Panel&gt;(40).add_TextBox("Font size","10"); 
+var baseText = topPanel.add_GroupBox("Original Text").add_TextArea().wordWrap(false); 
+
+var textboxWithSelectedFont = topPanel.insert_Below&lt;Panel&gt;().add_GroupBox("Transformed Text (inside a TextBox and as a Label)").add_TextArea();
+var labelWithSelectedFont = textboxWithSelectedFont.insert_Right&lt;Panel&gt;(topPanel.width()/2).add_Label("");
+
+Action showTextWithSelectedFont =  
+	()=&gt;{ 
+			var fontFamily = listBox.selectedItem&lt;FontFamily&gt;(); 
+			textboxWithSelectedFont.font(fontFamily,fontSizeValue.get_Text());   
+			labelWithSelectedFont.font(fontFamily,fontSizeValue.get_Text());
+			if (bold)
+			{
+				textboxWithSelectedFont.font_bold();
+				labelWithSelectedFont.font_bold(); 
+			}
+		};  
+fontSizeValue.parent().add_CheckBox("Bold", 20,0, 
+							(value)=&gt;{
+										bold=value;
+										showTextWithSelectedFont();
+									 });
+listBox.SelectedValueChanged+= (sender, e)=&gt; showTextWithSelectedFont();
+fontSizeValue.onTextChange((text)=&gt; showTextWithSelectedFont());
+ 
+baseText.onTextChange(
+	(text)=&gt;{
+				textboxWithSelectedFont.set_Text(text);
+				labelWithSelectedFont.set_Text(text);
+			});
+   
+listBox.selectFirst();
+//set demo data
+baseText.set_Text("This is some text (with real time preview)");
+
+
+return PublicDI.CurrentScript;</SourceCode>
+  <ReferencedAssemblies />
+</H2>

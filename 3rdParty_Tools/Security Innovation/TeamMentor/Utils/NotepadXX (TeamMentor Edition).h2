@@ -1,0 +1,132 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var currentScript = PublicDI.CurrentScript;
+var currentDirectory = currentScript.directoryName(); 
+API_GuiAutomation guiAutomation = null;
+Window mainWindow = null;
+//var topPanel = O2Gui.open&lt;Panel&gt;("{name}",700,400);
+var injectedMenu = new API_InjectMenu_AnotherProcess(); 
+injectedMenu.ProcessToInject = "notepad++"; 
+injectedMenu.InjectedProcess_WindowTitle = "Notepad++ (TeamMentor version)";
+ 
+ var commands = new Dictionary&lt;string,Action&gt;();
+
+
+Action&lt;string&gt; executeH2Script_TM =  
+	(scriptToExecute)=&gt; 
+		O2Thread.mtaThread(()=&gt; currentDirectory.pathCombine(scriptToExecute).executeH2Script()); 
+		
+Action&lt;string&gt; executeH2Script_O2 = 
+	(scriptToExecute)=&gt; 
+		O2Thread.mtaThread(()=&gt; scriptToExecute.local().executeH2Script());
+
+var lastFileResolved = "";
+
+Func&lt;string&gt; getCurrentFilePath = 
+	()=&gt;{	
+			try
+			{
+				if (lastFileResolved.valid() &amp;&amp; lastFileResolved.fileName() == mainWindow.tabs()[0].SelectedTab.name())
+				{
+					"found previously resolve path whose filename matchs the current selected tab text".info();
+					return lastFileResolved;
+				}
+			}
+			catch(Exception ex) { "in getCurrentFilePath :{0}".error(ex.Message); }
+			//var mainWindow = guiAutomation.windows()[0];
+			mainWindow.menu("Edit").mouse();//.click(); // this is a issue/bug here which blocks the execution thread when clicking directly on the UIAutomation element
+			guiAutomation.mouse_Click();
+			mainWindow.menu("Edit")
+					  .menu("Copy to Clipboard").mouse();
+			guiAutomation.mouse_Click();		  
+			mainWindow.menu("Edit")
+					  .menu("Copy to Clipboard")
+					  .menu("Current Full File path to Clipboard").mouse();
+			guiAutomation.mouse_Click();		  
+			var filePath = "".clipboardText_Get();
+			if (filePath.valid())
+			{
+				lastFileResolved = filePath;
+				return filePath;
+			}
+			"could not get current filepath".error();
+			return null;
+		};
+		
+Action&lt;string&gt; compileScript = 
+	(scriptToCompile)=&gt;{			
+			O2Thread.mtaThread(
+				()=&gt;{
+						"scriptToCompile: {0}".info(scriptToCompile);
+						if (scriptToCompile.extension(".h2"))
+							scriptToCompile.compile_H2Script(); 
+						else
+						{							
+							new CompileEngine().compileSourceFile(scriptToCompile);
+						} 
+					}); 							
+		};
+
+Action&lt;string&gt; executeScript = 
+	(scriptToCompile)=&gt;{			
+			O2Thread.mtaThread(
+				()=&gt;{
+						if (scriptToCompile.extension(".h2"))
+							scriptToCompile.compile_H2Script().executeFirstMethod(); 
+						else
+						{
+							new CompileEngine().compileSourceFile(scriptToCompile).executeFirstMethod();  
+						} 
+					}); 							
+		};
+
+
+		
+commands.add( "Compile current script file", ()=&gt; compileScript(getCurrentFilePath()))  
+//		.add( "Build TM Web Project (MsBuild)", ()=&gt; teamMentor.website_CSProj().runMsBuild()) 
+		//.add( "Build TM OnlineStorage (MsBuild)", ()=&gt; teamMentor.webServices_Sln().runMsBuild("/t:Rebuild")) 
+//		.add( "Start WebServers", ()=&gt; teamMentor.start_WebSite() )		
+		//.add( "Open v3.0 TeamMentor Website (new window)" , ()=&gt; teamMentor.view_3_0_WebSite_InNewWindow())
+//		.add( "View TeamMentor ContentViewer (via webservices)", ()=&gt; executeH2Script_TM("Tool - TeamMentor - ContentViewer (via webservices).h2"))
+		//.add( "", ()=&gt; {})
+//		.add( "Editing TM asp.net pages", ()=&gt; executeH2Script_TM(@"Tools\Util - Editing TM asp.net pages .h2"))				
+//		.add( "TeamMentor- Custom O2", ()=&gt; executeH2Script_TM("TeamMentor- Custom O2.h2"))
+//		.add( "TeamMentor- IE Automation", ()=&gt; executeH2Script_TM("TeamMentor- IE Automation.h2")) 						
+		.add( "Execute current script file", ()=&gt; executeScript(getCurrentFilePath())) 				
+		.add( "open current script file in SourceCodeEditor", ()=&gt; getCurrentFilePath().showInCodeEditor()) 
+		.add( "Close notepad++ Process" , ()=&gt; injectedMenu.InjectedProcess.stop())
+		.add( "Write and Execute Unit Tests;", ()=&gt; executeH2Script_O2("Write and Execute Unit Tests.h2"))
+		.add( "Write and Execute in NUnit", ()=&gt; executeH2Script_O2("Util - Execute O2ified tests on NUnitGui.h2"));
+		
+		
+		
+injectedMenu.MenuTitle = "O2 Menu (for TeamMentor)";
+var initialId = 02000;
+foreach(var command in commands)
+	injectedMenu.MenuCommands.add(initialId++, command.Key);	
+
+
+injectedMenu.CommandSelected =   
+	(id, commandKey)=&gt;{
+						"[InjectedMenu] Command Received: {0}".debug(commandKey);
+						O2Thread.mtaThread(()=&gt; commands[commandKey]());;
+				   };
+injectedMenu.buildGui();
+
+"now using GuiAutomation".info();
+guiAutomation = new API_GuiAutomation(injectedMenu.InjectedProcess);   
+mainWindow = guiAutomation.window(injectedMenu.InjectedProcess_WindowTitle);    
+
+
+var menu = mainWindow.menu(injectedMenu.MenuTitle)
+					 .mouse();//.click();  
+guiAutomation.mouse_Click();					 
+			
+return "here";
+
+//using White.Core.UIItems.WindowItems
+//O2File:API_InjectMenu_AnotherProcess.cs
+//O2File:API_GuiAutomation.cs
+//O2Ref:White.Core.dll </SourceCode>
+  <ReferencedAssemblies />
+</H2>

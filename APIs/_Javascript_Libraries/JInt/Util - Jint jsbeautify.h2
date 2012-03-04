@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - Jint jsbeautify.js (doesn't scale very well)",700,400);
+//var topPanel = panel.clear().add_Panel();
+var textBox = topPanel.add_TextArea();
+
+var javascriptToDecode = textBox.insert_Left().add_TextArea();
+
+var jsBeautify = @"beautify.js".local();;
+
+//jsBeautify.showInCodeViewer();
+var jintEngine = new JintEngine();
+var resultObject = jintEngine.Run(jsBeautify.fileContents());
+//jintEngine.details();
+
+
+var decodeButton = javascriptToDecode .insert_Below(30)
+									  .add_Button("Decode").fill()
+									  .onClick(
+									  	()=&gt;{
+									  			textBox.pink();
+									  			try
+									  			{									  				
+									  				var rawResult = jintEngine.Run("return js_beautify(sourceCode, {opt_indent_size:1});");  									  				
+													var result = rawResult.str().fixCRLF();
+													textBox.set_Text(result); 
+												}
+												catch(Exception ex)
+												{
+													"in jsbeautify: {0}".error(ex.Message); 
+												} 												
+												textBox.white();
+									  		});
+
+javascriptToDecode.onTextChange(
+	(text)=&gt;{
+				jintEngine.SetParameter("sourceCode", text);
+				decodeButton.click();
+			});
+
+javascriptToDecode.set_Text("if ('this_is' == /an_example/) { of_beautifer();} else {   var a=b?(c%d) : e[f];}");
+
+//using Jint
+//O2Ref:Jint.dll
+//O2File:Jint_ExtensionMethods.cs
+//using O2.XRules.Database.Languages_and_Frameworks.Javascript</SourceCode>
+  <ReferencedAssemblies />
+</H2>

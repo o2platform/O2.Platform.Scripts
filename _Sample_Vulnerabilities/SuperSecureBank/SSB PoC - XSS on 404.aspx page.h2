@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = O2Gui.open&lt;Panel&gt;("{name}",700,400);
+var setPayloadLocation = (Action&lt;string&gt;)"Util - XSS PoC Tester - Viewer.h2".local().executeH2Script();
+
+var ssbXSSlocation = @"http://localhost:1234/404.aspx?AttemptedUrl=Content\coantent1.dat";
+setPayloadLocation(ssbXSSlocation); 
+
+
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

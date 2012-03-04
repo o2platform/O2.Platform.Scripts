@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var baseFolder = @"C:\O2\Demos\SI - SuperSecureBank\O2_Data";
+
+var loadData = (Action&lt;string,string, string&gt;)"Tool - ASPNet Page Viewer (with Method and Code streams).h2".local().executeH2Script();
+loadData(baseFolder.pathCombine("_Saved_AspNetPage_Objects"), 
+	     baseFolder.pathCombine("O2 Method Streams"),"http://localhost:1234");
+	     
+return loadData; 
+
+//O2File:ascx_CodeStreams.cs	      </SourceCode>
+  <ReferencedAssemblies />
+</H2>

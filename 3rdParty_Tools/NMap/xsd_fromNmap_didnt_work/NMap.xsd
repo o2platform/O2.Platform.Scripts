@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<xs:schema xmlns="http://tempuri.org/nmap" elementFormDefault="qualified" targetNamespace="http://tempuri.org/nmap" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="nmaprun">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="scaninfo" />
+        <xs:element ref="verbose" />
+        <xs:element ref="debugging" />
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element ref="taskbegin" />
+          <xs:element ref="taskprogress" />
+          <xs:element ref="taskend" />
+          <xs:element ref="prescript" />
+          <xs:element ref="postscript" />
+          <xs:element ref="host" />
+          <xs:element ref="output" />
+        </xs:choice>
+        <xs:element ref="runstats" />
+      </xs:sequence>
+      <xs:attribute name="scanner" use="required">
+        <xs:simpleType>
+          <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="nmap" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="args" type="xs:string" />
+      <xs:attribute name="start" type="xs:string" />
+      <xs:attribute name="startstr" type="xs:string" />
+      <xs:attribute name="version" type="xs:string" use="required" />
+      <xs:attribute name="profile_name" type="xs:string" />
+      <xs:attribute name="xmloutputversion" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="scaninfo">
+    <xs:complexType>
+      <xs:attribute name="type" use="required">
+        <xs:simpleType>
+          <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="syn" />
+            <xs:enumeration value="ack" />
+            <xs:enumeration value="bounce" />
+            <xs:enumeration value="connect" />
+            <xs:enumeration value="null" />
+            <xs:enumeration value="xmas" />
+            <xs:enumeration value="window" />
+            <xs:enumeration value="maimon" />
+            <xs:enumeration value="fin" />
+            <xs:enumeration value="udp" />
+            <xs:enumeration value="sctpinit" />
+            <xs:enumeration value="sctpcookieecho" />
+            <xs:enumeration value="ipproto" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="scanflags" type="xs:string" />
+      <xs:attribute name="protocol" use="required">
+        <xs:simpleType>
+          <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="ip" />
+            <xs:enumeration value="tcp" />
+            <xs:enumeration value="udp" />
+            <xs:enumeration value="sctp" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="numservices" type="xs:string" use="required" />
+      <xs:attribute name="services" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="verbose">
+    <xs:complexType>
+      <xs:attribute name="level" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="debugging">
+    <xs:complexType>
+      <xs:attribute name="level" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="taskbegin">
+    <xs:complexType>
+      <xs:attribute name="task" type="xs:string" use="required" />
+      <xs:attribute name="time" type="xs:string" use="required" />
+      <xs:attribute name="extrainfo" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="taskprogress">
+    <xs:complexType>
+      <xs:attribute name="task" type="xs:string" use="required" />
+      <xs:attribute name="time" type="xs:string" use="required" />
+      <xs:attribute name="percent" type="xs:string" use="required" />
+      <xs:attribute name="remaining" type="xs:string" use="required" />
+      <xs:attribute name="etc" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="taskend">
+    <xs:complexType>
+      <xs:attribute name="task" type="xs:string" use="required" />
+      <xs:attribute name="time" type="xs:string" use="required" />
+      <xs:attribute name="extrainfo" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="host">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="status" />
+        <xs:element ref="address" />
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element ref="address" />
+          <xs:element ref="hostnames" />
+          <xs:element ref="smurf" />
+          <xs:element ref="ports" />
+          <xs:element ref="os" />
+          <xs:element ref="distance" />
+          <xs:element ref="uptime" />
+          <xs:element ref="tcpsequence" />
+          <xs:element ref="ipidsequence" />
+          <xs:element ref="tcptssequence" />
+          <xs:element ref="hostscript" />
+          <xs:element ref="trace" />
+        </xs:choice>
+        <xs:element minOccurs="0" maxOccurs="1" ref="times" />
+      </xs:sequence>
+      <xs:attribute name="starttime" type="xs:string" />
+      <xs:attribute name="endtime" type="xs:string" />
+      <xs:attribute name="comment" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="status">
+    <xs:complexType>
+      <xs:attribute name="state" use="required">
+        <xs:simpleType>
+          <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="up" />
+            <xs:enumeration value="down" />
+            <xs:enumeration value="unknown" />
+            <xs:enumeration value="skipped" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="reason" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="address">
+    <xs:complexType>
+      <xs:attribute name="addr" type="xs:string" use="required" />
+      <xs:attribute default="ipv4" name="addrtype">
+        <xs:simpleType>
+          <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="ipv4" />
+            <xs:enumeration value="ipv6" />
+            <xs:enumeration value="mac" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="vendor" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="hostnames">
+    <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="hostname" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="hostname">
+    <xs:complexType>
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="type">
+        <xs:simpleType>
+          <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="user" />
+            <xs:enumeration value="PTR" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="smurf">
+    <xs:complexType>
+      <xs:attribute name="responses" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ports">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="extraports" />
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="port" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="extraports">
+    <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="extrareasons" />
+      </xs:sequence>
+      <xs:attribute name="state" type="xs:string" use="required" />
+      <xs:attribute name="count" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="extrareasons">
+    <xs:complexType>
+      <xs:attribute name="reason" type="xs:string" use="required" />
+      <xs:attribute name="count" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="port">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="state" />
+        <xs:element minOccurs="0" maxOccurs="1" ref="owner" />
+        <xs:element minOccurs="0" maxOccurs="1" ref="service" />
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="script" />
+      </xs:sequence>
+      <xs:attribute name="protocol" use="required">
+        <xs:simpleType>
+          <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="ip" />
+            <xs:enumeration value="tcp" />
+            <xs:enumeration value="udp" />
+            <xs:enumeration value="sctp" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="portid" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="state">
+    <xs:complexType>
+      <xs:attribute name="state" type="xs:string" use="required" />
+      <xs:attribute name="reason" type="xs:string" use="required" />
+      <xs:attribute name="reason_ttl" type="xs:string" use="required" />
+      <xs:attribute name="reason_ip" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="owner">
+    <xs:complexType>
+      <xs:attribute name="name" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="service">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="cpe" />
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:string" use="required" />
+      <xs:attribute name="conf" use="required">
+        <xs:simpleType>
+          <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="0" />
+            <xs:enumeration value="1" />
+            <xs:enumeration value="2" />
+            <xs:enumeration value="3" />
+            <xs:enumeration value="4" />
+            <xs:enumeration value="5" />
+            <xs:enumeration value="6" />
+            <xs:enumeration value="7" />
+            <xs:enumeration value="8" />
+            <xs:enumeration value="9" />
+            <xs:enumeration value="10" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="method" use="required">
+        <xs:simpleType>
+          <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="table" />
+            <xs:enumeration value="probed" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="version" type="xs:string" />
+      <xs:attribute name="product" type="xs:string" />
+      <xs:attribute name="extrainfo" type="xs:string" />
+      <xs:attribute name="tunnel">
+        <xs:simpleType>
+          <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="ssl" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="proto">
+        <xs:simpleType>
+          <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="rpc" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="rpcnum" type="xs:string" />
+      <xs:attribute name="lowver" type="xs:string" />
+      <xs:attribute name="highver" type="xs:string" />
+      <xs:attribute name="hostname" type="xs:string" />
+      <xs:attribute name="ostype" type="xs:string" />
+      <xs:attribute name="devicetype" type="xs:string" />
+      <xs:attribute name="servicefp" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="cpe" type="xs:string" />
+  <xs:element name="script">
+    <xs:complexType>
+      <xs:attribute name="id" type="xs:string" use="required" />
+      <xs:attribute name="output" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="os">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="portused" />
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="osclass" />
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="osmatch" />
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="osfingerprint" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="portused">
+    <xs:complexType>
+      <xs:attribute name="state" type="xs:string" use="required" />
+      <xs:attribute name="proto" use="required">
+        <xs:simpleType>
+          <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="ip" />
+            <xs:enumeration value="tcp" />
+            <xs:enumeration value="udp" />
+            <xs:enumeration value="sctp" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="portid" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="osclass">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="cpe" />
+      </xs:sequence>
+      <xs:attribute name="vendor" type="xs:string" use="required" />
+      <xs:attribute name="osgen" type="xs:string" />
+      <xs:attribute name="type" type="xs:string" />
+      <xs:attribute name="accuracy" type="xs:string" use="required" />
+      <xs:attribute name="osfamily" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="osmatch">
+    <xs:complexType>
+      <xs:attribute name="name" type="xs:string" use="required" />
+      <xs:attribute name="accuracy" type="xs:string" use="required" />
+      <xs:attribute name="line" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="osfingerprint">
+    <xs:complexType>
+      <xs:attribute name="fingerprint" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="distance">
+    <xs:complexType>
+      <xs:attribute name="value" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="uptime">
+    <xs:complexType>
+      <xs:attribute name="seconds" type="xs:string" use="required" />
+      <xs:attribute name="lastboot" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="tcpsequence">
+    <xs:complexType>
+      <xs:attribute name="index" type="xs:string" use="required" />
+      <xs:attribute name="difficulty" type="xs:string" use="required" />
+      <xs:attribute name="values" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ipidsequence">
+    <xs:complexType>
+      <xs:attribute name="class" type="xs:string" use="required" />
+      <xs:attribute name="values" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="tcptssequence">
+    <xs:complexType>
+      <xs:attribute name="class" type="xs:string" use="required" />
+      <xs:attribute name="values" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="trace">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="hop" />
+      </xs:sequence>
+      <xs:attribute name="proto" type="xs:string" />
+      <xs:attribute name="port" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="hop">
+    <xs:complexType>
+      <xs:attribute name="ttl" type="xs:string" use="required" />
+      <xs:attribute name="rtt" type="xs:string" />
+      <xs:attribute name="ipaddr" type="xs:string" />
+      <xs:attribute name="host" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="times">
+    <xs:complexType>
+      <xs:attribute name="srtt" type="xs:string" use="required" />
+      <xs:attribute name="rttvar" type="xs:string" use="required" />
+      <xs:attribute name="to" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="output">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute name="type">
+            <xs:simpleType>
+              <xs:restriction base="xs:NMTOKEN">
+                <xs:enumeration value="interactive" />
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="runstats">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="finished" />
+        <xs:element ref="hosts" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="finished">
+    <xs:complexType>
+      <xs:attribute name="time" type="xs:string" use="required" />
+      <xs:attribute name="timestr" type="xs:string" />
+      <xs:attribute name="elapsed" type="xs:string" use="required" />
+      <xs:attribute name="summary" type="xs:string" />
+      <xs:attribute name="exit">
+        <xs:simpleType>
+          <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="error" />
+            <xs:enumeration value="success" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="errormsg" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="hosts">
+    <xs:complexType>
+      <xs:attribute default="0" name="up" type="xs:string" />
+      <xs:attribute default="0" name="down" type="xs:string" />
+      <xs:attribute name="total" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="hostscript">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="1" maxOccurs="unbounded" ref="script" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="prescript">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="1" maxOccurs="unbounded" ref="script" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="postscript">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="1" maxOccurs="unbounded" ref="script" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

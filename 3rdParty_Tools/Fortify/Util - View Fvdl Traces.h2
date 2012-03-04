@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = "Util - View Fvdl Traces".popupWindow(1000,400);
+
+//var topPanel = panel.clear().add_Panel();
+
+Action&lt;Fortify_Scan, TreeView&gt; mapScanToTreeView_BySeverityAndType = 
+	(fortifyScan, treeView)
+		=&gt;{
+				treeView.clear();
+				var mappedBySeverity = new Dictionary&lt;decimal, List&lt;Fortify_Vulnerability&gt;&gt;();
+				foreach(var vulnerability in fortifyScan.Vulnerabilities)
+					mappedBySeverity.add(vulnerability.InstanceSeverity, vulnerability);
+				 
+				 
+				foreach(var bySeverity in mappedBySeverity) 
+				{
+					var mappedByType = new Dictionary&lt;string, List&lt;Fortify_Vulnerability&gt;&gt;();
+					foreach(var vulnerability in bySeverity.Value)
+						mappedByType.add(vulnerability.Type, vulnerability);			
+					var severityNode = treeView.add_Node("{0}      ({1}x)".format(bySeverity.Key.str(),bySeverity.Value.size())); 
+					foreach(var byType in mappedByType)										
+				 		severityNode.add_Node("{0}  ({1}x)".format(byType.Key, byType.Value.size()), byType.Value, true);
+				} 
+				
+				treeView.beforeExpand&lt;List&lt;	Fortify_Vulnerability&gt;&gt;( 
+					(treeNode,vulnerabilities)=&gt;{
+													treeNode.add_Nodes(vulnerabilities);
+												});
+		};								
+
+var _treeView = topPanel.add_GroupBox("Vulnerabilities results").add_TreeView_with_PropertyGrid(true).sort(); 
+var tracesTreeView = topPanel.insert_Right("Traces").add_TreeView();
+var codeViewer = tracesTreeView.parent().insert_Below("Source Code View").add_SourceCodeViewer(); 
+var tracesProperties = tracesTreeView.insert_Right().add_PropertyGrid();
+
+_treeView.afterSelect&lt;Fortify_Vulnerability&gt;(
+	(vulnerability)=&gt;{						
+						tracesTreeView.clear();
+						var tracesWithSnippets = (from traceEntry in vulnerability.Traces
+												 where traceEntry.SourceLocation_Snippet.valid() || traceEntry.SecundaryLocation_Snippet.valid()
+												 select traceEntry);
+						tracesTreeView.add_Nodes(tracesWithSnippets); 
+					 });
+
+var codeSnippets = new Dictionary&lt;string, Fortify_Snippet&gt;();
+
+Action&lt;Fortify_Scan&gt; loadCodeSnippets = 
+	(_fortifyScan)=&gt;{
+						codeSnippets.Clear(); 
+						foreach(var snippet in _fortifyScan.Snippets)
+							codeSnippets.Add(snippet.Id, snippet);											
+					};
+					
+tracesTreeView.afterSelect&lt;Fortify_TraceEntry&gt;(
+	(traceEntry)=&gt;{ 
+					tracesProperties.show(traceEntry);  
+					if (codeSnippets.hasKey(traceEntry.SourceLocation_Snippet))
+						codeViewer.set_Text(codeSnippets[traceEntry.SourceLocation_Snippet].Text);
+					else
+						if (codeSnippets.hasKey(traceEntry.SecundaryLocation_Snippet))
+						codeViewer.set_Text(codeSnippets[traceEntry.SecundaryLocation_Snippet].Text);
+					
+				  });
+
+Action&lt;string, TreeView, Action&gt; loadFvdlDataIntoTreeView = 
+	(fvdlFile, vulnerabilitiesTreeView, loadCompleteCallback)
+		=&gt;{ 
+			vulnerabilitiesTreeView.add_Node(".... loading file: {0}".format(fvdlFile));			
+			vulnerabilitiesTreeView.pink();
+			O2Thread.mtaThread( 
+				()=&gt;{						 
+						var _fortifyScan = fvdlFile.fortifyScan();
+						loadCodeSnippets(_fortifyScan);
+						mapScanToTreeView_BySeverityAndType(_fortifyScan, vulnerabilitiesTreeView); 
+						loadCompleteCallback();
+						vulnerabilitiesTreeView.white(); 
+					});
+		 };
+
+
+
+Action&lt;string&gt; loadFvdlFile = 
+	(fvdlFile)=&gt;{
+					loadFvdlDataIntoTreeView(fvdlFile,_treeView, 
+							()=&gt;{
+									
+									_treeView.focus();
+								/*			 .selectFirst()
+											 .selected() 
+											 .expand().nodes()[0].selected()
+											 .expand().nodes()[0].selected();				
+									tracesTreeView.selectFirst(); 		 	*/
+								});
+				};
+_treeView.onDrop(
+	(file)=&gt;{
+				loadFvdlFile(file);
+			});
+//var _fvdlFile = @"C:\O2\Demos\Fortify-Sate-2008\sate2008-Fvdl\dspace.fvdl";
+//var fvdlFile = @"C:\O2\Demos\Fortify-Sate-2008\sate2008-Fvdl\naim.fvdl";				
+
+return "ok";
+
+//O2File:API_Fortify_1_6.cs
+
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

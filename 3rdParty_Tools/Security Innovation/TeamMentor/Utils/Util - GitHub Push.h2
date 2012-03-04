@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel 		= panel.clear().add_Panel();
+var topPanel 		= "Util - GitHub Push".popupWindow(1000,700);
+var actionsPanel 	= topPanel.insert_Above(40,"actions");
+var ie 			 	= topPanel.add_IE_with_NavigationBar().silent(false);    
+var folderViewer 	= topPanel.insert_Right(300, "local install").add_FolderViewer(); 
+ 
+topPanel.insert_LogViewer();
+
+var gitWebSite = "github.com/DinisCruz/TeamMentor-v3.0";
+var githubAccount = @"C:\O2\_USERDATA\accounts.xml".credential("github");   
+var localTMFolder = @"\_WorkDir\SI\_TeamMentor-v3.0_Latest"; 
+			
+Action gitPush = 
+	()=&gt;{
+			Action&lt;string,string,string,string&gt; pushToGitHub = 
+				(repository, localFolder, username,password) =&gt; 
+					{ 
+						var textArea = "GitHub Push for {0}".format(repository).popupWindow(400,150).add_TextArea();			
+						textArea.azure().set_Text("Starting Git ....");
+						var gitHubPushCommand =  "push https://{0}:{1}@{2}".format(username, password, repository);
+						var gitExe = @"c:\program files\Git\bin\git";			
+						var result = gitExe.startProcess_getConsoleOut(gitHubPushCommand, localFolder).fixCRLF();			
+						textArea.set_Text(result).white();						
+					};
+									
+			pushToGitHub(gitWebSite,localTMFolder,githubAccount.UserName, githubAccount.Password);
+		}; 
+
+Action loginToGitHub = 
+	()=&gt;{
+			if(ie.hasLink("Login"))
+			{
+				ie.link("Login").click();
+				ie.field("login_field").value(githubAccount.UserName);
+				ie.field("password").value(githubAccount.Password);
+				ie.button("Log in").click();
+			}
+		};
+Action openGitWebsite = 
+	()=&gt;{
+			ie.open(gitWebSite);
+			loginToGitHub();
+		};
+
+Action downloadLatestVersionAndStartWebServer = 
+	()=&gt;{
+			//var fileToDownload = @"https://github.com/SecurityInnovation/YASAT/zipball/master";
+			var fileToDownload = @"https://github.com/DinisCruz/TeamMentor-v3.0/zipball/master";
+			var downloadFileName = "download.zip";
+			var targetFolder = "_TeamMentor".tempDir();  
+			
+			//targetFolder = @"C:\O2\_tempDir\1-11-2012\_TeamMentor_tmp87C5";			
+			//var tmFolder = @"C:\O2\_tempDir\1-11-2012\TeamMentor-v3.0-885b";		
+			//var downloadedFile = @"C:\O2\_tempDir\1-11-2012\tmpB06A.tmp.download.zip"; 
+
+			 //Web Applications\TM_Website
+			 
+			var downloadedFile = ie.open_and_HandleFileDownload(fileToDownload, downloadFileName);
+			downloadedFile.unzip_File(targetFolder);
+			var tmFolderAfterZip = targetFolder.folders().first();
+			var tmFolder = "".tempDir(false).pathCombine(tmFolderAfterZip.fileName().remove("DinisCruz-").subString(0,28));
+			if (tmFolder.dirExists())
+				"dir already existed (means we already had this TM version installed".error();
+			else
+			{
+				"Moving '{0}' into '{1}".info(tmFolderAfterZip, tmFolder);
+				Directory.Move(tmFolderAfterZip, tmFolder);
+			}			
+
+			MS_VS_WebServer.stopCurrentWebServerProcesses();
+			folderViewer.open(tmFolder);
+			folderViewer.refresh();
+			var webRoot = tmFolder =tmFolder.pathCombine(@"Web Applications\TM_Website");
+			var webServer = webRoot.startWebServer();  
+			
+			ie.open(webServer.DefaultUrl);
+				};
+		
+actionsPanel.add_Label("").
+			 append_Link("Git Push", ()=&gt;gitPush())
+			.append_Link("Open GitHub Website", ()=&gt; openGitWebsite() )
+			.append_Link("Download Latest Version and StartWebServer", ()=&gt; downloadLatestVersionAndStartWebServer() );
+
+//downloadLatestVersionAndStartWebServer();
+openGitWebsite();
+
+/*
+if(ie.url() != "https://github.com/DinisCruz/TeamMentor-v3.0")
+	ie.open("https://github.com/DinisCruz/TeamMentor-v3.0");
+
+
+
+
+loginToGitHub();
+return open_and_HandleFileDownload("https://github.com/DinisCruz/TeamMentor-v3.0/zipball/master", "download.zip");
+
+*/
+
+//return webServer;
+//return targetFolder.files();
+
+//using System.IO
+//using O2.XRules.Database.Languages_and_Frameworks.DotNet
+//O2File:WatiN_IE_ExtensionMethods.cs 
+//O2Ref:WatiN.Core.1x.dll
+//O2File:_Extra_methods_Collections.cs
+//O2File:MS_VS_WebServer.cs
+//O2File:ascx_FolderViewer.cs
+//O2Tag_DontAddExtraO2Files</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>/*panel.clear();
+var topPanel = panel.add_Panel();
+topPanel.fill(false)
+		.width(800)
+		.height(170); 
+*/
+var title = "Use other Tools or APIs";
+var topPanel = O2Gui.open&lt;Panel&gt;("O2 GUI - " + title, 800,570);    
+
+topPanel.parentForm().top(60).left(60); 
+
+var logoNoShadow = "O2_Logo_no_Shadow.jpg".local(); 
+var smallLogo = "O2Logo_Small.gif".local();
+
+var ribbon = topPanel.insert_Above&lt;WPF_Ribbon&gt;(135); 
+
+var o2Findings = ribbon.Ribbon.add_RibbonTab("O2Findings");   
+
+o2Findings  .add_RibbonGroup("View, Filter and Edit O2Findings") 				 	  
+			.add_RibbonButton_H2Script(topPanel,"Simple Findings Viewer","Util - Simple Findings Viewer.h2")
+	  		.add_RibbonButton_H2Script(topPanel,"Findings Viewer w/ SourceCode","Util - Simple Findings Viewer (with code viewer).h2")
+	  		.add_RibbonButton_H2Script(topPanel,"Findings filtered by SourceCode","Util - Findings Viewer (filtered by SourceCode).h2")
+	  		.add_RibbonButton_H2Script(topPanel,"Findings Viewer (tool)","Findings Viewer.h2");
+
+var productivityTools = ribbon.Ribbon.add_RibbonTab("Productivity tools");  //  "Here are a number of links to multiple O2 tools designed to solve a number of small but time consuming tasks" ) 
+
+productivityTools .add_RibbonGroup("Web Tools")  
+				  .add_RibbonButton_Script(topPanel,"MediaWiki Editor","MediaWikiEditor.cs.o2")
+				  .add_RibbonButton_H2Script(topPanel,"Twitter Client","Twitter Client.h2")
+				  .add_RibbonButton_H2Script(topPanel,"Amazon S3 Browser","Amazon S3 Browser.h2")
+				  .add_RibbonButton_Script(topPanel,"Login into BTOpenZone (UK)","API_BTOpenZone.cs")
+				  .add_RibbonButton_H2Script(topPanel,"StackOverflow search","Util - StackOveflow Search.h2");
+	  
+productivityTools.add_RibbonGroup("Media Tools")
+	  .add_RibbonButton_H2Script(topPanel,"screenshot tool","Util - Show ScreenShot Tool.h2")
+	  .add_RibbonButton_H2Script(topPanel,"Image Editor", "Util - DiagramDesigner Editor.h2")	  	  
+	  .add_RibbonButton_H2Script(topPanel,"Movie Creator","Util - Movie Creator.h2");
+	  
+productivityTools .add_RibbonGroup("Websites:")
+				  .add_RibbonButton_Web(topPanel,"google","http://www.google.com")
+				  .add_RibbonButton_Web(topPanel,"stackoverflow","http://www.stackoverflow.com");
+
+var windowsTools = ribbon.Ribbon.add_RibbonTab("Windows Tools"); //"Here are a number of windows utilities and quick-launch of commonly used tools")	  
+
+windowsTools  .add_RibbonGroup("Files Utils")	  
+			  .add_RibbonButton_H2Script(topPanel,"Map Files by Extension","Util - File Mapping (by extension).h2")	  
+			  .add_RibbonButton_H2Script(topPanel,"Quick File Search","Util - Quick File Search.h2")	  
+			  .add_RibbonButton_H2Script(topPanel,"Simple Text Editor","Util - Simple Text Editor.h2");
+
+windowsTools  .add_RibbonGroup("O2 Windows Utils")
+			  .add_RibbonButton_Script(topPanel,"O2 'Secret Data' Editor","SecretDataEditor.cs.o2")	  	  
+			  .add_RibbonButton_H2Script(topPanel,"Network Tests (Ping and Http)","Network Tests (Ping and Http).h2")	  
+			  .add_RibbonButton_Script(topPanel,"Running Processes Details","ascx_Running_Processes_Details.cs.o2")
+			  .add_RibbonButton_Script(topPanel,"Stop Processes","ascx_Processes_Stop.cs.o2")	  	  	  
+			  .add_RibbonButton_Script(topPanel,"Stop Services","ascx_Services_Stop.cs.o2")	  
+			  .add_RibbonButton_Script(topPanel,"Reset Network Interfaces","Wizard - Enable or Disable Network Interfaces.cs.o2")	  	  	  
+			  .add_RibbonButton_Script(topPanel,"CmdExe API/Wrapper","CmdExeAPI.cs");
+
+windowsTools.add_RibbonGroup("Windows Executables")		  	  
+			.add_RibbonButton_StartProcess("notepad","notepad","")
+			.add_RibbonButton_StartProcess("cmd","cmd.exe","")
+			.add_RibbonButton_StartProcess("calc","calc.exe","");
+
+
+var o2StandAloneTools = ribbon.Ribbon.add_RibbonTab("O2 Stand-Alone Tools"); 
+o2StandAloneTools.add_RibbonGroup("Using previous MDI-Based GUI")		  	  // "Here are a number of stand-alone O2 tools that use the previous MDI environment")
+		   		 .add_RibbonButton_H2Script(topPanel,"Search Engine","Search Engine Tool.h2")
+				 .add_RibbonButton_H2Script(topPanel,"Findings Viewer","Findings Viewer.h2") 
+				 .add_RibbonButton_H2Script(topPanel,"CIR Viewer","CIR Viewer.h2");
+
+topPanel.backColor("Control"); 
+topPanel.parent&lt;SplitContainer&gt;().backColor(Color.White); 
+var designerCanvas = topPanel.add_DesignerCanvas(); 
+designerCanvas.add_Label(title ,160,140).fontSize(30);     
+ 
+return "ok";
+ 
+//using Microsoft.Windows.Controls.Ribbon;
+//using WPF= System.Windows.Controls
+//using DiagramDesigner
+//O2File:WPF_Ribbon.cs 
+//O2File:WPF_Ribbon_ExtensionMethods.cs
+//O2File:DiagramDesigner_ExtensionMethods.cs
+//O2Ref:WindowsFormsIntegration.dll
+//O2Ref:O2_API_Visualization.dll
+//O2Ref:DiagramDesigner.exe
+//O2Ref:RibbonControlsLibrary.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

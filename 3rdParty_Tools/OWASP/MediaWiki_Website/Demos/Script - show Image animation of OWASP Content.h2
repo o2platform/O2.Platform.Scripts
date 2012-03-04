@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//panel.clear();
+//var topPanel = panel;
+var topPanel = O2Gui.open&lt;Panel&gt;("Script - show Image animation of OWASP Content",800,600); 
+var targetFolderBase = @"C:\O2\US_Tour\OWASP Demos\Wiki History";
+var page = "Category_OWASP_Testing_Project"; 
+//var page = "Test";
+var targetFolder = targetFolderBase.pathCombine(page);
+var images = new List&lt;string&gt;();
+
+//var files = targetFolder.files("*.html").sort();
+var imageViewer = topPanel.add_PictureBox();
+var slider = imageViewer.insert_Above&lt;TrackBar&gt;(30);  
+
+Action&lt;int&gt; showPageWithID = 
+	(pageID) =&gt; {
+					var pageIdFile = images[pageID];
+					"Showing images with ID: {0} = &gt;{1}".info(pageID,pageIdFile);					
+					imageViewer.open(pageIdFile);			
+				};
+
+
+slider.insert_Right&lt;Button&gt;(150)
+	   .set_Text("Animate")
+	   .onClick(()=&gt;{	   					
+	   					slider.visible(false);
+	   					for(int i =0; i &lt; images.size(); i++) 	   					
+	   					{
+	   						slider.Value = i;	 
+	   						showPageWithID(i); 
+	   						this.sleep(350);  
+	   					}
+	   					slider.visible(true);
+	   				}); 
+	   				
+Action&lt;string&gt; loadFilesFromFolder = 
+	(folder)=&gt;{
+					"loading files from folder: {0}".info(folder);
+					images.Clear();
+					for(int i = 0 ; i &lt; 1000; i++)
+					{
+						var image = folder.pathCombine("{0}.html.jpg".format(i));
+						if (image.fileExists().isFalse())
+							break; 
+						images.add(image);
+					}	   				
+					slider.invokeOnThread(
+						()=&gt;{
+								slider.Maximum = images.size() -1;  			
+							});
+					if (images.size() &gt; 0)
+						showPageWithID(0);			
+				};
+ 
+
+slider.Scroll += (sender,e) =&gt;
+	{
+		showPageWithID(slider.Value);
+	};
+	
+imageViewer.onDrop((folder)=&gt; 	loadFilesFromFolder(folder));
+
+loadFilesFromFolder(targetFolder);
+
+//using O2.External.IE.ExtensionMethods
+//O2Ref:O2_External_IE.dll
+//O2File:API_Cropper.cs</SourceCode>
+  <ReferencedAssemblies />
+</H2>

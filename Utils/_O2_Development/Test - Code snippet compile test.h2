@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>return "code snippet compile test: {0}".format("1.2.3 ....");</SourceCode>
+  <ReferencedAssemblies />
+</H2>

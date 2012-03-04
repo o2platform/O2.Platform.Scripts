@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//panel.clear();
+var topPanel = O2Gui.open&lt;Panel&gt;("Poc to run multiple WatiN instances inside the same Form", 1000,600);
+var panels = topPanel.add_1x1x1();
+var ie_1 = panels[0].add_IE().silent(true);
+var ie_2 = panels[1].add_IE().silent(true);
+var ie_3 = panels[2].add_IE().silent(true);
+
+// this will open then in sequence
+//ie_1.open("http://www.google.com");
+//ie_2.open("http://o2platform.com");
+//ie_3.open("http://www.owasp.org");
+
+// this will open them in paralell
+
+O2Thread.mtaThread(
+	()=&gt;{
+			ie_1.open("http://www.google.com");
+			ie_1.field("q").flash().value("WatiN").flash();
+			ie_1.button("Google Search").scrollIntoView().flash().click();
+			ie_1.link("WatiN Home").scrollIntoView().flash().click();
+			ie_1.link("Download").scrollIntoView().flash().click();
+		});
+O2Thread.mtaThread(
+	()=&gt;{
+			ie_2.open("http://o2platform.com");			
+			ie_2.link("Documentation").scrollIntoView().flash().click();
+		});
+O2Thread.mtaThread(
+	()=&gt;{
+			ie_3.open("http://www.owasp.org");
+			ie_3.link("Log in").scrollIntoView().flash().click();
+			ie_3.link("request one").scrollIntoView().flash().click();			
+			
+		});
+
+//O2File:WatiN_IE_ExtensionMethods.cs
+//using O2.XRules.Database.Utils.O2
+//O2Ref:WatiN.Core.1x.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

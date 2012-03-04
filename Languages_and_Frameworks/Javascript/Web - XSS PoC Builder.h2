@@ -1,0 +1,257 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("XSS PoC Builder",1100,550);   
+
+var processOnNavigateEvents= false;
+
+var designerCanvas = topPanel.add_DesignerCanvas();      
+
+
+// add controls to canvas   
+
+designerCanvas.add_Label("XSS PoC builder",00,20).fontSize(30);
+  
+var image = designerCanvas.add_Item&lt;System.Windows.Controls.Image&gt;(0,1000,100,100) 
+			  .open(@"C:\O2\_tempDir\O2_Logo.gif");
+			    
+
+var step1_Label = designerCanvas.add_Label("step 1) enter Target webpage",69,20);  
+var step1_TextBox = designerCanvas.add_TextBox("",70,240,180,20).designMode(false); 
+var step1_Button = designerCanvas.add_Button("open",70,480,92,20).designMode(false);  
+      
+var step2_Label = designerCanvas.add_Label("step 2) view original page",140,20);    
+var step2_WebBrowserPanel = designerCanvas.add_WinForms_Panel(180,20,430,320); 
+var step2_IE = step2_WebBrowserPanel.add_IE();  
+
+var step3_Label = designerCanvas.add_Label("step 3) find injection point",140,500);   //  (only the first one will be injected)
+var step3_TreeView = designerCanvas.add_WinForms_Panel(180,500,250,150).add_TreeView();//.buildGui(false, true);   
+var step3_PropertyGrid = designerCanvas.add_WinForms_Panel(350,500,250,150).add_PropertyGrid();  
+
+var step4_Label = designerCanvas.add_Label("step 4) choose injection method",70,800);  
+var step4_ComboBox = designerCanvas.add_ComboBox(105,840,110,20).designMode(false);     
+step4_ComboBox.add_Items("beforeBegin", "afterBegin", "beforeEnd","afterEnd");
+step4_ComboBox.selectFirst();
+
+var step5_Label = designerCanvas.add_Label("step 5) write exploit",140,800);    
+var step5_SourceCodeEditor = designerCanvas.add_SourceCodeViewer(180,800,250,150);
+
+var step6_Label = designerCanvas.add_Label("step 6) try exploit",390,800);
+var step6_Button = designerCanvas.add_Button("inject exploit in browser window (on left)",420,800,260,20).designMode(false); 
+
+var step7_Label = designerCanvas.add_Label("step 7) publish exploit",450,800);
+var step7_Button = designerCanvas.add_Button("create script with published exploit (new window)",480,800,260,20).designMode(false); 
+
+
+// config controls
+step2_IE.silent(true); 
+step3_TreeView.sort().showSelection();
+
+
+// Connections 
+designerCanvas.connect(step1_Label, step1_TextBox);
+designerCanvas.connect(step1_TextBox, step1_Button);
+designerCanvas.connect(step1_Button, step2_Label,"Bottom", "Top");     
+designerCanvas.add_Connection(step2_WebBrowserPanel, step3_Label);  
+designerCanvas.add_Connection(step3_TreeView.Parent.designerItem(), step4_Label.designerItem(), "Right", "Left");    
+designerCanvas.connect(step4_ComboBox, step5_Label, "Right","Right"); 
+designerCanvas.add_Connection(step5_SourceCodeEditor.designerItem(), step6_Label.designerItem(), "Bottom","Top");  
+designerCanvas.connect(step6_Button, step7_Label, "Right","Right"); 
+
+
+// global variables
+
+Element selectedElement = null;
+string elementTag = "";
+string elementValue = ""; 
+
+
+// local Methods
+
+MethodInvoker refreshInjectionPointList = 
+	()=&gt;{
+			step3_TreeView.clear();
+			step3_TreeView.add_Nodes(step2_IE.elements()
+						  .indexedByTagName(false)); 
+			if (selectedElement.isNull())
+				step3_TreeView.selectFirst();
+		};
+		
+Action&lt;string&gt; openUrl = 
+	(url)=&gt; {
+				O2Thread.mtaThread(
+					()=&gt;{
+							"opening in Browser: {0}".info(url); 
+							step2_IE.open(url);
+							refreshInjectionPointList();
+						});
+			};
+ 
+ Action&lt;Element&gt; onSelectedHtmlElement =
+ 	(element)=&gt; {
+ 					try
+ 					{
+ 						O2Thread.mtaThread(()=&gt;element.flash());	
+ 						 						 						
+ 						Ascx_ExtensionMethods.show(step3_PropertyGrid, (Element)element);				 	 
+ 						var elementText = element.str(); 
+ 						if (elementText.size() &gt; 7)
+ 							elementText = elementText.Substring(0,7) + "...";  						  						
+						step3_Label.set_Text_Wpf("step3) select injection point -&gt; {0}: {1}".format(element.tagName(),elementText)); 						
+						selectedElement = element;
+						elementTag = selectedElement.tagName(); 
+						elementValue = selectedElement.str();
+ 					}
+ 					catch(Exception ex) 
+ 					{
+ 						//ex.log("in onSelectedHtmlElement"); 						
+ 					}
+ 					
+ 				};
+
+MethodInvoker tryExploit =  
+	()=&gt;{									
+			if (selectedElement.isNull())
+				"There is no IE Element selected, aborting payload injection".error();
+			else 
+			{
+				O2Thread.mtaThread(
+					()=&gt;{
+							try
+							{
+								var page = step1_TextBox.get_Text_Wpf();													
+								var injectionMethod = step4_ComboBox.get_Text_Wpf();
+								var payload = step5_SourceCodeEditor.get_Text(); 
+								"Injecting XSS PoC in browser with: page '{0}' , element with tag '{1}' + value '{2}' ,  injection method '{3}' payload:\r\n {4}"
+									.info(page,elementTag, elementValue, injectionMethod,payload);
+								
+								var target = step2_IE.elements(elementTag).str(elementValue); 		// try to find it in the current page
+								if (target == null)													// and if we can't find it reload the page
+								{
+									step2_IE.open(page);
+									target = step2_IE.elements(elementTag).str(elementValue); 
+								}
+								if (target.isNull())
+									"in tryExploit, could not find element to inject".error();
+								else
+								{
+									target.flash();
+									target.injectHtml(injectionMethod, payload); 
+								}
+							}
+							catch(Exception ex)
+							{
+								ex.log("in tryExploit");
+							}
+						});				
+			}		
+		};
+ 				 
+MethodInvoker publishExploit = 
+	()=&gt;{
+			"publishing Exploit".info();
+			var page = step1_TextBox.get_Text_Wpf();													
+			var injectionMethod = step4_ComboBox.get_Text_Wpf();
+			var payload = step5_SourceCodeEditor.get_Text(); 
+			
+			var exploitScript = "ie.open(\""+ page + "\");".line() +   
+							    "  var target = ie.elements(\""+elementTag+"\").str(\""+ elementValue+"\");".line() +   
+							    "  target.flash();".line() +  
+								"  target.injectHtml(\"" + injectionMethod + "\"," + payload.encodeAsO2ScriptText("",5).trim() + ");".line();  
+								
+			
+			var exploitGui = O2Gui.open&lt;ascx_IE_ScriptExecution&gt;("Xss Exploit",600,600); 
+			exploitGui.buildGui(exploitScript); 
+			//var scriptEngine = exploitGui.add_Script(); 			
+		};
+
+
+
+// Events
+
+step3_TreeView.beforeExpand&lt;List&lt;Element&gt;&gt;(
+			  		(treeNode, elements) =&gt;  
+			  					{ 
+			  						try { treeNode.add_Nodes(elements);}
+			  						catch(Exception ex) { ex.log("in beforeExpand&lt;List&lt;Element&gt;&gt;");}
+			  					})
+			  .afterSelect&lt;Element&gt;(onSelectedHtmlElement)
+			  .afterSelect&lt;List&lt;Element&gt;&gt;((elements)=&gt; onSelectedHtmlElement(elements[0]));
+					   
+step1_Button.onClick_Wpf(
+	()=&gt;{			
+			var url = step1_TextBox.get_Text_Wpf();			
+			openUrl(url);			
+		});  
+
+step6_Button.onClick_Wpf(()=&gt; tryExploit());
+		
+step7_Button.onClick_Wpf(()=&gt;publishExploit());
+
+step2_IE.onNavigate(
+	(url)=&gt; {
+				if (processOnNavigateEvents)
+					if (url.neq("about:blank"))
+					{
+						step1_TextBox.set_Text_Wpf(url);
+						image.rotate();		
+					}
+			});
+			
+			
+// default values		
+
+var defaultPage = "http://www.google.co.uk";
+
+step6_Button.wpfInvoke(
+	()=&gt;{			
+			step1_TextBox.set_Text_Wpf(defaultPage);
+			
+			openUrl(defaultPage);
+			step5_SourceCodeEditor.set_Text("xss was here".line() + 
+											"&lt;script DEFER&gt;".line() +
+											"    alert('xss')".line() + 
+											"&lt;/script&gt;");  					 						
+		});
+
+//using WatiN.Core
+//using DiagramDesigner
+//using System.Xml
+//using System.Text
+//using System.IO
+//using System.Linq
+//using System.Windows 
+//using WPF = System.Windows.Controls
+//using System.Windows.Media
+//using System.Windows.Media.Imaging
+//using System.Windows.Markup
+//using O2.API.Visualization.ExtensionMethods
+//using O2.API.Visualization.Xaml
+
+//O2File:WatiN_IE_ExtensionMethods.cs 		
+//O2File:ascx_Simple_Script_Editor.cs.o2
+//O2File:Scripts_ExtensionMethods.cs
+//O2File:DiagramDesigner_ExtensionMethods.cs
+//O2File:ascx_HtmlTagViewer.cs
+//O2File:ascx_IE_ScriptExecution.cs
+//O2File:ascx_MediaWiki_PageEditor_Simple.cs
+
+
+//O2Ref:System.Web.dll
+//O2Ref:System.Xml.dll
+//O2Ref:System.Xml.Linq.dll
+//O2Ref:WindowsFormsIntegration.dll
+//O2Ref:PresentationCore.dll
+//O2Ref:WindowsBase.dll
+//O2Ref:PresentationFramework.dll
+//O2Ref:QuickGraph.dll   
+//O2Ref:GraphSharp.dll
+//O2Ref:GraphSharp.Controls.dll
+//O2Ref:ICSharpCode.AvalonEdit.dll
+//O2Ref:O2_API_Visualization.dll
+//O2Ref:DiagramDesigner.exe
+//O2Ref:WatiN.Core.1x.dll
+//O2Ref:Microsoft.mshtml.dll
+//O2Ref:Interop.SHDocVw.dll
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

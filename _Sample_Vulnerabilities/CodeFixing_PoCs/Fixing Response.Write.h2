@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//panel.clear();
+//var topPanel = panel;
+var topPanel = O2Gui.open&lt;Panel&gt;("Fixing Response.Write",1000,500); 
+var controls = topPanel.add_1x1("Original Code", "Patched Code");
+var originalCode = controls[0].add_SourceCodeEditor();
+var patchedCode = controls[1].add_SourceCodeEditor(); 
+
+
+
+originalCode.eDocumentDataChanged+= (text)=&gt; 
+	{
+		if (text.valid())
+		{
+			var csharpAst = text.csharpAst();
+			//show.info(csharpAst.CompilationUnit.iNodes&lt;InvocationExpression&gt;());
+		
+			foreach(var invocationExpression in csharpAst.CompilationUnit.iNodes&lt;InvocationExpression&gt;()) 
+			{
+				var memberReference = invocationExpression.TargetObject as MemberReferenceExpression;
+				if (memberReference.notNull() &amp;&amp; memberReference.MemberName == "Write")
+				{								
+					var className = "AntiXss";
+					var methodName = "HtmlEncode";
+					var newMemberReference = new MemberReferenceExpression(new IdentifierExpression(className),methodName );
+					var newInvocationExpression = new InvocationExpression(newMemberReference);
+					newInvocationExpression.Arguments.AddRange(invocationExpression.Arguments);
+					invocationExpression.Arguments.Clear();
+					invocationExpression.Arguments.Add(newInvocationExpression ); 
+				}			
+				csharpAst.CompilationUnit.add_Using("Microsoft.Security.Application");								
+			}
+			
+			var patchedCSharpCode = csharpAst.CompilationUnit.csharpCode();
+			patchedCSharpCode = @"//O2Ref:AntiXSSLibrary.dll".line() + patchedCSharpCode; // so that it compiles OK
+			var patchedCSharpFile = patchedCSharpCode.saveWithExtension(".cs");
+			patchedCode.open(patchedCSharpFile);  
+		}
+	};
+
+var originalFile = @"Request.Write.cs".local(); 
+originalCode.open(originalFile); 
+ 
+//using ICSharpCode.NRefactory.Parser
+//using ICSharpCode.NRefactory.Ast
+//using ICSharpCode.NRefactory
+//using O2.API.AST.CSharp;
+//using O2.API.AST.ExtensionMethods;
+//using O2.API.AST.ExtensionMethods.CSharp;
+//O2Ref:O2_API_AST.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

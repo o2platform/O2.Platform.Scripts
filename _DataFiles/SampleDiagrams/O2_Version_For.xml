@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Root>
+  <DesignerItems>
+    <DesignerItem>
+      <Left>54</Left>
+      <Top>18</Top>
+      <Width>115.99999999999999</Width>
+      <Height>28.636666666666674</Height>
+      <ID>04d0dba5-bc27-4b43-bd68-2301971ee94e</ID>
+      <zIndex>0</zIndex>
+      <IsGroup>false</IsGroup>
+      <ParentID>00000000-0000-0000-0000-000000000000</ParentID>
+      <Content>&lt;Label Foreground="#FF000000" FontSize="20" IsHitTestVisible="False" InputMethod.IsInputMethodEnabled="True" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"&gt;version for:&lt;/Label&gt;</Content>
+    </DesignerItem>
+    <DesignerItem>
+      <Left>32</Left>
+      <Top>67</Top>
+      <Width>140</Width>
+      <Height>39.636666666666684</Height>
+      <ID>1d0cb3a8-522a-4069-81bb-cc483e552aa6</ID>
+      <zIndex>2</zIndex>
+      <IsGroup>false</IsGroup>
+      <ParentID>00000000-0000-0000-0000-000000000000</ParentID>
+      <Content>&lt;Label Foreground="#FF00056F" FontSize="26" IsHitTestVisible="False" InputMethod.IsInputMethodEnabled="True" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;Dinis Cruz&lt;/Label&gt;</Content>
+    </DesignerItem>
+    <DesignerItem>
+      <Left>42</Left>
+      <Top>103</Top>
+      <Width>121.99999999999999</Width>
+      <Height>27.636666666666674</Height>
+      <ID>e155eb89-26c2-4fc5-8a49-82e59ef55803</ID>
+      <zIndex>3</zIndex>
+      <IsGroup>false</IsGroup>
+      <ParentID>00000000-0000-0000-0000-000000000000</ParentID>
+      <Content>&lt;Label Foreground="#FF000000" FontSize="12" IsHitTestVisible="False" InputMethod.IsInputMethodEnabled="True" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"&gt;(security consultant)&lt;/Label&gt;</Content>
+    </DesignerItem>
+    <DesignerItem>
+      <Left>33</Left>
+      <Top>23</Top>
+      <Width>20</Width>
+      <Height>23</Height>
+      <ID>81edc884-5394-4f0a-b507-0772c5a0d8ff</ID>
+      <zIndex>1</zIndex>
+      <IsGroup>false</IsGroup>
+      <ParentID>00000000-0000-0000-0000-000000000000</ParentID>
+      <Content>&lt;Image Source="file:///C:/O2/O2Scripts_Database/_Scripts/_DataFiles/_Images/O2_Logo_no_Shadow.jpg" IsHitTestVisible="False" InputMethod.IsInputMethodEnabled="True" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" /&gt;</Content>
+    </DesignerItem>
+  </DesignerItems>
+  <Connections />
+</Root>

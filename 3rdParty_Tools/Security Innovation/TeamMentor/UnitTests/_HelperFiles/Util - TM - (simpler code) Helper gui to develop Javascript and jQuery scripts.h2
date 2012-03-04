@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>
+//"ie_Object_".o2Cache(null);
+var ie = "ie_Object_".o2Cache&lt;WatiN_IE&gt;( 
+			()=&gt;{
+					var topPanel = panel.clear().add_Panel();
+					var _ie = topPanel.clear().add_IE().silent(false);
+					
+					var jQueryText = topPanel.insert_Below(200,"jQuery/Javascript")
+											 .add_SourceCodeViewer().maximizeViewer();											 
+					var executeJQuery = jQueryText.insert_Left(100).add_Button("Execute Javascript").fill().font_bold(); 
+					
+					executeJQuery.onClick(
+						()=&gt;{ 
+								var scriptToExecute = jQueryText.editor().getSourceCode();
+								"executing script with size: {0}".info(scriptToExecute.size());
+								_ie.eval(scriptToExecute);
+							});
+
+					return _ie;
+				});
+
+//ie.open(Test_TM.tmServer);
+//return "ok";
+//ie.open(Test_TM.tmEmptyPage);
+
+var  testTmIE = new Test_TM_IE();
+testTmIE.set_IE_Object(ie);
+
+Action loadPage = ()=&gt;testTmIE.open("Html_Pages/_UnitTest_Helpers/AppliedFilters/AppliedFilters_View_All_GuidanceItems.html?time=" + new DateTime().Ticks);
+ie.if_NoPageLoaded(loadPage);
+loadPage();
+
+ 
+return "okasd";
+//ie.open(Test_TM.tmServer + "Javascript/_Javascript_Loaders/jQuery_tmWebServices.html?time="+ DateTime.Now.Ticks);
+
+//using O2.SecurityInnovation.TeamMentor
+//O2File:Test_TM_IE.cs
+//O2Ref:WatiN.Core.1x.dll
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.clear().add_Panel();
+var topPanel = "Get O2 Reference dll (double click on file to download it)".popupWindow(400,500);  
+topPanel.insert_LogViewer();
+
+var ie = topPanel.add_IE().silent(true);
+
+var treeView = topPanel.insert_Left().add_TreeView().sort();
+
+Action&lt;string&gt; addUrlMappingsToTreeView = 
+	(urlWithLinks)=&gt;{
+						ie.open(urlWithLinks);
+						var links = from link in ie.links()
+							where link.text() != ".."
+							select new { filename = link.text() , url = link.url() };
+						foreach(var link in links)
+							treeView.add_Node(link.filename, link.url);
+					};
+addUrlMappingsToTreeView("http://o2platform.googlecode.com/svn/trunk/O2%20-%20All%20Active%20Projects/_3rdPartyDlls/FilesWithNoCode/");
+addUrlMappingsToTreeView("http://o2platform.googlecode.com/svn/trunk/O2%20-%20All%20Active%20Projects/_3rdPartyDlls/");
+addUrlMappingsToTreeView("http://o2platform.googlecode.com/svn/trunk/O2_Binaries");
+
+topPanel.splitContainer().panel2Collapsed(true); 
+
+treeView.onDoubleClick&lt;string&gt;( 
+	(url)=&gt; {
+				treeView.pink(); 
+				"you selected the url: {0}".info(url);
+				var localTempFile = url.uri().download();
+				var copiedFile = Files.Copy(localTempFile,PublicDI.config.CurrentExecutableDirectory);
+				"file was copied to: {0}".info(copiedFile);
+				treeView.white();
+			});
+return "ok";
+
+//O2File:WatiN_IE_ExtensionMethods.cs
+//using O2.XRules.Database.Utils.O2
+//O2Ref:WatiN.Core.1x.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

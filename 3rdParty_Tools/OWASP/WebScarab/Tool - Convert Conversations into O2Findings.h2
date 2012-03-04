@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//panel.clear();
+//var topPanel = panel; 
+var topPanel = O2Gui.open&lt;Panel&gt;("Tool - Webscarab: Convert Conversations into O2Findings",1000,400);
+var findingsViewer = topPanel.add_FindingsViewer(true);
+findingsViewer.setFilter1Value("vulnName");
+var webScarab_Loader = new O2AssesmentLoad_WebScarab();
+ascx_FindingsViewer.o2AssessmentLoadEngines.Clear(); 
+ascx_FindingsViewer.addO2AssessmentLoadEngine_static(webScarab_Loader);
+OunceAvailableEngines.addAvailableEnginesToControl(typeof(ascx_FindingsViewer)); 
+ 
+//using O2.ImportExport.OunceLabs
+//using O2.Views.ASCX.O2Findings
+//using O2.XRules.Database.Findings
+//using O2.ImportExport.Misc.WebScarab
+//O2File:Findings_ExtensionMethods.cs
+//O2File:O2AssesmentLoad_WebScarab.cs
+//O2Ref:O2_ImportExport_OunceLabs.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

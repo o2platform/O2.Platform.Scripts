@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//return "_JavaExecution (O2 Tool).exe".assembly().type("Program").invokeStatic("Main");
+Processes.startProcess("_JavaExecution (O2 Tool).exe");
+
+return "";
+//O2Ref:_JavaExecution (O2 Tool).exe
+//O2Ref:O2_External_IKVM.dll
+//O2Download:_IKVM_Runtime.zip
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

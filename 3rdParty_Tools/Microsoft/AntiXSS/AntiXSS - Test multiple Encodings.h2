@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//O2Ref:AntiXSSLibrary.dll
+var topPanel = O2Gui.open&lt;Panel&gt;("AntiXSS and HttpUtility encodings", 600,300);  
+var result = topPanel.add_TextArea();
+Action&lt;string&gt; showEncodings = 
+	(textToEncode)=&gt;{
+						result.set_Text("");
+						result.append_Line("AntiXss.HtmlEncode -&gt; {0}".format(AntiXss.HtmlEncode(textToEncode)));
+						result.append_Line("------------------------");
+						result.append_Line("AntiXss.UrlEncode -&gt; {0}".format(AntiXss.UrlEncode(textToEncode)));
+						result.append_Line("------------------------"); 
+						result.append_Line("AntiXss.JavascriptEncode -&gt; {0}".format(AntiXss.JavaScriptEncode(textToEncode)));
+						result.append_Line("------------------------"); 
+						result.append_Line("System.Web.HttpUtility.HtmlEncode -&gt; {0}".format(System.Web.HttpUtility.HtmlEncode(textToEncode)));
+						result.append_Line("------------------------"); 
+						result.append_Line("System.Web.HttpUtility.UrlEncode -&gt; {0}".format(System.Web.HttpUtility.UrlEncode(textToEncode)));
+						result.append_Line("------------------------"); 
+						result.append_Line("Original string (unencoded) -&gt; {0}".format(textToEncode));
+						result.append_Line("------------------------");
+					};
+
+var testPayload = "abc 123 \" ' &lt; &gt; \n :   ;   ".line() + "After an Enter"; 					
+result.insert_Above&lt;Panel&gt;(20) 
+	  .add_LabelAndTextAndButton("Payload", testPayload, "convert", showEncodings);
+
+showEncodings(testPayload);
+
+//return AntiXss.HtmlEncode(payload); 
+//return "AntiXSSLibrary.dll".assembly().methods();
+//using Microsoft.Security.Application
+//O2Ref:AntiXSSLibrary.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

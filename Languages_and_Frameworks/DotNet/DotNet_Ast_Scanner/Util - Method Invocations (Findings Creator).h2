@@ -1,0 +1,336 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//panel.clear();
+//var topPanel = panel;  
+var topPanel = O2Gui.open&lt;Panel&gt;("Tool - Method Invocations (Findings Creator)", 1000,600); 
+
+var baseFolder = "";
+O2MappedAstData astData = null;
+/*topPanel.parentForm().onClosed(
+	()=&gt;{
+			if (astData.notNull())
+				astData.dispose();
+		});*/
+var useCachedData = true; //false;//true ; 
+var showLogViewer = true;   
+var useAstCacheData = false;
+//var sourceCodeViewer = topPanel.add_SourceCodeViewer();
+var codeViewerPanel = topPanel.add_Panel();
+var treeViewPanel = codeViewerPanel.insert_Left&lt;Panel&gt;();		  	 				     
+treeViewPanel.parent&lt;SplitContainer&gt;().splitterDistance(400);							     
+var optionsPanel = treeViewPanel.insert_Below&lt;Panel&gt;(100);
+var references = treeViewPanel.insert_Below&lt;GroupBox&gt;(70).set_Text("References").add_TextArea();
+
+
+//var CodeStreamTreeView = sourceCodeViewer.insert_Right&lt;TreeView&gt;(200).fill().showSelection(); 
+//CodeStreamTreeView.afterSelect&lt;O2CodeStreamNode&gt;
+//	((streamNode)=&gt; sourceCodeViewer.editor().setSelectionText(streamNode.INode.StartLocation, streamNode.INode.EndLocation));																				        
+
+var methodMappingsFilter = treeViewPanel.insert_Above&lt;Panel&gt;(20)
+										.add_Label("Filter")										
+										.top(3)
+										.append_TextBox("")
+										.align_Right(treeViewPanel); 
+TreeView methodsMappings_TreeView = null;
+MethodMappings loadedMethodMappings = null;  
+//var resultsFolder = "_AstEngine_ExternalMappings".tempDir(); 
+var resultsFolder = optionsPanel.add_Label("Original Results Folder:")
+								.top(3)
+								.append_TextBox("") 
+								.align_Right(optionsPanel);							
+var sourceCodeFolder = optionsPanel.add_Label("Original Source Code:  ", 23,0)								   
+								   .append_TextBox("") 
+								   .align_Right(optionsPanel);															
+											 
+var loadedMappingsFilePath = optionsPanel.add_Label("Loaded Mappings File(s):", 42,0)
+					  					 .append_Label("")
+					  					 .align_Right(treeViewPanel);	
+					  					 
+var methodStreamsFileCache = optionsPanel.add_Label("MethodStreams File Cache:  ", 80,0)			 					   
+								   .append_TextBox("") 
+								   .align_Right(optionsPanel);															
+
+methodStreamsFileCache.set_Text("".tempDir().pathCombine("_fileCache_MethodStreams"));
+
+bool showMethodStreams = false; 
+
+Action showMethodMappings =	
+	()=&gt;{ 
+			if (methodsMappings_TreeView.notNull() &amp;&amp; loadedMethodMappings.notNull())
+			{
+				loadedMethodMappings.showInTreeView(methodsMappings_TreeView,methodMappingsFilter.get_Text());
+				methodsMappings_TreeView.selectFirst();				 	        
+			}
+			else
+				"in showMethodMappings: methodsMappings_TreeView.notNull() &amp;&amp; loadedMethodMappings.notNull()".error();
+		};
+
+methodMappingsFilter.onEnter((text)=&gt; showMethodMappings()); 
+
+Action&lt;string&gt; loadMethodMappings = null; 
+
+loadMethodMappings= 
+	(fileOrFolder)=&gt;{
+		O2Thread.mtaThread(
+			()=&gt;{
+					baseFolder = fileOrFolder;
+					if (fileOrFolder.valid().isFalse())
+						return;
+					"loading files from: {0}".info(fileOrFolder); 	 									
+					var methodFilder = @"";
+//					var references = referencesToLoad.get_Text().lines();
+					//var results = MethodMappings_Engine.calculateMethodMappings(sourceFolder, resultsFolder,references,false);     
+					loadedMethodMappings = null;
+					loadedMappingsFilePath.set_Text("");
+					treeViewPanel.clear();
+					if (fileOrFolder.fileExists())
+						loadedMethodMappings = fileOrFolder.loadMethodMappings();
+					else 
+					{
+						loadedMethodMappings = fileOrFolder.files("*.xml").loadAndMergeMethodMappings();
+					}
+					
+					if (loadedMethodMappings.notNull())
+					{
+						loadedMappingsFilePath.set_Text(fileOrFolder.fileName());						
+						var originalSourceCodeLocation = loadedMethodMappings.SourceCodeFolder;
+						var originalReferences = loadedMethodMappings.References;
+						
+						sourceCodeFolder.set_Text(originalSourceCodeLocation);
+						resultsFolder.set_Text(	loadedMethodMappings.ResultsFolder);
+						 
+						references.set_Text(originalReferences.str()); 						 
+						codeViewerPanel.clear();
+						
+						if (showMethodStreams)
+						{
+							/*
+							if (originalSourceCodeLocation.dirExists())
+							{ 																														
+								methodsMappings_TreeView = treeViewPanel.add_TreeView() //CreateTreeViewFor_MethodMappingsView(sourceCodeViewer)
+																		.sort()
+																        .onDrop(loadMethodMappings);
+								var manualMethodStreams = codeViewerPanel.add_Control&lt;ascx_ManualMethodStreams&gt;();	 	
+								manualMethodStreams.buildGui(false);
+								astData = originalSourceCodeLocation.getAstData(originalReferences,true); 
+								//show.info(astData);  
+								
+								methodsMappings_TreeView.afterSelect&lt;MethodMapping&gt;(
+									(methodMapping)=&gt;
+										{
+											methodsMappings_TreeView.backColor(Color.LightPink);
+											O2Thread.mtaThread(
+												()=&gt;{
+								
+														//show.info(methodMapping); 
+														
+														var methodSignature = methodMapping.ParentMethod;
+														var iMethod = astData.iMethod_withSignature(methodSignature);
+														if (iMethod.isNull())
+														{
+															"in loaded astData could not find IMethod with signature: {0}".error(methodSignature);
+															manualMethodStreams.CodeViewer.set_Text("");
+														}
+														else 
+														{															
+															var methodStreamCode = astData.methodStream_UseCache(iMethod, methodStreamsFileCache.get_Text());																
+															
+															manualMethodStreams.loadFile(methodStreamCode, 
+																						 useAstCacheData)		// usually don't chache for memory consumptions rea
+																			   .Join();							// wait for the load Thread to finish 
+															
+															var iNodePosition = astData.getINodePosition(methodMapping);
+															var adjustedINode = manualMethodStreams.AstData_MethodStream.fromFirstMethod_getINodeAtPosition(iNodePosition);
+															
+															
+															manualMethodStreams.createAndShowCodeStream(adjustedINode);
+															methodsMappings_TreeView.backColor(Color.White);
+															
+															
+														}											
+													});
+									});
+									
+								}						*/
+						}
+						else								
+						{	
+							treeViewPanel.clear();
+							methodsMappings_TreeView = treeViewPanel.add_TreeView().sort().showSelection();
+							var rulesAndFindings = codeViewerPanel.add_1x1("Rules", "Findings",false);
+							var SourcesAndSinks = rulesAndFindings[0].add_1x1("Sources", "Sinks");
+							var sources = SourcesAndSinks[0].add_1x1("regExes", "Matches");
+							var sources_Matches = sources[1].add_TreeView().sort();
+							var sources_RegEx = sources[0].add_TextArea(); 
+							
+							var findingsViewer = rulesAndFindings[1].add_FindingsViewer();
+							var settings = rulesAndFindings[0].insert_Below&lt;Panel&gt;(20); 
+							
+							var source_MethodMappings = new List&lt;MethodMapping&gt;();
+							
+							MethodInvoker calculateTargets =
+								()=&gt;{										
+										"In calculate Targets".info();
+										sources_Matches.clear();
+										source_MethodMappings = new List&lt;MethodMapping&gt;();
+										var sourceRegExes = sources_RegEx.get_Text().lines();
+										
+										foreach(var sourceRegEx in sourceRegExes)
+										{
+											//sources_Matches.add_Node(sourceRegEx);
+											foreach(var item in loadedMethodMappings.indexedByKey(sourceRegEx))
+												source_MethodMappings.AddRange(item.Value);
+											//show.info(matches);
+										}										
+										"There are {0} targets".info(source_MethodMappings.size());
+										sources_Matches.add_Nodes(source_MethodMappings); 
+									};
+							
+							MethodInvoker calculateFindings =   
+								()=&gt;{
+										O2Thread.mtaThread(
+											()=&gt;{
+													astData = sourceCodeFolder.get_Text().getAstData(originalReferences,true);  									 	
+													var methodMappings = source_MethodMappings;
+													"Calculating Findings for {0} methodMappings".info(methodMappings.size());
+													var o2Findings = new List&lt;IO2Finding&gt;();
+													var mappedByFile = new Dictionary&lt;string, List&lt;MethodMapping&gt;&gt;(); 
+													foreach(var methodMapping in methodMappings)
+														mappedByFile.add(methodMapping.ParentMethod, methodMapping);													
+													
+													foreach(var item in mappedByFile)
+													{
+														var parentMethod = item.Key;
+														var methodMappingsInFile = item.Value;  
+														"Creating findings for {0} methodmapings in method: {1}".info(methodMappingsInFile.size(),parentMethod);  
+														var iMethod = astData.iMethod_withSignature(parentMethod);														
+														var methodStreamFile = astData.methodStream_UseCache(iMethod, methodStreamsFileCache.get_Text());
+														//"Method Stream Created: {0}".debug(methodStreamFile);
+														var astData_MethodStream = methodStreamFile.getAstData(false);
+														foreach(var methodMapping in methodMappings)
+														{
+															var targetINodes = new List&lt;INode&gt;();
+															if (methodMapping.INodeType == "MethodDeclaration")
+															{
+															
+																if (astData_MethodStream.methodDeclarations().size() &gt;0)
+																{
+																	targetINodes.AddRange(astData_MethodStream.methodDeclarations()[0].parameters().ToArray());
+																	// return; 
+																}
+															} 
+															else
+															{
+																//"Creating findings for: {0}".info(methodMapping.str());
+																var iNodePosition = astData.getINodePosition(methodMapping);
+																//"Finding adjustedINode".debug();
+																var adjustedINode = astData_MethodStream.fromFirstMethod_getINodeAtPosition(iNodePosition);
+																targetINodes.Add(adjustedINode);
+															}
+															foreach(var targetINode in targetINodes)
+															{
+																//"Creating  O2CodeStream".debug();
+																var codeStream  = astData_MethodStream.createO2CodeStream(methodStreamFile, targetINode);  
+																var codeStreamO2Findings = codeStream.o2Findings();
+																//"**** Created {0} O2Findings".info(codeStreamO2Findings.size());
+																o2Findings.AddRange(codeStreamO2Findings);		
+																"**** Total Findings so far: {0}".info(o2Findings.size());	
+															}
+														}
+														"disposing astData".debug();
+														astData_MethodStream.dispose();														
+													}
+													/*
+													
+														//var methodMapping = methodMappings[0];
+														
+														//show.info(methodMapping);
+														var methodSignature = methodMapping.ParentMethod;
+														
+														
+														
+														//"loading astData".info();
+														
+														
+													}*/
+													//var codeStreams = adjustedINode.codeStreams_UniquePaths(); 
+//													show.info(codeStreams); 
+													
+													
+													findingsViewer.show(o2Findings);
+													
+													//iNodePosition.info(); 
+													"completed".info();
+												});
+										
+									};
+									
+							var calculateTargetsLink = settings.add_Link("calculate targets", 0 , 0, calculateTargets)
+															   .append_Link("calculate findings", calculateFindings);
+							
+							sources_RegEx.set_Text("QueryString".line()  
+												   //+ "WS_UserMan"
+												   //+ "System.Web.UI.*Controls.*Text"
+												   );
+							
+							calculateTargets();
+							//calculateFindings();
+							
+							//var sourceCodeViewer = codeViewerPanel.add_SourceCodeViewer();
+							//methodsMappings_TreeView = treeViewPanel.CreateTreeViewFor_MethodMappingsView(sourceCodeViewer)
+							//									    .onDrop(loadMethodMappings);
+							//sourceCodeViewer.open(methodMapping.File);
+							//sourceCodeViewer.editor().caret(methodMapping.Start_Line, methodMapping.Start_Column);
+							//var iNode = astData.iNode(methodMapping.File,sourceCodeViewer.editor().caret());
+							//"INode:{0}".info(iNode);
+						}
+						
+						showMethodMappings();		
+						"Compleded loading file(s) from: {0}".info(fileOrFolder);
+					}
+				});
+			};
+							     
+optionsPanel.add_CheckBox("Show Method Streams", 60,2,  
+				(value)=&gt;
+					{
+						showMethodStreams = value;
+						loadMethodMappings(baseFolder);
+					})
+			.autoSize();
+treeViewPanel.onDrop(loadMethodMappings);
+
+//referencesToLoad.set_Text("System.Web".line() +     
+//						  "System.Data");
+ 
+//loadFilesFromFolder(@"C:\O2\DemoData\HacmeBank_v2.0 (7 Dec 08)\HacmeBank_v2_WS");
+//loadMethodMappings(@"C:\O2\DemoData\HameBank_MethodMappings\WebSite\ConsolidatedMethodMappings.xml");
+//loadMethodMappings(@"C:\O2\DemoData\HameBank_MethodMappings\WS\ConsolidatedMethodMappings.xml"); 
+
+//return astData; 
+return "ok";
+//using O2.Interfaces.O2Findings;
+//using O2.XRules.Database.Findings
+//using O2.API.AST.CSharp
+//using O2.API.AST.ExtensionMethods;
+//using O2.API.AST.ExtensionMethods.CSharp;
+//using O2.External.SharpDevelop.ExtensionMethods;
+//using O2.External.SharpDevelop.AST;
+//using O2.External.SharpDevelop.Ascx;
+//using O2.XRules.Database.Languages_and_Frameworks.DotNet	
+//using ICSharpCode.SharpDevelop.Dom;
+//using ICSharpCode.NRefactory;
+//using ICSharpCode.NRefactory.Ast;
+//O2File:Findings_ExtensionMethods.cs
+//O2File:ascx_ManualMethodStreams.cs
+//O2File:MethodMappings_Engine.cs
+//O2File:ascx_ManualMethodStreams.cs
+//O2File:Ast_Engine_ExtensionMethods.cs
+//O2File:ascx_ManualMethodStreams.cs
+//O2Ref:O2_External_SharpDevelop.dll
+//O2Ref:O2_API_AST.dll  
+//O2Ref:Quickgraph.dll
+//O2Ref:GraphSharp.dll 
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

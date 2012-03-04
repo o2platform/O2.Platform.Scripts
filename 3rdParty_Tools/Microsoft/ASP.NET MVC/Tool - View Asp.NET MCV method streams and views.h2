@@ -1,0 +1,208 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//panel.clear();
+//var topPanel = panel; 
+var baseFolder = "";
+var referencesToLoad = new List&lt;string&gt;(); 
+var topPanel = O2Gui.open&lt;Panel&gt;("Tool - View Asp.NET MVC Method streams and Views", 1000,600);   
+var astDataCacheKey = "astData ASP.NET MVC"; 
+var useCachedData = true; //false;//true ;
+var showLogViewer = true; 
+var onlyShowSelectedMethod = false; 
+var showViewSourceCode = false;
+//var manualMethodStreams = topPanel.add_Control&lt;ascx_ManualMethodStreams&gt;();
+
+//var sourceCodeViewer = topPanel.add_SourceCodeViewer();
+
+var methodStreamViewer = topPanel.add_Control&lt;ascx_ManualMethodStreams&gt;()
+							   .buildGui(showLogViewer);  
+
+var astData = (O2MappedAstData)O2LiveObjects.get(astDataCacheKey);
+
+var treeView = methodStreamViewer.insert_Left&lt;TreeView&gt;(400) 
+							     .showSelection();   
+
+treeView.afterSelect&lt;IMethod&gt;(
+	   		(iMethod)=&gt;
+	   			{ 
+	   				try
+	   				{
+		   				treeView.backColor(Color.LightPink);
+		   				var methodDeclaration  = astData.MapAstToNRefactory.IMethodToMethodDeclaration[iMethod]; 
+		   				var csharpCode = "";
+		   				if (onlyShowSelectedMethod)		   						   				
+		   					csharpCode = methodDeclaration.csharpCode();
+		   				else
+		   				{
+		   					var methodStream = astData.createO2MethodStream(iMethod);	   					   				
+		   					csharpCode = methodStream.csharpCode()
+		   											 .postCSharpCreationCodeFixes();      
+		   				} 
+		   				
+		   				if (showViewSourceCode)
+		   				{		   				
+			   				foreach(var returnStatement in methodDeclaration.iNodes&lt;ReturnStatement&gt;())
+			   				{	   					
+			   					var identifiers = returnStatement.iNodes&lt;IdentifierExpression&gt;();
+			   					var primitives = returnStatement.iNodes&lt;PrimitiveExpression&gt;();
+			   					var identifier  = identifiers.size()&gt;0 ? identifiers[0].Identifier : "";
+			   					var primitive  = primitives.size()&gt;0 ? primitives[0].StringValue : "";		   							   					
+			   					if (identifier == "View")	   					   					
+			   					{  
+			   						//var file = astData.file(iMethod);
+			   						
+			   						var viewFolder = iMethod.DeclaringType.Name.remove("Controller");
+			   						var viewFile = (primitive == "") ? iMethod.Name : primitive.remove("\"");
+			   						var path = baseFolder.pathCombine("Views").pathCombine(viewFolder).pathCombine(viewFile) + ".aspx";
+			   						if (path.fileExists())
+			   						{
+			   							var viewAspxCode = path.fileContents().replace("*/", "*[O2]/");
+			   							csharpCode = csharpCode.replace(returnStatement.csharpCode(), 			   										
+			   															returnStatement.csharpCode().line() + 
+			   															"/********************************************".line() + 
+			   															"/* Showing ASPX file: {0}".format(path).line().line() +  
+			   															viewAspxCode.lineBeforeAndAfter() +
+			   															"*/".line()); 
+										break;
+			   						}		   							
+			   					}
+			   					
+			   				}
+		   				}
+		   				//treeView.add_Nodes(methodDeclaration.iNodes());
+		   				var url =  "http://x.x.x.x/{0}/{1}".format(iMethod.DeclaringType.Name.remove("Controller"), iMethod.Name ); 
+		   				var parameters = "";		   				
+		   				var iClassesInParameters = new Dictionary&lt;string,List&lt;IClass&gt;&gt;();
+		   				foreach(var parameter in iMethod.Parameters)
+		   				{
+		   					parameters+= "{0}=[...]&amp;".info(parameter.Name); 
+		   					//parameter.ReturnType.FullyQualifiedName.info(); 
+		   					//if (astData.MapAstToNRefactory.IClassToTypeDeclaration.hasKey(parameter.ReturnType as IClass))  
+		   					var iClassInParameter = astData.iClass(parameter.ReturnType.FullyQualifiedName); 
+		   					if (iClassInParameter.notNull()) 
+		   						iClassesInParameters.add(parameter.ReturnType.FullyQualifiedName, iClassInParameter);
+		   					
+		   					//show.info(parameter.ReturnType); 
+		   				}
+		   				if (parameters.valid())
+		   					url+= "?"+ parameters.removeLastChar();
+		   				var top = "/**********************************************".line() + 
+		   						  "      {0} ".format(url).line();
+		   				foreach(var iClassInParameter in iClassesInParameters)		  		   				
+		   					if (iClassInParameter.Value.size() &gt; 0)
+		   					{
+			   					var classDetails = "/**   Class in parameter: {0}".format(iClassInParameter.Key).line();  
+			   					foreach(var iPartialClass in iClassInParameter.Value)		   						   						
+			   						foreach(var property in iPartialClass.Properties)
+			   							if (property.IsPublic &amp;&amp; property.GetterRegion.IsEmpty.isFalse())
+			   								classDetails+= "       -&gt;   {0}".info(property.Name).line();
+			   								   						
+			   					classDetails = classDetails.lineBeforeAndAfter();	
+			   					top += classDetails; 
+			   				}
+						top += " **********************************************/".line().line();
+		   							  
+						csharpCode = top + csharpCode; 
+		   				methodStreamViewer.set_Text(csharpCode,".cs", !onlyShowSelectedMethod); 
+		   			}
+		   			catch(Exception ex)
+		   			{
+		   				ex.log("in view mapping");
+		   			}
+	   				treeView.backColor(Color.White);
+	   				/*var file = astData.file(methodDeclaration);
+	   				if (file.exists())
+	   				{
+	   					sourceCodeViewer.open(file); 
+	   					sourceCodeViewer.editor().caret(methodDeclaration.StartLocation.Line + 5,methodDeclaration.StartLocation.Column);
+	   					sourceCodeViewer.editor().gotoLine(methodDeclaration.StartLocation.Line);
+	   				}*/
+	   				treeView.focus(); 
+	   			});
+
+Action&lt;string&gt; loadAstData = 
+	(folder) =&gt; {
+					treeView.backColor(Color.Azure);
+					baseFolder = folder;
+					if (useCachedData.isFalse() || astData == null)
+					{
+						"Loading AstData".info();
+						astData = new O2MappedAstData();
+						foreach(var referenceToLoad in referencesToLoad)
+							astData.O2AstResolver.addReference(referenceToLoad); 
+						astData.loadFiles(folder.files("*.cs",true));	
+						O2LiveObjects.set(astDataCacheKey,astData);
+					}
+				};
+				
+Action&lt;string&gt; loadFilesFromFolder = 
+	(folder) =&gt; {
+					loadAstData(folder);	
+										
+					var controllers = new List&lt;IClass&gt;();
+					foreach(var iClass in astData.iClasses())
+					{	
+						if (iClass.BaseTypes.Count  &gt;0)
+						{	
+							foreach(var baseType in iClass.BaseTypes)								
+								if(baseType.FullyQualifiedName == "System.Web.Mvc.Controller" || baseType.FullyQualifiedName == "ContentController")   
+									controllers.Add(iClass);								
+						}	
+					}
+					treeView.clear();						
+					foreach(var controller  in controllers)
+						foreach(var method in controller.Methods) 
+							if (method.IsConstructor.isFalse() &amp;&amp; method.IsPublic)// &amp;&amp;  method.fullName().contains("Dinner dinner"))  							
+									treeView.add_Node(method.fullName(), method);															
+					treeView.backColor(Color.White);
+					treeView.selectFirst();
+				};
+
+
+treeView.onDrop(
+		(folder)=&gt;{
+					useCachedData = false;
+					loadFilesFromFolder(folder);
+				  });
+
+var optionsPanel = treeView.insert_Below&lt;Panel&gt;(60);
+optionsPanel.add_CheckBox("Show 'View' Source Code", 0 ,0,(value)=&gt;{ showViewSourceCode = value; })
+			.autoSize(); 
+optionsPanel.add_CheckBox("Only Show selected Method", 20 ,0,(value)=&gt;{ onlyShowSelectedMethod = value; })
+			.autoSize();			
+optionsPanel.add_Link("Clear AstData cache",40,0,()=&gt; O2LiveObjects.set(astDataCacheKey,null))
+		    .append_Link("Reload base folder",()=&gt; loadFilesFromFolder(baseFolder));
+
+
+
+referencesToLoad.Add("System.Data");
+referencesToLoad.Add("System.Web");
+referencesToLoad.Add("System.Web.Mvc");
+var sourceFolder = @"C:\DotNet\AspNet-MVC\NerdDinner_2.0\NerdDinner";
+loadFilesFromFolder(sourceFolder);
+
+
+return astData;
+//manualMethodStreams.buildGui();
+
+//using O2.API.AST.CSharp
+//using O2.API.AST.ExtensionMethods;
+//using O2.API.AST.ExtensionMethods.CSharp;
+//using O2.External.SharpDevelop.ExtensionMethods;
+//using O2.External.SharpDevelop.AST;
+//using O2.External.SharpDevelop.Ascx;
+//using O2.XRules.Database.Languages_and_Frameworks.DotNet	
+//using ICSharpCode.SharpDevelop.Dom;
+//using ICSharpCode.NRefactory;
+//using ICSharpCode.NRefactory.Ast;
+//O2File:ascx_ManualMethodStreams.cs
+//O2File:Ast_Engine_ExtensionMethods.cs
+//O2File:ascx_ManualMethodStreams.cs
+//O2Ref:O2_External_SharpDevelop.dll
+//O2Ref:O2_API_AST.dll  
+//O2Ref:Quickgraph.dll
+//O2Ref:GraphSharp.dll
+//O2Ref:GraphSharp.Controls.dll
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

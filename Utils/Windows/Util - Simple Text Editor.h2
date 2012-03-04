@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var richTextBox = O2Gui.open&lt;RichTextBox&gt;("Simple TextEditor (*.RTF based)", 400,300);
+
+richTextBox.onDrop( 
+			(file)=&gt;{
+						if (file.isFile() &amp;&amp; file.extension("*.rtf"))
+							richTextBox.set_Rtf(file.fileContents());
+					});
+richTextBox.add_ContextMenu()
+		   .add_MenuItem("Save", 
+		  	 ()=&gt;{
+					var fileToSave = O2Forms.askUserForFileToSave(Environment.CurrentDirectory,"*.rtf");
+					richTextBox.SaveFile(fileToSave); 
+				 });
+
+return richTextBox;</SourceCode>
+  <ReferencedAssemblies />
+</H2>

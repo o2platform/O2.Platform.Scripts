@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//panel.clear();
+//var topPanel = panel.clear().add_Panel();
+var topPanel = O2Gui.open&lt;Panel&gt;("Attendees Funding Mappings",1000,500);
+
+var summitApi = new API_OWASP_Summit_2011();
+var useCache = true;
+
+var actionPanel = topPanel.insert_Above&lt;GroupBox&gt;(50)
+						  .set_Text("Actions (Select type of Attendee to see)")
+						  .add_Panel() ;
+var tablePanel = topPanel.add_TableList();//.show(attendees);
+
+Action&lt;string, List&lt;string&gt;&gt; showAttendees = 
+	(title, pages)=&gt;{
+					var attendees = summitApi.getAttendees(pages);
+					tablePanel.clearTable();
+					tablePanel.title(title);
+					tablePanel.show(attendees);
+				 };
+
+actionPanel.add_Link("Confirmed, Need Funding",5,0,
+				()=&gt; showAttendees("Confirmed, Need Funding", summitApi.attendees_SeekingFunds(useCache)))
+		   .append_Link("Confirmed", 
+				()=&gt; showAttendees("Confirmed", summitApi.attendees_Confirmed(useCache)))
+		   .append_Link("UnConfirmed",  
+				()=&gt; showAttendees("UnConfirmed",summitApi.attendees_UnConfirmed(useCache)))
+		   .append_Link("All Attendees", 
+				()=&gt; showAttendees("All Attendees", summitApi.attendees(useCache)));
+
+
+actionPanel.controls&lt;LinkLabel&gt;().click();  
+
+return "ok";
+//return summitApi.getAttendeesMappings();
+
+//var attendeesPages = summitApi.attendees_SeekingFunds(true); 
+
+//return summitApi.attendees_Confirmed(true).size(); 
+//return summitApi.attendees_UnConfirmed(true).size(); 
+//var attendeesPages = summitApi.attendees(true);//.size();   
+
+
+//Summit_2011_Attendee 
+ 
+//var testPage = attendeesPages[1];  
+ 
+//var attendees = summitApi.getAttendees(attendeesPages);   
+
+
+//return attendees;
+/*var wikiApi = new OwaspWikiAPI(false);   
+		
+var templateData = new WikiText_Template();  
+		  
+templateData.parse(wikiApi,testPage); 
+//return templateData.ParseTree.Root.ChildNodes;    
+return templateData.Variables; 
+
+/* 
+foreach(var testPage in attendeesPages)
+{
+	if (testPage.contains("Summit_2011_Attendee"))
+	{
+		var page = testPage.split("|")[0].trim();
+		//return testPage;
+		
+		var wikiApi = new OwaspWikiAPI(false); 
+		 
+		var templateData = new WikiText_Template();
+		
+		templateData.parse(wikiApi,page);
+		if (templateData.Status.str() == "Parsed")
+			"file {0} Status {1}".info(page,  templateData.Status); 
+		else
+			"file {0} Status {1}".error(page,  templateData.Status);
+	}
+}*/
+//using Irony.Parsing; 
+//O2File:API_OWASP_Summit_2011.cs  
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - run RegExes on Test Strings",500,550);
+//var topPanel = panel.clear().add_Panel();
+
+Regex reg = new Regex(@"^[a-zA-Z]{1,40}$");
+ 
+var regExText = @"^[a-zA-Z0-9]{1,20}$";
+var tableList = topPanel.add_TableList()
+						.add_Columns("test", "result");
+
+var tests = new List&lt;string&gt; 
+	{
+		"a", "ab", "aBc", "abcd","asABCsdasddsfadsZ",
+		"1", "12", "123456", "1234556777457345643563456",
+		"asdas123", "dsafas324","aa-bb", "aa_bb","aa\\bb","aa/bb",
+		"aa'bb", "aa\"bb", "asfd23$%", "sdf#%#$^$%^&amp;^&amp;*",		
+		"..bb", "../aa","..\\bb", "aa&lt;bb","aa&gt;cc","aa:cc"
+ 	};
+
+Action runTest = 
+	()=&gt;{ 	
+			tableList.clearRows();
+			foreach(var test in tests)
+			{
+				var result = test.regEx(regExText);
+				tableList.add_Row(test, result.str())
+						.lastRow()
+						.textColor( result  
+									  ? Color.DarkGreen
+									  : Color.DarkRed);
+			}
+		};
+
+topPanel.insert_Above(60,"actions")
+		.add_Label("Current regEx:").autoSize().top(2)
+		.append_TextBox(regExText).width(200).left(110)
+								  .onTextChange((value)=&gt;regExText = value)
+								  .onEnter((text)=&gt;runTest())
+		.append_Link("Run Regex on test strings", ()=&gt; runTest()).top(2)
+		.append_Label("Add to test strings:").autoSize().top(24).left(0)
+		.append_TextBox("").width(200).left(110)
+						   .onEnter(
+						   	(text)=&gt; {
+						   				tests.add(text);
+						   				runTest();
+						   			 });
+
+tableList.columns_Width(400,100);									
+runTest();
+return "done";
+
+//return "asdsa&lt;adsfasD".regEx("^[a-z]");
+
+//using System.Text.RegularExpressions</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -1,0 +1,273 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("AspNet_Page_Viewer",1400,700);  
+
+//var topPanel = panel.clear().add_Panel();
+ 
+topPanel.insert_Below(150).add_LogViewer();
+var webSiteUrl = "";
+var internetView = topPanel.insert_Right().add_GroupBox("Internet Explorer View");
+var addressBar = internetView.parent().insert_Above(20).add_TextBox("Current page:","");
+var ie = internetView.add_IE();
+var htmlCode = internetView.parent().insert_Below(200).add_GroupBox("Html Code").add_SourceCodeEditor(); 
+ie.onNavigate(
+	(url)=&gt; {
+				addressBar.set_Text(url);				
+				htmlCode.set_Text(ie.html(), "a.html");
+			});
+
+addressBar.onEnter((text)=&gt; ie.open_ASync(text));
+//O2Ref:Interop.SHDocVw.dll
+
+
+
+var aspNetPages = new Dictionary&lt;string, AspNet_Page&gt;();
+
+var actionsPanel = topPanel.insert_Above&lt;Panel&gt;(40).add_GroupBox("Actions").add_Panel() ;
+var aspNet_codeViewer = topPanel.add_GroupBox("Selected ASP.NET file").add_SourceCodeEditor(); 
+ 
+var ascxCodeStreams = aspNet_codeViewer.parent().insert_Below().add_GroupBox("Method and Code Streams").add_Control&lt;ascx_CodeStreams&gt;();
+var availableStreams = ascxCodeStreams.insert_Left&lt;Panel&gt;(100).add_TreeView();
+var files = topPanel.insert_Left&lt;Panel&gt;().add_GroupBox("ASP.NET Files").add_TreeView();
+var aspNetPage_properties = files.parent().insert_Below&lt;Panel&gt;().add_GroupBox("Selected file properties").add_PropertyGrid();  
+files.splitterDistance(300); 
+var codeBlocks =  topPanel.insert_Above&lt;Panel&gt;(100).add_GroupBox("Selected page ASP.NET components").add_TreeView(); 
+var codeBlock_properties = codeBlocks.insert_Right&lt;Panel&gt;(400).add_GroupBox("Selected Block Properties").add_PropertyGrid(); 
+
+var otherFilesTab = aspNet_codeViewer.insert_Right&lt;Panel&gt;(aspNet_codeViewer.width()/2).add_GroupBox("Selected ASP.NET file dependencies").add_TabControl();
+
+ascx_SourceCodeEditor csharp_codeViewer = null;
+
+var currentPath = "";
+availableStreams.afterSelect&lt;Saved_MethodStream&gt;((savedMethodStream)=&gt; ascxCodeStreams.loadMethodStream(savedMethodStream));						
+
+Action&lt;string, int, int&gt; handleCaretMove =
+	(file, line, column) =&gt; {								
+								if (availableStreams.get_Tag().str() != file)
+								{
+									"Finding codestreams".info();
+									availableStreams.Tag = file;  
+									availableStreams.clear();
+									if (ascxCodeStreams.AllSavedMethodStreams_MappedByFileName.hasKey(file))																	
+										foreach(var methodStreamInFile in ascxCodeStreams.AllSavedMethodStreams_MappedByFileName[file])									
+										{
+											if (line+1 &gt;= methodStreamInFile.RootMethod.Location.Line &amp;&amp; line+1 &lt;= methodStreamInFile.RootMethod.Location.Line_End) 										    
+												ascxCodeStreams.loadMethodStream(methodStreamInFile);						
+											availableStreams.add_Node(methodStreamInFile.RootMethod.Name, methodStreamInFile);						
+										}
+								}
+							};
+
+Action&lt;AspNet_Page&gt; viewFile = 
+	(aspNetPage)=&gt;{				
+						var virtualPath = aspNetPage.Virtual_Path;//ConfigItems[0].Value.info();
+						if (currentPath == virtualPath)
+							return;						
+						
+						ie.open_ASync(webSiteUrl + virtualPath);	
+						otherFilesTab.visible(false);
+						currentPath= virtualPath;
+						otherFilesTab.clear();
+						var csharpFile = virtualPath + ".cs";		
+						
+						csharp_codeViewer = otherFilesTab.add_Tab(csharpFile).add_SourceCodeEditor();    
+							
+						var sourceCodeFolder = aspNetPage.File_Path;  
+						
+						var fileContents = sourceCodeFolder.pathCombine(virtualPath).fileContents();
+						if (fileContents != aspNet_codeViewer.get_Text())
+							//aspNet_codeViewer.set_Text(fileContents, "a.aspx");
+							aspNet_codeViewer.open(sourceCodeFolder.pathCombine(virtualPath))
+											 .setDocumentHighlightingStrategy("a.aspx");
+											 
+						var csharp_codeViewer_File = sourceCodeFolder.pathCombine(csharpFile);						
+						if (csharp_codeViewer_File.fileExists())
+						{
+							csharp_codeViewer.open(csharp_codeViewer_File)
+											 .onCaretMove((caret)=&gt; handleCaretMove(csharp_codeViewer_File, caret.Line, caret.Column));
+						}
+												
+						foreach(var sourceDependency in aspNetPage.SourceDependencies)					
+							if (sourceDependency != aspNetPage.Virtual_Path)
+							{
+								// add file
+								var sourceDependency_File = sourceCodeFolder.pathCombine(sourceDependency);
+								otherFilesTab.add_Tab(sourceDependency)
+											 .add_SourceCodeEditor()											 
+											 //.set_Text(sourceCodeFolder.pathCombine(sourceDependency).fileContents(), "a.aspx")
+											 .onCaretMove((caret)=&gt; handleCaretMove(sourceDependency_File, caret.Line, caret.Column))
+											 .open(sourceCodeFolder.pathCombine(sourceDependency)).setDocumentHighlightingStrategy("a.aspx");
+								// add codebehind			 
+								var sourceDependency_CSharpFile = sourceCodeFolder.pathCombine(sourceDependency + ".cs");
+								if (sourceDependency_CSharpFile.fileExists())
+									otherFilesTab.add_Tab(sourceDependency + ".cs")
+											 	.add_SourceCodeEditor()
+											 	.open(sourceDependency_CSharpFile) 
+											 	.onCaretMove((caret)=&gt; handleCaretMove(sourceDependency_CSharpFile, caret.Line, caret.Column));
+							}
+								
+						otherFilesTab.visible(true);	
+						handleCaretMove(csharp_codeViewer_File,0,0);
+						availableStreams.selectFirst();
+						
+					};
+
+
+Action&lt;AspNet_Page&gt; load_AspNet_Page = 
+	(aspNetPage) =&gt; {										
+						aspNetPage_properties.show(aspNetPage);
+						//aspNet_codeViewer.set_Text(aspNetPage.AspNet_SourceCode,"a.aspx");
+						viewFile(aspNetPage);
+						codeBlocks.clear();
+						foreach(var codeBlock in aspNetPage.allCodeBlocks()) 
+							if (codeBlock.BlockType != "System.String")
+								codeBlocks.add_Node(codeBlock);
+						codeBlocks.selectFirst(); 	
+						files.focus();
+					};
+					
+files.afterSelect&lt;AspNet_Page&gt;(load_AspNet_Page);
+	
+
+files.onDoubleClick&lt;AspNet_Page&gt;(load_AspNet_Page);
+ 
+codeBlocks.afterSelect&lt;CodeBlock&gt;(
+	(codeBlock)=&gt;{
+					codeBlock_properties.show(codeBlock);
+					if (codeBlock.Line &gt;0)
+						aspNet_codeViewer.gotoLine(codeBlock.Line); 
+					codeBlocks.focus();
+				 });
+
+Action viewAllCodeBlocks =
+	()=&gt;{			
+			var allCodeBlocks = new List&lt;CodeBlock&gt;();
+			foreach(var node in files.nodes())
+			{
+				var aspNetPage = (AspNet_Page)node.tag&lt;AspNet_Page&gt;();
+				foreach(var codeBlock in aspNetPage.allCodeBlocks())
+					if(codeBlock.BlockType != "System.String")
+						allCodeBlocks.add(codeBlock);				 
+			}
+			
+			allCodeBlocks.show_In_ListView()
+						 .afterSelect(
+						 	(selectedItems)=&gt;{ 
+			 									if (selectedItems.size()==1)
+			 									{
+			 										var listViewItem = selectedItems[0].values();
+			 										var virtualPath = listViewItem[0];
+			 										if (aspNetPages.hasKey(virtualPath))
+			 										{
+			 											var aspNetPage = aspNetPages[virtualPath];			 											
+			 											viewFile(aspNetPage);
+			 											
+	 													var line = listViewItem[5].toInt();
+	 													if (line &gt;0)
+															aspNet_codeViewer.gotoLine(line);  			 														 														 											
+			 										}
+			 									} 
+						 					  });
+		};
+
+Action&lt;string&gt; loadFilesFromFolder = 
+	(folder) =&gt; {
+					O2Thread.mtaThread(
+						()=&gt;{					
+								foreach(var file in folder.files())
+								{						
+									"processing file:{0}".info(file);
+									var aspNetPage = file.load&lt;AspNet_Page&gt;();						
+									aspNetPages.add(aspNetPage.Virtual_Path, aspNetPage);																			
+								}					
+								files.add_Nodes(aspNetPages.Values, (aspNetPage)=&gt; aspNetPage.Virtual_Path);  
+							});
+				};
+ 
+Action&lt;string&gt; loadMethodStreams = 
+	(methodStreamsDir)=&gt;{	
+							if (ascxCodeStreams.AllSavedMethodStreams.isNull())
+							{
+								ascxCodeStreams.load_SavedMethodStreams(methodStreamsDir.files());
+								O2.Kernel.O2LiveObjects.set("AllSavedMethodStreams", ascxCodeStreams.AllSavedMethodStreams);	
+							}
+
+						};	
+							
+Action&lt;string,string, string&gt; loadData = 
+	(filesFolder, methodsStreamsFolder, _websiteUrl)=&gt;{
+			//loadFilesFromFolder("what is the folder with the Methods Streams".askUser());
+			//loadMethodStreams("what is the folder with the Methods Streams".askUser());			
+			loadFilesFromFolder(filesFolder);
+			loadMethodStreams(methodsStreamsFolder);
+			webSiteUrl = _websiteUrl;			
+			files.selectFirst();
+		};
+
+actionsPanel.add_Link("view all codeblocks",0,0, ()=&gt; viewAllCodeBlocks())
+			.append_Link("show compiled source code", 
+				()=&gt;{
+						var aspNetPage = (AspNet_Page)files.selected().get_Tag();
+						aspNetPage.AspNet_Compiled_SourceCode[0].showInCodeEditor(); 
+					})
+			.append_Link("Compile project", 
+				()=&gt;{
+						var msBuild = @"C:\Windows\Microsoft.NET\Framework\v3.5\MSBuild.exe"; 
+						var parameters = @"c:\o2\demos\webclient\WebClient.sln";
+						msBuild.startProcess(parameters,(log)=&gt; log.info()); 
+					})
+			.append_Link("refresh IE", ()=&gt;ie.open_ASync(ie.url()));
+
+
+files.onDrop(
+	(folder)=&gt;{
+					loadFilesFromFolder(folder);
+					//loadMethodStreams(folder);
+			  });
+
+
+//TM Specific stuff
+//var tmFolderWithMethodStreams = @"C:\_WorkDir\SI\O2 Data\WebSite_Library_MethodStreams_ALL_3";
+//loadMethodStreams(tmFolderWithMethodStreams);
+
+return loadData;
+/*
+ascxCodeStreams.AllSavedMethodStreams_MappedByFileName = new Dictionary&lt;string,List&lt;Saved_MethodStream&gt;&gt;();
+
+foreach(var savedMethodStream in ascxCodeStreams.AllSavedMethodStreams)
+{
+	var remappedFile  = savedMethodStream.RootMethod
+										 .Location
+										 .File
+										 .replace(@"C:\_WorkDir\SI\GitHub\TeamMentor\WebProjects\WebClient", @"C:\O2\Demos\WebClient");
+	
+	ascxCodeStreams.AllSavedMethodStreams_MappedByFileName.add(remappedFile, savedMethodStream);	
+}*/	
+
+//return ascxCodeStreams.AllSavedMethodStreams_MappedByFileName.keys();
+
+//webSiteUrl = "http://127.0.0.1.:8181";
+//var sourceFolder = @"C:\O2\Demos\HacmeBank\_AspNet_Page_HacmeBank_v2.0 (7 Dec 08)\HacmeBank_v2_Website\bin\_Saved_AspNetPage_Objects";
+//var sourceFolder = @"C:\O2\Demos\WebClient\bin\_Saved_AspNetPage_Objects";
+
+//loadFilesFromFolder(sourceFolder);
+//files.selectFirst();
+
+
+
+
+return "ok";
+
+	
+
+//viewAllCodeBlocks();
+
+//O2File:AspNet_Page.cs
+//O2File:ascx_CodeStreams.cs
+//using O2.XRules.Database.Languages_and_Frameworks.DotNet
+//O2Ref:O2_API_AST.dll
+//O2File:WatiN_IE_ExtensionMethods.cs
+//using O2.XRules.Database.Utils.O2
+//O2Ref:WatiN.Core.1x.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

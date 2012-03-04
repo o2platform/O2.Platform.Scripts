@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = O2Gui.open&lt;Panel&gt;("{name}",700,400);
+var topPanel = panel.clear().add_Panel();
+var tempDirRoot = PublicDI.config.O2TempDir.parentFolder();
+var targetFolders = new List&lt;string&gt;();
+foreach(var folder in tempDirRoot.folders()) 
+	if(folder.folderName().isDate()) 
+		targetFolders.add(folder);  
+
+"There are {0} targetFolders".info(targetFolders.size());
+
+var targetFiles = new List&lt;string&gt;();
+foreach(var folder in targetFolders)
+	targetFiles.add(folder.files(true)); 
+	
+"There are {0} targetFiles".info(targetFiles.size());
+
+var autoSavedScripts = new List&lt;string&gt;();
+foreach(var file in targetFiles)
+	if (file.contains("_AutoSavedScripts"))
+		autoSavedScripts.add(file);
+		
+var backupFolder = @"C:\O2\_tempDir_AutoSavedScripts".pathCombine("{0} files".format(autoSavedScripts.size()))
+													 .createDir();
+//saving files													 
+"Copying Files to: {0}".info(backupFolder); 
+var filesCopied  = 0;
+foreach(var file in autoSavedScripts)
+{
+	Files.MoveFile(file, backupFolder);
+	targetFiles.remove(file);
+	if (filesCopied++.mod0(100))
+		"[{0}/{1}] files copied".info(filesCopied, autoSavedScripts.size());
+}
+
+//delete temp folders
+foreach(var folder in targetFolders)
+	Files.deleteFolder(folder,true);
+return backupFolder; 
+//show files in treeView
+var filesByExtension =  targetFiles.files_Mapped_by_Extension();  
+topPanel.add_TreeView().add_Nodes(filesByExtension);
+ 
+ return "ok";
+ 
+//var treeView = topPanel.add_TreeView() ;  
+//treeView.add_Nodes(filesByExtension);
+return "ok";
+//var dictionary = filesByExtension; 
+/*foreach(var item in dictionary)
+{
+	treeView.add_Node(item.Key).add_Nodes(item.Value);
+	//return item.Value;
+}*/
+//						
+//		.add_Node("a");
+		 
+return targetFolders;	
+//return tempDir.fileName().isDate(); 
+
+//O2File:_Extra_methods_Files.cs
+//O2File:_Extra_methods_WinForms_TreeView.cs</SourceCode>
+  <ReferencedAssemblies />
+</H2>

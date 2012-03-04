@@ -1,0 +1,130 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>
+
+//var topPanel = panel.clear().add_Panel();  
+var topPanel = O2Gui.open&lt;Panel&gt;("Util - Javascrit Object viewer", 1100, 500);
+topPanel.insert_Below&lt;Panel&gt;(100).add_LogViewer();
+var ie = topPanel.add_IE().silent(false);
+var scriptText = topPanel.insert_Left&lt;GroupBox&gt;(350).set_Text("Script to execute").add_TextArea().allowTabs();   
+//scriptText.splitContainer().splitterDistance(300); 
+var domTree = scriptText.insert_Below&lt;GroupBox&gt;().set_Text("Current page DOM tree").add_TreeView().sort();
+var domObjectDetails = domTree.insert_Below&lt;Panel&gt;(100).add_SourceCodeViewer();//add_TextArea();  
+var actionsPanel = scriptText.insert_Above&lt;Panel&gt;(40);
+Action&lt;string&gt; autoSaveScript =
+	(script)=&gt;{
+			var AutoSaveDir = "_AutoSavedScripts".tempDir(false).createDir(); 
+			var targetFile = AutoSaveDir.pathCombine(Files.getFileSaveDateTime_Now().trim() + ".js");
+			"auto saving script to: {0}".info(targetFile);
+			script.saveAs(targetFile);
+		};
+MethodInvoker executeScript = 
+	()=&gt;{ 
+			var script = scriptText.get_Text();
+			autoSaveScript(script);
+			ie.eval(script);
+		};
+var executeLink = actionsPanel.add_Link("execute",2,0 , executeScript);
+scriptText.add_ContextMenu().add_MenuItem("execute", executeScript);
+var runScriptOnPageLoad = false;
+actionsPanel.add_CheckBox("run script on page load",23,0, (value)=&gt;{ runScriptOnPageLoad = value;}).autoSize()
+		    .append_Link("inject javascript", ()=&gt; ie.injectJavascriptFunctions()); 
+
+ie.onNavigate(
+	(url)=&gt; {
+				"Loaded url: {0}".info(url);
+				if (runScriptOnPageLoad)
+				{
+					ie.injectJavascriptFunctions();
+					executeScript();
+				}
+				//	O2Thread.mtaThread( ()=&gt; executeScript());
+			});
+
+
+Action&lt;TreeNode, string&gt; addObjectItems = 
+	(treeNode, targetObject)=&gt;{
+									foreach(var item in ie.javascript_ObjectItems(targetObject))
+										if (item.valid())
+											treeNode.add_Node(item,"{0}.{1}".format(targetObject,item),true); 
+										
+							  };
+							  
+domTree.beforeExpand&lt;string&gt;  
+	((domObject) =&gt; {						
+						var selectedNode = domTree.selected();						
+						selectedNode.clear();
+						//var domObject = (string)selectedNode.get_Tag(); 
+						"domObject: {0}".info(domObject);
+						//var selectedNode = domTree.selected();		 										
+						addObjectItems(selectedNode, domObject);
+						//"domObject: {0}".info(domObject); 
+						//"selected node: {0}".debug();
+					}); 
+domTree.afterSelect&lt;string&gt;(
+	(domObject)=&gt;{
+					var objectType = ie.invokeEval("return typeof {0};".format(domObject));
+					var objectSourceCode = (string)ie.invokeEval("return {0}.toString();".format(domObject));
+					if (objectSourceCode.valid())
+						objectSourceCode = objectSourceCode.replace(";",";".line())
+														   .replace("{","{".lineBeforeAndAfter())
+														   .replace("}","}".lineBeforeAndAfter())
+														   ;
+					var objectDetails = ("Name: {0}".line() + 
+										 "Type: {1}".line() +
+										 "SourceCode:".line() +
+										 "{2}").format(domObject,objectType,objectSourceCode);
+					domObjectDetails.set_Text(objectDetails);			 
+										 
+				 });
+domTree.onDrop(
+	(fileDropped)=&gt; {
+						"processing dropped file: {0}".info(fileDropped);
+						var data = fileDropped.load&lt;List&lt;String&gt;&gt;();
+						if (data.notNull())
+						{
+							domTree.clear();
+							foreach(var item in data)
+								domTree.add_Node(item,item ,true );
+						}
+					});
+var domObjectText = executeLink.append_TextBox("this");					
+var refreshDom = domObjectText.append_Link("refreh DOM", 
+					()=&gt;{ 
+							domTree.clear(); 
+							var rootObject = domObjectText.get_Text();
+							var rootNode = domTree.add_Node(rootObject,rootObject,true); 
+							addObjectItems(rootNode, rootObject); 
+							rootNode.expand();
+						} ).top(3);
+
+Action&lt;string&gt; openUrl = 
+	(url)=&gt; {
+				O2Thread.mtaThread(
+					()=&gt;{
+							ie.open(url);   
+							ie.injectJavascriptFunctions();
+							refreshDom.click();
+							domTree.selectFirst();
+						});
+			};
+
+
+			
+var urlText = topPanel.insert_Above&lt;Panel&gt;(20)
+					  .add_LabelAndTextAndButton("Url to Open:","","open",(url)=&gt; openUrl(url))
+					  .control&lt;TextBox&gt;();
+var openButton = urlText.parent().control&lt;Button&gt;(); 
+//demo data			
+scriptText.set_Text("o2Log(\"test\");");
+urlText.set_Text("http://www.directwebremoting.org/dwr-demo/simple/text.html");
+openButton.click();
+return "ok";
+
+//O2File:WatiN_IE_ExtensionMethods.cs
+//using O2.XRules.Database.Utils.O2
+//O2Ref:WatiN.Core.1x.dll
+//O2Ref:Interop.SHDocVw.dll
+//O2Ref:Microsoft.mshtml.dll </SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = "Altoro XSS Fuzz PoC with Screenshots".popupWindow(1000,600);
+
+//var topPanel = panel.clear().add_Panel();
+
+var targetAddress = topPanel.insert_Above(20).add_TextBox("Target","").enabled(false);
+var ie = topPanel.add_GroupBox("LiveExecution").add_IE().silent(true);
+var treeView = topPanel.insert_Left(200,"Payloads Executed").add_TreeView(); 
+var pictureBox = topPanel.insert_Below(100, "Recorded Screenshots of Payloads sent").add_PictureBox(); 
+
+
+treeView.afterSelect&lt;Bitmap&gt;(
+	(bitmap)=&gt;{
+					pictureBox.load(bitmap);
+			  });
+			  
+
+Action&lt;string&gt; search = 
+	(text)=&gt;{
+				ie.open(targetAddress.get_Text());
+				ie.field("txtSearch").value(text);
+				ie.button("Go").click(); 
+			};
+			
+
+
+var alerts = ie.getAlertsHandler();
+Action startFuzz = 
+	()=&gt;{
+			treeView.clear();
+			var fuzzDb = new API_FuzzDB();
+			var previousCount = 0;
+			foreach(var payload in  fuzzDb.payloads_Xss())
+			{ 	
+				search(payload); 
+				var picture = topPanel.screenshot();	
+				treeView.add_Node(payload, picture)
+						.color( (previousCount!= alerts.Count) ? Color.DarkRed : Color.DarkGreen);
+				previousCount = alerts.Count;		 
+			//	if ( alerts.Count &gt; maxFind) 
+//					break;  	
+			}
+		};
+ 
+topPanel.insert_Above(20).add_Button("Start Fuzz").onClick(()=&gt;startFuzz()).fill().font_bold();   
+
+targetAddress.set_Text("http://demo.testfire.net/");		
+
+return alerts;
+ 
+//search("asd&lt;h1&gt;asdas&lt;/h1&gt;");
+return "ok";
+//O2File:WatiN_IE_ExtensionMethods.cs
+//using O2.XRules.Database.Utils.O2
+//O2Ref:WatiN.Core.1x.dll
+//O2File:API_FuzzDB.cs
+//O2File:API_Cropper.cs</SourceCode>
+  <ReferencedAssemblies />
+</H2>

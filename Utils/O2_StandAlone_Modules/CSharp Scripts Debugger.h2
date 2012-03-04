@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>Processes.startProcess("_CSharpScripts (O2 Tool).exe");
+
+return "done";
+
+//return "_CSharpScripts (O2 Tool).exe".assembly().type("StartCSharpScriptGui").invokeStatic("Main");
+/*var o2AppDomain = new O2.Kernel.Objects.O2AppDomainFactory(10.randomLetters());
+o2AppDomain.load("O2_Kernel.dll");
+var o2Proxy = (O2Proxy)o2AppDomain.getProxyObject("O2Proxy");
+
+o2Proxy.staticInvocation("_CSharpScripts (O2 Tool).exe", "StartCSharpScriptGui","Main" , new object[] {}); 	*/
+
+//"_FindingsViewer (O2 Tool).exe".type("Program").invokeStatic("Main");			
+
+//using O2.Kernel.Objects
+//using O2.Tool.CSharpScripts
+//O2Ref:_CSharpScripts (O2 Tool).exe
+//O2Ref:O2_Debugger_Mdbg.exe
+//O2Ref:O2_ImportExport_Misc.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

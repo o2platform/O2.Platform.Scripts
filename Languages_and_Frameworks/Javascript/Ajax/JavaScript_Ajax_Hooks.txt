@@ -1,0 +1,56 @@
+/*Script to hook on AJAX request and response
+ and send it back to CSharp land
+*/
+
+function o2Hooks()
+{
+	return "installed";
+}
+
+function applyHooks()
+{
+     try
+     {
+	var ajaxExecutionCount = 0;	
+	var open_data = "";
+	var send_data = "";	
+
+	 o2Log("####### Applying Hooks");
+	
+	if (typeof(ajax_send) == "undefined")
+	{
+		o2Log("*** First time here, storing original");
+		var ajax_send= XMLHttpRequest.prototype.send;
+	    var ajax_open= XMLHttpRequest.prototype.open;
+		//var dwr_eval = dwr.engine._eval;	
+	}
+	 
+	XMLHttpRequest.prototype.send = function() 
+	{	
+		ajaxExecutionCount++
+		o2Log("ajax_send:["+ ajaxExecutionCount +"]:" + [].slice.call(arguments));
+		send_data = [].slice.call(arguments);
+		ajax_send.apply(this,arguments);
+	}
+	
+	XMLHttpRequest.prototype.open = function() 
+	{	
+		//o2Log("XMLHttpRequest OPEN:" + [].slice.call(arguments) + "\n");
+		open_data =  [].slice.call(arguments); 
+
+		window.external.ajaxLog(ajaxExecutionCount , open_data, send_data,"");
+
+
+		ajax_open.apply(this,arguments);
+
+	}
+      }
+      catch(ex)	
+      {
+  	o2Log("ERROR: " + ex.message);
+      }	
+}
+
+applyHooks();
+
+o2Log("done");		

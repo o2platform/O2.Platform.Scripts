@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>return "select * from Win32_Process".wmi().show(); 
+
+  
+/*"SELECT Name, CommandLine,Caption, Description, ExecutablePath FROM Win32_Process"
+	.wmi()
+	.show_in_DataGridView(panel);
+return "ok";       
+*/
+	
+
+//O2File:API_WMI.cs  
+//O2Ref:System.Management.dll 
+ </SourceCode>
+  <ReferencedAssemblies />
+</H2>

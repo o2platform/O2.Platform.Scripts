@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.clear().add_Panel();;
+var topPanel = O2Gui.open&lt;Panel&gt;("Irony Parser - develop Gramar", 1024,600);
+
+topPanel.insert_Below&lt;Panel&gt;(150).add_LogViewer();
+var controls = topPanel.add_1x1("Grammar","Script");
+var controlsBelow = topPanel.insert_Below&lt;Panel&gt;().add_1x1("WikiText","TreeView with parsed Grammar");
+var actionPanel = topPanel.insert_Above&lt;GroupBox&gt;(50).set_Text("Actions").add_Panel();  
+var wikiText = controlsBelow[0].add_TextArea();
+var treeView = controlsBelow[1].add_TreeView();
+var grammarCode = controls[0].add_SourceCodeEditor();
+var scriptEditor = controls[1].add_Script(false );
+scriptEditor.InvocationParameters.add("wikiText",wikiText);
+scriptEditor.InvocationParameters.add("treeView",treeView);
+scriptEditor.onCompileExecuteOnce();
+
+wikiText.onTextChange((text)=&gt; scriptEditor.execute());
+
+actionPanel.add_Link("Compile and execute script",0,0,
+				()=&gt;{
+						actionPanel.enabled(false);
+						treeView.enabled(false);
+						if (grammarCode.compileCSSharpFile().notNull())
+						{
+							scriptEditor.onCompileExecuteOnce();
+							scriptEditor.compile();
+						}
+						actionPanel.enabled(true);
+						treeView.enabled(true);
+					});
+
+//sample data
+
+grammarCode.open("wikiText.cs".local())
+		   .gotoLine(125); 
+
+
+
+wikiText.set_Text("{{Template}}");
+
+var scriptCode = "\"Executing script\".info();".line()  +  
+				 "//var TextParsed = wikiApi.raw(@\"/Summit_2011_Attendee/Attendee085\",true);  ".line() +  
+				 "var TextParsed = wikiText.get_Text();".line() + 
+				 "var wikiApi = new OwaspWikiAPI(false);".line() + 
+			 	 "var grammar = new WikiText_Template_Grammar();".line() +
+				 "var Parser = new Parser(grammar);".line() +     
+				 "var ParseTree = Parser.Parse(TextParsed);".line() +    
+				 "treeView.showInTreeView(ParseTree);".line() + 
+				 "return TextParsed ;".line() + 
+				 "".line() +
+				 "//using Irony.Parsing;".line() +
+				 "//O2File:OwaspWikiAPI.cs".line() +
+				 "//O2File:wikiText.cs".line() +
+				 "".line() +
+				 "//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll ";
+	
+scriptEditor.set_Command(scriptCode);	
+	
+//O2File:Scripts_ExtensionMethods.cs 	</SourceCode>
+  <ReferencedAssemblies />
+</H2>

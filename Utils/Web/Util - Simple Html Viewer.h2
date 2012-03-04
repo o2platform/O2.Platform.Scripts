@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var panel = O2Gui.open&lt;Panel&gt;("Simple Html Viewer",500,300);
+var controls = panel.add_1x1();
+var browser = controls[1].add_Browser();
+var htmlText = controls[0].add_TextArea();
+htmlText.AcceptsTab = true;
+var currentDirectory = Environment.CurrentDirectory;
+htmlText.add_ContextMenu()
+		.add_MenuItem("render html", true,
+	   		()=&gt;{
+	   				browser.set_Text(htmlText.get_Text());
+	   			})
+	   	.add_MenuItem("save",
+	   		()=&gt;{
+	   				var target = O2Forms.askUserForFileToSave(currentDirectory);
+	   				if (target.valid())
+	   				{
+	   					"saving contents to: {0}".info(target);
+	   					htmlText.get_Text().save(target);
+	   				}
+	   			});
+htmlText.onDrop(
+	(file)=&gt;{
+				if(file.isFile())
+				{
+					htmlText.set_Text(file.fileContents());
+					currentDirectory = file.directoryName();
+					
+				}
+			});
+//using O2.External.IE.ExtensionMethods
+//O2Ref:O2_External_IE.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

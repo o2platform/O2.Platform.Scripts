@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Tool - Twitter Account Creation",800,500); 
+var designerCanvas = topPanel.add_DesignerCanvas();      
+
+designerCanvas.add_Label("Twitter Account Creation",00,00).fontSize(30);
+var step1_Label = designerCanvas.add_Label("step 1) enter the email template",69,30);    
+var step1_TextBox = designerCanvas.add_TextBox("",70,250,150,20).designMode(false);  
+var step2_Label = designerCanvas.add_Label("step 2) enter the password",99,30);    
+var step2_TextBox = designerCanvas.add_TextBox("",100,250,150,20).designMode(false);  
+var step3_Label = designerCanvas.add_Label("step 3) confirm values",69,450);      
+var dataGridView = designerCanvas.add_WinForms_Control&lt;Panel&gt;(69,580,200,113).add_DataGridView().allowNewRows(false);								
+var step4_Label = designerCanvas.add_Label("step 4) create account",159,450);
+var step4_Button = designerCanvas.add_Button("GO",160,250,150,20).designMode(false);       
+var step5_Label = designerCanvas.add_Label("step 5) Account Creation (say yes on all popups)",190,30);     
+var step5_IE = designerCanvas.add_WinForms_Control&lt;Panel&gt;(230,25,760,200).add_IE();    
+
+designerCanvas.connect(step1_Label, step1_TextBox);
+designerCanvas.connect(step2_Label, step2_TextBox);
+designerCanvas.connect(step2_TextBox, step3_Label);
+designerCanvas.add_Connection(step3_Label.designerItem(), dataGridView.parent().designerItem(),"Bottom", "Left");    
+designerCanvas.connect(step4_Label, step4_Button,"Left","Right");  
+designerCanvas.connect(step4_Button, step5_Label,"Left","Top");   
+
+
+ 
+var twitterId = "";
+var userName = "";
+var userEmail = "";
+var password = "";
+Action updateValues = 
+	()=&gt;{
+			var random5Letters = 5.randomLetters();
+			var emailFormat = step1_TextBox.get_Text_Wpf();
+			password = step2_TextBox.get_Text_Wpf();			
+			twitterId = "Test_" + random5Letters;
+			userName = "Test " + random5Letters; 
+			userEmail = emailFormat.format(twitterId);
+		};
+		
+Action updateDataGridValues =  
+	()=&gt;{
+			updateValues();
+			dataGridView.remove_Columns();
+			dataGridView.add_Columns("item", "value");									
+			dataGridView.columnWidth(0, 65); 
+			dataGridView.add_Row("Twitter ID",twitterId);
+			dataGridView.add_Row("User Name",userName);
+			dataGridView.add_Row("User Email",userEmail);
+			dataGridView.add_Row("Password",password);			
+		};
+
+step1_TextBox.onKeyPress_Wpf((key)=&gt;updateDataGridValues());
+step2_TextBox.onKeyPress_Wpf((key)=&gt;updateDataGridValues());
+
+step4_Button.onClick_Wpf(
+	()=&gt;{					
+			var ie = step5_IE;
+			// ensure that there isn't an logged in session
+			ie.open("http://www.twitter.com");
+			if (ie.hasLink("Sign out"))
+				ie.link("Sign out").click();
+			//open account creation page and populate the fields	
+			ie.open("http://api.twitter.com/signup");   
+			ie.textField("user[name]").scrollIntoView().flash().value(userName).flash(); 			
+			ie.textField("user[screen_name]").scrollIntoView().flash().value(twitterId).flash(); 
+			ie.textField("user[user_password]").scrollIntoView().flash().value(password).flash(); 
+			ie.textField("user[email]").scrollIntoView().flash().value(userEmail).flash();
+			ie.checkBoxes()[0].scrollIntoView().flash().uncheck().flash();
+			ie.checkBoxes()[1].scrollIntoView().flash().uncheck().flash();
+			ie.buttons()[1].scrollIntoView().flash().click(); 
+			// ask user to resolve captcha
+			var captchaUrl = ie.images()[4].src();
+			var captchaAnswer = ascx_CaptchaQuestion.askQuestion(captchaUrl);
+			ie.field("recaptcha_response_field").scrollIntoView().flash().value(captchaAnswer).flash();
+			ie.button("Finish").scrollIntoView().flash().click();
+			
+			//alert user to check his email			
+			var step6_Label = designerCanvas.add_Label("step 6) Check your email and follow the account validation link",440,25); 
+			designerCanvas.connect(step5_Label, step6_Label,"Left","Left");
+			step6_Label.color("Red");  
+		});
+
+
+step1_TextBox.set_Text("o2+{0}@o--2.com");
+step2_TextBox.set_Text("Super!!Password");
+updateDataGridValues();
+
+step5_IE.open("http://google.com"); 
+
+//O2File:WatiN_IE_ExtensionMethods.cs 		
+ //O2File:DiagramDesigner_ExtensionMethods.cs
+//O2Ref:DiagramDesigner.exe
+//O2Ref:WindowsFormsIntegration.dll
+//O2Ref:O2_API_Visualization.dll
+//O2Ref:WatiN.Core.1x.dll
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//panel.clear();
+//var topPanel = panel.add_Panel();
+//topPanel.fill(false)
+//		.width(800)
+//		.height(170); 
+
+var title = ".NET Security Testing"; 
+var topPanel = O2Gui.open&lt;Panel&gt;("O2 GUI - " + title, 800,570);     
+
+topPanel.parentForm().top(60).left(60); 
+
+var logoNoShadow = "O2_Logo_no_Shadow.jpg".local(); 
+var smallLogo = "O2Logo_Small.gif".local();
+
+var ribbon = topPanel.insert_Above&lt;WPF_Ribbon&gt;(135); 
+var browserAutomation = ribbon.Ribbon.add_RibbonTab(".NET Static Analysis");   
+browserAutomation.add_RibbonGroup("Method Streams") 				 	  
+	  .add_RibbonButton_H2Script(topPanel,"Method Streams Viewer","Util - MethodStreams Viewer.h2")
+	  .add_RibbonButton_H2Script(topPanel,"Method Streams Creator","Util - MethodStreams Creator.h2");
+
+browserAutomation .add_RibbonGroup("Method Invocations") 				 	  
+				  .add_RibbonButton_H2Script(topPanel,"Method Invocations Creator","Util - Method Invocations Creator.h2")
+				  .add_RibbonButton_H2Script(topPanel,"Method Invocations Viewer (Simple)","Util - Method Invocations Viewer (Simple).h2")
+				  .add_RibbonButton_H2Script(topPanel,"Method Invocations Viewer (MethodStreams)","Util - Method Invocations Viewer (MethodStreams).h2")				  
+				  .add_RibbonButton_H2Script(topPanel,"Method Invocations (Findings Creator)","Util - Method Invocations (Findings Creator).h2");
+	  	 
+
+browserAutomation.add_RibbonGroup("Ast Utils") 			
+	  .add_RibbonButton_H2Script(topPanel,"Classes Inheritance", "Util -  From Ast View Classes Inheritance mappings.h2")
+	  .add_RibbonButton_H2Script(topPanel,"Search AST","ascx_SearchAST.cs")
+	  .add_RibbonButton_H2Script(topPanel,"View AST","ascx_ViewAST.cs");	  
+
+	  //.add_Link_O2Script("Edit AST Rules","Util - Edit AST Rules.h2")
+	  //.add_Link_O2Script("Debug AST Rules","Util - Debug AST Rules.h2")
+
+var pocBuilders = ribbon.Ribbon.add_RibbonTab("PoC Builders");   	  
+pocBuilders.add_RibbonGroup("Scanner (PoC)") 				 
+		   .add_RibbonButton_H2Script(topPanel,"Static Analysis Tool (.Net AST)","O2_DotNet_Ast_Scanner.h2")
+		   .add_RibbonButton_Script(topPanel,".Net AST Engine","O2_DotNet_Ast_Engine.cs");
+
+pocBuilders.add_RibbonGroup("PoC Builders")
+	  	   .add_RibbonButton_H2Script(topPanel,"ASP.NET (aspx) PoC Builder","Util - Aspx PoC Builder.h2");
+	  			 	  			 
+				 
+var dotNetUtils = ribbon.Ribbon.add_RibbonTab(".NET Utils");   	  
+dotNetUtils	.add_RibbonGroup(".Net Utils and Debug")
+		   	.add_RibbonButton_H2Script(topPanel,"Viewstate Decoder","Util - ViewState_Decoder_ASP.NET 3.0.h2")	  
+		   	.add_RibbonButton_Script(topPanel,"Copy GAC Dlls","Wizard - CopyGacDlls.cs.o2")	  
+			.add_RibbonButton_Script(topPanel,"Precompile Asp.Net websites","DotNet_AspNet_Compiler.cs")	  	  
+			.add_RibbonButton_Script(topPanel,"Decompile .NET Assemblies","ascx_MonoDecompiler.cs.o2")	  
+			.add_RibbonButton_H2Script(topPanel,"Decompile ASP.NET Dlls","Util - Decompile ASP.NET ASPX pages compiled code.h2")
+			.add_RibbonButton_H2Script(topPanel,"Convert VB.NET into C#","Util - Convert VB.Net to CSharp.h2");
+				 
+dotNetUtils.add_RibbonGroup(".Net Debuggger")	  
+		   .add_RibbonButton_H2Script(topPanel,"CSharp Scripts Debugger","CSharp Scripts Debugger.h2")
+		   .add_RibbonButton_H2Script(topPanel,"SunOfStrike Api","SunOfStrikeApi.cs"); 
+				 
+
+var demoFiles = ribbon.Ribbon.add_RibbonTab("Demo Files");   	  
+demoFiles.add_RibbonGroup("HacmeBank")
+		 .add_RibbonButton_StartProcess("WebSite - Source Code",@"C:\O2\DemoData\HacmeBank_v2.0 (Dinis version - 7 Dec 08)\HacmeBank_v2_Website", "")
+		 .add_RibbonButton_StartProcess("WebServices - Source Code",@"C:\O2\DemoData\HacmeBank_v2.0 (Dinis version - 7 Dec 08)\HacmeBank_v2_WS", "")
+		 .add_RibbonButton_StartProcess("Method Invocations",@"C:\O2\DemoData\HacmeBank_Analysis\HacmeBank_MethodInvocations", "");			 
+
+
+topPanel.parent&lt;SplitContainer&gt;().backColor(Color.White); 
+topPanel.backColor("Control"); 
+var designerCanvas = topPanel.add_DesignerCanvas(); 
+designerCanvas.add_Label(title ,160,140).fontSize(30);     
+ 
+return "ok";
+ 
+//using Microsoft.Windows.Controls.Ribbon;
+//using WPF= System.Windows.Controls
+//using DiagramDesigner
+//O2File:WPF_Ribbon.cs 
+//O2File:WPF_Ribbon_ExtensionMethods.cs
+//O2File:DiagramDesigner_ExtensionMethods.cs
+//O2Ref:WindowsFormsIntegration.dll
+//O2Ref:O2_API_Visualization.dll
+//O2Ref:DiagramDesigner.exe
+//O2Ref:RibbonControlsLibrary.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

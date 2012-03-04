@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - Html Editor and WebBrowser",1250,600);
+//var topPanel = panel.clear().add_Panel();
+var actionsPanel = topPanel.insert_Above(40,"Actions");
+var codeEditor = topPanel.add_SourceCodeEditor(); 
+var ie = codeEditor.insert_Right().add_IE_with_NavigationBar().silent(false); 
+
+Action saveAndRefresh = 
+	()=&gt;{
+			codeEditor.saveSourceCode();
+			ie.open_ASync(codeEditor.sPathToFileLoaded);
+		};
+
+Action createTestFile = 
+	()=&gt;{
+			var testFile = "TempHtml.html".tempFile();
+			var testHtml = "&lt;html&gt;".line() + 
+						   "	&lt;body&gt;".line() + 
+						   "		Hello World".line() + 
+						   "	&lt;/body&gt;".line() + 
+						   "&lt;/html&gt;";
+			testHtml.saveAs(testFile);
+			codeEditor.open(testFile);
+			ie.open(testFile);
+		};
+
+actionsPanel.add_Label("")
+			
+			.append_Link("Test File" , ()=&gt; createTestFile())
+			.append_Link("Save and refresh", ()=&gt;saveAndRefresh());
+ 
+
+ createTestFile();
+
+//O2File:WatiN_IE_ExtensionMethods.cs 
+//O2Ref:WatiN.Core.1x.dll
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var title = "Matt Parsons";   // CHECK NAME SPELLING 
+var currentScript = PublicDI.CurrentScript;   
+   
+var ribbon = CustomO2.create(title, 1024,300); 		// stand alone version    
+//var ribbon = CustomO2.create(panel.clear().add_Panel(),title); 		// use when inside 'Quick Development GUI'
+  
+var appScanSource7Tab = ribbon.add_Tab("IBM AppScan Source 7.x");
+var appScanSource6Tab = ribbon.add_Tab("IBM AppScan Source 6.x");
+
+appScanSource7Tab.add_Group("Findings Viewer")
+	  			.add_Script("7.x Findings Viewer", "Tool - Findings Viewer - IBM AppScan Source 7.0.h2");
+
+appScanSource7Tab.add_Group("Support Files")
+	  .add_RibbonButton_ShowCodeFile("Schema File of *.ozasmt","xsd_Ozasmt_OunceV7_0.xsd".local())
+	  .add_RibbonButton_ShowCodeFile("CSharp file of Schema File","xsd_Ozasmt_OunceV7_0.cs".local());
+
+	  
+appScanSource6Tab.add_Group("Findings Viewer(s)")
+				.add_Script("6.x Findings Viewer (with code viewer)", "Util - Simple Findings Viewer (with code viewer).h2") 
+				.add_Script("6.x Findings Viewer (just viewer/editor)", "Util - Simple Findings Viewer.h2")
+				.add_Script("6.x Findings Viewer (indexed by Source-Code viewer)", "Util - Findings Viewer (filtered by SourceCode).h2")
+				.add_Script("6.x and others Findings Viewer (separate GUI)", "Findings Viewer.h2");				
+	  
+
+	  	  
+var o2Scripting = ribbon.add_Tab("O2 Scripting"); 
+o2Scripting.add_Group_developmentGuis();
+ribbon.add_Tab_MiscTools(); 
+o2Scripting.add_RibbonGroup("Custom O2")
+	 		  .add_RibbonButton("Edit this Custom O2 Script", 
+						() =&gt; O2Gui.open&lt;Panel&gt;("Custom O2",800,400)
+								   .add_SourceCodeEditor()
+								   .open(currentScript));			
+
+ribbon.add_Tab_BrowserAutomation();
+
+return "done";
+
+//O2File:WPF_Ribbon_ExtensionMethods.cs
+//O2File:CustomO2.cs  
+
+//O2Ref:WindowsFormsIntegration.dll
+//O2Ref:RibbonControlsLibrary.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

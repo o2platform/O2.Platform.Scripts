@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = O2Gui.open&lt;Panel&gt;("{name}",700,400);
+var returnValues = (Dictionary&lt;string,Object&gt;)"Util - Deploying ASPNET O2 environment to website.h2".local().executeH2Script();
+var setValues = (Action&lt;string,string,int&gt;) returnValues["set_Values"]; 
+
+var websiteName = "SuperSecureBank";
+var websiteRoot = @"C:\O2\Demos\SI - SuperSecureBank\SecurityInnovation-SuperSecureBank-938fde3\SuperSecureBank";
+setValues(websiteName, websiteRoot,1234);
+
+//(returnValues["topPanel"] as Panel).closeForm_InNSeconds(5);
+return "ok";
+
+
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

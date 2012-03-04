@@ -1,0 +1,196 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>
+    
+//based on the code from http://www.codeproject.com/KB/IP/HTTPSDebuggingProxy.aspx
+//originally coded by @matt_mcknight  
+    
+//var topPanel = panel.clear().add_Panel();   
+var topPanel = "Util - O2 Web Proxy".popupWindow(1000,500);
+topPanel.insert_LogViewer();
+   
+var certLocation = @"cert.cer".local();
+
+
+var browserPanel = topPanel.add_GroupBox("Browser");
+var browser = browserPanel.add_WebBrowser_Control().add_NavigationBar();
+
+var links = topPanel.insert_Right(200).add_TreeView();
+
+links.add_ContextMenu().add_MenuItem("clear list", ()=&gt; links.clear());
+//var search = links.insert_Below(50).add_TextArea();
+//var replace = search.insert_Left().add_TextArea(); 
+var actionsPanel = topPanel.insert_Above(40,"actions");
+var rules = topPanel.insert_Left(400,"WAF Rules").add_TreeView(); 
+
+rules.onDrop(
+	(fileOrFolder)=&gt;{
+						if (fileOrFolder.fileExists())
+							rules.add_File(fileOrFolder);
+						else
+						{
+							rules.clear();
+							rules.add_Files(fileOrFolder);
+						}
+					 });
+
+rules.add_ContextMenu().add_MenuItem("Edit Rule", ()=&gt; (rules.selected().get_Tag() as String).showInCodeEditor()); 
+//var wafRule = new WAF_Rule();
+var wafRule = "WAF_Rule.cs".local().compile().types()[0].ctor();	 
+
+//object wafRuleObject = 	"WAF_Rule_NoPorto.cs".local().compile().types()[0].ctor();	 
+wafRule.prop("LogCallbacks", true);
+
+Action setBrowserProxy = 
+	()=&gt;{
+			"setting proxy proxy settings".info();
+			API_WinProxy.SetProxy("http://127.0.0.1:8081");
+		};
+Action clearBrowserProxy = 
+	()=&gt;{
+			"clearing proxy proxy settings".info();
+			API_WinProxy.SetProxy("");
+		};		
+
+Action startProxy = 
+	()=&gt;{
+			setBrowserProxy();
+			"Proxy Start: {0}".info(ProxyServer.Server.Start(certLocation));
+			actionsPanel.backColor(Color.DarkSalmon);
+		};	
+Action stopProxy = 	
+	()=&gt;{ 
+			clearBrowserProxy();
+			"Stopping Proxy".info(); ProxyServer.Server.Stop();
+			actionsPanel.backColor("Control");   
+		 };
+
+actionsPanel.add_Label("O2 Proxy")		
+			.append_Link("Proxy Start", ()=&gt; startProxy())
+			.append_Link("Proxy Stop",  ()=&gt; stopProxy()) 
+			.append_Link("Set Browser Proxy",  ()=&gt; setBrowserProxy())
+			.append_Link("Clear Browser Proxy",  ()=&gt; clearBrowserProxy())
+			.append_Link("Stop Current Process", ()=&gt; Processes.getCurrentProcess().stop());
+   
+
+ProxyServer.InterceptWebRequest		= (webRequest)=&gt; { wafRule.invoke("InterceptWebRequest", webRequest);};
+ProxyServer.InterceptRemoteUrl		= (remoteUrl) =&gt; { return (string) wafRule.invoke("InterceptRemoteUrl",remoteUrl); };
+ProxyServer.InterceptResponseHtml	= (uri) =&gt; 		 { return (bool)   wafRule.invoke("InterceptResponseHtml", uri); };  
+ProxyServer.HtmlContentReplace		= (uri,content)=&gt;{ return (string) wafRule.invoke("HtmlContentReplace", uri, content);} ; 
+
+/*ProxyServer.InterceptWebRequest		= (webRequest)=&gt; { wafRule.InterceptWebRequest(webRequest);};
+ProxyServer.InterceptRemoteUrl		= (remoteUrl) =&gt; { return wafRule.InterceptRemoteUrl(remoteUrl); };
+ProxyServer.InterceptResponseHtml	= wafRule.InterceptResponseHtml;  
+ProxyServer.HtmlContentReplace		= wafRule.HtmlContentReplace; 
+*/
+
+		
+/*ProxyServer.InterceptWebRequest =		
+	(webRequest)=&gt;{ 
+					//"in InterceptWebRequest: {0}".error(webRequest.isNull());
+					//"url: {0}".error(webRequest.RequestUri); 
+					if (webRequest.RequestUri.str().contains("www.google.com"))
+					{ 
+						"FOUND google".error();
+						//webRequest.details();
+						"before:".info( webRequest.RequestUri);
+						//webRequest.prop("RequestUri","http://news.bbc.co.uk".uri());
+						webRequest.field("_OriginUri", "http://news.bbc.co.uk".uri());
+						webRequest.field("_Uri", "http://news.bbc.co.uk".uri());
+						"after:".info(webRequest.RequestUri);
+//						webRequest.RequestUri = ;
+					}
+						//webRequest.details();
+				  };
+*/
+ 
+/*ProxyServer.InterceptRemoteUrl	=
+	(remoteUri)=&gt;{
+					remoteUri = remoteUri.replace("Porto", "Benfica");
+					links.add_Node(remoteUri);
+					return remoteUri;
+				 };
+*/				 
+/*ProxyServer.InterceptResponseHtml =
+	(uri)=&gt;{
+				//"InterceptRequest : {0}".info(uri.str());
+				return uri.str().contains("myAccounts.cfm");
+		   };
+		   
+ProxyServer.HttpContentReplace =
+	(uri, content)=&gt; {	
+						//"Applying search and replace for: {0}".info(uri);						
+						content = content.Replace(search.get_Text(), replace.get_Text());
+						return content;
+					}; 
+*/ 
+// search.set_Text("&lt;a href=\"javaScript:reSort( 'Approved ASC' );\"");
+// replace.set_Text("&lt;a href=\"http://www.google.com\"");
+
+Action setWafRuleLinkViewerCallback = 
+	()=&gt;{
+			Action&lt;string&gt; onUrlRequest = (requestUrl)=&gt; links.add_Node(requestUrl);
+			wafRule.prop("OnUrlRequest" , onUrlRequest);
+		};
+		
+Action&lt;string&gt; loadWafRule =   
+	(ruleToLoad)=&gt;{  
+						rules.azure();
+						"loading Waf Rule file: {0}".info(ruleToLoad);
+						var assembly = new O2.DotNetWrappers.DotNet.CompileEngine().compileSourceFile(ruleToLoad);
+						if (assembly.isNull())
+							"failed to compiled rule: {0}".error(ruleToLoad); 
+						else
+						{
+							var ruleType = assembly.type(ruleToLoad.fileName_WithoutExtension());
+							if (ruleType.isNull())
+							{
+								"failed to find type: {0}".error(ruleToLoad.fileName_WithoutExtension()); 
+								rules.pink();
+							}
+							else
+							{
+								wafRule = ruleType.ctor();
+								setWafRuleLinkViewerCallback();
+								browserPanel.set_Text("Browser with rule loaded: {0}".format(ruleToLoad.fileName_WithoutExtension())); 
+								rules.white();
+							}
+						}
+						//wafRule = new WAF_Rule_NoGoogle();
+						//wafRule = 
+						//wafRule = new WAF_Rule_NoPorto(); 
+//						wafRule.OnUrlRequest = (requestUrl)=&gt; links.add_Node(requestUrl); 
+					};
+//loadWafRule("WAF_Rule_NoGoogle.cs".local());
+
+
+
+rules.afterSelect&lt;string&gt;(loadWafRule);
+rules.onDoubleClick&lt;string&gt;(loadWafRule);
+	
+					
+//rules.add_Node("WAF_Rule_NoPorto.cs", "WAF_Rule_NoPorto.cs".local());
+rules.add_Node("WAF_Rule_NoGoogle.cs", "WAF_Rule_NoGoogle.cs".local());
+
+//loadWafRule("WAF_Rule_NoPorto.cs".local()); 
+setWafRuleLinkViewerCallback(); 
+startProxy(); 
+
+browser.open("http://www.google.com");
+ 
+return "ok";   
+ 
+//O2File:WAF_Rule.cs
+//_O2File:WAF_Rule_NoGoogle.cs
+//_O2File:WAF_Rule_NoPorto.cs
+
+//using HTTPProxyServer
+//O2File:API_WinProxy.cs 
+//O2File:Program.cs  
+//O2File:CacheEntry.cs
+//O2File:CacheKey.cs
+//O2File:ProxyCache.cs
+//O2File:ProxyServer.cs
+//O2Ref:System.Configuration.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

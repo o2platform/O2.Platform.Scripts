@@ -1,0 +1,273 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = "util - view IKVM internal java converted objects".popupWindow(1000,600);
+//var topPanel = panel.clear().add_Panel();
+
+//using IKVM.Runtime
+//using IKVM.Internal
+//using java.lang
+//using java.lang.reflect 
+//using java.util.jar
+//using java.util.zip 
+//using ikvm.runtime 
+//using System.Reflection
+//var comp = new IkvmcCompiler();   
+
+var treeView = topPanel.add_TreeView();//_with_PropertyGrid(false);  
+var objectViewer = treeView.insert_Right().add_Control&lt;ascx_ObjectViewer&gt;();
+treeView.afterSelect&lt;object&gt;(objectViewer.show);
+				
+Action&lt;string&gt; loadFile = 
+	(jarToLoad)=&gt;{
+				
+				treeView.clear();
+				treeView.azure();
+				var ikvmcAssembly = "ikvmc.exe".assembly();
+				
+				var staticCompiler = ikvmcAssembly.type("StaticCompiler");
+				var ikvmRuntime = staticCompiler.invokeStatic("LoadFile",Environment.CurrentDirectory.pathCombine("IKVM.Runtime.dll")); 
+				PublicDI.reflection.setField((FieldInfo)staticCompiler.field("runtimeAssembly"),ikvmRuntime);  
+				//staticCompiler.field("runtimeAssembly",ikvmRuntime);     
+				
+				var ikvmRuntimeJni = staticCompiler.invokeStatic("LoadFile",Environment.CurrentDirectory.pathCombine("IKVM.Runtime.JNI.dll")); 
+				PublicDI.reflection.setField((FieldInfo)staticCompiler.field("runtimeJniAssembly"),ikvmRuntimeJni);  
+				
+				var ikvmcCompiler =  ikvmcAssembly.type("IkvmcCompiler").ctor();
+				
+				var compilerOptions = ikvmcAssembly.type("CompilerOptions").ctor();
+				PublicDI.reflection.setField((FieldInfo)staticCompiler.field("toplevel"),compilerOptions);  
+				
+				var args = jarToLoad.wrapOnList().GetEnumerator();
+				
+				var targets = typeof(List&lt;&gt;).MakeGenericType(new System.Type[] { compilerOptions.type()}).ctor();
+				
+				ikvmcCompiler.invoke("ParseCommandLine", args, targets, compilerOptions);  
+				
+				compilerOptions =  (targets as IEnumerable).first();
+				var classes =   (Dictionary&lt;string, byte[]&gt;) compilerOptions.field("classes");  
+												
+				foreach(var @class in classes) 
+				{
+					
+					//var f = new ClassFile(buf, 0, buf.Length, null, ClassFileParseOptions.None);
+					var classFileType = ikvmcAssembly.type("ClassFile");
+					var ctor = classFileType.ctors().first();
+					//classFileType.details();   
+					var classFile = ctor.Invoke(new object[] { @class.Value,0, @class.Value.Length, null,1 });   //1= Nuno2 = ClassFileParseOptions.LineNumberTable  
+					var classNode = treeView.add_Node(@class.Key,classFile);
+					
+					var constantPoolRaw = new Dictionary&lt;int,object&gt;();
+					var constantPool =  (IEnumerable)classFile.field("constantpool");  
+					var index = 0;
+					foreach(var constant in constantPool)
+						constantPoolRaw.add(index++, constant); 
+						
+					var constantPoolValues = new Dictionary&lt;int,string&gt;();	 
+				//	var stillToMap = new List&lt;object&gt;();
+					for(int i=0; i &lt; constantPoolRaw.size() ; i++)
+					{
+						var currentItem = constantPoolRaw[i];
+						switch(currentItem.str())
+						{
+							case "IKVM.Internal.ClassFile+ConstantPoolItemClass":					
+								//constantPoolValues.Add(currentItem.field("name_index").str().toInt(),
+								constantPoolValues.Add(i,currentItem.prop("Name").str());
+								break;
+							case "IKVM.Internal.ClassFile+ConstantPoolItemMethodref":
+							case "IKVM.Internal.ClassFile+ConstantPoolItemFieldref":			
+								//var constantPoolItemFMIType =  ikvmcAssembly.type("ConstantPoolItemFMI");
+								//return constantPoolItemFMIType.fields();
+								//var fieldInfo = (FieldInfo)constantPoolItemFMIType.field("name_and_type_index");				
+								//var name_and_type_index =  PublicDI.reflection.getFieldValue(fieldInfo, currentItem).str().toInt();
+								//return currentItem.field(constantPoolItemFMIType.type(), "name_and_type_index"); 
+								//constantPoolValues.Add(name_and_type_index,"{0}.{1}{2}".format( currentItem.prop("Class"),
+								constantPoolValues.Add(i,"{0}.{1} : {2}".format( currentItem.prop("Class"),
+														   	 				  currentItem.prop("Name"),
+														   	 				  currentItem.prop("Signature")));									
+								break;
+							case "IKVM.Internal.ClassFile+ConstantPoolItemNameAndType":
+								//stillToMap.add(currentItem);
+								//constantPoolValues.Add(i,"IKVM.Internal.ClassFile+ConstantPoolItemNameAndType");			
+								break;
+							case "IKVM.Internal.ClassFile+ConstantPoolItemString":
+							case "IKVM.Internal.ClassFile+ConstantPoolItemInteger":
+							case "IKVM.Internal.ClassFile+ConstantPoolItemFloat":
+							case "IKVM.Internal.ClassFile+ConstantPoolItemDouble": 
+							case "IKVM.Internal.ClassFile+ConstantPoolItemLong":
+								//constantPoolValues.Add(currentItem.field("string_index").str().toInt() ,currentItem.prop("Value").str());
+								constantPoolValues.Add(i ,currentItem.prop("Value").str()); 
+								break;
+							case "IKVM.Internal.ClassFile+ConstantPoolItemInterfaceMethodref": // doesn't have any value to use
+								break;
+							case "[null value]":
+								constantPoolValues.Add(i,null);
+								break; 
+							default:
+								"Unsupported constantPoll type: {0}".error(currentItem.str());
+								break;
+						}		
+					}
+					//return constantPoolValues;
+					/*foreach(var item in stillToMap)		
+					{
+							//var rawValue =  constantPoolRaw[item.Key];
+						var descriptor_index = item.field("descriptor_index").str().toInt();  
+						var name_Index = item.field("name_index").str().toInt();  
+							//return name_Index;
+						
+						//var descriptor_value =  constantPoolValues[descriptor_index];    
+						//var name_value =  constantPoolValues[name_Index];    
+						//if (name_value.valid() || descriptor_value.valid())  
+						//	"{0} : {1}   : {2}   :  {3}".info(name_Index, descriptor_index , descriptor_value, name_value) ; 
+						//else
+							"{0} : {1}  ".error(name_Index, descriptor_index);
+					}*/	
+					//return constantPoolValues;
+					
+					//"name: {0}".info(@class.Key);
+					
+					var methods = (IEnumerable)classFile.prop("Methods");
+					foreach(var method in methods)
+					{		
+						var signature = "{0}{1}".format(method.prop("Name"), method.prop("Signature"));		
+						var methodNode = classNode.add_Node(signature,method);  
+						var instructions = (IEnumerable) method.prop("Instructions");
+						if (instructions.notNull())
+						{	
+							foreach(var instruction in instructions)
+							{ 
+								var normalizedOpCode = instruction.prop("NormalizedOpCode").str(); 
+								var targetIndex = instruction.prop("TargetIndex").str().toInt();
+								if (targetIndex&gt;0)
+								{
+									var _signature =  constantPoolValues.hasKey(targetIndex) ? constantPoolValues[targetIndex] : "(constant not mapped)";			
+									methodNode.add_Node("{0} {1} {2}".format(normalizedOpCode,targetIndex,_signature), instruction);  
+								}
+								else
+									methodNode.add_Node(normalizedOpCode, instruction);  
+							}
+						}
+								
+					}
+					//classNode.add_Nodes(methods);
+					//return "here";
+					//return classFileType.ctor(@class.Value,0, @class.Value.Length, null,0);
+				}
+				treeView.white();
+			};
+
+treeView.onDrop((file)=&gt;O2Thread.mtaThread(()=&gt;loadFile(file)));
+			
+
+//loadFile( commons_Logging_Jar);			
+//loadFile( commons_Logging_Jar);	
+return "ok";
+
+var jarsFolder = @"C:\O2\Demos\WebGoat\WebGoat-5.3_RC1\tomcat\webapps\webgoat\WEB-INF\lib";
+var commons_Logging_Jar = jarsFolder.pathCombine("commons-logging-1.0.4.jar"); 
+
+//ikvmcCompiler.details(); 
+
+//var compilerClassLoader = ikvmcAssembly.type("CompilerClassLoader");
+
+//using System.Collections 
+//var compile = compilerClassLoader.method("Compile"); 
+
+//var createCompiler = compilerClassLoader.method("CreateCompiler"); 
+
+//PublicDI.reflection.invokeMethod_Static(compile, new object[] {null,targets});  
+//ikvmcCompiler.details(); 
+//return ikvmcCompiler;
+//return createCompiler.invoke(null, compilerOptions);
+
+//return StaticCompiler.runtimeAssembly;
+
+//using jlClass = java.lang.Class
+//using jlrMethod = java.lang.reflect.Method 
+
+
+
+//O2FIl
+
+JarFile jarFile = new JarFile(commons_Logging_Jar);
+
+//return jarFile.getClass("org/apache/commons/logging/impl/SimpleLog.class");
+
+var entries = jarFile.entries();
+var zipEntries = new List&lt;ZipEntry&gt;();
+while (entries.hasMoreElements())
+{
+	ZipEntry zipEntry = (ZipEntry)entries.nextElement();	
+	zipEntries.add(zipEntry);
+}
+
+var _class = zipEntries[18].str().replace("/",".").remove(".class"); 
+//return _class;
+
+var urls = new java.net.URL[] { new java.net.URL("file:///" + commons_Logging_Jar ) } ;
+var urlClassLoader = new java.net.URLClassLoader(urls);
+ 
+// return urlClassLoader.invoke("getResources"); 
+//return urlClassLoader.invoke("getPackages");;
+
+var props = new Hashtable(); 
+props["java.class.path"] = commons_Logging_Jar;
+Startup.setProperties(props); 
+
+var sysClassLoader = ClassLoader.getSystemClassLoader();
+//sysClassLoader.details();
+//return sysClassLoader.invoke("getPackages");
+
+Class clazz = java.lang.Class.forName(_class, false , ClassLoader.getSystemClassLoader()); 
+return clazz;
+
+
+return sysClassLoader.typeFullName();
+
+//sysClassLoader.details();
+return sysClassLoader.loadClass("org/apache/commons/logging/impl/Jdk14Logger.class");
+return sysClassLoader;
+
+//org/apache/commons/logging/impl/Jdk14Logger.class
+//return new java.lang.ClassLoader(); 
+//return _class;
+//jarFile.entries().details();
+//foreach(var entry in jarFile.entries())
+//	"entry: {0}".info(entry);
+return "ok";
+var manifest = jarFile.getManifest();
+manifest.details();
+//jarFile.details();
+return jarFile;
+//O2Ref:IKVM.Runtime.dll
+//O2Ref:IKVM.OpenJDK.Util.dll
+//O2Ref:IKVM.OpenJDK.Core.dll
+//O2Ref:IKVM.Reflection.dll
+//O2Ref:ikvmc.exe
+//O2Ref:ICSharpCode.SharpZipLib.dll
+//
+var ikvmApi = new API_IKVM();
+//ikvmApi.install_IKVM_Assemblies_on_GAC();  // first time install on GAC
+
+
+   
+//return gacUtil.startProcess_getConsoleOut("/l ikvm");   
+
+
+
+
+//var textBox = topPanel.add_TextBox(true);
+//textBox.set_Text("hello world");
+
+
+return ikvmApi.IKVMInstallationDir;
+//return O2.DotNetWrappers.DotNet.GacUtils.currentGacAssemblies();
+//using O2.XRules.Database.APIs.IKVM
+//O2File:API_IKVM.cs
+   
+//using System.Collections 
+ 
+//using O2.XRules.Database.Languages_and_Frameworks.DotNet
+//O2File:DotNet_SDK_GacUtil.cs  </SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//panel.clear();
+//var topPanel = panel.add_Panel();
+var topPanel = O2Gui.open&lt;Panel&gt;("Tool - Map method streams interfaces.h2", 1000,600);   
+var astDataCacheKey = "astData ASP.NET MVC";  
+var baseFolder = ""; 
+var useCachedData = true; //false;//true ;
+var referencesToLoad = new List&lt;string&gt;();  
+var astData = (O2MappedAstData)O2LiveObjects.get(astDataCacheKey);
+
+ 
+//var treeView = codeViewer.insert_Left&lt;TreeView&gt;(400) 
+//							     .showSelection();
+
+
+Action&lt;string&gt; loadAstData = 
+	(folder) =&gt; {
+					//treeView.backColor(Color.Azure);
+					baseFolder = folder;
+					if (useCachedData.isFalse() || astData == null)
+					{
+						"Loading AstData".info();
+						astData = new O2MappedAstData();
+						foreach(var referenceToLoad in referencesToLoad)
+							astData.O2AstResolver.addReference(referenceToLoad); 
+						astData.loadFiles(folder.files("*.cs",true));	
+						O2LiveObjects.set(astDataCacheKey,astData);											
+					}
+					//treeView.backColor(Color.White );
+				};
+
+var sourceFolder = @"C:\DotNet\AspNet-MVC\NerdDinner_2.0\NerdDinner";
+
+
+loadAstData(sourceFolder); 	
+
+//astData.files().filter("control").showInLog();
+
+ 
+//var testFile = @"C:\DotNet\AspNet-MVC\NerdDinner_2.0\NerdDinner\Controllers\RSVPController.cs";
+var testFile = @"C:\DotNet\AspNet-MVC\NerdDinner_2.0\NerdDinner\Controllers\DinnersController.cs";
+var targetIMethod = astData.iMethods(testFile)[0];
+
+astData.debugMode = false;  
+astData.clearO2MethodStreamCache();
+var myMethodStream = astData.createO2MethodStream(targetIMethod);	 
+
+
+/*	
+//2nd	b
+methodsToMap = myMethodStream.MappedIMethods.Values.ToArray();
+"XXXXXXXxx  XXXXXXXxx   There are: {0} methods".error(methodsToMap.size()); 
+foreach(var interfaceMethod in methodsToMap) 
+	resolveInterfaceCalls(myMethodStream,interfaceMethod);   
+//3rd	
+methodsToMap = myMethodStream.MappedIMethods.Values.ToArray();
+"XXXXXXXxx  XXXXXXXxx   There are: {0} methods".error(methodsToMap.size()); 
+*/
+var codeViewer = topPanel.add_SourceCodeEditor();   
+var csharpCode = myMethodStream.csharpCode();  
+codeViewer.set_Text(csharpCode, ".cs");	   			
+
+codeViewer.gotoLine(24+10);  
+
+//foreach(var iMethod in astData.inheritedIClasses(type)[0].iMethods())  
+//	"iMethod: {0}".info(iMethod);  
+//var mappedByRootClass = new Dictionary&lt;IClass, List&lt;IClass&gt;&gt;();		 
+//return mappedByInheritClass[type];
+
+/*foreach(var iClass in astData.iClasses())
+{
+	var iClassTypeDeclaration = astData.typeDeclaration(iClass);
+	var classNode = treeView.add_Node(iClass.Name,iClassTypeDeclaration);  
+	classNode.color(iClassTypeDeclaration.notNull() ? Color.DarkGreen : Color.Azure); 
+	foreach(var inheritClass in iClass.ClassInheritanceTree)
+	{ 
+		if (iClass != inheritClass)
+		{
+			var inheritTypeDeclaration = astData.typeDeclaration(inheritClass);
+			var node = classNode.add_Node(inheritClass.Name,inheritTypeDeclaration);		
+			node.color(inheritTypeDeclaration.notNull() ? Color.DarkGreen : Color.DarkRed); 
+		}
+		
+	}
+	
+}*/
+
+return null;
+//return  astData.iClasses()[0].ClassInheritanceTree; 
+//type.ClassInheritanceTree
+//return interfaceMethod.DeclaringType.ClassInheritanceTree;
+
+
+//using O2.API.AST.CSharp
+//using O2.API.AST.ExtensionMethods;
+//using O2.API.AST.ExtensionMethods.CSharp;
+//using O2.External.SharpDevelop.ExtensionMethods;
+//using O2.External.SharpDevelop.AST;
+//using O2.External.SharpDevelop.Ascx;
+//using O2.XRules.Database.Languages_and_Frameworks.DotNet	
+//using ICSharpCode.SharpDevelop.Dom;
+//using ICSharpCode.NRefactory;
+//using ICSharpCode.NRefactory.Ast;
+//O2File:ascx_ManualMethodStreams.cs
+//O2File:Ast_Engine_ExtensionMethods.cs
+//O2File:ascx_ManualMethodStreams.cs
+//O2Ref:O2_External_SharpDevelop.dll
+//O2Ref:O2_API_AST.dll 
+//O2Ref:QuickGraph.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

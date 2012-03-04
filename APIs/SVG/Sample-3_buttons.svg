@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="246" height="25">
+    <defs>
+       <text text-anchor="middle" id="buttonText" fill="black" font-family="Verdana" font-size="12" y="16">Hello!</text>
+       <rect id="innerGlow" width="78" height="20" rx="5" x="2" y="2" fill-opacity="0"/>
+       <linearGradient id="button" x2="0%" y2="100%">
+         <stop stop-color="#F1F1F1" offset="47%"/>
+         <stop stop-color="#D1D1D1" offset="50%"/>
+       </linearGradient>
+       <linearGradient id="buttonOver" x2="0%" y2="100%">
+         <stop stop-color="#E7F4FB" offset="47%"/>
+         <stop stop-color="#C3E3F6" offset="50%"/>
+       </linearGradient>
+       <linearGradient id="buttonDown" x2="0%" y2="100%">
+         <stop stop-color="#DDF0FA" offset="40%"/>
+         <stop stop-color="#78BDE2" offset="50%"/>
+       </linearGradient>
+     </defs>
+     <rect width="80" height="22" rx="5" x="1" y="1" fill="url(#button)" stroke="#707070"/>
+     <rect width="80" height="22" rx="5" x="83" y="1" fill="url(#buttonOver)" stroke="#3C7FB1"/>
+     <rect width="80" height="22" rx="5" x="165" y="1" fill="url(#buttonDown)" stroke="#2C628B"/>
+     <use xlink:href="#buttonText" x="40" />
+     <use xlink:href="#buttonText" x="122" />
+     <use xlink:href="#buttonText" x="204" />
+     <use xlink:href="#innerGlow" stroke="white" />
+     <use xlink:href="#innerGlow" x="82" stroke="#30D5FE" />
+     <use xlink:href="#innerGlow" x="164" stroke="#9EB0BA" />
+  </svg>
+

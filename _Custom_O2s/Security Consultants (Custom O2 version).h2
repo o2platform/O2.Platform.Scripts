@@ -1,0 +1,165 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var title = "Security Consultants"; 
+var currentScript = PublicDI.CurrentScript; 
+ 
+var ribbon = CustomO2.create(title, 1000, 400); 		// stand alone version
+ribbon.title("O2 Platform main GUI");
+//Custom O2 tab
+ribbon.add_Tab("Custom O2s") 	
+
+	  /*.add_Group("Main GUIs")
+	  .add_Script("v1.5 GUI  (TiddlyWiki based)","v1.5_MainGui.h2") 
+	  .add_Script("v1.4 GUI  (shows scripts)","O2 GUI.h2")
+	  .add_Script("v1.3  (Big O2 WPF GUI)","O2 Main WPF GUI.h2")*/
+	  	  
+	  //.tab("Custom O2s")
+	  .add_RibbonGroup("Custom O2s")
+					    .add_Script("BlackBox (plus IE Automation, Javascript, Html)", "BlackBox and Browser Automation (Custom O2).h2")	  
+					    .add_Script("DotNet Static Analysis", "DotNet Static Analysis (Custom O2).h2")	  
+					    .add_Script("OWASP Projects and Website", "OWASP Projects and Website (Custom O2).h2")
+					    .add_Script("GitHub", "GitHub - CustomO2.cs")	    					    	        					    
+					    .add_Script("Installers", "Installers (Custom O2).h2")					    	  
+	  .tab("Custom O2s").add_RibbonGroup("O2 Scripting")	  					
+	  					.add_Script("IE Automation","ascx_IE_ScriptExecution.cs")
+	  					.add_RibbonButton_Script("Quick development GUI","ascx_Quick_Development_GUI.cs.o2")
+	  					.add_Script("Find Available Scripts","Util - O2 Available scripts.h2")
+	  .tab("Custom O2s").add_Group_FindAndExecuteScripts();
+	  					
+
+// HELP tab
+ribbon.add_Tab("Help").add_Group("Websites")
+					  .add_StartProcess("Main O2 Website (http://o2platform)", "http://o2platform.com")	  
+					  
+					  .add_StartProcess("O2 @ OWASP.org website", "http://www.owasp.org/index.php/O2")
+					  .add_StartProcess("O2 @ CodePlex (for .NET Developers)", "http://o2platform.codeplex.com/")
+					  .add_StartProcess("O2 Source Code", "http://code.google.com/p/o2platform/source/browse/")	  
+					  .add_Script("Wordpress Editor", "Tool - WordPress Editor.h2")	
+	  
+	  .tab("Help").add_Group("Blogs")	  
+				  .add_StartProcess("Developer focused Blog on O2 (o2platform.wordpress.com)", "http://o2platform.wordpress.com/")
+				      						  
+				  .add_StartProcess("Dinis Cruz Blog (Main O2 Developer)", "http://diniscruz.blogspot.com/")
+				  .add_StartProcess("Dinis Cruz on Twitter (Main O2 Developer)", "http://twitter.com/#!/diniscruz")
+	  
+	  .tab("Help").add_Group("Mailing List")	  	  
+				  .add_StartProcess("O2 Mailing List", "https://lists.owasp.org/mailman/listinfo/owasp-o2-platform")
+				  .add_StartProcess("Email O2 Mailing list", "mailto:owasp-o2-platform@lists.owasp.org")
+	  
+	  .tab("Help").add_Group("Commercial Services")	  	  
+				  .add_StartProcess("O2 Subscriptions", "http://o2platform.com/wiki/O2_Subscriptions")
+				  .add_StartProcess("O2 Pledges", "http://o2platform.com/wiki/O2_Pledges");
+
+
+// Security Analsyis Tab
+var securityAnalysis = ribbon.Ribbon.add_RibbonTab("Security Analysis");
+securityAnalysis.add_RibbonGroup(".Net")
+			    .add_RibbonButton_H2Script("Aspx PoC Builder","Util - Aspx PoC Builder.h2")
+			    .add_RibbonButton_H2Script("Method Invocations Creator","Util - Method Invocations Creator.h2")
+			    .add_RibbonButton_Script("Search AST","ascx_SearchAST.cs");
+
+securityAnalysis.add_RibbonGroup("Network Tools")
+			    .add_RibbonButton_H2Script("Packet Monitor (Sniffer)","Mentalis_PacketMonitor.h2");
+			    
+securityAnalysis.add_RibbonGroup("IE Script development environments") 				 
+				 .add_RibbonButton_Script("IE Automation","ascx_IE_ScriptExecution.cs")
+				 .add_RibbonButton_H2Script("IE Automation Development","IE Automation using WatiN.h2");
+				 
+securityAnalysis.add_RibbonGroup("Html") 
+				 .add_RibbonButton_H2Script("Html Tag Viewer","ascx_HtmlTagViewer.cs")
+				 .add_RibbonButton_Script("View WebPage details","ascx_View_WebPage_Details.cs.o2".local())
+				 .add_RibbonButton_H2Script("Quick HtmlCode Viewer","Quick HtmlCode Viewer.h2")
+				 .add_RibbonButton_H2Script("Simple Html Viewer","Util - Simple Html Viewer.h2")
+				 .add_RibbonButton_H2Script("Html Editor","ascx_Html_Editor.cs.o2");      
+
+
+
+// API / Script Development
+var apiScriptDevelopment = ribbon.Ribbon.add_RibbonTab("API / Script Development");   // "There are a number of development environments in O2, each is designed for a particular talk/workflow")
+
+apiScriptDevelopment.add_RibbonGroup("Development GUIs") 		
+					.add_RibbonButton_Script("Simple Script Editor","ascx_Simple_Script_Editor.cs.o2")
+					.add_RibbonButton_Script("Quick development GUI","ascx_Quick_Development_GUI.cs.o2")			
+					.add_RibbonButton_H2Script("O2 Development Environment","Util - O2 Development Environment.h2")					
+//					.add_RibbonButton_H2Script("Source Code Viewer","Util - SourceCodeViewer.h2")
+					.add_RibbonButton_H2Script("Dev Gui and 2 Scripts Editors","Util - Development Gui and Two Script Editors.h2")
+
+					.add_RibbonButton_H2Script("Source Code Editor","Util - SourceCodeEditor.h2")
+					.add_RibbonButton("O2 Object Model", () =&gt; open.o2ObjectModel());
+					
+apiScriptDevelopment.add_RibbonGroup("Unit Tests")	
+					.add_RibbonButton_H2Script("Execute Unit Tests","Execute Unit Tests.h2")			
+					.add_RibbonButton_H2Script("Write Unit Tests","Write and Execute Unit Tests.h2");
+	
+apiScriptDevelopment.add_RibbonGroup("Development Utils")								
+					.add_RibbonButton_H2Script("TiddlyWiki Editor","TiddlyWiki_Editor.h2")	  
+	  				.add_RibbonButton_Script("Edit O2Platform.com Page","ascx_MediaWiki_PageEditor_Simple.cs")
+	  				.add_StartProcess("O2 Executable Directory", Environment.CurrentDirectory);
+	  				
+	  				
+
+apiScriptDevelopment.add_RibbonGroup("Custom O2")			
+					.add_RibbonButton("Edit this Custom O2 Script", 
+						() =&gt; O2Gui.open&lt;Panel&gt;("Custom O2",800,400)
+								   .add_SourceCodeEditor()
+								   .open(currentScript))
+				    /*.add_RibbonButton("Relaunch GUI", 
+				    	()=&gt;{	
+								topPanel.parentForm().close();
+								currentScript.executeH2Script();
+							})*/
+					.add_Script("Open O2 Executable Directory", "Util - Open O2's Execution Directory.h2")
+					.add_Script("SecretData Editor", "SecretDataEditor.cs.o2")
+					.add_RibbonButton_H2Script("Check for ClickOnce Updates","AutoUpdate - Using Reflection.h2")	  					
+					.add_RibbonButton_H2Script("Compile ALL Scripts","Compile All Local O2 Scripts.h2")
+					.add_RibbonButton("Exit O2 (and close all windows)", () =&gt; PublicDI.config.closeO2Process())
+					.add_Button("Lanch O2 instance as Admin (without UAC)",
+						()=&gt;{				
+								var process = new System.Diagnostics.Process();
+								process.StartInfo.FileName = PublicDI.config.CurrentExecutableDirectory.pathCombine("O2_XRules_Database.exe");
+								process.StartInfo.Verb = "runas";
+								process.Start();		
+							});
+					
+
+apiScriptDevelopment.add_RibbonGroup("Web Storage, Gui Automation")
+				    .add_RibbonButton_H2Script("Amazon S3 Browser","Amazon S3 Browser.h2")
+				    .add_StartProcess("DropBox","https://www.dropbox.com/home#/Public/;")
+					.add_RibbonButton_H2Script("Visual UIA Verify","Launch VisualUIAVerify.h2");
+apiScriptDevelopment.add_Group("Misc") 									
+				    .add_Script("O2 Command Prompt","ascx_O2_Command_Prompt.cs.o2")
+				    .add_Script("Stop O2 Instances","Uitl - Stop all (but current) O2_XRules_Database processes.h2");       	  	 	
+
+
+ribbon.add_Tab_MiscTools(); 
+
+var localFolders = ribbon.Ribbon.add_RibbonTab("UK Only and local folders");
+localFolders.add_Group("Wireless Providers")
+			.add_RibbonButton_Script("Login into BTOpenZone (UK)","API_BTOpenZone.cs");   
+			
+localFolders.add_RibbonGroup("O2 Scripting")
+			.add_RibbonButton_StartProcess("Local Scripts Folder",PublicDI.config.LocalScriptsFolder)
+			.add_RibbonButton_StartProcess("_Custom_O2s",PublicDI.config.LocalScriptsFolder.pathCombine("_Custom_O2s"));
+localFolders.add_RibbonGroup("O2 Source Code (Folders)")
+			.add_RibbonButton_StartProcess("O2 - All Active Projects",@"C:\_O2_SVN\O2 - All Active Projects")
+			.add_RibbonButton_StartProcess("O2_XRules_Database",@"C:\_O2_SVN\O2 - All Active Projects\O2_XRules_Database") 
+			.add_RibbonButton_StartProcess("3rd Party Dlls",@"C:\_O2_SVN\O2 - All Active Projects\_3rdPartyDlls");			  
+localFolders.add_RibbonGroup("O2 Source Code (Solutions)")
+			.add_RibbonButton_StartProcess("O2_XRules_Database.sln",@"C:\_O2_SVN\O2 - All Active Projects\O2_XRules_Database\O2_XRules_Database.sln"); 
+
+
+return ribbon;	     
+
+//using Microsoft.Windows.Controls.Ribbon;
+//using WPF= System.Windows.Controls
+//using DiagramDesigner
+//O2File:CustomO2.cs 
+//O2File:WPF_Ribbon.cs 
+//O2File:WPF_Ribbon_ExtensionMethods.cs
+//O2File:DiagramDesigner_ExtensionMethods.cs
+//O2Ref:WindowsFormsIntegration.dll
+//O2Ref:O2_API_Visualization.dll
+//O2Ref:DiagramDesigner.exe
+//O2Ref:RibbonControlsLibrary.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

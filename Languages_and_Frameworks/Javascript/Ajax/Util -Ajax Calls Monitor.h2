@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.clear().add_Panel();
+
+//ClearAssembliesCheckedIfExists
+var firstTestPage = "http://www.google.com";
+var hookScriptFile = @"JavaScript_Ajax_Hooks.txt".local();
+hookScriptFile = @"C:\O2\O2Scripts_Database\_Scripts\Languages_and_Frameworks\Javascript\Ajax\JavaScript_Ajax_Hooks.txt"; 
+
+var topPanel = O2Gui.open&lt;Panel&gt;("Util - DWR Calls Monitor", 1100,600);
+topPanel.insert_Below&lt;Panel&gt;(100).add_LogViewer();
+ 
+
+var scriptText = topPanel.insert_Left&lt;Panel&gt;().add_TextArea().allowTabs().wordWrap(false );
+scriptText.splitContainer().splitterDistance(0);   // change this to see the script
+var ajaxCalls = topPanel.insert_Below&lt;Panel&gt;(150).add_DataGridView();  
+ajaxCalls.add_Column("id",20);
+ajaxCalls.add_Column("method",50);
+ajaxCalls.add_Column("aSync",50); 
+ajaxCalls.add_Columns("url","request body","response body");
+var rightTabControl = ajaxCalls.insert_Right&lt;Panel&gt;(700).add_TabControl();
+var detailsPanel = rightTabControl.add_Tab("Request and Response Data").add_1x1("Request Body","Response Body");  
+var requestBody = detailsPanel[0].add_TextArea().wordWrap(false);
+var responseBody = detailsPanel[1].add_TextArea().wordWrap(false);
+var searchAndReplaceTable = rightTabControl.add_Tab("Search and Replace Table").add_DataGridView().allowNewRows().allowColumnOrder().allowRowsDeletion(); 
+searchAndReplaceTable.add_Columns("search for", "replace with");
+searchAndReplaceTable.add_Row("Joe", "Dinis");
+ajaxCalls.SelectionChanged += (sender,e) =&gt; {
+												"Selection changed".info();
+												if (ajaxCalls.SelectedRows.size() &gt; 0)
+												{
+													var rowData = ajaxCalls.SelectedRows[0];
+													requestBody.set_Text(rowData.Cells[4].Value.str().fixCRLF());
+													responseBody.set_Text(rowData.Cells[5].Value.str().fixCRLF());
+												}
+										   	};
+//var detailsPanels		 
+var ie = topPanel.add_IE().silent(true);
+
+Action&lt;string&gt; autoSaveScript =
+	(script)=&gt;{
+			var AutoSaveDir = "_AutoSavedScripts".tempDir(false).createDir(); 
+			var targetFile = AutoSaveDir.pathCombine(Files.getFileSaveDateTime_Now().trim() + ".js");
+			"auto saving script to: {0}".info(targetFile);
+			script.saveAs(targetFile);
+		};
+MethodInvoker executeScript = 
+	()=&gt;{ 
+			var script = scriptText.get_Text();
+			autoSaveScript(script);
+			ie.eval(script);
+		};
+
+
+scriptText.add_ContextMenu().add_MenuItem("execute", executeScript);
+
+var lastPage = "";
+
+ie.onNavigate(
+	(url)=&gt; {
+				"Loaded url: {0}".info(url);
+				//if (runScriptOnPageLoad)
+				//{	
+				if (ie.invokeScript("o2Hooks").isNull())
+				{
+					ie.injectJavascriptFunctions();						
+					ie.setOnAjaxLog((id,open,body,response)=&gt;  {
+																	var openData= open.split(",");
+																	if (openData.size()==3)
+															 			ajaxCalls.add_Row(id,openData[0], openData[2], openData[1],body,response);
+															 		else
+															 			ajaxCalls.add_Row(id,open, "","",body,response);	
+																});
+					(ie.WebBrowser.ObjectForScripting as WatiN_IE.ToCSharp).OnFilter = 
+						(originalData)=&gt;{
+											var responseData = originalData;
+											foreach(var row in searchAndReplaceTable.rows())
+												if (row[0].str().valid())  
+													responseData = responseData.replace(row[0].str(),row[1].str()); 
+											if (responseData != originalData)
+												"Filter Modified Data: \n {0}".debug(responseData);
+											return responseData; 												
+										};
+					executeScript();
+					ie.invokeScript("update");					
+				}
+				else
+					"O2 Hooks already installed".error();
+			});
+
+Action&lt;string&gt; openUrl = 
+	(url)=&gt; {
+				O2Thread.mtaThread(
+					()=&gt;{
+							ie.open(url);   							
+						});
+			};
+
+var urlText = topPanel.insert_Above&lt;Panel&gt;(20).add_LabelAndTextAndButton("Url to Open:","","open",(url)=&gt; openUrl(url)).control&lt;TextBox&gt;(); 
+var openButton = urlText.parent().control&lt;Button&gt;(); 
+
+scriptText.set_Text(hookScriptFile.fileContents());
+
+urlText.set_Text(firstTestPage);
+openButton.click();
+
+
+return "ok";
+
+//O2File:WatiN_IE_ExtensionMethods.cs
+//using O2.XRules.Database.Utils.O2
+//O2Ref:WatiN.Core.1x.dll
+//O2Ref:Interop.SHDocVw.dll </SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.clear().add_Panel();
+var topPanel = "Exam Automation".popupWindow(1000,500); 
+			  
+topPanel.insert_LogViewer(); 
+var ie = new WatiN_IE().createIEObject();
+
+//var ie = topPanel.add_GroupBox("Exam").add_IE();  
+var apiSiExams = new API_SI_Exams(ie);
+//ie.details(); 
+        
+  
+//O2Ref:Bricks.RuntimeFramework.dll 
+//return apiSiExams; 
+//return ie.HostControl.parentForm().type();
+
+apiSiExams.BaseFolder = @"C:\_WorkDir\SI\TeamProfessor\OWASPTop10ThreatsandMitigation_Exams_MS_130511";
+apiSiExams.ExamFile = apiSiExams.BaseFolder.pathCombine("OWASPTop10ThreatsandMitigation_MS.htm");
+
+var linksPanel = topPanel.insert_Above(70,"Links"); 
+var actionsPanel  = topPanel.insert_Left(100,"Actions");    
+
+linksPanel.add_Link("Start Page", 0,0, ()=&gt; apiSiExams.startPage());   
+ 
+actionsPanel.add_Link("Scroll Up", 0, 0, ()=&gt;apiSiExams.ie_ScrollUp());
+actionsPanel.add_Link("Scroll Down", 20, 0, ()=&gt;apiSiExams.ie_ScrollDown());
+actionsPanel.add_Link("Click Forward", 40, 0, ()=&gt;apiSiExams.ie_Forward());  
+actionsPanel.add_Link("Click Back", 60, 0, ()=&gt;apiSiExams.ie_Back());
+actionsPanel.add_Link("Click Submit", 80, 0, ()=&gt;apiSiExams.ie_Submit())  
+			.append_Below_Link("Click CheckBox", ()=&gt;apiSiExams.ie_ClickCheckBox())
+			.append_Below_Link("Click RadioButton", ()=&gt;apiSiExams.ie_ClickRadioButton()) 
+			.append_Below_Link("setGuiAutomation ", ()=&gt; apiSiExams.setGuiAutomation()) 
+			.append_Below_Link("Submit button 2 ", ()=&gt; apiSiExams.SubmitButton.Click())
+			.append_Below_Link("Forward button 2 ", ()=&gt; apiSiExams.ForwardButton.Click()); 
+			
+//control.parent().add_Link("1",control.top()+30,10,()=&gt;{});
+
+//				   .append_Below_Link("aaaa", ()=&gt;{}).parent().add_Link("1",100,10,()=&gt;{});
+
+actionsPanel.add_Link("show items", 200, 0,      
+	()=&gt;{
+			/*apiSiExams.ie_ScrollDown(); 
+			var button = apiSiExams.guiAutomationWindow.button("Forward ");
+			button.mouse();
+			apiSiExams.guiAutomation.mouse_Click();
+			*/  
+			"getting exam groupbox".info();
+			 
+			//var examsGroupBox = apiSiExams.guiAutomationWindow.groupBox("Exam");
+			var items = apiSiExams.guiAutomationWindow.items();
+			items.showInfo();
+			 
+			//var examsGroupBox =  apiSiExams.guiAutomationExamGroupBox;
+			//"retrieving items".info();
+			//var items = examsGroupBox.items(); 		 				
+			"got {0} items".debug(items.size()); 
+			//items.showInfo();
+			/*var checkBoxes = examsGroupBox.checkBoxes();//.showInfo();
+			var radioButons = examsGroupBox.radioButtons();//.showInfo();
+			
+			if (checkBoxes.size() &gt; 0)
+			{
+				"checking first checkbox".info();
+				checkBoxes[0].Checked = true;
+				checkBoxes[0].mouse();
+				apiSiExams.guiAutomation.mouse_Click();
+			}
+			if (radioButons.size() &gt; 0)
+			{
+				"radioButons first checkbox".info();
+				radioButons[0].Click();
+				radioButons[0].mouse(); 
+				apiSiExams.guiAutomation.mouse_Click();
+			}
+			*/
+			//"after checkbox".info();
+			
+			/*O2Thread.mtaThread(
+				()=&gt;{
+						var button = apiSiExams.guiAutomationWindow.button("Forward ");
+						"1 - button: {0}".info(button.str());
+					});
+			var _button = apiSiExams.guiAutomationWindow.button("Forward ");
+			"2  - button: {0}".info(_button.str());		*/ 
+		});  
+
+apiSiExams.startPage(); 
+
+apiSiExams.setGuiAutomation();
+
+//apiSiExams.guiAutomationWindow.Items.showInfo();  x
+; 
+//apiSiExams.guiAutomation.buttons().showInfo(); 
+
+//return apiSiExams.guiAutomation.windows()[0].typeFullName(); 
+ 
+//return apiSiExams.guiAutomationWindow;    
+
+return "ok";
+
+
+
+ 
+//ie.open("http://www.google.com"); 
+
+//O2File:API_SI_Exams.cs
+//O2Ref:WatiN.Core.1x.dll
+//O2Ref:White.Core.dll </SourceCode>
+  <ReferencedAssemblies />
+</H2>

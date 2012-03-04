@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("IBM AppScan 7.9 Scan Results Viewer (FireBird Database)", 800,400);
+FbConnection fbConnection  = null;
+var tableList = topPanel.add_TableList();
+var treeView = tableList.insert_Left&lt;Panel&gt;(200)
+					    .add_TreeView();
+					    
+Action&lt;string&gt; openDatabaseFile = 
+	(pathToDatabaseFile) =&gt;	{								
+								"Loading FireBird database: {0}".info(pathToDatabaseFile);
+								try
+								{
+									fbConnection = new FbConnection();
+									fbConnection.ConnectionString = "Database={0};ServerType=1;User=SYSDBA;Password=masterkey".format(pathToDatabaseFile);
+									fbConnection.Open();
+									
+
+									var listAllTables = "select rdb$relation_name " + 
+														"from rdb$relations " + 
+														"where rdb$view_blr is null " + 
+														"and (rdb$system_flag is null or rdb$system_flag = 0);";
+					
+									FbCommand cmd = new FbCommand(listAllTables, fbConnection);
+									
+									var results = cmd.ExecuteReader();
+									
+									//this will get all the tables in the current database
+									var currentTables = new List&lt;string&gt;();
+									foreach(DbDataRecord result in results)
+										currentTables.Add(result[0].str());
+
+
+									treeView.add_Nodes(currentTables)
+											.selectFirst();
+								}
+								catch(Exception ex)
+								{
+									ex.log("in openDatabaseFile");
+								}
+							};
+						
+Action&lt;string&gt; showTableInTableList = 
+	(tableName)=&gt;{
+					if(fbConnection.notNull())
+					{
+						tableList.clearTable();
+						var sql = "select * from {0}".format(tableName);
+						var tableData = new FbCommand(sql, fbConnection)	
+										          .ExecuteReader();				   	
+						foreach(DataRow dataRow in tableData.GetSchemaTable().Rows) 
+							tableList.add_Column(dataRow.ItemArray[0].str()); 
+						foreach(DbDataRecord result in tableData) 
+						{
+							var rowData = new List&lt;string&gt;();
+							for(int i=0; i &lt; result.FieldCount; i++) 
+								rowData.Add(result[i].str());
+							tableList.add_Row(rowData);	
+						}		
+						tableList.makeColumnWidthMatchCellWidth();
+					};
+				 };
+
+Action&lt;string&gt; openDroppedFile = 
+	(droppedFileOrFolder)=&gt; {										
+								if (droppedFileOrFolder.fileExists())
+								{
+									if (droppedFileOrFolder.extension().lower() == ".fdb")
+									{
+										openDatabaseFile(droppedFileOrFolder);
+										return;
+									}
+									if (droppedFileOrFolder.extension().lower() == ".scan")
+									{
+										"Found a *.scan file, unzipping it".info();								
+										droppedFileOrFolder = droppedFileOrFolder.unzip_File();
+									}		
+									else
+										"unsupported file type: {0}".error(droppedFileOrFolder);					
+								}
+								if (droppedFileOrFolder.dirExists())
+								{
+									var fdbFile  = droppedFileOrFolder.pathCombine("RESULTSDB.FDB");
+									openDatabaseFile(fdbFile);									
+								}
+							};
+					
+treeView.afterSelect&lt;string&gt;(showTableInTableList);	    
+
+treeView.onDrop(openDroppedFile);
+tableList.getListViewControl().onDrop(openDroppedFile);  
+  
+//using FirebirdSql.Data.FirebirdClient 
+//using System.Data 
+//using System.Data.Common
+//O2Download:fbembed.dll
+//O2Ref:FirebirdSql.Data.FirebirdClient.dll
+
+//Note:Downloaded Embedded Firebird for Windows from http://sourceforge.net/projects/firebird/files/firebird-win32/2.0.6-Release/Firebird-2.0.6.13266-0_embed_pdb.zip/download
+// files from Embedded Firebird that need to be on the O2 Execution Dir
+//  fbembed.dll
+//  icuin30.dll
+//  icuuc30.dll
+//  icudt30.dll
+//  ib_util.dll
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

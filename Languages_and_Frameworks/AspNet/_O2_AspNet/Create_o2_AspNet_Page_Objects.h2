@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = O2Gui.open&lt;Panel&gt;("{name}",700,400);
+var request = HttpContext.Current.Request;
+var response = HttpContext.Current.Response; 
+
+O2Gui.open&lt;System.Windows.Forms.Panel&gt;("Util - LogViewer", 400,140).add_LogViewer().bringToFront();
+
+		var binFolder = AppDomain.CurrentDomain.RelativeSearchPath;
+		var targetFolder = binFolder.pathCombine("_Saved_AspNetPage_Objects").createDir();
+		response.Write("&lt;h3&gt;Files will be saved at: {0}&lt;/h3&gt;".format(targetFolder));
+		 
+		//show.info(Request);
+		var rootFolder = AppDomain.CurrentDomain.BaseDirectory;
+		var server = "localhost";
+
+		Action&lt;string&gt; processPage =
+			(page)=&gt;{			
+						"Processing page: {0}".info(page);
+						try
+						{
+							var aspNetPage  = new AspNet_Page(rootFolder, "/", server);		
+							aspNetPage.Store_AspNet_SourceCode = true;
+							aspNetPage.Store_Compiled_AspNet_SourceCode = true;
+							aspNetPage.parseAspNetPage(page);     						
+							var targetPage = targetFolder.pathCombine(page.safeFileName()+".xml");
+							if (aspNetPage.saveAs(targetPage))
+								response.Write("processed: {0}&lt;br/&gt;".format(page).info());						
+						}
+						catch(Exception ex)
+						{
+							"Error processing page: {0}: {1}".format(page, ex.Message);
+							response.Write("error: {0} - {1}&lt;br/&gt;".format(page, ex.Message).info());						
+						}
+						response.Flush();
+					};							
+		
+		
+		foreach(var file in rootFolder.files("*.aspx", true))
+		{
+			var virtualPath = "/" + file.remove(rootFolder).replace("\\","/");			
+			processPage(virtualPath);			
+		}
+		var pageName = "/a.aspx";
+		//processPage(pageName);
+		response.Flush();
+
+//using O2.XRules.Database.Languages_and_Frameworks.DotNet	
+//using System.Web
+//O2Ref System.Web.dll
+//O2File:AspNet_Page.cs</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - O2 WAF Simulator (simple GUI)",1000,400); 
+//var topPanel = panel.clear().add_Panel();   
+var o2WebProxy = new O2_Web_Proxy();          
+o2WebProxy.createGui_WAF(topPanel);
+o2WebProxy.startWebProxy();     
+
+var browser = topPanel.controls&lt;WebBrowser&gt;(true)[0];    
+browser.open("http://www.google.com");    
+
+//using HTTPProxyServer;
+//O2File:O2_Web_Proxy.cs
+//O2File:O2_Web_Proxy_ExtensionMethods_GUI_Helpers.cs
+//O2File:ProxyServer.cs  
+//O2File:API_ConsoleOut.cs </SourceCode>
+  <ReferencedAssemblies />
+</H2>

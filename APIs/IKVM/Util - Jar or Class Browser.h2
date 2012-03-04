@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - Jar or Class Browser",700,400);
+     
+var objectViewer = topPanel.add_Control&lt;ascx_ObjectViewer&gt;(); 
+objectViewer.simpleView();
+
+var leftTreeView = objectViewer.controls&lt;TreeView&gt;(true)[0];
+leftTreeView.onDrop(
+	(fileOrFolder)=&gt;{		
+				leftTreeView.clear();
+				leftTreeView.azure();
+				O2Thread.mtaThread(
+					()=&gt;{
+							if (fileOrFolder.dirExists())
+							{
+								"Item dropped was a folder, so creating zip of it".info();
+								fileOrFolder = fileOrFolder.zip_Folder("{0}.zip".format(fileOrFolder.fileName()).tempFile()); 
+								"Created zip file: {0}".info(fileOrFolder);
+							}	
+							var ikvmc = new API_IKVMC();		
+							var javaMetadata = ikvmc.create_JavaMetadata(fileOrFolder);     
+							objectViewer.show(javaMetadata);
+							leftTreeView.white();
+						});
+			});
+leftTreeView.add_Node("Drop jar or class here to view it"); 
+
+
+return "done";
+//using O2.XRules.Database.APIs.IKVM
+//O2File:API_IKVMC.cs </SourceCode>
+  <ReferencedAssemblies />
+</H2>

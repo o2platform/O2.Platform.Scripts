@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - Saved MethodStream files Viewer",1200,500);
+//var topPanel = panel.clear().add_Panel(); 
+ 
+var codeStreams = topPanel.add_Control&lt;ascx_CodeStreams&gt;(); 
+var methodStreams= topPanel.insert_Left().add_TreeView();
+var filesLoaded = new List&lt;string&gt;();
+methodStreams.afterSelect&lt;string&gt;(
+				(file)=&gt;{	
+							codeStreams.loadMethodStreamFile(file); 
+						});
+methodStreams.onDrop(
+	(fileOrFolder)=&gt;{
+						if (fileOrFolder.fileExists())
+						{
+							filesLoaded.add(fileOrFolder);
+							methodStreams.add_Node(fileOrFolder.fileName(), fileOrFolder);
+						}
+						else
+						{
+							filesLoaded = fileOrFolder.files();
+							methodStreams.add_Files(filesLoaded)				   
+										 .selectFirst();		
+						}
+					});
+methodStreams.insert_Above(20).add_TextBox("Filter","")
+			 .onTextChange((text)=&gt; {
+			 							methodStreams.clear();
+			 							var filteredItems = (from file in filesLoaded
+			 												 where file.regEx(text)
+			 												 select file).toList();
+			 												 
+			 							methodStreams.add_Files(filteredItems);
+							 	 	});
+
+//O2File:ascx_CodeStreams.cs
+//using O2.XRules.Database.Languages_and_Frameworks.DotNet
+//O2Ref:O2_API_AST.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

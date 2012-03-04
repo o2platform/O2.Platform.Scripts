@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var demosFolder = PublicDI.config.LocalScriptsFolder.pathCombine(@"_Demos\Browser_Automation_IE_Demos");	
+var welcomeMessage = "ie.showMessage(\"Browser Automation / IE Demos\".line().line() + ".line() + 
+			         "\"Click on one of the demos from the left-hand directory\");"; 
+
+var topPanel = O2Gui.open&lt;Panel&gt;("Browser Automation / IE Demos",1000,600);
+
+var demoExecutionPanel = topPanel.add_GroupBox("Demo Execution").add_Panel();
+var directory = demoExecutionPanel.parent().insert_Left&lt;GroupBox&gt;(200).set_Text("List of Available Demos").add_Directory(demosFolder);//.add_TreeView().showSelection().sort();
+ascx_IE_ScriptExecution scriptExecution = demoExecutionPanel.add_Control&lt;ascx_IE_ScriptExecution&gt;().buildGui(welcomeMessage);
+
+Action&lt;string&gt; showScript = 	
+	(file) =&gt;
+		{
+			if (file.fileExists())
+			{
+				scriptExecution.script.commandsToExecute.open(file);			
+				scriptExecution.script.onCompileExecuteOnce();			
+			}
+		};
+directory.eDirectoryEvent_DoubleClick += (file) =&gt; 	showScript( file);
+
+return "done";
+//O2File:ascx_IE_ScriptExecution.cs</SourceCode>
+  <ReferencedAssemblies />
+</H2>

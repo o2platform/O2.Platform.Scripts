@@ -1,0 +1,94 @@
+// This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
+//O2Tag_OnlyAddReferencedAssemblies
+//O2Ref:System.dll
+//O2Ref:System.Web.dll
+//O2Ref:System.Drawing.dll
+//O2Ref:System.Core.dll
+//O2Ref:System.Windows.Forms.dll
+//O2Ref:O2_Kernel.dll
+//O2Ref:O2_Interfaces.dll
+//O2Ref:O2_DotNetWrappers.dll
+//O2Ref:O2_Views_ASCX.dll
+//O2Ref:O2_External_SharpDevelop.dll
+//O2Ref:merlin.dll
+//O2Ref:nunit.framework.dll
+//O2Ref:_HostLocalWebsite (O2 Tool).exe
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using O2.Kernel;
+using O2.Interfaces.O2Core;
+using O2.DotNetWrappers.DotNet;
+using O2.DotNetWrappers.Windows;
+using O2.Views.ASCX;
+using O2.Views.ASCX.MerlinWizard;
+using O2.Views.ASCX.MerlinWizard.O2Wizard_ExtensionMethods;
+using O2.Tool.HostLocalWebsite.ascx;
+using Merlin;
+using MerlinStepLibrary;
+using NUnit.Framework; 
+using System.Windows.Forms;
+
+using O2.Tool.HostLocalWebsite.classes;
+//O2Ref:_HostLocalWebsite (O2 Tool).exe
+//O2Ref:MS_VS_WebDev.WebServer.exe
+
+namespace O2.Script
+{	
+	[TestFixture]
+	[O2WizardAttribute]
+    public class Wizard_Start_HacmeBank
+    {    
+    	private static IO2Log log = PublicDI.log;
+		private static string hacmeBankRootFolder = @"C:\O2\DemoData\HacmeBank_v2.0 (Dinis version - 7 Dec 08)";
+		private static string hacmeBankUrl; // = @"http://127.0.0.1/HacmeBank_v2_Website";
+		ascx_HostLocalWebsite webServicesHost;
+    	ascx_HostLocalWebsite webSiteHost;
+
+		[Test]
+        public string runWizard()
+        {               
+        	var o2Wizard = new O2Wizard("Start Hacmebank");			        	
+			o2Wizard.Steps.add_SelectFolder("Config HacmeBank folder dir", hacmeBankRootFolder, (newValue) => hacmeBankRootFolder = newValue);			
+        	o2Wizard.Steps.add_WebBrowser("Browser","Viewing Hacmebank folder in a WebBrowser", hacmeBankRootFolder);
+        	o2Wizard.Steps.add_Control(typeof(ascx_HostLocalWebsite), "HacmeBank - WebServices","HacmeBank - WebServices", startWebServices);
+        	o2Wizard.Steps.add_Control(typeof(ascx_HostLocalWebsite), "HacmeBank - WebSite","HacmeBank - WebServices", startWebSite);        
+			o2Wizard.Steps.add_WebBrowser("Browser","Exploit Hacmebank :)", hacmeBankUrl, openHomePage);
+        	o2Wizard.Steps.add_Action("Closing Down WebServers", closeWebServers);
+        	o2Wizard.start();
+        	
+        	return "ok..";
+        }
+    	    
+    	public void startWebServices(IStep step)
+    	{       		
+    		var websiteFolder = hacmeBankRootFolder + @"\HacmeBank_v2_WS";    		
+    		webServicesHost = (ascx_HostLocalWebsite)step.FirstControl;    		
+    		webServicesHost.startWebServerOnDirectory(websiteFolder,"80");
+    	}
+    	
+    	public void startWebSite(IStep step)
+    	{
+    		var websiteFolder = hacmeBankRootFolder + @"\HacmeBank_v2_Website";    		
+    		webSiteHost = (ascx_HostLocalWebsite)step.FirstControl;    		
+    		hacmeBankUrl = webSiteHost.startWebServerOnDirectory(websiteFolder);    		    		
+    	}
+    	
+    	public void openHomePage(IStep step)
+    	{
+    		var webBrowser = (WebBrowser)step.UI;
+    		webBrowser.Navigate(hacmeBankUrl);    		
+    	}
+    	
+    	public void closeWebServers(IStep step)
+    	{
+    		step.set_Text("Closing Web Servers");
+    		step.append_Line(":");
+    		webServicesHost.webservices.StopWebService();
+    		webSiteHost.webservices.StopWebService();
+    		step.append_Line("Done..");
+    	}
+    }
+}

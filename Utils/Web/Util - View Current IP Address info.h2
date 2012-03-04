@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.clear().add_Panel();
+var topPanel = O2Gui.open&lt;Panel&gt;("IPAddress", 650,400);
+var tableList = topPanel.add_TableList("IP Details (select to copy value to clipboard)"); 
+tableList.afterSelect(
+	(selectedRows)=&gt;{						
+						if(selectedRows.notNull() &amp;&amp;  selectedRows.size()==1)						
+							selectedRows[0].values()[1].toClipboard();							
+					});
+
+var ipAddress = tableList.insert_Above&lt;Panel&gt;(40)
+		 				  .add_Label("Your current IP is:").size(20) 
+		 				  .append_Label("...").size(20).autoSize(); 
+var history = tableList.insert_Right&lt;Panel&gt;(250).add_GroupBox("IPAddress History").add_TextArea();
+Func&lt;Dictionary&lt;string,string&gt;&gt; getIpData =
+	()=&gt;{
+			var ipServiceUrl = @"http://ip-address.domaintools.com/myip.xml";
+			var xmlData = ipServiceUrl.uri().getHtml();			
+			if (xmlData.valid())
+			{		
+				var ipData = new Dictionary&lt;string,string&gt;();
+				foreach(var element in xmlData.xRoot().elements())
+					ipData.Add(element.name(), element.value());				
+				return ipData;				
+			}
+			return null;
+		};
+
+Action showIpData = 
+	()=&gt;{
+			tableList.clearTable();
+			ipAddress.set_Text("fetching data...").textColor(Color.DarkGreen);  
+			var ipData = getIpData();  
+			if(ipData.notNull())
+			{				
+				tableList.show(ipData).makeColumnWidthMatchCellWidth();								
+				ipAddress.set_Text(ipData["ip_address"]).textColor(Color.DarkBlue);
+				history.append_Line("[{0}]: {1}".format(DateTime.Now.str(),ipData["ip_address"])); 
+			}
+			else			
+				ipAddress.set_Text("error!!!").textColor(Color.Red);	
+		};
+
+ipAddress.append_Link("refresh", ()=&gt;showIpData()).left(450).top(12);
+
+showIpData();
+return "ok";
+
+
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

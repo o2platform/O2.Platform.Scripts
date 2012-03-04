@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - View WebMethod's PrincipalPermission Mappings",700,400); 
+//var topPanel = panel.clear().add_Panel();  
+topPanel.insert_Below(100).add_LogViewer();      
+
+var control = topPanel;
+var codeViewer = control.add_SourceCodeViewer();
+var treeView = codeViewer.insert_Left(200).add_TreeView();
+var tableList = codeViewer.insert_Above().add_TableList();			
+var useCachedData = true;
+var currentSourceCodeFolder = "";
+
+tableList.afterSelect(
+	(listViewItems)=&gt;{
+						if (listViewItems.size()==1)
+						{
+							var values = listViewItems[0].values(); 
+							codeViewer.open(values[2])
+									  .editor()
+									  .gotoLine(values[3].toInt()); 									  
+							tableList.focus();		  
+						}
+					});
+					
+Action&lt;string&gt; loadFilesAndShowData = 
+	(sourceCodeFolder)=&gt;
+		{
+			currentSourceCodeFolder = sourceCodeFolder;
+			treeView.clear();
+			treeView.backColor(Color.Azure);
+			O2Thread.mtaThread(
+				()=&gt;{		
+						var astData =  sourceCodeFolder.get_O2MappedAstData_UsingCache(useCachedData); // to reload without cache use -&gt; sourceCodeFolder.getO2MappedAstData(); 
+						
+						var webMethods = (from attribute in astData.attributes()  
+							  where attribute.name() == "WebMethod"				  
+							  select attribute).toList();				 
+			
+						tableList.add_Columns("Method signature", "Method Name", "File", "Line", "Has PrincipalPermission", "Role Type", "Role");
+						var roleMappings = new Dictionary&lt;string, List&lt;MethodDeclaration&gt;&gt;();			 		
+						
+						foreach(var webMethod in webMethods)
+						{ 
+							var methodDeclaration = webMethod.methodDeclaration();
+							var iMethod = astData.iMethod(methodDeclaration); 
+							var methodAttributes = methodDeclaration.attributes();	
+							var principalPermission = methodAttributes.name("PrincipalPermission");
+							var hasPrincipalPermission = principalPermission .notNull();	
+							var roleValue = "...";
+							var roleType = "...";
+							if (hasPrincipalPermission)	
+							{								
+								foreach(var namedArgument in principalPermission.NamedArguments)
+									if (namedArgument.Name == "Role")
+										roleValue =  (namedArgument.Expression as PrimitiveExpression).Value.str();				
+								foreach(var positionalArgument in principalPermission.PositionalArguments)
+									if (positionalArgument is MemberReferenceExpression)
+										roleType =  (positionalArgument as MemberReferenceExpression).MemberName;
+							}		
+							roleMappings.add(roleValue, methodDeclaration);
+							
+							tableList.add_Row(iMethod.fullName(), 
+											  iMethod.name(), 
+											  astData.file(methodDeclaration),
+											  webMethod.StartLocation.Line.str(),
+											  hasPrincipalPermission.str(),
+											  roleType,
+											  roleValue); 
+						} 
+						
+						astData.afterSelect_ShowInSourceCodeEditor(treeView, codeViewer.editor()); 
+						foreach(var item in roleMappings)
+							treeView.add_Node(item.Key)
+									.add_Nodes(item.Value, (methodDeclaration)=&gt; astData.iMethod(methodDeclaration).name()); 
+						treeView.backColor(Color.White);
+					});
+		};
+		
+treeView.onDrop(loadFilesAndShowData);
+treeView.add_ContextMenu().add_MenuItem("Refresh", ()=&gt; loadFilesAndShowData(currentSourceCodeFolder));
+treeView.insert_Below(20).add_CheckBox("Use cached data", 0,0,(value)=&gt; useCachedData = value).check().autoSize() 
+			  		     .append_Link("refresh",  ()=&gt; loadFilesAndShowData(currentSourceCodeFolder)).top(1);
+
+treeView.add_Node("Drop folder with");
+treeView.add_Node("    .NET source code to process it"); 
+
+return "ok";
+
+//using O2.XRules.Database.Languages_and_Frameworks.DotNet
+//O2Ref:O2_API_AST.dll
+//using O2.API.AST.CSharp; 
+//using O2.API.AST.ExtensionMethods.CSharp
+//O2File:O2MappedAstData_ExtensionMethods.cs 
+//O2File: SharpDevelop_O2MappedAstData_ExtensionMethods.cs				  
+//using ICSharpCode.NRefactory.Ast</SourceCode>
+  <ReferencedAssemblies />
+</H2>

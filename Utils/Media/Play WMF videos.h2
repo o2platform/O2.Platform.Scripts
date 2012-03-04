@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Play WMF Videos", 400,400); 
+var video = topPanel.add_Video();
+var fileToPlay = topPanel.insert_Above&lt;TextBox&gt;(18);
+
+Action&lt;string&gt; playFile = 
+	(videoFile)=&gt;{		
+					try
+					{
+						if (videoFile.fileExists())
+						{	
+							"Loading video:{0}".info(videoFile);
+							fileToPlay.set_Text(videoFile);
+							video.play(videoFile);
+							"after play".info();
+						}
+					}
+					catch(Exception ex)
+					{
+						ex.log("[Play WMV videos] in playFile");
+					}
+				  };
+
+fileToPlay.onDrop(playFile)
+		  .onEnter(playFile);
+	 			
+video.onDrop(playFile);
+	 
+return null; 
+//O2File:API_WindowsMediaPlayer.cs
+//O2Ref:Interop.WMPLib.dll
+//O2Ref:AxInterop.WMPLib.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

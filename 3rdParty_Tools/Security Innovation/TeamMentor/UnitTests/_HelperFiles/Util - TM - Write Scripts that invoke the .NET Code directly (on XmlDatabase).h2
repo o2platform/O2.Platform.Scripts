@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>TMConfig.BaseFolder = Test_TM.tmWebSiteFolder; 
+var testXmlDatabase = new TM_Test_XmlDatabase(TMConfig.BaseFolder); 
+var tmWebServices = testXmlDatabase.webServices();   
+var tmXmlDatabase = testXmlDatabase.xmlDatabase(); 
+
+var OWASP_LIBRARY_GUID = "4738d445-bc9b-456c-8b35-a35057596c16".guid();
+
+var owaspLibrary = tmWebServices.GetLibraryById(OWASP_LIBRARY_GUID); 
+return owaspLibrary;
+ 
+
+return "ok";
+
+//using O2.SecurityInnovation.TeamMentor;
+//using SecurityInnovation.TeamMentor.WebClient;
+//using O2.SecurityInnovation.TeamMentor.WebClient;
+//using SecurityInnovation.TeamMentor.WebClient.WebServices
+
+//O2File:TM_Test_XmlDatabase.cs
+
+//_O2Ref:TM_WebServices.asmx.dll
+//O2Ref:System.Web.Services.dll
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
+//O2Tag_DontAddExtraO2Files</SourceCode>
+  <ReferencedAssemblies />
+</H2>

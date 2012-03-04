@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>
+var topPanel = O2Gui.open&lt;Panel&gt;("Map HacmeBank Ascx entry points",600,400);
+topPanel.insert_Below&lt;Panel&gt;(100).add_LogViewer();
+//var pathToRemove = "http://localhost:{0}/Hacmebank_v2/main.aspx?TargetPage={1}";
+var originalPath = @"C:\O2\Demos\HacmeBank\HacmeBank_v2.0 (7 Dec 08)\HacmeBank_v2_Website\ascx";
+
+O2.ImportExport.OunceLabs.OunceAvailableEngines.addAvailableEnginesToControl(typeof(ascx_FindingsViewer));
+
+var findingsViewer = topPanel.add_Control&lt;ascx_FindingsViewer&gt;();
+
+var o2Findings = new List&lt;IO2Finding&gt;();
+
+var urlBase = "http://localhost:{0}/Hacmebank_v2/main.aspx?TargetPage={1}";
+
+var port = 22222;
+foreach(var file in originalPath.files("*.cs",true))
+{	
+	"Processing file:{0}".info(file);
+	var url = urlBase.format(port, file.replace(originalPath,"").replace(".ascx.cs",""));
+	
+	foreach(var type in file.csharpAst().types(true))
+		foreach(var baseType in type.BaseTypes)			
+			if (baseType.str() == "System.Web.UI.UserControl")				
+			{
+				var astData = new O2MappedAstData();
+				astData.loadFile(file);
+				foreach(var iMethod in astData.iMethods())
+				{
+					var o2Finding = new O2Finding();
+					o2Finding.vulnName = url;
+					o2Finding.vulnType = "Web EntryPoint";
+					var source = new O2Trace(url);
+					var sink = new O2Trace(iMethod.fullName());
+					source.traceType = TraceType.Source;
+					sink.traceType = TraceType.Known_Sink;					
+					source.childTraces.Add(sink);
+					o2Finding.o2Traces.Add(source);					
+					o2Findings.Add(o2Finding);									
+				}									
+			}	
+}		
+findingsViewer.show(o2Findings);	
+		
+return null;
+
+
+//using O2.XRules.Database.Languages_and_Frameworks.DotNet; 
+//using O2.API.AST.CSharp;
+//using O2.API.AST.ExtensionMethods;
+//using O2.API.AST.ExtensionMethods.CSharp;
+//using ICSharpCode.NRefactory.Ast;
+//O2File:IAST_Rules.cs
+//O2File:TextEditor_O2CodeStream_ExtensionMethods.cs
+//O2File:Findings_ExtensionMethods.cs
+//O2File:Ast_Engine_ExtensionMethods.cs
+
+//O2Ref:O2_API_AST.dll
+//O2Ref:QuickGraph.dll
+
+
+//using O2.Interfaces.O2Findings;
+//using O2.Views.ASCX.O2Findings;
+//using O2.XRules.Database.Findings;
+//using O2.DotNetWrappers.O2Findings;
+
+//O2File:Findings_ExtensionMethods.cs
+//O2Ref:O2_ImportExport_OunceLabs.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

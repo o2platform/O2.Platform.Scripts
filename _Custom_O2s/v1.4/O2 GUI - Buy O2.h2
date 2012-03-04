@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>/*panel.clear();
+var topPanel = panel.add_Panel();
+topPanel.fill(false)
+		.width(800)
+		.height(170); 
+*/
+
+var o2CommercialServicesUrl = "http://o2platform.com/wiki/O2_Commercial_Services";
+var o2SubscriptionsUrl = "http://www.o2platform.com/wiki/O2_Subscriptions";
+var title = "Buy O2";
+var topPanel = O2Gui.open&lt;Panel&gt;("O2 GUI - " + title, 800,570);    
+
+topPanel.parentForm().top(60).left(60); 
+
+var logoNoShadow = "O2_Logo_no_Shadow.jpg".local(); 
+var smallLogo = "O2Logo_Small.gif".local();
+
+var ribbon = topPanel.insert_Above&lt;WPF_Ribbon&gt;(135); 
+
+var o2CommercialServices  = ribbon.Ribbon.add_RibbonTab("O2 Commercial Services");  
+o2CommercialServices.add_RibbonGroup("Available Services") 		
+					.add_RibbonButton_Web(topPanel,"O2 Subscriptions",o2SubscriptionsUrl)
+					.add_RibbonButton_Web(topPanel,"O2 Commercial Services",o2CommercialServicesUrl);
+
+topPanel.add_Control&lt;WebBrowser&gt;().open(o2SubscriptionsUrl);
+
+topPanel.backColor("Control"); 
+topPanel.parent&lt;SplitContainer&gt;().backColor(Color.White); 
+/*
+
+var designerCanvas = topPanel.add_DesignerCanvas(); 
+designerCanvas.add_Label(title ,160,140).fontSize(30);     */
+ 
+return "ok";
+ 
+//using Microsoft.Windows.Controls.Ribbon;
+//using WPF= System.Windows.Controls
+//using DiagramDesigner
+//O2File:WPF_Ribbon.cs 
+//O2File:WPF_Ribbon_ExtensionMethods.cs
+//O2File:DiagramDesigner_ExtensionMethods.cs
+//O2Ref:WindowsFormsIntegration.dll
+//O2Ref:O2_API_Visualization.dll
+//O2Ref:DiagramDesigner.exe
+//O2Ref:RibbonControlsLibrary.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

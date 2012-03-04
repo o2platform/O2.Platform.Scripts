@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var panel = O2Gui.open&lt;Panel&gt;("DotNet 2.0 ViewState Viewer", 800,500);
+ 
+var controls = panel.add_1x1("WebBrowser", "ViewState and ControlState Details"); 
+var iePanel = controls[0].add_Panel();
+var ie = iePanel.add_IE();
+ie.silent(true);   
+var comboBox = iePanel.insert_Above&lt;Panel&gt;(25) 
+					  .add_Label("Page to open")  
+					  .top(3) 
+					  .append_Control&lt;ComboBox&gt;()   					 
+					  .onEnter((text)=&gt; O2Thread.mtaThread(()=&gt; ie.open(text)));
+ 
+comboBox.align_Right(controls[0])
+		.width(comboBox.width()-4);
+ 
+var viewStatePanel = controls[1].add_Panel();	  
+var viewMode = viewStatePanel.insert_Above&lt;CheckBox&gt;(20).set_Text("Show detailed view");
+viewStatePanel.insert_Below&lt;Panel&gt;(100).add_LogViewer();
+ 
+ie.onNavigate((browser,url) =&gt; 
+	{		
+		comboBox.add_Item((object)url);  
+		comboBox.set_Text(url);
+		"Trying to show the ViewState for: {0}".info(url);
+		viewStatePanel.showViewState(ie,viewMode.value());
+	});
+ 
+comboBox.sendKeys("http://www.microsoft.com/technet/security/current.aspx".line());
+ 
+//using O2.XRules.Database.Utils.O2; 
+//O2File:API_HacmeBank.cs
+//O2File:DotNet_ViewState.cs
+//O2File:WatiN_IE.cs
+ 
+//O2Ref:Interop.SHDocVw.dll
+//O2Ref:WatiN.Core.1x.dll 
+
+//O2File:Scripts_ExtensionMethods.cs 
+//O2File:ascx_Simple_Script_Editor.cs.o2 
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

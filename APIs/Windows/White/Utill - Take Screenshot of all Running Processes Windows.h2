@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//panel.clear();
+//var topPanel = panel.add_Panel();
+var topPanel = O2Gui.open&lt;Panel&gt;("All Processes Screenshots",800,500);
+var pictureBox = topPanel.add_PictureBox();
+var treeView = pictureBox.insert_Left&lt;Panel&gt;(200).add_TreeView();
+treeView.afterSelect&lt;Bitmap&gt;(
+	(bitmap) =&gt; {
+					pictureBox.load(bitmap);
+				});
+				
+var windows =  White.Core.Factory.WindowFactory.Desktop.DesktopWindows();
+foreach(var window in windows)
+{
+	try
+	{
+		"handing window selected: {0}".info(window.Name); 
+		window.DisplayState = DisplayState.Restored;
+		treeView.add_Node(window.Name, window.VisibleImage);
+		window.DisplayState = DisplayState.Minimized;
+	}
+	catch(Exception ex)
+	{
+		ex.log("in " + window.Name);
+	}
+}
+treeView.selectFirst();
+//treeView.add_Nodes(windows);
+
+				
+topPanel.parentForm().WindowState = FormWindowState.Normal;    
+return  "ok:";				
+//using White.Core;
+//using White.Core.UIItems.WindowItems;
+//O2Ref:White.Core.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

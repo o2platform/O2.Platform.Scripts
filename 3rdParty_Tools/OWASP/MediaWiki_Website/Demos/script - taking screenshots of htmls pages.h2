@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//panel.clear();
+//var topPanel = panel;
+var topPanel = O2Gui.open&lt;Panel&gt;("Script - taking screenshots of htmls pages",800,600); 
+var targetFolderBase = @"C:\O2\US_Tour\OWASP Demos\Wiki History";
+var page = "O2"; 
+//var page = "Test";
+var targetFolder = targetFolderBase.pathCombine(page);
+var files = new List&lt;string&gt;();
+for(int i = 0 ; i &lt; 1000; i++)
+{
+	var file = targetFolder.pathCombine("{0}.html".format(i));
+	if (file.fileExists().isFalse())
+		break;
+	files.add(file);
+	
+}
+//var files = targetFolder.files("*.html").sort();
+var browser = topPanel.add_Browser();
+var openOnSliderChange = true;
+var slider = browser.insert_Above&lt;TrackBar&gt;(30); 
+slider.insert_Right&lt;Button&gt;(150)
+	   .set_Text("Take screenshots")
+	   .onClick(()=&gt;{
+	   					openOnSliderChange = false;
+	   					for(int i =0; i &lt; files.size(); i++) 
+	   					{
+	   						var filePath = files[i];
+	   						slider.Value = i;
+	   						browser.openSync(filePath);
+	   						var bitmap = topPanel.bitmap();
+	   						bitmap.save(filePath +".jpg");
+	   					}
+	   					
+	   					
+	   					openOnSliderChange = true;
+	   				});
+slider.invokeOnThread(
+	()=&gt;{
+			slider.Maximum = files.size() -1;  			
+		});
+ 
+Action&lt;int&gt; showPageWithID = 
+	(pageID) =&gt; {
+					var pageIdFile = files[pageID];
+					"Showing page with ID: {0} = &gt;{1}".info(pageID,pageIdFile);
+					if (openOnSliderChange)
+						browser.open(pageIdFile);			
+				};
+		
+slider.Scroll += (sender,e) =&gt;
+	{
+		showPageWithID(slider.Value);
+	};
+showPageWithID(0);	
+//using O2.External.IE.ExtensionMethods
+//O2Ref:O2_External_IE.dll
+//O2File:API_Cropper.cs</SourceCode>
+  <ReferencedAssemblies />
+</H2>
