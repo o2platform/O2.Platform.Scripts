@@ -77,8 +77,9 @@ namespace O2.XRules.Database.Utils
         public bool ExecuteOnEnter { get; set; }        
         public object ReturnData { get; set; }
 		public MethodInvoker onCompilationOk {get ;set;}
-        public string previousCompiledCodeText { get; set; }
-		public Thread TriggerCompilationThread { get; set; }
+        public string previousCompiledCodeText  { get; set; }
+		public Thread TriggerCompilationThread  { get; set; }	
+		public Thread ExecutionThread			{ get; set; }
 		
         public string defaultCode = "PublicDI.log.info(\"Dynamic Data: {0},{1}\", testString, testNumber);"
                                .line("return \"Dynamic Data = \" + testString + \" :: \" + testNumber;");
@@ -87,7 +88,7 @@ namespace O2.XRules.Database.Utils
     	{
             //width = 700;    // make it bigger
             //height = 300;
-                		
+                		  
     		//var control2 = O2Gui.load<PropertyGrid>();
     		//return;
             //var control = (ascx_Simple_Script_Editor)typeof(ascx_Simple_Script_Editor).showAsForm("O2 Simple Script Editor", 500, 500);			
@@ -106,7 +107,7 @@ namespace O2.XRules.Database.Utils
 
 		public static ascx_Simple_Script_Editor startControl_NoCodeComplete()
 		{
-			var host = O2Gui.load<Panel>("O2 Simple Script Editor...", 700, 300);
+			var host = O2Gui.load<Panel>("O2 Simple Script Editor", 700, 300);
 			return (ascx_Simple_Script_Editor)host.invokeOnThread(
 				()=>{
 						var scriptEditor = new ascx_Simple_Script_Editor(false);						
@@ -179,9 +180,10 @@ namespace O2.XRules.Database.Utils
 			result_RichTextBox = outputPanel.add_RichTextBox();            
         	
         	result_Panel = outputPanel.add_Panel();
-        	        	
+        	
+			executeButton.insert_Below(20).add_Link("stop execution", ()=> stopCurrentExecution());
         }
-         
+		
         public void configureGui()
         {
         	result_Panel.visible(false);
@@ -372,8 +374,11 @@ namespace O2.XRules.Database.Utils
 
 						add_ExtraMethodsFile();									// restore previous mappings here
 						
-						if(this.csharpCompiler.SourceCode.contains(this.Text).isFalse())							
-							"**** Source code didn't match, please compile again".error();
+						//register cacheAssmbly
+						var codeMd5 = previousCompiledCodeText.md5Hash();
+						CompileEngine.CachedCompiledAssemblies.add(codeMd5, this.csharpCompiler.CompiledAssembly.Location);
+
+						executeButton.enabled(true);
 					};
      		 		 
 	    }	         	
@@ -408,14 +413,19 @@ namespace O2.XRules.Database.Utils
 			CompileEngine.LocalScriptFileMappings["_Extra_methods_To_Add_to_Main_CodeBase.cs"] = noExtraMethodsFile;
 		}
 		
-		public void triggerCompilation(string newText)
+		public void triggerCompilation()
 		{								
 			TriggerCompilationThread = O2Thread.mtaThread(
 				()=>{
-						this.sleep(300,false);
+						this.sleep(500,false);
 						// this will only trigger the compilation when the current thread matches the last one created (which doesn't happen when the user types fast
 						if (Thread.CurrentThread.ManagedThreadId == TriggerCompilationThread.ManagedThreadId)
-							compileCodeSnippet(newText);												
+						{				
+							executeButton.enabled(false);
+							result_RichTextBox.textColor(Color.Gray).set_Text("... compiling ...");
+							previousCompiledCodeText = commandsToExecute.get_Text();
+							compileCodeSnippet(previousCompiledCodeText);												
+						}
 						
 					});								
 		}
@@ -424,7 +434,7 @@ namespace O2.XRules.Database.Utils
         {
             if (AutoCompileOnCodeChange)
             {                
-                triggerCompilation(newText);
+                triggerCompilation();
             }
         }
 		
@@ -542,9 +552,21 @@ namespace O2.XRules.Database.Utils
      			if (currentScript.fileExists())
      				PublicDI.CurrentScript = currentScript;
                 result_RichTextBox.textColor(Color.Black).set_Text("Executing code");	  
-     			O2Thread.mtaThread(()=> showResult(csharpCompiler.executeFirstMethod()));
+     			
+				stopCurrentExecution();
+				ExecutionThread = O2Thread.mtaThread(()=> showResult(csharpCompiler.executeFirstMethod()));
      		}
      	}
+
+		public void stopCurrentExecution()
+		{
+			if(ExecutionThread.notNull() && ExecutionThread.IsAlive)
+			{
+				"ExecutionThread is alive, so stopping it".info();
+				ExecutionThread.Abort();
+				result_RichTextBox.textColor(Color.Red).set_Text("...current thread stopped...");	  
+			}					
+		}
      	
      	public void showResult(object result)
      	{

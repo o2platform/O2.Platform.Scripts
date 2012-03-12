@@ -582,8 +582,8 @@ namespace O2.XRules.Database
                     try
                     {
                         if (csharpCompiler != null)
-                            if (csharpCompiler.CompilerResults != null)
-                                if (csharpCompiler.CompilerResults.CompiledAssembly != null)
+                            //if (csharpCompiler.CompilerResults != null)
+                                if (csharpCompiler.CompiledAssembly != null)
                                 {
                                     var result = csharpCompiler.executeFirstMethod();
                                     showInfo("Execution Completed", result);
