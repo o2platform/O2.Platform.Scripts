@@ -34,6 +34,11 @@ using O2.XRules.Database.Utils.O2;
 //O2Ref:O2_External_SharpDevelop.dll
 //O2Ref:O2_External_IE.dll
 
+//O2Ref:PresentationCore.dll
+//O2Ref:PresentationFramework.dll
+//O2Ref:WindowsBase.dll
+//O2Ref:System.Xaml.dll
+
 namespace O2.XRules.Database.Utils.O2
 {
     public class ascx_GraphWithInspector : Control

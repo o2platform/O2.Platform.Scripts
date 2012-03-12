@@ -80,6 +80,12 @@ menuPanel.add_ExecutionComboBox("Need Help?",57,200, help_Mappings).leftAdd(20).
 		 .append_Link("Mailing List",()=&gt; "".startProcess());
 */		 
 		 
-return "done";		 </SourceCode>
+return "done";		
+//O2File:_Extra_methods_WinForms_Controls.cs
+//O2File:_Extra_methods_WinForms_Misc.cs
+//O2File:_Extra_methods_Reflection.cs
+//O2File:_Extra_methods_Items.cs
+//O2Tag_DontAddExtraO2Files
+</SourceCode>
   <ReferencedAssemblies />
 </H2>

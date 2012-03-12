@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using O2.Kernel;
 using O2.Kernel.CodeUtils;
-using O2.Kernel.ExtensionMethods;
+using O2.Kernel.ExtensionMethods ;
 using O2.Interfaces.O2Core;
 using O2.External.WinFormsUI.Forms;
 using O2.DotNetWrappers.DotNet;
@@ -29,8 +29,12 @@ using O2.Views.ASCX.Ascx.MainGUI;
 using O2.Views.ASCX.DataViewers;
 using O2.Views.ASCX.CoreControls;
 using O2.API.AST.ExtensionMethods.CSharp;
-//O2Ref:O2_API_Ast.dll
-//O2Ref:O2_External_WinformsUI.dll
+
+//O2Ref:O2_API_AST.dll
+//O2Ref:O2_External_WinFormsUI.dll
+//O2Ref:O2SharpDevelop.dll
+
+//O2Ref:log4net.dll
 
 namespace O2.XRules.Database.Utils
 {
@@ -39,6 +43,7 @@ namespace O2.XRules.Database.Utils
 	{
 		public void testGui()
 		{
+			//DebugMsg.debugBreak();
 			//ascx_Simple_Script_Editor.startControl();
 			ascx_Simple_Script_Editor.startControl_NoCodeComplete();
 		}
@@ -78,7 +83,6 @@ namespace O2.XRules.Database.Utils
         public string defaultCode = "PublicDI.log.info(\"Dynamic Data: {0},{1}\", testString, testNumber);"
                                .line("return \"Dynamic Data = \" + testString + \" :: \" + testNumber;");
     		
-
         public static ascx_Simple_Script_Editor startControl()
     	{
             //width = 700;    // make it bigger
@@ -102,7 +106,7 @@ namespace O2.XRules.Database.Utils
 
 		public static ascx_Simple_Script_Editor startControl_NoCodeComplete()
 		{
-			var host = O2Gui.load<Panel>("O2 Simple Script Editor", 700, 300);
+			var host = O2Gui.load<Panel>("O2 Simple Script Editor...", 700, 300);
 			return (ascx_Simple_Script_Editor)host.invokeOnThread(
 				()=>{
 						var scriptEditor = new ascx_Simple_Script_Editor(false);						
@@ -130,8 +134,8 @@ namespace O2.XRules.Database.Utils
 			setCompilerEnvironment();            
             
 			createGui();
-			configureGui();
-
+			configureGui();			
+			
             //enabled code complete
             ExecuteOnEnter = false;
             if (codeCompleteSupport)
@@ -149,7 +153,9 @@ namespace O2.XRules.Database.Utils
             var groupBoxes = this.add_1x1("Command To Execute", "Invoke and Result", true, this.Width - 150);   
         	
         	commandsToExecute = groupBoxes[0].add_SourceCodeViewer();
-            commandsToExecute.document().TextEditorProperties.EnableFolding = false;
+        	
+            commandsToExecute.document().TextEditorProperties.EnableFolding = false;  
+            
 			//currentScriptPath = commandsToExecute.insert_Below<TextBox>();
 			
             splitContainer_CommandBox = (SplitContainer)groupBoxes[0].Parent.Parent;
@@ -179,8 +185,9 @@ namespace O2.XRules.Database.Utils
         public void configureGui()
         {
         	result_Panel.visible(false);
-        	executeButton.enabled(false);
-            commandsToExecute.textEditor().showInvalidLines(false);
+        	executeButton.enabled(false);        
+        	
+            commandsToExecute.textEditor().showInvalidLines(false);			
         	
         	swapGeneratedCodeViewMode();         	// make it not visible by default        	
 
@@ -196,7 +203,11 @@ namespace O2.XRules.Database.Utils
         	
         	sourceCodeViewer.astDetails(false);
         	commandsToExecute.astDetails(false);
+        	
+        	
+
         	sourceCodeViewer.textEditorControl().remove_ContextMenu();        	
+        	
         	var contextMenu = commandsToExecute.textEditorControl().add_ContextMenu();        	
         	
         	commandsToExecute.textArea().KeyUp+= (sender,e) => handlePressedKeys(e);

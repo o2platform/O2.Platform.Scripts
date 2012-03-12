@@ -23,6 +23,11 @@ using O2.API.Visualization.ExtensionMethods;
 
 //O2Ref:O2_API_Visualization.dll
 
+//O2Ref:PresentationCore.dll
+//O2Ref:PresentationFramework.dll
+//O2Ref:WindowsBase.dll
+//O2Ref:System.Xaml.dll
+
 namespace O2.XRules.Database.Utils
 {
     public static class WPF_Controls_ExtensionMethods_Generic
