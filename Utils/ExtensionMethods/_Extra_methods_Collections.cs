@@ -80,6 +80,48 @@ namespace O2.XRules.Database.Utils
 			list.RemoveRange(start,end);
 			return list;
 		}
+	
+		public static List<T> list<T>(this T item)
+		{
+			return item.wrapOnList<T>();
+		}
+		
+		public static List<T> push<T>(this List<T> list, T value)
+		{
+			if (list.notNull())			
+				list.add(value);
+			return list;
+		}
+
+		public static T pop<T>(this List<T> list)
+		{			
+			if (list.notNull() && list.Count > 0)
+			{
+				int valuePosition = list.Count - 1;
+				var value = list[valuePosition];
+				list.RemoveAt(valuePosition);
+				return value;
+			}
+			return  default(T);
+		}
+		
+		public static T shift<T>(this List<T> list)
+		{			
+			if (list.notNull() && list.Count > 0)
+			{
+				T value = list[0];
+				list.RemoveAt(0);
+				return value;
+			}
+			return default(T);			
+		}
+	
+		public static List<T> unshift<T>(this List<T> list, T value)
+		{
+			if (list.notNull())			
+				list.Insert(0, value);
+			return list;
+		}
 		
 	}
 	
