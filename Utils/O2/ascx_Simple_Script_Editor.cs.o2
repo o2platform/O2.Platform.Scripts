@@ -30,6 +30,8 @@ using O2.Views.ASCX.DataViewers;
 using O2.Views.ASCX.CoreControls;
 using O2.API.AST.ExtensionMethods.CSharp;
 
+//O2File:_Extra_methods_WinForms_Controls.cs
+
 //O2Ref:O2_API_AST.dll
 //O2Ref:O2_External_WinFormsUI.dll
 //O2Ref:O2SharpDevelop.dll
