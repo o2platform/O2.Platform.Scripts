@@ -473,9 +473,9 @@ namespace O2.XRules.Database.Utils
 											"itemToExecute: {0}".debug(itemToExecute);	
 											"itemToExecuteextension: {0}".debug(itemToExecute.extension(".o2"));
 											if (itemToExecute.extension(".h2") || itemToExecute.extension(".o2"))											
-												if (Control.ModifierKeys != Keys.Shift)
+												if (Control.ModifierKeys == Keys.Shift)
 												{
-													"Shift Key was not pressed, so launching in new process: {0}".info(itemToExecute);
+													"Shift Key pressed, so launching in new process: {0}".info(itemToExecute);
 													itemToExecute.executeH2_or_O2_in_new_Process();
 													return;
 												}
