@@ -48,5 +48,10 @@ namespace O2.XRules.Database.Utils
             zpZipFile.Dispose();
             return targetZipFile;        
 		}
+		
+		public static string unzip(this string zipFile, string targetFolder)
+		{
+			return new zipUtils().unzipFile(zipFile, targetFolder);
+		}
 	}	
 }    	
