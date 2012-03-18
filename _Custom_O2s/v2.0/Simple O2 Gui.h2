@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <H2>
   <SourceCode>"O2Logo.ico".local().icon().set_As_Default_Form_Icon();
-var topPanel = "OWASP O2 Platform v2.0 Beta".popupWindow(800,215);
+var topPanel = "OWASP O2 Platform v4.0 Beta".popupWindow(800,215);
 
 //var topPanel = panel.fill(false).width(800).height(190).clear().add_Panel();  
 topPanel.parent().backColor(Color.White);   
