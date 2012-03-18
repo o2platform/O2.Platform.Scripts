@@ -26,8 +26,8 @@ namespace O2.XRules.Database.APIs
 		
 		public ILSpy(bool installNow)
 		{
-			config("ILSpy", "ILSpy 1.0.0.617", "ILSpy_1.0.0.617_Binaries.zip");			
-    		Install_Uri = "http://downloads.sourceforge.net/project/sharpdevelop/ILSpy/1.0/ILSpy_1.0.0.1000_Binaries.zip".uri();
+			config("ILSpy 2.0", "ILSpy_Master_2.0.0.1564", "ILSpy_Master_2.0.0.1564_Beta_Binaries.zip");			
+    		Install_Uri = "http://downloads.sourceforge.net/project/sharpdevelop/ILSpy/2.0/ILSpy_Master_2.0.0.1564_Beta_Binaries.zip".uri();
     		if (installNow)
     			install();    		
 		}
