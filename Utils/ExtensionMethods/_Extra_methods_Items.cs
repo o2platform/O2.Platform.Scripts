@@ -202,7 +202,7 @@ namespace O2.XRules.Database.Utils
 		}
 	}*/
 	
-	
+/*	
 		#region tuples
 
     public class Tuple<T>
@@ -253,5 +253,6 @@ namespace O2.XRules.Database.Utils
     }
 
     #endregion	        
+*/    
 }
     	
