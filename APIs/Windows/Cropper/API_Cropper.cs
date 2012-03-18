@@ -1,8 +1,10 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
 using System;
+using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -14,6 +16,7 @@ using O2.DotNetWrappers.ExtensionMethods;
 using O2.DotNetWrappers.Windows;
 using O2.DotNetWrappers.DotNet;
 using O2.Views.ASCX;
+using Fusion8.Cropper;
 using Fusion8.Cropper.Core;
 using Splicer.WindowsMedia;
 using Splicer.Renderer;
@@ -80,6 +83,11 @@ namespace O2.XRules.Database.APIs
 					});
 			sync.WaitOne();
 			return bitmap;	
+		}
+		
+		public static void openGui()
+		{
+			O2Thread.staThread(new O2Thread.FuncVoid(Program.Main));
 		}
     }
     
@@ -203,11 +211,10 @@ namespace O2.XRules.Database.APIs
     					return 	cropper.capture(x,  y,  width,  height);
     				});
     	}    	    	
-    }
-    
-   
-   public static class API_Cropper_ExtensionMethods_Create_WMV_Videos
-   {
+	}
+       
+   	public static class API_Cropper_ExtensionMethods_Create_WMV_Videos
+   	{
 		
 		public static ITrack add_VideoTrack(this ITimeline timeline)
 		{			
