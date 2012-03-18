@@ -3,14 +3,12 @@
 //O2Ref:System.dll
 //O2Ref:System.Core.dll
 //O2Ref:System.Windows.Forms.dll
-//O2Ref:O2_Kernel.dll
-//O2Ref:O2_Interfaces.dll
-//O2Ref:O2_DotNetWrappers.dll
-//O2Ref:O2_Views_Ascx.dll
+//O2Ref:O2_FluentSharp_CoreLib.dll
 //O2Ref:O2_External_IE.dll
 //O2Ref:O2_External_SharpDevelop.dll
 //O2Ref:O2SharpDevelop.dll
 //O2Ref:System.Drawing.dll
+//O2Ref:Microsoft.mshtml.dll
 using System;
 using System.IO;
 using System.Collections.Generic;
@@ -37,7 +35,7 @@ using O2.External.IE.ExtensionMethods;
 
 using O2.External.SharpDevelop.Ascx;
 using O2.External.SharpDevelop.ExtensionMethods;
-//O2Ref:Microsoft.mshtml.dll
+
 using mshtml;
 
 

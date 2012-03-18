@@ -28,6 +28,7 @@ using White.Core.UIItems.WindowStripControls;
 using White.Core.AutomationElementSearch;
 using System.Windows.Automation;
 
+//O2Ref:WindowsBase.dll
 //O2Ref:White.Core.dll
 //O2Ref:Bricks.dll
 //O2Ref:Bricks.RuntimeFramework.dll
