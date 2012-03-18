@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>
+var topPanel = O2Gui.open&lt;Panel&gt;("Util - Copy Clipboard Image to GitHub Repository",400,400);
+//var topPanel = panel.clear().add_Panel();
+var actionsPanel = topPanel.insert_Above(40, "Actions");
+var url_TextBox = topPanel.insert_Above(20).add_Label("Image Url").append_TextBox("").align_Right();
+var browser = topPanel.add_WebBrowser_Control();
+topPanel.insert_LogViewer();
+
+var localRepository = @"C:\_WorkDir\O2\Images";
+var nGit = new API_NGit(); 
+nGit.open(localRepository); 
+
+
+actionsPanel.add_Link("Open Screenshot tool", ()=&gt; API_Cropper.openGui())
+			.append_Link("Commit image from clipboard and push", 
+						()=&gt;{
+								
+								var image = localRepository.pathCombine("images").createDir().saveImageFromClipboardToFolder();  
+								if (image.notNull())
+								{
+									var o2Timer = new O2Timer("upload to Git").start();
+									var url = "https://github.com/DinisCruz/Images/raw/master/images/{0}".format(image.fileName());
+									"Current Status: {0}".info(nGit.status());
+									nGit.add_and_commit_using_Status();								
+									nGit.push();
+									"Url copied to Cliboard: {0}".info(url);
+									url.clipboardText_Set();
+									o2Timer.stop();
+									browser.open(url);
+								}
+							});			
+
+
+
+
+return nGit;
+
+//O2File:API_NGit.cs
+//O2File:API_Cropper.cs
+
+//O2Ref:NGit.dll
+//O2Ref:NSch.dll
+//O2Ref:Mono.Security.dll 
+//O2Ref:Sharpen.dll 
+
+//O2Tag_DontAddExtraO2Files </SourceCode>
+  <ReferencedAssemblies />
+</H2>
