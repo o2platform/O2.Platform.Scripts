@@ -81,7 +81,7 @@ namespace O2.XRules.Database.Utils
 			miscTools.add_RibbonGroup("Media Tools")
 					 .add_RibbonButton_H2Script("open ScreenShot tool (Cropper)","Util - Show ScreenShot Tool.h2")
 					 .add_Button("save Image From Clipboard (to temp file)",()=> 0.saveImageFromClipboard())
-					 .add_Button("save Image From Clipboard (to user's location)",()=> 0.saveImageFromClipboardToFile());		 
+					 .add_Button("save Image From Clipboard (to user's location)",()=> "".saveImageFromClipboardToFile());		 
 					 	     
 			miscTools.add_RibbonGroup("Media Tools")
 					 .add_RibbonButton_H2Script("Image Editor", "Util - DiagramDesigner Editor.h2")	  	  
