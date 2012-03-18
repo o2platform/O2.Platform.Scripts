@@ -36,6 +36,8 @@ using O2.API.AST.ExtensionMethods.CSharp;
 
 //O2Ref:log4net.dll
 
+//O2File:_Extra_methods_WinForms_Controls.cs
+
 namespace O2.XRules.Database.Utils
 {
 
@@ -74,9 +76,10 @@ namespace O2.XRules.Database.Utils
         public string AutoSaveDir { get; set; }
 		public int width = 300;
 		public int height = 300;
-        public bool ExecuteOnEnter { get; set; }        
-        public object ReturnData { get; set; }
-		public MethodInvoker onCompilationOk {get ;set;}
+        public bool ExecuteOnEnter 				{ get; set; }        
+        public bool ExecuteOnCompile		 	{ get; set; }      
+        public object ReturnData 				{ get; set; }
+		public MethodInvoker onCompilationOk 	{get ;set;}
         public string previousCompiledCodeText  { get; set; }
 		public Thread TriggerCompilationThread  { get; set; }	
 		public Thread ExecutionThread			{ get; set; }
@@ -233,7 +236,8 @@ namespace O2.XRules.Database.Utils
                        //.add_MenuItem("reset assembly  download list", () => {  new O2.Kernel.CodeUtils.O2Svn.clear_AssembliesCheckedIfExists();  }); 
             contextMenu.add_MenuItem("execution options")
                        .add_MenuItem("execute", (menuitem) => execute())
-                       .add_MenuItem("enable /disable Execute on enter", (menuitem) => ExecuteOnEnter = !ExecuteOnEnter)
+                       .add_MenuItem("enable /disable Execute on compile", (menuitem) => ExecuteOnCompile = !ExecuteOnCompile)
+                       .add_MenuItem("enable /disable Execute on enter", (menuitem) => ExecuteOnEnter = !ExecuteOnEnter)                       
                        .add_MenuItem("disable / enabled Auto compile on code change", (menuitem) => AutoCompileOnCodeChange = !AutoCompileOnCodeChange);
             contextMenu.add_MenuItem("auto saved scripts")
                        .add_MenuItem("show auto saved scripts", (menuitem) => showAutoSavedScripts())
@@ -379,6 +383,9 @@ namespace O2.XRules.Database.Utils
 						CompileEngine.CachedCompiledAssemblies.add(codeMd5, this.csharpCompiler.CompiledAssembly.Location);
 
 						executeButton.enabled(true);
+						
+						if(ExecuteOnCompile)
+							execute();
 					};
      		 		 
 	    }	         	
