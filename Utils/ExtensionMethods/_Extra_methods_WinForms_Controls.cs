@@ -108,19 +108,28 @@ namespace O2.XRules.Database.Utils
 			return control;
 		}
 		
-		public static string saveImageFromClipboardToFile(this object _object)
+		public static string saveImageFromClipboardToFolder(this string targetFolder)
 		{
-			var clipboardImagePath = _object.saveImageFromClipboard();
+			var targetFile = targetFolder.pathCombine(DateTime.Now.safeFileName() + ".jpg");
+			return targetFile.saveImageFromClipboardToFile();
+		}
+		
+		public static string saveImageFromClipboardToFile(this string targetFile)
+		{
+			var clipboardImagePath = targetFile.saveImageFromClipboard();
 			if (clipboardImagePath.fileExists())
-			{
-				var fileToSave = O2Forms.askUserForFileToSave(PublicDI.config.O2TempDir,"*.jpg");
+			{				
+				var fileToSave = (targetFile.valid()) 
+										? targetFile
+										: O2Forms.askUserForFileToSave(PublicDI.config.O2TempDir,"*.jpg");
 				if (fileToSave.valid())
 				{
 					Files.MoveFile(clipboardImagePath, fileToSave);
 					"Clipboard Image saved to: {0}".info(fileToSave);
-				}
+					return fileToSave;
+				}				
 			}
-			return clipboardImagePath;
+			return null;
 		}						
 		
 		
