@@ -1,14 +1,9 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
 using System;
 using System.IO;
-using System.Linq;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using System.Text;
-using O2.Kernel;
 using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.Windows;
 using O2.DotNetWrappers.ExtensionMethods;
 using O2.XRules.Database.Utils;
 using NGit.Api;
@@ -16,6 +11,7 @@ using NGit;
 
 //O2File:_Extra_methods_Collections.cs
 //O2File:_Extra_methods_Items.cs
+//O2File:_Extra_methods_Misc.cs
 
 //O2Ref:NGit.dll
 //O2Ref:NSch.dll
@@ -28,7 +24,8 @@ namespace O2.XRules.Database.APIs
     {    
     	 public string  	Path_Local_Repository 	{ get; set; }
     	 public Git 		Git					  	{ get; set; }
-    	 public Repository	Repository			 	{ get; set; }    	    	 
+    	 public Repository	Repository			 	{ get; set; }   
+    	 public GitProgress	LastGitProgress			{ get; set; }   
     }
     
     public class GitProgress : TextProgressMonitor  
@@ -78,24 +75,73 @@ namespace O2.XRules.Database.APIs
     {
     	public static API_NGit init(this API_NGit nGit, string pathToLocalRepository)
     	{
-    		"[API_NGit] init: {0}".debug(pathToLocalRepository);
-    		var init_Command 			= Git.Init();
-    		
-    		init_Command.SetDirectory(pathToLocalRepository);    		
-    		nGit.Git 		 			= init_Command.Call();
-    		nGit.Repository  			= nGit.Git.GetRepository();     		
-    		nGit.Path_Local_Repository  = pathToLocalRepository;
-    		return nGit;
+    		try
+    		{
+	    		"[API_NGit] init: {0}".debug(pathToLocalRepository);
+	    		var init_Command 			= Git.Init();
+	    		
+	    		init_Command.SetDirectory(pathToLocalRepository);    		
+	    		nGit.Git 		 			= init_Command.Call();
+	    		nGit.Repository  			= nGit.Git.GetRepository();     		
+	    		nGit.Path_Local_Repository  = pathToLocalRepository;
+	    		return nGit;
+			}
+    		catch(Exception ex)
+    		{
+    			ex.log("[API_NGit] ");    			
+    		}
+    		return null;
     	}
     	
     	public static API_NGit open(this API_NGit nGit, string pathToLocalRepository)
     	{
-    		"[API_NGit] open: {0}".debug(pathToLocalRepository);
-    		
-    		nGit.Git 					= Git.Open(pathToLocalRepository);
-    		nGit.Repository 		 	= nGit.Git.GetRepository(); 
-    		nGit.Path_Local_Repository  = pathToLocalRepository;
-    		return nGit;
+    		try
+    		{
+	    		"[API_NGit] open: {0}".debug(pathToLocalRepository);
+	    		
+	    		nGit.Git 					= Git.Open(pathToLocalRepository);
+	    		nGit.Repository 		 	= nGit.Git.GetRepository(); 
+	    		nGit.Path_Local_Repository  = pathToLocalRepository;
+	    		return nGit;
+			}
+    		catch(Exception ex)
+    		{
+    			ex.log("[API_NGit] ");    			
+    		}
+    		return null;
+    	}
+    	
+    	public static API_NGit clone(this API_NGit nGit, string sourceRepository, string targetFolder)
+    	{    	
+    		"[API_NGit] cloning: {0} into {1}".debug(sourceRepository, targetFolder);
+    		try
+    		{
+    			//need to find a better way to do this
+    			/*if (sourceRepository.str().ping().isFalse())
+    			{
+    				"[API_NGit] it looks like we are offline, or the provided Uri cannot be reached: {0}".error(sourceRepository);
+    				return null;
+    			}*/
+    			if (targetFolder.dirExists())
+    			{
+    				"[API_NGit] provided target folder already exists,please delete it or provide a difference one: {0}".error(targetFolder);
+    				return null;
+    			}
+    			var start = DateTime.Now;
+	    		var clone_Command = Git.CloneRepository();
+	    		clone_Command.SetDirectory(targetFolder);
+	    		clone_Command.SetURI(sourceRepository);
+	    		nGit.LastGitProgress = new GitProgress();
+	    		clone_Command.SetProgressMonitor(nGit.LastGitProgress);			
+	    		clone_Command.Call();
+	    		"[API_NGit] clone completed in: {0}".debug(start.timeSpan_ToString());
+    			return nGit;
+    		}
+    		catch(Exception ex)
+    		{
+    			ex.log("[API_NGit] ");    			
+    		}
+    		return null;
     	}
     	
     	public static API_NGit add(this API_NGit nGit, string filePattern )
@@ -122,23 +168,37 @@ namespace O2.XRules.Database.APIs
     		return nGit;
     	}
     	
-    	public static GitProgress push(this API_NGit nGit)
+    	public static API_NGit push(this API_NGit nGit)
     	{
     		return nGit.push("origin");
     	}
     	
-    	public static GitProgress push(this API_NGit nGit, string remote)
+    	public static API_NGit push(this API_NGit nGit, string remote)
     	{
     		"[API_NGit] push: {0}".debug(remote);
     		
     		var push_Command = nGit.Git.Push();		
 			push_Command.SetRemote(remote);	
-			var gitProgress = new GitProgress();
-			push_Command.SetProgressMonitor(gitProgress);			
+			nGit.LastGitProgress = new GitProgress();
+	    	push_Command.SetProgressMonitor(nGit.LastGitProgress);			
 			push_Command.Call(); 
 			
 			"[API_NGit] push completed".debug(); 
-			return gitProgress;
+			return nGit;
+		}
+				
+		
+		public static API_NGit pull(this API_NGit nGit) //, string remote)
+    	{    		
+    		//"[API_NGit] pull start".debug();
+    		var pull_Command = nGit.Git.Pull();		    		
+			//pull_Command.SetRemote(remote);	
+			nGit.LastGitProgress = new GitProgress();
+	    	pull_Command.SetProgressMonitor(nGit.LastGitProgress);			
+			pull_Command.Call(); 
+			
+			"[API_NGit] pull completed".debug(); 
+			return nGit;
 		}
     	
     	public static API_NGit add_and_commit_using_Status(this API_NGit nGit )
@@ -188,6 +248,11 @@ namespace O2.XRules.Database.APIs
     		var fileToWrite= nGit.Path_Local_Repository.pathCombine(virtualFileName);
     		fileContents.saveAs(fileToWrite);
     		return nGit;
+    	}
+    	
+    	public static bool isGitRepository(this string pathToFolder)
+    	{
+			return pathToFolder.dirExists() && pathToFolder.pathCombine(".git").dirExists();    	
     	}
     }
 }
