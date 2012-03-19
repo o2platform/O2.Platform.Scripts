@@ -221,6 +221,7 @@ namespace O2.XRules.Database.APIs
 									//currentTarget_TextBox.set_Text(fileOrFolder);
 									O2Thread.mtaThread(
 										()=>{												
+												var start = DateTime.Now;
 												tableList.listView().backColor(Color.Azure);
 												"Loading file(s) from: {0}".info(fileOrFolder);
 												if (fileOrFolder.fileExists())
@@ -241,6 +242,7 @@ namespace O2.XRules.Database.APIs
 												}
 												status_Label.set_Text("Build complete");
 												tableList.listView().backColor(Color.White);		
+												"Build Projects action was completed in: {0}".info(start.timeSpan_ToString());
 											});
 								};	
 			
