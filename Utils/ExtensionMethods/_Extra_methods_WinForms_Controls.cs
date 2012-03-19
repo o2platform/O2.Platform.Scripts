@@ -679,6 +679,12 @@ namespace O2.XRules.Database.Utils
 			return control.backColor(Color.LightPink);
 		}
 		
+		public static T green<T>(this T control)
+			where T : Control
+		{
+			return control.backColor(Color.LightGreen);
+		}	
+		
 		public static T azure<T>(this T control)
 			where T : Control
 		{

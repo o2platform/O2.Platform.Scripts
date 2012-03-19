@@ -75,28 +75,10 @@ namespace O2.XRules.Database.Utils
 		public static RichTextBox showSelection(this RichTextBox richTextBox)
 		{
 			return richTextBox.hideSelection(false);
-		}
+		}		
 	}
-	//TextBox
-	public static class _Extra_TextBox_ExtensionMethods
-	{
-		public static TextBox add_TextBox(this Control control, string text)
-		{
-			var textBox = control.add_TextBox();
-			textBox.set_Text(text);
-			return textBox;
-		}
-		
-		public static TextBox add_TextArea(this Control control, string text)
-		{
-			var textBox = control.add_TextArea();
-			textBox.set_Text(text);
-			return textBox;
-		}
-				
-	}
-	
-		//PropertyGrid
+
+	//PropertyGrid
 	public static class _Extra_PropertyGrid_ExtensionMethods
 	{
 		public static PropertyGrid onValueChange(this PropertyGrid propertyGrid, Action callback)

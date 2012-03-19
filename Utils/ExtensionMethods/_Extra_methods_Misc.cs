@@ -9,6 +9,7 @@ using System.Xml.Serialization;
 using System.Windows.Forms;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using O2.Kernel;
 using O2.Kernel.ExtensionMethods;
 using O2.DotNetWrappers.ExtensionMethods;
@@ -435,6 +436,22 @@ namespace O2.XRules.Database.Utils
 				return false;
 			}
 		}
+		
+		public static string timeSpan_ToString(this DateTime startDateTime)
+		{
+			return startDateTime.duration_to_Now();
+		}
+		
+		public static string duration_to_Now(this DateTime startDateTime)
+		{
+			return  (DateTime.Now -  startDateTime).timeSpan_ToString();
+		}
+				
+		public static string timeSpan_ToString(this TimeSpan timeSpan)
+		{
+			return timeSpan.ToString("mm'm 'ss's 'ff'ms'");
+		}
+		
 	}
 	
 	
@@ -450,5 +467,26 @@ namespace O2.XRules.Database.Utils
 			xmlAttributes.add(newAttribute);
 			return xmlAttributes;
 		}		
+	}
+	
+	public static class _Extra_RegEx_ExtensionMethods	
+	{
+		public static Regex regEx(this string matchPattern, bool bMultiline = true, bool bIgnoreCase = true, bool bExplicitCapture = true)
+		{
+			return RegEx.createRegEx(matchPattern, bMultiline, bIgnoreCase, bExplicitCapture);			
+		}
+		
+		public static List<Match> matches(this string textToSearch, string matchPattern)
+		{
+			return textToSearch.regEx_Matches(matchPattern);
+		}
+		
+		public static List<Match> regEx_Matches(this string textToSearch, string matchPattern)
+		{
+			var matches = new List<Match>();
+			foreach(Match match in matchPattern.regEx().Matches(textToSearch))
+				matches.Add(match);
+			return matches;
+		}
 	}
 }    	

@@ -19,7 +19,7 @@ using O2.Views.ASCX.classes.MainGUI;
 
 namespace O2.XRules.Database.Utils
 {	
-		public static class _Extra_TableList_ExtensionMethods
+	public static class _Extra_TableList_ExtensionMethods
 	{
 		public static ascx_TableList setWidthToContent(this ascx_TableList tableList)
 		{
@@ -53,7 +53,7 @@ namespace O2.XRules.Database.Utils
 							=>{
 									var selectedRow =tableList.selected();
 									if (selectedRow.notNull())
-										callback(selectedRow);
+										O2Thread.mtaThread(()=> callback(selectedRow));
 							  };	
 					});
 			return tableList;					
@@ -70,7 +70,7 @@ namespace O2.XRules.Database.Utils
 									{
 									 	var selectedRow = selectedRows[0]; 
 									 	if (selectedRow.Tag.notNull() && selectedRow.Tag is T)
-									 		callback((T)selectedRow.Tag);
+									 		O2Thread.mtaThread(()=> callback((T)selectedRow.Tag) );;
 									}
 								};
 					});
@@ -91,7 +91,7 @@ namespace O2.XRules.Database.Utils
 									{
 									 	var selectedRow = selectedRows[0]; 
 									 	if (selectedRow.Tag.notNull() && selectedRow.Tag is T)
-									 		callback((T)selectedRow.Tag);
+									 		O2Thread.mtaThread(()=> callback((T)selectedRow.Tag));
 									}
 								});
 			return tableList;
@@ -108,7 +108,7 @@ namespace O2.XRules.Database.Utils
 									 		tags.add((T)selectedRow.Tag);
 									}
 									if (tags.size() > 0)
-										callback(tags);
+										O2Thread.mtaThread(()=> callback(tags));
 								});
 			return tableList;
 		}		
@@ -122,7 +122,7 @@ namespace O2.XRules.Database.Utils
 						 	var selectedRow = selectedRows[0]; 
 						 	var values = selectedRow.values();
 						 	if (values.size() > rowNumber)
-						 		callback(values[rowNumber]);
+						 		O2Thread.mtaThread(()=> callback(values[rowNumber]));
 						}
 					});
 			return tableList;
@@ -138,7 +138,7 @@ namespace O2.XRules.Database.Utils
 			tableList.afterSelect(
 				(selectedRows)=>{			
 						if (selectedRows.size()==1)
-						 	callback(selectedRows[0]);						
+						 	O2Thread.mtaThread(()=> callback(selectedRows[0]));
 					});
 			return tableList;
 		}
@@ -148,7 +148,7 @@ namespace O2.XRules.Database.Utils
 			tableList.afterSelect(
 				(selectedRows)=>{			
 						if (selectedRows.size()==1)
-						 	callback(selectedRows[0].Index);						
+						 	O2Thread.mtaThread(()=> callback(selectedRows[0].Index));
 					});
 			return tableList;
 		}
@@ -161,7 +161,7 @@ namespace O2.XRules.Database.Utils
 						{
 							var index = selectedRows[0].Index;							
 							if (index < items.size())
-						 		callback(items[index]);						
+						 		O2Thread.mtaThread(()=> callback(items[index]));
 						}
 					});
 			return tableList;
@@ -290,5 +290,101 @@ namespace O2.XRules.Database.Utils
                     	return tableList;
 					});
 		}
+		
+		public static ListViewItem add_ListViewItem(this ascx_TableList tableList, params string[] rowData)
+		{
+			return tableList.add_ListViewItem(rowData.toList());
+		}
+		
+		public static ListViewItem add_ListViewItem(this ascx_TableList tableList, List<string> rowData)
+        {
+            return (ListViewItem)tableList.invokeOnThread(
+                ()=>{
+	                	var listView = tableList.getListViewControl();
+	                    var listViewItem = new ListViewItem();
+	                    if (rowData.Count > 0)
+	                    {	                        
+	                        listViewItem.Text = rowData[0]; // hack because SubItems starts adding on the 2nd Column :(
+	                        rowData.RemoveAt(0);
+	                        listViewItem.SubItems.AddRange(rowData.ToArray());
+	                        listView.Items.Add(listViewItem);                        
+	                    }
+	                    return listViewItem;
+	                });
+        }
+        
+        //Colors
+        
+        public static ListViewItem foreColor(this ListViewItem listViewItem, Color color)			
+		{
+			return (ListViewItem)listViewItem.ListView.invokeOnThread(
+                () =>
+                {
+                    listViewItem.ForeColor = color;
+                    return listViewItem;
+                });
+		}
+		
+		public static ListViewItem foreColor(this ListViewItem listViewItem, bool selector, Color color_True, Color color_False )
+		{
+			return listViewItem.foreColor( (selector) 
+												? color_True 
+												: color_False);			
+		}
+		
+        public static ListViewItem white(this ListViewItem listViewItem)			
+		{
+			return listViewItem.foreColor(Color.White);
+		}
+		
+        public static ListViewItem orange(this ListViewItem listViewItem)			
+		{
+			return listViewItem.foreColor(Color.Orange);
+		}
+
+		public static ListViewItem red(this ListViewItem listViewItem)			
+		{
+			return listViewItem.foreColor(Color.Red);
+		}		
+		
+		public static ListViewItem green(this ListViewItem listViewItem)			
+		{
+			return listViewItem.foreColor(Color.DarkGreen);
+		}
+		public static ListViewItem blue(this ListViewItem listViewItem)			
+		{
+			return listViewItem.foreColor(Color.Blue);
+		}
+		
+		public static ListViewItem white_bc(this ListViewItem listViewItem)			
+		{
+			return listViewItem.backColor(Color.White);
+		}
+		
+        public static ListViewItem pink_bc(this ListViewItem listViewItem)			
+		{
+			return listViewItem.backColor(Color.LightPink);
+		}
+
+		public static ListViewItem red_bc(this ListViewItem listViewItem)			
+		{
+			return listViewItem.backColor(Color.Red);
+		}
+		
+		public static ListViewItem azure_bc(this ListViewItem listViewItem)			
+		{
+			return listViewItem.backColor(Color.Azure	);
+		}
+		
+		public static ListViewItem green_bc(this ListViewItem listViewItem)			
+		{
+			return listViewItem.backColor(Color.LightGreen);
+		}
+		public static ListViewItem blue_bc(this ListViewItem listViewItem)			
+		{
+			return listViewItem.backColor(Color.LightBlue);
+		}
+		
+        
 	}
 }
