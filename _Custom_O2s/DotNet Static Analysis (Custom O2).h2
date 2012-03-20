@@ -24,7 +24,7 @@ ast.add_RibbonGroup("Ast Utils")
    .add_Script("Convert VB.Net to CSharp.h2", "Util - Convert VB.Net to CSharp.h2");
 			  
 ast.add_RibbonGroup("PoCs")
-   .add_Script("O2_DotNet_Ast_Engine","O2_DotNet_Ast_Engine.h2")   
+   .add_Script("O2_DotNet_Ast_Engine","O2_DotNet_Ast_Engine.cs")   
    .add_Script("O2_DotNet_Ast_Scanner","O2_DotNet_Ast_Scanner.h2")   
    .add_Script("Util - Debug AST Rules","Util - Debug AST Rules.h2")
    .add_Script("Util - Edit AST Rules","Util - Edit AST Rules.h2");
@@ -71,6 +71,11 @@ return ribbon;
 //O2File:ILSpy.cs
 
 //O2Ref:WindowsFormsIntegration.dll
-//O2Ref:RibbonControlsLibrary.dll</SourceCode>
+//O2Ref:RibbonControlsLibrary.dll
+
+//O2Ref:System.Xaml.dll
+//O2Ref:WindowsBase.dll
+//O2Ref:PresentationCore.dll
+//O2Ref:PresentationFramework.dll</SourceCode>
   <ReferencedAssemblies />
 </H2>

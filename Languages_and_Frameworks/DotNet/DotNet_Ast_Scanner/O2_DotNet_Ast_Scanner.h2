@@ -216,6 +216,7 @@ step2_References.set_Text_Wpf("System.Web".line() +
 
 //O2Ref:O2_API_Visualization.dll
 //O2Ref:O2_API_AST.dll
+//O2Ref:System.Xaml.dll
 </SourceCode>
   <ReferencedAssemblies />
 </H2>

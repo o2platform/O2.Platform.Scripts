@@ -33,8 +33,9 @@ namespace O2.Script
 		private static string testFileToUse()
 		{
 		    //var testFile = @"http://o2platform.googlecode.com/svn/trunk/O2 - All Active Projects/O2_XRules_Database/_Rules/_Samples/HelloWorld.cs";
-		    const string testFile = @"http://o2platform.googlecode.com/svn/trunk/O2_Scripts/Languages_and_Frameworks/DotNet/Mono_and_Reflection/ascx_View_SourceCode_AST.cs.o2";
-            return new Web().checkIfFileExistsAndDownloadIfNot(Path.GetFileName(testFile), testFile);
+		    //const string testFile = @"http://o2platform.googlecode.com/svn/trunk/O2_Scripts/Languages_and_Frameworks/DotNet/Mono_and_Reflection/ascx_View_SourceCode_AST.cs.o2";
+            //return new Web().checkIfFileExistsAndDownloadIfNot(Path.GetFileName(testFile), testFile);
+            return "ascx_View_SourceCode_AST.cs.o2".local();
 		}
     }
 	

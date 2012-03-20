@@ -29,7 +29,7 @@ namespace O2.XRules.Database.APIs
     	public API_NGit_O2Platform()
     	{
     		GitHub_O2_Repositories = "git://github.com/o2platform/{0}.git";
-    		LocalGitRepositories 	   = PublicDI.config.CurrentExecutableDirectory.directoryName(); // by default the one above this one
+    		LocalGitRepositories 	   = PublicDI.config.CurrentExecutableDirectory.pathCombine("..\\..").fullPath(); // by default it is two above the current one
     	}
     }    
     

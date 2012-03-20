@@ -639,7 +639,7 @@ namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 		{
 			if (methodMapping.File.fileExists())
 			{
-				 var sourceCodeLine = Files.getLineFromSourceCode(methodMapping.File, methodMapping.Start_Line.uInt());
+				 var sourceCodeLine = Files_WinForms.getLineFromSourceCode(methodMapping.File, methodMapping.Start_Line.uInt());
 				 if (methodMapping.SourceCode.contains(sourceCodeLine) || sourceCodeLine.contains(methodMapping.SourceCode))
 					 return sourceCodeLine.trim();;				 
 			}

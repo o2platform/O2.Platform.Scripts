@@ -21,7 +21,7 @@ using O2.Views.ASCX.ExtensionMethods;
 //O2File:_Extra_methods_Files.cs
 
 namespace O2.XRules.Database.Utils
-{	
+{	  
 	
 	public static class _Extra_Compilation_ExtensionMethods
 	{
@@ -61,7 +61,7 @@ namespace O2.XRules.Database.Utils
 		}
 		
 		public static string compileToExe(this string sourceFile, string mainClass, string targetFolder)
-		{
+		{			
 			return sourceFile.compileToExtension(".exe", mainClass,targetFolder);
 		}
 		
@@ -72,7 +72,7 @@ namespace O2.XRules.Database.Utils
 		}
 		
 		public static string compileToExtension(this string name, string extension,string mainClass, string currentFolder, string targetFolder)
-    	{            
+    	{                	
             var fileToCompile = currentFolder.pathCombine(name + ".cs");
             var compiledDll = targetFolder.pathCombine(name + extension);
             if (fileToCompile.fileExists().isFalse())
@@ -92,10 +92,12 @@ namespace O2.XRules.Database.Utils
                     "Copied: {0} to {1}".info(assembly.Location, compiledDll);
                     if (compiledDll.fileExists().isFalse())
                         "compiled file not created in: {0}".error(compiledDll);
+                    else
+                    	return compiledDll;
                    
                 }
             } 
-            return compiledDll;
+            return null;
 		}
 
 		public static List<Assembly> copyAssembliesToFolder(this string targetFolder,  params string[] assemblyNames)

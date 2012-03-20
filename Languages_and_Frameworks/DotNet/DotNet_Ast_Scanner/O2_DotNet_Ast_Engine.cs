@@ -39,6 +39,7 @@ using O2.XRules.Database.APIs;
 //O2File:VerticesAndEdges_ExtensionMethods.cs
 //O2File:Wpf_TextEditor_ExtensionMethods.cs
 
+//O2File:ascx_Execute_Scripts.cs
 //O2File:Ast_Engine_ExtensionMethods.cs
 //O2File:Findings_ExtensionMethods.cs
 //O2File:SharpDevelop_O2MappedAstData_ExtensionMethods.cs
@@ -61,18 +62,24 @@ using O2.XRules.Database.APIs;
 //O2Ref:O2_External_IE.dll
 //O2Ref:System.Xml.Linq.dll
 //O2Ref:System.Xml.dll
+//O2Ref:System.Xaml.dll
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
 //O2Ref:GraphSharp.dll
-//O2Ref:GraphSharp.Controls.dll
 //O2Ref:PresentationFramework.dll 
 //O2Ref:PresentationCore.dll 
 //O2Ref:QuickGraph.dll
 //O2Ref:WindowsBase.dll
 //O2Ref:WindowsFormsIntegration.dll
-//O2Ref:ICSharpCode.AvalonEdit.dll
 
 namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 {	
+	public class O2_DotNet_Ast_Engine_Test
+	{
+		public void launchGui()
+		{
+			new O2_DotNet_Ast_Engine().start();
+		}
+	}
     public class O2_DotNet_Ast_Engine : UserControl
 	{	 			
 	 	public Panel HostPanel { get; set; }
