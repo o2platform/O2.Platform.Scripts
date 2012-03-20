@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = O2Gui.open&lt;Panel&gt;("{name}",700,400);
+
+
+var topPanel = panel.clear().add_Panel();     
+var script = "Util - Clone_or_Open and compile O2 Repositories.cs".local();
+var filesMd5 = script.fileContents().md5Hash();
+//return new List&lt;string&gt; {script}.filesContents();
+
+var md5Hash = new List&lt;string&gt; {script}.filesContents().md5Hash();
+CompileEngine.CachedCompiledAssemblies.remove(md5Hash);
+
+var targetFolder = "O2_Platform_V4".tempDir(false).pathCombine("_Install O2").createDir();    
+var compiledFile = script.compileToExe("O2.XRules.Database.Utils.Util_Sync_and_Compile_O2_Repositories",targetFolder); 
+foreach(var referencedAssmebly in compiledFile.assembly().referencedAssemblies())
+{
+	var location = referencedAssmebly.assembly().Location;
+	if (location.lower().contains("microsoft.net").isFalse())
+	{
+		Files.Copy(location, targetFolder);
+		location.info();
+	}
+}
+targetFolder.startProcess(); 
+return "ok"; 
+//O2File:_Extra_methods_Compilation.cs
+//O2File:_Extra_methods_Reflection.cs
+//O2File:_Extra_methods_Windows.cs
+//O2Tag_DontAddExtraO2Files   </SourceCode>
+  <ReferencedAssemblies />
+</H2>
