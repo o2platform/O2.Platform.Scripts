@@ -29,7 +29,6 @@ using O2.XRules.Database.Utils.O2;
 //O2Ref:QuickGraph.dll
 //O2Ref:GraphSharp.Controls.dll
 //O2Ref:WPFExtensions.dll
-//O2Ref:O2_XRules_Database.exe
 //O2Ref:O2SharpDevelop.dll
 //O2Ref:O2_External_SharpDevelop.dll
 //O2Ref:O2_External_IE.dll
@@ -103,7 +102,8 @@ namespace O2.XRules.Database.Utils.O2
 						  "//O2Ref:GraphSharp.dll".line()+
 						  "//O2Ref:QuickGraph.dll".line()+
 						  "//O2Ref:GraphSharp.Controls.dll".line()+
-						  "//O2Ref:ICSharpCode.AvalonEdit.dll".line();
+						  "//O2Ref:ICSharpCode.AvalonEdit.dll".line() +
+						  "//O2Ref:System.Xaml".line();
 
 			script.InvocationParameters.Add("graph", graph);
 			script.InvocationParameters.Add("elementHost", xamlHost.element());
