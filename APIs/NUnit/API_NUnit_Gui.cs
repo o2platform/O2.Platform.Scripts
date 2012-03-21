@@ -26,7 +26,7 @@ using NUnit.Core;
 //O2Ref:nunit.util.dll
 //O2Ref:nunit.core.dll
 //O2Ref:nunit.core.interfaces.dll
-//O2Ref:NUnit.UiKit.dll
+//O2Ref:nunit.uikit.dll
 
 namespace O2.XRules.Database.APIs
 {
