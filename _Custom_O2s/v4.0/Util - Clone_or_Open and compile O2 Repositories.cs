@@ -22,14 +22,24 @@ namespace O2.XRules.Database.Utils
 	}
     public class Util_Sync_and_Compile_O2_Repositories
     { 
-    
+    	public static Action gitSync;
+    	public static Action compileProjects;
+    	public static Action startO2;
+    	
     	public Util_Sync_and_Compile_O2_Repositories()
     	{
     		
     	}
+    	
     	public static void Main()
     	{
     		buildGui();
+    		
+    		gitSync();
+    		
+    		compileProjects();
+    		    		
+    		
     	}
 		public static void buildGui()
 		{
@@ -44,7 +54,7 @@ namespace O2.XRules.Database.Utils
 			//for the O2 installer:			
 			nGit_O2.LocalGitRepositories 	  = PublicDI.config.CurrentExecutableDirectory.pathCombine("..").fullPath(); // by default it is one  above the current one
 			
-			Action gitSync = 
+			gitSync = 
 				()=>{
 						nGit_O2	.cloneOrPull("O2.FluentSharp")
 							  	.cloneOrPull("O2.Platform.Projects")
@@ -52,18 +62,21 @@ namespace O2.XRules.Database.Utils
 						"gitSync completed".info();
 					};
 			
-			Action compileProjects = 
+			compileProjects = 
 				()=>{
-						msBuildGui.buildProjects(nGit_O2.LocalGitRepositories);
+						msBuildGui.buildProjects(nGit_O2.LocalGitRepositories, startO2);
 					};
-				
+			startO2 =
+				()=>{
+						nGit_O2.LocalGitRepositories.pathCombine(@"O2.Platform.Projects\binaries\O2 Platform.exe").startProcess();
+					};
 			//msBuildGui.tableList.title("O2 Platform - MSBuild results");   
 			
 			msBuildGui.topPanel.insert_Above(40,"Actions")
 					  .add_Link	 	 ("Git Sync", 		 ()=> gitSync())
 					  .append_Link	 ("Compile Projects", ()=> compileProjects())		  
 					  .append_Link	 ("Open Target Folder in Explorer", ()=> nGit_O2.LocalGitRepositories.startProcess())
-					  .append_Link	 ("Start 'O2 Platform.exe'", ()=> nGit_O2.LocalGitRepositories.pathCombine(@"O2.Platform.Projects\binaries\O2 Platform.exe").startProcess())
+					  .append_Link	 ("Start 'O2 Platform.exe'", ()=> startO2())
 					  .append_Label  ("Target Folder:").autoSize().top(2)
 					  .append_TextBox(nGit_O2.LocalGitRepositories).align_Right()
 					  											   .onTextChange((text)=> nGit_O2.LocalGitRepositories = text);

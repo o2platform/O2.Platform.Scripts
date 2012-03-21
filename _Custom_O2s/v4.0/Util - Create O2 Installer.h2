@@ -3,7 +3,7 @@
   <SourceCode>//var topPanel = O2Gui.open&lt;Panel&gt;("{name}",700,400);
 
 
-var topPanel = panel.clear().add_Panel();     
+//var topPanel = panel.clear().add_Panel();     
 var script = "Util - Clone_or_Open and compile O2 Repositories.cs".local();
 var filesMd5 = script.fileContents().md5Hash();
 //return new List&lt;string&gt; {script}.filesContents();
@@ -11,7 +11,8 @@ var filesMd5 = script.fileContents().md5Hash();
 var md5Hash = new List&lt;string&gt; {script}.filesContents().md5Hash();
 CompileEngine.CachedCompiledAssemblies.remove(md5Hash);
 
-var targetFolder = "O2_Platform_V4".tempDir(false).pathCombine("_Install O2").createDir();    
+//var targetFolder = "O2_Platform_V4".tempDir(false).pathCombine("_Install O2").createDir();    
+var targetFolder = @"C:\_WorkDir\Git_O2OPlatform\_O2_Platform_Source_Code\O2_Installer\_Install_O2";
 var compiledFile = script.compileToExe("O2.XRules.Database.Utils.Util_Sync_and_Compile_O2_Repositories",targetFolder); 
 foreach(var referencedAssmebly in compiledFile.assembly().referencedAssemblies())
 {

@@ -82,13 +82,14 @@ namespace O2.XRules.Database.APIs
 		}
 		
 		public static API_MSBuild build(this API_MSBuild msBuild, string compilationTarget)
-		{
+		{			
 			msBuild.CompilationTarget = compilationTarget;
 			if (compilationTarget.fileExists())
 			{
+				var arguments = "\"{0}\"".format(msBuild.CompilationTarget);
 				msBuild.ConsoleOut 				= new StringBuilder();					
 				msBuild.BuildStartTime 			= DateTime.Now;								
-				msBuild.MSBuild_Process 		= msBuild.MSBuild_Exe.startProcess( msBuild.CompilationTarget, msBuild.OnConsoleOut);											
+				msBuild.MSBuild_Process 		= msBuild.MSBuild_Exe.startProcess(arguments, msBuild.OnConsoleOut);
 			}
 			else
 				"[API_MSBuild] in build, provided compilationTarget file doesn't exists: {0}".error(compilationTarget);
@@ -144,16 +145,16 @@ namespace O2.XRules.Database.APIs
 	
 	public  class API_MSBuild_Gui
 	{
-		public API_MSBuild 		msBuild;
-		public bool			 	buildEnabled;
-		public Panel			topPanel;
-		public TextBox 			consoleOut_TextArea;
-		//public TextBox			currentTarget_TextBox;
-		public Label			status_Label;
-		public CheckBox			buildEnabled_CheckBox;
-		public ascx_TableList	tableList;
-		public Action<string> 	startBuild;
-		public Action<string>  	buildProjects;
+		public API_MSBuild 			 msBuild;
+		public bool			 		 buildEnabled;
+		public Panel				 topPanel;
+		public TextBox 				 consoleOut_TextArea;
+		//public TextBox			 currentTarget_TextBox;
+		public Label				 status_Label;
+		public CheckBox				 buildEnabled_CheckBox;
+		public ascx_TableList		 tableList;
+		public Action<string> 		 startBuild;
+		public Action<string,Action> buildProjects;
 		
 		public API_MSBuild_Gui(Panel topPanel)
 		{
@@ -216,7 +217,7 @@ namespace O2.XRules.Database.APIs
 			//tableList.onDoubleClick_get_Row((row)=> buildProject(row.values().second()));
 			tableList.columns_Width(200,200,50, 100,-2);
 			
-			buildProjects = (fileOrFolder)=>
+			buildProjects = (fileOrFolder, onBuildComplete)=>
 								{
 									//currentTarget_TextBox.set_Text(fileOrFolder);
 									O2Thread.mtaThread(
@@ -243,10 +244,11 @@ namespace O2.XRules.Database.APIs
 												status_Label.set_Text("Build complete");
 												tableList.listView().backColor(Color.White);		
 												"Build Projects action was completed in: {0}".info(start.timeSpan_ToString());
+												onBuildComplete();
 											});
 								};	
 			
-			tableList.listView().onDrop(buildProjects);
+			tableList.listView().onDrop((fileOrFolder)=> buildProjects(fileOrFolder, ()=>{}));
 			return this;
 		}
 	}
