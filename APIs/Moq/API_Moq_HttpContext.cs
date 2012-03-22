@@ -18,7 +18,7 @@ using O2.DotNetWrappers.ExtensionMethods;
 using Moq;
 
 
-//O2Ref:moq.dll
+//O2Ref:Moq.dll
 //O2Ref:System.Web.Abstractions.dll
 //_O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
 

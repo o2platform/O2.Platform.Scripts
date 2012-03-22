@@ -107,6 +107,7 @@ namespace O2.XRules.Database.Utils
 		
 		public static List<Assembly> copyAssembliesToFolder(this string targetFolder , bool onlyCopyReferencesInO2ExecutionDir, params string[] assemblyNames)
 		{
+			//"[copyReferencesToTargetFolder] copying {0} assemblies into {1}".info(assemblyNames.size(), targetFolder);
 			var assembliesCopied = new List<Assembly>();
 			foreach(var assemblyName in assemblyNames)
 			{
@@ -116,10 +117,11 @@ namespace O2.XRules.Database.Utils
 					var location = assembly.Location;
 					if (location.isNull())
 						"[copyReferencesToTargetFolder] loaded assembly had no Location info: {0}".error(assembly.str());
+					else
 					{
-						if (onlyCopyReferencesInO2ExecutionDir.isFalse() || 
-							location.parentFolder() == PublicDI.config.CurrentExecutableDirectory)
-						{
+						//if (onlyCopyReferencesInO2ExecutionDir.isFalse() || 
+						//	location.parentFolder() == PublicDI.config.CurrentExecutableDirectory)
+						//{
 							var targetFile = targetFolder.pathCombine(location.fileName());
 							if (targetFile.fileExists())
 								"[copyReferencesToTargetFolder] skipping copy since it already exists in target folder: {0}".info(targetFile);
@@ -129,9 +131,11 @@ namespace O2.XRules.Database.Utils
 								"[copyReferencesToTargetFolder] copied '{0}' to '{1}'".info(location, targetFile);
 							}
 							assembliesCopied.Add(assembly);
-						}
+						//}
 					}																
 				}
+				else
+					"[copyReferencesToTargetFolder] could not load assembly for {0}".error(assemblyName);
 			}
 			return assembliesCopied;
 		}

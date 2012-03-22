@@ -145,7 +145,7 @@ namespace O2.XRules.Database.Utils
 		{
 			if (file.extension(".h2"))
 			{
-				"return source code of H2 file".info();
+				//"return source code of H2 file".info();
 				return H2.load(file).SourceCode;
 			}
 			return null;

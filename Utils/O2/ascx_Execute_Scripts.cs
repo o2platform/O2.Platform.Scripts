@@ -82,7 +82,7 @@ namespace O2.XRules.Database
             else
             {
                 //.. then via Clickonce invoke
-                scriptToExecute = ClickOnceDeployment.getClickOnceScriptPath();
+/*                scriptToExecute = ClickOnceDeployment.getClickOnceScriptPath();
                 if (scriptToExecute.fileExists())
                     executeScripts.runScriptAndCloseGui(scriptToExecute);
                 else
@@ -98,7 +98,7 @@ namespace O2.XRules.Database
 
                     svnSyncComplete.WaitOne();
 
-
+				 */
                     // load new gui       
                     var newGuiScript = NEW_GUI_SCRIPT.local();
                     if (newGuiScript.fileExists())
@@ -112,7 +112,7 @@ namespace O2.XRules.Database
                                 });
                         }
                     }
-                }
+                //}
             }
         }
 

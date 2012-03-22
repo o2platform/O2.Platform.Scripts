@@ -14,7 +14,7 @@ using O2.DotNetWrappers.ExtensionMethods;
 using O2.DotNetWrappers.DotNet;
 using O2.DotNetWrappers.Windows;
 using O2.Views.ASCX.ExtensionMethods;
-//O2File:ascx_ObjectViewer
+//O2File:ascx_ObjectViewer.cs
 
 namespace O2.XRules.Database.Utils
 {	
