@@ -130,7 +130,7 @@ namespace O2.XRules.Database.Utils
 						
 		public static ascx_TableList afterSelect_set_Cell(this ascx_TableList tableList, int rowNumber, TextBox textBox)
 		{
-			return tableList.afterSelect_get_Cell(rowNumber,(value)=> textBox.set_Text(value));			
+			return tableList.afterSelect_get_Cell(rowNumber,(value)=> textBox.setText(value));			
 		}
 		
 		public static ascx_TableList afterSelect_get_Row(this ascx_TableList tableList, Action<ListViewItem> callback)

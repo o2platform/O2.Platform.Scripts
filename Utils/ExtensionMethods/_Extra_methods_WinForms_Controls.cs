@@ -166,7 +166,7 @@ namespace O2.XRules.Database.Utils
 		public static LinkLabel link(this Control control, string text)
 		{
 			foreach(var link in control.links())
-				if (link.get_Text() == text)
+				if (link.getText() == text)
 					return link;
 			return null;
 		}
@@ -286,7 +286,7 @@ namespace O2.XRules.Database.Utils
 		public static CheckBox append_CheckBox(this Control control, string text, Action<bool> action)
 		{
 			return control.append_Control<CheckBox>()
-						  .set_Text(text)
+						  .setText(text)
 						  .autoSize()
 						  .onChecked(action);
 		}
@@ -332,7 +332,7 @@ namespace O2.XRules.Database.Utils
 			var actionPanel = webBrowser.insert_Above(40,"location")
 						 	     	    .add_LabelAndComboBoxAndButton("Url","","Go",(text)=>{});
 			var comboBox = actionPanel.controls<ComboBox>();
-			var button = actionPanel.controls<Button>().onClick(()=> openUrl(comboBox.get_Text())) ;
+			var button = actionPanel.controls<Button>().onClick(()=> openUrl(comboBox.getText())) ;
 			comboBox.onEnter(openUrl);
 			webBrowser.onNavigated(
 				(url)=>{
@@ -414,7 +414,7 @@ namespace O2.XRules.Database.Utils
 		public static TabPage tab(this TabControl tabControl, string text)
 		{
 			foreach(var tab in tabControl.tabs())
-				if (tab.get_Text() == text)
+				if (tab.getText() == text)
 					return tab;
 			return null;
 		}
@@ -781,7 +781,7 @@ namespace O2.XRules.Database.Utils
 		{
 			var forms = new List<Form>();
             foreach (Form form in Application.OpenForms)
-            	if (form.get_Text() == titleOrType 		||  form.str() == titleOrType || 
+            	if (form.getText() == titleOrType 		||  form.str() == titleOrType || 
 				    form.typeFullName() == titleOrType  ||  form.typeName() == titleOrType)
 				{
                 	forms.Add(form);

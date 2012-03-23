@@ -34,7 +34,7 @@ namespace O2.XRules.Database.Utils
 		{
 			return (RichTextBox)richTextBox.invokeOnThread(
 						()=>{
-								richTextBox.SelectionStart = richTextBox.get_Text().size()-1;
+								richTextBox.SelectionStart = richTextBox.getText().size()-1;
 								richTextBox.ScrollToCaret();
 								return richTextBox;
 							});						

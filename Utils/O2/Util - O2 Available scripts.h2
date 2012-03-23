@@ -13,7 +13,7 @@ optionsPanel.splitContainerFixed();
 
 var path = PublicDI.config.LocalScriptsFolder;
 
-Func&lt;string&gt; selectedNode = ()=&gt; treeView.selected().get_Tag().str();
+Func&lt;string&gt; selectedNode = ()=&gt; treeView.selected().getTag().str();
 
 Action&lt;TreeView, TreeNode&gt; mapFoldersAndFiles =
     (targetTreeView, treeNode) =&gt;
@@ -58,7 +58,7 @@ Action invokeSelected =
 	()=&gt;{
 			var selectedItem = treeView.selected();
 			if (selectedItem.notNull())			
-				invokeScript(selectedItem.get_Tag().str());							
+				invokeScript(selectedItem.getTag().str());							
 	    };
 treeView.onDoubleClick&lt;string&gt;(invokeScript);	
 

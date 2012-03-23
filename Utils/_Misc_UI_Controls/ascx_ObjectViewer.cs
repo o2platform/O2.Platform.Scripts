@@ -140,17 +140,17 @@ namespace O2.XRules.Database.Utils
 				treeView.afterSelect<object>( 
 					(selectedObject) => {
 											var treeNode = treeView.selected();
-											objectName.set_Text(treeNode.get_Text());
-											var tag = Ascx_ExtensionMethods.get_Tag(treeNode);
-											if (tag.notNull())// && tag.str() != treeNode.get_Text())
+											objectName.setText(treeNode.getText());
+											var tag = Ascx_ExtensionMethods.getTag(treeNode);
+											if (tag.notNull())// && tag.str() != treeNode.getText())
 											{																										
 												propertyGrid.show(selectedObject);
 												var toString = selectedObject.str();
 												if (toString == "System.__ComObject")
 													toString += " : {0}".format(selectedObject.comTypeName());
-												toStringValue.set_Text(toString); 
+												toStringValue.setText(toString); 
 												
-												propertyGrid.parent().set_Text(selectedObject.typeFullName()); 
+												propertyGrid.parent().setText(selectedObject.typeFullName()); 
 												if (treeNode.nodes().size() ==0)
 												{									
 													addObjectPropertyAndFields(treeNode, selectedObject);
@@ -159,9 +159,9 @@ namespace O2.XRules.Database.Utils
 											else if (treeNode.nodes().size()==0)
 											{												
 												propertyGrid.show(null);
-												propertyGrid.parent().set_Text("[null value]"); 
-												toStringValue.set_Text("[null value]");
-												objectName.set_Text("");
+												propertyGrid.parent().setText("[null value]"); 
+												toStringValue.setText("[null value]");
+												objectName.setText("");
 												treeNode.color(Color.Red);												
 											}
 											
@@ -243,7 +243,7 @@ namespace O2.XRules.Database.Utils
 											{
 												"CREATE object for type: {0}".debug(propertyValue.type());
 												PublicDI.reflection.setProperty(property,targetObject,propertyValue);
-												newNode.set_Tag(propertyValue);
+												newNode.setTag(propertyValue);
 											}
 											else
 												"Could not create instance of type: {0}".error(propertyValue.type());
@@ -265,8 +265,8 @@ namespace O2.XRules.Database.Utils
 																    (item)=> item.Name, 
 																    (item)=> targetObject.field(item.Name), //PublicDI.reflection.getField(item,_object),   
 																    (item)=>false);
-						targetNode.set_Text("{0}             ({1} properties {2} fields)"
-							.format(targetNode.get_Text(),
+						targetNode.setText("{0}             ({1} properties {2} fields)"
+							.format(targetNode.getText(),
 									targetNode.nodes()[1].nodes().size(),
 									targetNode.nodes()[0].nodes().size()));
 					}
@@ -328,7 +328,7 @@ namespace O2.XRules.Database.Utils
 				if (serializedText.valid())
 				{
 					this.serializedString.enabled(true);
-					if (this.serializedString.get_Text() != serializedText)
+					if (this.serializedString.getText() != serializedText)
 						this.serializedString.set_Text( serializedText, "a.xml");
 				}
 				else
@@ -344,7 +344,7 @@ namespace O2.XRules.Database.Utils
 			{				
 				try
 				{											
-					var text = serializedString.get_Text();
+					var text = serializedString.getText();
 					var newObject = Serialize.getDeSerializedObjectFromXmlFile(text.save(), RootObject.type());									
 					if(newObject.notNull())						
 					{												
@@ -387,7 +387,7 @@ namespace O2.XRules.Database.Utils
 		
 		public void invokeSelectedMethod()
 		{
-			var selectedNodeTag = Ascx_ExtensionMethods.get_Tag(treeView.selected());
+			var selectedNodeTag = Ascx_ExtensionMethods.getTag(treeView.selected());
 			if (selectedNodeTag is MethodInfo)
 			{
 				var methodToInvoke = (MethodInfo)selectedNodeTag;				

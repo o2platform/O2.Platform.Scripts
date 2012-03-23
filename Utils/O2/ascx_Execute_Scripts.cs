@@ -65,6 +65,10 @@ namespace O2.XRules.Database
 
         public static void startControl(string scriptToExecute)
         {
+        	scriptToExecute = "Dinis Cruz (Custom O2 version).h2";
+        	System.Windows.Forms.MessageBox.Show(scriptToExecute);
+        	return ;
+        
             //"O2Logo.ico".local().icon().set_As_Default_Form_Icon();
             // load Execute_Scripts GUI
             //var formTitle = "O2 XRules Database ({0})".format("O2_XRules_Database.exe".assembly().version());
@@ -250,7 +254,7 @@ namespace O2.XRules.Database
                     //statusLabel.Font = new System.Drawing.Font("Arial", 10, System.Drawing.FontStyle.Regular);
                     statusLabel.IsLink = true;
                     statusLabel.LinkBehavior = LinkBehavior.NeverUnderline;
-                    statusLabel.set_Text(welcomeMessage).textColor(this, Color.Black);
+                    statusLabel.setText(welcomeMessage).textColor(this, Color.Black);
 
                     results_RichTextBox = this.add_RichTextBox();
 
@@ -357,17 +361,17 @@ namespace O2.XRules.Database
         { 
             if (fileToLoad.isImage())
             {
-                statusLabel.set_Text("showing image: {0}".format(fileToLoad));
+                statusLabel.setText("showing image: {0}".format(fileToLoad));
                 return show.image(fileToLoad);
             }
             if (fileToLoad.isText())
             {
-                statusLabel.set_Text("showing text file: {0}".format(fileToLoad));
+                statusLabel.setText("showing text file: {0}".format(fileToLoad));
                 return show.file(fileToLoad);                               
             }
             if (fileToLoad.isDocument())                          
             {
-                statusLabel.set_Text("showing rtf document: {0}".format(fileToLoad));
+                statusLabel.setText("showing rtf document: {0}".format(fileToLoad));
                 return show.document(fileToLoad);  
             }
             loadH2Script(fileToLoad);
@@ -384,7 +388,7 @@ namespace O2.XRules.Database
                     return;
                 }
                 currentScript = scriptToLoad;
-                statusLabel.set_Text("loading script: {0}".format(scriptToLoad.fileName()));
+                statusLabel.setText("loading script: {0}".format(scriptToLoad.fileName()));
 
                 csharpCompiler = new CSharp_FastCompiler();
 
@@ -424,7 +428,7 @@ namespace O2.XRules.Database
                 if (sourceCode.valid())
                     csharpCompiler.compileSnippet(sourceCode);
                 else
-                    statusLabel.set_Text("Non supported file").textColor(this, Color.Red);
+                    statusLabel.setText("Non supported file").textColor(this, Color.Red);
             });
      	}
 
@@ -599,8 +603,8 @@ namespace O2.XRules.Database
      	
      	public void showError(string errorMessage, string errorDetails)
      	{
-            statusLabel.set_Text(errorMessage).textColor(this,Color.Red);
-            results_RichTextBox.set_Text(errorDetails).textColor(Color.Red);			
+            statusLabel.setText(errorMessage).textColor(this,Color.Red);
+            results_RichTextBox.setText(errorDetails).textColor(Color.Red);			
      		mainSplitContainer.panel2Collapsed(false);
      	}
      	
@@ -612,13 +616,13 @@ namespace O2.XRules.Database
      	public void showInfo(string infoMessage, object details)
      	{
             infoMessage.info();
-     		statusLabel.set_Text(infoMessage).textColor(this,Color.Green);  
+     		statusLabel.setText(infoMessage).textColor(this,Color.Green);  
      		if (details != null)     		
      		{
      			var data = details.ToString();
      			if (data.valid())
      			{
-     				results_RichTextBox.textColor(Color.Black).set_Text(data.ToString());	
+     				results_RichTextBox.textColor(Color.Black).setText(data.ToString());	
      				mainSplitContainer.panel2Collapsed(false);
      				return;
      			}     				
@@ -628,7 +632,7 @@ namespace O2.XRules.Database
 
         public void status(string newStatusText)
         {
-            statusLabel.set_Text(newStatusText).textColor(this,Color.Black);
+            statusLabel.setText(newStatusText).textColor(this,Color.Black);
         }
     }
 

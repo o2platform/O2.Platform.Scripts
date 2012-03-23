@@ -46,7 +46,7 @@ namespace O2.XRules.Database.Utils
 			if (treeView.nodes().size()==1)
 			{
 				var firstNode = treeView.nodes()[0];
-				firstNode.set_Text(firstNode.get_Text() + "");	
+				firstNode.setText(firstNode.getText() + "");	
 			}
 			return treeView;
 		}
@@ -96,6 +96,11 @@ namespace O2.XRules.Database.Utils
 			return treeNode;
 		}				
 		
+		public static object setTag(this TreeNode treeNode, object value)  //Mono
+        {
+            return set_Tag(treeNode , value);
+        }
+        
 		public static TreeNode set_Tag(this TreeNode treeNode, object value)
 		{
 			return (TreeNode)treeNode.treeView().invokeOnThread(
@@ -314,7 +319,7 @@ namespace O2.XRules.Database.Utils
 		public static List<string> texts(this List<TreeNode> treeNodes)
 		{
 			return (from treeNode in treeNodes
-					select treeNode.get_Text()).toList();
+					select treeNode.getText()).toList();
 		}
 		
 		public static List<T> tags<T>(this TreeView treeView)
