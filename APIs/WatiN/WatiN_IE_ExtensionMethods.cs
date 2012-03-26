@@ -1294,7 +1294,7 @@ namespace O2.XRules.Database.APIs
 		public static TextField enabled(this TextField field, bool value)
 		{			
 			
-			O2.Kernel.ExtensionMethods.Reflection_ExtensionMethods
+			Reflection_ExtensionMethods_Properties
 					 .prop(field.htmlElement(),
 						   "disabled",
 						   ! value);
