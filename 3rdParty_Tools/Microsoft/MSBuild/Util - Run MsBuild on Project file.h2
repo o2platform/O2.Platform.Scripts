@@ -1,6 +1,12 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>//var topPanel = O2Gui.open&lt;Panel&gt;("{name}",700,400);
+  <SourceCode>return "API_MSBuild.cs".local().compile().executeFirstMethod();
+
+return "ok";
+//this is the original script before it was moved into the API_MSBuild()
+
+/*
+//var topPanel = O2Gui.open&lt;Panel&gt;("{name}",700,400);
 var topPanel = panel.clear().add_Panel();
 topPanel.insert_LogViewer();
 var msBuild = new API_MSBuild(); 
@@ -52,7 +58,7 @@ Action&lt;string&gt; buildProjects =
 						else
 						{
 							var files = fileOrFolder.csproj_Files();
-							"Found {0} csproj files to process: {0}".delay(files.size());
+							"Found {0} csproj files to process: {0}".info(files.size());
 							foreach(var file in files)
 								buildProject(file);
 						}
@@ -63,6 +69,7 @@ tableList.listView().onDrop(buildProjects);
 //var fluentSharp_BaseFolder = @"C:\_WorkDir\Git_O2OPlatform\_O2_Platform_Source_Code\O2.FluentSharp";
 
 //var o2Projects = @"C:\_WorkDir\Git_O2OPlatform\_O2_Platform_Source_Code\O2.Platform.Projects";
+*/
 //buildProjects(o2Projects);
 //load data
 /*
