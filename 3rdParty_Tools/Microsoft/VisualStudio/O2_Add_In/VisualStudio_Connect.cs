@@ -2,7 +2,7 @@ using System;
 using Extensibility;
 using EnvDTE;
 using EnvDTE80;
-using O2.Kernel.ExtensionMethods;
+using O2.DotNetWrappers.ExtensionMethods;
 //using O2.FluentSharp.VisualStudio.ExtensionMethods;
 using System.Diagnostics;
 using System.Windows.Forms;
@@ -37,7 +37,7 @@ namespace O2.FluentSharp.VisualStudio
             //if (connectMode.uiSetUp())			
             //if (VS_AddIn == null)  
 			{
-                MessageBox.Show("Thanks for using the: O2 VisualStudio PlugIn");
+                //MessageBox.Show("Thanks for using the: O2 VisualStudio PlugIn");
                 var type = "O2.VisualStudio.Connect"; //this.typeFullName()
 				VS_AddIn = new O2_VS_AddIn().setup((DTE2)application, (AddIn)addInInst, type);
 				if (VS_AddIn.isNull())

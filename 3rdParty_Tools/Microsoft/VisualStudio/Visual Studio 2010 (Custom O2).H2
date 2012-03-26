@@ -67,14 +67,14 @@ vStudio.close_VisualStudio();
 //return "ok";
 
 
-API_VisualStudio_2010 vStudio = null;
+API_GUI_Automation_VisualStudio_2010 vStudio = null;
 
 Action&lt;bool&gt; startOrAttach = 
 	(tryAttach)=&gt;{
 			if (tryAttach)
-			 	vStudio = new API_VisualStudio_2010().attach();
+			 	vStudio = new API_GUI_Automation_VisualStudio_2010().attach();
 			 else
-			 	 vStudio = new API_VisualStudio_2010().start();
+			 	 vStudio = new API_GUI_Automation_VisualStudio_2010().start();
 						
 			vStudio.bringToFront();
 			vStudio.move(10,200,800,300); 
@@ -96,7 +96,7 @@ ribbon.add_Tab("Visual Studio")
 	  .add_RibbonGroup("Start")
 	  .add_RibbonButton("Start Visual Studio", ()=&gt; startOrAttach(false))	 		  
 	  .add_RibbonButton("Attach Visual Studio", ()=&gt; startOrAttach(true))
-	  .add_RibbonButton("Close Visual Studio", ()=&gt; vStudio = new API_VisualStudio_2010().close()); 
+	  .add_RibbonButton("Close Visual Studio", ()=&gt; vStudio = new API_GUI_Automation_VisualStudio_2010().close()); 
 
 ribbon.tab("Visual Studio");
 //	  .add_Group("
@@ -114,8 +114,12 @@ ribbon.add_Tab_MiscTools();
 return "ok";
 
 //O2File:CustomO2.cs  
-//O2File:API_VisualStudio_2010.cs
+//O2File:API_GUI_Automation_VisualStudio_2010.cs
 
+//O2Ref:PresentationFramework.dll
+//O2Ref:PresentationCore.dll
+//O2Ref:WindowsBase.dll
+//O2Ref:System.Xaml.dll
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:RibbonControlsLibrary.dll 
 //O2Ref:White.Core.dll

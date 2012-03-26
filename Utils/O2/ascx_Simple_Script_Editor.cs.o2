@@ -318,11 +318,14 @@ namespace O2.XRules.Database.Utils
 	    	this.csharpCompiler.onAstFail = 
      			()=>{        					     					
      					//"AST creation failed".error();
-     					this.sourceCodeViewer.enabled(false);    	 				
+     				//	this.sourceCodeViewer.enabled(false);    	 				
 	     				this.executeButton.enabled(false);
     	 				this.result_RichTextBox.textColor(Color.Red)
      		 							  .set_Text("Ast Parsing Errors:\r\n\r\n")										  
 										  .append_Text(csharpCompiler.AstErrors);
+
+                        this.commandsToExecute.updateCodeComplete(csharpCompiler);	     				
+						this.sourceCodeViewer.setDocumentContents(csharpCompiler.SourceCode);						
 	     			};
 	     			 
 	     	this.csharpCompiler.onAstOK = 
@@ -478,7 +481,7 @@ namespace O2.XRules.Database.Utils
      	
      	public void forceCompilation()
      	{
-     		var dummyclass = "public class test".line() + 
+     		/*var dummyclass = "public class test".line() + 
      						 "{".line() +
      						 "	public void testMethod()".line() +
      						 "	{".line() +
@@ -487,7 +490,8 @@ namespace O2.XRules.Database.Utils
      						 "}".line();
      		sourceCodeViewer.enabled(true);
 			sourceCodeViewer.set_Text(dummyclass);
-     		csharpCompiler.compileSourceCode(dummyclass);
+     		csharpCompiler.compileSourceCode(dummyclass);*/
+            csharpCompiler.compileSourceCode(sourceCodeViewer.get_Text());
      	}
      	
      	public void replaceMainCodeWithGeneratedSource()

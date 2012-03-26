@@ -141,7 +141,7 @@ namespace O2.XRules.Database.Utils
 					(selectedObject) => {
 											var treeNode = treeView.selected();
 											objectName.set_Text(treeNode.get_Text());
-											var tag = Ascx_ExtensionMethods.get_Tag(treeNode);
+											var tag = WinForms_ExtensionMethods_TreeView.get_Tag(treeNode);
 											if (tag.notNull())// && tag.str() != treeNode.get_Text())
 											{																										
 												propertyGrid.show(selectedObject);
@@ -243,7 +243,7 @@ namespace O2.XRules.Database.Utils
 											{
 												"CREATE object for type: {0}".debug(propertyValue.type());
 												PublicDI.reflection.setProperty(property,targetObject,propertyValue);
-												newNode.set_Tag(propertyValue);
+												WinForms_ExtensionMethods_TreeView.set_Tag( newNode, propertyValue);
 											}
 											else
 												"Could not create instance of type: {0}".error(propertyValue.type());
@@ -387,7 +387,7 @@ namespace O2.XRules.Database.Utils
 		
 		public void invokeSelectedMethod()
 		{
-			var selectedNodeTag = Ascx_ExtensionMethods.get_Tag(treeView.selected());
+			var selectedNodeTag = WinForms_ExtensionMethods_TreeView.get_Tag(treeView.selected());
 			if (selectedNodeTag is MethodInfo)
 			{
 				var methodToInvoke = (MethodInfo)selectedNodeTag;				

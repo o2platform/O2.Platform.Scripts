@@ -21,127 +21,28 @@ namespace O2.XRules.Database.Utils
 	//RichTextBox
 	public static class _Extra_RichTextBox_ExtensionMethods
 	{
-		public static RichTextBox scrollToCaret(this RichTextBox richTextBox)
-		{
-			return (RichTextBox)richTextBox.invokeOnThread(
-						()=>{
-								richTextBox.ScrollToCaret();
-								return richTextBox;
-							});						
-		}
-		
-		public static RichTextBox scrollToEnd(this RichTextBox richTextBox)
-		{
-			return (RichTextBox)richTextBox.invokeOnThread(
-						()=>{
-								richTextBox.SelectionStart = richTextBox.get_Text().size()-1;
-								richTextBox.ScrollToCaret();
-								return richTextBox;
-							});						
-		}
-		public static RichTextBox scrollToStart(this RichTextBox richTextBox)
-		{
-			return (RichTextBox)richTextBox.invokeOnThread(
-						()=>{
-								richTextBox.SelectionStart = 0;
-								richTextBox.ScrollToCaret();
-								return richTextBox;
-							});						
-		}
-		
-		public static RichTextBox wordWrap(this RichTextBox richTextBox, bool value)
-		{
-			return (RichTextBox)richTextBox.invokeOnThread(
-						()=>{
-								richTextBox.WordWrap = value;
-								return richTextBox;
-							});						
-		}
-		
-		public static RichTextBox hideSelection(this RichTextBox richTextBox, bool value)
-		{
-			return (RichTextBox)richTextBox.invokeOnThread(
-						()=>{
-								richTextBox.HideSelection = value;
-								return richTextBox;
-							});						
-		}
-		
-		public static RichTextBox hideSelection(this RichTextBox richTextBox)
-		{
-			return richTextBox.hideSelection(true);
-		}
-		
-		public static RichTextBox showSelection(this RichTextBox richTextBox)
-		{
-			return richTextBox.hideSelection(false);
-		}		
+	
 	}
 
 	//PropertyGrid
 	public static class _Extra_PropertyGrid_ExtensionMethods
 	{
-		public static PropertyGrid onValueChange(this PropertyGrid propertyGrid, Action callback)
-		{
-			propertyGrid.invokeOnThread(()=>propertyGrid.PropertyValueChanged+=(sender,e)=>callback() );
-			return propertyGrid;
-		}
 	}
 	
 	//SplitContainer
 	public static class _Extra_SplitContainer_ExtensionMethods
 	{
-		public static T splitterDistance<T>(this T control, int distance)
-			where T : Control
-		{
-			var splitContainer = control.splitContainer();
-			if (splitContainer.notNull())
-				Ascx_ExtensionMethods.splitterDistance(splitContainer,distance);
-			return control;
-		}
+		
 		
 		
 		//Split Container
 		
-		public static SplitContainer splitContainer(this Control control)
-		{
-			return control.parent<SplitContainer>();
-		}
-		
-		public static SplitContainer splitterWidth(this SplitContainer splitContainer, int value)
-		{
-			splitContainer.invokeOnThread(()=> splitContainer.SplitterWidth = value);
-			return splitContainer;
-		}
-		
-		public static SplitContainer splitContainerFixed(this Control control)
-		{
-			return control.splitContainer().isFixed(true);
-		}
-		
-		public static SplitContainer @fixed(this SplitContainer splitContainer, bool value)
-		{
-			return 	splitContainer.isFixed(value);
-		}
-		
-		public static SplitContainer isFixed(this SplitContainer splitContainer, bool value)
-		{
-			splitContainer.invokeOnThread(()=> splitContainer.IsSplitterFixed = value);
-			return splitContainer;
-		}
+
 	}		
 	
 	//TabControl
 	public static class _Extra_TabControl_ExtensionMethods
 	{
-		public static TabControl selectedIndex(this TabControl tabControl, int index)
-		{
-			return (TabControl)tabControl.invokeOnThread(
-											()=>{
-													tabControl.SelectedIndex = index;
-													return tabControl;
-												});
-		}
 	}
 }
     	

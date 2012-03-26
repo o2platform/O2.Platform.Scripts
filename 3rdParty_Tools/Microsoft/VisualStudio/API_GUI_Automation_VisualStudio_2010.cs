@@ -33,7 +33,7 @@ namespace O2.XRules.Database.APIs
 			VisualStudioExe = @"C:\Program Files\Microsoft Visual Studio 10.0\Common7\IDE\devenv.exe";
 		}
 		
-		public API_VisualStudio_2010 attach()
+		public API_GUI_Automation_VisualStudio_2010 attach()
 		{
 			GUI = VS_Process = new API_GuiAutomation("devenv");				
 			if (VS_Process.TargetProcess.notNull())
@@ -43,7 +43,7 @@ namespace O2.XRules.Database.APIs
 			return this;
 		}
 		
-		public API_VisualStudio_2010 start()
+		public API_GUI_Automation_VisualStudio_2010 start()
 		{
 			 GUI = VS_Process = VisualStudioExe.startProcess().automation(); 
 			 for(int i =0; i < 10; i++)
@@ -61,25 +61,25 @@ namespace O2.XRules.Database.APIs
 			 return this;
 		}			    	
     	
-    	public API_VisualStudio_2010 close()
+    	public API_GUI_Automation_VisualStudio_2010 close()
     	{
     		VS_Process.TargetProcess.close(); 
     		return this;
     	}
     	
-    	public API_VisualStudio_2010 closeInNSeconds(int seconds)
+    	public API_GUI_Automation_VisualStudio_2010 closeInNSeconds(int seconds)
     	{
     		VS_Process.TargetProcess.closeInNSeconds(seconds); 
     		return this;
     		
     	}
-    	public API_VisualStudio_2010 move(int left, int top, int width, int height)
+    	public API_GUI_Automation_VisualStudio_2010 move(int left, int top, int width, int height)
     	{
     		VS_MainWindow.move(left, top, width, height);
     		return this;
     	}
     	
-    	public API_VisualStudio_2010 bringToFront()
+    	public API_GUI_Automation_VisualStudio_2010 bringToFront()
     	{
     		VS_MainWindow.bringToFront();
     		return this;
@@ -87,9 +87,9 @@ namespace O2.XRules.Database.APIs
     	
     }
     
-    public static class API_VisualStudio_2010_ExtensionMethods_SolutionsAndProjects
+    public static class API_GUI_Automation_VisualStudio_2010_ExtensionMethods_SolutionsAndProjects
     {   
-		public static API_VisualStudio_2010 open_Solution(this  API_VisualStudio_2010 vStudio, string solutionPath)			
+		public static API_GUI_Automation_VisualStudio_2010 open_Solution(this  API_GUI_Automation_VisualStudio_2010 vStudio, string solutionPath)			
 		{
 			vStudio.VS_MainWindow.menu("File").click()//.mouse().click()
 								     .menu("Open").click()
@@ -107,7 +107,7 @@ namespace O2.XRules.Database.APIs
 			return vStudio;
 		}
 		
-    	public static API_VisualStudio_2010 open_WebSite(this  API_VisualStudio_2010 vStudio, string folder, bool savePreviousSolution)
+    	public static API_GUI_Automation_VisualStudio_2010 open_WebSite(this  API_GUI_Automation_VisualStudio_2010 vStudio, string folder, bool savePreviousSolution)
     	{
     		try
     		{   
@@ -134,12 +134,12 @@ namespace O2.XRules.Database.APIs
 			return vStudio;
 		}		
 		
-		public static API_VisualStudio_2010 save_Solution(this  API_VisualStudio_2010 vStudio)
+		public static API_GUI_Automation_VisualStudio_2010 save_Solution(this  API_GUI_Automation_VisualStudio_2010 vStudio)
 		{
 			return vStudio.save_SolutionAs(null);
 		}
 		
-		public static API_VisualStudio_2010 save_SolutionAs(this  API_VisualStudio_2010 vStudio, string saveSolutionTo)
+		public static API_GUI_Automation_VisualStudio_2010 save_SolutionAs(this  API_GUI_Automation_VisualStudio_2010 vStudio, string saveSolutionTo)
 		{
 			try
 			{
@@ -171,12 +171,12 @@ namespace O2.XRules.Database.APIs
 			return vStudio;
 		}
 		
-		public static API_VisualStudio_2010 close_Solution(this  API_VisualStudio_2010 vStudio)
+		public static API_GUI_Automation_VisualStudio_2010 close_Solution(this  API_GUI_Automation_VisualStudio_2010 vStudio)
 		{	
 			return vStudio.close_Solution(true);
 		}
 		
-		public static API_VisualStudio_2010 close_Solution(this  API_VisualStudio_2010 vStudio, bool savePreviousSolution)			
+		public static API_GUI_Automation_VisualStudio_2010 close_Solution(this  API_GUI_Automation_VisualStudio_2010 vStudio, bool savePreviousSolution)			
 		{
 			vStudio.VS_MainWindow.menu("File").mouse().click() 
 								 .menu("Close Solution").mouse().click();
@@ -184,11 +184,11 @@ namespace O2.XRules.Database.APIs
 			return vStudio;
 		}				
         
-        public static API_VisualStudio_2010 saveChanges(this  API_VisualStudio_2010 vStudio)
+        public static API_GUI_Automation_VisualStudio_2010 saveChanges(this  API_GUI_Automation_VisualStudio_2010 vStudio)
         {
         	return vStudio.saveChanges(true);
         }
-	    public static API_VisualStudio_2010 saveChanges(this  API_VisualStudio_2010 vStudio, bool saveChangesValue)
+	    public static API_GUI_Automation_VisualStudio_2010 saveChanges(this  API_GUI_Automation_VisualStudio_2010 vStudio, bool saveChangesValue)
 	    {
 	    	var confirmSave = vStudio.VS_Process.window("Microsoft Visual Studio");				
 			if (confirmSave.notNull() && confirmSave.label("\nSave changes to the following items?").notNull())
@@ -199,17 +199,17 @@ namespace O2.XRules.Database.APIs
 			return vStudio;
 		}
 		
-		public static API_VisualStudio_2010 saveFileAs(this  API_VisualStudio_2010 vStudio, bool saveChangesValue)
+		public static API_GUI_Automation_VisualStudio_2010 saveFileAs(this  API_GUI_Automation_VisualStudio_2010 vStudio, bool saveChangesValue)
 		{
 			return vStudio.saveFileAs(null,saveChangesValue);
 		}
 		
-		public static API_VisualStudio_2010 saveFileAs(this  API_VisualStudio_2010 vStudio,string filePath)
+		public static API_GUI_Automation_VisualStudio_2010 saveFileAs(this  API_GUI_Automation_VisualStudio_2010 vStudio,string filePath)
 		{
 			return vStudio.saveFileAs(filePath,true);
 		}
 		
-		public static API_VisualStudio_2010 saveFileAs(this  API_VisualStudio_2010 vStudio,string filePath, bool saveChangesValue)
+		public static API_GUI_Automation_VisualStudio_2010 saveFileAs(this  API_GUI_Automation_VisualStudio_2010 vStudio,string filePath, bool saveChangesValue)
 		{
 			var saveFileAs = vStudio.VS_Process.window("Save File As");
 			if (saveFileAs.notNull())
@@ -242,7 +242,7 @@ namespace O2.XRules.Database.APIs
 			return window;
 		}
 		
-		public static API_VisualStudio_2010 clickButton(this  API_VisualStudio_2010 vStudio, string windowName, string buttonName)
+		public static API_GUI_Automation_VisualStudio_2010 clickButton(this  API_GUI_Automation_VisualStudio_2010 vStudio, string windowName, string buttonName)
 		{
 			var window = vStudio.VS_Process.window(windowName);
 			if (window.notNull())
@@ -254,7 +254,7 @@ namespace O2.XRules.Database.APIs
 			return vStudio;
 		}
 		
-		public static API_VisualStudio_2010 skipTargetOlderVersionRequest(this  API_VisualStudio_2010 vStudio)
+		public static API_GUI_Automation_VisualStudio_2010 skipTargetOlderVersionRequest(this  API_GUI_Automation_VisualStudio_2010 vStudio)
 		{
 			var targetOlderVersion = vStudio.VS_Process.window("Web Site targeting older .Net Framework Found");				
 			if (targetOlderVersion.notNull())
@@ -263,9 +263,9 @@ namespace O2.XRules.Database.APIs
 		}
 	}
 	
-	public static class API_VisualStudio_2010_ExtensionMethods_MenuItems
+	public static class API_GUI_Automation_VisualStudio_2010_ExtensionMethods_MenuItems
     {   
-    	public static API_VisualStudio_2010 show_PropertiesWindow(this API_VisualStudio_2010 vStudio)
+    	public static API_GUI_Automation_VisualStudio_2010 show_PropertiesWindow(this API_GUI_Automation_VisualStudio_2010 vStudio)
     	{
     		var propertiesWindow = vStudio.VS_MainWindow.panel("Properties");
     		if (propertiesWindow.isNull())
@@ -274,9 +274,9 @@ namespace O2.XRules.Database.APIs
 		}
 	}
 	
-	public static class API_VisualStudio_2010_ExtensionMethods_ProjectType_Website
+	public static class API_GUI_Automation_VisualStudio_2010_ExtensionMethods_ProjectType_Website
     {   
-    	public static string localWebsiteUrl(this API_VisualStudio_2010 vStudio)
+    	public static string localWebsiteUrl(this API_GUI_Automation_VisualStudio_2010 vStudio)
     	{
     		vStudio.show_PropertiesWindow();
 			var propertyGrid = vStudio.VS_MainWindow.panel("Properties").propertyGrid();
@@ -291,14 +291,14 @@ namespace O2.XRules.Database.APIs
 		}
 	}
 	
-	public static class API_VisualStudio_2010_ExtensionMethods_ProjectType_RunAndDebug
+	public static class API_GUI_Automation_VisualStudio_2010_ExtensionMethods_ProjectType_RunAndDebug
     {
-		public static API_VisualStudio_2010 run(this API_VisualStudio_2010 vStudio)
+		public static API_GUI_Automation_VisualStudio_2010 run(this API_GUI_Automation_VisualStudio_2010 vStudio)
 		{
 			return vStudio.startDebugging();
 		}
 		
-		public static API_VisualStudio_2010 startDebugging(this API_VisualStudio_2010 vStudio)
+		public static API_GUI_Automation_VisualStudio_2010 startDebugging(this API_GUI_Automation_VisualStudio_2010 vStudio)
 		{
 			vStudio.VS_MainWindow.menu_Click("Debug", "Start Debugging");			
 			vStudio.GUI.button_Click("Debugging Not Enabled", "OK");			
@@ -306,9 +306,9 @@ namespace O2.XRules.Database.APIs
 		}
 	}
 	
-	public static class API_VisualStudio_2010_ExtensionMethods_ProjectType_Misc
+	public static class API_GUI_Automation_VisualStudio_2010_ExtensionMethods_ProjectType_Misc
     {
-		public static API_VisualStudio_2010 close_VisualStudio(this API_VisualStudio_2010 vStudio)
+		public static API_GUI_Automation_VisualStudio_2010 close_VisualStudio(this API_GUI_Automation_VisualStudio_2010 vStudio)
 		{
 			vStudio.VS_MainWindow.menu_Click("File","Exit");
 			return vStudio;

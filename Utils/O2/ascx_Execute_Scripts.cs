@@ -74,6 +74,7 @@ namespace O2.XRules.Database
                         
             "LocalScriptsFolder: {0}".debug(PublicDI.config.LocalScriptsFolder);
             executeScripts.buildGui();
+            executeScripts.insert_LogViewer();
 
             // see if there there is a script to execute 
             //(first via normal process arguments 
@@ -294,7 +295,7 @@ namespace O2.XRules.Database
                        .add_MenuItem("Open Simple Script Editor", () => openSimpleScriptEditor())
                        .add_MenuItem("Open Quick development gui", () => executeScript("Opening Quick Development GUI", "ascx_Quick_Development_GUI.cs.o2"))
                        .add_MenuItem("Open 'Graph' development gui", () => executeScript("Opening Graph With Inspector)", "ascx_GraphWithInspector.cs"))
-                       .add_MenuItem("Open XRules/Script Editor", () => open.scriptEditor())
+                       //.add_MenuItem("Open XRules/Script Editor", () => open.scriptEditor())
                        .add_MenuItem("Show O2 Object Model", () => open.o2ObjectModel())
                        .add_MenuItem("Show O2 Executable Directry", () => open.directory(PublicDI.config.CurrentExecutableDirectory, true))
                        .add_MenuItem("Current Script", false)
