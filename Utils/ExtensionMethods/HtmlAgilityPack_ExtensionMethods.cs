@@ -296,11 +296,31 @@ namespace O2.XRules.Database.Utils
         	}
         	catch(Exception ex)
         	{
-        		ex.log("in string.htmlToXml");
+        		ex.log("[string.htmlToXml]");
         		return ex.Message;
         	}
         }
-
+        
+        public static string tidyHtml(this string htmlCode)
+		{
+			try
+			{
+				var htmlDocument = htmlCode.htmlDocument();
+				
+				htmlDocument.OptionCheckSyntax = true;
+				htmlDocument.OptionFixNestedTags = true;
+				htmlDocument.OptionAutoCloseOnEnd = true;
+				htmlDocument.OptionOutputAsXml = true;
+				//htmlDocument.OptionDefaultStreamEncoding = Encoding.Default;
+				var formatedCode = htmlDocument.DocumentNode.OuterHtml.xmlFormat().xRoot().innerXml().trim();
+				return formatedCode;			
+			}
+        	catch(Exception ex)
+        	{
+        		ex.log("[string.tidyHtml]");
+        		return htmlCode;
+        	}
+		}
         #endregion
     }
     
