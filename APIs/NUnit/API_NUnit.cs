@@ -31,6 +31,21 @@ namespace O2.XRules.Database.APIs
     		
     	}
     }
+    public static class API_NUnit_ExtensionMethods_NUnitGui_Compilation
+    {
+    	public static string compileIntoTempFolder(this string csharpFile)
+    	{
+    		var targetDir = "_Nunit_{0}".format(csharpFile.fileName_WithoutExtension()).tempDir(false);
+    		var compiledFile =  csharpFile.compileIntoDll_inFolder(targetDir);
+    		var assembly = compiledFile.assembly();
+    		"[compileIntoTempFolder]  assembly: {0}".debug(assembly.Location);
+			var referenceAssemblies = assembly.referencedAssemblies().names();
+			targetDir.copyAssembliesToFolder(referenceAssemblies.ToArray()) ;
+			
+			"[compileIntoTempFolder] Created assembly: {0}".debug(assembly.Location);
+			return compiledFile;
+    	}
+    }
     
     public static class API_NUnit_ExtensionMethods_NUnitGui
     {
@@ -84,11 +99,11 @@ namespace O2.XRules.Database.APIs
     	
     	public static bool compileAndOpen(this API_NUnit nUnitApi, string fileToCompile, string extraStartupOptions)
     	{
-    		var assembly = new CompileEngine().compileSourceFile(fileToCompile);
-			if (assembly.notNull()) 
-			{
-				var location = assembly.Location; 			
-				nUnitApi.openNUnitGui(location, extraStartupOptions);			
+    		//var assembly = new CompileEngine().compileSourceFile(fileToCompile);
+    		var target = fileToCompile.compileIntoTempFolder();
+			if (target.notNull()) 
+			{								
+				nUnitApi.openNUnitGui(target, extraStartupOptions);			
 				return true;
 			}
 			return false;
@@ -143,17 +158,18 @@ namespace O2.XRules.Database.APIs
     	
     	
     	}
+    	
     	public static Process console_Run(this API_NUnit nUnitApi, string target, string extraStartupOptions, Action<string> consoleOut)
-    	{    		
+    	{    		    	
     		if (target.extension(".cs"))
     		{
-    			var assembly = new CompileEngine().compileSourceFile(target);
-				if (assembly.isNull())
+    			//var assembly = new CompileEngine().compileSourceFile(target);
+    			target = target.compileIntoTempFolder();
+				if (target.isNull())
 				{
 					"[API_NUnit][console_Run] failed to compile C# file: {0}".error(target);
 					return null;
 				}
-				target = assembly.Location;
     		}
     		var startUpOptions = "\"{0}\" {1}".format(target ?? "" , extraStartupOptions ?? "");
     		return nUnitApi.executeNUnitConsole(startUpOptions , consoleOut);
