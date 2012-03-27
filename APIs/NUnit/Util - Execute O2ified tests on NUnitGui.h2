@@ -76,6 +76,6 @@ return items;
 //O2Ref:nunit-gui-runner.dll
 //O2Ref:nunit.util.dll
 //O2Ref:nunit.core.interfaces.dll
-//O2Ref:NUnit.UiKit.dll</SourceCode>
+//O2Ref:nunit.uikit.dll</SourceCode>
   <ReferencedAssemblies />
 </H2>
