@@ -65,6 +65,8 @@ using O2.XRules.Database.APIs;
 //O2Ref:System.Xaml.dll
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
 //O2Ref:GraphSharp.dll
+//O2Ref:GraphSharp.Controls.dll
+//O2Ref:ICSharpCode.AvalonEdit.dll
 //O2Ref:PresentationFramework.dll 
 //O2Ref:PresentationCore.dll 
 //O2Ref:QuickGraph.dll

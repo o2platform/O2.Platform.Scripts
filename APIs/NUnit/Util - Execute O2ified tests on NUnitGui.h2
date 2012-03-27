@@ -5,8 +5,8 @@
 topPanel.parentForm().top(0).left(0);
 topPanel.insert_LogViewer(); 
 
-
-
+ 
+ 
 var codeEditor = topPanel.add_SourceCodeEditor();
 
 var api_NUnit_Gui = "var api_NUnit_Gui".o2Cache&lt;API_NUnit_Gui&gt;(()=&gt; new API_NUnit_Gui(false));
@@ -36,9 +36,10 @@ Action saveCompileAndRunOnPopup =
 	()=&gt;{
 			codeEditor.saveSourceCode();		
 			
-			var assembly = new CompileEngine().compileSourceFile(codeEditor.sPathToFileLoaded);
-			if (assembly.notNull())
-				assembly.Location.nUnit_Run_Show_Console_on_PopupWindow();
+			//var assembly = new CompileEngine().compileSourceFile(codeEditor.sPathToFileLoaded);
+			//if (assembly.notNull())
+			//	assembly.Location.nUnit_Run_Show_Console_on_PopupWindow();
+			codeEditor.sPathToFileLoaded.nUnit_Run_Show_Console_on_PopupWindow();
 		};
 
 Action&lt;string&gt; loadFile = 
@@ -62,7 +63,7 @@ actionsPanel.add_Link("Run in NUnit Console", ()=&gt;saveCompileAndRunOnPopup())
 actionsPanel.parent().insert_Right(200).add_Button("RUN in NUnit GUI".line().append("(save, compile, open and run)")).fill().onClick(()=&gt;saveCompileOpenAndRunAllTests());
 
 
-
+  
 var items = new Dictionary&lt;string,object&gt;();
 items.add("loadFile", loadFile);
 items.add("topPanel", topPanel);

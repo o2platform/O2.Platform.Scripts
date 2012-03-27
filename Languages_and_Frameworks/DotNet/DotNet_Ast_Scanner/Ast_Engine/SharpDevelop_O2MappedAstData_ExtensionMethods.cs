@@ -252,7 +252,7 @@ namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
             treeView.afterSelect(
                 (treeNode) =>
                 {                    
-                    var text = O2.DotNetWrappers.ExtensionMethods.Ascx_ExtensionMethods.get_Text(treeNode);
+                    var text = WinForms_ExtensionMethods_TreeView.get_Text(treeNode);
                     var methodDeclaration = astData.methodDeclaration_withSignature(treeNode.get_Text());
                     if (methodDeclaration != null)
                     {
