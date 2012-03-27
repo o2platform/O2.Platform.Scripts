@@ -23,12 +23,71 @@ using O2.Views.ASCX.ExtensionMethods;
 namespace O2.XRules.Database.Utils
 {	
 	public static class _Extra_Reflection_ExtensionMethods
-	{			
+	{	
+		public static List<AssemblyName> referencedAssemblies(this AssemblyName assemblyName)
+		{
+			return assemblyName.assembly().referencedAssemblies();
+		}
+		
+		 public static List<AssemblyName> referencedAssemblies(this Assembly assembly, bool recursiveSearch, bool removeGacEntries = true)
+		{			
+			var mappedReferences = new List<string>();
+			var resolvedAssemblies = new List<AssemblyName>();
+			
+			Action<List<AssemblyName>> resolve = null;
+			
+			resolve =  (assemblyNames)=>{
+											if (removeGacEntries)
+												assemblyNames = assemblyNames.removeGacAssemblies();
+											if (assemblyNames.isNull())
+												return;
+											foreach(var assemblyName in assemblyNames)
+											{							
+												if (mappedReferences.contains(assemblyName.str()).isFalse())															
+												{ 
+													mappedReferences.add(assemblyName.str());
+													resolvedAssemblies.add(assemblyName);
+													resolve(assemblyName.referencedAssemblies()); 
+												}
+											}
+										}; 
+			
+			resolve(assembly.referencedAssemblies());
+			
+			"there where {0} NonGac  assemblies resolved for {1}".debug(resolvedAssemblies.size(), assembly.Location);
+			return resolvedAssemblies;
+		}
+		
+		public static List<AssemblyName> removeGacAssemblies(this List<AssemblyName> assemblyNames)
+		{			
+			var systemRoot = Environment.GetEnvironmentVariable("SystemRoot");
+			return (from assemblyName in assemblyNames
+					let assembly = assemblyName.assembly()
+					where assembly.notNull() && assembly.Location.starts(systemRoot).isFalse()
+					select assemblyName).toList();
+		}
+		
+		public static List<string> locations(this List<AssemblyName> assemblyNames)
+		{
+			
+			var locations = new List<string>();
+			try
+			{
+				foreach(var assemblyName in assemblyNames)
+				{
+					var location = assemblyName.assembly().Location;					
+					locations.add(location);
+				}
+			}
+			catch(Exception ex)
+			{
+				"[Reflection] locations, could not resolve {0}".error(ex.Message);
+			}
+			return locations;
+		}
 	}		
 
-	public static class _Extra_ComObject_ExtensionMethods
-	{			
-	}		
+
 	
 }
     	

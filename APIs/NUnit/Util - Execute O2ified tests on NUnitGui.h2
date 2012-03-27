@@ -4,7 +4,7 @@
 //var topPanel = panel.clear().add_Panel();
 topPanel.parentForm().top(0).left(0);
 topPanel.insert_LogViewer(); 
-
+  
  
  
 var codeEditor = topPanel.add_SourceCodeEditor();

@@ -15,7 +15,7 @@ using O2.DotNetWrappers.DotNet;
 using O2.XRules.Database.Utils;
 
 //O2File:Installer_NUnit.cs
-//O2File:_Extra_methods_WinForms_Controls.cs
+//O2File:_Extra_methods_Reflection.cs
 
 
 namespace O2.XRules.Database.APIs
@@ -39,7 +39,7 @@ namespace O2.XRules.Database.APIs
     		var compiledFile =  csharpFile.compileIntoDll_inFolder(targetDir);
     		var assembly = compiledFile.assembly();
     		"[compileIntoTempFolder]  assembly: {0}".debug(assembly.Location);
-			var referenceAssemblies = assembly.referencedAssemblies().names();
+			var referenceAssemblies = assembly.referencedAssemblies(true).names();
 			targetDir.copyAssembliesToFolder(referenceAssemblies.ToArray()) ;
 			
 			"[compileIntoTempFolder] Created assembly: {0}".debug(assembly.Location);
