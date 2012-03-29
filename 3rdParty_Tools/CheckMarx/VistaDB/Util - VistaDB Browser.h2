@@ -3,7 +3,7 @@
   <SourceCode>//var topPanel = panel.clear().add_Panel();
 var topPanel = O2Gui.open&lt;Panel&gt;("Sql Info",900,500);
 topPanel.insert_Below(100).add_LogViewer();
-var sqlServer = new API_SqlServer(); 
+var vistaDb = new API_VistaDB(); 
 var show= false;
 show = true;
 TabControl tabControl = null;
@@ -13,17 +13,17 @@ Action loadDataFromCurrentConnection =
 			tabControl.remove_Tab("Table's Schema");
 			tabControl.remove_Tab("Table's Data");
 			tabControl.remove_Tab("Stored Procedures");
-			sqlServer.add_Viewer_DataBases(tabControl.add_Tab("Database details viewer"));
-			sqlServer.add_Viewer_Tables(tabControl.add_Tab("Table's Schema")); 
-			sqlServer.add_Viewer_TablesData(tabControl.add_Tab("Table's Data")); 
+			vistaDb.add_Viewer_DataBases(tabControl.add_Tab("Database details viewer"));
+			vistaDb.add_Viewer_Tables(tabControl.add_Tab("Table's Schema")); 
+			vistaDb.add_Viewer_TablesData(tabControl.add_Tab("Table's Data")); 
 /*			sqlServer.add_Viewer_StoredProcedures(tabControl.add_Tab("Stored Procedures"));  */
 		};
 
 if(show)
 {
 	tabControl = topPanel.add_TabControl(); 	
-	sqlServer.add_ConnectionStringTester(tabControl.add_Tab("Test/Set SqlConnection string"), loadDataFromCurrentConnection);
-	sqlServer.add_GUI_SqlCommandExecute(tabControl.add_Tab("Execute SQL Commands"));					 	
+	vistaDb.add_ConnectionStringTester(tabControl.add_Tab("Test/Set SqlConnection string"), loadDataFromCurrentConnection);
+	vistaDb.add_GUI_SqlCommandExecute(tabControl.add_Tab("Execute SQL Commands"));					 	
 } 
 
   

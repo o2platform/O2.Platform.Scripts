@@ -1,6 +1,6 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
 
-//this is based on the script API_SqlServer.cs (these two should be merged and a common API_DB should be created)
+//this is based on the script API_VistaDB.cs (these two should be merged and a common API_DB should be created)
 
 using System;
 using System.Data;
@@ -32,17 +32,17 @@ namespace O2.XRules.Database.APIs
 		}
 	}
 
-    public class API_SqlServer
+    public class API_VistaDB
     {   
     	public string ConnectionString { get;set; }
     	public string LastError { get; set; }
     	
-    	public API_SqlServer()
+    	public API_VistaDB()
 		{
-			ConnectionString = @"Data Source=.;Trusted_Connection=True";	 //default to this one			
+			ConnectionString = @"data source='C:\Program Files\Checkmarx\Checkmarx Application Server\CxDB.vdb3'";	 //default to this one			
 		}		
 		
-		public API_SqlServer(string connectionString)
+		public API_VistaDB(string connectionString)
 		{
 			ConnectionString = connectionString;
 		}
@@ -50,28 +50,28 @@ namespace O2.XRules.Database.APIs
 	
 	public class Database
 	{
-		public API_SqlServer SqlServer { get; set; }
+		public API_VistaDB VistaDB { get; set; }
 		public string Name { get; set; }		
 		public List<Table> Tables { get; set; }
 		public List<StoredProcedure> StoredProcedures { get; set; }
 		
 		public Database(string name)
 		{
-			Name = name;
+			Name = name.trim();
 			Tables = new List<Table>();
 			StoredProcedures = new List<StoredProcedure>();
 		}
 		
-		public Database(API_SqlServer sqlServer, string name) : this (name)
+		public Database(API_VistaDB vistaDB, string name) : this (name)
 		{
-			SqlServer = sqlServer;
+			VistaDB = vistaDB;
 		
 		}
 	}
 	
 	public class Table
 	{
-		[XmlIgnore] public API_SqlServer SqlServer { get; set; }				
+		[XmlIgnore] public API_VistaDB VistaDB { get; set; }				
 //		public string Catalog {get;set;}
 //		public string Schema {get;set;}
 		public string Name {get;set;}
@@ -132,21 +132,21 @@ namespace O2.XRules.Database.APIs
 		{
 			return (Schema.valid()) 
 						? "{0}.{1}".format(Schema, Name)
-						: "Name";
+						: Name;
 		}
 	}
 	
 	//add these queries should be done using Linq
-	public static class API_SqlServer_Helps
+	public static class API_VistaDB_Helps
 	{
-		public static Database database(this API_SqlServer sqlServer, string name)
+		public static Database database(this API_VistaDB vistaDB, string name)
 		{
-			return new Database(sqlServer, name);
+			return new Database(vistaDB, name);
 		}
 	}
-	public static class API_SqlServer_getData
+	public static class API_VistaDB_getData
 	{
-		public static List<string> database_Names(this API_SqlServer vistaDB)
+		public static List<string> database_Names(this API_VistaDB vistaDB)
 		{
 			var sqlQuery = "select * from [database schema] where typeid = 1";
 			return (from DataRow row in vistaDB.executeReader(sqlQuery).Rows
@@ -159,10 +159,30 @@ namespace O2.XRules.Database.APIs
 				   	select column.Name).toList();
 		}
 		
+		public static List<Table> tables(this API_VistaDB vistaDb)
+		{			
+			return vistaDb.database("").tables();
+		}
+		
 		public static List<Table> tables(this Database database)
-		{
+		{			
+			if (database.Tables.size() ==0)
+				database.map_Tables();
 			return database.Tables;
 		}
+		
+		public static Table table(this API_VistaDB vistaDb, string name)
+		{
+			return vistaDb.database("").table(name);
+		}
+		
+		public static Table table(this Database database, string name)
+		{			
+			return (from table in database.tables()
+					where table.Name.trim() == name
+					select table).first();
+		}
+		
 		
 		public static List<Table_Column> columns(this Table table)
 		{
@@ -170,27 +190,32 @@ namespace O2.XRules.Database.APIs
 		}
 	}
 	
-	public static class API_SqlServer_PopulateData
+	public static class API_VistaDB_PopulateData
 	{
 		public static Database map_StoredProcedures(this Database database)
 		{		
 			var sqlQuery = "select Specific_Schema, Specific_Name, Routine_Definition  from {0}.Information_Schema.Routines".format(database.Name);
-			var storedProceduresData = database.SqlServer.executeReader(sqlQuery);			
+			var storedProceduresData = database.VistaDB.executeReader(sqlQuery);			
 			foreach(DataRow row in storedProceduresData.Rows)
 				database.StoredProcedures.Add(new StoredProcedure(row.ItemArray[0].str(),row.ItemArray[1].str(),row.ItemArray[2].str())); 
 			return database;
 		}	
 		
+		public static Database map_Tables(this API_VistaDB vistaDB)
+		{
+			return vistaDB.database("").map_Tables();
+		}
+		
 		public static Database map_Tables(this Database database)
 		{		
-			var sqlQuery = "select * from [database schema] where typeid = 1".format(database.Name);
-			var tables = database.SqlServer.executeReader(sqlQuery);			
+			var sqlQuery = "select * from [database schema] where typeid = 1".format();
+			var tables = database.VistaDB.executeReader(sqlQuery);			
 			foreach(DataRow row in tables.Rows)
 				database.Tables.Add(new Table(){
-													SqlServer = database.SqlServer,
+													VistaDB = database.VistaDB,
 //													Catalog = row.ItemArray[0].str(),
 //													Schema = row.ItemArray[1].str(),
-													Name = row["name"].str()
+													Name = row["name"].str().trim()
 //													Type = row.ItemArray[3].str()
 													});
 			return database;
@@ -203,35 +228,34 @@ namespace O2.XRules.Database.APIs
 				//var sqlQuery = "select Column_Name, Column_Default, Is_Nullable, Data_Type, Character_Maximum_Length from {0}.Information_Schema.Columns where table_Schema='{1}' and table_name='{2}'"
 				//					.format(table.Catalog, table.Schema,table.Name);
 								
-				var objectId = database.SqlServer.executeScalar("select objectId from [database schema] where typeid = 1 and name ='{0}' ".format(table.Name));
+				var objectId = database.VistaDB.executeScalar("select objectId from [database schema] where typeid = 1 and name ='{0}' ".format(table.Name));
 				var sqlQuery = "select name, typeId, objectId,options , scriptValue from [database schema] where foreignReference = '{0}' ".format(objectId);
 	 			
-				var columns = database.SqlServer.executeReader(sqlQuery);			
+				var columns = database.VistaDB.executeReader(sqlQuery);			
 				
 				foreach(DataRow row in columns.Rows)
 					table.Columns.Add(new Table_Column(){
-														Name =  row.ItemArray[0].str(),
-														TypeId = row.ItemArray[1].str(),
-														ObjectId = row.ItemArray[2].str(),
-														Options = row.ItemArray[3].str(),
-														ScriptValue = row.ItemArray[4].str()
+														Name =  row.ItemArray[0].str().trim(),
+														TypeId = row.ItemArray[1].str().trim(),
+														ObjectId = row.ItemArray[2].str().trim(),
+														Options = row.ItemArray[3].str().trim(),
+														ScriptValue = row.ItemArray[4].str().trim()
 														});
 			}
 			return database;
 		}
 		
-		public static API_SqlServer map_Table_Data(this API_SqlServer SqlServer, Table table)
+		public static API_VistaDB map_Table_Data(this API_VistaDB vistaDB, Table table)
 		{
 //			var sqlQuery = "select * from [{0}].[{1}].[{2}]".format(table.Catalog,table.Schema, table.Name);				
-			var sqlQuery = "select * from {0}".format(table.Name);				
-			table.TableData = SqlServer.executeReader(sqlQuery);
-			return SqlServer;
+			var sqlQuery = "select * from {0}".format(table.Name);							
+			table.TableData = vistaDB.executeReader(sqlQuery);
+			return vistaDB;
 		}
 		
 		public static Database map_Table_Data(this Database database, Table table)
 		{
-//			var sqlQuery = "select * from [{0}].[{1}].[{2}]".format(table.Catalog,table.Schema, table.Name);				
-//			table.TableData = database.SqlServer.executeReader(sqlQuery);
+			database.VistaDB.map_Table_Data(table);
 			return database;
 		}
 		public static Database map_Table_Data(this Database database)
@@ -241,34 +265,48 @@ namespace O2.XRules.Database.APIs
 			foreach(var table in database.tables())					
 				database.map_Table_Data(table);
 			timer.stop();
-			return database;
-				
+			return database;				
 		}
-
+		
+		public static DataTable dataTable(this Table table)
+		{
+			if (table.isNull())
+				return null;
+			table.VistaDB.map_Table_Data(table);
+			return table.TableData;
+		}		
+		
+		public static string xml(this Table table)
+		{			
+			var dataSet = new DataSet();
+			dataSet.Tables.Add(table.dataTable());
+			return dataSet.GetXml();
+		}
 	}
-	public static class API_SqlServer_Queries
+	
+	public static class API_VistaDB_Queries
 	{
-		public static VistaDBConnection getOpenConnection(this API_SqlServer sqlServer)
+		public static VistaDBConnection getOpenConnection(this API_VistaDB vistaDB)
 		{						
-			"[API_SqlServer] Opening Connection".info();
+			"[API_VistaDB] Opening Connection".info();
 			try
 			{
-				var sqlConnection = new VistaDBConnection(sqlServer.ConnectionString);			
+				var sqlConnection = new VistaDBConnection(vistaDB.ConnectionString);			
 				sqlConnection.Open();
 				return sqlConnection;
 			}
 			catch(Exception ex)
 			{
-				sqlServer.LastError = ex.Message;
+				vistaDB.LastError = ex.Message;
 				"[executeNonQuery] {0}".error(ex.Message);
 				//ex.log();
 			}			
 			return null;
 		}
 		
-		public static VistaDBConnection closeConnection(this API_SqlServer sqlServer, VistaDBConnection sqlConnection)
+		public static VistaDBConnection closeConnection(this API_VistaDB vistaDB, VistaDBConnection sqlConnection)
 		{						
-			"[API_SqlServer] Closing Connection".info();
+			"[API_VistaDB] Closing Connection".info();
 			try
 			{				
 				sqlConnection.Close();
@@ -276,16 +314,16 @@ namespace O2.XRules.Database.APIs
 			}
 			catch(Exception ex)
 			{
-				sqlServer.LastError = ex.Message;
+				vistaDB.LastError = ex.Message;
 				"[executeNonQuery] {0}".error(ex.Message);
 				//ex.log();
 			}			
 			return null;
 		}
 		
-		public static API_SqlServer executeNonQuery(this API_SqlServer sqlServer, VistaDBConnection sqlConnection, string command)
+		public static API_VistaDB executeNonQuery(this API_VistaDB vistaDB, VistaDBConnection sqlConnection, string command)
 		{			
-			"[API_SqlServer] Executing Non Query: {0}".info(command);
+			"[API_VistaDB] Executing Non Query: {0}".info(command);
 			try
 			{
 				var sqlCommand = new VistaDBCommand();
@@ -296,20 +334,20 @@ namespace O2.XRules.Database.APIs
 			}
 			catch(Exception ex)
 			{
-				sqlServer.LastError = ex.Message;
+				vistaDB.LastError = ex.Message;
 				"[executeNonQuery] {0}".error(ex.Message);
 				//ex.log();
 			}
-			return sqlServer;
+			return vistaDB;
 		}
 		
-		public static API_SqlServer executeNonQuery(this API_SqlServer sqlServer, string command)
+		public static API_VistaDB executeNonQuery(this API_VistaDB vistaDB, string command)
 		{		
-			"[API_SqlServer] Executing Non Query: {0}".info(command);
+			"[API_VistaDB] Executing Non Query: {0}".info(command);
 			VistaDBConnection sqlConnection = null;
 			try
 			{
-				sqlConnection = new VistaDBConnection(sqlServer.ConnectionString);			
+				sqlConnection = new VistaDBConnection(vistaDB.ConnectionString);			
 				sqlConnection.Open();
 				var sqlCommand = new VistaDBCommand();
 				sqlCommand.Connection = sqlConnection;
@@ -319,7 +357,7 @@ namespace O2.XRules.Database.APIs
 			}
 			catch(Exception ex)
 			{
-				sqlServer.LastError = ex.Message;
+				vistaDB.LastError = ex.Message;
 				"[executeNonQuery] {0}".error(ex.Message);
 				//ex.log();
 			}
@@ -328,16 +366,16 @@ namespace O2.XRules.Database.APIs
 				if (sqlConnection.notNull())
 					sqlConnection.Close();
 			}
-			return sqlServer;
+			return vistaDB;
 		}
 		
-		public static object executeScalar(this API_SqlServer sqlServer, string command)
+		public static object executeScalar(this API_VistaDB vistaDB, string command)
 		{	
-			"[API_SqlServer] Executing Scalar: {0}".info(command);
+			"[API_VistaDB] Executing Scalar: {0}".info(command);
 			VistaDBConnection sqlConnection = null;
 			try
 			{
-				sqlConnection = new VistaDBConnection(sqlServer.ConnectionString);
+				sqlConnection = new VistaDBConnection(vistaDB.ConnectionString);
 				sqlConnection.Open();
 				var sqlCommand = new VistaDBCommand();
 				sqlCommand.Connection = sqlConnection;
@@ -347,7 +385,7 @@ namespace O2.XRules.Database.APIs
 			}
 			catch(Exception ex)
 			{
-				sqlServer.LastError = ex.Message;
+				vistaDB.LastError = ex.Message;
 				"[executeNonQuery] {0}".error(ex.Message);
 				//ex.log();
 			}
@@ -358,9 +396,9 @@ namespace O2.XRules.Database.APIs
 			return null;
 		}
 		
-		public static DataTable executeReader(this API_SqlServer sqlServer, string command)
+		public static DataTable executeReader(this API_VistaDB vistaDB, string command)
 		{
-			var sqlConnection = new VistaDBConnection(sqlServer.ConnectionString);
+			var sqlConnection = new VistaDBConnection(vistaDB.ConnectionString);
 			sqlConnection.Open();
 			try
 			{
@@ -375,7 +413,7 @@ namespace O2.XRules.Database.APIs
 			}
 			catch(Exception ex)
 			{
-				sqlServer.LastError = ex.Message;
+				vistaDB.LastError = ex.Message;
 				"[executeNonQuery] {0}".error(ex.Message);
 				//ex.log();
 			}
@@ -388,9 +426,9 @@ namespace O2.XRules.Database.APIs
 		}
 	}
 		
-	public static class API_SqlServer_GUI_Controls
+	public static class API_VistaDB_GUI_Controls
     {
-		public static T add_ConnectionStringTester<T>(this API_SqlServer sqlServer , T control, Action afterConnect)
+		public static T add_ConnectionStringTester<T>(this API_VistaDB vistaDB , T control, Action afterConnect)
 			where T : Control
 		{
 			control.clear();
@@ -406,7 +444,7 @@ namespace O2.XRules.Database.APIs
 									try
 									{ 
 										var text = connectionString.get_Text();
-										sqlServer.ConnectionString = text;
+										vistaDB.ConnectionString = text;
 										response.set_Text("Connecting using: {0}".format(text));
 										var sqlConnection = new VistaDBConnection(text);
 										sqlConnection.Open();
@@ -415,7 +453,7 @@ namespace O2.XRules.Database.APIs
 									}
 									catch(Exception ex)
 									{
-										sqlServer.LastError = ex.Message;
+										vistaDB.LastError = ex.Message;
 										response.set_Text("Error: {0}".format(ex.Message));
 									}						
 									
@@ -441,26 +479,26 @@ namespace O2.XRules.Database.APIs
 		}
 				
 		
-		public static API_SqlServer add_Viewer_QueryResult<T>(this API_SqlServer sqlServer , T control, string sqlQuery)
+		public static API_VistaDB add_Viewer_QueryResult<T>(this API_VistaDB vistaDB , T control, string sqlQuery)
 			where T : Control
 		{	 
 			control.clear();
-			var dataTable = sqlServer.executeReader(sqlQuery); 			
+			var dataTable = vistaDB.executeReader(sqlQuery); 			
 			var dataGridView = control.add_DataGridView();
 			dataGridView.DataError+= (sender,e) => { // " dataGridView error: {0}".error(e.Context);
 												   };
 			dataGridView.invokeOnThread(()=> dataGridView.DataSource = dataTable );			
-			return sqlServer;
+			return vistaDB;
 		}
 		
-		public static API_SqlServer add_Viewer_DataBases<T>(this API_SqlServer sqlServer , T control)
+		public static API_VistaDB add_Viewer_DataBases<T>(this API_VistaDB vistaDB , T control)
 			where T : Control
 		{
 			var sqlQuery = "select * from [database schema] where typeid = 1"; 
-			return sqlServer.add_Viewer_QueryResult(control, sqlQuery);
+			return vistaDB.add_Viewer_QueryResult(control, sqlQuery);
 		}
 		
-		public static API_SqlServer add_Viewer_Tables_Raw<T>(this API_SqlServer vistaDB , T control, string databaseName)
+		public static API_VistaDB add_Viewer_Tables_Raw<T>(this API_VistaDB vistaDB , T control, string databaseName)
 			where T : Control
 		{
 			var objectId = vistaDB.executeScalar("select objectId from [database schema] where typeid = 1 and name ='{0}'".format(databaseName));
@@ -470,15 +508,15 @@ namespace O2.XRules.Database.APIs
 			return vistaDB.add_Viewer_QueryResult(control, sqlQuery);
 		}
 		
-		public static API_SqlServer add_Viewer_StoredProcedures_Raw<T>(this API_SqlServer sqlServer , T control, string databaseName)
+		public static API_VistaDB add_Viewer_StoredProcedures_Raw<T>(this API_VistaDB vistaDB , T control, string databaseName)
 			where T : Control
 		{
 		
 			var sqlQuery = "select * from {0}.Information_Schema.Routines".format(databaseName); 
-			return sqlServer.add_Viewer_QueryResult(control, sqlQuery);
+			return vistaDB.add_Viewer_QueryResult(control, sqlQuery);
 		}
 		
-		public static API_SqlServer add_Viewer_StoredProcedures<T>(this API_SqlServer sqlServer , T control)
+		public static API_VistaDB add_Viewer_StoredProcedures<T>(this API_VistaDB vistaDB , T control)
 			where T : Control
 		{
 			control.clear();
@@ -500,7 +538,7 @@ namespace O2.XRules.Database.APIs
 			database_Names.afterSelect<string>(
 				(database_Name)=>{
 									value.set_Text("");
-									currentDatabase = new Database(sqlServer, database_Name);
+									currentDatabase = new Database(vistaDB, database_Name);
 									currentDatabase.map_StoredProcedures();									
 									storedProcedure_Names.clear();						
 									storedProcedure_Names.add_Nodes(currentDatabase.StoredProcedures);
@@ -510,14 +548,14 @@ namespace O2.XRules.Database.APIs
 			storedProcedure_Names.afterSelect<StoredProcedure>(
 				(storedProcedure) => value.set_Text(storedProcedure.Value) );
 			
-			database_Names.add_Nodes(sqlServer.database_Names());
+			database_Names.add_Nodes(vistaDB.database_Names());
 			
 			database_Names.selectFirst();
-			return sqlServer;
+			return vistaDB;
 		}
 		
 		
-		public static API_SqlServer add_Viewer_Tables<T>(this API_SqlServer sqlServer , T control)
+		public static API_VistaDB add_Viewer_Tables<T>(this API_VistaDB vistaDB , T control)
 			where T : Control
 		{		
 			control.clear();
@@ -532,7 +570,7 @@ namespace O2.XRules.Database.APIs
 									O2Thread.mtaThread(
 										()=>{
 												value.set_Text("");
-												var database = new Database(sqlServer, database_Name);									
+												var database = new Database(vistaDB, database_Name);									
 												database.map_Tables()
 														.map_Table_Columns();
 												tables_Names.clear();						
@@ -545,11 +583,11 @@ namespace O2.XRules.Database.APIs
 			tables_Names.afterSelect<Table>( 
 				(table) => value.show(table.Columns) );
 			
-//			database_Names.add_Nodes(sqlServer.database_Names());
+//			database_Names.add_Nodes(vistaDB.database_Names());
 			
 //			database_Names.selectFirst();
 
-			var database = new Database(sqlServer, "");									
+			var database = new Database(vistaDB, "");									
 			database.map_Tables()
 					.map_Table_Columns();
 			tables_Names.clear();						
@@ -557,10 +595,10 @@ namespace O2.XRules.Database.APIs
 			tables_Names.selectFirst(); 
 			tables_Names.backColor(Color.White);
 
-			return sqlServer;
+			return vistaDB;
 		}
 		
-		public static API_SqlServer add_Viewer_TablesData<T>(this API_SqlServer sqlServer , T control)
+		public static API_VistaDB add_Viewer_TablesData<T>(this API_VistaDB vistaDB , T control)
 			where T : Control
 		{		
 			control.clear();
@@ -609,7 +647,7 @@ namespace O2.XRules.Database.APIs
 									tables_Names.backColor(Color.Salmon);
 									O2Thread.mtaThread(
 										()=>{
-												var database = new Database(sqlServer, database_Name);									
+												var database = new Database(vistaDB, database_Name);									
 												database.map_Tables();
 												if (preloadAllData)																							
 													database.map_Table_Data();												
@@ -631,7 +669,7 @@ namespace O2.XRules.Database.APIs
 												rowData.set_Text("");	
 												dataGridView.remove_Columns();							
 												if (table.TableData.isNull())							
-													sqlServer.map_Table_Data(table);								
+													vistaDB.map_Table_Data(table);								
 												dataGridView.invokeOnThread(()=>dataGridView.DataSource= table.TableData);		
 												tables_Names.backColor(Color.White);
 											});
@@ -641,7 +679,7 @@ namespace O2.XRules.Database.APIs
 							loadTableData(table);
 						 });
 			
-			database_Names.add_Nodes(sqlServer.database_Names());
+			database_Names.add_Nodes(vistaDB.database_Names());
 			
 			database_Names.selectFirst();  
 						
@@ -656,10 +694,10 @@ namespace O2.XRules.Database.APIs
 							loadTableData(table);
 						}
 					});
-			return sqlServer;
+			return vistaDB;
 		}
 		
-		public static API_SqlServer add_GUI_SqlCommandExecute<T>(this API_SqlServer sqlServer , T control)
+		public static API_VistaDB add_GUI_SqlCommandExecute<T>(this API_VistaDB vistaDB , T control)
 			where T : Control
 		{
 			Action<string> executeNonQuery=null;
@@ -686,7 +724,7 @@ namespace O2.XRules.Database.APIs
 				 							});;
 			
 			executeReader = (sqlQuery)=>{
-											sqlServer.add_Viewer_QueryResult(resultsPanel, sqlQuery);
+											vistaDB.add_Viewer_QueryResult(resultsPanel, sqlQuery);
 											"done".info();
 										};	
 										
@@ -698,27 +736,27 @@ namespace O2.XRules.Database.APIs
 												{										
 													var sqlTexts = sqlText.line().split("GO".line()); 
 													log.append_Line("[{0}]Found a GO, so breaking it into {1} queries".format(DateTime.Now,sqlTexts.size()));		  								
-													var sqlConnection = sqlServer.getOpenConnection();
+													var sqlConnection = vistaDB.getOpenConnection();
 													foreach(var text in sqlTexts)																					
 													{				
-														sqlServer.executeNonQuery(sqlConnection, text);																				
+														vistaDB.executeNonQuery(sqlConnection, text);																				
 														
-														if (sqlServer.LastError.valid())
+														if (vistaDB.LastError.valid())
 														{
-															log.append_Line("SQL ERROR: {0}".lineBeforeAndAfter().format(sqlServer.LastError)); 
+															log.append_Line("SQL ERROR: {0}".lineBeforeAndAfter().format(vistaDB.LastError)); 
 															log.append_Line("ERROR: stoping execution since there was an error which executing the query: {0}".format(text).lineBeforeAndAfter());
 															break;
 														}			
 													}
-													sqlServer.closeConnection(sqlConnection);
+													vistaDB.closeConnection(sqlConnection);
 												}
 												else
 													{
 														log.append_Line("Executing as Non Query: {0}".format(sqlText));
-														sqlServer.LastError = ""; 
-														sqlServer.executeNonQuery(sqlText);
-														if (sqlServer.LastError.valid())
-															log.append_Line("SQL ERROR: {0}".lineBeforeAndAfter().format(sqlServer.LastError)); 
+														vistaDB.LastError = ""; 
+														vistaDB.executeNonQuery(sqlText);
+														if (vistaDB.LastError.valid())
+															log.append_Line("SQL ERROR: {0}".lineBeforeAndAfter().format(vistaDB.LastError)); 
 													}
 												"done".info();
 										   };			
@@ -729,7 +767,7 @@ namespace O2.XRules.Database.APIs
 													"select * from master.Information_Schema.Routines"
 												});
 			sampleQueries.selectFirst(); 
-			return sqlServer;
+			return vistaDB;
 		}
 	}		
 }

@@ -25,7 +25,7 @@ namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 		
 		public DotNet_SDK_WSDL()
 		{
-			Wsdl_Exe = PublicDI.config.CurrentExecutableDirectory.pathCombine("MS_SDK_wsdl.exe");
+			Wsdl_Exe = PublicDI.config.ReferencesDownloadLocation.pathCombine("MS_SDK_wsdl.exe");
 		}
 		
 		public bool wsdl_exe_exists()
@@ -89,7 +89,8 @@ namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
             	}   
             	else
             		"in wsdl_CreateCSharp, executionResult was not valid".error();
-			}            	
+			}       
+			"[wsdl_CreateCSharp] wsdl_exe_exists returned false".error();
             return "";
         }
               	       	
@@ -104,11 +105,17 @@ namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
         		targetFolder = "wsdl".tempDir();
         	var cSharpFile = wsdl_CreateCSharp(wsdlSourceFileOrUrl,targetFolder, extraWsdlParameres);
 			cSharpFile.fileInsertAt(0, "//O2Ref:System.Web.Services.dll".line()); 		
-			var assembly = cSharpFile.compile(); 			
+			var assembly = cSharpFile.compile(); 	
+			if (assembly.isNull())
+			{
+				"[wsdl_CreateAssembly] failed to create CSharp file from wsdl: {0}".error(wsdlSourceFileOrUrl);
+				return null;
+			}
 			this.Created_AssemblyPath = Files.Copy(assembly.Location,targetFolder.pathCombine(cSharpFile.fileName().replace(".cs",".dll")));
 			this.Wsdl_Data = cSharpFile + ".wsdl_Data.xml";
 			this.saveAs(this.Wsdl_Data);
 			return cSharpFile;
+			
 			//return Created_AssemblyPath;
 		}				
     }

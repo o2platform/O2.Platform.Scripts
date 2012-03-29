@@ -386,9 +386,9 @@ namespace O2.XRules.Database.Languages_and_Frameworks.AspNet
 		 
 					var script = "WebService Script Execution".showAsForm(700,400).add_Script(false);   
 					
-					script.InvocationParameters.Add("assembly", this.WsdlAssembly); 
-					script.InvocationParameters.Add("currentType", this.CurrentMethod.DeclaringType.Name); 
-					script.InvocationParameters.Add("currentMethod", this.CurrentMethod.Name); 
+					//script.InvocationParameters.Add("assembly", this.WsdlAssembly); 
+					//script.InvocationParameters.Add("currentType", this.CurrentMethod.DeclaringType.Name); 
+					//script.InvocationParameters.Add("currentMethod", this.CurrentMethod.Name); 
 					script.Code = "....Creating WebService Method invocation script ...";
 					script.Code = getDefaultScript();
 				};
