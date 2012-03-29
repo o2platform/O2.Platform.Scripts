@@ -31,6 +31,13 @@ using O2.External.SharpDevelop.ExtensionMethods;
 //O2Ref:Microsoft.Windows.Shell.dll
 //O2File:WPF_Ribbon_ExtensionMethods.cs
 
+//O2Ref:O2_API_Visualization.dll
+//O2Ref:System.Xaml.dll
+
+//O2Ref:PresentationCore.dll
+//O2Ref:PresentationFramework.dll
+//O2Ref:WindowsBase.dll
+
 namespace O2.XRules.Database.Utils
 {
 

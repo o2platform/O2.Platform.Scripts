@@ -1,5 +1,7 @@
 // Tshis file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
+using System.Linq;
 using System.Xml.Linq;
+using System.Collections.Generic;
 using O2.Kernel.ExtensionMethods;
 using O2.DotNetWrappers.ExtensionMethods;
 
@@ -80,5 +82,36 @@ namespace O2.XRules.Database.Utils
 				xAttribute.SetValue(value);
 			return xAttribute;
 		}				
+	}
+	
+	public static class XmlLinq_ExtensionMethods_ProcessingInstruction
+	{
+		public static XProcessingInstruction processingInstruction(this XDocument xDocument, string target)
+		{
+			foreach(var processingInstruction in xDocument.processingInstructions())
+				if (processingInstruction.Target == target)
+					return processingInstruction;
+			return null;
+		}
+		
+		public static List<XProcessingInstruction> processingInstructions(this XDocument xDocument)
+		{
+			return xDocument.Document.Nodes().OfType<XProcessingInstruction>().toList();
+		}
+		
+		public static XDocument set_ProcessingInstruction(this XDocument xDocument, string target, string data)
+		{
+			var processingInstruntion = xDocument.processingInstruction(target);
+			if (processingInstruntion.notNull())
+				processingInstruntion.Data = data;
+			else
+			{
+				var newProcessingInstruction = new XProcessingInstruction(target, data);//"xsl-stylesheet", "type=\"text/xsl\" href=\"LogStyle.xsl\"");				
+				xDocument.AddFirst(newProcessingInstruction);
+			}
+			return xDocument;
+		}
+		
+
 	}
 }    	
