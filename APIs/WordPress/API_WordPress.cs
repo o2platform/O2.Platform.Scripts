@@ -32,7 +32,10 @@ namespace O2.XRules.Database.APIs
     	public MetaWeblogWrapper MetaWeblog { get; set; }
     	
     	public bool LoggedIn { get; set; }    	    
-
+		public API_WordPress() : this ("https://o2platform.wordpress.com")
+		{			
+		}
+		
     	public API_WordPress(string wordPressServer)
     	{               
             WordPressXmlRpc = wordPressServer;
@@ -197,13 +200,17 @@ namespace O2.XRules.Database.APIs
     public static class WordPressAPI_ExtensionMethods_SourceCode_Utils
     {
     	public static string wrapClipboardTextInSourceCodeTags(this API_WordPress wordPress)
-    	{
+    	{    		
     		var clipboardText = "".clipboardText_Get();
+    		var startText = "[sourcecode language=\"csharp\" wraplines=\"false\"]".line();
+    		var endText = "[/sourcecode]".line();
+    		if (clipboardText.contains(startText))
+    			return clipboardText;
     		"Current Clipboard Text:{0}".info(clipboardText);
-    		clipboardText = clipboardText.Replace("\t","    ");  
-    		var wrapedText = "[sourcecode language=\"csharp\" wraplines=\"false\"]".line() + 
+    		clipboardText = clipboardText.Replace("\t","    ").fixCRLF();    		
+    		var wrapedText = startText + 
 							 clipboardText + "".line() + 
- 							 "[/sourcecode]".line();
+ 							 endText;
 
     		wrapedText.clipboardText_Set();
     		return clipboardText;

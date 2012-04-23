@@ -128,7 +128,7 @@ Action login =
 Action newPost = 
 	()=&gt;{
 			ie.open(serverUrl + "/wp-admin/post-new.php");
-			var browser = topPanel.control&lt;WebBrowser&gt;(true); 			
+			var browser = topPanel.control&lt;WebBrowser&gt;(true); 			 
 			browser.focus(); 
 			ie.link("Toggle fullscreen mode (Alt+Shift+G)").click();
 			

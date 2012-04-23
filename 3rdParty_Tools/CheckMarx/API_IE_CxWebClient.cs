@@ -14,35 +14,38 @@ using O2.XRules.Database.Utils;
 namespace O2.XRules.Database.APIs
 {	
 	
-    public class IE_Google : API_IE_ExecutionGUI
+    public class API_IE_CxWebClient : API_IE_ExecutionGUI
     {   
     	
-    	public IE_Google(WatiN_IE ie) : base(ie)
-    	{
+    	public API_IE_CxWebClient(WatiN_IE ie) : base(ie)
+    	{    		
     	 	config();
     	}
     	
-    	public IE_Google(Control hostControl)	: base(hostControl) 
+    	public API_IE_CxWebClient(Control hostControl)	: base(hostControl) 
     	{    		
     		config();
     	}  
     	
     	public void config()
     	{
-    		this.TargetServer = "http://www.google.com";    		
+    		this.TargetServer = "https://www.cxprivatecloud.com";    		
+    		API_IE_CxWebClient_HelperMethods.ie = this.ie;
     	}
     }
     
-    public static class IE_Google_Actions
+    public static class API_IE_CxWebClient_Actions
     {    					
 		
 		[ShowInGui(Folder ="root")]
-		public static API_IE_ExecutionGUI homepage(this IE_Google ieExecution)
+		public static API_IE_ExecutionGUI homepage(this API_IE_CxWebClient cxWeb)
 		{
-			return ieExecution.open(""); 
+			return cxWeb.open(""); 
 		}
 		
-		[ShowInGui(Folder ="links")]
+		
+		
+		/*[ShowInGui(Folder ="links")]
 		public static API_IE_ExecutionGUI images(this IE_Google ieExecution)
 		{
 			return ieExecution.open("imghp?hl=en&tab=wi"); 
@@ -59,8 +62,21 @@ namespace O2.XRules.Database.APIs
 		{
 			return ieExecution.open("/maps?hl=en&tab=wl"); 
 		}
+		*/
 		
-		
-		
-	}    
+	}   
+	
+	public static class API_IE_CxWebClient_HelperMethods
+    {    					
+    	public static WatiN_IE ie;
+    	
+    	public static API_IE_CxWebClient login(this API_IE_CxWebClient cxClient, string username, string password)
+    	{    	
+			cxClient.open("/CxWebClient/login.aspx");	     			
+			ie.field("txtUserName").value(username);
+			ie.field("txtPassword").value(password);
+			ie.button("Login").click();
+			return cxClient;
+		}
+	}
 }   

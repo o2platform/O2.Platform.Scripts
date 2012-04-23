@@ -8,7 +8,7 @@ var findingsViewer = topGui.insert_Right&lt;ascx_FindingsViewer&gt;(300);
 var sourceCodeViewer = findingsViewer.insert_Below&lt;Panel&gt;(400).add_SourceCodeViewer();
 var loopPoc = true;
 findingsViewer.add_ContextMenu().add_MenuItem("Cancel Execution",()=&gt;loopPoc = false);
-var url = "http://localhost:12345/HacmeBank_v2_Website/aspx/login.aspx"; 
+var url = "http://localhost:11112/HacmeBank_v2_Website/aspx/login.aspx"; 
 //if(url.uri().online().isFalse())
 //{
 //	url = "What is Hacmebank's URL:".askUser("HacmeBank Url", url); 	 
@@ -29,8 +29,8 @@ ie.button("Post Message").scrollIntoView().flash(10).click();
 this.sleep(2000);
 topGui.parent&lt;SplitContainer&gt;().splitterDistance(200);
 
-var o2Findings = @"C:\O2\DemoData\HacmeBank_Analysis\HacmeBank_Findings\PostMessageExploit.ozasmt".loadFindingsFile();
-//var o2Findings = "HacmeBank_v2_Website.ascx.PostMessageForm.btnPostMessage_Click.cs".local();
+var o2Findings = @"C:\_WorkDir\O2\O2 Install\O2.Platform.Scripts\_DataFiles\O2Findings\PostMessageExploit.ozasmt".loadFindingsFile();
+//var o2Findings = "HacmeBank_v2_Website.ascx.PostMessageForm.btnPostMessage_Click.cs	".local();
 findingsViewer.show(o2Findings);
 var o2Finding = (O2Finding)o2Findings[0];
 

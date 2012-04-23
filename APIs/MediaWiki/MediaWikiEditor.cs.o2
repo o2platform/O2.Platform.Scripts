@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
+using System.Reflection; 
 using System.Text;
 using O2.Interfaces.O2Core;
 using O2.Kernel;
@@ -39,6 +39,7 @@ using AvalonDock;
 //O2Ref:WindowsBase.dll
 //O2Ref:PresentationFramework.dll
 //O2Ref:WindowsFormsIntegration.dll
+//O2Ref:System.Xaml.dll
 //O2Ref:ICSharpCode.AvalonEdit.dll
 //O2Ref:O2_External_IE.dll
 //O2Ref:QuickGraph.dll
@@ -539,7 +540,7 @@ namespace O2.XRules.Database.APIs
 			//perform a shallow copy from newWikiApi to WikiApi)
 			//"before:{0}".info(WikiApi.HostUrl);
 			foreach(var property in WikiApi.type().properties())						
-				Reflection_ExtensionMethods.prop(WikiApi,property.Name,newWikiApi.prop(property.Name));
+				Reflection_ExtensionMethods_Properties.prop(WikiApi,property.Name,newWikiApi.prop(property.Name));
 			//"after:{0}".info(WikiApi.HostUrl);
 		}
 		

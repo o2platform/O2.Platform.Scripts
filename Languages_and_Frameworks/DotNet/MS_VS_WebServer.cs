@@ -28,7 +28,8 @@ namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 		
 		public MS_VS_WebServer()
 		{
-			WebServerExe = PublicDI.config.CurrentExecutableDirectory.pathCombine("MS_VS_WebDev.WebServer.exe"); 		
+			
+			WebServerExe = PublicDI.config.ReferencesDownloadLocation.pathCombine("MS_VS_WebDev.WebServer.exe"); 		
 		}
 		
 		public MS_VS_WebServer(string localPath, int port, string virtualPath) : this()

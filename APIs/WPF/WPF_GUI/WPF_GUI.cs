@@ -27,6 +27,7 @@ using O2.XRules.Database.Utils;
 //O2File:ElementHost_ExtensionMethods.cs
 //O2File:XamlCode_ExtensionMethods.cs
 //O2File:O2PlatformWikiAPI.cs
+//O2File:ascx_Execute_Scripts.cs
 
 //O2Ref:Odyssey.dll
 //O2Ref:O2_API_AST.dll

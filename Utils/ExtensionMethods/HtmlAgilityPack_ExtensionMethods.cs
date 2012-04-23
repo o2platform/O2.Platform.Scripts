@@ -302,11 +302,18 @@ namespace O2.XRules.Database.Utils
         }
         
         public static string tidyHtml(this string htmlCode)
+		{			
+			var htmlDocument = htmlCode.htmlDocument();
+			var tidiedhtml = htmlDocument.tidyHtml();
+			if (tidiedhtml.valid())
+				return tidiedhtml;
+			return htmlCode;
+		}
+		
+		public static string tidyHtml(this HtmlAgilityPack.HtmlDocument htmlDocument)
 		{
 			try
-			{
-				var htmlDocument = htmlCode.htmlDocument();
-				
+			{	
 				htmlDocument.OptionCheckSyntax = true;
 				htmlDocument.OptionFixNestedTags = true;
 				htmlDocument.OptionAutoCloseOnEnd = true;
@@ -318,7 +325,7 @@ namespace O2.XRules.Database.Utils
         	catch(Exception ex)
         	{
         		ex.log("[string.tidyHtml]");
-        		return htmlCode;
+        		return null;
         	}
 		}
         #endregion

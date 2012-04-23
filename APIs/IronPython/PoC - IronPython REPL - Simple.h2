@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = "PoC - IronPython REPL - Simple".popupWindow(800,400);
+topPanel.insert_LogViewer();
+//var topPanel = panel.clear().add_Panel();
+
+var code = "print 2+2;";
+
+Action&lt;string&gt; executeScript = null;
+new API_ConsoleOut().show_ConsoleOut(topPanel.title("Console Out"));
+var codeEditor = topPanel.insert_Left("Python Code").add_SourceCodeViewer().set_Text(code,".cs");
+
+
+var cmdLine = new PythonCommandLine();
+var engine = Python.CreateEngine();
+var runtime = engine.Runtime;
+executeScript = (script) =&gt;	{
+								try
+								{
+									"Execucuring code".info();
+									var source = engine.CreateScriptSourceFromString(script, SourceCodeKind.AutoDetect);
+									var mod = engine.CreateScope();
+									source.Execute(mod);
+								}
+								catch(Exception ex)
+								{
+									ex.log();
+								}
+							};
+
+codeEditor.onTextChange((text)=&gt; code = text);
+codeEditor.parent().insert_Above(20).add_Link("Execute Pyhton code" , ()=&gt; executeScript(code)).click();
+
+//using Microsoft.Scripting
+//using IronPython
+//using IronPython.Hosting
+//O2Ref:IronPython.dll
+//O2Ref:Microsoft.Dynamic.dll
+//O2Ref:Microsoft.Scripting.dll
+//O2File:API_ConsoleOut.cs</SourceCode>
+  <ReferencedAssemblies />
+</H2>

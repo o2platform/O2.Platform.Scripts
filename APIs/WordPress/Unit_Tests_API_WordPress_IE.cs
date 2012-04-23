@@ -52,7 +52,7 @@ namespace O2.UnitTests
 			apiWordPressIE.login();
 			var links = ie.links();
 			
-			Assert.IsTrue(ie.url().contains(apiWordPressIE.ServerUrl.append("wp-admin").str()), "URL was not the expected one");
+			Assert.IsTrue(ie.url().contains(apiWordPressIE.ServerUri.append("wp-admin").str()), "URL was not the expected one");
 			Assert.AreEqual("Dashboard ‹ OWASP O2 Platform Blog — WordPress", ie.title(), "URL was not the expected one");
 			Assert.IsNotNull(ie.link("New Post"), "didn't find expected link");
 			return "ok: login";

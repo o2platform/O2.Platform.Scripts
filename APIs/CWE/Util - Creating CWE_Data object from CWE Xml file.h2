@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var targetDir = "_CWE_Data".tempDir(false);
+var cweXml = targetDir.pathCombine("2000.xml");
+if (cweXml.fileExists().isFalse())
+{
+	var cweZip = cweXml+= ".zip";
+	if (cweZip.fileExists().isFalse())
+		"http://cwe.mitre.org/data/xml/views/2000.xml.zip".download(targetDir);
+	cweZip.unzip_File(targetDir);
+}
+
+var catalog = Weakness_Catalog.Load(cweXml);
+
+var cweData = new CWE_Data();
+
+var phases = new List&lt;string&gt;();
+foreach(var weakness in catalog.Weaknesses.Weakness)
+{	
+	//mapping phase 
+	var phase = "Not Defined";
+	if (weakness.Time_of_Introduction.notNull())
+		phase = weakness.Time_of_Introduction.Introductory_Phase
+								 .Select((introPhase)=&gt;introPhase.str() )
+					   			 .toList()
+					   			 .join(",");
+	
+	phases.add_If_Not_There(phase);
+	
+	//mapping technology
+	var technology = "Not Defined";
+	if (weakness.Applicable_Platforms.notNull())
+	{		
+		if(weakness.Applicable_Platforms.Languages.notNull())
+		{
+			technology = weakness.Applicable_Platforms.Languages.Language 
+								 .Select((language)=&gt;language.Language_Name )
+					   			 .toList()
+					   			 .join(",");
+			if (technology=="")
+				technology =  weakness.Applicable_Platforms.Languages.Language_Class 
+									  .Select((language)=&gt;language.Language_Class_Description )
+						   			  .toList()
+						   			  .join(",");				   			 
+		}
+		else if (weakness.Applicable_Platforms.Technology_Classes.notNull())
+		{
+			technology = weakness.Applicable_Platforms.Technology_Classes 
+								 .Technology_Class.Select((technologyClass)=&gt;technologyClass.Technology_Name)
+					   			 .toList()
+					   			 .join(",");			
+		}					
+	}
+	var content = "&lt;p&gt;{0}&lt;/p&gt; \n\n &lt;p&gt;{1}&lt;/p&gt;".format(weakness.Description.Description_Summary.notNull() 
+																? weakness.Description.Description_Summary 
+																: "", 
+														 weakness.Description.Extended_Description.notNull() &amp;&amp; weakness.Description.Extended_Description.Text.size() &gt; 0
+														 		? weakness.Description.Extended_Description.Text.toList().join("\n")
+														 		: "");
+	
+	
+	var cweWeakNess = new CWE_Weakness()
+							{
+								Title		= "{0} - {1}".format(weakness.ID,weakness.Name),
+								Technology  = technology,
+								Type 		= weakness.Status,
+								Phase 		= phase ,
+								Category 	= "CWE" ,
+								Content 	= content								
+							};
+	cweData.Weaknesses.add(cweWeakNess);					
+ 
+}
+var mappedXml = targetDir.pathCombine("Cwe_data.xml");
+cweData.saveAs(mappedXml);
+return "Content saved to: {0}".format(mappedXml);
+
+//O2File:cwe_schema_v5.1.cs
+//O2File:CWE_Data.cs
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

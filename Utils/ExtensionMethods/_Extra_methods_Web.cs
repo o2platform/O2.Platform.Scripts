@@ -67,6 +67,12 @@ namespace O2.XRules.Database.Utils
 		}
 		
 		//POST requests
+		
+		public static string POST(this Uri uri, byte[] postData)
+		{
+			return uri.get_Html(postData);
+		}
+		
 		public static string POST(this Uri uri, string postData)
 		{
 			return uri.get_Html(postData);
@@ -89,7 +95,13 @@ namespace O2.XRules.Database.Utils
 			"in get_Html (POST), url provided was not  valid URI: {0}".error(url);
 			return null;
 		}
+		
 		public static string get_Html(this Uri url, string postData)		
+		{ 
+			return new Web().getUrlContents_POST(url.str(), postData);
+		}
+		
+		public static string get_Html(this Uri url, byte[] postData)		
 		{ 
 			return new Web().getUrlContents_POST(url.str(), postData);
 		}
