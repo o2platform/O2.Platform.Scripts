@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>
+Func&lt;Uri,string,bool&gt; createODataCSharpFile = 
+	(odataUri, targetFile)=&gt;	{
+	
+							var installFolder = @"C:\Program Files\Microsoft WCF Data Services\5.0\bin\.NETFramework";
+							var dataSvcUtil = installFolder.pathCombine("DataSvcUtil");
+							var arguments = "/version:2.0 /out:\"{0}\" /uri:{1}".format(targetFile,odataUri);
+							var consoleOut = dataSvcUtil.startProcess_getConsoleOut(arguments);
+							if (consoleOut.contains("0 errors"))
+							{
+								targetFile.fileInsertAt(0,"//O2Ref:System.Data.Services.Client.dll".line());
+								return true;
+							}
+							return false;
+						};
+
+
+var tempFolder = "_oData_Tests".tempDir(false); 
+
+//var topPanel = panel.clear().add_Panel();
+var topPanel = "Util - Create C# for OData Service".popupWindow(800,400);
+
+var codeEditor = topPanel.title("C# Code").add_SourceCodeEditor();
+var files = topPanel.insert_Left(300,"C# files").add_TreeView();
+var uri = files.insert_Above(40,"URI to convert (press enter to create)").add_TextBox().align_Right(files);
+
+files.add_Files(tempFolder)	 
+	 .afterSelect&lt;string&gt;((file)=&gt; codeEditor.open(file))
+	 .selectFirst();
+
+uri.onEnter(
+	(text)=&gt;{
+				if (text.isUri())
+				{				
+					uri.pink();
+					O2Thread.mtaThread(
+						()=&gt;{
+								var fileName = text.safeFileName() + ".cs";
+								var filePath = tempFolder.pathCombine(fileName);
+								if(createODataCSharpFile(text.uri(), filePath))
+									files.add_Node(fileName, filePath)
+										 .selected();
+								uri.white();		 
+							});
+				}					
+			});
+			
+uri.set_Text("http://services.odata.org/OData/OData.svc");
+
+/*var testUri = "http://services.odata.org/OData/OData.svc".uri();
+var csFile = tempFolder.pathCombine("odataTest.cs");
+
+
+if (createODataCSharpFile(testUri,csFile))
+{
+	
+}*/
+
+return "ok";
+
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>
