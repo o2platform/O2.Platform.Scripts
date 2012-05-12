@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>
+
+var topPanel = O2Gui.open&lt;Panel&gt;("Lauch Remote Server",700,400);
+topPanel.insert_Below().add_LogViewer();
+var result = topPanel.add_TextArea();
+
+var hostName = "remote";
+//O2.Kernel.WCF.InterfacesBaseImpl
+//var host = new O2GenericWcfHost&lt;IO2WcfKernelMessage&gt;(remote, 
+var host = O2WcfUtils.createWcfHost(hostName);
+var port = 8000 + 2000.random(); 
+port = 9197;			// for the demo to work
+host.WcfBindingAddress = "net.tcp://0.0.0.0:{0}/O2Wcf/{1}".format(port, hostName);
+result.set_Text("Local WCF server listening on  on port: {0}".info(port));
+
+//host.WcfImplementation.Sec
+//host.details();
+host.WcfBinding.Security.Mode = System.ServiceModel.SecurityMode.None;
+
+host.startHost();
+topPanel.onClosed(()=&gt; host.stopHost());
+return host;
+return "ok";
+
+//using O2.Kernel.WCF.classes;
+//using O2.Kernel.WCF.Interfaces;
+//using O2.Kernel.WCF.InterfacesBaseImpl;
+//O2Ref:O2_Kernel_WCF.dll
+//O2Ref:System.ServiceModel.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

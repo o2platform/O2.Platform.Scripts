@@ -5,6 +5,7 @@ using System.Net;
 using System.Collections.Generic;
 using O2.Kernel.ExtensionMethods;
 using O2.XRules.Database.Utils;
+using O2.DotNetWrappers.ExtensionMethods;
 
 //O2File:_Extra_methods_Misc.cs
 //O2File:_Extra_methods_Items.cs

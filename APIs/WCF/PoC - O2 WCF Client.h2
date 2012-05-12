@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var appId= "TM_remote_1";
+var ip = "localhost"; 
+var port = 9197 ;  
+var wcfServerID = "remote";
+
+var o2WcfProcxy2=  new O2GenericWcfHost&lt;IO2WcfKernelMessage&gt;(wcfServerID, typeof(KO2WcfKernelMessage));
+
+o2WcfProcxy2.WcfBindingAddress = "net.tcp://{0}:{1}/O2Wcf/{2}".format(ip,port, wcfServerID);
+o2WcfProcxy2.WcfBinding.Security.Mode = System.ServiceModel.SecurityMode.None;
+var clientProxy =  o2WcfProcxy2.getClientProxy();
+
+var defaultCode = "\"hello Server\".info();".line() + "return 42;";
+
+var topPanel = "PoC - WCF Client".popupWindow();
+topPanel.insert_LogViewer(); 
+var codeEditor = topPanel.add_SourceCodeViewer();
+var result = codeEditor.insert_Right(200,"Result").add_TextArea();
+var invoke = result.parent().insert_Above(30).add_Button("Invoke via WCF").fill();
+
+codeEditor.set_Text(defaultCode, ".cs");
+
+invoke.onClick(
+	()=&gt;{
+			var sourceCode= codeEditor.get_Text();
+			var parameters = new object[] {"O2_External_SharpDevelop","FastCompiler_ExtensionMethods","executeSourceCode",new object[]{ sourceCode } };  
+			var invokeResult =  clientProxy.invokeOnAppDomainObject("Generic O2 Kernel Process","O2Proxy","staticInvocation",parameters);  		
+			result.set_Text(invokeResult.str());			
+		});
+ 
+return "done";
+
+
+//using O2.Kernel.WCF.classes;
+//using O2.Kernel.WCF.Interfaces;
+//using O2.Kernel.WCF.InterfacesBaseImpl;
+
+//O2Ref:O2_Kernel_WCF.dll
+//O2Ref:System.ServiceModel.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>
