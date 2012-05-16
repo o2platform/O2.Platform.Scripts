@@ -17,7 +17,8 @@ using DocumentFormat.OpenXml.Spreadsheet;
 using O2.XRules.Database.Utils;
 
 //O2Ref:DocumentFormat.OpenXml.dll
-//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
+//O2Ref:WindowsBase.dll
+//_O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
 
 namespace O2.XRules.Database.APIs
 {
@@ -442,9 +443,9 @@ var dataToShow = fileData["Weakness"];//["Implementations"];
 		
 		public static Tuple<SpreadsheetDocument, WorkbookPart,WorksheetPart> save(this Tuple<SpreadsheetDocument, WorkbookPart, WorksheetPart>  tuple)
 		{
-			var spreadsheetDocument = tuple.First;
-			var workbookpart = tuple.Second;
-			var worksheetPart = tuple.Third; // not used in save
+			var spreadsheetDocument = tuple.Item1;
+			var workbookpart = tuple.Item2;
+			var worksheetPart = tuple.Item3; // not used in save
 			workbookpart.Workbook.Save();    
     		spreadsheetDocument.Close();
 			return tuple;
@@ -468,9 +469,9 @@ var dataToShow = fileData["Weakness"];//["Implementations"];
 		
 		public static Tuple<SpreadsheetDocument, WorkbookPart,WorksheetPart> writeText(this Tuple<SpreadsheetDocument, WorkbookPart,WorksheetPart>  tuple, string cell_Column, int cell_Row, string text)
 		{
-			var spreadsheetDocument = tuple.First;
-			var workbookpart = tuple.Second;// not used in writeText
-			var worksheetPart = tuple.Third; 
+			var spreadsheetDocument = tuple.Item1;
+			var workbookpart = tuple.Item2;// not used in writeText
+			var worksheetPart = tuple.Item3;
 			spreadsheetDocument.writeText(worksheetPart, cell_Column, cell_Row, text);
 			return tuple;
 		}

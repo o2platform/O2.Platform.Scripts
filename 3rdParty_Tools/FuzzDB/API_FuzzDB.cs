@@ -57,7 +57,8 @@ namespace O2.XRules.Database.APIs
     		if (isInstalled())
     			return true;
     		var localFilePath = PublicDI.config.O2TempDir.pathCombine(currentVersionZipFile);
-    		var webLocation = "{0}{1}".format(PublicDI.config.O2SVN_FilesWithNoCode, currentVersionZipFile);
+    		//var webLocation = "{0}{1}".format(PublicDI.config.O2SVN_FilesWithNoCode, currentVersionZipFile);
+    		var webLocation = "http://o2platform.googlecode.com/svn/trunk/O2%20-%20All%20Active%20Projects/_3rdPartyDlls/FilesWithNoCode/fuzzdb-1.08.zip";
     		"downloading file {0} from {1} to {2}".info(currentVersionZipFile, webLocation,localFilePath);
             if (new Web().httpFileExists(webLocation))
             {
