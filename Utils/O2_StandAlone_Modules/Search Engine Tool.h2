@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>Processes.startProcess("_SearchEngine (O2 Tool).exe");
+  <SourceCode>Processes.startProcess("_SearchEngine (O2 Tool).exe".assembly().Location);
 
 //"_SearchEngine (O2 Tool).exe".type("program").invokeStatic("Main");			
 /*var o2AppDomain = new O2.Kernel.Objects.O2AppDomainFactory(10.randomLetters());
@@ -18,7 +18,6 @@ return null;*/
 //O2Ref:O2_Core_FileViewers.dll
 //O2Ref:O2_Core_CIR.dll
 //O2Ref:O2_External_O2Mono.dll
-//O2Ref:O2_ImportExport_Misc.dll
 //O2Ref:O2_ImportExport_OunceLabs.dll
 //O2Ref:Mono.Cecil.Pdb.dll
 //O2Ref:Mono.Cecil.dll</SourceCode>
