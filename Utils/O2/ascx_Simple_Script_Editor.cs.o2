@@ -136,7 +136,7 @@ namespace O2.XRules.Database.Utils
             InvocationParameters.Add("returnData", ReturnData); // add the (previous script) execute return data 
             AutoCompileOnCodeChange = true;
             AutoSaveOnCompileSuccess = true; //  false;  // for now default to true
-            AutoSaveDir = "".tempO2Dir().pathCombine("_AutoSavedScripts");
+            AutoSaveDir = PublicDI.config.AutoSavedScripts;
 			setCompilerEnvironment();            
             
 			createGui();
@@ -511,7 +511,7 @@ namespace O2.XRules.Database.Utils
                 () =>
                 {
                     var panel2 = O2Gui.open<Panel>("Search AutoSaved Scripts", 800, 300);
-                    var autoSaveDir = "".tempO2Dir().pathCombine("_AutoSavedScripts");
+                    var autoSaveDir = PublicDI.config.AutoSavedScripts;
                     var controls = panel2.add_1x1("Files", "Content", true, 200);
                     var sourceViewer = controls[1].add_SourceCodeViewer();
                     var directory = controls[0].add_Directory();

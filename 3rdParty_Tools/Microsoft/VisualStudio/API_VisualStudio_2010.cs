@@ -9,7 +9,8 @@ using O2.Kernel;
 using O2.Kernel.ExtensionMethods;
 using O2.DotNetWrappers.ExtensionMethods;
 using O2.XRules.Database.Utils;
-
+using EnvDTE;
+using EnvDTE80;
 using O2.FluentSharp.VisualStudio;
 
 //O2File:O2_Add_In\O2_VS_AddIn.cs
@@ -44,6 +45,28 @@ namespace O2.XRules.Database.APIs
     	public static CommandBarPopup add_TopMenu(this API_VisualStudio_2010 visualStudio, string caption)
     	{
     		return visualStudio.VsAddIn.add_TopMenu(caption);
+    	}    
+    	
+    	public static List<Window> windows(this API_VisualStudio_2010 visualStudio)
+    	{    		
+    		var windows = new List<Window> ();
+    		foreach(Window window in visualStudio.VsAddIn.VS_Dte.Windows)		//Lambda doesn't work
+    			windows.add(window);
+    		return windows;    	
     	}    	
+    	
+    	public static List<string> captions(this List<Window> windows)
+    	{
+    		return (from window in windows
+    				select window.Caption).toList();
+    	}
+    	
+    	public static Window window(this API_VisualStudio_2010 visualStudio, string name)
+    	{
+    		foreach(var window in visualStudio.windows())
+    			if (window.Caption == name)
+    				return window;
+    		return null;	
+    	}
     }
 }

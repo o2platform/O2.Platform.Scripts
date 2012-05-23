@@ -3,29 +3,30 @@ using System.Diagnostics;
 using O2.Kernel;
 using O2.Kernel.ExtensionMethods;
 using O2.DotNetWrappers.ExtensionMethods; 
-using O2.XRules.Database.Utils;
-
 //O2File:Tool_API.cs
+
+//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
+using O2.XRules.Database.Utils;
 
 namespace O2.XRules.Database.APIs
 {
-	public class Install_PE_Test
+	public class Install_Snoop_Test
 	{
 		public void test()
 		{
-			new ProcessExplorer().start();
+			new Snoop().start();
 		}
 	}
-	public class ProcessExplorer : Tool_API 
+	public class Snoop : Tool_API 
 	{	
-		public ProcessExplorer() : this(true)
+		public Snoop() : this(true)
 		{
 		}
 		
-		public ProcessExplorer(bool installNow)
+		public Snoop(bool installNow)
 		{
-			config("ProcessExplorer", "ProcessExplorer v14.1", "ProcessExplorer.zip");			
-    		Install_Uri = "http://download.sysinternals.com/files/ProcessExplorer.zip".uri();
+			config("Snoop", "Snoop v2.7.1", "Snoop.zip");			
+    		Install_Uri = "https://github.com/downloads/cplotts/snoopwpf/Snoop.zip".uri();
     		if (installNow)
     			install();		
 		}
@@ -40,7 +41,7 @@ namespace O2.XRules.Database.APIs
 		public Process start()
 		{
 			if (install())
-				return Install_Dir.pathCombine("procexp.exe").startProcess();
+				return Install_Dir.pathCombine("snoop.exe").startProcess();
 			return null;
 		}		
 	}

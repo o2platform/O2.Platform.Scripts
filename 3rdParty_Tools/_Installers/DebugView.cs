@@ -9,23 +9,23 @@ using O2.XRules.Database.Utils;
 
 namespace O2.XRules.Database.APIs
 {
-	public class Install_PE_Test
+	public class Install_DV_Test
 	{
 		public void test()
 		{
-			new ProcessExplorer().start();
+			new DebugView().start();
 		}
 	}
-	public class ProcessExplorer : Tool_API 
+	public class DebugView : Tool_API 
 	{	
-		public ProcessExplorer() : this(true)
+		public DebugView() : this(true)
 		{
 		}
 		
-		public ProcessExplorer(bool installNow)
+		public DebugView(bool installNow)
 		{
-			config("ProcessExplorer", "ProcessExplorer v14.1", "ProcessExplorer.zip");			
-    		Install_Uri = "http://download.sysinternals.com/files/ProcessExplorer.zip".uri();
+			config("DebugView", "DebugView v4.7.8", "DebugView.zip");			
+    		Install_Uri = "http://download.sysinternals.com/files/DebugView.zip".uri();
     		if (installNow)
     			install();		
 		}
@@ -40,7 +40,7 @@ namespace O2.XRules.Database.APIs
 		public Process start()
 		{
 			if (install())
-				return Install_Dir.pathCombine("procexp.exe").startProcess();
+				return Install_Dir.pathCombine("Dbgview.exe").startProcess();
 			return null;
 		}		
 	}

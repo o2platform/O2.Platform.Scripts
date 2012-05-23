@@ -26,7 +26,7 @@ namespace O2.XRules.Database.APIs
 		public ProcessMonitor(bool installNow)
 		{
 			config("ProcessMonitor", "ProcessMonitor v14.1", "ProcessMonitor.zip");			
-    		Install_Uri = "http://download.sysinternals.com/Files/ProcessMonitor.zip".uri();
+    		Install_Uri = "http://download.sysinternals.com/files/ProcessMonitor.zip".uri();
     		if (installNow)
     			install();		
 		}
