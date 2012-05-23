@@ -229,6 +229,22 @@ namespace O2.XRules.Database.Utils
         {
             return (Brush)control.wpfInvoke(() => control.Foreground);
         }
+     
+     	public static T content<T>(this UIElement uiElement)
+		{
+			var content = uiElement.content();
+			if (content is T)
+				return (T)content;
+			return default(T);
+		}
+		
+		public static object content(this UIElement uiElement)
+        {
+        	return uiElement.wpfInvoke(
+        		()=>{
+        				return uiElement.prop("Content");
+        			});
+        }
 		#endregion
 	}
 	
@@ -279,7 +295,12 @@ namespace O2.XRules.Database.Utils
         {
         	return uiElement.allUIElements();
         }
-		
+
+		public static List<UIElement> children(this UIElement uiElement)
+        {
+        	return uiElement.allUIElements();
+        }
+        
 		public static T control_Wpf<T>(this UIElement uiElement)
 			where T : UIElement
 		{
@@ -336,6 +357,7 @@ namespace O2.XRules.Database.Utils
 				
 	public static class WPF_Controls_ExtensionMethods_ContentControl
 	{
+		
 		public static T bold<T>(this T contentControl)
 			where T : ContentControl
     	{
