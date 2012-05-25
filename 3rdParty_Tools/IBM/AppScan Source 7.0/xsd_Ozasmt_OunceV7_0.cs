@@ -957,7 +957,7 @@ namespace O2.XRules.ThirdPary.IBM
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true)]
     public partial class AssessmentRunTaint {
         
-        private uint argField;
+        private int argField;						// changed to int in 8.6 version
         
         private uint dirField;
         
@@ -969,7 +969,7 @@ namespace O2.XRules.ThirdPary.IBM
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        public uint arg {
+        public int arg {							// changed to int in 8.6 version
             get {
                 return this.argField;
             }

@@ -11,7 +11,7 @@ using O2.Interfaces.O2Findings;
 
 namespace O2.XRules.ThirdPary.IBM
 {
-    public class OzasmtUtils_OunceV7_0
+    public class OzasmtUtils_OunceV7_0 
     {
         public static bool importOzasmtAssessmentIntoO2Assessment(string fileToLoad, IO2Assessment o2Assessment)
         {
@@ -104,7 +104,7 @@ namespace O2.XRules.ThirdPary.IBM
                                               method = getStringIndexValue(siteData.method, assessmentRun),
                                               ordinal = siteData.ord,
                                               signature = getStringIndexValue(siteData.sig, assessmentRun),
-                                              argument = taint.arg,
+                                              argument = (uint)taint.arg,  			// taint.arg changed to int in 8.6 version (this might have some side effects)
                                               direction = taint.dir,
                                               traceType =((TraceType) Enum.Parse(typeof (TraceType), taint.trace_type.ToString()))                                              
                                           };                        

@@ -8,14 +8,15 @@ ascx_FindingsViewer.o2AssessmentLoadEngines.Clear();
 ascx_FindingsViewer.addO2AssessmentLoadEngine_static(ounce7_0);
 OunceAvailableEngines.addAvailableEnginesToControl(typeof(ascx_FindingsViewer)); 
 findingsViewer._SimpleViewMode = true;
-
+ 
 //using O2.ImportExport.OunceLabs 
 //using O2.Views.ASCX.O2Findings
 //using O2.XRules.Database.Findings
-//using O2.XRules.ThirdPary.IBM 
+//using O2.XRules.ThirdPary.IBM  
 //O2File:Findings_ExtensionMethods.cs
 //O2File:O2AssessmentLoad_OunceV7_0.cs
 //O2Ref:O2_ImportExport_OunceLabs.dll
+//O2Tag_DontAddExtraO2Files
 </SourceCode>
   <ReferencedAssemblies />
 </H2>

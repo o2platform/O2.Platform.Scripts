@@ -10,10 +10,15 @@ using O2.DotNetWrappers.ExtensionMethods;
 namespace O2.XRules.Database.APIs
 {
     public class API_Chrome
-    {    		
+    {    
+    	public string CefSharp_Download { get; set;}
+    	
     	public API_Chrome()
     	{
-    	}    	    	
+    		CefSharp_Download = "https://github.com/downloads/ataranto/CefSharp/CefSharp-0.11-bin.7z";
+    	}
+    	
+    	
     	
     }
     

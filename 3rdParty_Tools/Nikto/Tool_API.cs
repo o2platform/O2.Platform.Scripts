@@ -17,6 +17,7 @@ using O2.Views.ASCX.classes.MainGUI;
 using O2.Views.ASCX.ExtensionMethods;
 using O2.XRules.Database.Utils;
 //O2File:_Extra_methods_Web.cs
+//O2File:_7_Zip.cs
 
 namespace O2.XRules.Database.APIs
 {
@@ -141,6 +142,7 @@ namespace O2.XRules.Database.APIs
     	
     	public virtual bool installFromZip_Web()
     	{
+    		"[installFromZip_Web]".error();
     		if (Install_Dir.valid().isFalse())
     		{
     			"Install_Dir is not set, aborting installation".error();
@@ -148,8 +150,14 @@ namespace O2.XRules.Database.APIs
     		}
     		Action<string> onDownload = 
     			(zipFile)=>{
-    							if (zipFile.fileExists())    							
-    								new zipUtils().unzipFile(zipFile,Install_Dir);                               
+    							"ON DOWNLOAD: ZipFile: {0} {1}".error(zipFile, zipFile.extension(".7z"));
+    							if (zipFile.fileExists())  
+    							{
+    								if (zipFile.extension(".7z"))
+    									new _7_Zip().unzip(zipFile,Install_Dir);
+    								else
+    									new zipUtils().unzipFile(zipFile,Install_Dir);                               
+    							}
     					   };
     		
     		return install(onDownload);
@@ -234,6 +242,7 @@ namespace O2.XRules.Database.APIs
               var downloadedFile = VersionWebDownload.download();
                 if (downloadedFile.fileExists())
                 {
+                	this.sleep(500);
                 	var targetFile = tempLocationOf_Install_File();//localDownloadsDir.pathCombine(Install_File);
                 	"Copying file: {0}".info(targetFile);
                 	Files.Copy(downloadedFile, targetFile);
