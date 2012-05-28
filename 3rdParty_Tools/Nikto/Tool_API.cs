@@ -33,8 +33,8 @@ namespace O2.XRules.Database.APIs
     	public string DownloadedInstallerFile {get; set;}
     	public string Executable { get;set;}
     	public string Executable_Name { get; set; }
-    	
-    	public string  toolsDir = PublicDI.config.O2TempDir.pathCombine("..\\_ToolsOrAPIs").createDir();
+    	public string ToolsDir 	{ get; set; }
+    	//public string  toolsDir = PublicDI.config.O2TempDir.pathCombine("..\\_ToolsOrAPIs").createDir();
     	public string  localDownloadsDir = PublicDI.config.O2TempDir.pathCombine("..\\_O2Downloads").createDir();
     	public string  s3DownloadFolder = "http://s3.amazonaws.com/O2_Downloads/";
     	public Process Install_Process {get;set;}
@@ -43,6 +43,7 @@ namespace O2.XRules.Database.APIs
     	
     	public Tool_API()
     	{
+    		ToolsDir = PublicDI.config.ToolsOrApis;
     		ToolName = "";
     		Install_File = "";    		
     		Install_Dir = "";
@@ -53,19 +54,19 @@ namespace O2.XRules.Database.APIs
     	public void config()
     	{
     		if (!Install_Dir.valid())
-    			Install_Dir = toolsDir.pathCombine(ToolName);
+    			Install_Dir = ToolsDir.pathCombine(ToolName);
     		if (!Executable.valid() && Executable_Name.valid())
     			Executable = Install_Dir.pathCombine(Executable_Name);    		
     		if (!Install_File.valid() && Install_Uri.notNull() && this.Install_Uri.Segments.size()>0)
 				Install_File = Install_Uri.Segments.Last();	
     	}
     	
-    	public void config(string toolName, string version, string installFile)
+    	public void config(string toolName, string version = null, string installFile = null)
     	{
     		ToolName = toolName;
     		Version = version;
     		Install_File = installFile;
-    		Install_Dir = toolsDir.pathCombine(toolName);    		
+    		Install_Dir = ToolsDir.pathCombine(toolName);    		
     	}    	    	
     	
     	public void config(string toolName, string version, string instalDir, string installFile, Uri installUri)
@@ -183,16 +184,31 @@ namespace O2.XRules.Database.APIs
     		return install(onDownload);
     	}
     	
+    	public bool install_JustDownloadFile_into_TargetDir()
+    	{
+			if (isInstalled())    		
+    			return true;
+    		if (Executable.valid().isFalse())
+    		{
+    			"in install_JustDownloadFile_into_TargetDir for Tool {0} , a valid Executable value must be provided: {1}".error(ToolName, Executable);
+    			return false;
+    		}
+    		Executable.str().directoryName().createDir();
+    		Install_Uri.str().download(Executable);
+    		return isInstalled();	
+		}
+		
     	public bool install(Action<string> onDownload)
     	{
+			if (isInstalled())    		
+    			return true;
+
     		if (Install_File.valid().isFalse())
     		{
     			"in Install for Tool {0} , a valid InstallFile must be provided: {1}".error(ToolName, Install_File);
     			return false;
     		}
     		"Installing: {0}".debug(ToolName);
-    		if (isInstalled())    		
-    			return true;
     		"Application not installed, so installing it now".info();
     		DownloadedInstallerFile = download(Install_File);
 			if (DownloadedInstallerFile.fileExists())   
@@ -248,7 +264,7 @@ namespace O2.XRules.Database.APIs
                 	var targetFile = tempLocationOf_Install_File();//localDownloadsDir.pathCombine(Install_File);
                 	"Copying file: {0}".info(targetFile);
                 	Files.Copy(downloadedFile, targetFile);
-                	"Deleting file: {0}".info(targetFile);
+                	"Deleting file: {0}".info(downloadedFile);
                 	Files.deleteFile(downloadedFile);                	
                 	if (targetFile.fileExists())
                 		return targetFile;
