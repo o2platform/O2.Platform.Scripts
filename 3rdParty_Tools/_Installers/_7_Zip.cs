@@ -7,25 +7,25 @@ using O2.DotNetWrappers.ExtensionMethods;
 
 //O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
 using O2.XRules.Database.Utils;
-
+ 
 
 namespace O2.XRules.Database.APIs 
 {
 	public class SZip_Test
 	{
 		public void test()
-		{
-			new _7_Zip().start(); 
+		{ 
+			new _7_Zip().start();
 		}
 	}
 	public class _7_Zip : Tool_API 
 	{	
 		public _7_Zip() : this(true)
 		{
-		}
+		} 
 		
 		public _7_Zip(bool installNow)
-		{
+		{     
 			config("7-Zip 9.2.0", "7-Zip", "7z920.exe");			
     		Install_Uri = "http://downloads.sourceforge.net/project/sevenzip/7-Zip/9.20/7z920.exe?r=&ts=1337856882&use_mirror=heanet".uri();    		
     		Install_Dir = getProgramFiles().pathCombine("7-Zip");    		

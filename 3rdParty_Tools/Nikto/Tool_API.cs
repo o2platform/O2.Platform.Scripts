@@ -84,14 +84,17 @@ namespace O2.XRules.Database.APIs
     	}
     	
     	public virtual bool isInstalled(bool showLogMessage)
-    	{
+    	{    	
     		if (Install_Dir.dirExists())
-    		{
-    			"{0} tool is installed because installation dir was found: {1}".debug(ToolName, Install_Dir);
-    			return true;
+    		{    		
+    			if (Executable.inValid() || Executable.fileExists())
+    			{
+    				"{0} tool is installed because installation dir was found: {1}".debug(ToolName, Install_Dir);
+    				return true;
+    			}
     		}
     		if (showLogMessage)
-    			"{0} tool is NOT installed because installation dir was NOT found: {0}".debug(ToolName, Install_Dir);
+    			"{0} tool is NOT installed because installation dir or main Executable was NOT found: {0}".debug(ToolName, Install_Dir);
     		return false;
     	}    	    	
     	    	
@@ -139,18 +142,16 @@ namespace O2.XRules.Database.APIs
     	{    		
     		return install((msiFile)=> installFromMsi_Local(msiFile));
     	}    	    	
-    	
+    	 
     	public virtual bool installFromZip_Web()
-    	{
-    		"[installFromZip_Web]".error();
+    	{    	
     		if (Install_Dir.valid().isFalse())
     		{
     			"Install_Dir is not set, aborting installation".error();
     			return false;
     		}
     		Action<string> onDownload = 
-    			(zipFile)=>{
-    							"ON DOWNLOAD: ZipFile: {0} {1}".error(zipFile, zipFile.extension(".7z"));
+    			(zipFile)=>{    							
     							if (zipFile.fileExists())  
     							{
     								if (zipFile.extension(".7z"))
@@ -192,6 +193,7 @@ namespace O2.XRules.Database.APIs
     		"Installing: {0}".debug(ToolName);
     		if (isInstalled())    		
     			return true;
+    		"Application not installed, so installing it now".info();
     		DownloadedInstallerFile = download(Install_File);
 			if (DownloadedInstallerFile.fileExists())   
                 	onDownload(DownloadedInstallerFile);                	    		
