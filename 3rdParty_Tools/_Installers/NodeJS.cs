@@ -47,4 +47,32 @@ namespace O2.XRules.Database.APIs
 			return null;
 		}		
 	}
+	
+	public static class NodeJS_ExtensionMethods
+	{
+		public static string execute(this NodeJS nodeJS, string arguments)
+		{			
+			return nodeJS.Executable.startProcess_getConsoleOut(arguments);
+		}
+		
+		public static Process execute(this NodeJS nodeJS, string arguments, Action<string> onConsoleOut)
+		{			
+			return nodeJS.Executable.startProcess(arguments, onConsoleOut);
+		}
+		
+		public static string help(this NodeJS nodeJS)
+		{
+			return nodeJS.execute("-h");
+		}
+		
+		public static Process eval(this NodeJS nodeJS, string evalScript, Action<string> onConsoleOut)
+		{
+			return nodeJS.execute("-p -e {0}".format(evalScript), onConsoleOut);
+		}
+		
+		public static string eval(this NodeJS nodeJS, string evalScript)
+		{
+			return nodeJS.execute("-p -e {0}".format(evalScript));
+		}
+	}
 }

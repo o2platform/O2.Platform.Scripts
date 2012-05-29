@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = "NodeJS REPL Script".popupWindow(600,400)
+								   .add_Panel();		// to allow toplevel panel injection
+topPanel.insert_LogViewer();
+//var topPanel = panel.clear().add_Panel();
+var code = "console.log(2+2);";
+var consoleOut = topPanel.title("Execution result (console Out)").add_TextArea();
+
+var nodeJS = new NodeJS(); 
+
+Process executionProcess = null;
+
+Action&lt;string&gt; onConsoleOut =
+	(line)=&gt;{
+				consoleOut.append_Text(line.line());
+			}; 
+			
+Action stopExecution = 
+	()=&gt;{
+			if (executionProcess.notNull())
+			{
+				try
+				{
+					"stopping execution process".info();					
+					executionProcess.stop();					
+					if (executionProcess.HasExited.isFalse())
+					{
+						executionProcess.WaitForExit();	
+					}
+				} 
+				catch { }				
+			}
+		};
+
+			
+Action&lt;string&gt; executeScript = 
+	(script) =&gt; {					
+					stopExecution();					
+					consoleOut.set_Text("");
+					consoleOut.azure();
+					var scriptFile = script.saveWithExtension(".js");
+					executionProcess = nodeJS.execute(scriptFile, onConsoleOut);					
+					
+					try
+					{
+						executionProcess.WaitForExit();
+						if (executionProcess.ExitCode==1)
+							consoleOut.pink();
+						else
+							consoleOut.white();
+					}
+					catch { }
+									 
+					
+				};
+
+var codeEditor = topPanel.insert_Left(400,"Javascript Code").add_SourceCodeEditor().set_Text(code,".cs");
+var executeOnTextChange = false;
+codeEditor.onTextChange(
+	(text)=&gt; {
+				code = text;
+				if (executeOnTextChange)
+					O2Thread.mtaThread(()=&gt;executeScript(code));
+			});
+topPanel.parent().parent().insert_Above(40,"Actions")
+						  .add_Link("Execute Javascript code" , ()=&gt; executeScript(code))
+						  .append_Link("Termine execution", ()=&gt;stopExecution())
+						  .append_Link("Open NodeJs Scripts folder", ()=&gt; "Hello World.js".local().directoryName().startProcess())
+						  .append_CheckBox("Execute on text Change",(value)=&gt; executeOnTextChange = value);				  						  
+						  //.tick();
+						  
+topPanel.onClosed(()=&gt; stopExecution());
+	    
+dynamic expando = new ExpandoObject();	
+expando.topPanel 		  = topPanel;
+expando.form 	 		  = topPanel.parentForm();
+return expando;
+
+//nodeJS.start();
+/*var nodeJsGui = new CmdExeGui(nodeJS.Executable);   
+nodeJsGui.cmd(".help"); 
+nodeJsGui.HostControl.parentForm().set_Text("NodeJs Gui"); */
+return "ok"; 
+
+//using System.Diagnostics
+//using System.Dynamic
+//O2File:NodeJS.cs
+//O2File:CmdExeAPI.cs
+//O2Tag_DontAddExtraO2Files
+ //O2Ref: Microsoft.CSharp.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

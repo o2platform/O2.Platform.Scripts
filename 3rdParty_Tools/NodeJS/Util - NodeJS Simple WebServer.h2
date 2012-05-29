@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>// Processes.getProcessesCalled("cmd").stop();
+
+dynamic expando = "Util - NodeJS REPL Editor.h2".local().executeH2Script();
+
+var topPanel = (Form)expando.form; 
+topPanel.set_Text("NodeJS Simple WebBrowser");
+topPanel.width(1000)  
+		.height(500); 
+		
+var codeEditor = topPanel.control&lt;ascx_SourceCodeEditor&gt;(true);  
+  
+var browser = topPanel.control&lt;Panel&gt;().insert_Right(300,"Browser") 
+									   .add_WebBrowser_Control()  
+									   .add_NavigationBar();
+Action refreshBrowser = 
+	()=&gt;{				
+			O2Thread.mtaThread(
+				()=&gt;{
+						this.sleep(500);	//to give it time to stop the nodeJS process and start a new one
+						browser.open("http://127.0.0.1:8125");
+					});
+					
+		};
+		
+codeEditor.open("Simple WebServer.js".local());
+topPanel.link("Execute Javascript code")
+		.onClick(refreshBrowser) 
+		.click();
+refreshBrowser();
+
+//topPanel.controls().first().closeForm_InNSeconds(3);
+return "ok";
+//O2Ref: Microsoft.CSharp.dll
+//using O2.External.SharpDevelop.Ascx
+//O2Tag_DontAddExtraO2Files
+
+ </SourceCode>
+  <ReferencedAssemblies />
+</H2>
