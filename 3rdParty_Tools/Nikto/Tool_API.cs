@@ -142,8 +142,7 @@ namespace O2.XRules.Database.APIs
     	}    	    	
     	
     	public virtual bool installFromZip_Web()
-    	{
-    		"[installFromZip_Web]".error();
+    	{    		
     		if (Install_Dir.valid().isFalse())
     		{
     			"Install_Dir is not set, aborting installation".error();

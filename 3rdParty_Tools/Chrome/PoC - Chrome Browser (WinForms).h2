@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = "PoC - Chrome Browser (WinForms)".popupWindow();
+//var topPanel = panel.clear().add_Panel();
+
+var webView = topPanel.add_Chrome()
+					  .add_NavigationBar();
+
+webView.Load("http://www.whatismybrowser.com"); 
+
+return webView;
+		
+
+
+//O2File:API_Chrome.cs
+//O2Ref:CefSharp\CefSharp-0.11-bin\CefSharp.WinForms.dll
+//O2Ref:CefSharp\CefSharp-0.11-bin\CefSharp.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>
