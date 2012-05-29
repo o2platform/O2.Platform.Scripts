@@ -20,24 +20,35 @@ using WindowsInput.Native;
 
 namespace O2.XRules.Database.APIs
 {
-    public class CmdExeGui : Control 
+	public class cmdExeGui_Test
+	{
+		public static void launchControl()
+    	{
+    		var panel = "Cmd Exe GUI".popupWindow(400,300); 
+    		new CmdExeGui("cmd.exe","", panel);
+    		
+    		//new CmdExeGui();
+    	}
+	}
+	
+    public class CmdExeGui
     {         	
-    	public CmdExeApi CmdExeApi { get; set; }
-    	public TextBox consoleOutTextBox { get; set; } 
-    	public TextBox consoleInTextBox { get; set; }
+    	public CmdExeApi 		CmdExeApi 			{ get; set; }
+    	public Panel 			HostControl 		{ get; set; }
+    	public TextBox 			consoleOutTextBox 	{ get; set; } 
+    	public TextBox 			consoleInTextBox 	{ get; set; }
+    	public FlowLayoutPanel	flowLayoutPanel 	{ get; set; }
     	
     	//public IntPtr GuiHandle { get; set;}
     	
-    	public string cmdProcessName = "cmd.exe";
-    	public string cmdStartArguments = "";
+    	public string cmdProcessName = "";
+    	public string cmdStartArguments = "";   	
     	
-    	public static void launchControl()
+    	public CmdExeGui(string executable = "cmd.exe", string startArguments = "", Panel hostControl = null)
     	{
-    		O2Gui.open<CmdExeGui>("Cmd Exe GUI", 400,300); 
-    	}
-    	
-    	public CmdExeGui()
-    	{
+    		HostControl = hostControl ?? "CmdExe Gui".popupWindow(400,300);
+    		cmdProcessName = executable;
+    		cmdStartArguments = startArguments;
     		CmdExeApi = new CmdExeApi(cmdProcessName, cmdStartArguments , dataReceived);	
     		//CmdExeApi.MinimizeHostWindow = tr;
     		buildGui();
@@ -50,13 +61,13 @@ namespace O2.XRules.Database.APIs
     	
     	public void buildGui()
     	{
-    		this.Width = 400;
-    		this.Height = 300;
+    		//this.Width = 400;
+    		//this.Height = 300;
     		// add controls
-    		var groupdBoxes = this.add_1x1("Help Commands","Cmd.Exe GUI",false, 100);
+    		var groupdBoxes = HostControl.add_1x1("Help Commands","Cmd.Exe GUI",false, 100);
     		consoleOutTextBox = groupdBoxes[1].add_TextBox(true);    		
     		consoleInTextBox = consoleOutTextBox.insert_Above<TextBox>(20);    		
-    		var flowLayoutPanel = groupdBoxes[0].add<FlowLayoutPanel>();
+    		flowLayoutPanel = groupdBoxes[0].add<FlowLayoutPanel>();
     		
     		// setup events    		
     		consoleInTextBox.onKeyPress(Keys.Enter,(text)=>cmd(text));
@@ -64,15 +75,29 @@ namespace O2.XRules.Database.APIs
     		// finetune layout
     		consoleOutTextBox.multiLine().scrollBars();
     		
-    		// add helper comamnds
     		
-    		flowLayoutPanel.add_Button("dir").onClick(() => cmd("dir"));
-    		flowLayoutPanel.add_Button("cd \\").onClick(() => cmd("cd \\"));
-    		flowLayoutPanel.add_Button("ipconfig").onClick(() => cmd("ipconfig"));
-    		flowLayoutPanel.add_Button("net users").onClick(() => cmd("net users"));
-    		flowLayoutPanel.add_Button("ping google").onClick(() => cmd("ping www.google.com"));
-    		flowLayoutPanel.add_Button("[show cmd.Exe]").onClick(() => CmdExeApi.showHost());
-    		flowLayoutPanel.add_Button("[stop cmd.Exe]").onClick(() => stop());
+    		// add helper comamnds for cmd.exe
+    		if (cmdProcessName =="cmd.exe")
+    		{
+    			flowLayoutPanel.add_Button("dir").onClick(() => cmd("dir"));
+	    		flowLayoutPanel.add_Button("cd \\").onClick(() => cmd("cd \\"));
+	    		flowLayoutPanel.add_Button("ipconfig").onClick(() => cmd("ipconfig"));
+	    		flowLayoutPanel.add_Button("net users").onClick(() => cmd("net users"));
+	    		flowLayoutPanel.add_Button("ping google").onClick(() => cmd("ping www.google.com"));
+	    		flowLayoutPanel.add_Button("[show cmd.Exe]").onClick(() => CmdExeApi.showHost());
+	    		flowLayoutPanel.add_Button("[stop cmd.Exe]").onClick(() => stop());
+	    	}	
+	    	else
+	    	{
+	    		flowLayoutPanel.splitContainer().panel1Collapsed(true);
+	    		consoleOutTextBox.add_ContextMenu()
+					 			 .add_MenuItem("show console host window", true, ()=> CmdExeApi.showHost())
+					 			 .add_MenuItem("Send Ctrl+C to host", true, ()=> CmdExeApi.hostCmd_Ctrl_C());
+					 			 
+	    	}
+	    		
+    		//close cmd on form close
+    		HostControl.onClosed(()=> stop());
     	}    	    	
     	
     	public void dataReceived(string text)
@@ -112,7 +137,8 @@ namespace O2.XRules.Database.APIs
     	// this method should be called everytime we send a command to the CmdExeApi
     	public CmdExeGui selectThis()
     	{
-    		CmdExeApi.selectWindow(this.Handle);
+    		CmdExeApi.selectWindow(HostControl.Handle);
+    		consoleInTextBox.focus();
     		return this;
     	}
     }
@@ -145,6 +171,11 @@ namespace O2.XRules.Database.APIs
     		ConsoleOut = (text) => text.info();
     	}
     	
+    	public CmdExeApi(string processToStart) : this()
+    	{
+    		ProcessToStart = processToStart;	
+    	}
+    	
     	public CmdExeApi(string processToStart, string arguments, Action<string> consoleOut) : this()
     	{
     		ProcessToStart = processToStart;
@@ -158,7 +189,7 @@ namespace O2.XRules.Database.APIs
     		{
 	    		PipeName.namePipeServer(ConsoleOut); // setup namedpipe
 	    		saveUsersWindow();    	
-	    		this.sleep(1000);
+	    		this.sleep(250);
 	    		// host process
 	    		HostProcessStarted = true;    		
 	    		HostCmdExeProcess = Processes.startProcess("cmd.exe","",MinimizeHostWindow);
@@ -185,7 +216,8 @@ namespace O2.XRules.Database.APIs
     	
     	// using reflection to use an internal .Net method to find the MainWindowHandle
     	public CmdExeApi findHostProcessHandle()
-    	{
+    	{    		
+    		this.sleep(250);    		
     		HostHandle = HostCmdExeProcess.MainWindowHandle;
     		if (HostHandle == null || HostHandle.ToInt32() == 0)
     		{

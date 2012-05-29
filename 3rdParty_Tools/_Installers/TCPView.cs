@@ -9,23 +9,23 @@ using O2.XRules.Database.Utils;
 
 namespace O2.XRules.Database.APIs
 {
-	public class Install_PE_Test
+	public class Install_TcpView_Test
 	{
 		public void test()
 		{
-			new ProcessExplorer().start();
+			new TcpView().start();
 		}
 	}
-	public class ProcessExplorer : Tool_API 
+	public class TcpView : Tool_API 
 	{	
-		public ProcessExplorer() : this(true)
+		public TcpView() : this(true)
 		{
 		}
 		
-		public ProcessExplorer(bool installNow)
+		public TcpView(bool installNow)
 		{
-			config("ProcessExplorer", "ProcessExplorer v14.1", "ProcessExplorer.zip");			
-    		Install_Uri = "http://download.sysinternals.com/files/ProcessExplorer.zip".uri();
+			config("TcpView", "TcpView v3.05", "TCPView.zip");
+    		Install_Uri = "http://download.sysinternals.com/files/TCPView.zip".uri();
     		if (installNow)
     			install();		
 		}
@@ -40,7 +40,7 @@ namespace O2.XRules.Database.APIs
 		public Process start()
 		{
 			if (install())
-				return Install_Dir.pathCombine("procexp.exe").startProcess();
+				return Install_Dir.pathCombine("tcpview.exe").startProcess();
 			return null;
 		}		
 	}
