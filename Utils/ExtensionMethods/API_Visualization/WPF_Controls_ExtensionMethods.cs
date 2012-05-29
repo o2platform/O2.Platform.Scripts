@@ -1572,6 +1572,16 @@ textBox1.prop("",true);
 	
 	public static class WPF_Controls_ExtensionMethods_Control
 	{
+		public static T opacity<T>(this T uiElement, double value)
+            where T : UIElement
+        {
+            return (T)uiElement.wpfInvoke(
+                ()=>{
+                		uiElement.Opacity = value;
+                		return uiElement;
+                	});
+        }
+	
         #region Control - foreground text Color
 
         public static T color<T>(this T control, string colorName) where T : Control

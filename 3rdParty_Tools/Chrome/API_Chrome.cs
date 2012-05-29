@@ -11,10 +11,10 @@ using O2.DotNetWrappers.ExtensionMethods;
 using CefSharp;
 using CefSharp.WinForms;
 
-//O2File:CefSharp.cs
-
 //O2Ref:CefSharp\CefSharp-0.11-bin\CefSharp.WinForms.dll
 //O2Ref:CefSharp\CefSharp-0.11-bin\CefSharp.dll
+
+//You will need to execute CefSharp.cs first (to download the CefSharp files)
 
 namespace O2.XRules.Database.APIs
 {
@@ -30,11 +30,9 @@ namespace O2.XRules.Database.APIs
 	
     public class API_Chrome
     {    
-    	public string CefSharp_Download { get; set;}
     	
     	public API_Chrome()
     	{
-    		new CefSharp(); // will download CefSharp on first execution    		
     	}
     }
     

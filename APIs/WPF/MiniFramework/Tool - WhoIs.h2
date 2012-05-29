@@ -5,7 +5,10 @@
 //O2File:API_MiniFramework.cs 
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:MiniFramework.Windows.dll
-
+//O2Ref:WindowsBase.dll
+//O2Ref:PresentationFramework.dll
+//O2Ref:PresentationCore.dll
+//O2Ref:System.Xaml.dll.dll
 </SourceCode>
   <ReferencedAssemblies />
 </H2>
