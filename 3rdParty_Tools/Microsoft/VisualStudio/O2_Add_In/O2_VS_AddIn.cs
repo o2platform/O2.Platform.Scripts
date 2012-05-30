@@ -18,11 +18,11 @@ using O2.Kernel;
 using System.Windows.Forms;
 
 //O2File:Microsoft_VisualStudio_ExtensionMethods.cs
-//O2File:Commands/CommandBase.cs
+//O2File:CommandBase.cs
 
-//O2File:Commands/O2_LogViewer.cs 
-//O2File:Commands/O2_ScriptGui.cs
-//O2File:Commands/O2_ScriptWithPanel.cs
+//O2File:O2_LogViewer.cs 
+//O2File:O2_ScriptGui.cs
+//O2File:O2_ScriptWithPanel.cs
 
 //O2Ref:EnvDTE.dll
 //O2Ref:EnvDTE80.dll

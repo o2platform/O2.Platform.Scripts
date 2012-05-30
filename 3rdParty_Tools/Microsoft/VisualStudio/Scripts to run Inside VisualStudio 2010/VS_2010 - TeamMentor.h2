@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var visualStudio = new API_VisualStudio_2010();
+var panel = visualStudio.VsAddIn.add_WinForm_Panel("Native Chrome Control (Wpf)",500,400).add_Panel();
+var chrome = panel.add_Chrome_Wpf(true); 
+chrome.open("http://www.whatismybrowser.com")
+	  .sleep(1000);;
+chrome.rotate();
+return "done";
+//using O2.FluentSharp.VisualStudio
+//O2File:API_VisualStudio_2010.cs
+//O2File:API_Chrome_Wpf.cs
+//O2File:O2_VS_AddIn.cs
+//O2Tag_DontAddExtraO2Files
+
+//O2Ref:CefSharp\CefSharp-0.11-bin\CefSharp.Wpf.dll
+//O2Ref:CefSharp\CefSharp-0.11-bin\CefSharp.dll
+
+//O2Ref:WindowsFormsIntegration.dll
+//O2Ref:PresentationFramework.dll
+//O2Ref:PresentationCore.dll
+//O2Ref:WindowsBase.dll
+//O2Ref:System.Xaml.dll
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

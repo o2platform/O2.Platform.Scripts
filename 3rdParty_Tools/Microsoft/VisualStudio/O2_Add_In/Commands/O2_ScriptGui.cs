@@ -11,7 +11,7 @@ using O2.Views.ASCX				 .ExtensionMethods;
 
 using O2.DotNetWrappers.DotNet;
 
-//O2File:../O2_VS_AddIn.cs
+//O2File:O2_VS_AddIn.cs
 
 namespace O2.FluentSharp.VisualStudio
 {

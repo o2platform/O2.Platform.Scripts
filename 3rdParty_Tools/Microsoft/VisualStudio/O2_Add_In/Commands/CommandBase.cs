@@ -8,8 +8,8 @@ using O2.DotNetWrappers.ExtensionMethods;
 using O2.FluentSharp.VisualStudio;
 using EnvDTE;
  
-//O2File:../O2_VS_AddIn.cs 
-//O2File:../Microsoft_VisualStudio_ExtensionMethods.cs
+//O2File:O2_VS_AddIn.cs 
+//O2File:Microsoft_VisualStudio_ExtensionMethods.cs
 //O2Ref:EnvDTE.dll
 
 namespace O2.FluentSharp.VisualStudio

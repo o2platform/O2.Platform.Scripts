@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using System.Diagnostics;
+using System.Windows.Forms;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.CommandBars;
 using O2.Interfaces.O2Core;
@@ -13,8 +14,8 @@ using EnvDTE;
 using EnvDTE80;
 using O2.FluentSharp.VisualStudio;
 
-//O2File:O2_Add_In\O2_VS_AddIn.cs
-//O2File:O2_Add_In\VisualStudio_Connect.cs
+//O2File:O2_VS_AddIn.cs
+//O2File:VisualStudio_Connect.cs
 
 //O2Ref:EnvDTE.dll
 //O2Ref:EnvDTE80.dll
@@ -38,21 +39,41 @@ namespace O2.XRules.Database.APIs
     	{
     		VsAddIn = O2_VS_AddIn.create_FromO2LiveObjects();
     	}
+    	
+    	public static API_VisualStudio_2010 Current
+		{
+			get 
+			{
+				return "API_VisualStudio_2010".o2Cache<API_VisualStudio_2010>(
+							()=>{
+									return new API_VisualStudio_2010();
+								});
+			}
+		}
     } 
       
-    public static class API_VisualStudio_2010_ExtensionMethods
+    public static class API_VisualStudio_2010_ExtensionMethods_Objects
     {
-    	public static CommandBarPopup add_TopMenu(this API_VisualStudio_2010 visualStudio, string caption)
+    	public static DTE2 dte(this API_VisualStudio_2010 visualStudio)
+    	{    	
+    		return (DTE2)visualStudio.VsAddIn.VS_Dte;
+    	}
+    }
+    
+    public static class API_VisualStudio_2010_ExtensionMethods_CommandExecution
+    {
+    	public static API_VisualStudio_2010 addInManager(this API_VisualStudio_2010 visualStudio)
     	{
-    		return visualStudio.VsAddIn.add_TopMenu(caption);
-    	}    
-    	
+    		return visualStudio.executeCommand("Tools.AddinManager");    		
+    	}
+    }
+    
+    public static class API_VisualStudio_2010_ExtensionMethods_Object_Wrappers
+    {    
     	public static List<Window> windows(this API_VisualStudio_2010 visualStudio)
-    	{    		
-    		var windows = new List<Window> ();
-    		foreach(Window window in visualStudio.VsAddIn.VS_Dte.Windows)		//Lambda doesn't work
-    			windows.add(window);
-    		return windows;    	
+    	{   
+    		return (from Window window in visualStudio.dte().Windows
+    				select window).toList();    		
     	}    	
     	
     	public static List<string> captions(this List<Window> windows)
@@ -68,5 +89,60 @@ namespace O2.XRules.Database.APIs
     				return window;
     		return null;	
     	}
+    	public static Window window_waitFor(this API_VisualStudio_2010 visualStudio, string name, int nTimes = 5)
+    	{
+    		for(int i =0 ; i < nTimes; i ++)
+    		{
+    			var window = visualStudio.window(name);
+    			if (window.notNull())
+    				return window;
+    			"[window_waitFor] waiting for window with name: {0}".info(name);
+    		}
+    		return null;
+    	}
+    	
+    	
+    	public static List<Command> commands(this API_VisualStudio_2010 visualStudio)
+    	{
+    		return (from Command command in visualStudio.dte().Commands
+    				select command).toList();
+    	}    	
+    	
+    	public static Command command(this API_VisualStudio_2010 visualStudio, string name)
+    	{
+    		return visualStudio.commands()
+    						   .where((command)=> command.Name == name)
+    						   .first();
+    	}
+    	
+    	public static API_VisualStudio_2010 executeCommand(this API_VisualStudio_2010 visualStudio, string commandName, string parameter ="")
+    	{
+    		try
+    		{
+    			visualStudio.dte().ExecuteCommand(commandName, parameter);
+    		}
+    		catch(Exception ex)
+    		{
+    			ex.log("[API_VisualStudio_2010] executeCommand: ");
+    		}
+    		return visualStudio;
+    	}
+    	
+
+    	
     }
+    
+    public static class API_VisualStudio_2010_ExtensionMethods_GUI
+    {
+        public static CommandBarPopup add_TopMenu(this API_VisualStudio_2010 visualStudio, string caption)
+    	{
+    		return visualStudio.VsAddIn.add_TopMenu(caption);
+    	}    
+    	
+    	public static Panel new_Panel(this API_VisualStudio_2010 visualStudio, string caption = "New Panel", int width = -1 , int height = -1)
+    	{
+    		return visualStudio.VsAddIn.add_WinForm_Panel(caption, width, height);
+    	}
+    }
+
 }

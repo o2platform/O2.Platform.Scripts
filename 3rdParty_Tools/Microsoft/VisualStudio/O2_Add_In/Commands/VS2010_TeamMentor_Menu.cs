@@ -13,28 +13,31 @@ using O2.Views.ASCX				 .ExtensionMethods;
 
 namespace O2.FluentSharp.VisualStudio
 {
-	public class O2_LogViewer : CommandBase
+	public class VS2010_TeamMentor_Menu : CommandBase
 	{
 		
-		public O2_LogViewer(O2_VS_AddIn o2AddIn) : base(o2AddIn)
-		{
+		public VS2010_TeamMentor_Menu(O2_VS_AddIn o2AddIn) : base(o2AddIn)
+		{			
 			this.create();
 		}
 
 		public override void create()
 		{
-			this.ButtonText = "O2 LogViewer";			
-			this.ToolTip = "Opens the LogViewer";
+			"before create".error();	
+			this.ButtonText = "VS2010_TeamMentor_Menu";			
+			this.ToolTip = "Opens the TeamMentor";
 			this.TargetMenu = "O2 Platform";
 			base.create();			
 			this.Execute = () =>
 					{
 						
+						"on Execute".error();	
 						var panel = O2AddIn.VS_Dte.createWindowWithPanel(O2AddIn.VS_AddIn, "test window");
 						panel.add_LogViewer();
 
 						//"Util - LogViewer.h2".local().executeH2Script();
 					};
+					"on create".error();	
 		}		
 	}
 }
