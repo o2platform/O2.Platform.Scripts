@@ -24,7 +24,7 @@ using EnvDTE;
 //O2Ref:CefSharp\CefSharp-0.11-bin\CefSharp.dll
 //O2Ref:EnvDTE.dll
 //O2Ref:Extensibility.dll
-//O2Ref:C:\Program Files (x86)\Microsoft\CAT.NET\Microsoft.ACESec.CATNet.UI.VSAddIn.dll
+//O2Ref:CatNet\Cat.Net 1.1\Microsoft.ACESec.CATNet.UI.VSAddIn.dll
 
 namespace O2.XRules.Database.APIs
 {
