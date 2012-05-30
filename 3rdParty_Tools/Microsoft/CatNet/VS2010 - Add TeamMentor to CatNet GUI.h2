@@ -1,18 +1,28 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>var vsCatNet = new API_CatNet_TeamMentor_VS2010();//.Current;
+  <SourceCode>"CatNet.cs".local().executeFirstMethod();
+"API_CatNet_TeamMentor_VS2010.cs".local()
+								 .compile()
+								 .type("API_CatNet_TeamMentor_VS2010")
+								 .ctor();
+return "done";
+
+
+/*
+
+var vsCatNet = new API_CatNet_TeamMentor_VS2010();//.Current;
 //var vsCatNet = API_CatNet_TeamMentor_VS2012.Current;       
 //vsCatNet.openReport(@"E:\_Tests\O2_for_CAT.NET\CatNet_Reports\CatNet_HacmeBank.xml"); 
 return vsCatNet; 
 return "ok";  
   
-  
-//O2File:API_CatNet_TeamMentor_VS2010.cs
-//O2File:API_CatNet_VS2010.cs
-//using Microsoft.ACESec.CATNet.UI
-//O2Ref:CatNet\Cat.Net 1.1\Microsoft.ACESec.CATNet.UI.VSAddIn.dll
-//O2File:API_VisualStudio_2010.cs
-//O2Tag_DontAddExtraO2Files
+*/  
+//_O2File:API_CatNet_TeamMentor_VS2010.cs
+//_O2File:API_CatNet_VS2010.cs
+//_using Microsoft.ACESec.CATNet.UI
+//_O2Ref:CatNet\Cat.Net 1.1\Microsoft.ACESec.CATNet.UI.VSAddIn.dll
+//_O2File:API_VisualStudio_2010.cs
+//_O2Tag_DontAddExtraO2Files
   </SourceCode>
   <ReferencedAssemblies />
 </H2>

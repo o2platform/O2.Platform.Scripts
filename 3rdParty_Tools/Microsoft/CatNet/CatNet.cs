@@ -14,7 +14,7 @@ namespace O2.XRules.Database.APIs
 		{
 			new CatNet().start(); 
 		}
-	}
+	} 
 	public class CatNet : Tool_API 
 	{	
 		public CatNet() : this(true)
@@ -23,8 +23,8 @@ namespace O2.XRules.Database.APIs
 		
 		public CatNet(bool installNow)
 		{
-			config("CatNet", "CatNet.1.1", "CatNet-0.11-bin.7z");			
-    		Install_Uri = "https://github.com/downloads/o2platform/O2_for_CAT.NET/Cat.Net%201.1.zip".uri();    		
+			config("CatNet", "CatNet.1.1", "Cat.Net 1.1.zip");			
+    		Install_Uri = "https://github.com/downloads/o2platform/O2_for_CAT.NET/Cat.Net 1.1.zip".uri();    		
     		if (installNow)
     			install();    		
 		}
