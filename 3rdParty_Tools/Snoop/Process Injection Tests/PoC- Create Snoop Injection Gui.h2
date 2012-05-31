@@ -2,6 +2,7 @@
 <H2>
   <SourceCode>
 
+
 /*var file = @"C:\O2\_XRules_Local\test.cs";
 file.fileInsertAt(0," ");
 panel.clear().add_SourceCodeViewer().open(file); 
@@ -13,9 +14,9 @@ return file.compileToExe("O2.Script.Test", targetFolder);*/
 //var process = "O2 Xaml Editor (PoC).h2".local().startProcess();
 //this.sleep(2000);
 //var process = Processes.getProcess(1524);
-var suffix = "32-4.0";
+var suffix = "32-4.0"; 
 var assemblyLocation = @""; //snoopAssembly.Location;
-var processId = 13724;
+var processId = 20544;
 			
 Action inject = 
 	()=&gt;{
@@ -30,6 +31,7 @@ Action inject =
 				}
 				//var process = Processes.getProcess(12168);
 				var hwnd = process.MainWindowHandle;
+//				var hwnd = process.Handle;
 				//var hwnd = new IntPtr(398680);
 				if (hwnd == IntPtr.Zero)
 				{
@@ -50,6 +52,12 @@ Action inject =
 				var windowHandle= hwnd;			
 				var className = "O2.Script.Test"; //"Snoop.SnoopUI";
 				var methodName = "GoBabyGo";
+
+//E:\O2_V4\O2.Platform.Projects\binaries\O2_FluentSharp_CoreLib.dl
+//assemblyLocation = "O2_FluentSharp_CoreLib.dll".assembly().Location;
+//assemblyLocation = @"E:\O2_V4\O2.Platform.Projects\binaries\O2_FluentSharp_CoreLib.dll";
+//className= "O2.DotNetWrappers.DotNet.CompileEngine";
+//methodName = "clearLocalScriptFileMappings";
 	
 				var arguments = string.Concat(new object[]
 					{
@@ -65,9 +73,9 @@ Action inject =
 		};
 
 
-//var topPanel = panel.clear().add_Panel();
+var topPanel = panel.clear().add_Panel();
 var formTitle ="PoC - Create Snoop Injection Gui (current process id: {0})".format(Processes.getCurrentProcess().Id);
-var topPanel = formTitle.popupWindow(1000,400);
+//var topPanel = formTitle.popupWindow(1000,400);
 topPanel.insert_Right(250).add_LogViewer();
 var actionPanel = topPanel.insert_Above(42,"Actions");
 var codeEditor = topPanel.add_SourceCodeEditor().open(@"Injected_Dll.cs".local());
@@ -78,14 +86,23 @@ actionPanel .add_Button("Inject").onClick(() =&gt; {
 													"assemblyLocation : {0}".info(assemblyLocation);
 													inject();
 												})
-												
+			.append_Control&lt;ComboBox&gt;().dropDownList()
+									   .add_Items(Processes.getProcesses().Select((p)=&gt; "{1} : {0}".format(p.Id,p.ProcessName)).toList().sort())
+									   .onSelection&lt;string&gt;((value)=&gt; 
+									   		{ 
+									   			var id = value.split(":")[1].trim(); 									   			
+									   			actionPanel.controls&lt;TextBox&gt;(true)[0].set_Text(id.str());
+									   		} )
 			.append_Label("Process to Inject").autoSize().top(5)
-			.append_TextBox(processId.str()).onTextChange((text)=&gt; processId = text.toInt())
+			.append_TextBox(processId.str()).onTextChange((text)=&gt; processId = text.toInt()).width(40)
 			.append_Label("Suffix").autoSize().top(5)
-			.append_TextBox(suffix).onTextChange((text)=&gt; suffix = text)
-			.append_Link("Start Test Process", ()=&gt; "PoC - API_ConsoleOut TestGui.h2".local().startProcess());			
+			.append_TextBox(suffix).onTextChange((text)=&gt; suffix = text).width(40)
+			.append_Link("Start Test Process", ()=&gt; "PoC - API_ConsoleOut TestGui.h2".local().startProcess())
+			.append_Link("Open DebugView", ()=&gt; "DebugView.cs".executeFirstMethod());			
+			
+			
 
-
+//actionPanel.button("Inject").click();
 //using Snoop;
 //O2Ref:Snoop\Snoop.exe
 </SourceCode>
