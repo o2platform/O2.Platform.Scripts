@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using O2.Interfaces.O2Core;
 using O2.Kernel;
 using O2.Kernel.ExtensionMethods;
+using O2.DotNetWrappers.Windows;
 using O2.DotNetWrappers.ExtensionMethods;
 using O2.Views.ASCX.classes.MainGUI;
 using O2.XRules.Database.Utils;
@@ -146,7 +147,8 @@ namespace O2.XRules.Database.APIs
 			//apiConsoleOut.o2StreamWriter.PauseBetweenCharWrite = 1; 			
 			
 			Console.WriteLine("Welcome to show_ConsoleOut_TestGui");    
-			Console.Write("Type something on the TextBox above to see it here".line());
+			Console.Write("Type something on the TextBox above to see it on the rigth".line());
+			Console.WriteLine("Current Process: " + Processes.getCurrentProcess().Id);
 			return apiConsoleOut;
 		}
 		

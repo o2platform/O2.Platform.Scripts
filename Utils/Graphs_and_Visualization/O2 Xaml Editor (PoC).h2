@@ -3,7 +3,7 @@
   <SourceCode>var panel = O2Gui.open&lt;Panel&gt;("XAML Editor",800,500);
 
 panel.clear();
-var codeSamples = @"C:\O2\O2Scripts_Database\_Scripts\Utils\Graphs_and_Visualization\KaxamlSnippets.xml"; 
+var codeSamples ="KaxamlSnippets.xml".local(); 
 
 var controls = panel.add_1x1("Code Sample","Xaml Preview", true, 250);
 var xamlViewer = controls[1].add_XamlViewer();  
@@ -14,7 +14,7 @@ xamlViewer.parent&lt;GroupBox&gt;().insert_Below(xmlCodeBox,200);
 xamlCode.onTextChanged((code) =&gt; this.sleep(500, ()=&gt;  xamlViewer.showXaml(code)));
 
 var treeView = controls[0].add_TreeView();   	  
-treeView.onDrag&lt;XElement,string&gt;((xElement)=&gt; { return xElement.value();});     
+treeView.onDrag&lt;XElement,string&gt;((xElement)=&gt; { "drag started".debug(); return xElement.value();});     
 
 var xRoot = codeSamples.xRoot();
 xRoot.elements().forEach&lt;XElement&gt;(
@@ -30,7 +30,14 @@ treeView.beforeExpand&lt;XElement&gt;(
 				 }); 
 				 
 treeView.onDoubleClick&lt;XElement&gt;((xElement) =&gt; xamlViewer.showXaml(xElement.value()));
-
+xamlCode.textEditor().DragDrop+= (sender,e) =&gt; 
+	{ 
+		var droppedValue = O2.DotNetWrappers.DotNet.Dnd.tryToGetObjectFromDroppedObject(e).str();
+		xamlCode.set_Text(droppedValue);
+	};
+	
+xamlCode.onDrop(
+	(aa)=&gt; aa.info());
 treeView.expandAll(true);  
 
 xamlCode.editor().set_Text("&lt;StackPanel  Background=\"#DDFFFF\"&gt;".line() + 
@@ -57,6 +64,7 @@ xamlCode.editor().setDocumentHighlightingStrategy(".xml");
 //O2Ref:PresentationCore.dll
 //O2Ref:PresentationFramework.dll
 //O2Ref:WindowsBase.dll   
+//O2Ref:System.Xaml.dll
 //O2Ref:System.Core.dll
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:GraphSharp.dll

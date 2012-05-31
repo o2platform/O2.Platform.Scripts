@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//return "Util - DiagramDesigner Editor.h2".local().startProcess();
+
+var process = "O2 Xaml Editor (PoC).h2".local().startProcess();
+this.sleep(2000);
+var hwnd = process.MainWindowHandle;
+if (hwnd == IntPtr.Zero)
+	return "Could not get MainWindow handle";
+"Got main Window Handle: {0}".info(hwnd);	
+
+var snoopAssembly = @"Snoop\Snoop.exe".assembly(); 
+var directoryName = snoopAssembly.Location.directoryName();
+
+var suffix = snoopAssembly.type("Injector")
+						   .invokeStatic("Suffix", hwnd);
+var fileName = directoryName.pathCombine("ManagedInjectorLauncher" + suffix+ ".exe");						 	   
+
+var windowHandle= hwnd;
+var className = "Snoop.SnoopUI";
+var methodName = "GoBabyGo";
+var arguments = string.Concat(new object[]
+	{
+		windowHandle, " \"", snoopAssembly.Location,"\" \"", className, "\" \"", methodName,"\""
+	});
+	
+return fileName.startProcess(arguments);
+
+//using Snoop;
+//O2Ref:Snoop\Snoop.exe</SourceCode>
+  <ReferencedAssemblies />
+</H2>

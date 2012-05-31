@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>
+
+/*var file = @"C:\O2\_XRules_Local\test.cs";
+file.fileInsertAt(0," ");
+panel.clear().add_SourceCodeViewer().open(file); 
+var targetFolder = "_exe_text".tempDir(false);  
+return file.compileToExe("O2.Script.Test", targetFolder);*/
+
+//@"E:\O2_V4\_O2_V4_TempDir\5_31_2012\_exe_text\test.exe".startProcess();
+
+//var process = "O2 Xaml Editor (PoC).h2".local().startProcess();
+//this.sleep(2000);
+//var process = Processes.getProcess(1524);
+var suffix = "32-4.0";
+var assemblyLocation = @""; //snoopAssembly.Location;
+var processId = 13724;
+			
+Action inject = 
+	()=&gt;{
+			try
+			{
+				"Injecting into process {0} dll {1}".info(processId, assemblyLocation);
+				var process = Processes.getProcess(processId);
+				if (process.isNull())
+				{
+					"Could not find process with Id: {0}".error(processId);
+					return;
+				}
+				//var process = Processes.getProcess(12168);
+				var hwnd = process.MainWindowHandle;
+				//var hwnd = new IntPtr(398680);
+				if (hwnd == IntPtr.Zero)
+				{
+				 	"Could not get MainWindow handle".error();
+				 	return;
+				}
+				"Got main Window Handle: {0}".info(hwnd);	
+				
+				var snoopAssembly = @"Snoop\Snoop.exe".assembly(); 
+				var directoryName = snoopAssembly.Location.directoryName();
+				//return process.MainModule;
+//				var suffix = snoopAssembly.type("Injector")
+//										   .invokeStatic("Suffix", hwnd);
+//				suffix = "64-4.0";
+				var fileName = directoryName.pathCombine("ManagedInjectorLauncher" + suffix+ ".exe");							  
+				
+				
+				var windowHandle= hwnd;			
+				var className = "O2.Script.Test"; //"Snoop.SnoopUI";
+				var methodName = "GoBabyGo";
+	
+				var arguments = string.Concat(new object[]
+					{
+						windowHandle, " \"", assemblyLocation,"\" \"", className, "\" \"", methodName,"\""
+					});
+				"Starting process {0} with arguments {1}".info(fileName, arguments);
+				fileName.startProcess(arguments);
+			}
+			catch(Exception ex)
+			{
+				ex.logStackTrace();
+			}
+		};
+
+
+//var topPanel = panel.clear().add_Panel();
+var formTitle ="PoC - Create Snoop Injection Gui (current process id: {0})".format(Processes.getCurrentProcess().Id);
+var topPanel = formTitle.popupWindow(1000,400);
+topPanel.insert_Right(250).add_LogViewer();
+var actionPanel = topPanel.insert_Above(42,"Actions");
+var codeEditor = topPanel.add_SourceCodeEditor().open(@"Injected_Dll.cs".local());
+
+actionPanel .add_Button("Inject").onClick(() =&gt; { 
+													
+													assemblyLocation = codeEditor.compileCSSharpFile().Location;
+													"assemblyLocation : {0}".info(assemblyLocation);
+													inject();
+												})
+												
+			.append_Label("Process to Inject").autoSize().top(5)
+			.append_TextBox(processId.str()).onTextChange((text)=&gt; processId = text.toInt())
+			.append_Label("Suffix").autoSize().top(5)
+			.append_TextBox(suffix).onTextChange((text)=&gt; suffix = text)
+			.append_Link("Start Test Process", ()=&gt; "PoC - API_ConsoleOut TestGui.h2".local().startProcess());			
+
+
+//using Snoop;
+//O2Ref:Snoop\Snoop.exe
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

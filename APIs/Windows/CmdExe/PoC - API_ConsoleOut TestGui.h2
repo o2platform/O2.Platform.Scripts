@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>new API_ConsoleOut().show_ConsoleOut_TestGui();
+//O2File:API_ConsoleOut.cs
+//O2Tag_DontAddExtraO2Files</SourceCode>
+  <ReferencedAssemblies />
+</H2>
