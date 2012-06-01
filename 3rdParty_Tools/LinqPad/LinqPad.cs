@@ -28,11 +28,15 @@ namespace O2.XRules.Database.APIs
 		{
 			
     		
-    		config("LinqPad", 
+    		/*config("LinqPad", 
     			  "LinqPad v3.5", 
     			  @"C:\Program Files\LinqPad\",
     			  "LINQPadSetup.exe",
     			  "http://www.linqpad.net/GetFile.aspx?LINQPadSetup.exe".uri());
+    		
+    		*/    		
+    		config("LinqPad", "LinqPad.4.0", "LINQPad4.zip");			
+    		Install_Uri = "http://www.linqpad.net/GetFile.aspx?LINQPad4.zip".uri();    		
     		Executable = Install_Dir.pathCombine("LINQPad.exe");
     		if (installNow)
     			install();    		
@@ -40,7 +44,7 @@ namespace O2.XRules.Database.APIs
 		
 		public bool install()
 		{						
-			return installFromMsi_Web();						
+			return installFromZip_Web();						
 		}
 		
 		public Process start()

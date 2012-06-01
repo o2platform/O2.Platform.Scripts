@@ -15,7 +15,7 @@ Action startLinqPad =
 				return;
 			}
 			"starting LinqPad".info();
-			var assembly = "LINQPad.exe".assembly();
+			var assembly = "LINQPad//LINQPad.exe".assembly();
 			// we need to run this first (only once per process
 			if (firstRun)
 			{
@@ -61,7 +61,7 @@ var linqPad = ""LINQPad.UI.MainForm"".form_Currently_Running();
 linqPad.set_Text(""Changing Form's title from inside"");
 return linqPad;
 										
-//O2Ref:C:\Program Files\LINQPad\LINQPad.exe
+//O2Ref:LINQPad\LINQPad.exe
 									  ");	
 			var menuStrip =  linqForm.control&lt;MenuStrip&gt;(true);
 			var o2Menu = menuStrip.add_MenuItem("O2");
@@ -76,7 +76,7 @@ actionsPanel.add_Link("Install LinqPad", ()=&gt; "LinqPad.cs".local().executeFir
 
 return "ok";
 
-//O2Ref:C:\Program Files\LINQPad\LINQPad.exe
+//O2Ref:LINQPad\LINQPad.exe
 //O2File:Scripts_ExtensionMethods.cs</SourceCode>
   <ReferencedAssemblies />
 </H2>

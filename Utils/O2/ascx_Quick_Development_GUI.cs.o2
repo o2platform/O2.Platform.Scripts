@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using O2.Kernel.ExtensionMethods;
 using O2.DotNetWrappers.ExtensionMethods;
+using O2.DotNetWrappers.Windows;
 using O2.Views.ASCX.classes.MainGUI;  
 using O2.External.SharpDevelop.Ascx;
 using O2.External.SharpDevelop.ExtensionMethods;  
@@ -22,7 +23,8 @@ namespace O2.XRules.Database.Utils
 
         public static ascx_Panel_With_Inspector runControl()
 		{
-            return O2Gui.load<ascx_Panel_With_Inspector>("Quick development gui");
+			var currentProcess = Processes.getCurrentProcess();
+            return O2Gui.load<ascx_Panel_With_Inspector>("C# REPL Editor             (process id: {0} , name: {1})".format(currentProcess.Id, currentProcess.ProcessName));//Quick development gui");
 		}		
 		
 		public static ascx_Panel_With_Inspector runControl_withParameter(string parameterName , object parameterObject)

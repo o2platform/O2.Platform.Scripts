@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>
+  <SourceCode>//var topPanel = panel.clear().add_Panel();
+var formTitle ="PoC - Create Snoop Injection Gui (current process id: {0})".format(Processes.getCurrentProcess().Id);
+var topPanel = formTitle.popupWindow(1000,400);
+
 
 
 /*var file = @"C:\O2\_XRules_Local\test.cs";
@@ -73,9 +76,6 @@ Action inject =
 		};
 
 
-var topPanel = panel.clear().add_Panel();
-var formTitle ="PoC - Create Snoop Injection Gui (current process id: {0})".format(Processes.getCurrentProcess().Id);
-//var topPanel = formTitle.popupWindow(1000,400);
 topPanel.insert_Right(250).add_LogViewer();
 var actionPanel = topPanel.insert_Above(42,"Actions");
 var codeEditor = topPanel.add_SourceCodeEditor().open(@"Injected_Dll.cs".local());
@@ -98,7 +98,8 @@ actionPanel .add_Button("Inject").onClick(() =&gt; {
 			.append_Label("Suffix").autoSize().top(5)
 			.append_TextBox(suffix).onTextChange((text)=&gt; suffix = text).width(40)
 			.append_Link("Start Test Process", ()=&gt; "PoC - API_ConsoleOut TestGui.h2".local().startProcess())
-			.append_Link("Open DebugView", ()=&gt; "DebugView.cs".executeFirstMethod());			
+			.append_Link("Open DebugView", ()=&gt; "DebugView.cs".executeFirstMethod())
+			.append_Link("Open Calc", ()=&gt; "calc.exe".startProcess());
 			
 			
 
