@@ -12,35 +12,24 @@ namespace O2.XRules.Database.APIs
 	{
 		public void test()
 		{
-			new CatNet().start(); 
+			new CatNet().start();  
 		}
 	} 
-	public class CatNet : Tool_API 
+	public class CatNet : Tool_API  
 	{	
-		public CatNet() : this(true)
+		public CatNet()
 		{
+			config("CatNet_1.1", 				   
+				   "http://download.microsoft.com/download/3/3/4/334E8A84-0F1B-4E3C-AF5F-99DA8AE0601F/CATNETx32.msi".uri(),
+				   "SourceDir\\CATNetCmd.exe");
+			install_JustMsiExtract_into_TargetDir();	       								
 		}
-		
-		public CatNet(bool installNow)
-		{
-			config("CatNet", "CatNet.1.1", "Cat.Net 1.1.zip");			
-    		Install_Uri = "https://github.com/downloads/o2platform/O2_for_CAT.NET/Cat.Net 1.1.zip".uri();    		
-    		if (installNow)
-    			install();    		
-		}
-		
-		
-		public bool install()
-		{
-			"Installing {0}".info(ToolName);
-			return installFromZip_Web(); 						
-			return false;
-		}
+				
 		
 		public Process start()
 		{
-			if (install())
-				return Install_Dir.pathCombine("Cat.Net 1.1\\CATNetCmd.exe").startProcess();
+			if (isInstalled())
+				return Executable.startProcess();
 			return null;
 		}		
 	}

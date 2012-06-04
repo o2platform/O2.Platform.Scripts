@@ -30,15 +30,12 @@ using O2.Views.ASCX.DataViewers;
 using O2.Views.ASCX.CoreControls;
 using O2.API.AST.ExtensionMethods.CSharp;
 
-
-
 //O2Ref:O2_API_AST.dll
 //O2Ref:O2_External_WinFormsUI.dll
 //O2Ref:O2SharpDevelop.dll
 
 //O2Ref:log4net.dll
 
-//O2File:_Extra_methods_WinForms_Controls.cs
 
 namespace O2.XRules.Database.Utils
 {
