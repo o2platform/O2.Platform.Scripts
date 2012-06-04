@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.clear().add_Panel();
+var topPanel = "PoC - Roslyn C# ScriptEngine Execute".popupWindow(700,400);
+topPanel.insert_LogViewer();
+var actionsPanel = topPanel.insert_Below(20);
+
+
+actionsPanel.add_Link("Open ConsoleOut viewer", ()=&gt; "Console Out".popupWindow(300,150).add_ConsoleOut())
+				.top(0);
+
+				
+var codeEditor = topPanel.title("C# code")
+						 .add_SourceCodeViewer()
+						 .set_ColorsForCSharp();
+var result = topPanel.insert_Right(200,"Result")
+					 .add_TextArea();					 
+var scriptEngine = new ScriptEngine(new [] { "O2_FluentSharp_CoreLib.dll".assembly_Location()});
+var session = Session.Create(PublicDI.log);
+
+codeEditor.onTextChange(
+	(text) =&gt;{
+				try
+				{
+					var output = scriptEngine.Execute(text, session);
+					result.set_Text(output.str());
+					result.white();
+					"Executed ok".info();
+				}
+				catch(Exception ex)
+				{
+					result.pink();
+					ex.log();
+				}
+			 });	
+
+codeEditor.set_Text("2+2");
+//using Roslyn.Scripting.CSharp;
+//using Roslyn.Scripting;
+//O2Ref:Roslyn\lib\net40\Roslyn.Compilers.dll
+//O2Ref:Roslyn\lib\net40\Roslyn.Compilers.CSharp.dll
+//O2File:API_ConsoleOut.cs</SourceCode>
+  <ReferencedAssemblies />
+</H2>
