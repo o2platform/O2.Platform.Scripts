@@ -15,6 +15,7 @@ using O2.DotNetWrappers.Windows;
 using O2.DotNetWrappers.Zip;
 using O2.Views.ASCX.classes.MainGUI;
 using O2.Views.ASCX.ExtensionMethods;
+using O2.External.SharpDevelop.ExtensionMethods;
 using O2.XRules.Database.Utils;
 //O2File:_Extra_methods_Web.cs
 //O2File:_7_Zip.cs
@@ -59,6 +60,23 @@ namespace O2.XRules.Database.APIs
     			Executable = Install_Dir.pathCombine(Executable_Name);    		
     		if (!Install_File.valid() && Install_Uri.notNull() && this.Install_Uri.Segments.size()>0)
 				Install_File = Install_Uri.Segments.Last();	
+    	}
+    	
+    	public void config(string toolName, Uri installUri, string pathToExecutable)
+    	{
+    		var installFile = installUri.AbsolutePath.split("/").last();
+    		config(toolName, installFile, installUri ,pathToExecutable);
+    	}
+    	
+    	public void config(string toolName, string installFile,  Uri installUri, string pathToExecutable)
+    	{
+    		ToolName = toolName;
+    		Install_Dir = ToolsDir.pathCombine(toolName);    		
+    		Install_Uri = installUri;
+    		Install_File = installFile;
+    		Executable = Install_Dir.pathCombine(pathToExecutable);
+    		
+    	
     	}
     	
     	public void config(string toolName, string version = null, string installFile = null)
@@ -198,6 +216,18 @@ namespace O2.XRules.Database.APIs
     		return isInstalled();	
 		}
 		
+		public bool install_JustMsiExtract_into_TargetDir()
+		{
+			if (isInstalled())    		
+    			return true;
+    		DownloadedInstallerFile = download(Install_Uri);			
+			"LessMsi.cs".local().executeFirstMethod(); // this will install LessMsi
+			 var assembly = "API_LessMsi.cs".local().compile();
+			 var extractMsi = assembly.type("API_LessMSI").ctor();
+			 return (bool)extractMsi.invoke("extractMsi",DownloadedInstallerFile,Install_Dir); 
+		}
+		
+		
     	public bool install(Action<string> onDownload)
     	{
 			if (isInstalled())    		
@@ -224,13 +254,13 @@ namespace O2.XRules.Database.APIs
     	    	
     	public string download(string file)
     	{
-    		"downloading file: {0}".info(file);    	    		
+    		"Downloading file: {0}".info(file);    	    		
     		var localPath = localDownloadsDir.pathCombine(file);
     		if (localPath.fileExists())
     		{
     			"found previously downloaded copy: {0}".info(localPath);
     			return localPath;
-    		}
+    		}    		
     		
     		var s3Path = "{0}{1}".format(s3DownloadFolder, file);    		
     		if (new Web().httpFileExists(s3Path))
@@ -245,6 +275,12 @@ namespace O2.XRules.Database.APIs
     		    	
     	public string download(Uri uri)
     	{
+    		var targetFile = tempLocationOf_Install_File();//localDownloadsDir.pathCombine(Install_File);
+    		if (targetFile.fileExists())
+    		{
+    			"found previously downloaded copy: {0}".info(targetFile);
+    			return targetFile;
+    		}
     		"Downloading from Uri: {0}".info(uri);
     		if (uri.isNull())
     			return null;
@@ -252,7 +288,7 @@ namespace O2.XRules.Database.APIs
     		
     		//var localFilePath = PublicDI.config.O2TempDir.pathCombine(CurrentVersionZipFile);    	
     		//"downloading file {0} from {1} to {2}".info(CurrentVersionZipFile, CurrentVersionWebDownload,localFilePath);
-    		"downloading file {0}".info(VersionWebDownload);
+    		//"downloading file {0}".info(VersionWebDownload);
     		    		    	
             //if (new Web().httpFileExists(VersionWebDownload))            
             //{
@@ -261,7 +297,7 @@ namespace O2.XRules.Database.APIs
                 if (downloadedFile.fileExists())
                 {
                 	this.sleep(500);
-                	var targetFile = tempLocationOf_Install_File();//localDownloadsDir.pathCombine(Install_File);
+                	
                 	"Copying file: {0}".info(targetFile);
                 	Files.Copy(downloadedFile, targetFile);
                 	"Deleting file: {0}".info(downloadedFile);
@@ -318,5 +354,6 @@ namespace O2.XRules.Database.APIs
 				Files.deleteFile(tempLocalDownload);
 			delete_Install_Dir();
 		}
+					
     }
 }

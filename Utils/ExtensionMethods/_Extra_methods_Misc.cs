@@ -18,7 +18,17 @@ using O2.DotNetWrappers.Windows;
 using System.Runtime.InteropServices;
 
 namespace O2.XRules.Database.Utils
-{		
+{	
+
+	public static class _Extra_ExtensionMethods_Object
+	{
+		public static T wait<T>(this T _object, int length = 1000, bool verbose = true)
+		{
+			_object.sleep(length, verbose);
+			return _object;
+		}
+	}
+	
 	public static class _Extra_LiveObjects_ExtensionMethods
 	{
 				

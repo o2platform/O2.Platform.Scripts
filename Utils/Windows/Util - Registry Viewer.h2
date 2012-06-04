@@ -30,12 +30,21 @@ registryKeys.afterSelect&lt;RegistryKey&gt;(
 				  });
 //registryKeys.add_Node(Registry.ClassesRoot.Name, Registry.ClassesRoot ,true);  // this is quite resource intensive
 //registryKeys.add_Node(Registry.CurrentConfig.Name, Registry.CurrentConfig ,true);
-registryKeys.add_Node(Registry.CurrentUser.Name, Registry.CurrentUser ,true);
-//registryKeys.add_Node(Registry.LocalMachine.Name, Registry.LocalMachine ,true);
-//registryKeys.add_Node(Registry.Users.Name, Registry.Users ,true);
+Action loadRegistryData = 	
+	()=&gt;{	
+			registryKeys.clear();
+			registryKeys.add_Node(Registry.CurrentUser.Name, Registry.CurrentUser ,true);
+			//registryKeys.add_Node(Registry.LocalMachine.Name, Registry.LocalMachine ,true);
+			//registryKeys.add_Node(Registry.Users.Name, Registry.Users ,true);
+			
+			registryKeys.expand(); 
+			registryKeys.selectFirst();
+		};
 
-registryKeys.expand(); 
-registryKeys.selectFirst();
+registryKeys.add_ContextMenu()
+			.add_MenuItem("Reload", ()=&gt;loadRegistryData());
+
+loadRegistryData();			
 return "ok";
 //using Microsoft.Win32</SourceCode>
   <ReferencedAssemblies />

@@ -16,8 +16,12 @@ using O2.DotNetWrappers.Windows;
  
 namespace O2.XRules.Database.Utils
 {	
-	public static class Files_Extra_ExtensionMethods
+	public static class _Extra_ExtensionMethods_Files
 	{		
+		public static DirectoryInfo directoryInfo(this string directoryPath)
+		{
+			return new DirectoryInfo(directoryPath);
+		}
 		
 		//replace pathCombine with this one
 		
