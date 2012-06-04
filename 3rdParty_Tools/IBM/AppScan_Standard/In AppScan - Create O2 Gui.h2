@@ -1,11 +1,8 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>//current test files:
-//C:\_WorkDir\IBM\Altoro\AltoroJ21.scan
-//C:\_WorkDir\IBM\Altoro\AltoroJ2.1-src\WebContent
-//C:\_WorkDir\IBM\Altoro\_AltoroMutual2.1  9-28-11 144PM.ozasmt
-
+  <SourceCode>
 var appScan =  "".lastFormLoaded();
+return appScan;
 Action&lt;Panel&gt; showO2ScriptEditor =
 	(targetPanel)=&gt; {
 						var scriptEditor = targetPanel.add_Script(false) ;
@@ -24,8 +21,8 @@ o2Menu.add_MenuItem("O2 Script Editor", ()=&gt;  showO2ScriptEditor("O2 Script E
 Action injectScriptIntoGui = 
 	()=&gt;{
 			var leftTreeView = appScan.controls&lt;TreeView&gt;(true)[0];
-			var panel  = leftTreeView.parent&lt;Panel&gt;().insert_Below();//.parent();   
-			showO2ScriptEditor(panel);  
+			var _panel  = leftTreeView.parent&lt;Panel&gt;().insert_Below();//.parent();   
+			showO2ScriptEditor(_panel);  
 		};
 
 appScan.set_Text("AppScan Standard - O2 Version");
