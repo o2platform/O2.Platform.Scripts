@@ -18,7 +18,7 @@ namespace O2.XRules.Database.APIs
 		 
 		public LessMsi_Install(bool installNow)
 		{
-			config("_LessMsi", "LessMsi.1.0.8", "lessmsi-v1.0.8");
+			config("LessMsi", "LessMsi.1.0.8", "lessmsi-v1.0.8");
     		Install_Uri = "http://lessmsi.googlecode.com/files/lessmsi-v1.0.8.zip".uri();    		
     		Executable = Install_Dir.pathCombine("lessmsi.exe");
     		if (installNow)

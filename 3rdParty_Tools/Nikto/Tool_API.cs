@@ -296,7 +296,7 @@ namespace O2.XRules.Database.APIs
               var downloadedFile = VersionWebDownload.download();
                 if (downloadedFile.fileExists())
                 {
-                	this.sleep(500);
+                	this.sleep(1000);
                 	
                 	"Copying file: {0}".info(targetFile);
                 	Files.Copy(downloadedFile, targetFile);
