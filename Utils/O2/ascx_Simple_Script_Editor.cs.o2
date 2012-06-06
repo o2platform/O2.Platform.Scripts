@@ -11,7 +11,6 @@ using O2.Kernel;
 using O2.Kernel.CodeUtils;
 using O2.Kernel.ExtensionMethods ;
 using O2.Interfaces.O2Core;
-using O2.External.WinFormsUI.Forms;
 using O2.DotNetWrappers.DotNet;
 using O2.DotNetWrappers.Windows;
 using O2.DotNetWrappers.ExtensionMethods;
@@ -31,7 +30,7 @@ using O2.Views.ASCX.CoreControls;
 using O2.API.AST.ExtensionMethods.CSharp;
 
 //O2Ref:O2_API_AST.dll
-//O2Ref:O2_External_WinFormsUI.dll
+
 //O2Ref:O2SharpDevelop.dll
 
 //O2Ref:log4net.dll
