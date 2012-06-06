@@ -20,19 +20,24 @@ namespace O2.XRules.Database.APIs
 	public class Roslyn : Tool_API 
 	{				
 		public Roslyn()
-		{
-			
-			config("Roslyn", 
-				   "https://nugetgallery.blob.core.windows.net/packages/Roslyn.1.0.11014.5.nupkg".uri(),
-				   "Roslyn.nuspec");
-			installFromZip_Web();	       		
+		{			
+			//install Roslyn.Compilers.Common
+			/*config("Roslyn_1.1", 
+				   "https://nugetgallery.blob.core.windows.net/packages/Roslyn.Compilers.Common.1.1.20524.4.nupkg".uri(),
+				   "Roslyn.Compilers.Common.nuspec");
+			installFromZip_Web();*/
+			installNupkg("Roslyn.Compilers.Common","1.1.20524.4");
+			installNupkg("Roslyn.Services.Common", "1.1.20524.4");
+			installNupkg("Roslyn.Compilers.CSharp","1.1.20524.4");
+			installNupkg("Roslyn.Services.CSharp", "1.1.20524.4");			
 		}
 		
-		public Process start()
+		public void installNupkg(string name, string version)
 		{
-			if (this.isInstalled())
-				return this.Executable.startProcess(); 
-			return null;
-		}		
+			config("Roslyn", 
+				   "https://nugetgallery.blob.core.windows.net/packages/{0}.{1}.nupkg".format(name, version).uri(),
+				   "{0}.nuspec".format(name));
+			installFromZip_Web();
+		}
 	}
 }
