@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = O2Gui.open&lt;Panel&gt;("{name}",700,400);
+//var topPanel = panel.clear().add_Panel();
+var topPanel = "PoC - CatNet Scan on Local File (with Findings)".popupWindow(1000,500);
+topPanel.insert_LogViewer();
+var actionsPanel = topPanel.insert_Above(40,"Actions");
+var findingsPanel = topPanel.insert_Right(250,"Findings");
+var browser = findingsPanel.parent().insert_Below("TeamMentor Guidance").add_Chrome();
+var testFile = "Web_SQL_Injection.cs".local();//@"E:\O2_V4\_O2_V4_TempDir\6_6_2012\tmp57D7.tmp.cs";
+var editor = topPanel.add_SourceCodeEditor().load(testFile);
+
+var tempDir = "_catNet_reports".tempDir(false);			  
+
+var reportFile = tempDir.pathCombine("tempScan.xml");
+
+Action&lt;IO2Finding&gt; showFindingGuidance = 
+	(finding)=&gt; {
+					var teamMentorUrl = "http://localhost:12110/article/{0}";
+					Action&lt;string&gt; openArticle = 
+						(article)=&gt; browser.open(teamMentorUrl.format(article));
+						
+					switch(finding.vulnType)
+					{
+						case "SQL Injection":
+							//openArticle("SQL Injection Attack"); break;
+							openArticle("How to Protect From SQL Injection in ASP.NET");break;
+						case "Cross-Site Scripting":	
+							//openArticle("Cross Site Scripting Attack"); break;
+							//openArticle("afda96a3-d516-4acd-904e-54c974d88932"); break;							
+							openArticle("How to Prevent Cross-Site Scripting in ASP.NET"); break;
+						default:
+							openArticle(finding.vulnType); break;
+							
+					}
+				};
+			
+
+Action scanCodeInEditor = 
+	()=&gt;{			
+			findingsPanel.enabled(false);
+			"in eDocumentDataChanged".info();
+			O2Thread.mtaThread(
+				()=&gt;{
+						var catNet = new API_CatNet().loadRules();
+						catNet.save_Report_To(reportFile);  
+						var compiledAssembly = editor.compileCSSharpFile();
+												
+						var findingsViewer = catNet.scan(compiledAssembly.Location)
+												   .show(findingsPanel, editor) 
+												   .set_CodeEditor(editor);
+						//findingsViewer.showTraces();
+						findingsViewer.expandAllNodes();
+						findingsPanel.enabled(true);
+						foreach(var finding in findingsViewer.currentO2Findings)
+						{
+							var traces =finding.allTraces();
+							foreach(var trace in traces)
+							{
+								editor.setSelectedText((int)trace.lineNumber,(int)trace.columnNumber,true);								
+							}
+						}
+						
+						findingsViewer._onFindingSelected += (finding) =&gt; showFindingGuidance(finding);
+						
+					});
+		};
+
+var autoScan = false;
+var codeChanged = false;
+editor.eDocumentDataChanged+= (data)=&gt; codeChanged = true;
+Action autoScanThread = 
+	()=&gt;{
+			O2Thread.mtaThread(
+				()=&gt;{
+						while(autoScan)
+						{							
+							if (codeChanged)
+							{
+								"[autoScanThread] Code Changed so triggering scan ".debug(); 
+								scanCodeInEditor();
+								codeChanged = false;
+							}
+							this.sleep(2000, false);
+						} 
+						"[autoScanThread] stop".info();
+					});
+		};
+
+actionsPanel.onClosed(
+				()=&gt;{
+						"In form closed".info();
+						autoScan = false;
+					});
+					
+actionsPanel.add_Link("Compile and Scan", ()=&gt;scanCodeInEditor())
+			.append_CheckBox("AutoScan file", (value)=&gt;{ autoScan = value; autoScanThread(); })
+			.append_Link("Open TeamMentor", ()=&gt; browser.open("http://localhost:12110"));
+				//.tick()
+				;
+
+scanCodeInEditor();
+autoScanThread();
+  
+//using O2.XRules.Database.Findings
+//using O2.Interfaces.O2Findings;
+//O2File:API_CatNet.cs
+//O2File:API_Chrome.cs
+//O2File:Findings_ExtensionMethods.cs
+//O2Tag_DontAddExtraO2Files
+//O2Ref:CefSharp\CefSharp-0.11-bin\CefSharp.WinForms.dll
+//O2Ref:CefSharp\CefSharp-0.11-bin\CefSharp.dll
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

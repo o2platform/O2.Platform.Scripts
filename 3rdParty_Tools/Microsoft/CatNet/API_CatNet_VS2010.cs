@@ -12,7 +12,7 @@ using EnvDTE;
 //O2File:API_VisualStudio_2010.cs
 //O2Ref:EnvDTE.dll
 //O2Ref:Extensibility.dll
-//O2Ref:CatNet\Cat.Net 1.1\Microsoft.ACESec.CATNet.UI.VSAddIn.dll
+//O2Ref:CatNet_1.1/SourceDir/Microsoft.ACESec.CATNet.UI.VSAddIn.dll
 
 namespace O2.XRules.Database.APIs
 {
