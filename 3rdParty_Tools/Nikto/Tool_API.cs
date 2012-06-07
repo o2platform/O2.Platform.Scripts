@@ -39,7 +39,7 @@ namespace O2.XRules.Database.APIs
     	public string  localDownloadsDir = PublicDI.config.O2TempDir.pathCombine("..\\_O2Downloads").createDir();
     	public string  s3DownloadFolder = "http://s3.amazonaws.com/O2_Downloads/";
     	public Process Install_Process {get;set;}
-    	
+    	public string ProgramFilesFolder = Environment.ExpandEnvironmentVariables("%ProgramFiles%");
     	//public bool Instaled { get { return isInstalled(); } }
     	
     	public Tool_API()
@@ -62,19 +62,20 @@ namespace O2.XRules.Database.APIs
 				Install_File = Install_Uri.Segments.Last();	
     	}
     	
-    	public void config(string toolName, Uri installUri, string pathToExecutable)
+    	public void config(string toolName, Uri installUri, string pathToExecutable=null)
     	{
     		var installFile = installUri.AbsolutePath.split("/").last();
     		config(toolName, installFile, installUri ,pathToExecutable);
     	}
     	
-    	public void config(string toolName, string installFile,  Uri installUri, string pathToExecutable)
+    	public void config(string toolName, string installFile,  Uri installUri, string pathToExecutable = null)
     	{
     		ToolName = toolName;
     		Install_Dir = ToolsDir.pathCombine(toolName);    		
     		Install_Uri = installUri;
     		Install_File = installFile;
-    		Executable = Install_Dir.pathCombine(pathToExecutable);
+    		if (pathToExecutable.valid())
+    			Executable = Install_Dir.pathCombine(pathToExecutable);
     		
     	
     	}
@@ -286,26 +287,23 @@ namespace O2.XRules.Database.APIs
     			return null;
     		VersionWebDownload = uri.str();
     		
-    		//var localFilePath = PublicDI.config.O2TempDir.pathCombine(CurrentVersionZipFile);    	
-    		//"downloading file {0} from {1} to {2}".info(CurrentVersionZipFile, CurrentVersionWebDownload,localFilePath);
-    		//"downloading file {0}".info(VersionWebDownload);
-    		    		    	
-            //if (new Web().httpFileExists(VersionWebDownload))            
-            //{
-              //  var downloadedFile =  new Web().downloadBinaryFile(VersionWebDownload);                
-              var downloadedFile = VersionWebDownload.download();
-                if (downloadedFile.fileExists())
-                {
-                	this.sleep(1000);
-                	
-                	"Copying file: {0}".info(targetFile);
-                	Files.Copy(downloadedFile, targetFile);
-                	"Deleting file: {0}".info(downloadedFile);
-                	Files.deleteFile(downloadedFile);                	
-                	if (targetFile.fileExists())
-                		return targetFile;
-                }
-            //}
+            var downloadedFile = VersionWebDownload.download();
+             
+            if (downloadedFile.fileExists())
+			{
+             	for(int i =0 ; i< 5; i++) // try to get the file 5 times since sometimes the file is still not available (due to AV)
+             	{
+	            
+	            	"Copying file: {0}".info(targetFile);
+	            	Files.Copy(downloadedFile, targetFile);
+	            	"Deleting file: {0}".info(downloadedFile);
+	            	Files.deleteFile(downloadedFile);                	
+	            	if (targetFile.fileExists())
+	            		return targetFile;	            	
+	            	
+	            	this.sleep(1000);
+	            }	            
+	         };
             return null;            
     	}
     	

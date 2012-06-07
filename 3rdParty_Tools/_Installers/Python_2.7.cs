@@ -19,14 +19,10 @@ namespace O2.XRules.Database.APIs
 	public class Python_Install : Tool_API    
 	{				
 		public Python_Install()
-		{			
-			/*config("Python-3.2.3", 				   
-				   "http://www.python.org/ftp/python/3.2.3/python-3.2.3.msi".uri(),
-				   "SourceDir\\IronPython 2.7\\ipy.exe");
-				   */
-			Install_Uri = "http://www.python.org/ftp/python/3.2.3/python-3.2.3.msi".uri();
-			Install_File = "python-3.2.3.msi";
-			Install_Dir = @"C:\Python32\";
+		{						
+			Install_Uri = "http://www.python.org/ftp/python/2.7.3/python-2.7.3.msi".uri();
+			Install_File = "python-2.7.3.msi";
+			Install_Dir = @"C:\Python27\";
 			Executable = Install_Dir.pathCombine("python.exe");	   
 			startInstaller_FromMsi_Web();	       		
 		}	

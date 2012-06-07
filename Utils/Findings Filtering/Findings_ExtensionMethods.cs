@@ -166,16 +166,28 @@ namespace O2.XRules.Database.Findings
             if (includeSourceCodeViewer)
 			{
 				var codeViewer = findingsViewer.insert_Right<Panel>(control.width()/2).add_SourceCodeViewer();
-				findingsViewer._onTraceSelected += 
+				findingsViewer.set_CodeViewer(codeViewer);
+				
+			}
+            return findingsViewer;
+        }
+        
+        public static ascx_FindingsViewer set_CodeViewer(this ascx_FindingsViewer findingsViewer, ascx_SourceCodeViewer codeViewer)                
+        {        
+        	return findingsViewer.set_CodeEditor(codeViewer.editor());        	
+        }
+        
+        public static ascx_FindingsViewer set_CodeEditor(this ascx_FindingsViewer findingsViewer, ascx_SourceCodeEditor codeEditor)
+        {
+        	findingsViewer._onTraceSelected += 
 					(trace)=>{
-									codeViewer.show(trace);
+									codeEditor.show(trace);
 									findingsViewer.controls<ascx_TraceTreeView>().focus();
 							 };
 				findingsViewer._onFindingSelected +=
-					(finding)=> { 
-									"here".info();
-									codeViewer.open(finding.file);
-									codeViewer.editor().gotoLine((int)finding.lineNumber);
+					(finding)=> { 									
+									codeEditor.open(finding.file);
+									codeEditor.editor().gotoLine((int)finding.lineNumber);
 									
 									//
 									O2Thread.mtaThread(
@@ -184,8 +196,7 @@ namespace O2.XRules.Database.Findings
 												findingsViewer.getResultsTreeView().focus();												
 											});
 								};
-			}
-            return findingsViewer;
+			return 	findingsViewer;							
         }
         
         public static ascx_FindingEditor add_FindingEditor(this Control control)
@@ -444,31 +455,40 @@ namespace O2.XRules.Database.Findings
 	public static class Findings_ExtensionMethods_ascx_SourceCodeViewer
 	{
 		public static ascx_SourceCodeViewer show(this ascx_SourceCodeViewer codeViewer, IO2Finding o2Finding)
+		{
+			codeViewer.editor().show(o2Finding);
+			return codeViewer;
+		}
+		public static ascx_SourceCodeEditor show(this ascx_SourceCodeEditor codeEditor, IO2Finding o2Finding)
 		{								
 			"in show".info();
-			codeViewer.open(o2Finding.file);
+			codeEditor.open(o2Finding.file);
 			if (o2Finding.lineNumber > 0)
 			{
-				codeViewer.editor().gotoLine((int)o2Finding.lineNumber-1);
+				codeEditor.gotoLine((int)o2Finding.lineNumber-1);
 				//codeViewer.editor().caret_Line();
-				codeViewer.editor().caret_Line((int)o2Finding.lineNumber-1);
-				codeViewer.editor().caret_Column((int)o2Finding.columnNumber);
+				codeEditor.caret_Line((int)o2Finding.lineNumber-1);
+				codeEditor.caret_Column((int)o2Finding.columnNumber);
 			}
+			return codeEditor;
+		}
+		public static ascx_SourceCodeViewer show(this ascx_SourceCodeViewer codeViewer, IO2Trace o2Trace)
+		{
+			codeViewer.editor().show(o2Trace);
 			return codeViewer;
 		}
 		
-		public static ascx_SourceCodeViewer show(this ascx_SourceCodeViewer codeViewer, IO2Trace o2Trace)
-		{								
-			"in show".info();
-			codeViewer.open(o2Trace.file);
+		public static ascx_SourceCodeEditor show(this ascx_SourceCodeEditor codeEditor, IO2Trace o2Trace)
+		{											
+			codeEditor.open(o2Trace.file);
 			if (o2Trace.lineNumber > 0)
 			{
-				codeViewer.editor().gotoLine((int)o2Trace.lineNumber-1);
+				codeEditor.editor().gotoLine((int)o2Trace.lineNumber-1);
 				//codeViewer.editor().caret_Line();
-				codeViewer.editor().caret_Line((int)o2Trace.lineNumber-1);
-				codeViewer.editor().caret_Column((int)o2Trace.columnNumber);
+				codeEditor.editor().caret_Line((int)o2Trace.lineNumber-1);
+				codeEditor.editor().caret_Column((int)o2Trace.columnNumber);
 			}
-			return codeViewer;
+			return codeEditor;
 		}
 
 		

@@ -18,7 +18,7 @@ MethodInvoker stopAllButCurrentO2Process =
 	()=&gt;{
 			"Stopping all but current O2 Process".info();
 			var currentO2Id = Processes.getCurrentProcessID();
-			foreach(var process in Processes.getProcessesCalled("O2_XRules_Database"))
+			foreach(var process in Processes.getProcessesCalled("O2 Platform"))
 				if (process.Id != currentO2Id)
 				{
 					"stopping process '{0}' with ID {1}".debug(process.ProcessName, process.Id);

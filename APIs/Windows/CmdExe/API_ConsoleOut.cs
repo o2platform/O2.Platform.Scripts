@@ -165,15 +165,15 @@ namespace O2.XRules.Database.APIs
 			return apiConsoleOut;
 		}
 		
-		public static API_ConsoleOut add_ConsoleOut(this Control topPanel)
+		public static API_ConsoleOut add_ConsoleOut(this Control topPanel,  bool showO2Message = true)
 		{
-			return topPanel.show_ConsoleOut();
+			return topPanel.show_ConsoleOut(showO2Message);
 		}
 		
-		public static API_ConsoleOut show_ConsoleOut<T>(this T topPanel)
+		public static API_ConsoleOut show_ConsoleOut<T>(this T topPanel, bool showO2Message = true)
 			where T : Control
 		{
-			return topPanel.show_ConsoleOut("Welcome to O2's console");
+			return topPanel.show_ConsoleOut(showO2Message ? "Welcome to O2's console" : "");
 		}
 		
 		public static API_ConsoleOut show_ConsoleOut<T>(this T topPanel, string message )
@@ -181,7 +181,8 @@ namespace O2.XRules.Database.APIs
 		{
 			var apiConsoleOut = new API_ConsoleOut();
 			apiConsoleOut.show_ConsoleOut(topPanel);
-			Console.WriteLine(message);
+			if (message.valid())
+				Console.WriteLine(message);
 			return apiConsoleOut;
 		}
 		
