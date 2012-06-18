@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.clear().add_Panel();
+var topPanel = "Util - Roslyn - Compile Solution and view errors".popupWindow(1000,500)
+					.insert_LogViewer();
+var actionsPanel = topPanel.insert_Above(40,"");
+var codeViewer = topPanel.title("Source Code").add_SourceCodeEditor();
+var sourceCodeFiles = topPanel.insert_Left(200, "Source Files (in current solution)").add_TreeView().sort(); 
+var errorsList = topPanel.insert_Right("Errors").add_TreeView(); 
+var o2Solutions = sourceCodeFiles.parent().parent().insert_Above(100,"O2 Solutions (try others)").add_TreeView();
+
+var solutionFile = "";
+sourceCodeFiles.afterSelect&lt;IDocument&gt;(
+	(document)=&gt; codeViewer.open(document.FilePath));
+
+Action compile = 
+	()=&gt;{	
+			O2Thread.mtaThread(
+				()=&gt;{
+						var o2Timer = new O2Timer("Solution Compilation").start();
+						IWorkspace workspace = Workspace.LoadSolution(solutionFile);									
+						"Compling Solution: {0}".info(solutionFile);
+						ISolution solution = workspace.CurrentSolution;
+						var project = solution.Projects.first();
+						var cancellationToken = new CancellationToken(false);
+						var compilation = project.GetCompilation(cancellationToken);						
+						var errors = compilation.errors();
+						var time = o2Timer.stop();
+						"There are {0} errors".info(errors.size());
+						errorsList.clear()
+								  .add_Nodes(errors)
+								  .backColor(errors.size() &gt; 0 ? Color.LightPink : Color.Azure)
+								  .selectFirst()
+								  .focus()
+								  .parent&lt;GroupBox&gt;().set_Text("# of Errors: {0} : {1}".format(errors.size(), time));
+						//var assembly = compilation.create_Assembly();			
+					});
+		};
+
+Action&lt;string&gt; loadSolution =
+	(_solutionFile)=&gt;{ 	
+						"Loading File: {0}".info(_solutionFile);
+						if (_solutionFile.extension(".sln").isFalse())
+							return;										
+						solutionFile = _solutionFile;
+						sourceCodeFiles.clear();
+						errorsList.clear().add_Node("Compiling solution....");
+						codeViewer.open("");
+						IWorkspace workspace = Workspace.LoadSolution(solutionFile);
+						var files = (from project in workspace.CurrentSolution.Projects
+									 from document in project.Documents
+									 select document).toList();
+						sourceCodeFiles.add_Nodes(files, (file)=&gt;file.Name);
+						actionsPanel.control&lt;TextBox&gt;(true).set_Text(solutionFile);
+						compile();
+					};
+		
+errorsList.afterSelect&lt;Diagnostic&gt;(  
+	(diagnostic)=&gt;{
+					 var lineSpan = diagnostic.Location.GetLineSpan(true);
+					 codeViewer.open(lineSpan.Path);
+					 codeViewer.gotoLine(lineSpan.StartLinePosition.Line + 1);					  
+				  });
+
+actionsPanel.add_Link("Re-compile loaded solution", ()=&gt; compile())
+			.append_Label("Current Solution File (you can drop a *.sln file here to load it):").autoSize()
+			.append_TextBox("").align_Right();
+
+actionsPanel.onDrop(loadSolution);	
+sourceCodeFiles.onDrop(loadSolution);
+errorsList.onDrop(loadSolution);
+			
+o2Solutions.afterSelect&lt;string&gt;(loadSolution);
+
+var sourceFolder = PublicDI.config.CurrentExecutableDirectory.pathCombine(@"..\..\O2.FluentSharp\O2.FluentSharp.CoreLib");
+			
+loadSolution(sourceFolder.pathCombine(@"O2.FluentSharp.CoreLib.sln"));
+
+o2Solutions.add_Files(PublicDI.config.CurrentExecutableDirectory.pathCombine(@"..\..\"), "*.sln");
+
+
+//using System.Threading
+//using Roslyn.Services
+//using Roslyn.Compilers.CSharp
+//O2Ref:O2_FluentSharp_Roslyn.dll
+//O2Ref:Roslyn\lib\net40\Roslyn.Services.dll
+//O2Ref:Roslyn\lib\net40\Roslyn.Compilers.dll
+//O2Ref:Roslyn\lib\net40\Roslyn.Compilers.CSharp.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

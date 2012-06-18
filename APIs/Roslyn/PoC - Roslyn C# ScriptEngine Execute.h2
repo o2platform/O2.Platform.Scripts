@@ -37,8 +37,8 @@ codeEditor.onTextChange(
 codeEditor.set_Text("2+2");
 //using Roslyn.Scripting.CSharp;
 //using Roslyn.Scripting;
-//O2Ref:Roslyn\lib\net40\Roslyn.Compilers.dll
-//O2Ref:Roslyn\lib\net40\Roslyn.Compilers.CSharp.dll
+//O2Ref:Roslyn.Compilers.dll
+//O2Ref:Roslyn.Compilers.CSharp.dll
 //O2File:API_ConsoleOut.cs</SourceCode>
   <ReferencedAssemblies />
 </H2>

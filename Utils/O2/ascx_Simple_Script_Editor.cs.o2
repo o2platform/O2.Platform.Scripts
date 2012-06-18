@@ -2,8 +2,8 @@
 using System;
 using System.Text;
 using System.Linq;
-using System.Drawing;
-using System.Reflection;
+using System.Drawing; 
+using System.Reflection; 
 using System.Threading;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -11,7 +11,7 @@ using O2.Kernel;
 using O2.Kernel.CodeUtils;
 using O2.Kernel.ExtensionMethods ;
 using O2.Interfaces.O2Core;
-using O2.DotNetWrappers.DotNet;
+using O2.DotNetWrappers.DotNet; 
 using O2.DotNetWrappers.Windows;
 using O2.DotNetWrappers.ExtensionMethods;
 using O2.Views.ASCX;
@@ -28,13 +28,21 @@ using O2.Views.ASCX.Ascx.MainGUI;
 using O2.Views.ASCX.DataViewers;
 using O2.Views.ASCX.CoreControls;
 using O2.API.AST.ExtensionMethods.CSharp;
+using  O2.XRules.Database.APIs;
+
+using Roslyn.Compilers;
+using Roslyn.Compilers.CSharp;
 
 //O2Ref:O2_API_AST.dll
-
 //O2Ref:O2SharpDevelop.dll
+
+//O2Ref:O2_FluentSharp_Roslyn.dll
+//O2Ref:Roslyn.Compilers.CSharp.dll
+//O2Ref:Roslyn.Compilers.dll
 
 //O2Ref:log4net.dll
 
+//O2File:_Extra_methods_WinForms_Controls.cs
 
 namespace O2.XRules.Database.Utils
 {
@@ -54,18 +62,19 @@ namespace O2.XRules.Database.Utils
     {            
     	private static IO2Log log = PublicDI.log;
     	
-		public ascx_SourceCodeViewer sourceCodeViewer {get ; set;}
-		public ascx_SourceCodeViewer commandsToExecute {get ; set;}
-		public RichTextBox result_RichTextBox {get ; set;}
-		public Panel result_Panel{get ; set;}
-		public Button executeButton {get ; set;}
-		public TextBox currentScriptPath {get ; set;}
-		
+		public ascx_SourceCodeViewer sourceCodeViewer 	{ get; set;}
+		public ascx_SourceCodeViewer commandsToExecute  { get; set;}
+		public RichTextBox result_RichTextBox 			{ get; set;}
+		public Panel result_Panel						{ get; set;}
+		public Button executeButton 					{ get; set;}
+		public TextBox currentScriptPath 				{ get; set;}
+		public ToolStrip ToolStrip	 					{ get; set; } 		
 		//public SplitContainer topLevelSplitContainer {get ; set;}
-        public SplitContainer splitContainer_CommandBox {get ; set;}
-        public SplitContainer splitContainer_TopLevel {get ; set;}
-        public SplitContainer splitContainer_Results { get; set; }
-
+        public SplitContainer splitContainer_CommandBox { get; set;}
+        public SplitContainer splitContainer_TopLevel 	{ get; set;}
+        public SplitContainer splitContainer_Results 	{ get; set; }
+		public bool			  AddToolStrip		    	{ get; set; }
+	
 		public CSharp_FastCompiler csharpCompiler {get ; set;}
 		public string GeneratedCode {get ; set;}
 		public Dictionary<string, object> InvocationParameters {get ; set;}
@@ -83,22 +92,14 @@ namespace O2.XRules.Database.Utils
 		public Thread ExecutionThread			{ get; set; }
 		
         public string defaultCode = "PublicDI.log.info(\"Dynamic Data: {0},{1}\", testString, testNumber);"
-                               .line("return \"Dynamic Data = \" + testString + \" :: \" + testNumber;");
-    		
+                               .line("return \"Dynamic Data = \" + testString + \" :: \" + testNumber;");    	    	
+    	
         public static ascx_Simple_Script_Editor startControl()
     	{
-            //width = 700;    // make it bigger
-            //height = 300;
-                		  
-    		//var control2 = O2Gui.load<PropertyGrid>();
-    		//return;
-            //var control = (ascx_Simple_Script_Editor)typeof(ascx_Simple_Script_Editor).showAsForm("O2 Simple Script Editor", 500, 500);			
             var control = O2Gui.load<ascx_Simple_Script_Editor>("O2 Simple Script Editor", 700, 300);
             
     		control.invokeOnThread(()=>
-    		{   
-    			//control.createGui();
-				//control.configureGui();
+    		{       			
     			control.InvocationParameters.Add("testString", "Hello World");
     			control.InvocationParameters.Add("testNumber", 42);
                 control.commandsToExecute.set_Text(control.defaultCode);
@@ -125,6 +126,7 @@ namespace O2.XRules.Database.Utils
 
         public ascx_Simple_Script_Editor(bool codeCompleteSupport)        
     	{
+    		AddToolStrip = true;
             this.Width = width;
             this.Height = height;
             previousCompiledCodeText = "";
@@ -135,17 +137,27 @@ namespace O2.XRules.Database.Utils
             AutoSaveDir = PublicDI.config.AutoSavedScripts;
 			setCompilerEnvironment();            
             
+            
 			createGui();
 			configureGui();			
 			
             //enabled code complete
             ExecuteOnEnter = false;
             if (codeCompleteSupport)
-            {
-                commandsToExecute.enableCodeComplete();
-                commandsToExecute.editor().o2CodeCompletion.UseParseCodeThread = false;
-            }
+            	enableCodeComplete_afterACoupleSeconds();                            
             this.Refresh();
+			
+        }
+        
+        public void enableCodeComplete_afterACoupleSeconds()
+        {
+        	O2Thread.mtaThread(
+        		()=>{
+        				this.sleep(2000, false);
+        				"Loading Code Complete data".info();
+        				commandsToExecute.enableCodeComplete();
+                		commandsToExecute.editor().o2CodeCompletion.UseParseCodeThread = false;
+                	});
         }
         
         private void createGui()
@@ -154,25 +166,24 @@ namespace O2.XRules.Database.Utils
 
             var groupBoxes = this.add_1x1("Command To Execute", "Invoke and Result", true, this.Width - 150);   
         	
-        	commandsToExecute = groupBoxes[0].add_SourceCodeViewer();
-        	
-            commandsToExecute.document().TextEditorProperties.EnableFolding = false;  
+        	commandsToExecute = groupBoxes[0].add_SourceCodeViewer();        	
+            commandsToExecute.document().TextEditorProperties.EnableFolding = false;              
             
 			//currentScriptPath = commandsToExecute.insert_Below<TextBox>();
 			
             splitContainer_CommandBox = (SplitContainer)groupBoxes[0].Parent.Parent;
-            splitContainer_CommandBox.Panel2MinSize = 110;
+             splitContainer_CommandBox.Panel2MinSize = 110;
             splitContainer_CommandBox.FixedPanel = FixedPanel.Panel2;
-            var bottomPanel = this.add_GroupBox("Generated Source Code");
-
+            var bottomPanel = this.add_GroupBox("Generated Source Code");  //create on thread            
         	sourceCodeViewer = bottomPanel.add_SourceCodeViewer();            			
 			
-            splitContainer_CommandBox.insert_Below(bottomPanel,200);//, 200);
+            splitContainer_CommandBox.insert_Right(bottomPanel,200);		//insert 'GeneratedSourceCode on the right
         	
 			executeButton = this.add_Button("Execute");        	        	
         	executeButton.fill(); 
         	        	        
         	var outputPanel = groupBoxes[1].add_GroupBox("Output");  
+        	
         	var controls = outputPanel.insert_Above(executeButton,60);
 
 			splitContainer_TopLevel = (SplitContainer)this.Controls[0];
@@ -183,6 +194,11 @@ namespace O2.XRules.Database.Utils
         	result_Panel = outputPanel.add_Panel();
         	
 			executeButton.insert_Below(20).add_Link("stop execution", ()=> stopCurrentExecution());
+			
+			
+						if (AddToolStrip)
+							addToolStrip();
+			
         }
 		
         public void configureGui()
@@ -207,17 +223,15 @@ namespace O2.XRules.Database.Utils
         	sourceCodeViewer.astDetails(false);
         	commandsToExecute.astDetails(false);
         	
-        	
-
-        	sourceCodeViewer.textEditorControl().remove_ContextMenu();        	
-        	
+			//remove original ContextMenu and add new one        	
+        	sourceCodeViewer.textEditorControl().remove_ContextMenu();        	        	
         	var contextMenu = commandsToExecute.textEditorControl().add_ContextMenu();        	
         	
-        	commandsToExecute.textArea().KeyUp+= (sender,e) => handlePressedKeys(e);
+         	commandsToExecute.textArea().KeyUp+= (sender,e) => handlePressedKeys(e);
             commandsToExecute.textArea().KeyEventHandler += handleKeyEventHandler;
             contextMenu.add_MenuItem("current source code")
                        .add_MenuItem("compile", (menuitem) => compile())
-                       .add_MenuItem("copy to clipboard", (menuitem) => commandsToExecute.get_Text().toClipboard())
+                       .add_MenuItem("copy to clipboard", (menuitem) => currentCode().toClipboard())
                        .add_MenuItem("save", (menuitem) => saveScript())
                        .add_MenuItem("save As", (menuitem) => saveAsScript())
                        .add_MenuItem("what is the current loaded filename", (menuitem) => "The path of the currently loaded file is: {0}".info(currentSourceCodeFilePath()))
@@ -225,7 +239,7 @@ namespace O2.XRules.Database.Utils
                        .add_MenuItem("replace with generated source code", (menuitem) => replaceMainCodeWithGeneratedSource())
                        .add_MenuItem("show/hide generated source code", (menuitem) => swapGeneratedCodeViewMode())
                        .add_MenuItem("-------------------------------")
-                       .add_MenuItem("clear AssembliesCheckedIfExists list", (menuitem) => O2Svn.clear_AssembliesCheckedIfExists())                       
+                       .add_MenuItem("clear AssembliesCheckedIfExists list", (menuitem) => O2GitHub.clear_AssembliesCheckedIfExists())                       
                        .add_MenuItem("clear CachedCompiledAssemblies list", (menuitem) => CompileEngine.CachedCompiledAssemblies.Clear())                       
                        .add_MenuItem("clear LocalScriptFileMappings list", (menuitem) => CompileEngine.clearLocalScriptFileMappings())
                        .add_MenuItem("clear CompilationPathMappings list", (menuitem) => CompileEngine.clearCompilationPathMappings());
@@ -294,15 +308,36 @@ namespace O2.XRules.Database.Utils
                 case "clear 'AssembliesCheckedIfExists' cache":
                     commandsToExecute.insert_Text("".line() + "//ClearAssembliesCheckedIfExists".line());
                     break;                                		
-                default:
-                    
+                default: 
+                       
 //                    commandsToExecute.insert_Text(".........");                    
                     break;
             }
+        }  
+          
+        public void addToolStrip() 
+        { 
+        	this.ToolStrip = this.commandsToExecute.insert_Below(30).add_Control<ToolStrip>();        	
+        	try
+        	{
+	        	ToolStrip.add_Button("open"	 	,()=> { this.commandsToExecute.editor().openFile();}).with_Icon_Open() 
+					     .add_Button("save as"	,()=> { this.saveAsScript();}).with_Icon_Save()					     
+		 		 	     .add_Label ("search:").add_TextBox("").onEnter(searchInText)
+					     ;
+			}
+			catch(Exception ex) 
+			{
+				//debug.@break();
+				ex.log().logStackTrace();
+			}
         }
         
+        
+        
 	    public void setCompilerEnvironment()
-	    {                     
+	    {   
+	    	var o2Timer = new O2Timer("Code Compiled in");
+	    	
 	    	this.csharpCompiler = new CSharp_FastCompiler();     	
 	    	//csharpCompiler.field("forceAstBuildDelay",250); 		// try to prevent the problem with missing the compilation of the last char
 			this.csharpCompiler.beforeSnippetAst = 
@@ -315,17 +350,18 @@ namespace O2.XRules.Database.Utils
      			()=>{        					     					
      					//"AST creation failed".error();
      				//	this.sourceCodeViewer.enabled(false);    	 				
-	     				this.executeButton.enabled(false);
+	     				this.executeButton.enabled(false);	     				
     	 				this.result_RichTextBox.textColor(Color.Red)
-     		 							  .set_Text("Ast Parsing Errors:\r\n\r\n")										  
-										  .append_Text(csharpCompiler.AstErrors);
-
+     		 							  .set_Text("Ast Parsing Errors:\r\n\r\n");
+										  //.append_Text(csharpCompiler.AstErrors);
+						showAstErrorsUsingRoslyn();
                         this.commandsToExecute.updateCodeComplete(csharpCompiler);	     				
 						this.sourceCodeViewer.setDocumentContents(csharpCompiler.SourceCode);						
 	     			};
 	     			 
 	     	this.csharpCompiler.onAstOK = 
-	     		()=>{		     		     			
+	     		()=>{		
+	     				o2Timer.start();
 	     				this.commandsToExecute.editor().refresh();
 	     				this.sourceCodeViewer.enabled(true);
 	     				this.commandsToExecute.invokeOnThread(()=>commandsToExecute.Refresh());;
@@ -358,6 +394,7 @@ namespace O2.XRules.Database.Utils
      		 		};
      		 this.csharpCompiler.onCompileOK =
      		 	()=>{
+     		 			o2Timer.stop();
      		 			"Compilation OK".debug();
      		 			this.commandsToExecute.editor().refresh();
      		 			this.sourceCodeViewer.editor().refresh();
@@ -431,10 +468,9 @@ namespace O2.XRules.Database.Utils
 						{				
 							executeButton.enabled(false);
 							result_RichTextBox.textColor(Color.Gray).set_Text("... compiling ...");
-							previousCompiledCodeText = commandsToExecute.get_Text();
+							previousCompiledCodeText = currentCode();
 							compileCodeSnippet(previousCompiledCodeText);												
-						}
-						
+						}						 
 					});								
 		}
 		
@@ -447,12 +483,21 @@ namespace O2.XRules.Database.Utils
         }
 		
         public void compile()
-        {
-            compileCodeSnippet(commandsToExecute.get_Text());
+        {        	
+            compileCodeSnippet(currentCode());
         }
-
+		
+		public string currentCode()
+		{
+			return commandsToExecute.editor().getSourceCode();
+		}
 		public void compileCodeSnippet(string codeSnippet)
      	{     		 
+     		if (codeSnippet.notValid())
+     		{
+     			//"[compileCodeSnippet] there was no code provided to compile".error();
+     			return;
+     		}
      		try
      		{              	
      			codeSnippet = handleExtraO2TagsInSourceCode(codeSnippet);
@@ -496,9 +541,8 @@ namespace O2.XRules.Database.Utils
 	    }
 
         public void showLogViewer()
-        { 
-            var logViewer = this.add_Control<ascx_LogViewer>();
-            this.insert_Below(logViewer,100);
+        {                         
+            this.insert_LogViewer();            
         }
 
         public void showAutoSavedScripts()
@@ -655,7 +699,7 @@ namespace O2.XRules.Database.Utils
                         var targetFile = O2Forms.askUserForFileToSave(defaultH2ScriptFolder, ".h2");
                         if (targetFile.valid())
                         {
-                            var h2Script = new H2(commandsToExecute.get_Text());
+                            var h2Script = new H2(currentCode());
                             h2Script.save(targetFile);
                         }
                         "target: {0}".info(targetFile);
@@ -669,7 +713,7 @@ namespace O2.XRules.Database.Utils
                 {
                     splitContainer_TopLevel.Panel2Collapsed = !splitContainer_TopLevel.Panel2Collapsed;
                     if (isGeneratedSourceCodeVisible())
-                        compileCodeSnippet(commandsToExecute.get_Text());
+                        compileCodeSnippet(currentCode());
                 });
         }
      	
@@ -701,7 +745,7 @@ namespace O2.XRules.Database.Utils
      	{
      		get 
      		{
-     			return commandsToExecute.get_Text();
+     			return currentCode();
      		}
      		
      		set
@@ -714,6 +758,33 @@ namespace O2.XRules.Database.Utils
      	{
      		this.Code = script;
      		return script;
+     	}
+     	
+     	public void searchInText(string text)
+     	{
+     		this.commandsToExecute.editor().invoke("searchForTextInTextEditor_findNext",text);     		
+     	}
+     	
+     	
+     	
+     	// New Roslyn based methods:
+     	
+
+     	public void showAstErrorsUsingRoslyn()
+     	{     			     		
+     		var parserOptions =  ParseOptions.Default.WithKind(SourceCodeKind.Script);
+     		var astTree = SyntaxTree.ParseCompilationUnit(this.Code, "",parserOptions);
+     		this.result_RichTextBox.append_Text(astTree.errors_Details());
+     		
+     		var codeEditor = commandsToExecute.editor();
+     		codeEditor.clearBookmarksAndMarkers();										
+			foreach(var error in astTree.errors())
+			{
+				var startLinePosition = error.Location
+											 .GetLineSpan(true)
+											 .StartLinePosition;
+				codeEditor.setSelectedText(startLinePosition.Line +1, startLinePosition.Character, true);								
+			}
      	}
     }
 }

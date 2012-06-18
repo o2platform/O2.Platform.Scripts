@@ -113,10 +113,14 @@ var scriptWrapper =
 //ie.open(""about:blank"");
 ie.if_NoPageLoaded(
 		()=>{ 
-				ie.open(""http://www.google.com"");   
+				ie.open(""http://www.google.com"");    
 				ie.link(""Images"").click();  
-				ie.field(""Search Images"").value(""O2 Platform""); 
-				ie.button(""Search Images"").click(); 
+				ie.waitForField(""Search Images"").value(""O2 Platform""); 				
+//				ie.inject_FirebugLite();
+				ie.inject_jQuery();
+				//ie.invokeEval(""alert(jQuery)"");
+				ie.invokeEval(""jQuery('form').submit()"");				
+				//ie.button(""Search Images"");//.click(); 				
 			});
 			
 ""Page is open, so returning all image's links"".info();			

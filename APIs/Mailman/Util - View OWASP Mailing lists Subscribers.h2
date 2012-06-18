@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var credential = @"C:\O2\_USERDATA\OWASP_Accounts.xml".credential("mailman");
+var adminPwd = "as" + credential.password();
+
+
+var topPanel = panel.clear().add_Panel();
+//var topPanel = "Util - Access OWASP MainMan Admin".popupWindow(1000,500);
+
+topPanel.insert_Above(20)
+		.add_Label("List password").top(2)
+		.append_TextBox(adminPwd).isPasswordField()
+							     .onTextChange((text)=&gt; adminPwd = text);
+var treePanel = topPanel.insert_Left(300,"Current Lists");
+
+var ie = topPanel.title("Browser").add_IE().silent(true); 
+
+Action&lt;string&gt; openList = 
+	(listName)=&gt; {
+				O2Thread.mtaThread(
+					()=&gt;{			
+							var emailRosterUrl = "https://lists.owasp.org/mailman/roster/{0}".format(listName);
+							ie.open(emailRosterUrl);
+							if (ie.title()=="Error")
+							{
+								var adminUrl = "https://lists.owasp.org/mailman/admin/{0}".format(listName);								
+								ie.open(adminUrl);
+								ie.field("adminpw", adminPwd);
+								ie.button("Let me in...").click();
+								if (ie.title()!="Error")
+									ie.open(emailRosterUrl);																	
+							}
+						});
+			};		
+
+var baseUrl = "https://lists.owasp.org/mailman/";
+
+ie.open(baseUrl + "admin");
+
+var lists = new List&lt;string&gt;();
+foreach(var link in ie.links())
+	if(link.url().contains("admin"))
+	{			
+		//treeView.add_Node(link.text(),link.text());
+		lists.add(link.text());
+	}
+treePanel.add_TreeViewWithFilter(lists).sort()	
+		 .afterSelect&lt;string&gt;(openList)
+		 .onDoubleClick&lt;string&gt;(openList)
+		 .selectFirst();
+return "ok";
+
+//O2File:WatiN_IE_ExtensionMethods.cs 
+//O2Ref:WatiN.Core.1x.dll
+//O2Ref:Microsoft.mshtml.dll
+//O2Tag_DontAddExtraO2Files;			
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

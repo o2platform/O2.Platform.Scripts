@@ -1,0 +1,197 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = panel.clear().add_Panel();
+/*var topPanel = "Tool - Cat.Net outside VisualStudio".popupWindow(1000, 600)
+												    .insert_LogViewer();
+*/    
+var vsConnect = new VsConnect();		
+var summaryView = topPanel.clear().add_Control&lt;SummaryView&gt;();
+var lvSummary = (ListView)summaryView.field("_lvSummary");
+var detailView = (DetailView)summaryView.field("_detailView");
+var lvDataFlow = (ListView)detailView.field("_lvDataFlow"); 
+var _tsActions = (ToolStrip)summaryView.field("_tsActions");
+var codeViewer = detailView.insert_Below().add_SourceCodeEditor();  
+var droppedFile = "";
+Report report = null;
+
+_tsActions.clearItems() 
+		  .add_Label("..... loading engine.....");
+
+lvSummary.remove_Event_SelectedIndexChanged(); //remove this event since it will use a method with DTE dependencies
+lvDataFlow.showSelection();
+
+lvDataFlow.afterSelected&lt;DataTransformation&gt;(
+	(dataTransformation)=&gt;{	
+								if (dataTransformation.SourceFile.fileExists())
+								{
+									codeViewer.open(dataTransformation.SourceFile)
+											  .gotoLine(dataTransformation.SourceLine);
+									lvDataFlow.focus();		  
+								}
+								else
+									//codeViewer.editor().set_Text("").sPathToFileLoaded = "";
+									codeViewer.editor().set_Text(dataTransformation.serialize(false), ".xml").sPathToFileLoaded = "";
+									
+						  });
+
+lvSummary.afterSelected&lt;ReportItem&gt;(
+	(reportItem) =&gt; {					
+						detailView.Clear();
+						reportItem.DisplayText(detailView);
+						
+						var transformations = (ArrayList)reportItem._result.Transformations;
+						foreach(DataTransformation dataTransformation in transformations)
+						{
+							var fileSnippet = (dataTransformation.SourceFile.fileExists()) 
+													? 	dataTransformation.SourceFile.fileContents().split_onLines().value(dataTransformation.SourceLine-1).trim()
+													: 	"";
+							lvDataFlow.add_Row(dataTransformation.StatementMethodName ?? "", 
+											   dataTransformation.SourceLine.ToString(),
+											   dataTransformation.InputVariableString ?? "", 
+											   dataTransformation.OutputVariableString ?? "",
+											   fileSnippet)
+									  .tag(dataTransformation);
+						} 
+						detailView.AutoResizeColumns();
+						lvDataFlow.select(1);
+						lvSummary.focus();
+					});
+
+Action set_VsConnect = 
+	()=&gt;{						
+			var rulesSettings = new RulesSettings();		
+						
+			vsConnect.invoke("AddDefaultSettingsProvider", new GeneralSettings());
+			vsConnect.invoke("AddDefaultSettingsProvider", rulesSettings);
+			vsConnect.invoke("AddDefaultSettingsProvider", new TargetsSettings());
+			vsConnect.invoke("AddDefaultSettingsProvider", new SuppressionSettings());
+			vsConnect.invoke("AddDefaultSettingsProvider", new VectorsSettings());
+			var defaultSettings = vsConnect.field("_defaultSettings");
+			vsConnect.field("_currentSettings", defaultSettings);
+			
+			rulesSettings.Activate();
+						
+			summaryView.Controller = vsConnect;								
+		};
+
+
+
+Action&lt;string&gt; openReport = 
+	(path)=&gt;{
+				summaryView.invokeOnThread(
+					()=&gt;{
+							report = Report.Load(path);				 
+							summaryView.LoadReport(report, Path.ChangeExtension(path, ".htm"));
+						 });
+			};
+
+Action viewReportXml = 
+	()=&gt; codeViewer.set_Text(report.serialize(false),".xml");
+	
+set_VsConnect(); 
+
+		  
+//_tsActions.item&lt;ToolStripButton&gt;().click();
+Action&lt;string&gt; scanAssembly = 
+	(file)=&gt;{ 
+				var catNet = new API_CatNet().loadRules();
+				var savedReport = catNet.scan(file).savedReport();
+				openReport(savedReport); 
+			};
+
+Action&lt;string&gt; scanSolution = 
+	(solutionFile)=&gt;{
+						var catNet = new API_CatNet().loadRules(); 
+						var assemblies = solutionFile.compileSolution();
+						var savedReport = catNet.scan(assemblies).savedReport();
+						openReport(savedReport);				
+					};
+
+Action&lt;string&gt; scanCSharpFile = 
+	(file)=&gt;{
+				var catNet = new API_CatNet().loadRules(); 
+				var assembly = new CompileEngine().compileSourceFile(file);
+				if (assembly.notNull())			
+				{
+					openReport(catNet.scan(assembly).savedReport());				
+				}
+				else
+					codeViewer.open(file);
+			};
+			 
+Action&lt;string&gt; handleDrop = 
+	(file)=&gt;{				
+				if (file.inValid())
+				{
+					"There is no file to scan (drop a file first)".error();
+					return;				
+				}
+				lvSummary.pink();					
+				droppedFile = file;					
+				"File Dropped: {0}".info(file);
+				switch(file.extension())
+				{					
+					case ".dll":
+					case ".exe":
+						scanAssembly(file);
+						break;
+					case ".sln":
+						scanSolution(file);
+						break;
+					case ".cs":
+						scanCSharpFile(file);
+						break;
+					case ".xml":
+						openReport(file);
+						break;
+					default:
+						"dropped file extension not supported: {0}".error(file.extension());
+						break;
+				}
+				lvSummary.white();
+			};
+
+_tsActions.clearItems()
+		  .add_Button("Scan Again"	   , "_btAnalyze", () =&gt; handleDrop(droppedFile))
+		  .add_Control&lt;ToolStripSeparator&gt;()		  
+		  .add_Button("Sample report: HacmeBank"	    , "_btOpenReport", () =&gt; openReport("CatNet_HacmeBank.xml".local()))
+		  .add_Button("Sample report: SuperSecureBank"  , "_btOpenReport", () =&gt; openReport("CatNet_SuperSecureBank.xml".local()))
+		  .add_Control&lt;ToolStripSeparator&gt;()
+		  .add_Button("View loaded report xml" 			, "_btGeneralSettings" ,viewReportXml);  
+			
+
+summaryView.onDrop(handleDrop);
+
+
+//var target = @"E:\_Tests\Demos_Files\SuperSecureBank\SecurityInnovation-SuperSecureBank-938fde3\SuperSecureBank.sln";
+var target = "Web_SQL_Injection.cs".local().fileContents().saveAs("_CatNet_Test.cs".tempFile());
+
+handleDrop(target);
+
+
+
+//vsConnect.Analyze();
+//openReport(@"E:\O2_V4\_O2_V4_TempDir\6_13_2012\_catNet_reports\HFhTbtqcqj.xml");
+//return 
+
+ 
+//using System.IO
+//using System.Collections
+//using Microsoft.ACESec.CATNet.Core.Analysis
+//using Microsoft.ACESec.CATNet.Core
+//using Microsoft.ACESec.CATNet.UI
+//O2File:API_CatNet.cs
+//O2File:_Extra_methods_Roslyn_API.cs
+//O2File:_Extra_methods_WinForms_Controls.cs
+//O2Ref:EnvDTE.dll
+//O2Ref:Extensibility.dll
+//O2Ref:CatNet_1.1/SourceDir/Microsoft.ACESec.CATNet.Core.dll
+//O2Ref:CatNet_1.1/SourceDir/Microsoft.ACESec.CATNet.UI.VSAddIn.dll
+//O2Ref:O2_FluentSharp_Roslyn.dll
+//O2Ref:Roslyn.Compilers.dll
+//O2Ref:Roslyn.Compilers.CSharp.dll
+//O2Ref:Roslyn.Services.dll
+//O2Tag_DontAddExtraO2Files
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

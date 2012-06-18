@@ -14,7 +14,7 @@ namespace O2.XRules.Database.APIs
 		public API_OWASP_Mailman()
 		{
 			this.BaseUrl = "https://lists.owasp.org/";
-			this.TempDir = "_owasp_mailman_Data".tempDir(false);
+			this.TempDir = @"..\_owasp_mailman_Data".tempDir(false).fullPath();
 		}
 		
 		

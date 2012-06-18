@@ -35,35 +35,43 @@ namespace O2.XRules.Database.APIs
 	{	
 		public static  List<handleItemInfo> returnArrayListWithCurrentHandles_usingBruteForceMethod(int numberOfHandlesToTry)
 		{
-			var listOfHandlesNames = new List<handleItemInfo>();
+			var listOfHandlesNames = new List<handleItemInfo>();			
+			for (int i=0; i<numberOfHandlesToTry;i++)
+			{				
+				var handleItemInfo = getHandleItemInfo(i*4);
+				if (handleItemInfo.notNull())
+					listOfHandlesNames.add(handleItemInfo);
+			}				
+			return listOfHandlesNames;
+		}
+		
+		public static handleItemInfo getHandleItemInfo(int handle)
+		{
 			IntPtr ObjectInformation = Marshal.AllocHGlobal(512);						
 			ulong Length = 512;
 			ulong ResultLength = 0;
-			for (int i=0; i<numberOfHandlesToTry;i++)
-			{				
-				long callReturnValue = NtQueryObject(i*4,OBJECT_INFORMATION_CLASS.ObjectNameInformation,ObjectInformation ,Length,ref ResultLength);				
-				if (callReturnValue !=0 && callReturnValue != 0xc0000008)
-				{
-					//listOfHandlesNames.Add(":::::ERROR::::: on Item " + Convert.ToString(i*4,16).ToString() + " the error " + Convert.ToString(callReturnValue,16).ToString() + " occured");
-					(":::::ERROR::::: on Item " + Convert.ToString(i*4,16).ToString() + " the error " + Convert.ToString(callReturnValue,16).ToString() + " occured").error();
+			long callReturnValue = NtQueryObject(handle,OBJECT_INFORMATION_CLASS.ObjectNameInformation,ObjectInformation ,Length,ref ResultLength);				
+			if (callReturnValue !=0 && callReturnValue != 0xc0000008)
+			{
+				//listOfHandlesNames.Add(":::::ERROR::::: on Item " + Convert.ToString(i*4,16).ToString() + " the error " + Convert.ToString(callReturnValue,16).ToString() + " occured");
+				(":::::ERROR::::: on Item " + Convert.ToString(handle,16).ToString() + " the error " + Convert.ToString(callReturnValue,16).ToString() + " occured").error();
+			}
+			if (callReturnValue ==0)
+			{								
+				NAME_QUERY objectName = new NAME_QUERY();
+				objectName = (NAME_QUERY)Marshal.PtrToStructure(ObjectInformation,objectName.GetType());					
+				if (objectName.noIdeaWhatThisIs != "")
+				{													
+					handleItemInfo tempHandleItemInfo = new handleItemInfo( handle, objectName.Name, objectName.noIdeaWhatThisIs);
+					return tempHandleItemInfo;					
 				}
-				if (callReturnValue ==0)
-				{								
-					NAME_QUERY objectName = new NAME_QUERY();
-					objectName = (NAME_QUERY)Marshal.PtrToStructure(ObjectInformation,objectName.GetType());					
-					if (objectName.noIdeaWhatThisIs != "")
-					{													
-						handleItemInfo tempHandleItemInfo = new handleItemInfo( i*4, objectName.Name, objectName.noIdeaWhatThisIs);
-						listOfHandlesNames.Add(tempHandleItemInfo);						
-					}
 /*					else
-					{
-						handleItemInfo tempHandleItemInfo = new handleItemInfo( 0, objectName.Name, objectName.noIdeaWhatThisIs);
-						listOfHandlesNames.Add(tempHandleItemInfo);						
-					}*/
-				}					
+				{
+					handleItemInfo tempHandleItemInfo = new handleItemInfo( 0, objectName.Name, objectName.noIdeaWhatThisIs);
+					listOfHandlesNames.Add(tempHandleItemInfo);						
+				}*/
 			}				
-			return listOfHandlesNames;
+			return null;
 		}
 
 		public class handleItemInfo

@@ -5,9 +5,9 @@ var topPanel = "OWASP O2 Platform v4.0 Beta".popupWindow(800,215);
 
 //var topPanel = panel.fill(false).width(800).height(190).clear().add_Panel();  
 topPanel.parent().backColor(Color.White);   
-topPanel.insert_LogViewer(); 
+topPanel.insert_LogViewer().white();
 topPanel.splitContainer().fixedPanel1(); 
-topPanel.add_PictureBox().open("OWASP_O2_Platform.png".local()).fill(false).width(351).height(41).top(10);
+topPanel.add_PictureBox().open("OWASP_O2_Platform.png".local()).fill(false).width(341).height(41).top(10);
 var menuPanel = topPanel.insert_Right&lt;Panel&gt;(440);  
 var scriptMappings = new Items(); 
   

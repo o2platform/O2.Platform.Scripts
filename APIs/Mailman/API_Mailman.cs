@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using O2.Kernel;
 using O2.Kernel.ExtensionMethods;
+using O2.DotNetWrappers.DotNet;
 using O2.DotNetWrappers.ExtensionMethods;
 using O2.Views.ASCX.ExtensionMethods;
 using O2.XRules.Database.Utils;
@@ -210,7 +211,8 @@ namespace O2.XRules.Database.APIs
 	{
 		public static Panel show_Gui_with_ListAdmins_Mappings(this API_Mailman apiMailman)
 		{
-			var topPanel = "Mailman - Gui_with_ListAdmins_Mappings".popupWindow();
+			var topPanel = "Mailman - Gui_with_ListAdmins_Mappings".popupWindow()
+																   .insert_LogViewer();
 			return apiMailman.show_Gui_with_ListAdmins_Mappings(topPanel);
 		}
 		
@@ -221,12 +223,20 @@ namespace O2.XRules.Database.APIs
 			tableList.add_Columns("email", "list name", "list #", "href" );
 			tableList.afterSelect_get_Cell(3,
 				(href)=>{ 
-							browser.open(href);
+							browser.open(href);														
 						});
-			
+						
+			/*browser.onNavigated( // not working the browser still gets the focus
+				(url)=> {
+							"onNavigated".info();							
+							tableList.listView().focus();
+							tableList.focus();
+							
+						});*/
 			
 			var listNumber = 0;
-			foreach(var listName in apiMailman.mailingLists())
+			tableList.visible(false);
+			foreach(var listName in apiMailman.mailingLists().Take(20))
 			{
 				listNumber++;
 				foreach(var email in apiMailman.get_Admins_For_MailingList(listName))
@@ -237,6 +247,7 @@ namespace O2.XRules.Database.APIs
 									  "{0}admin/{1}".format(apiMailman.BaseUrl, listName));							
 				}
 			}
+			tableList.visible(true);
 			tableList.makeColumnWidthMatchCellWidth();
 			return topPanel;
 		}

@@ -59,6 +59,7 @@ using Ionic.Zip;
 //O2File:_Extra_methods_TypeConfusion.cs
 //O2File:_Extra_methods_Windows.cs
 //O2File:_Extra_methods_WinForms_Controls.cs
+//O2File:_Extra_methods_WinForms_TableList.cs
 //O2File:_Extra_methods_Web.cs
 //O2File:_Extra_methods_XmlLinq.cs
 
@@ -70,7 +71,7 @@ using Ionic.Zip;
 //_O2File:_Extra_methods_WinForms_DataGridView.cs
 //_O2File:_Extra_methods_WinForms_Misc.cs
 //_O2File:_Extra_methods_WinForms_TreeView.cs
-//_O2File:_Extra_methods_WinForms_TableList.cs
+
 //_O2File:_Extra_methods_SourceCodeEditor.cs
 //_O2File:_Extra_methods_Compilation.cs
 //_O2File:_Extra_methods_Zip.cs

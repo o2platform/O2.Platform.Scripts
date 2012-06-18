@@ -35,7 +35,6 @@ using O2.XRules.Database.Utils;
 //O2Ref:PresentationFramework.dll
 //O2Ref:PresentationCore.dll
 //O2Ref:WindowsBase.dll
-//O2Ref:ICSharpCode.AvalonEdit.dll
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:O2_API_Visualization.dll
 //O2Ref:O2_API_AST.dll

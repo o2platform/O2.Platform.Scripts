@@ -13,13 +13,14 @@ using O2.XRules.Database.Findings;
 using O2.Views.ASCX.O2Findings;
 using O2.Scanner.MsCatNet.Converter;
 using O2.Interfaces.O2Findings;
-using Microsoft.ACESec.CATNet.Core.Driver;
+using Microsoft.ACESec.CATNet.Core.Driver; 
 using Rules = Microsoft.ACESec.CATNet.Core.Rules;
 
 //O2File:Findings_ExtensionMethods.cs
 
 //O2Ref:_O2_Scanner_MsCatNet.exe
 //O2Ref:CatNet_1.1/SourceDir/Microsoft.ACESec.CATNet.Core.dll
+//_O2Ref:CatNet_64/CAT.NET/Microsoft.ACESec.CATNet.Core.dll
 
 namespace O2.XRules.Database.APIs
 {
@@ -35,7 +36,13 @@ namespace O2.XRules.Database.APIs
 			EventsLog = new CatNetEvents();
 			Engine.EventSink = EventsLog;
 			Rules_Folder = this.engineDirectory().pathCombine("Rules");
-		}		
+			
+			var tempReportFile = "_catNet_reports".tempDir(false)
+											  .pathCombine(10.randomLetters() + ".xml");
+			this.save_Report_To(tempReportFile);						  
+		}	
+		
+		
 	}		
 	
 	public class CatNetEvents	: EventSink
@@ -116,10 +123,16 @@ namespace O2.XRules.Database.APIs
 			return catNet.EventsLog.OutputLines.str();
 		}		
 		
+		public static string savedReport(this API_CatNet catNet)
+		{
+			return catNet.Engine.Configuration.ReportFile;
+		}		
+		
 		public static API_CatNet save_Report_To(this API_CatNet catNet, string file)
 		{			
 			file.deleteIfExists();
 			catNet.Engine.Configuration.ReportFile = file;
+			catNet.Engine.Configuration.ReportXslOutputFile = file + ".html";
 			return catNet;
 		}
 		
@@ -133,26 +146,55 @@ namespace O2.XRules.Database.APIs
 	
 	public static class API_CatNet_ExtensionMethods_Scan_Direclty	
 	{
-		public static API_CatNet analyze(this API_CatNet catNet, Assembly assemblyToScan)
-		{
+		public static API_CatNet scan_Assembly(this API_CatNet catNet, Assembly assemblyToScan)
+		{			
+			return catNet.scan(assemblyToScan);
+		}
+		
+		public static API_CatNet scan(this API_CatNet catNet, Assembly assemblyToScan)
+		{			
+			return catNet.scan(new List<Assembly>().add(assemblyToScan));
+		}
+		
+		public static API_CatNet scan(this API_CatNet catNet, List<Assembly> assembliesToScan)
+		{			
+			return catNet.analyze(assembliesToScan);			
+		}
+		
+				
+		public static API_CatNet analyze(this API_CatNet catNet, List<Assembly> assembliesToScan)
+		{			
 			var o2Timer = new O2Timer("Scanned assembly in :").start();
-			
-			var analysisEngine = catNet.Engine.AnalysisEngine;
-			
-			analysisEngine.BeginAnalysis();
-			
-			var cci = "CatNet_1.1/SourceDir/Microsoft.Cci.dll".assembly();
-			var assemblyNode = cci.type("AssemblyNode");			
-			var module = assemblyNode.invokeStatic("GetAssembly", assemblyToScan);
-			analysisEngine.invoke("AnalyzeModule", module);
-			analysisEngine.FinalizeState();
-			catNet.Engine.RulesEngine.Process(analysisEngine);
-			
-			analysisEngine.EndAnalysis();
-			catNet.Engine.SaveReport();			
-			analysisEngine.ResetState();
-			
-			o2Timer.stop();
+			try
+			{
+				var analysisEngine = catNet.Engine.AnalysisEngine;
+				
+				analysisEngine.BeginAnalysis();
+				
+				var cci = "CatNet_1.1/SourceDir/Microsoft.Cci.dll".assembly();
+				var assemblyNode = cci.type("AssemblyNode");			
+				foreach(var assemblyToScan in assembliesToScan)
+				{
+					var module = assemblyNode.invokeStatic("GetAssembly", assemblyToScan, null, true,true,true);
+				
+					if (module.notNull())
+					{
+						analysisEngine.invoke("AnalyzeModule", module);						
+					}
+					else
+						"[API_CatNet][analyze] could not get Module for provided assembly: {0}".error(assemblyToScan);				
+				}		
+				analysisEngine.FinalizeState();
+				catNet.Engine.RulesEngine.Process(analysisEngine);												
+				analysisEngine.EndAnalysis();
+				catNet.Engine.SaveReport();														
+				analysisEngine.ResetState();
+				o2Timer.stop();
+			}
+			catch(Exception ex)
+			{
+				ex.log("[API_CatNet][analyze] assembly");
+			}
 			return catNet;
 		}
 	}
@@ -174,10 +216,10 @@ namespace O2.XRules.Database.APIs
 		public static ascx_FindingsViewer add_CatNet_FindingsViewer(this Control control, string reportFile, ascx_SourceCodeEditor codeEditor = null)
 		{
 			var findingsViewer = control.control<ascx_FindingsViewer>();			
-			
+			"here".error();
 			if (findingsViewer.notNull())
 			{				
-				findingsViewer.clearO2Findings();				
+				findingsViewer.clearO2Findings();							
 				findingsViewer.load(reportFile.findings());
 				return findingsViewer;
 			}

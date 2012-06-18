@@ -1731,12 +1731,20 @@ namespace O2.XRules.Database.APIs
     	// Control Extensionmethods
  
     	public static WatiN_IE add_IE(this Control control)
-    	{    		
-    		return  WatiN_IE.window(control);
+    	{
+            try
+            {
+                return WatiN_IE.window(control);
+            }
+            catch (Exception ex)
+            {
+                ex.log();
+                return null;
+            }
     	}
     	
     	public static WatiN_IE add_IE_with_NavigationBar(this Control control)
-    	{
+    	{            
     		var watinIe = control.add_IE();
     		watinIe.add_NavigationBar(control);
     		return watinIe;
@@ -1745,6 +1753,8 @@ namespace O2.XRules.Database.APIs
     	
     	public static WatiN_IE add_NavigationBar(this WatiN_IE watinIe, Control control)
     	{
+            if (watinIe.isNull())
+                return watinIe;
     		var urlTextBox = control.insert_Above(20)
     								 .add_TextBox("Url:","")
     								 .onEnter((text)=> watinIe.open_ASync(text));

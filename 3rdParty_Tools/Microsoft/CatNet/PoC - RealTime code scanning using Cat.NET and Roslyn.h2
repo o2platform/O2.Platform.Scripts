@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode> 
+//var topPanel = panel.clear().add_Panel();
+var topPanel = "PoC - RealTime code scanning using Cat.NET and Roslyn".popupWindow(1000,500);
+var codeEditor = topPanel.title("SourceCode").add_SourceCodeEditor();
+var resultText = codeEditor.insert_Right("Errors and CatNet report file").add_TextArea();
+var findingsViewer = resultText.parent().parent().insert_Above("CatNet Vulnerabilities").add_FindingsViewer(false);		 					    
+
+codeEditor.onTextChange(
+	(text)=&gt;{ 
+				var compilation = text.tree()
+				   					  .compiler("test_Assembly_".add_RandomLetters())
+				   					  .add_Reference("mscorlib")
+				   					  .add_Reference("System")
+				   					  .add_Reference("System.Web")
+				   					  .add_Reference("System.Data");
+				var errorDetails = compilation.errors_Details();
+				if (errorDetails.valid())
+				{
+					resultText.backColor(Color.LightCyan);
+					resultText.set_Text(errorDetails);
+				}
+				else 
+				{							 			
+					resultText.set_Text("");	 
+					O2Thread.mtaThread(
+						()=&gt;{								 								
+								var reportFile = "_catNet_reports__".tempDir(false)
+															      .pathCombine("report.xml");
+									       
+								var catNet = new API_CatNet().save_Report_To(reportFile)
+															 .loadRules();
+								var exeFile =  reportFile.add_RandomLetters(5) + ".exe"; 																						
+								var assembly = compilation.create_Assembly(exeFile);
+								catNet.scan_Assembly(assembly)
+									  .show(findingsViewer.parent());
+								resultText.set_Text(reportFile.fileContents())
+										  .backColor(Color.White);
+										  //.green();					
+							});
+				} 	
+			});
+				//   .create_Assembly();  
+			
+			
+var code = 
+@"using System;
+using System.Web.UI;
+using System.Data.SqlClient;
+
+class aClass : Page
+{
+	public void vuln_XSS()
+	{
+		Response.Write(Request[""as""]);
+	}
+	
+	public void vuln_SQL()
+	{
+		var taintedData = ""my name"" +  Request[""name""];
+		var sqlText = ""Select * from "" + taintedData;
+		var command = new SqlCommand(sqlText);		
+	}
+		
+	public static int Main()
+	{
+		
+		Console.WriteLine(""hello there (in memory assembly) "");
+		Console.ReadLine();		
+		return 42; 
+	}
+}";
+codeEditor.set_Text(code, ".cs");
+
+//using O2.XRules.Database.Findings;
+//O2File:API_CatNet.cs
+//O2File:Findings_ExtensionMethods.cs
+//O2Ref:O2_FluentSharp_Roslyn.dll
+//O2Ref:Roslyn.Compilers.dll
+//O2Ref:Roslyn.Compilers.CSharp.dll
+
+//O2Tag_DontAddExtraO2Files
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -49,9 +49,8 @@ namespace O2.XRules.Database
     	public RichTextBox results_RichTextBox;
 		public SplitContainer mainSplitContainer;
         public ToolStripStatusLabel statusLabel;
-
-        //public static string NEW_GUI_SCRIPT = "O2 Main WPF GUI.h2";
-        public static string NEW_GUI_SCRIPT = "Dinis Cruz (Custom O2 version).h2";
+        
+        public static string NEW_GUI_SCRIPT = "Simple O2 Gui.h2";
 
 		public static void startControl_No_Args()
 		{

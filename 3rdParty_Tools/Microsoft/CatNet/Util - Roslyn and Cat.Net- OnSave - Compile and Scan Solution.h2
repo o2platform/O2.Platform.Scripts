@@ -1,0 +1,171 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = "Util - Roslyn and Cat.Net - OnSave - Compile and Scan Solution".popupWindow(1024,576)    
+					.insert_LogViewer();
+//var topPanel = panel.clear().add_Panel();	 	    
+var actionsPanel = topPanel.insert_Above(40,"");     
+var codeViewer = topPanel.title("Source Code").add_SourceCodeEditor(); 
+var solutionFiles = topPanel.insert_Left(300, "Source Files (in current solution)").add_TreeView_with_PropertyGrid().sort(); 
+var errorsList = topPanel.insert_Below(100,"Errors").add_TreeView(); 
+var scanResults = topPanel.insert_Right("Security Scan results").add_FindingsViewer(false)
+															 	.set_CodeEditor(codeViewer);
+scanResults.insert_Below("Trace Details").add_TraceViewer()
+										 .afterSelect_showTrace(scanResults)
+										 .afterSelect_ShowTraceInCodeEditor(codeViewer)
+										 .dontSelectNodeOnLoad();  
+var solutionFile = ""; 
+var compilerAvailable = true;
+
+IWorkspace workspace = null;
+ 
+solutionFiles.beforeExpand&lt;ISolution&gt;( 
+	(treeNode,solution)=&gt;{
+							treeNode.add_Nodes(solution.Projects, (project)=&gt;project.Name, 
+																  (project)=&gt;project, 
+																  (project)=&gt; project.HasDocuments, 
+																  (project)=&gt; Color.Blue);
+						 });
+
+solutionFiles.beforeExpand&lt;IProject&gt;( 
+	(treeNode,project)=&gt;{
+							var projectDirectory = project.FilePath.directoryName();
+							treeNode.add_Nodes(project.Documents, (document)=&gt;document.FilePath.remove(projectDirectory), 
+																  (document)=&gt; document, 
+																  (document)=&gt; false,  
+																  (document)=&gt; Color.DarkBlue);//.Name, (project)=&gt;project, (project)=&gt; project.HasDocuments);
+						 });
+
+solutionFiles.afterSelect&lt;IDocument&gt;(
+	(document)=&gt;{
+					codeViewer.open(document.FilePath);
+					//document.details();
+				});
+
+												
+Action&lt;Assembly&gt; scanAssembly = 
+	(assembly)=&gt;{
+					var catNet = new API_CatNet().loadRules();					
+					"Assembly FullName: {0}".info(assembly.FullName);
+					var targetAssembly = assembly.Location;
+					"Scanning Assembly: {0}".info(targetAssembly); 
+					var reportFile = "_catNet_reports".tempDir(false)
+													  .pathCombine(targetAssembly.fileName() + ".xml");
+														//.pathCombine("report_{0}.xml".format(5.randomLetters()));
+					catNet.save_Report_To(reportFile);				        
+					
+					"CatNet ready for scan".debug();												 
+					//catNet.scan_Assembly(assembly)
+					catNet.scan(assembly)
+						  .show(scanResults.parent()); 					
+					scanResults.getResultsTreeView().nodes().first()
+												   .expand().nodes().first().selected();
+				};
+				
+Action compile = 
+	()=&gt;{	
+		O2Thread.mtaThread( 
+			()=&gt;{
+					var o2Timer = new O2Timer("Solution Compilation").start();
+					//IWorkspace workspace = Workspace.LoadSolution(solutionFile);
+					"Compling Solution: {0}".info(solutionFile);
+					ISolution solution = workspace.CurrentSolution;
+					errorsList.clear();
+					foreach(var project in solution.Projects.Take(1))
+					{												
+						var assembly = project.compile_And_ReturnUniqueAssembly((errors)=&gt; errorsList.add_Nodes(errors));
+						if (assembly.notNull())						
+						scanAssembly(assembly);													
+					}						
+					errorsList.backColor(errorsList.nodes().size() &gt; 0 ? Color.LightPink : Color.Azure)
+							  .selectFirst()
+							  .focus()
+							  .parent&lt;GroupBox&gt;().set_Text("Compilation Errors: {0} : {1}".format(errorsList.nodes().size(), o2Timer.stop()));
+						//var assembly = compilation.create_Assembly();			
+					compilerAvailable = true;	
+				});
+	}; 
+
+EventHandler&lt;WorkspaceEventArgs&gt; workspaceChanged = 
+	(sender,e)=&gt;{
+					// this is being triggered to many times					
+					//"e: {0}".error(e.Kind);					
+					if (compilerAvailable)
+					{
+						"Workspace changed, triggering compilation".debug();					
+						compilerAvailable = false;
+						compile();
+					}
+					//compile();
+				};
+
+Action&lt;string&gt; loadSolution =
+	(_solutionFile)=&gt;{ 	
+					"Loading File: {0}".info(_solutionFile);
+					if (_solutionFile.extension(".sln").isFalse())
+						return;																
+					solutionFile = _solutionFile;
+//					sourceCodeFiles.clear();
+					errorsList.clear().add_Node("Compiling solution....");
+					codeViewer.open("");
+					workspace = Workspace.LoadSolution(solutionFile, null,null, true);
+					topPanel.onClosed(()=&gt;
+						{						
+							"On TopPanel closed".debug();
+							workspace.Dispose();
+							compilerAvailable = false;
+							//"Directly disposing the filetracker".info();
+							//var field = (FieldInfo)typeof(Roslyn.Services.Host.HostWorkspace).field("fileTracker");
+							//PublicDI.reflection.getFieldValue(field, workspace).invoke("Dispose");
+						});
+					workspace.WorkspaceChanged += workspaceChanged;
+					
+					solutionFiles.clear().add_Node(workspace.CurrentSolution.FilePath.fileName(), workspace.CurrentSolution,workspace.CurrentSolution.HasProjects).color(Color.Orange);
+					solutionFiles.expand();
+					compile();
+/*					var files = (from project in workspace.CurrentSolution.Projects
+								from document in project.Documents
+								select document).toList();
+					sourceCodeFiles.add_Nodes(files, (file)=&gt;file.Name);
+					actionsPanel.control&lt;TextBox&gt;(true).set_Text(solutionFile);
+					*/
+				};
+		
+errorsList.afterSelect&lt;Diagnostic&gt;(  
+	(diagnostic)=&gt;{
+					var lineSpan = diagnostic.Location.GetLineSpan(true);
+					codeViewer.open(lineSpan.Path);
+					codeViewer.gotoLine(lineSpan.StartLinePosition.Line + 1);					 
+					errorsList.focus();
+			      });
+
+actionsPanel.add_Link("Re-compile loaded solution", ()=&gt; compile())
+	     .append_Label("Current Solution File (you can drop a *.sln file here to load it):").autoSize()
+	     .append_TextBox("").align_Right();
+
+topPanel.onDrop(loadSolution);	
+//sourceCodeFiles.onDrop(loadSolution);
+errorsList.parentForm().onDrop(loadSolution);
+			
+
+var ssbSolution = @"E:\_Tests\Demos_Files\SuperSecureBank\SecurityInnovation-SuperSecureBank-938fde3\SuperSecureBank.sln";
+//topPanel.closeForm_InNSeconds(3);
+
+loadSolution(ssbSolution);
+
+//O2File:API_CatNet.cs
+//O2File:_Extra_methods_Roslyn_API.cs
+//O2File:Findings_ExtensionMethods.cs
+//using O2.XRules.Database.Findings;
+//using Roslyn.Compilers.CSharp
+//using System.Threading
+//using System.Reflection
+//using Roslyn.Services
+//O2Ref:Roslyn.Services.dll
+//O2Ref:Roslyn.Compilers.dll
+//O2Ref:Roslyn.Compilers.CSharp.dll
+//O2Ref:O2_FluentSharp_Roslyn.dll 
+
+//O2Tag_DontAddExtraO2Files
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -21,7 +21,24 @@ namespace O2.XRules.Database.Utils
 {	
 	public static class _Extra_TableList_ExtensionMethods
 	{
-
+		public static ascx_TableList ascending(this ascx_TableList tableList)
+		{
+			return tableList.sort(SortOrder.Ascending);
+		}
+		
+		public static ascx_TableList descending(this ascx_TableList tableList)
+		{
+			return tableList.sort(SortOrder.Descending);
+		}
+		
+		public static ascx_TableList sort(this ascx_TableList tableList, SortOrder sortOrder = SortOrder.Ascending)
+		{
+			return (ascx_TableList)tableList.invokeOnThread(
+				()=>{
+						tableList.listView().Sorting = sortOrder;
+						return tableList;
+					});
+		}
         
 	}
 }

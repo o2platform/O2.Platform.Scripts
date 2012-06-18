@@ -176,7 +176,7 @@ namespace O2.XRules.Database.Findings
         {        
         	return findingsViewer.set_CodeEditor(codeViewer.editor());        	
         }
-        
+         
         public static ascx_FindingsViewer set_CodeEditor(this ascx_FindingsViewer findingsViewer, ascx_SourceCodeEditor codeEditor)
         {
         	findingsViewer._onTraceSelected += 
@@ -185,11 +185,14 @@ namespace O2.XRules.Database.Findings
 									findingsViewer.controls<ascx_TraceTreeView>().focus();
 							 };
 				findingsViewer._onFindingSelected +=
-					(finding)=> { 									
-									codeEditor.open(finding.file);
-									codeEditor.editor().gotoLine((int)finding.lineNumber);
-									
-									//
+					(finding)=> { 				
+									findingsViewer.invokeOnThread(
+										()=>{
+												codeEditor.textEditor().LineViewerStyle = ICSharpCode.TextEditor.Document.LineViewerStyle.None;												
+												codeEditor.open(finding.file);											
+												//"Going to line: {0}".info(finding.lineNumber);																					
+												codeEditor.editor().gotoLine((int)finding.lineNumber);														
+											});									
 									O2Thread.mtaThread(
 										()=>{
 												findingsViewer.sleep(100,false);												
@@ -295,6 +298,12 @@ namespace O2.XRules.Database.Findings
 
 	public static class Findings_ExtensionMethods_ascx_FindingsViewer
 	{				
+		public static ascx_TraceTreeView afterSelect_showTrace(this ascx_TraceTreeView traceViewer, ascx_FindingsViewer findingsViewer )
+		{
+			findingsViewer.afterSelect_showTrace(traceViewer);
+			return traceViewer;
+		}
+		
 		public static ascx_FindingsViewer afterSelect_showTrace(this ascx_FindingsViewer findingsViewer,  ascx_TraceTreeView traceViewer)
 		{					
 			findingsViewer._onFindingSelected += 
@@ -450,6 +459,12 @@ namespace O2.XRules.Database.Findings
 		}
 		
 		//traceViewer.controls<RadioButton>(true)
+		
+		public static ascx_TraceTreeView dontSelectNodeOnLoad(this ascx_TraceTreeView traceViewer, bool value = true)
+		{
+			traceViewer.DontSelectNodeOnLoad = value;
+			return traceViewer;
+		}
 	}
 
 	public static class Findings_ExtensionMethods_ascx_SourceCodeViewer
@@ -511,9 +526,14 @@ namespace O2.XRules.Database.Findings
 		
 		public static ascx_TraceTreeView afterSelect_ShowTraceInCodeViewer(this ascx_TraceTreeView traceViewer , ascx_SourceCodeViewer codeViewer)
 		{
+			return traceViewer.afterSelect_ShowTraceInCodeEditor(codeViewer.editor());
+		}
+		
+		public static ascx_TraceTreeView afterSelect_ShowTraceInCodeEditor(this ascx_TraceTreeView traceViewer , ascx_SourceCodeEditor codeEditor)
+		{
 			traceViewer._onTraceSelected += 
 				(o2Trace)=>{
-								codeViewer.show(o2Trace);
+								codeEditor.show(o2Trace);
 								Application.DoEvents();
 								traceViewer.focus();
 						   };

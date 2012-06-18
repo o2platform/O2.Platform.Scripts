@@ -3,9 +3,11 @@ using System;
 using System.Text.RegularExpressions;
 using System.Web.UI;
 using System.Data.SqlClient;
+//O2Ref:System.Data.dll
 
 namespace O2.XRules.Database._Rules._Sample_Vulnerabilities
 {
+
     public class Web_Sql_Injection : Page
     {                   
         public SqlConnection sqlConnection { get; set; }
@@ -31,6 +33,7 @@ namespace O2.XRules.Database._Rules._Sample_Vulnerabilities
             	var sqlText = "Select name from users where customer = " + whereStatement;            
             	var command = new SqlCommand(sqlText, sqlConnection);		            	
             	command.ExecuteNonQuery();
+            	
             }
         }    	    	    	    	    
         
@@ -42,13 +45,14 @@ namespace O2.XRules.Database._Rules._Sample_Vulnerabilities
             var command = new SqlCommand(sqlText, sqlConnection);		
             command.Parameters.Add("@whereStatement",whereStatement);
             command.ExecuteNonQuery();
+            
         }    	  
         
         public void sink_ResponseWrite(string whereStatement)
         {                	
         	//Response.Write(AntiXss.HtmlEncode(whereStatement));
-        	//Response.Write(Server.HtmlDecode(whereStatement));        	
-        	Response.Write(whereStatement);
+        	Response.Write(Server.HtmlDecode(whereStatement));        	
+        	//Response.Write(whereStatement);
         }
         
         public static void Main()
