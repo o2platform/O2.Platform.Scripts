@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <H2>
   <SourceCode>"O2Logo.ico".local().icon().set_As_Default_Form_Icon();
-var topPanel = "OWASP O2 Platform v4.0 Beta".popupWindow(800,215);
-
+var topPanel = "OWASP O2 Platform v4.0 Beta".popupWindow(800,218);
 //var topPanel = panel.fill(false).width(800).height(190).clear().add_Panel();  
+
 topPanel.parent().backColor(Color.White);   
 topPanel.insert_LogViewer().white();
 topPanel.splitContainer().fixedPanel1(); 
@@ -67,7 +67,8 @@ Action&lt;string&gt; executeH2Script =
 menuPanel.add_ExecutionComboBox("Write Script:",15,0,scripting_Mappings).dropDownHeight(300);
 menuPanel.add_ExecutionComboBox("O2 Tools:",36,0,o2tools_Mappings).leftAdd(13).dropDownHeight(300);   
    
-menuPanel.add_Link("Find an O2 Script",57,69,()=&gt; executeH2Script("Util - O2 Available scripts.h2")); 
+menuPanel.add_Link("Find an O2 Script",57,69,()=&gt; executeH2Script("Util - O2 Available scripts.h2"))
+		 .append_Below_Link("Clear Scripts Cache",()=&gt;  { CompileEngine.CachedCompiledAssemblies.Clear(); "Script Compilation Cache cleard".debug();}); 
 
 menuPanel.add_ExecutionComboBox("Open O2 Gui for:",15,200, o2Guis_Mappings).leftAdd(-5).widthAdd(20).dropDownHeight(300); 
 menuPanel.add_ExecutionComboBox("3rd Party Tools:",36,200,otherTools_Mapping).widthAdd(20).dropDownHeight(300);
