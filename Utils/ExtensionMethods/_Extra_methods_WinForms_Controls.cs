@@ -737,12 +737,7 @@ namespace O2.XRules.Database.Utils
 		
 	// TreeView
 	public static class _Extra_extensionMethods_TreeView_TreeNode
-	{
-		public static TreeView collapse(this TreeView treeView)
-		{
-			treeView.rootNode().collapse();
-			return treeView;
-		}
+	{		
 		public static TreeNode collapse(this TreeNode treeNode)
 		{
 			return (TreeNode)treeNode.treeView().invokeOnThread(
