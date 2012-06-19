@@ -42,20 +42,13 @@ solutionFiles.afterSelect&lt;IDocument&gt;(
 				});
 
 												
-Action&lt;Assembly&gt; scanAssembly = 
-	(assembly)=&gt;{
-					var catNet = new API_CatNet().loadRules();					
-					"Assembly FullName: {0}".info(assembly.FullName);
-					var targetAssembly = assembly.Location;
-					"Scanning Assembly: {0}".info(targetAssembly); 
-					var reportFile = "_catNet_reports".tempDir(false)
-													  .pathCombine(targetAssembly.fileName() + ".xml");
-														//.pathCombine("report_{0}.xml".format(5.randomLetters()));
-					catNet.save_Report_To(reportFile);				        
+Action&lt;List&lt;Assembly&gt;&gt; scanAssemblies = 
+	(assembllies)=&gt;{
+					var catNet = new API_CatNet().loadRules();										
 					
 					"CatNet ready for scan".debug();												 
 					//catNet.scan_Assembly(assembly)
-					catNet.scan(assembly)
+					catNet.scan(assembllies)
 						  .show(scanResults.parent()); 					
 					scanResults.getResultsTreeView().nodes().first()
 												   .expand().nodes().first().selected();
@@ -70,17 +63,20 @@ Action compile =
 					"Compling Solution: {0}".info(solutionFile);
 					ISolution solution = workspace.CurrentSolution;
 					errorsList.clear();
-					foreach(var project in solution.Projects.Take(1))
+					var assembliesToScan = new List&lt;Assembly&gt;();
+					foreach(var project in solution.Projects)
 					{												
 						var assembly = project.compile_And_ReturnUniqueAssembly((errors)=&gt; errorsList.add_Nodes(errors));
 						if (assembly.notNull())						
-						scanAssembly(assembly);													
-					}						
+							assembliesToScan.add(assembly);
+					}											
 					errorsList.backColor(errorsList.nodes().size() &gt; 0 ? Color.LightPink : Color.Azure)
 							  .selectFirst()
 							  .focus()
 							  .parent&lt;GroupBox&gt;().set_Text("Compilation Errors: {0} : {1}".format(errorsList.nodes().size(), o2Timer.stop()));
 						//var assembly = compilation.create_Assembly();			
+					if (errorsList.nodes().size() == 0)
+						scanAssemblies(assembliesToScan);														
 					compilerAvailable = true;	
 				});
 	}; 

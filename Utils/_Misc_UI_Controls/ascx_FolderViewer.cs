@@ -34,24 +34,35 @@ namespace O2.XRules.Database.Utils
     {   
     	public string RootFolder { get; set; }
     	
-    	public TreeView FolderView { get; set; }
-    	
-    	
+    	public TreeView FolderView { get; set; }    	    	
     	public ascx_SourceCodeViewer CodeViewer { get; set; }
     	
-		public ascx_FolderView()
+    	public string 	Title_FolderView 	{ get; set; }
+    	public string 	Title_CodeEditor 	{ get; set; }
+    	public int		SplitterDistance	{ get; set; }
+    	
+		public ascx_FolderView() : this(true)
+		{
+		
+		}
+		public ascx_FolderView(bool buildGuiOnCtor)
     	{
     		this.Width = 300;
     		this.Height = 300;    		
-    		buildGui();
+    		Title_FolderView = "Folder and Files";
+    		Title_CodeEditor = "File Contents";
+    		SplitterDistance = 150;
+    		if (buildGuiOnCtor)
+    			buildGui();
     	}
  
  	
  
-    	public void buildGui()
+    	public ascx_FolderView buildGui()
     	{
-			CodeViewer = this.add_SourceCodeViewer();
-			FolderView = CodeViewer.insert_Left().add_TreeView();
+    		var topPanel = this.clear().add_Panel();
+			CodeViewer = topPanel.title(Title_CodeEditor).add_SourceCodeViewer();
+			FolderView = topPanel.insert_Left(SplitterDistance, Title_FolderView).add_TreeView();
 			
 			FolderView.afterSelect<string>(
 				(fileOrFolder)=>{
@@ -71,12 +82,21 @@ namespace O2.XRules.Database.Utils
 						.add_MenuItem("Open in Windows Explorer", 
 								()=> FolderView.selected().get_Tag().str().startProcess() );
 						
-			CodeViewer.set_Text("....select file on the left to view its contents here...");												
+			CodeViewer.set_Text("....select file on the left to view its contents here...");			 
+			return this;
 		}		
 		
 		public ascx_FolderView refresh()
 		{
 			this.loadFolder(RootFolder);
+			return this;
+		}
+		
+		public ascx_FolderView reloadSelectdNode()
+		{
+			var treeNode = this.FolderView.selected();
+			if (treeNode.notNull())
+				loadFolder(treeNode,(string)treeNode.Tag);
 			return this;
 		}
 		
@@ -93,7 +113,7 @@ namespace O2.XRules.Database.Utils
 					treeNode.add_Node(folder.fileName(), folder, folder.files().size() >0 || folder.folders().size()>0)
 							.color(Color.DarkOrange);
 				var files = path.files();
-				treeNode.add_Nodes(files, (file)=> file.fileName());
+				treeNode.add_Nodes(files, (file)=> file.fileName(), (file)=>file, (file)=>false,(file)=>Color.DarkBlue);
 			}
 			return this;
 		}
@@ -116,18 +136,19 @@ namespace O2.XRules.Database.Utils
 				return folderView.loadFolder(path);			
 			return folderView;
 		}
+				
 		
-		public static ascx_FolderView add_FolderViewer<T>(this T control)
+		public static ascx_FolderView add_FolderViewer<T>(this T control, string path = null, bool buildGuiOnCtor = true)
 			where T: Control
-		{
-			return control.add_FolderViewer(null);
-		}
-		
-		public static ascx_FolderView add_FolderViewer<T>(this T control, string path)
-			where T: Control
-		{
-			control.clear();
-			return control.add_Control<ascx_FolderView>().open(path);
+		{			
+			return (ascx_FolderView)control.clear().invokeOnThread(
+				()=>{
+						var folderViewer = new ascx_FolderView(buildGuiOnCtor)
+													.fill();
+						control.add_Control(folderViewer);
+						folderViewer.open(path);
+						return folderViewer;
+					});
 		}
 		
 		public static string virtualPath(this ascx_FolderView folderView, string path)

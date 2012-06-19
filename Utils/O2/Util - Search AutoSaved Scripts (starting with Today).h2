@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//original version
+/*var topPanel = "Util - Search AutoSaved Scripts (starting with Today)".popupWindow(800, 300);
+var autoSaveDir = PublicDI.config.AutoSavedScripts;
+var sourceViewer = topPanel.title("Content").add_SourceCodeViewer();
+var directory = topPanel.insert_Left(200,"Files").add_Directory();
+directory.afterFileSelect((file) =&gt; sourceViewer.open(file));
+directory.open(autoSaveDir);*/
+
+
+var topPanel = "Util - Search AutoSaved Scripts (starting with Today)".popupWindow(1000, 500);
+//var topPanel = panel.add_Panel(true);
+
+var autoSaveDir = PublicDI.config.AutoSavedScripts;  
+var folderViewer = topPanel.add_FolderViewer(autoSaveDir, false);  
+folderViewer.Title_FolderView = "Files";
+folderViewer.Title_CodeEditor = "Saved File Contents"; 
+folderViewer.SplitterDistance = 200;
+folderViewer.buildGui();			
+var slider = folderViewer.CodeViewer.insert_Above_Slider();		
+slider.onSlide&lt;TreeNode&gt;((node)=&gt;node.selected());//.onSlide((value)=&gt; value.info());	
+
+Action&lt;List&lt;TreeNode&gt;&gt; loadSlider = 
+	(nodes)=&gt;{
+				slider.set_Data(nodes);
+			 };
+
+folderViewer.FolderView.afterSelect(
+	(treeNode)=&gt;{
+					if (treeNode.nodes().size()==1 )
+						folderViewer.reloadSelectdNode();
+					var clildNodes = treeNode.nodes();
+					if(clildNodes.size() &gt; 0)
+						loadSlider(clildNodes);
+				});
+
+Action openTodaysFolder = 
+	()=&gt;{		   
+			folderViewer.open(autoSaveDir);
+			folderViewer.FolderView.selectFirst().focus();			
+			var nodes = folderViewer.FolderView.nodes();
+			loadSlider(nodes);
+		};
+		
+Action openAllDays =  
+	()=&gt;{ 
+			folderViewer.open(autoSaveDir.directoryName());
+			folderViewer.FolderView.selectFirst().focus();
+			var nodes = folderViewer.FolderView.allNodes();
+			slider.set_Data(nodes);
+		};		
+
+folderViewer.FolderView.insert_Below(20) 
+			.add_Link("Open Today's Files", ()=&gt; openTodaysFolder())
+			.append_Link("Open all Days" , ()=&gt; openAllDays());
+
+openTodaysFolder();
+//openAllDays();
+
+return "ok" ; 
+
+//O2File:ascx_FolderViewer.cs  
+//O2File:_Extra_methods_WinForms_Controls.cs
+//O2Tag_DontAddExtraO2Files</SourceCode>
+  <ReferencedAssemblies />
+</H2>

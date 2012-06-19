@@ -33,6 +33,10 @@ Action compile =
 								  .selectFirst()
 								  .focus()
 								  .parent&lt;GroupBox&gt;().set_Text("# of Errors: {0} : {1}".format(errors.size(), time));
+						if (errors.size() &gt; 0)
+						{
+							errors.asString().toClipboard();
+						}
 						//var assembly = compilation.create_Assembly();			
 					});
 		};

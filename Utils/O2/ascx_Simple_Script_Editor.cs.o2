@@ -67,25 +67,26 @@ namespace O2.XRules.Database.Utils
 		public RichTextBox result_RichTextBox 			{ get; set;}
 		public Panel result_Panel						{ get; set;}
 		public Button executeButton 					{ get; set;}
-		public TextBox currentScriptPath 				{ get; set;}
+		//public TextBox currentScriptPath 				{ get; set;}
 		public ToolStrip ToolStrip	 					{ get; set; } 		
 		//public SplitContainer topLevelSplitContainer {get ; set;}
         public SplitContainer splitContainer_CommandBox { get; set;}
         public SplitContainer splitContainer_TopLevel 	{ get; set;}
         public SplitContainer splitContainer_Results 	{ get; set; }
 		public bool			  AddToolStrip		    	{ get; set; }
+		
 	
-		public CSharp_FastCompiler csharpCompiler {get ; set;}
-		public string GeneratedCode {get ; set;}
-		public Dictionary<string, object> InvocationParameters {get ; set;}
+		public CSharp_FastCompiler 			csharpCompiler 					{get ; set;}
+		public string 						GeneratedCode 					{get ; set;}
+		public Dictionary<string, object> 	InvocationParameters 			{get ; set;}
+		//public bool 		  				ResolveInvocationParametersType { get; set; }
         public bool AutoCompileOnCodeChange { get; set; }
         public bool AutoSaveOnCompileSuccess { get; set; }        
         public string AutoSaveDir { get; set; }
 		public int width = 300;
 		public int height = 300;
         public bool ExecuteOnEnter 				{ get; set; }        
-        public bool ExecuteOnCompile		 	{ get; set; }      
-        public object ReturnData 				{ get; set; }
+        public bool ExecuteOnCompile		 	{ get; set; }              
 		public MethodInvoker onCompilationOk 	{get ;set;}
         public string previousCompiledCodeText  { get; set; }
 		public Thread TriggerCompilationThread  { get; set; }	
@@ -130,8 +131,7 @@ namespace O2.XRules.Database.Utils
             this.Width = width;
             this.Height = height;
             previousCompiledCodeText = "";
-    		InvocationParameters = new Dictionary<string, object>();
-            InvocationParameters.Add("returnData", ReturnData); // add the (previous script) execute return data 
+    		InvocationParameters = new Dictionary<string, object>();            
             AutoCompileOnCodeChange = true;
             AutoSaveOnCompileSuccess = true; //  false;  // for now default to true
             AutoSaveDir = PublicDI.config.AutoSavedScripts;
@@ -238,7 +238,7 @@ namespace O2.XRules.Database.Utils
                        .add_MenuItem("force compilation", (menuitem) => forceCompilation())
                        .add_MenuItem("replace with generated source code", (menuitem) => replaceMainCodeWithGeneratedSource())
                        .add_MenuItem("show/hide generated source code", (menuitem) => swapGeneratedCodeViewMode())
-                       .add_MenuItem("-------------------------------")
+                       .add_MenuItem("-------------------------------")                       
                        .add_MenuItem("clear AssembliesCheckedIfExists list", (menuitem) => O2GitHub.clear_AssembliesCheckedIfExists())                       
                        .add_MenuItem("clear CachedCompiledAssemblies list", (menuitem) => CompileEngine.CachedCompiledAssemblies.Clear())                       
                        .add_MenuItem("clear LocalScriptFileMappings list", (menuitem) => CompileEngine.clearLocalScriptFileMappings())
@@ -257,10 +257,12 @@ namespace O2.XRules.Database.Utils
             contextMenu.add_MenuItem("code complete")                       
                        .add_MenuItem("enable Code Complete", (menuitem) => commandsToExecute.enableCodeComplete())
                        .add_MenuItem("enable /disabled 'Only Show Code Complete Results From O2 Namespace'", (menuitem) => enableDisableFullCodeComplete());
-            contextMenu.add_MenuItem("code snippets (helper)")
-            		   .add_MenuItem("when compiling: remove all auto references to O2 scripts and dlls (same as next two options)", (menuitem) => insertCodeSnipptet(menuitem.Text))
-            		   .add_MenuItem("when compiling: don't include extra cs file (with extension methods)", (menuitem) => insertCodeSnipptet(menuitem.Text))
-            		   .add_MenuItem("when compiling, only add referenced assemblies", (menuitem) => insertCodeSnipptet(menuitem.Text))
+            contextMenu.add_MenuItem("code snippets (helper)")            
+            		   .add_MenuItem("when compiling: Dont use Cached Assembly if available", 											(menuitem) => insertCodeSnipptet(menuitem.Text))
+            		   .add_MenuItem("when compiling: remove all auto references to O2 scripts and dlls (same as next two options)", 	(menuitem) => insertCodeSnipptet(menuitem.Text))
+            		   .add_MenuItem("when compiling: don't include extra cs file (with extension methods)", 							(menuitem) => insertCodeSnipptet(menuitem.Text))
+            		   .add_MenuItem("when compiling, only add referenced assemblies", 													(menuitem) => insertCodeSnipptet(menuitem.Text))
+            		   .add_MenuItem("when compiling, set InvocationParameters to dynamic", 											(menuitem) => insertCodeSnipptet(menuitem.Text))            		   
                        .add_MenuItem("generate debug symbols (and create temp assembly)", (menuitem) => insertCodeSnipptet(menuitem.Text))                       
                        .add_MenuItem("add using statement", (menuitem) => insertCodeSnipptet(menuitem.Text))
                        .add_MenuItem("add additional source code (when compile)", (menuitem) => insertCodeSnipptet(menuitem.Text))
@@ -268,18 +270,22 @@ namespace O2.XRules.Database.Utils
                        .add_MenuItem("run in STA thread (when invoke)", (menuitem) => insertCodeSnipptet(menuitem.Text))
                        .add_MenuItem("run in MTA thread (when invoke)", (menuitem) => insertCodeSnipptet(menuitem.Text))
                        .add_MenuItem("clear 'AssembliesCheckedIfExists' cache", (menuitem) => insertCodeSnipptet(menuitem.Text));
-
+            contextMenu.add_MenuItem("Utils")             
+					   .add_MenuItem("Script this Script", (menuitem) => scriptTheCurrentScript());
             contextMenu.add_MenuItem("show Log Viewer", (menuitem) => showLogViewer());
             
-
-     	}     	
+		}
+     	
 
         public void insertCodeSnipptet(string snippetToInsert)
         {
             switch (snippetToInsert)
-            {
+            {            	
                 case "generate debug symbols (and create temp assembly)":
                     commandsToExecute.insert_Text("".line() + "//generateDebugSymbols".line()); 
+                    break;
+                case "when compiling: Dont use Cached Assembly if available":
+                    commandsToExecute.insert_Text("".line() + "//O2Tag_DontUseCachedAssemblyIfAvailable".line());                        
                     break;
                 case "when compiling: remove all auto references to O2 scripts and dlls (same as next two options)":
                     commandsToExecute.insert_Text("".line() + "//O2Tag_CleanCompilation".line());
@@ -290,6 +296,9 @@ namespace O2.XRules.Database.Utils
                 case "when compiling, only add referenced assemblies":
                     commandsToExecute.insert_Text("".line() + "//O2Tag_OnlyAddReferencedAssemblies".line());
                     break;
+                case "when compiling, set InvocationParameters to dynamic":
+                   commandsToExecute.insert_Text("".line() + "//O2Tag_SetInvocationParametersToDynamic".line());
+                   break;                   
                 case "add using statement":
                     commandsToExecute.insert_Text("".line() + "//using:".line());
                     break;
@@ -415,7 +424,7 @@ namespace O2.XRules.Database.Utils
                             this.commandsToExecute.editor().o2CodeCompletion.addReferences(csharpCompiler.ReferencedAssemblies);                         
 
 						add_ExtraMethodsFile();									// restore previous mappings here
-						
+						 
 						//register cacheAssmbly
 						var codeMd5 = previousCompiledCodeText.md5Hash();
 						CompileEngine.CachedCompiledAssemblies.add(codeMd5, this.csharpCompiler.CompiledAssembly.Location);
@@ -439,7 +448,12 @@ namespace O2.XRules.Database.Utils
 		 		add_No_ExtraMethodsFile();
 		 	else
 		 		add_ExtraMethodsFile();
+		 		
+		 	this.csharpCompiler.ResolveInvocationParametersType  = codeToCompile.contains("//O2Tag_SetInvocationParametersToDynamic")
+																			   .isFalse();
 			
+			this.csharpCompiler.UseCachedAssemblyIfAvailable 	 = codeToCompile.contains("//O2Tag_DontUseCachedAssemblyIfAvailable")
+																			.isFalse();
 			return codeToCompile;			
 		}
 		
@@ -473,6 +487,7 @@ namespace O2.XRules.Database.Utils
 						}						 
 					});								
 		}
+				
 		
         public void onTextChanged(string newText)
         {
@@ -482,9 +497,10 @@ namespace O2.XRules.Database.Utils
             }
         }
 		
-        public void compile()
+        public ascx_Simple_Script_Editor compile()
         {        	
             compileCodeSnippet(currentCode());
+            return this;
         }
 		
 		public string currentCode()
@@ -547,17 +563,7 @@ namespace O2.XRules.Database.Utils
 
         public void showAutoSavedScripts()
         {
-            O2Thread.mtaThread(
-                () =>
-                {
-                    var panel2 = O2Gui.open<Panel>("Search AutoSaved Scripts", 800, 300);
-                    var autoSaveDir = PublicDI.config.AutoSavedScripts;
-                    var controls = panel2.add_1x1("Files", "Content", true, 200);
-                    var sourceViewer = controls[1].add_SourceCodeViewer();
-                    var directory = controls[0].add_Directory();
-                    directory.afterFileSelect((file) => sourceViewer.open(file));
-                    directory.open(autoSaveDir);
-                });
+        	"Util - Search AutoSaved Scripts (starting with Today).h2".local().executeH2Script();
         }
 
         public bool handleKeyEventHandler(char key)
@@ -622,9 +628,7 @@ namespace O2.XRules.Database.Utils
 		}
      	
      	public void showResult(object result)
-     	{
-            ReturnData = result;
-            csharpCompiler.InvocationParameters["returnData"] = ReturnData;
+     	{            
      		result_RichTextBox.visible(false);
      		result_Panel.visible(false);
             result_Panel.clear();
@@ -694,13 +698,17 @@ namespace O2.XRules.Database.Utils
                 this.invokeOnThread(
                     () =>
                     {
-                        var defaultH2ScriptFolder = @"C:\O2\_XRules_Local\H2Scripts";
+                        //var defaultH2ScriptFolder = @"C:\O2\_XRules_Local\H2Scripts";
+                        var defaultH2ScriptFolder = currentSourceCodeFilePath().valid()
+                        								? currentSourceCodeFilePath().directoryName()
+                        								: PublicDI.config.O2TempDir.pathCombine("..");
                         Files.checkIfDirectoryExistsAndCreateIfNot(defaultH2ScriptFolder);
                         var targetFile = O2Forms.askUserForFileToSave(defaultH2ScriptFolder, ".h2");
                         if (targetFile.valid())
                         {
                             var h2Script = new H2(currentCode());
                             h2Script.save(targetFile);
+                            commandsToExecute.open(targetFile);
                         }
                         "target: {0}".info(targetFile);
                     });
@@ -754,10 +762,10 @@ namespace O2.XRules.Database.Utils
      		}
      	}        
      	
-     	public string set_Script(string script)
+     	public ascx_Simple_Script_Editor set_Script(string script)
      	{
      		this.Code = script;
-     		return script;
+     		return this;
      	}
      	
      	public void searchInText(string text)
@@ -766,6 +774,32 @@ namespace O2.XRules.Database.Utils
      	}
      	
      	
+     	public void scriptTheCurrentScript()
+     	{
+     		var topPanel = "PoC - Script the Script".popupWindow(700,400);
+			
+			var scriptHost = topPanel.title("Script").add_Script(false);
+			scriptHost.onCompileExecuteOnce();
+			scriptHost.InvocationParameters.add("script", this);
+			var code = @"
+var _script = (script as object).castViaTypeConfusion<ascx_Simple_Script_Editor>();
+//_script.execute();
+return _script.Code;
+
+  
+//O2Tag_SetInvocationParametersToDynamic
+//O2Tag_DontUseCachedAssemblyIfAvailable
+//O2Tag_DontAddExtraO2Files
+//O2File:ascx_Simple_Script_Editor.cs.o2
+//O2File:_Extra_methods_TypeConfusion.cs
+			".trim();
+			
+			scriptHost.set_Script(code);
+			  
+			scriptHost//.compile()
+				      .execute();
+
+     	}
      	
      	// New Roslyn based methods:
      	

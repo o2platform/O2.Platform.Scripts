@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.clear().add_Panel();
+var topPanel = "PoC - Script the Script".popupWindow(1200,400);
+
+var script = topPanel.insert_Left("Script to Script").add_Script(false); 
+script.Code = "return 42;";
+
+var scriptHost = topPanel.title("original Script").add_Script(false);
+scriptHost.onCompileExecuteOnce();
+scriptHost.InvocationParameters.add("script", script);
+var code = @"
+var _script = (script as object).castViaTypeConfusion&lt;ascx_Simple_Script_Editor&gt;();
+_script.execute();
+return _script.Code;
+
+  
+//O2Tag_SetInvocationParameters"+@"ToDynamic
+//O2Tag_DontUseCachedAssemblyIfAvailable
+//O2Tag_DontAddExtraO2Files
+//O2File:ascx_Simple_Script_Editor.cs.o2
+//O2File:_Extra_methods_TypeConfusion.cs
+".trim();
+
+scriptHost.set_Script(code);</SourceCode>
+  <ReferencedAssemblies />
+</H2>

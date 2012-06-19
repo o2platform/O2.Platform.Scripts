@@ -1,9 +1,8 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>var topPanel = panel.clear().add_Panel();
-/*var topPanel = "Tool - Cat.Net outside VisualStudio".popupWindow(1000, 600)
-												    .insert_LogViewer();
-*/    
+  <SourceCode>//var topPanel = panel.clear().add_Panel();
+var topPanel = "Tool - Cat.Net outside VisualStudio".popupWindow(1000, 600)
+												    .insert_LogViewer();    
 var vsConnect = new VsConnect();		
 var summaryView = topPanel.clear().add_Control&lt;SummaryView&gt;();
 var lvSummary = (ListView)summaryView.field("_lvSummary");
@@ -160,7 +159,7 @@ _tsActions.clearItems()
 		  .add_Button("View loaded report xml" 			, "_btGeneralSettings" ,viewReportXml);  
 			
 
-summaryView.onDrop(handleDrop);
+summaryView.onDrop((file)=&gt;O2Thread.mtaThread(()=&gt;handleDrop(file)));
 
 
 //var target = @"E:\_Tests\Demos_Files\SuperSecureBank\SecurityInnovation-SuperSecureBank-938fde3\SuperSecureBank.sln";

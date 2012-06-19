@@ -24,7 +24,7 @@ using System.ComponentModel;
 
 namespace O2.XRules.Database.Utils
 {	
-	public static class _Extrs_ExtensionMethods_Type
+	public static class _Extra_ExtensionMethods_ComponentResourceManager
 	{
 		public static ComponentResourceManager componentResourceManager(this Control control)			
 		{
@@ -144,7 +144,73 @@ namespace O2.XRules.Database.Utils
 		
 	}
 	
+	public static class _Extra_extensionMethods_Panel
+	{
+		public static Panel add_Panel(this Control control, bool clear)
+		{
+			if (clear)
+				control.clear();
+			return control.add_Panel();			
+		}
+	}
 	
+	public static class _Extra_extensionMethods_TrackBar
+	{
+		public static TrackBar insert_Above_Slider(this Control control)
+		{					
+			return control.insert_Above(20).add_TrackBar();
+		}
+		
+		public static TrackBar add_Slider(this Control control)
+		{
+			return control.add_TrackBar();
+		}
+		public static TrackBar add_TrackBar(this Control control)
+		{
+			return control.add_Control<TrackBar>();  
+		}
+		
+		public static TrackBar maximum(this TrackBar trackBar, int value)
+		{
+			return (TrackBar)trackBar.invokeOnThread(
+				()=>{
+						trackBar.Maximum = value;
+						return trackBar;
+					});
+		}
+		
+		public static TrackBar set_Data<T>(this TrackBar trackBar, List<T> data)
+		{
+			trackBar.Tag = data;  
+			trackBar.maximum(data.size());
+			return trackBar;
+		}
+		public static TrackBar onSlide<T>(this TrackBar trackBar, Action<T> onSlide)
+		{
+			return trackBar.onSlide((index)=>
+				{
+					var tag = trackBar.Tag;
+					if (tag is List<T>)
+					{
+						var items = (List<T>)tag;
+						if (index > items.size())
+							"[TrackBar][onSlide] provided index is bigger that items list".error();
+						else
+							onSlide(items[index]);
+					}					
+				});				
+		}
+		
+		public static TrackBar onSlide(this TrackBar trackBar, Action<int> onSlideCallback)
+		{
+			return (TrackBar)trackBar.invokeOnThread(
+				()=>{
+						trackBar.Scroll+= (sender,e) => onSlideCallback(trackBar.Value);
+						return trackBar;
+					});
+		}
+		
+	}
 
 	public static class _Extra_extensionMethods_MDIForms
 	{
@@ -666,5 +732,30 @@ namespace O2.XRules.Database.Utils
 						return listView;
 					});	
 		}
-	}			
+	}	
+				
+		
+	// TreeView
+	public static class _Extra_extensionMethods_TreeView_TreeNode
+	{
+		public static TreeView collapse(this TreeView treeView)
+		{
+			treeView.rootNode().collapse();
+			return treeView;
+		}
+		public static TreeNode collapse(this TreeNode treeNode)
+		{
+			return (TreeNode)treeNode.treeView().invokeOnThread(
+				()=>{				
+						treeNode.Collapse();
+						return treeNode;
+					});			
+		}
+		
+		public static TreeNode expandAndCollapse(this TreeNode treeNode)
+		{
+			return treeNode.expand().collapse();
+		}
+	}	
+		
 }    	

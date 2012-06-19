@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <H2>
   <SourceCode>//var topPanel = panel.clear().add_Panel();  
-var topPanel= "Util - O2 Available scripts".popupWindow(300,300); 
+var topPanel= "Util - O2 Available scripts".popupWindow(270,270); 
 var treeView = topPanel.add_TreeView();  
 var optionsPanel = treeView.insert_Below(65);
 var filterText = optionsPanel.add_TextBox("filter","");
