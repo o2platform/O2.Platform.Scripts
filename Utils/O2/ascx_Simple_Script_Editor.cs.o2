@@ -34,7 +34,7 @@ using Roslyn.Compilers;
 using Roslyn.Compilers.CSharp;
 
 //O2Ref:O2_API_AST.dll
-//O2Ref:O2SharpDevelop.dll
+//O2Ref:O2SharpDevelop.dll 
 
 //O2Ref:O2_FluentSharp_Roslyn.dll
 //O2Ref:Roslyn.Compilers.CSharp.dll
@@ -787,11 +787,11 @@ var _script = (script as object).castViaTypeConfusion<ascx_Simple_Script_Editor>
 return _script.Code;
 
   
-//O2Tag_SetInvocationParametersToDynamic
-//O2Tag_DontUseCachedAssemblyIfAvailable
-//O2Tag_DontAddExtraO2Files
-//O2File:ascx_Simple_Script_Editor.cs.o2
-//O2File:_Extra_methods_TypeConfusion.cs
+//O2" + @"Tag_SetInvocationParametersToDynamic
+//O2" + @"Tag_DontUseCachedAssemblyIfAvailable
+//O2" + @"Tag_DontAddExtraO2Files
+//O2" + @"File:ascx_Simple_Script_Editor.cs.o2
+//O2" + @"File:_Extra_methods_TypeConfusion.cs
 			".trim();
 			
 			scriptHost.set_Script(code);
