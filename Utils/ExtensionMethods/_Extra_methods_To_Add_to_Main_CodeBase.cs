@@ -56,13 +56,14 @@ using Ionic.Zip;
 //O2File:_Extra_methods_Files.cs
 //O2File:_Extra_methods_ObjectDetails.cs
 //O2File:_Extra_methods_Reflection.cs
-//O2File:_Extra_methods_TypeConfusion.cs
+
 //O2File:_Extra_methods_Windows.cs
 //O2File:_Extra_methods_WinForms_Controls.cs
 //O2File:_Extra_methods_WinForms_TableList.cs
 //O2File:_Extra_methods_Web.cs
 //O2File:_Extra_methods_XmlLinq.cs
 
+//_O2File:_Extra_methods_TypeConfusion.cs
 
 //_O2File:_Extra_methods_Collections.cs
 //_O2File:_Extra_methods_Misc.cs
