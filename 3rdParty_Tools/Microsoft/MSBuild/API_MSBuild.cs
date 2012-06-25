@@ -12,13 +12,6 @@ using O2.DotNetWrappers.DotNet;
 using O2.DotNetWrappers.ExtensionMethods;
 using O2.XRules.Database.Utils;
 
-//O2File:_Extra_methods_Misc.cs
-//O2File:_Extra_methods_Windows.cs
-//O2File:_Extra_methods_WinForms_Controls.cs
-//O2File:_Extra_methods_WinForms_TextBox.cs
-//O2File:_Extra_methods_WinForms_Misc.cs
-//O2File:_Extra_methods_WinForms_TableList.cs
-
 namespace O2.XRules.Database.APIs
 {	
 	public class API_MSBuild_Test
@@ -38,6 +31,7 @@ namespace O2.XRules.Database.APIs
 		
 		public Action<string> 	OnConsoleOut 		{ get; set; }
 		public string 			CompilationTarget 	{ get; set; }
+		public string 			ExtraBuildArguments { get; set; }
 		public Process 			MSBuild_Process 	{ get; set; }
 		public StringBuilder 	ConsoleOut 			{ get; set; }
 		public bool			 	LogConsoleOut 		{ get; set; }
@@ -86,7 +80,7 @@ namespace O2.XRules.Database.APIs
 			msBuild.CompilationTarget = compilationTarget;
 			if (compilationTarget.fileExists())
 			{
-				var arguments = "\"{0}\"".format(msBuild.CompilationTarget);
+				var arguments = "\"{0}\" {1}".format(msBuild.CompilationTarget, msBuild.ExtraBuildArguments);
 				msBuild.ConsoleOut 				= new StringBuilder();					
 				msBuild.BuildStartTime 			= DateTime.Now;								
 				msBuild.MSBuild_Process 		= msBuild.MSBuild_Exe.startProcess(arguments, msBuild.OnConsoleOut);

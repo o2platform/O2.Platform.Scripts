@@ -29,7 +29,11 @@ namespace O2.XRules.Database.Utils
 			return assemblyName.assembly().referencedAssemblies();
 		}
 		
-		 public static List<AssemblyName> referencedAssemblies(this Assembly assembly, bool recursiveSearch, bool removeGacEntries = true)
+		public static List<AssemblyName> referencedAssemblies(this Assembly assembly, bool recursiveSearch)
+		{
+			return assembly.referencedAssemblies(recursiveSearch, true);
+		}
+		 public static List<AssemblyName> referencedAssemblies(this Assembly assembly, bool recursiveSearch, bool removeGacEntries)
 		{			
 			var mappedReferences = new List<string>();
 			var resolvedAssemblies = new List<AssemblyName>();

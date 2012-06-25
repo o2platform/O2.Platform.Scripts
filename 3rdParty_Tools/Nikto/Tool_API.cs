@@ -62,13 +62,21 @@ namespace O2.XRules.Database.APIs
 				Install_File = Install_Uri.Segments.Last();	
     	}
     	
-    	public void config(string toolName, Uri installUri, string pathToExecutable=null)
+    	public void config(string toolName, Uri installUri)
+    	{
+    		config(toolName,installUri,null);
+    	}
+    	public void config(string toolName, Uri installUri, string pathToExecutable)
     	{
     		var installFile = installUri.AbsolutePath.split("/").last();
     		config(toolName, installFile, installUri ,pathToExecutable);
     	}
     	
-    	public void config(string toolName, string installFile,  Uri installUri, string pathToExecutable = null)
+    	public void config(string toolName, string installFile,  Uri installUri_)
+    	{
+    		config(	toolName,installFile,installUri_);
+    	}
+    	public void config(string toolName, string installFile,  Uri installUri, string pathToExecutable)
     	{
     		ToolName = toolName;
     		Install_Dir = ToolsDir.pathCombine(toolName);    		
@@ -80,7 +88,17 @@ namespace O2.XRules.Database.APIs
     	
     	}
     	
-    	public void config(string toolName, string version = null, string installFile = null)
+    	public void config(string toolName)
+    	{
+    		config(toolName,default(string),default(string));
+    	}
+    	
+    	public void config(string toolName, string version)
+    	{
+    		config(toolName,version, default(string));
+    	}
+    	
+    	public void config(string toolName, string version, string installFile)
     	{
     		ToolName = toolName;
     		Version = version;
@@ -293,15 +311,16 @@ namespace O2.XRules.Database.APIs
 			{
              	for(int i =0 ; i< 5; i++) // try to get the file 5 times since sometimes the file is still not available (due to AV)
              	{
-	            
+					this.sleep(1000);	            
 	            	"Copying file: {0}".info(targetFile);
-	            	Files.Copy(downloadedFile, targetFile);
-	            	"Deleting file: {0}".info(downloadedFile);
-	            	Files.deleteFile(downloadedFile);                	
+	            	if (Files.Copy(downloadedFile, targetFile).valid())
+	            	{
+	            		"Deleting file: {0}".info(downloadedFile);
+	            		Files.deleteFile(downloadedFile);                	
+	            	}
 	            	if (targetFile.fileExists())
 	            		return targetFile;	            	
-	            	
-	            	this.sleep(1000);
+	            		            	
 	            }	            
 	         };
             return null;            

@@ -49,7 +49,12 @@ namespace O2.Script
     		}	
     	}
     	
-    	public static Assembly loadAssembly(string path, bool fromGac = true)
+    	public static Assembly loadAssembly(string path)
+    	{
+    		return loadAssembly(path, true);
+    	}
+    	
+    	public static Assembly loadAssembly(string path, bool fromGac)
     	{
 //    		info("Loading assembly " + path);			
     		try

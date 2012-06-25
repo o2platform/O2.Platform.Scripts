@@ -8,6 +8,8 @@ using O2.DotNetWrappers.Windows;
 using O2.XRules.Database.Utils;
 using O2.External.SharpDevelop.ExtensionMethods;
 using System.Runtime.InteropServices;
+//O2File:API_CLR.cs
+
 namespace O2.XRules.Database.APIs
 {
 	public class API_O2_Injector
@@ -18,7 +20,13 @@ namespace O2.XRules.Database.APIs
 			injectIntoProcess(process.Id, false);
 			return true;
 		}
-		public bool injectIntoProcess(int processId, bool x64 = false)
+		 
+		public bool injectIntoProcess(int processId)
+		{
+			return injectIntoProcess(processId, false);
+		}
+		 
+		public bool injectIntoProcess(int processId, bool x64)
 		{
 		 	var codeFile = "Injected_Dll.cs".local();
 		 	var fixedCourceCode = codeFile.fileContents()	//ensure that we are pointing to the current locations of O2 folders
@@ -38,15 +46,17 @@ namespace O2.XRules.Database.APIs
 		public bool injectIntoProcess(int processId, bool x64, string assemblyToInject, string className, string methodName)
 		{		
 			try
-			{
-				var suffix = (x64) ? "64-4.0" : "32-4.0";
-				"Injecting into process {0} dll {1}".info(processId, assemblyToInject);
+			{								
+				"Injecting into process {0} dll {1}".info(processId, assemblyToInject);				
 				var process = Processes.getProcess(processId);
 				if (process.isNull())
 				{
 					"Could not find process with Id: {0}".error(processId);
 					return false;
 				}
+				
+				var suffix = (x64) ? "64-" : "32-";
+				suffix += (process).isRuntime_V4() ? "4.0" : "3.5";
 				//var process = Processes.getProcess(12168);
 				var hwnd = process.MainWindowHandle;
 //				var hwnd = process.Handle;

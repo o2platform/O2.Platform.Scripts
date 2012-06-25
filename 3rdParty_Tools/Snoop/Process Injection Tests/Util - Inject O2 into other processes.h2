@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>//var topPanel = panel.clear().add_Panel();
+  <SourceCode>//var topPanel = panel.clear().add_Panel(); 
 var topPanel = "Util - Inject O2 into Other processes".popupWindow(600,600); 
-topPanel.insert_LogViewer(); 
+topPanel.insert_LogViewer();  
 var actionsPanel = topPanel.insert_Above(40,"Actions"); 
 var processesTreeView	 = topPanel.title("Current Processes (with MainWindowHandle != 0)").add_TreeView_with_PropertyGrid().sort();
 var modulesTreeView 	 = topPanel.insert_Right("Selected Process Modules List").add_TreeView_with_PropertyGrid().sort();
@@ -11,7 +11,7 @@ modulesTreeView.splitContainer().splitterDistance(300);
 Process selectedProcess = null;
  
 processesTreeView.afterSelect&lt;Process&gt;( 
-	(process)=&gt; {		 
+	(process)=&gt; {		     
 					selectedProcess = process;
 					modulesTreeView.clear();
 					modulesTreeView.parent&lt;GroupBox&gt;().set_Text("Showing Modules for process: {0} (id: {1})".format(process.ProcessName, process.Id));
@@ -39,7 +39,7 @@ Action refreshProcessList =
 Action refreshProcessList_in_1Second = 
 	()=&gt;{
 			this.sleep(1000);
-			refreshProcessList();
+			refreshProcessList(); 
 		};
 Action injectO2IntoProcess = 
 	()=&gt;{			

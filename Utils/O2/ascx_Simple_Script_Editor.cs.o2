@@ -30,15 +30,15 @@ using O2.Views.ASCX.CoreControls;
 using O2.API.AST.ExtensionMethods.CSharp;
 using  O2.XRules.Database.APIs;
 
-using Roslyn.Compilers;
-using Roslyn.Compilers.CSharp;
+//using Roslyn.Compilers;
+//using Roslyn.Compilers.CSharp;
 
 //O2Ref:O2_API_AST.dll
 //O2Ref:O2SharpDevelop.dll 
 
-//O2Ref:O2_FluentSharp_Roslyn.dll
-//O2Ref:Roslyn.Compilers.CSharp.dll
-//O2Ref:Roslyn.Compilers.dll
+//_O2Ref:O2_FluentSharp_Roslyn.dll
+//_O2Ref:Roslyn.Compilers.CSharp.dll
+//_O2Ref:Roslyn.Compilers.dll
 
 //O2Ref:log4net.dll
 
@@ -271,7 +271,9 @@ namespace O2.XRules.Database.Utils
                        .add_MenuItem("run in MTA thread (when invoke)", (menuitem) => insertCodeSnipptet(menuitem.Text))
                        .add_MenuItem("clear 'AssembliesCheckedIfExists' cache", (menuitem) => insertCodeSnipptet(menuitem.Text));
             contextMenu.add_MenuItem("Utils")             
-					   .add_MenuItem("Script this Script", (menuitem) => scriptTheCurrentScript());
+					   .add_MenuItem("Script this Script", (menuitem) => scriptTheCurrentScript())
+					   .add_MenuItem("Open Find Scripts GUI", ()=> "Util - O2 Available scripts.h2".local().executeH2Script())
+					   .add_MenuItem("Open Main O2 GUI", ()=> "Simple O2 Gui.h2".local().executeH2Script());
             contextMenu.add_MenuItem("show Log Viewer", (menuitem) => showLogViewer());
             
 		}
@@ -330,7 +332,7 @@ namespace O2.XRules.Database.Utils
         	try
         	{
 	        	ToolStrip.add_Button("open"	 	,()=> { this.commandsToExecute.editor().openFile();}).with_Icon_Open() 
-					     .add_Button("save as"	,()=> { this.saveAsScript();}).with_Icon_Save()					     
+					     .add_Button("save as"	,()=> { this.saveAsScript();}).with_Icon_Save()			     
 		 		 	     .add_Label ("search:").add_TextBox("").onEnter(searchInText)
 					     ;
 			}
@@ -806,7 +808,7 @@ return _script.Code;
 
      	public void showAstErrorsUsingRoslyn()
      	{     			     		
-     		var parserOptions =  ParseOptions.Default.WithKind(SourceCodeKind.Script);
+/*     		var parserOptions =  ParseOptions.Default.WithKind(SourceCodeKind.Script);
      		var astTree = SyntaxTree.ParseCompilationUnit(this.Code, "",parserOptions);
      		this.result_RichTextBox.append_Text(astTree.errors_Details());
      		
@@ -819,6 +821,7 @@ return _script.Code;
 											 .StartLinePosition;
 				codeEditor.setSelectedText(startLinePosition.Line +1, startLinePosition.Character, true);								
 			}
+*/			
      	}
     }
 }

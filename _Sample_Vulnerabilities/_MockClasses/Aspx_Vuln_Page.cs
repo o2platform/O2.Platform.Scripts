@@ -1,29 +1,44 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
 using System;
+using System.Data;
+using System.Data.SqlClient;
+using System.IO;
 using System.Text.RegularExpressions;
 using System.Web.UI;
-using System.Data.SqlClient; 
    
-namespace O2.XRules.Database._Rules._Sample_Vulnerabilities
-{
 
-    public class HelloPage : Page
-    {
-    	//http://website.com/HelloPage.aspx?page=Main
-    	
-    	public void hello()
-    	{
-    		//helloAgain(Request["name"]);
-    	}
-    	
-    	public void ren(string name)
-    	{
-    		
-    		string pageName= "ll";//Request["name"];
-    		var userMessage = "Hello there, you are in page " + pageName + name;
-    		Response.Write(userMessage);
-    	}
+public partial class SuperSecure : System.Web.UI.Page
+{
+	protected void Page_Load(object sender, EventArgs e)
+	{						
+		//Here is a developer in Visual Studio writing an webpage
+		
+		//so far so good because name is a static value
+		var name = Request["name"]; //note the real-time compile and scan
+		sayHello(name);  
+		getUserDetails(name);				
 	}
+	
+	public void sayHello(string name)  //lets fix this
+	{		
+		name = Server.HtmlEncode(name);
+		Response.Write("Hello" + name);  // XSS if name is controled by user
+	}
+	
+	public void getUserDetails(string name)
+	{
+		var sqlConnection = new SqlConnection();
+		var sqlText = "Select * from users where user = '@name'";
+		sqlText = String.Format(sqlText, "@name");		
+		var sqlCommand = new SqlCommand(sqlText,sqlConnection);		
+		sqlCommand.Parameters.Add("@name",name);
+		sqlCommand.ExecuteNonQuery();
+	}
+	
+	
+	
+	
+}
 
 
 
@@ -117,7 +132,7 @@ namespace O2.XRules.Database._Rules._Sample_Vulnerabilities
         	//Once we fixed the problem it doesn't show up
             var sqlText = "Select name from accounts where account = @whereStatement";// + whereStatement;			
             var command = new SqlCommand(sqlText, sqlConnection);		
-            command.Parameters.Add("@whereStatement",whereStatement);
+            //command.Parameters.Add("@whereStatement",whereStatement);
             command.ExecuteNonQuery();
         }    	  
         
@@ -136,4 +151,3 @@ namespace O2.XRules.Database._Rules._Sample_Vulnerabilities
         public static void Main()
         {}
     }
-}

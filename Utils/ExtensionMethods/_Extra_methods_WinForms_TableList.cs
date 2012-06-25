@@ -23,15 +23,19 @@ namespace O2.XRules.Database.Utils
 	{
 		public static ascx_TableList ascending(this ascx_TableList tableList)
 		{
-			return tableList.sort(SortOrder.Ascending);
+			return tableList.sort(System.Windows.Forms.SortOrder.Ascending);
 		}
 		
 		public static ascx_TableList descending(this ascx_TableList tableList)
 		{
-			return tableList.sort(SortOrder.Descending);
+			return tableList.sort(System.Windows.Forms.SortOrder.Descending);
+		}
+		public static ascx_TableList sort(this ascx_TableList tableList)
+		{
+			return tableList.sort(System.Windows.Forms.SortOrder.Ascending);
 		}
 		
-		public static ascx_TableList sort(this ascx_TableList tableList, SortOrder sortOrder = SortOrder.Ascending)
+		public static ascx_TableList sort(this ascx_TableList tableList, System.Windows.Forms.SortOrder sortOrder)
 		{
 			return (ascx_TableList)tableList.invokeOnThread(
 				()=>{

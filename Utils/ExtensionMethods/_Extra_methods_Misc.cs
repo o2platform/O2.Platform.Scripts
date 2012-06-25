@@ -22,7 +22,11 @@ namespace O2.XRules.Database.Utils
 
 	public static class _Extra_ExtensionMethods_Object
 	{
-		public static T wait<T>(this T _object, int length = 1000, bool verbose = true)
+		public static T wait<T>(this T _object)
+		{
+			return _object.wait(1000, true);
+		}
+		public static T wait<T>(this T _object, int length, bool verbose)
 		{
 			_object.sleep(length, verbose);
 			return _object;

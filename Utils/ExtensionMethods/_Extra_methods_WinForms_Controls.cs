@@ -93,57 +93,68 @@ namespace O2.XRules.Database.Utils
 		 
 	}
 
-	public static class _Extra_extensionMethods_Component
-	{
-		public static List<Tuple<object,Delegate>> eventHandlers(this Component component)			
-		{
-			var mappedEvents = new List<Tuple<object,Delegate>>();
-			var events = (EventHandlerList)component.prop("Events");
-			var next = events.field("head");
-			while(next!=null)
-			{
-				var key = next.field("key");
-				
-				var handler = (Delegate)next.field("handler");	
-				mappedEvents.Add(new Tuple<object,Delegate>(key,handler));
-				next = next.field("next");
-			}
-			return mappedEvents;
-		}
-		
-		public static string eventHandlers_MethodSignatures(this Component component)			
-		{
-			var signatures = "";
-			foreach(var eventHandler in component.eventHandlers())
-				if (eventHandler.Item2 != null)
-					signatures += eventHandler.Item2.Method.str().line();
-			return signatures;
-		}
-		
-		public static T remove_EventHandler<T>(this T component, string eventId)
-			where T : Component
-		{			
-			var eventIdObject =  typeof(T).ctor().field(eventId);
-			
-			//get private 'Events' property
-			var events = (EventHandlerList)component.prop("Events");
-			//invoke private method 'find' in order to get the  SelectedIndexChanged event entry 
-			var listEntry = events.invoke("Find", eventIdObject);
-			//get the private field 'handler'
-			var handler = (EventHandler)listEntry.field("handler");
-			//now that we have the EventHandler object we can remove it normaly
-			events.invoke("RemoveHandler", eventIdObject, handler);
-			return (T)component;
-		}				
-		
-		public static T remove_Event_SelectedIndexChanged<T>(this T component)
-			where T : Component
-		{
-			return component.remove_EventHandler("EVENT_SELECTEDINDEXCHANGED");
-		}
-		
-	}
 	
+	
+	
+	public static class _Extra_extensionMethods_Control
+	{
+	
+	
+		public static TreeView onDrop<T>(this TreeView treeView, Action<T, TreeNode> onDrop)			
+		{
+			treeView.invokeOnThread(() =>
+                {
+                    treeView.AllowDrop = true;
+                    treeView.DragEnter += (sender, e) => Dnd.setEffect(e);
+                    treeView.DragDrop += (sender, e) =>
+			                    {			                    	
+									O2Thread.mtaThread(
+										()=>{
+												"on Drop".info();
+						                        var data = Dnd.tryToGetObjectFromDroppedObject(e, typeof(T));
+						                        if (data.notNull())
+						                        {			                        	
+							                        var  treeNode = O2Forms.getTreeNodeAtDroppedOverPoint(treeView, e.X, e.Y);                   	
+							                    	"{0} - {1} : {2}".info(sender.typeName(), e.typeName(), treeNode);
+						                        	onDrop((T)data, treeNode);
+						                        }
+						                        else
+						                        {
+						                        	var _object = Dnd.tryToGetObjectFromDroppedObject(e);
+						                        	"{0}".info(_object.serialize(false));
+						                        	"got _object: {0} : {1}".error(_object , _object.typeName());
+						                        	
+						                        }
+						                     });
+			                    };
+                   });
+            return treeView;
+		}
+		public static T onDrop<T,T1>(this T control, Action<T1> onDrop)
+			where T : Control
+		{
+			control.invokeOnThread(() =>
+                {
+                    control.AllowDrop = true;
+                    control.DragEnter += (sender, e) => Dnd.setEffect(e);
+                    control.DragDrop += (sender, e) =>
+			                    {
+			                    	sender.showInfo();
+			                    	e.showInfo();
+			                    				                    	
+			                    	"{0} - {1}".info(sender.typeName(), e.typeName());
+			                        var data = Dnd.tryToGetObjectFromDroppedObject(e, typeof(T1));
+			                        if (data.notNull())
+			                        {			                        	
+			                        	onDrop((T1)data);
+			                        }			                            
+			                    };
+                   });
+            return (T)control;
+		}
+	}		
+
+
 	public static class _Extra_extensionMethods_Panel
 	{
 		public static Panel add_Panel(this Control control, bool clear)
@@ -226,7 +237,12 @@ namespace O2.XRules.Database.Utils
 						.isMdiContainer();								
 		}
 		
-		public static Form isMdiContainer(this Form form, bool value = true)
+		public static Form isMdiContainer(this Form form)
+		{
+			return form.isMdiContainer(true);
+		}
+		
+		public static Form isMdiContainer(this Form form, bool value)
 		{
 			return (Form)form.invokeOnThread(
 				()=>{
@@ -236,7 +252,12 @@ namespace O2.XRules.Database.Utils
 					});
 		}
 		
-		public static Form add_MdiChild(this Form parentForm, string title = "")
+		public static Form add_MdiChild(this Form parentForm)
+		{
+			return parentForm.add_MdiChild("");
+		}
+		
+		public static Form add_MdiChild(this Form parentForm, string title)
 		{
 			return parentForm.add_MdiChild<Form>(title);
 		}
@@ -394,13 +415,25 @@ namespace O2.XRules.Database.Utils
 					});
 		}
 		
-		public static T add_Control<T>(this ToolStripItem toolStripItem, Action<T> onCtor = null)
+		public static T add_Control<T>(this ToolStripItem toolStripItem)
+			where T : ToolStripItem
+		{			
+			return toolStripItem.add_Control(default(Action<T>));
+		}
+		
+		public static T add_Control<T>(this ToolStripItem toolStripItem, Action<T> onCtor)
 			where T : ToolStripItem
 		{
 			return toolStripItem.toolStrip().add_Control(onCtor);
 		}
 		
-		public static T add_Control<T>(this ToolStrip toolStrip, Action<T> onCtor = null)
+		public static T add_Control<T>(this ToolStrip toolStrip)
+			where T : ToolStripItem
+		{
+			return toolStrip.add_Control(default(Action<T>));
+		}
+		
+		public static T add_Control<T>(this ToolStrip toolStrip, Action<T> onCtor)
 			where T : ToolStripItem
 		{
 			return (T)toolStrip.invokeOnThread(
@@ -436,32 +469,32 @@ namespace O2.XRules.Database.Utils
 			return toolStrip.add_Control<ToolStripLabel>((label)=> label.Text = text);			
 		}
 		
-		public static ToolStripButton add_Button_Open(this ToolStripItem toolStripItem, Action onClick = null)
+		public static ToolStripButton add_Button_Open(this ToolStripItem toolStripItem, Action onClick)
 		{
 			return toolStripItem.add_Button_Open("open",onClick);
 		}
 		
-		public static ToolStripButton add_Button_Open(this ToolStripItem toolStripItem, string text, Action onClick = null)
+		public static ToolStripButton add_Button_Open(this ToolStripItem toolStripItem, string text, Action onClick)
 		{
 			return toolStripItem.add_Button(text, onClick).with_Icon_Open();
 		}
 		
-		public static ToolStripButton add_Button(this ToolStripItem toolStrip, string text, Action onClick = null)
+		public static ToolStripButton add_Button(this ToolStripItem toolStrip, string text, Action onClick)
 		{
 			return toolStrip.add_Button(text, null, onClick);
 		}
 		
-		public static ToolStripButton add_Button(this ToolStrip toolStrip, string text, Action onClick = null)
+		public static ToolStripButton add_Button(this ToolStrip toolStrip, string text, Action onClick)
 		{
 			return toolStrip.add_Button(text, null, onClick);
 		}
 		
-		public static ToolStripButton add_Button(this ToolStripItem toolStripItem, string text, string resourceName = null,  Action onClick = null)
+		public static ToolStripButton add_Button(this ToolStripItem toolStripItem, string text, string resourceName,  Action onClick)
 		{
 			return toolStripItem.toolStrip().add_Button(text, resourceName, onClick);
 		}				
 		
-		public static ToolStripButton add_Button(this ToolStrip toolStrip, string text, string resourceName = null, Action onClick = null)
+		public static ToolStripButton add_Button(this ToolStrip toolStrip, string text, string resourceName, Action onClick)
 		{			
 			if (toolStrip.isNull())
 			{
@@ -496,7 +529,8 @@ namespace O2.XRules.Database.Utils
 						if (button.toolStrip() != toolStrip)
                         {
                             "[ToolStripButton][add_Button] parent was not set, so setting it manuallly".error();
-                            button.prop("Parent", toolStrip);
+                            //button.prop("Parent", toolStrip);
+                            Reflection_ExtensionMethods_Properties.prop("button", "Parent", toolStrip);
                         }
 						return button;
 					 } );			
@@ -570,8 +604,12 @@ namespace O2.XRules.Database.Utils
 	
 	// ListView
 	public static class _Extra_extensionMethods_ListView
-	{		
-		public static ListView showSelection(this ListView listView,bool value = true)
+	{	
+		public static ListView showSelection(this ListView listView)
+		{
+			return listView.showSelection(true);
+		}
+		public static ListView showSelection(this ListView listView,bool value)
 		{
 			return (ListView)listView.invokeOnThread(
 				()=>{
@@ -750,6 +788,20 @@ namespace O2.XRules.Database.Utils
 		public static TreeNode expandAndCollapse(this TreeNode treeNode)
 		{
 			return treeNode.expand().collapse();
+		}
+		
+		public static TreeNode node(this TreeView treeView, string text)
+		{
+			return treeView.rootNode().node(text);
+		}
+		
+		public static TreeNode node(this TreeNode treeNode, string text)
+		{
+			if(text.valid())
+				foreach(var node in treeNode.nodes())
+					if (node.get_Text() == text)
+						return node;
+			return null;
 		}
 	}	
 		

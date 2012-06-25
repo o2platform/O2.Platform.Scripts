@@ -10,9 +10,11 @@ var browser = panel.add_Chrome().add_NavigationBar();
 var topPanel = visualStudio.VsAddIn.add_WinForm_Panel("PoC - CatNet Scan on Local File (with Findings)",500,400)
 					.add_Panel();
 
-var editor = visualStudio.VsAddIn.add_WinForm_Panel("SourceCode File 2",500,400)
+var editor = visualStudio.VsAddIn.add_WinForm_Panel("SourceCode File",500,400)
 						 .add_Panel().add_SourceCodeEditor().load(testFile);;
 
+var vulnsPopup = visualStudio.VsAddIn.add_WinForm_Panel("Current Vulnerabilities",500,400)
+					.add_Panel().add_TextArea();
 "tm_browser".o2Cache(browser);
 "tm_CarNet".o2Cache(topPanel);
 "tm_Editor".o2Cache(editor);
@@ -20,7 +22,8 @@ var editor = visualStudio.VsAddIn.add_WinForm_Panel("SourceCode File 2",500,400)
 //var topPanel = "PoC - CatNet Scan on Local File (with Findings)".popupWindow(1000,500);
 //topPanel.insert_LogViewer();
 var actionsPanel = topPanel.insert_Above(40,"Actions");
-var findingsPanel = topPanel;//.insert_Right(250,"Findings");
+var findingsPanel = topPanel.add_FindingsViewer();//.insert_Right(250,"Findings");
+
 //var browser = findingsPanel.parent().insert_Below("TeamMentor Guidance").add_Chrome();
 
 //var editor = topPanel.add_SourceCodeEditor().load(testFile);
@@ -28,6 +31,30 @@ var findingsPanel = topPanel;//.insert_Right(250,"Findings");
 var tempDir = "_catNet_reports".tempDir(false);			  
 
 var reportFile = tempDir.pathCombine("tempScan.xml");
+
+Action updateErrorsPopup = 
+	()=&gt; {										
+					var vulns = new Dictionary&lt;string,List&lt;IO2Finding&gt;&gt;();
+					foreach(IO2Finding finding in findingsPanel.currentO2Findings) 
+						vulns.add(finding.vulnType, finding);
+					vulnsPopup.set_Text("");					
+					vulnsPopup.invokeOnThread(
+						()=&gt;{
+								var text = "";
+								vulnsPopup.font_bold();
+								vulnsPopup.Font = new Font(vulnsPopup.Font.Name, 20);
+								vulnsPopup.TextAlign = HorizontalAlignment.Center;
+								//textBox.Font.field("fontSize", 10); 			
+								if (vulns.size() &gt; 0)
+								{
+									vulnsPopup.pink();
+									foreach(var vuln in vulns)		
+									vulnsPopup.append_Line("{0}: {1}".format(vuln.Key, vuln.Value.Count));	
+								}
+								else
+									vulnsPopup.green();
+							});
+				 };
 
 Action&lt;IO2Finding&gt; showFindingGuidance = 
 	(finding)=&gt; {
@@ -56,7 +83,9 @@ Action&lt;IO2Finding&gt; showFindingGuidance =
 							
 					}
 				};
-			
+
+findingsPanel._onFindingSelected += (finding) =&gt; showFindingGuidance(finding);			
+
 //O2Ref:O2_FluentSharp_Roslyn.dll
 //O2Ref:Roslyn.Compilers.dll
 //O2Ref:Roslyn.Compilers.CSharp.dll
@@ -75,8 +104,7 @@ Action scanCodeInEditor =
 						var compiledAssembly = editor.compileCSSharpFile();
 												
 						var findingsViewer = catNet.scan(compiledAssembly.Location)
-												   .show(findingsPanel, editor)
-												   .set_CodeEditor(editor);
+												   .show(findingsPanel.parent(), editor);												   
 						//findingsViewer.showTraces();
 						findingsViewer.expandAllNodes();
 						findingsPanel.enabled(true);
@@ -88,9 +116,7 @@ Action scanCodeInEditor =
 								editor.setSelectedText((int)trace.lineNumber,(int)trace.columnNumber,true);								
 							}
 						}
-						
-						findingsViewer._onFindingSelected += (finding) =&gt; showFindingGuidance(finding);
-						
+						updateErrorsPopup();																		
 					});
 		};
 
