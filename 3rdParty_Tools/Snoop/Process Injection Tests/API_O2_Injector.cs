@@ -15,19 +15,13 @@ namespace O2.XRules.Database.APIs
 	public class API_O2_Injector
 	{
 		public bool injectIntoProcess(Process process)
-		{
-			injectIntoProcess(process.Id, true);
-			injectIntoProcess(process.Id, false);
-			return true;
+		{			
+			return injectIntoProcess(process.Id);			
 		}
+		 		
 		 
 		public bool injectIntoProcess(int processId)
-		{
-			return injectIntoProcess(processId, false);
-		}
-		 
-		public bool injectIntoProcess(int processId, bool x64)
-		{
+		{			
 		 	var codeFile = "Injected_Dll.cs".local();
 		 	var fixedCourceCode = codeFile.fileContents()	//ensure that we are pointing to the current locations of O2 folders
 		 							 	  .replace(@"E:\O2_V4\O2.Platform.Projects\binaries",PublicDI.config.CurrentExecutableDirectory)
@@ -38,12 +32,12 @@ namespace O2.XRules.Database.APIs
 			{
 				var className = "O2.Script.Test"; //"Snoop.SnoopUI";
 				var methodName = "GoBabyGo";
-				return injectIntoProcess(processId, x64, compiledAssembly.Location, className, methodName);
+				return injectIntoProcess(processId, compiledAssembly.Location, className, methodName);
 			}
 			return false;
 		}
 		
-		public bool injectIntoProcess(int processId, bool x64, string assemblyToInject, string className, string methodName)
+		public bool injectIntoProcess(int processId,string assemblyToInject, string className, string methodName)
 		{		
 			try
 			{								
@@ -54,7 +48,7 @@ namespace O2.XRules.Database.APIs
 					"Could not find process with Id: {0}".error(processId);
 					return false;
 				}
-				
+				var x64 = process.is64BitProcess();
 				var suffix = (x64) ? "64-" : "32-";
 				suffix += (process).isRuntime_V4() ? "4.0" : "3.5";
 				//var process = Processes.getProcess(12168);
@@ -107,5 +101,26 @@ namespace O2.XRules.Database.APIs
 				"[process_MainWindow_BringToFront] provided process has no main Window".error();
 			return process;
 		}
+		
+		public static bool is64BitProcess(this Process process )
+	    {
+	    	if (process.isNull())
+	    	{
+	    		"in process.is64BitProcess provided process value was null!".error();
+	    		return false;
+	    	}
+	        bool lIs64BitProcess = false;
+	        if ( System.Environment.Is64BitOperatingSystem ) {
+	            IsWow64Process( process.Handle, out lIs64BitProcess );
+	        }
+	        return lIs64BitProcess;
+	    }
+	    
+    	[DllImport( "kernel32.dll" )]
+    	static extern bool IsWow64Process( System.IntPtr aProcessHandle, out bool lpSystemInfo );
 	}
+	
+	
+    
+
 }
