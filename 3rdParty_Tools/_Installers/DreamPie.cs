@@ -22,8 +22,7 @@ namespace O2.XRules.Database.APIs
 		{			
 			Install_Uri = "http://launchpad.net/dreampie/trunk/1.1.1/+download/dreampie-1.1.1-setup.exe".uri();
 			Install_File = "dreampie-1.1.1-setup.exe";
-			Install_Dir = ProgramFilesFolder;
-			Install_File = 
+			Install_Dir = ProgramFilesFolder;			
 			Executable = ProgramFilesFolder.pathCombine("DreamPie//dreampie.exe");
 				   			
 			startInstaller_FromMsi_Web();			

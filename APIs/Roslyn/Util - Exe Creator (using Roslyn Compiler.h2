@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.clear().add_Panel();
+var topPanel = "Util - Exe Creator (using Roslyn Compiler".popupWindow(1000,500).insert_LogViewer();
+var codeEditor = topPanel.add_SourceCodeViewer();
+var targetFolder = "_tempExes".tempDir(false).createDir();
+topPanel.insert_Right().add_WebBrowser_with_NavigationBar().open(targetFolder);
+var actionsPanel = topPanel.insert_Above(40,"Actions");
+//textBox.set_Text("hello world");
+var exePrefix = "Sample Exe - ";
+var lastExeCreated = "";
+var force32bit = false;
+Action createExe =  
+	()=&gt;{
+			var code = codeEditor.get_Text();
+			//"code: {0}".info(code);
+			var exeName = "{0}{1}.exe".format(exePrefix,DateTime.Now.Ticks.str().subString(7).subString(0,4));
+			var targetFile = targetFolder.pathCombine(exeName);									
+			lastExeCreated= code.createExe(targetFile,force32bit);
+		};
+
+actionsPanel.add_Link("Create Exe", createExe)
+			.append_Link("Execute Created Exe", ()=&gt;lastExeCreated.startProcess())
+			.append_Label("Exe name prefix: ").append_TextBox(exePrefix).onTextChange((text)=&gt;exePrefix = text)
+			.append_CheckBox("Force 32bit", (value)=&gt; force32bit=value);
+var defaultCode = @"
+using System;
+using System.Diagnostics;
+public class Program 
+{
+	public static void Main(String[] args) 
+	{
+	  	//Debugger.Break();
+	  	Test(""Hello world"");
+	}
+	 
+	public static void Test(String str) 
+	{
+	  	Console.WriteLine(str);
+	  	Console.ReadLine();
+	}
+}".trim();
+
+codeEditor.set_Text(defaultCode, ".cs");
+
+actionsPanel.link("Create Exe").click();
+
+return "ok";
+//using O2.XRules.Database.Utils
+//O2File:_Extra_methods_Roslyn_API.cs
+//using Roslyn.Scripting.CSharp;
+//using Roslyn.Scripting;
+//using Roslyn.Compilers.Common;
+//using Roslyn.Compilers.CSharp;
+//using Roslyn.Compilers;
+//O2Ref:Roslyn.Compilers.dll
+//O2Ref:Roslyn.Compilers.CSharp.dll
+
+//O2Ref:O2_FluentSharp_Roslyn.dll
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

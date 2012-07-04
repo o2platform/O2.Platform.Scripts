@@ -13,11 +13,11 @@ using O2.Views.ASCX.Ascx.MainGUI;
 
 namespace O2.XRules.Database.Utils
 {
-    public static class Scripts_ExecutionMethods
+    public static class Scripts_ExecutionMethods      
     {
         public static ascx_Simple_Script_Editor add_ScriptExecution(this Control hostControl)
         {
-            return hostControl.add_Script();
+            return hostControl.add_Script();    
         }
 
         public static ascx_Simple_Script_Editor add_Script(this Control hostControl)
@@ -87,14 +87,41 @@ namespace O2.XRules.Database.Utils
             return (ascx_Simple_Script_Editor)scriptEditor.invokeOnThread(
                 () =>
                 {
-                    scriptEditor.onCompilationOk =
+                    scriptEditor.onCompileOK =
                         () =>
                         {
                             scriptEditor.execute();
-                            scriptEditor.onCompilationOk = null;
+                            scriptEditor.onCompileOK = null;
                         };
                     return scriptEditor;
                 });
-        }    	    
+        }
+                   
+        public static ascx_Simple_Script_Editor script_Me(this object objectToScript)
+        {
+        	var objectName = objectToScript.typeName().lowerCaseFirstLetter();
+        	var topPanel = "PoC - Script the {0} Object".format(objectName).popupWindow(700,400);
+        	return objectToScript.script_Me(topPanel);
+		}
+		
+		public static ascx_Simple_Script_Editor add_Script_Object(this Panel topPanel, object objectToScript)
+		{
+			return objectToScript.script_Me(topPanel);
+		}
+		public static ascx_Simple_Script_Editor script_Me(this object objectToScript, Panel topPanel)
+		{
+			var objectName = objectToScript.typeName().lowerCaseFirstLetter();
+			var scriptHost = topPanel.add_Script(false);
+			scriptHost.onCompileExecuteOnce();
+			scriptHost.InvocationParameters.add(objectName, objectToScript);
+			var code = 
+@"return {0};
+
+//" + @"O2Ref:{1}
+//O2" +  @"Tag_DontAddExtraO2Files";
+			scriptHost.Code = code.format(objectName, objectToScript.type().assemblyLocation());;
+			return scriptHost;
+        }
+        //"test".popupWindow().add_Script().InvocationParameters.add("mdbgShell", mdbgShell);        
     }
 }

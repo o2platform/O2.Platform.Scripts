@@ -11,7 +11,7 @@ using O2.DotNetWrappers.DotNet;
 using O2.DotNetWrappers.ExtensionMethods;
 using O2.DotNetWrappers.Windows;
 //O2File:TextSearchResult.cs
-//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
+//O2File:_Extra_methods_Misc.cs
 
 namespace O2.XRules.Database.Utils
 {

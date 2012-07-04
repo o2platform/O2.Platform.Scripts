@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.clear().add_Panel();
+var topPanel = "Util - MDbg with REPL script              ({0})".format(clr.details()).popupWindow(1000,500).insert_LogViewer();
+var consoleOut =  topPanel.clear().add_ConsoleOut();
+
+var mdbgCommands = "mdbg.exe".assembly().type("MdbgCommands");    
+var mdbgShell = new MDbgShell();
+
+O2Thread.mtaThread(()=&gt; mdbgShell.Start(new string[] { })) ;
+
+
+topPanel.insert_Right().add_Script_Object(mdbgShell).Code = 
+@"CommandBase.ExecuteCommand(""a"");
+return mDbgShell;
+
+//using Microsoft.Samples.Tools.Mdbg   
+//O2Ref:MDbg_Sample\MDbg\mdbgeng.dll
+//O2Ref:MDbg_Sample\MDbg\corapi.dll 
+//O2Ref:MDbg_Sample\MDbg\mdbgeng.dll  
+//O2Ref:MDbg_Sample\MDbg\mdbg.exe
+//O2Ref:MDbg_Sample\MDbg\mdbgext.dll
+//O2Tag_DontAddExtraO2Files;";
+//See available processes to attach
+
+
+//O2File:Scripts_ExtensionMethods.cs 
+//O2File:API_ConsoleOut.cs
+//using Microsoft.Samples.Debugging.MdbgEngine
+//using Microsoft.Samples.Tools.Mdbg   
+//O2Ref:MDbg_Sample\MDbg\mdbgeng.dll
+//O2Ref:MDbg_Sample\MDbg\corapi.dll 
+//O2Ref:MDbg_Sample\MDbg\mdbgeng.dll  
+//O2Ref:MDbg_Sample\MDbg\mdbg.exe
+//O2Ref:MDbg_Sample\MDbg\mdbgext.dll
+//O2Tag_DontAddExtraO2Files</SourceCode>
+  <ReferencedAssemblies />
+</H2>

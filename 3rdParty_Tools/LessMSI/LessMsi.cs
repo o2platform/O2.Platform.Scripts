@@ -9,6 +9,13 @@ using O2.XRules.Database.Utils;
 
 namespace O2.XRules.Database.APIs 
 {	
+	/*public class LessMsi_Test
+	{
+		public void test()
+		{
+			new LessMsi_Install().start(); 
+		}
+	}*/
 	
 	public class LessMsi_Install : Tool_API 
 	{	

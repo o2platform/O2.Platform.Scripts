@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.clear().add_Panel();
+var topPanel = "PoC - Control set_Text via SoS".popupWindow(400,150).insert_LogViewer();
+var code = @"var prependText = ""[O2]"";
+
+while(sosController.Attached)
+{
+	var eax = sosController.eax();
+	""eax: {0}"".info(eax);
+	if (eax.isNull())
+		continue;
+	""BreakPoint hit on: {0}"".info(eax.instance_Details().Name.trim());
+	var formTitle = sosController.eax().instance_Field(""formTitle"");
+	if (formTitle.notNull())
+	{		
+		var currentValue = formTitle.value();
+		var newValue = ""[O2] "" + currentValue; 
+		""Appying patch: {0} -&gt; {1}"".debug(currentValue,newValue);
+		formTitle.set_String_Value_DangerousWay(newValue);
+	}
+	
+	if (sosController.go().contains(""No runnable debuggees error in""))
+		break;
+}
+sosController.detach();
+return ""Detached"";
+//O2File:SoSNet_ExtensionMethods.cs
+//O2Tag_DontAddExtraO2Files
+//O2Ref:SosNet\SOS.Net.exe
+//O2Ref:SOS.Net.Core.dll
+";
+
+Func&lt;Process&gt; startTestProcess = 
+	()=&gt;{
+			//var exe = @"file:///E:/O2_V4/_O2_V4_TempDir/7_3_2012/Util - LogViewer [35630]/Util - LogViewer.exe";
+			var exe =@"E:\O2_V4\_O2_V4_TempDir\7_3_2012\Util - O2 Available scripts [66663]\Util - O2 Available scripts.exe";
+			var process = exe.startProcess();
+			return process;
+		};
+		
+Action&lt;int&gt; attachToProcess =
+	(processId)=&gt;{		
+					var sosController = new SosController();
+					
+					sosController.attach(processId);
+					if (sosController.Attached)
+					{
+						sosController.set_Breakpoint("System.Windows.Forms.dll", "System.Windows.Forms.Form.set_Text");						
+						var script = sosController.script_Me();
+						script.Code = code;
+					}
+					else
+						"Attached failed".error();
+				};
+
+var processToAttach = 0;
+				
+topPanel.add_Link("Start Test Process"  , 
+			()=&gt;{
+					var process = startTestProcess();
+					attachToProcess(process.Id);
+				}).top(20).left(10)
+		.append_Label("Attach to process").append_TextBox("").width(50).onTextChange((value)=&gt; processToAttach = value.toInt())
+		.append_Link("Attach", 
+			()=&gt;{
+					if (processToAttach &gt; 0)
+						attachToProcess(processToAttach);
+					else
+						"You must provide a processId to attach".info();
+				});
+return "done";
+
+//using SOS.Net
+//using SOS.Net.Core.Cdb
+//using System.Diagnostics
+
+//O2File:SoSNet_ExtensionMethods.cs
+//O2File:Scripts_ExtensionMethods.cs
+//O2Ref:SosNet\SOS.Net.exe
+//O2Tag_DontAddExtraO2Files
+//O2Ref:SOS.Net.Core.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

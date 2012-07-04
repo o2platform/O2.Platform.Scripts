@@ -47,6 +47,28 @@ namespace O2.XRules.Database.APIs
 		    		}
 		    		zipFile.unzip(this.Install_Dir);
 		    	}		    	
+		    	
+		    	
+				/*Action<string> buildForPlatform = 
+	    		(platform)=>{  
+	    						var targetDir = this.Install_Dir.pathCombine("MDbg_{0}".format(platform)); 
+	    						var compiledFiles = this.Install_Dir.pathCombine(@"MDbg Sample\bin\Debug");
+	    						Files.deleteAllFilesFromDir(compiledFiles);
+								var slnFile = srcDir.pathCombine("mdbg.sln");
+								var msBuild = new API_MSBuild() {  
+																	LogConsoleOut = true,
+																	ExtraBuildArguments = "/p:RunCodeAnalysis=False", // /p:PlatformTarget=\"x86\""																	
+																	PlatformTarget = platform
+																};								
+								if (msBuild.build_Ok(slnFile))
+								{																				
+									Files.copyFilesFromDirectoryToDirectory(compiledFiles, targetDir);
+								}
+							};
+				buildForPlatform("x86");
+				buildForPlatform("AnyCpu");
+				*/
+				
 				var slnFile = srcDir.pathCombine("mdbg.sln");
 				var msBuild = new API_MSBuild() {  
 													LogConsoleOut = true,

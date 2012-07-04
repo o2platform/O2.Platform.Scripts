@@ -20,29 +20,22 @@ namespace O2.XRules.Database.APIs
 	}
 	public class ILSpy : Tool_API 
 	{	
-		public ILSpy() : this(true)
+		public ILSpy()
 		{
+			config("ILSpy 2.1.0.1603", 
+				   "http://downloads.sourceforge.net/project/sharpdevelop/ILSpy/2.0/ILSpy_Master_2.1.0.1603_RTW_Binaries.zip".uri(),
+				   "ILSpy.exe");
+    		
+    		//http://ignum.dl.sourceforge.net/project/sharpdevelop/ILSpy/2.0/ILSpy_Master_2.1.0.1603_RTW_Binaries.zip
+    		installFromZip_Web(); 		
 		}
 		
-		public ILSpy(bool installNow)
-		{
-			config("ILSpy 2.0.0.15", "ILSpy_Master_2.0.0.1595", "ILSpy_Master_2.0.0.1595_RTW_Binaries.zip");			
-    		Install_Uri = "http://downloads.sourceforge.net/project/sharpdevelop/ILSpy/2.0/ILSpy_Master_2.0.0.1595_RTW_Binaries.zip".uri();    		
-    		if (installNow)
-    			install();    		
-		}
-		
-		
-		public bool install()
-		{
-			"Installing {0}".info(ToolName);
-			return installFromZip_Web(); 						
-		}
+				
 		
 		public Process start()
 		{
-			if (install())
-				return Install_Dir.pathCombine("ILSpy.exe").startProcess();
+			if (isInstalled())
+				return this.Executable.startProcess();
 			return null;
 		}		
 	}

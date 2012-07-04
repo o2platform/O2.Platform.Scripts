@@ -16,38 +16,29 @@ namespace O2.XRules.Database.APIs
 	{ 
 		public void test()
 		{
-			new Installer_NUnit().start(); 
+			new Installer_SlimTune().start(); 
 		}
 	}
 	public class Installer_NUnit : Tool_API  
 	{			
 		
-		public Installer_NUnit() : this(true)
+		public Installer_SlimTune() : this(true)
 		{
 		}
-		
-		public Installer_NUnit(bool installNow)
+		 
+		public Installer_SlimTune(bool installNow)
 		{
 			//Install_Uri = "http://launchpad.net/nunitv2/2.5/2.5.10/+download/NUnit-2.5.10.11092.zip".uri();
-			this.ToolName = "NUnit";
-			this.Version = "2.5.10";
-			this.Install_Uri = "http://launchpad.net/nunitv2/2.5/2.5.10/+download/NUnit-2.5.10.11092.zip".uri();			
-			this.Executable_Name = @"NUnit-2.5.10.11092\bin\net-2.0\nunit.exe";			
-			config();						
-    		if (installNow)    		    			
-    			install();    		    		
-		}
-		
-		
-		public bool install()
-		{
-			"Installing {0} {1}".info(this.ToolName, this.Version);
-			return installFromZip_Web(); 						
-		}
+			config("SlimTune", "http://slimtune.googlecode.com/files/SlimTune-0.3.0.exe".uri(), "SlimTune-.exe");										
+			Install_Dir = ProgramFilesFolder;
+			this.Executable =  this.ProgramFilesFolder.pathCombine(@"SlimTune Profiler\SlimTuneUI.exe");			    		
+			this.showInfo();
+			this.installFromMsi_Web(); 						  		    		
+		}				
 		
 		public Process start()
 		{
-			if (install())
+			if (isInstalled())
 				return this.Executable.startProcess();
 			return null;
 		}		

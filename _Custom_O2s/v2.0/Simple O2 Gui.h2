@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 <H2>
   <SourceCode>"O2Logo.ico".local().icon().set_As_Default_Form_Icon();
-var topPanel = "OWASP O2 Platform v4.0 Beta".popupWindow(790,198);
+var title = "OWASP O2 Platform v4.1 : {0}".format(clr.details());
+var topPanel = title.popupWindow(790,198);
 //var topPanel = panel.fill(false).width(800).height(190).clear().add_Panel();  
 
 topPanel.parent().backColor(Color.White);   
@@ -10,8 +11,12 @@ topPanel.splitContainer().fixedPanel1();
 topPanel.add_PictureBox().open("OWASP_O2_Platform.png".local()).fill(false).width(341).height(41).top(10);
 var menuPanel = topPanel.insert_Right&lt;Panel&gt;(440);  
 var scriptMappings = new Items(); 
+
+var o2Script = (Environment.Version.Major == 4) 
+					? "Util - C# REPL Script [4.0].cs.o2"
+					: "ascx_Quick_Development_GUI.cs.o2";
   
-var scripting_Mappings = new Items().add("O2 Script","ascx_Quick_Development_GUI.cs.o2") 
+var scripting_Mappings = new Items().add("O2 Script",o2Script) 
 							  		.add("IE Script","IE Automation (Simple mode).h2") 
 							  		.add("Graph Script","ascx_GraphWithInspector.cs.o2")
 							  		.add("IE Google", "IE_Google - Execution.h2")
@@ -39,11 +44,14 @@ var otherTools_Mapping = new Items().add("Process Explorer", "ProcessExplorer.cs
 									.add("ILSpy (like Reflector)", "ILSpy.cs")
 									//.add("LINQPad", "Util - Inject O2 into LinqPad.h2")
 									.add("LINQPad", "LinqPad.cs")
+									.add("MDbg - Managed Debugger", "Installer_Mdbg_Sample_4_0.cs")
+									.add("HawkEye - Hook WinForms", "Installer_HawkEye.cs")
+									.add("Snoop - Hook WPF", "Snoop.cs")
 									.add("FuzzDB on RegEx", "Util - Text RegEx using FuzzDb.h2")
 									.add("Amazon EC2 Browser", "Tool - Amazon EC2 Browser.h2")
 									.add("Amazon S3 Browser", "Amazon S3 Browser.h2")
-									.add("OpenPGP Tool", "Tool - Using OpenPgp to Encrypt or Decrypt.h2")																		
-									.add("AppScan Standard + O2","Util - Launch AppScan Standard (O2 version).h2")
+									.add("OpenPGP Tool", "Tool - Using OpenPgp to Encrypt or Decrypt.h2")
+									//.add("AppScan Standard + O2","Util - Launch AppScan Standard (O2 version).h2")
 									.add("EtherPad (IE Viewer)","Util - EtherPad (IE Viewer).h2")
 									.add("EtherPad (Text Viewer)","Util - EtherPad (Text Viewer).h2");
 									

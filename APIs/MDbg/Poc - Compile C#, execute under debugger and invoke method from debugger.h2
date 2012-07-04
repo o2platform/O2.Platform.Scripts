@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>"Poc - Compile C#, execute under debugger and invoke method from debugger".popupWindow(400,200).add_LogViewer();
+var code = @"using System;
+using System.Diagnostics;
+public class Program 
+{
+	public static void Main(String[] args) 
+	{		
+	  	Debugger.Break();	  	
+	  	Say(""Hello world!"");	  	
+	  	Console.WriteLine(""Press Enter...."");
+	  	Console.ReadLine();
+	}
+	 
+	public static void Say(String str) 
+	{
+	  	Console.WriteLine(""Saying: "" + str);	  	
+	}
+}";
+
+var exeToDebug =  code.createExe();
+
+MDbgEngine debugger = new MDbgEngine();
+		    
+//debugger.Options.StopOnLogMessage = true;
+		      
+debugger.CreateProcess(exeToDebug, "", DebugModeFlag.Debug, null);
+      
+  while (debugger.Processes.Count &gt; 0 &amp;&amp; debugger.Processes.Active.IsAlive)      
+  {      	
+    debugger.Processes.Active.Go().WaitOne();
+    if (debugger.Processes.Count ==0)
+    	break;
+    
+	"stop reason: {0}".info(debugger.Processes.Active.StopReason);
+    if (debugger.Processes.Active.StopReason is BreakpointHitStopReason)
+    {        	
+    	var methodToInvoke = "Program.Say";
+      	var strToPassToDebuggee = "message from debugger....";
+
+      // get function
+      MDbgFunction func = debugger.Processes.Active.ResolveFunctionNameFromScope(methodToInvoke, debugger.Processes.Active.AppDomains[0].CorAppDomain);
+
+      CorEval eval = debugger.Processes.Active.Threads.Active.CorThread.CreateEval();
+      eval.NewString(strToPassToDebuggee);
+      
+      debugger.Processes.Active.Go().WaitOne();
+      CorValue corStrToPassToDebuggee = (debugger.Processes.Active.StopReason as EvalCompleteStopReason).Eval.Result;
+
+      eval.CallFunction(func.CorFunction, new CorValue[] { corStrToPassToDebuggee });
+                                
+    }        
+}      	
+"Debug session ended".debug();
+return "all done"; 
+
+
+//using Microsoft.Samples.Debugging.CorDebug
+//using Microsoft.Samples.Debugging.MdbgEngine
+//using Microsoft.Samples.Tools.Mdbg   
+
+//O2File:API_ConsoleOut.cs
+//O2File:_Extra_methods_Roslyn_API.cs
+
+//O2Ref:Roslyn.Compilers.dll
+//O2Ref:Roslyn.Compilers.CSharp.dll
+
+//O2Ref:MDbg_Sample\MDbg\mdbgeng.dll
+//O2Ref:MDbg_Sample\MDbg\corapi.dll 
+//O2Ref:MDbg_Sample\MDbg\mdbgeng.dll  
+//O2Ref:MDbg_Sample\MDbg\mdbg.exe
+//O2Ref:MDbg_Sample\MDbg\mdbgext.dll
+//O2Tag_DontAddExtraO2Files</SourceCode>
+  <ReferencedAssemblies />
+</H2>

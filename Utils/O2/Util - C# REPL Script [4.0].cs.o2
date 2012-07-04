@@ -1,0 +1,70 @@
+﻿//this is the same as ascx_Panel_With_Inspector but with 4.0 support (which include Roslyn stuff)
+using System;
+using System.Windows.Forms;
+using System.Collections.Generic;
+using O2.Kernel.ExtensionMethods;
+using O2.DotNetWrappers.ExtensionMethods;
+using O2.DotNetWrappers.Windows;
+using O2.Views.ASCX.classes.MainGUI;  
+using O2.External.SharpDevelop.Ascx;
+using O2.External.SharpDevelop.ExtensionMethods;  
+using O2.XRules.Database.APIs;
+using Roslyn.Compilers;
+using Roslyn.Compilers.CSharp;
+
+//O2File:_Extra_methods_Roslyn_API.cs
+//O2File:ascx_Quick_Development_GUI.cs.o2
+//O2Ref:O2SharpDevelop.dll
+//O2Ref:O2_FluentSharp_Roslyn.dll
+
+//O2Ref:Roslyn.Compilers.CSharp.dll
+//O2Ref:Roslyn.Compilers.dll
+
+//O2Tag_DontAddExtraO2Files
+
+public class DynamicType
+{
+	public void dynamicMethod()
+	{
+		new O2.XRules.Database.Utils.CSharpREPL().start();
+	}
+}
+
+namespace O2.XRules.Database.Utils
+{
+	public class CSharpREPL
+	{
+		public ascx_Panel_With_Inspector PanelWithInspector { get; set; }
+		
+		public CSharpREPL start()
+		{
+			PanelWithInspector = ascx_Panel_With_Inspector.runControl();
+			PanelWithInspector.inspector.OnAstFail = OnAstFail;			
+			//PanelWithInspector.parentForm().set_Text(PanelWithInspector.parentForm().get_Text() + " [4.0 CLR]");
+			return this;
+		}
+		
+		public void OnAstFail()
+		{			
+			showAstErrorsUsingRoslyn();
+		}
+		
+		public void showAstErrorsUsingRoslyn()
+     	{   
+     		var parserOptions =  ParseOptions.Default.WithKind(SourceCodeKind.Script);
+     		var astTree = SyntaxTree.ParseCompilationUnit(PanelWithInspector.inspector.Code, "",parserOptions);
+     		
+     		PanelWithInspector.inspector.result_RichTextBox.append_Text(astTree.errors_Details());
+     		
+     		var codeEditor = PanelWithInspector.inspector.commandsToExecute.editor();
+     		codeEditor.clearBookmarksAndMarkers();										
+			foreach(var error in astTree.errors())
+			{
+				var startLinePosition = error.Location
+											 .GetLineSpan(true)
+											 .StartLinePosition;
+				codeEditor.setSelectedText(startLinePosition.Line +1, startLinePosition.Character, true);								
+			}	
+		}
+	}    
+}

@@ -9,10 +9,6 @@ using O2.XRules.Database.Utils;
 using NGit.Api;
 using NGit;
 
-//O2File:_Extra_methods_Collections.cs
-//O2File:_Extra_methods_Items.cs
-//O2File:_Extra_methods_Misc.cs
-
 //O2Ref:NGit.dll
 //O2Ref:NSch.dll
 //O2Ref:Mono.Security.dll
@@ -93,6 +89,11 @@ namespace O2.XRules.Database.APIs
     		return null;
     	}
     	
+    	public static API_NGit git_Open(this string pathToLocalRepository)
+    	{
+    		return new API_NGit().open(pathToLocalRepository);
+    	}
+    	
     	public static API_NGit open(this API_NGit nGit, string pathToLocalRepository)
     	{
     		try
@@ -109,6 +110,16 @@ namespace O2.XRules.Database.APIs
     			ex.log("[API_NGit] ");    			
     		}
     		return null;
+    	}
+    	
+    	public static API_NGit git_Clone(this Uri sourceRepository, string targetFolder)
+    	{
+    		return sourceRepository.str().git_Clone(targetFolder);
+    	}
+    	
+    	public static API_NGit git_Clone(this string sourceRepository, string targetFolder)
+    	{
+    		return new API_NGit().clone(sourceRepository, targetFolder);
     	}
     	
     	public static API_NGit clone(this API_NGit nGit, string sourceRepository, string targetFolder)
@@ -187,7 +198,11 @@ namespace O2.XRules.Database.APIs
 			return nGit;
 		}
 				
-		
+		public static API_NGit git_Pull(this string repository)
+		{
+			return repository.git_Open()
+							 .pull();
+		}
 		public static API_NGit pull(this API_NGit nGit) //, string remote)
     	{    		
     		//"[API_NGit] pull start".debug();

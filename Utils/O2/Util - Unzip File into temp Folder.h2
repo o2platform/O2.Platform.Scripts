@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = "Util - Unzip File into temp Folder".popupWindow(700,300)
+													   .insert_LogViewer();
+//var topPanel = panel.clear().add_Panel();
+var dropZone = topPanel.insert_Left(200)
+					  .add_Button("Drop file here \n\n to unzip it seperate folder").fill()
+					  .font_bold();
+var browser = topPanel.add_WebBrowser_Control() 
+					  .add_NavigationBar();
+					  
+var targetFolder = PublicDI.config.O2TempDir;
+dropZone.parent().insert_Below(20).add_Link("Open Temp Folder in Windows Explorer", ()=&gt; targetFolder.startProcess());																	   
+
+
+
+Action&lt;string&gt; unzipFile = 
+	(zipFile)=&gt;{							
+					dropZone.green();
+					if (zipFile.fileExists())
+					{
+						O2Thread.mtaThread(
+							()=&gt;{ 
+									targetFolder = zipFile.fileName_WithoutExtension().tempDir();
+									zipFile.unzip(targetFolder);
+									browser.open(targetFolder);
+									dropZone.azure();									
+								});
+					}				
+				};
+
+dropZone.onDrop(unzipFile);	</SourceCode>
+  <ReferencedAssemblies />
+</H2>

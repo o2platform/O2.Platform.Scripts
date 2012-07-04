@@ -70,7 +70,11 @@ namespace O2.XRules.Database
             var formTitle = "OWASP O2 Platform - Launcher (v4.0.1 Beta)";
             "{0}".info(formTitle);
             var executeScripts = (ascx_Execute_Scripts)typeof(ascx_Execute_Scripts).showAsForm(formTitle, 340, 300);
-                        
+            if (executeScripts.isNull())
+            {
+                MessageBox.Show("Object Creation error in startControl", "Start_O2 (ascx_Execute_Scripts)");
+                return;
+            }
             "LocalScriptsFolder: {0}".debug(PublicDI.config.LocalScriptsFolder);
             executeScripts.buildGui();
             executeScripts.insert_LogViewer();

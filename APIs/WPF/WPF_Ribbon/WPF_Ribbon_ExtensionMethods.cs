@@ -566,7 +566,7 @@ namespace O2.XRules.Database.Utils
 						winFormsControl.clear();
 						var scriptHost = winFormsControl.add_Script(false ); 						
 						
-						scriptHost.onCompilationOk = 
+						scriptHost.onCompileOK = 
 							()=>{
 									"Compiled OK, moving mouse to click".info(); 
 									var inputSimulator = new API_InputSimulator();	
@@ -575,7 +575,7 @@ namespace O2.XRules.Database.Utils
     								//double currentY = inputSimulator.mouse_CurrentPosition().Y;    		
 									inputSimulator.mouse_MoveTo(scriptHost.executeButton).mouse_Click(); 									
 									//inputSimulator.mouse_MoveTo(currentX, currentY);
-									scriptHost.onCompilationOk = null;
+									scriptHost.onCompileOK = null;
 							 	};
 												 
 						scriptHost.set_Command(sourceCode); 

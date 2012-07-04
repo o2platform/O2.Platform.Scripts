@@ -31,6 +31,7 @@ namespace O2.XRules.Database.APIs
 		
 		public Action<string> 	OnConsoleOut 		{ get; set; }
 		public string 			CompilationTarget 	{ get; set; }
+		public string 			PlatformTarget 		{ get; set; }
 		public string 			ExtraBuildArguments { get; set; }
 		public Process 			MSBuild_Process 	{ get; set; }
 		public StringBuilder 	ConsoleOut 			{ get; set; }
@@ -81,6 +82,8 @@ namespace O2.XRules.Database.APIs
 			if (compilationTarget.fileExists())
 			{
 				var arguments = "\"{0}\" {1}".format(msBuild.CompilationTarget, msBuild.ExtraBuildArguments);
+				if (msBuild.PlatformTarget.valid())
+					arguments+= " /p:PlatformTarget=\"{0}\"".format(msBuild.PlatformTarget);
 				msBuild.ConsoleOut 				= new StringBuilder();					
 				msBuild.BuildStartTime 			= DateTime.Now;								
 				msBuild.MSBuild_Process 		= msBuild.MSBuild_Exe.startProcess(arguments, msBuild.OnConsoleOut);

@@ -25,11 +25,7 @@ namespace O2.XRules.Database.Utils
 	{
 		
 	}
-	
-	public static class _Extra_Processes_ExtensionMethods
-	{		
-
-	}
+		
 
 	
 		//REGISTRY

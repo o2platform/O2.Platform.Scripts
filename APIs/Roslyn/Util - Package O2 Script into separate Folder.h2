@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.clear().add_Panel();
+var topPanel = "Util - Compile H2, O2 or CS Script into separate Folder".popupWindow(700,300)
+													   .insert_LogViewer();
+
+var browser = topPanel.add_WebBrowser_Control() 
+					  .add_NavigationBar();
+var dropZone = topPanel.insert_Left(200)
+					  .add_Button("Drop script file here \n\n to package it into seperate folder").fill()
+					  .font_bold();
+					  
+var lastH2Script = "";					  
+var compiledScript = "";	
+Action&lt;string&gt; packageH2 = 
+	(h2Script)=&gt;{		
+					lastH2Script = h2Script;
+					dropZone.green();
+					O2Thread.mtaThread(
+						()=&gt;{ 
+								compiledScript = h2Script.compile_Script_in_Separate_Folder();								
+								if (compiledScript.valid())
+								{
+									browser.open(compiledScript.directoryName());
+									dropZone.azure();
+								}
+								else
+									dropZone.pink();
+								//dropZone.backColor("Control")  ; s 
+							});
+				};
+dropZone.parent().insert_Below(20).add_Link("Execute compiled script", ()=&gt; compiledScript.startProcess())
+								  .append_Link("Clear Cache", ()=&gt; { CompileEngine.CachedCompiledAssemblies.Clear(); "Compilation Cache Cleared".info();});
+dropZone.onDrop(packageH2);
+dropZone.onClick(()=&gt;packageH2(lastH2Script));
+
+//packageH2("Util - LogViewer.h2");
+//packageH2("Util - C# REPL Script [4.0].cs.o2");
+return "ok";
+
+//O2Ref:Roslyn.Compilers.dll
+//O2Ref:Roslyn.Compilers.CSharp.dll
+//O2Ref:O2_FluentSharp_Roslyn.dll
+//O2File:_Extra_methods_Roslyn_API.cs
+
+//O2Tag_DontAddExtraO2Files
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

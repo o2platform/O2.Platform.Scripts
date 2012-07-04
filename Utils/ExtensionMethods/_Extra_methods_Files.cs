@@ -23,6 +23,18 @@ namespace O2.XRules.Database.Utils
 			return new DirectoryInfo(directoryPath);
 		}
 		
+		public static string file_Copy(this string file, string folder)
+		{
+			return file.file_CopyToFolder(folder);
+		}
+		
+		public static List<string> files_Copy(this List<string> files, string targetFolder)
+		{
+			foreach(var file in files)
+				Files.Copy(file,targetFolder);
+			return files;
+		}
+		
 		//replace pathCombine with this one
 		
 

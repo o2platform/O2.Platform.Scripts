@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>if ("mainForm".o2Cache().isNull())
+{
+	O2Thread.staThread(
+		()=&gt;{
+				"Opening form".info();
+				var mainForm= new FormMain();
+				mainForm.Text += " (O2 Platform version)";
+				mainForm.add_Menu().add_MenuItem("O2 Platform") 
+					    .add_MenuItem("O2 C# REPL Script Editor", ()=&gt; mainForm.script_Me())
+					    .add_MenuItem("O2 Log Viewer", ()=&gt; "Util - LogViewer.h2".local().executeH2Script())
+					    .add_MenuItem("Open Find Scripts GUI", ()=&gt; "Util - O2 Available scripts.h2".local().executeH2Script())
+					    .add_MenuItem("Open Main O2 GUI", ()=&gt; "Simple O2 Gui.h2".local().executeH2Script());
+
+				"mainForm".o2Cache(mainForm);
+				mainForm.ShowDialog();				
+				"mainForm".o2Cache(null);
+				"cleaned cache".info();
+			});
+	this.sleep(1000);		
+}
+else
+	"Sos From still there".info();
+
+var sos = (FormMain)"mainForm".o2Cache();
+
+//sos.controls&lt;TabControl&gt;().add_Tab("C# REPL Script").add_Script_Object(sos);
+		 
+//set the value of CdbPath
+var controller = (SosController)sos.field("controller");
+var settings = (CdbSettings)controller.field("settings");
+
+settings.CdbPath = (clr.x64())
+						? @"C:\Program Files\Windows Kits\8.0\Debuggers\x64"
+						: @"C:\Program Files (x86)\Windows Kits\8.0\Debuggers\x86";
+						
+settings.SosexPath = @"C:\Windows\Microsoft.NET\Framework64\v4.0.30319";
+
+return sos;
+
+
+
+//using SOS.Net
+//using SOS.Net.Core.Cdb
+
+//O2File:Script_ExtensionMethods.cs
+//O2Ref:SosNet\SOS.Net.Core.dll
+//O2Ref:SosNet\SOS.Net.exe
+
+/*
+
+
+*/</SourceCode>
+  <ReferencedAssemblies />
+</H2>

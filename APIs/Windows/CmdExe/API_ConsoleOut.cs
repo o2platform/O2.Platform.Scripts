@@ -173,7 +173,7 @@ namespace O2.XRules.Database.APIs
 		public static API_ConsoleOut show_ConsoleOut<T>(this T topPanel, bool showO2Message = true)
 			where T : Control
 		{
-			return topPanel.show_ConsoleOut(showO2Message ? "Welcome to O2's console" : "");
+			return topPanel.show_ConsoleOut(showO2Message ? "ConsoleOut for current process (Console WriteLine will show here)" : "");
 		}
 		
 		public static API_ConsoleOut show_ConsoleOut<T>(this T topPanel, string message )

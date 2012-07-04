@@ -31,7 +31,9 @@ namespace O2.XRules.Database.APIs
     	//public IntPtr GuiHandle { get; set;}
     	    	
 		public string StartArguments { get; set; }		
-		public string pathToCdb = @"C:\Program Files\Debugging Tools for Windows (x86)\cdb.exe";
+		//public string pathToCdb = @"C:\Program Files\Debugging Tools for Windows (x86)\cdb.exe";
+		public string pathToCdb = @"E:\O2_V4\_O2_V4_TempDir\6_30_2012\Cbd\cdb.exe";
+		
 		public StringBuilder LastCommandResult {get;set;}
 		public string endExecutionString = ">           ^ Syntax error in '.o2.'";
    		public string extraExecutionCommand = ".o2.";
@@ -40,11 +42,13 @@ namespace O2.XRules.Database.APIs
     	public static void launchO2UnderDebugger()
     	{
     	 	//var pathToO2Exe =  PublicDI.config.CurrentExecutableDirectory.pathCombine(PublicDI.config.CurrentExecutableFileName);
-    	 	var pathToO2Exe =  PublicDI.config.CurrentExecutableDirectory.pathCombine("DiagramDesigner.exe");
-    	 	
+    	 	//var pathToO2Exe =  PublicDI.config.CurrentExecutableDirectory.pathCombine("DiagramDesigner.exe");
+    	 	var pathToO2Exe =@"E:\O2_V4\_O2_V4_TempDir\6_30_2012\Util - LogViewer [08145]\Util - LogViewer.exe";
     	 	"launching O2 under debugger: {0}".info(pathToO2Exe);
-    	 	O2Gui.open<SonOfStrikeGui>("SunOfStrike API",600,400)
-    	 		 .launch(pathToO2Exe);;
+    	 	O2Gui.open<SonOfStrikeGui>("SunOfStrike API",1000,400)
+    	 		 .insert_LogViewer()
+    	 		 .launch(pathToO2Exe);
+    	 		 
     		//new SonOfStrikeGui().launch(pathToO2Exe);
     	}
     	
@@ -86,7 +90,7 @@ namespace O2.XRules.Database.APIs
     		this.Width = 600;
     		this.Height = 300;
     		// add controls
-    		var groupBoxes = this.add_1x1("Debug Commands","'Cdb & SoS' GUI",false, 100);
+    		var groupBoxes = this.add_1x1("Debug Commands","'Cdb & SoS' GUI",true, 100);
     		cdbOut = groupBoxes[1].add_TextBox(true).scrollBars().wordWrap(false);
     		cdbIn = cdbOut.insert_Above<ComboBox>(20);    		
     		//var flowLayoutPanel = groupdBoxes[0].add<FlowLayoutPanel>();    	

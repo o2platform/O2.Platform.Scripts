@@ -15,6 +15,7 @@ using O2.Kernel.ExtensionMethods;
 using O2.DotNetWrappers.ExtensionMethods;
 using O2.DotNetWrappers.DotNet;
 using O2.DotNetWrappers.Windows;
+using O2.DotNetWrappers.H2Scripts;
 using System.Runtime.InteropServices;
 
 namespace O2.XRules.Database.Utils
@@ -32,6 +33,25 @@ namespace O2.XRules.Database.Utils
 			return _object;
 		}
 	}
+	
+	public static class _Extra_H2_ExtensionMethods
+	{
+		public static string scriptSourceCode(this string file)
+		{
+			if (file.extension(".h2"))
+				return file.h2_SourceCode();
+			return file.fileContents();
+		}
+		public static string h2_SourceCode(this string file)
+		{
+			if (file.extension(".h2"))
+			{
+				//"return source code of H2 file".info();
+				return H2.load(file).SourceCode;
+			}
+			return null;
+		}			
+	}		
 	
 	public static class _Extra_LiveObjects_ExtensionMethods
 	{

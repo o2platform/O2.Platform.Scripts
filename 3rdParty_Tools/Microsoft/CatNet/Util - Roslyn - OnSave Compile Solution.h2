@@ -1,18 +1,12 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>var topPanel = "Util - Roslyn and Cat.Net - OnSave - Compile and Scan Solution".popupWindow(1024,576)    
+  <SourceCode>var topPanel = "Util - Roslyn - OnSave Compile Solution".popupWindow(1024,576)    
 					.insert_LogViewer();
 //var topPanel = panel.clear().add_Panel();	 	    
 var actionsPanel = topPanel.insert_Above(40,"");     
 var codeViewer = topPanel.title("Source Code").add_SourceCodeEditor(); 
 var solutionFiles = topPanel.insert_Left(300, "Source Files (in current solution)").add_TreeView_with_PropertyGrid().sort(); 
 var errorsList = topPanel.insert_Below(100,"Errors").add_TreeView(); 
-var scanResults = topPanel.insert_Right("Security Scan results").add_FindingsViewer(false)
-															 	.set_CodeEditor(codeViewer);
-scanResults.insert_Below("Trace Details").add_TraceViewer()
-										 .afterSelect_showTrace(scanResults)
-										 .afterSelect_ShowTraceInCodeEditor(codeViewer)
-										 .dontSelectNodeOnLoad();  
 var solutionFile = ""; 
 var compilerAvailable = true;
 
@@ -41,21 +35,9 @@ solutionFiles.afterSelect&lt;IDocument&gt;(
 					//document.details();
 				});
 
-												
-Action&lt;List&lt;Assembly&gt;&gt; scanAssemblies = 
-	(assembllies)=&gt;{
-					var catNet = new API_CatNet().loadRules();										
-					
-					"CatNet ready for scan".debug();												 
-					//catNet.scan_Assembly(assembly)
-					catNet.scan(assembllies)
-						  .show(scanResults.parent()); 					
-					scanResults.getResultsTreeView().nodes().first()
-												   .expand().nodes().first().selected();
-				};
-				
+																
 Action compile = 
-	()=&gt;{	
+	()=&gt;{	 
 		O2Thread.mtaThread( 
 			()=&gt;{
 					var o2Timer = new O2Timer("Solution Compilation").start();
@@ -74,9 +56,7 @@ Action compile =
 							  .selectFirst()
 							  .focus()
 							  .parent&lt;GroupBox&gt;().set_Text("Compilation Errors: {0} : {1}".format(errorsList.nodes().size(), o2Timer.stop()));
-						//var assembly = compilation.create_Assembly();			
-					if (errorsList.nodes().size() == 0)
-						scanAssemblies(assembliesToScan);														
+						//var assembly = compilation.create_Assembly();								
 					compilerAvailable = true;	
 				});
 	}; 
@@ -143,12 +123,6 @@ topPanel.onDrop(loadSolution);
 errorsList.parentForm().onDrop(loadSolution);
 			
 
-var ssbSolution = @"E:\_Tests\Demos_Files\SuperSecureBank\SecurityInnovation-SuperSecureBank-938fde3\SuperSecureBank.sln";
-//topPanel.closeForm_InNSeconds(3);
-
-loadSolution(ssbSolution);
-
-//O2File:API_CatNet.cs
 //O2File:_Extra_methods_Roslyn_API.cs
 //O2File:Findings_ExtensionMethods.cs
 //using O2.XRules.Database.Findings;

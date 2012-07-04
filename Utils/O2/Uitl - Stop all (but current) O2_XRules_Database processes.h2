@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Stop all O2 instances (but current) and start new one",900,50);
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Stop all O2 instances (but current) and start new one",900,30);
 var scriptToRun = topPanel.add_Label("*.o2 or *.h2 script to run")
-						  .top(5) 
+						  .top(12) 
 				  	   	  .append_TextBox("")
 				  	      .width(300);
 
@@ -29,7 +29,7 @@ MethodInvoker stopAllButCurrentO2Process =
 var justStop = scriptToRun.append_Link("Just stop all (but current)", 
 	()=&gt;{
 			stopAllButCurrentO2Process();
-		}).top(5);
+		}).top(12);
 		
 var stopAndRunScript = justStop.append_Link("Stop all and run script",
 	()=&gt;{

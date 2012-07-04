@@ -30,15 +30,8 @@ using O2.Views.ASCX.CoreControls;
 using O2.API.AST.ExtensionMethods.CSharp;
 using  O2.XRules.Database.APIs;
 
-//using Roslyn.Compilers;
-//using Roslyn.Compilers.CSharp;
-
 //O2Ref:O2_API_AST.dll
 //O2Ref:O2SharpDevelop.dll 
-
-//_O2Ref:O2_FluentSharp_Roslyn.dll
-//_O2Ref:Roslyn.Compilers.CSharp.dll
-//_O2Ref:Roslyn.Compilers.dll
 
 //O2Ref:log4net.dll
 
@@ -75,6 +68,10 @@ namespace O2.XRules.Database.Utils
         public SplitContainer splitContainer_Results 	{ get; set; }
 		public bool			  AddToolStrip		    	{ get; set; }
 		
+		public Action		  OnAstFail					{ get; set; } 
+		public Action		  OnAstOK					{ get; set; } 		
+		public Action 		  onCompileFail 			{ get; set; }
+		public Action 		  onCompileOK 				{ get; set; }
 	
 		public CSharp_FastCompiler 			csharpCompiler 					{get ; set;}
 		public string 						GeneratedCode 					{get ; set;}
@@ -86,8 +83,7 @@ namespace O2.XRules.Database.Utils
 		public int width = 300;
 		public int height = 300;
         public bool ExecuteOnEnter 				{ get; set; }        
-        public bool ExecuteOnCompile		 	{ get; set; }              
-		public MethodInvoker onCompilationOk 	{get ;set;}
+        public bool ExecuteOnCompile		 	{ get; set; }              		
         public string previousCompiledCodeText  { get; set; }
 		public Thread TriggerCompilationThread  { get; set; }	
 		public Thread ExecutionThread			{ get; set; }
@@ -271,6 +267,7 @@ namespace O2.XRules.Database.Utils
                        .add_MenuItem("run in MTA thread (when invoke)", (menuitem) => insertCodeSnipptet(menuitem.Text))
                        .add_MenuItem("clear 'AssembliesCheckedIfExists' cache", (menuitem) => insertCodeSnipptet(menuitem.Text));
             contextMenu.add_MenuItem("Utils")             
+            		   .add_MenuItem("Open ConsoleOut", ()=> "Util - ConsoleOut.h2".local().executeH2Script())
 					   .add_MenuItem("Script this Script", (menuitem) => scriptTheCurrentScript())
 					   .add_MenuItem("Open Find Scripts GUI", ()=> "Util - O2 Available scripts.h2".local().executeH2Script())
 					   .add_MenuItem("Open Main O2 GUI", ()=> "Simple O2 Gui.h2".local().executeH2Script());
@@ -364,10 +361,10 @@ namespace O2.XRules.Database.Utils
 	     				this.executeButton.enabled(false);	     				
     	 				this.result_RichTextBox.textColor(Color.Red)
      		 							  .set_Text("Ast Parsing Errors:\r\n\r\n");
-										  //.append_Text(csharpCompiler.AstErrors);
-						showAstErrorsUsingRoslyn();
+										  //.append_Text(csharpCompiler.AstErrors);						
                         this.commandsToExecute.updateCodeComplete(csharpCompiler);	     				
 						this.sourceCodeViewer.setDocumentContents(csharpCompiler.SourceCode);						
+						OnAstFail.invoke();
 	     			};
 	     			 
 	     	this.csharpCompiler.onAstOK = 
@@ -379,6 +376,7 @@ namespace O2.XRules.Database.Utils
 	     				this.GeneratedCode = csharpCompiler.SourceCode;                        
                         this.commandsToExecute.updateCodeComplete(csharpCompiler);	     				
 						this.sourceCodeViewer.setDocumentContents(csharpCompiler.SourceCode);						
+						OnAstOK.invoke();
      		 		};     		      		 
      		 		
      		 this.csharpCompiler.onCompileFail = 
@@ -401,6 +399,7 @@ namespace O2.XRules.Database.Utils
      		 			this.result_RichTextBox.textColor(Color.Red)
      		 							  .set_Text("Compilation Errors:\r\n\r\n")										  
 										  .append_Text(csharpCompiler.CompilationErrors);
+						onCompileFail.invoke();				  
 						
      		 		};
      		 this.csharpCompiler.onCompileOK =
@@ -418,9 +417,8 @@ namespace O2.XRules.Database.Utils
                             var targetFile = AutoSaveDir.pathCombine(Files.getFileSaveDateTime_Now().trim() + ".cs");
                             targetFile.fileWrite(Code);
                         }
-                                                                        
-                        if (onCompilationOk != null)
-                        	onCompilationOk();
+                                                                                                
+                        onCompileOK.invoke();
                         // once all is done update the codeComplete information
                         if (this.commandsToExecute.editor().o2CodeCompletion.notNull())
                             this.commandsToExecute.editor().o2CodeCompletion.addReferences(csharpCompiler.ReferencedAssemblies);                         
@@ -801,27 +799,6 @@ return _script.Code;
 			scriptHost//.compile()
 				      .execute();
 
-     	}
-     	
-     	// New Roslyn based methods:
-     	
-
-     	public void showAstErrorsUsingRoslyn()
-     	{     			     		
-/*     		var parserOptions =  ParseOptions.Default.WithKind(SourceCodeKind.Script);
-     		var astTree = SyntaxTree.ParseCompilationUnit(this.Code, "",parserOptions);
-     		this.result_RichTextBox.append_Text(astTree.errors_Details());
-     		
-     		var codeEditor = commandsToExecute.editor();
-     		codeEditor.clearBookmarksAndMarkers();										
-			foreach(var error in astTree.errors())
-			{
-				var startLinePosition = error.Location
-											 .GetLineSpan(true)
-											 .StartLinePosition;
-				codeEditor.setSelectedText(startLinePosition.Line +1, startLinePosition.Character, true);								
-			}
-*/			
      	}
     }
 }

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = O2Gui.open&lt;Panel&gt;("{name}",700,400);
+var topPanel = "Util - ConsoleOut".popupWindow(500,300);
+topPanel.add_ConsoleOut();
+//O2File:API_ConsoleOut.cs
+
+//O2Tag_DontAddExtraO2Files
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>
