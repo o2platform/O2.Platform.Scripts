@@ -42,11 +42,10 @@ Action refreshProcessList_in_1Second =
 			refreshProcessList(); 
 		};
 Action injectO2IntoProcess = 
-	()=&gt;{			
-			var x64 = modulesTreeView.nodes().size()==0;		// not the best way to find out if the target is 64bits
+	()=&gt;{						
 			"Injecting O2 into process '{0}' with id {1}".info(selectedProcess.ProcessName, selectedProcess.Id); 
 			var o2Injector =  new API_O2_Injector();			 
-			o2Injector.injectIntoProcess(selectedProcess.Id ,x64);    
+			o2Injector.injectIntoProcess(selectedProcess.Id);    
 		}; 
 
 processesTreeView.add_ContextMenu()

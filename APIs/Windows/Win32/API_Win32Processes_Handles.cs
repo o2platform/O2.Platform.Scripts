@@ -46,7 +46,12 @@ namespace O2.XRules.Database.APIs
     
     public static class API_Win32Process_Handles_ExtensionMethods
     {
-    	public static OpenHandles get_OpenHandles(this Process process, bool onlyLoadFileHandles = true)
+    	public static OpenHandles get_OpenHandles(this Process process)
+    	{
+    		return process.get_OpenHandles(true);
+    	}
+    	
+    	public static OpenHandles get_OpenHandles(this Process process, bool onlyLoadFileHandles)
     	{    		
     		var start = DateTime.Now;
     		var openHandles = new OpenHandles() {     												
@@ -64,7 +69,7 @@ namespace O2.XRules.Database.APIs
 								   let handleDetails = API_Win32Processes_Handles.GetHandleDetails(handle, process, openHandles.OnlyFileHandles)
 								   where handleDetails.notNull() 
 								   select handleDetails).toList();
-			openHandles.DataCollectedIn = (DateTime.Now - start).ToString("ss's 'ff'ms'");;
+			openHandles.DataCollectedIn = (DateTime.Now - start).ToString();//"ss's 'ff'ms'");;
 			return openHandles;
     	}
     }
@@ -76,7 +81,13 @@ namespace O2.XRules.Database.APIs
         const uint STATUS_INFO_LENGTH_MISMATCH = 0xc0000004;
                 
         //based on original GetFilePath
-        public static HandleDetails GetHandleDetails (Win32API.SYSTEM_HANDLE_INFORMATION sYSTEM_HANDLE_INFORMATION, Process process, bool onlyLoadFileHandles = true) {
+        public static HandleDetails GetHandleDetails (Win32API.SYSTEM_HANDLE_INFORMATION sYSTEM_HANDLE_INFORMATION, Process process)
+        {
+        	return GetHandleDetails(sYSTEM_HANDLE_INFORMATION,process, true);
+        }
+        
+        public static HandleDetails GetHandleDetails (Win32API.SYSTEM_HANDLE_INFORMATION sYSTEM_HANDLE_INFORMATION, Process process, bool onlyLoadFileHandles) 
+        {
         
         	var handleDetails = new HandleDetails() {         												
         												HandleId  = sYSTEM_HANDLE_INFORMATION.Handle,
