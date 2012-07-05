@@ -23,8 +23,6 @@ using O2.Views.ASCX.DataViewers;
 using O2.Views.ASCX.classes.MainGUI;
 using O2.Views.ASCX.ExtensionMethods;
 using O2.XRules.Database.Utils;
-//O2File:_Extra_methods_WinForms_Controls.cs
-//O2File:_Extra_methods_WinForms_TableList.cs
 
 namespace O2.Script
 {	

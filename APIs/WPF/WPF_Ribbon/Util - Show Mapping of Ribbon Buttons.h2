@@ -44,6 +44,7 @@ var showButton = topPanel.insert_Above&lt;Panel&gt;(30)
 					 .control&lt;Button&gt;();
 showButton.click();
 
+return "ok";
 
 
 //panel.add_TextArea().set_Text(buttonsMappings);
@@ -60,6 +61,12 @@ showButton.click();
 //O2File:WPF_Ribbon.cs
 //O2File:WPF_Ribbon_ExtensionMethods.cs
 //panel.add_Control();
-//O2Ref:WindowsFormsIntegration.dll</SourceCode>
+//O2Ref:WindowsFormsIntegration.dll
+
+//O2Ref:PresentationCore.dll
+//O2Ref:PresentationFramework.dll
+//O2Ref:WindowsBase.dll
+//O2Ref:System.Xaml.dll
+</SourceCode>
   <ReferencedAssemblies />
 </H2>

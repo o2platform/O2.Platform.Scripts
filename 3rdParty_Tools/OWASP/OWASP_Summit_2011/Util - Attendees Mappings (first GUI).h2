@@ -98,7 +98,7 @@ treeView.afterSelect&lt;string&gt;(
 treeView.add_Nodes(mappings);
 
 treeView.nodes()[0].expand();//.nodes();//[0].selected();
-treeView.focus();
+treeView.focus();   
 return mappings; 
 //var TextParsed = text;      
 //TextParsed = "bbb{{Template:Summit_2011_Attendee|aaa}}aaa";  
@@ -114,7 +114,6 @@ return mappings;
 
 
 //O2File:OwaspWikiAPI.cs
-//O2File:FileCache.cs 
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
 //O2File:WikiText.cs
 //O2File:ascx_MediaWiki_PageEditor_Simple.cs</SourceCode>

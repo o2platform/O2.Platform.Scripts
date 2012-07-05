@@ -92,6 +92,7 @@ noDataForMacAddress.info();
 getLocalMacAddresses();		  	
 showMacAddressLocation("00-11-24-ec-72-cf"); // test with Samy's address (from http://www.samy.pl/mapxss/)
 
+return "done";
 //using Newtonsoft.Json.Linq
 //O2Ref:Newtonsoft.Json.dll
 </SourceCode>

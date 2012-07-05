@@ -9,7 +9,6 @@ using O2.Views.ASCX.ExtensionMethods;
 using O2.Views.ASCX.classes.MainGUI;
 using O2.XRules.Database.Utils;
 //O2File:WatiN_IE_ExtensionMethods.cs
-//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
 //O2Ref:WatiN.Core.1x.dll
 //O2File:Tool_API.cs
 

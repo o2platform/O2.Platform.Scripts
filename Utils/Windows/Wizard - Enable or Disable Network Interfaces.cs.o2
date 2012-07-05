@@ -1,32 +1,20 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
-//O2Tag_OnlyAddReferencedAssemblies
-//O2Ref:System.dll
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using System.Diagnostics;
-//O2Ref:System.Core.dll
-//O2Ref:System.Management.dll
 using System.Management;
-//O2Ref:O2_Kernel.dll
 using O2.Kernel;
-//O2Ref:O2_Interfaces.dll
 using O2.Interfaces.O2Core;
-//O2Ref:O2_DotNetWrappers.dll
 using O2.DotNetWrappers.DotNet;
 using O2.DotNetWrappers.Windows;
-//O2Ref:O2_Views_ASCX.dll
 using O2.Views.ASCX;
 using O2.Views.ASCX.MerlinWizard;
 using O2.Views.ASCX.MerlinWizard.O2Wizard_ExtensionMethods;
-//O2Ref:merlin.dll
 using Merlin;
-
-
-//O2Ref:System.Windows.Forms.dll
-//O2Ref:System.Drawing.dll
-//O2Ref:System.Data.dll
+//O2Ref:merlin.dll
+//O2Ref:System.Management.dll
 
 namespace O2.Script
 {
@@ -38,14 +26,14 @@ namespace O2.Script
         {
         	var o2Wizard = new O2Wizard("Enable/Disable Network Adapters", 500, 500);		
         	if (false == Netsh.isAvailable())
-        		o2Wizard.Steps.add_Message("Error onEnable/Disable Network Adapters","no NetSh found on this system");
+        		Ascx_ExtensionMethods_2.add_Message(o2Wizard.Steps,"Error onEnable/Disable Network Adapters","no NetSh found on this system");
         	else
         	{        	
         		// step 1
         		var step1Message = string.Format("This wizard will allow the enable or disable the following Windows Network adapters: \r\n {0}\r\n{1}", 
         									 	Netsh.interfaces_getDetails(),
         									 	Netsh.interfaces_getIPConfig());
-        		o2Wizard.Steps.add_Message("Current Network Adapter details", step1Message);        		        		
+        		Ascx_ExtensionMethods_2.add_Message(o2Wizard.Steps,"Current Network Adapter details", step1Message);        		        		
         		// step 2
         		o2Wizard.Steps.add_Action("Disabling Network Adapters", disableNetworkAdapters);
         		// step 3

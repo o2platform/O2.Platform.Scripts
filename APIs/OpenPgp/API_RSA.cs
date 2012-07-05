@@ -11,8 +11,6 @@ using Org.BouncyCastle.Crypto.Encodings;
 using Org.BouncyCastle.OpenSsl;
 using Org.BouncyCastle.Crypto.Engines;
 //O2Ref:itextsharp.dll 
-//O2Ref:O2_DotNetWrappers.dll
-//O2Ref:O2_Kernel.dll
 
 namespace O2.XRules.Database.APIs
 {	

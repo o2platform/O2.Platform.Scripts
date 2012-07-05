@@ -12,9 +12,8 @@ using O2.External.SharpDevelop.ExtensionMethods;
 using O2.XRules.Database.APIs;
 using NUnit.Framework;
 
-
 //O2Ref:nunit.framework.dll
-//O2File:API_InputSimulator
+//O2File:API_InputSimulator.cs
 
 namespace O2.XRules.Database.UnitTests
 {		

@@ -36,9 +36,6 @@ comboBox.sendKeys("http://www.microsoft.com/technet/security/current.aspx".line(
  
 //O2Ref:Interop.SHDocVw.dll
 //O2Ref:WatiN.Core.1x.dll 
-
-//O2File:Scripts_ExtensionMethods.cs 
-//O2File:ascx_Simple_Script_Editor.cs.o2 
 </SourceCode>
   <ReferencedAssemblies />
 </H2>

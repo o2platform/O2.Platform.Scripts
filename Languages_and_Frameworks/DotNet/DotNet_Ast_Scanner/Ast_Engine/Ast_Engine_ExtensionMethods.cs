@@ -14,14 +14,13 @@ using O2.API.AST.ExtensionMethods.CSharp;
 using ICSharpCode.NRefactory.Ast;
 using ICSharpCode.SharpDevelop.Dom;
 using O2.DotNetWrappers.O2Findings;
-
+  
 //O2File:Ast_Engine_Cache.cs
 //O2File:O2CodeStreamTaintRules_ExtensionMethods.cs
 //O2File:O2CodeStream_ExtensionMethods.cs
 //O2File:O2MethodStream_ExtensionMethods.cs
 //O2File:O2MappedAstData_ExtensionMethods.cs
 
-//O2Ref:O2_API_AST.dll
 
 namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 {

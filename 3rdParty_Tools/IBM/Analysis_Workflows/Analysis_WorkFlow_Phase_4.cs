@@ -11,7 +11,6 @@ using O2.XRules.Database._Rules;
 using O2.XRules.Database.Interfaces;
 //O2Ref:nunit.framework.dll
 using NUnit.Framework;
-//O2Ref:O2_Interfaces.dll
 //O2File:IAnalysisArtifacts.cs
 //O2File:XUtils_Findings_v0_1.cs
 //O2File:XUtils_Analysis.cs

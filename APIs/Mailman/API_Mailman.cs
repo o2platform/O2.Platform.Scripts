@@ -11,8 +11,6 @@ using O2.DotNetWrappers.ExtensionMethods;
 using O2.Views.ASCX.ExtensionMethods;
 using O2.XRules.Database.Utils;
 using HtmlAgilityPack;
-//O2File:HtmlAgilityPack_ExtensionMethods.cs
-//O2File:_Extra_methods_WinForms_TableList.cs
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
 
 

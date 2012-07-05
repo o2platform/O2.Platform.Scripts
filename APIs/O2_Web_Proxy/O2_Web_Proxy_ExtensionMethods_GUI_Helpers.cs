@@ -17,17 +17,7 @@ using O2.XRules.Database.Utils;
 using HTTPProxyServer;
  
 //O2File:O2_Web_Proxy.cs
-//O2File:O2_Web_Proxy_ExtensionMethods_Waf_Rules.cs
-
-//O2File:_Extra_methods_Files.cs
-//_O2File:_Extra_methods_Reflection.cs
-//_O2File:_Extra_methods_WinForms_Controls.cs
-//O2File:_Extra_methods_WinForms_TreeView.cs
-//O2File:_Extra_methods_WinForms_TableList.cs
-//O2File:_Extra_methods_ObjectDetails.cs
- 
-//_O2Ref:System.Configuration.dll
-  
+//O2File:O2_Web_Proxy_ExtensionMethods_Waf_Rules.cs  
   
 namespace O2.XRules.Database.APIs
 {
@@ -230,8 +220,7 @@ namespace O2.XRules.Database.APIs
 											//htmlContent.info();
 											sourceCodeViewer.set_Text(requestResponseData.Response_String, ".html");
 										});
-//O2File:_Extra_methods_WinForms_Controls.cs		 	
-//O2File:Scripts_ExtensionMethods.cs
+
 		 											
 /*			httpData.onDoubleClick<RequestResponseData>(
 				(requestResponseData)=> {																			

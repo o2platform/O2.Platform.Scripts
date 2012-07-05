@@ -12,7 +12,6 @@ using O2.DotNetWrappers.Windows;
 using O2.DotNetWrappers.Zip;
 using O2.XRules.Database.Utils;
 
-//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
 //O2File:API_IKVMC.cs
 
 namespace O2.XRules.Database.APIs.IKVM 

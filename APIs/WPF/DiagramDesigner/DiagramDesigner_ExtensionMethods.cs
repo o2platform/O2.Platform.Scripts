@@ -20,7 +20,10 @@ using O2.External.SharpDevelop.Ascx;
 using  O2.XRules.Database.Utils;
 using DiagramDesigner;
 
-//O2File:WPF_ExtensionMethods.cs
+//O2File:ElementHost_ExtensionMethods.cs
+//O2File:WPF_WinFormIntegration_ExtensionMethods.cs
+//O2File:WPF_Controls_ExtensionMethods.cs
+//O2File:Xaml_ExtensionMethods.cs
 
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:ICSharpCode.AvalonEdit.dll

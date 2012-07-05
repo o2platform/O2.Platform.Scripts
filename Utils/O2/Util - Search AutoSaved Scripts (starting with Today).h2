@@ -60,8 +60,6 @@ openTodaysFolder();
 
 return "ok" ; 
 
-//O2File:ascx_FolderViewer.cs  
-//O2File:_Extra_methods_WinForms_Controls.cs
 //O2Tag_DontAddExtraO2Files</SourceCode>
   <ReferencedAssemblies />
 </H2>

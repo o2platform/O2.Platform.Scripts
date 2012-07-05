@@ -166,8 +166,6 @@ return DateTime.Parse(date);
 return "ok";
 
 //using System.Xml.XPath
-
-//O2File:SecretData_ExtensionMethods.cs
 </SourceCode>
   <ReferencedAssemblies />
 </H2>

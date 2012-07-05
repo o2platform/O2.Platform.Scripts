@@ -17,7 +17,6 @@ using O2.XRules.Database.Utils;
 using O2.External.SharpDevelop.Ascx;
 using O2.External.SharpDevelop.ExtensionMethods;
  
-//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
 //O2File:API_IKVMC.cs
 
 namespace O2.XRules.Database.APIs.IKVM

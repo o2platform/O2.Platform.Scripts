@@ -107,7 +107,6 @@ foreach(var xPathQuery in sampleXPathQueries)
 pageToOpen.sendKeys(defaultPage.line());
 
 
-//O2File:HtmlAgilityPack_ExtensionMethods.cs
 //using O2.External.IE.ExtensionMethods
 //O2Ref:O2_External_IE.dll
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll

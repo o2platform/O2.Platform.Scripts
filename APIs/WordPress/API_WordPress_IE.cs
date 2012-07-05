@@ -13,10 +13,7 @@ using O2.DotNetWrappers.Network;
 using O2.DotNetWrappers.ExtensionMethods;
 
 //O2File:WatiN_IE_ExtensionMethods.cs 
-//O2File:HtmlAgilityPack_ExtensionMethods.cs 
 //O2Ref:WatiN.Core.1x.dll
-
-//O2File:_Extra_methods_Misc.cs
 
 namespace O2.XRules.Database.APIs
 {	

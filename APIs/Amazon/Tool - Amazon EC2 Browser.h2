@@ -97,7 +97,6 @@ showRunningInstancesDetails(topPanel);
 //using Amazon.EC2
 //using Amazon.EC2.Model
 //O2Ref:AWSSDK.dll
-//O2File:ascx_AskUserForLoginDetails.cs	
 //O2Ref:White.Core.dll
 </SourceCode>
   <ReferencedAssemblies />

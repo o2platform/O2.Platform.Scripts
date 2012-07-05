@@ -18,7 +18,6 @@ using O2.Views.ASCX.Ascx.MainGUI;
 using O2.Views.ASCX.O2Findings;
 using O2.External.SharpDevelop.ExtensionMethods;
 using System.ComponentModel;
-//O2File:Scripts_ExtensionMethods.cs
 
 //O2Ref:O2_FluentSharp_BCL.dll
 
@@ -75,6 +74,7 @@ namespace O2.XRules.Database.Utils
 		
 	}	
 */	
+	//this has to stay here due to the use of the Tuple
 	public static class _Extra_extensionMethods_Component
 	{
 		public static List<Tuple<object,Delegate>> eventHandlers(this Component component)			

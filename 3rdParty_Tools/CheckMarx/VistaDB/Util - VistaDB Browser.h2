@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>//var topPanel = panel.clear().add_Panel();
+  <SourceCode>//O2Tag:SkipGlobalCompilation
+
+//var topPanel = panel.clear().add_Panel();
 var topPanel = O2Gui.open&lt;Panel&gt;("Sql Info",900,500);
 topPanel.insert_Below(100).add_LogViewer();
 var vistaDb = new API_VistaDB(); 

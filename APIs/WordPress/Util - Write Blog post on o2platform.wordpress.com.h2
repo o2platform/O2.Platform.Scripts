@@ -170,14 +170,12 @@ return "ok";
 //using System.Drawing.Imaging
 //O2File:API_WordPress.cs
 //O2File:Watin_IE.cs
-//O2File:ascx_AskUserForLoginDetails.cs 
 //O2Ref:WordPress_XmlRpc_JoeBlogs.dll
 //O2Ref:Interop.SHDocVw.dll
 //O2Ref:WatiN.Core.1x.dll
 //using Jint.Expressions
 //using O2.XRules.Database.Languages_and_Frameworks.Javascript
 //O2File:Jint_ExtensionMethods.cs 
-//O2File:HtmlAgilityPack_ExtensionMethods.cs 
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
 //O2Ref:Jint.dll</SourceCode>
   <ReferencedAssemblies />

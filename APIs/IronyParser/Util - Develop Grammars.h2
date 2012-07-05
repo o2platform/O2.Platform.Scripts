@@ -56,7 +56,6 @@ var scriptCode = "\"Executing script\".info();".line()  +
 				 "//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll ";
 	
 scriptEditor.set_Command(scriptCode);	
-	
-//O2File:Scripts_ExtensionMethods.cs 	</SourceCode>
+</SourceCode>
   <ReferencedAssemblies />
 </H2>

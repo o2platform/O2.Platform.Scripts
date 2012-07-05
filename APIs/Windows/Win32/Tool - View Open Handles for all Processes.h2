@@ -4,7 +4,7 @@
 var topPanel = "Tool - View Open Handles for all Processes".popupWindow(1000,500);
 topPanel.insert_LogViewer();
 var actionsPanel = topPanel.insert_Above(40,"");
-var tableList =  topPanel.add_TableList();
+var tableList =  topPanel.add_TableList(); 
 var openHandles_TreeView = topPanel.insert_Left(400, "Processes (with more than 0 handles loaded)").add_TreeView_with_PropertyGrid().sort();
 
 var processesToMap = 500;
@@ -90,7 +90,6 @@ actionsPanel.add_Label("# Processes to Map").top(2).autoSize()
  
 //using System.Diagnostics
 //O2File:API_Win32Processes_Handles.cs
-//O2File:_Extra_methods_WinForms_TableList.cs 
 //O2Tag_DontAddExtraO2Files  
 </SourceCode>
   <ReferencedAssemblies />

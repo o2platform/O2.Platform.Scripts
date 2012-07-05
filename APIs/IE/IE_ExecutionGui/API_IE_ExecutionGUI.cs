@@ -9,7 +9,7 @@ using O2.Kernel;
 using O2.Kernel.ExtensionMethods;
 using O2.DotNetWrappers.Network;
 using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.Windows;
+using O2.DotNetWrappers.Windows; 
 using O2.DotNetWrappers.ExtensionMethods;
 using O2.External.SharpDevelop.ExtensionMethods;
 using O2.Views.ASCX.classes.MainGUI;
@@ -18,9 +18,6 @@ using O2.XRules.Database.Utils;
 //O2File:WatiN_IE_ExtensionMethods.cs    
 //O2Ref:WatiN.Core.1x.dll
 
-//O2File:_Extra_methods_WinForms_Controls.cs
-//O2File:_Extra_methods_Reflection.cs
-//O2File:_Extra_methods_WinForms_TreeView.cs
 
 namespace O2.XRules.Database.APIs
 {	

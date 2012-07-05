@@ -22,11 +22,13 @@ using DiagramDesigner;
 //O2Ref:QuickGraph.dll   
 //O2Ref:GraphSharp.dll
 //O2Ref:GraphSharp.Controls.dll
-//O2Ref:PresentationCore.dll
-//O2Ref:WindowsBase.dll
-//O2Ref:PresentationFramework.dll
 //O2Ref:O2_API_Visualization.dll 
 //O2Ref:DiagramDesigner.exe
+
+//O2Ref:PresentationCore.dll
+//O2Ref:PresentationFramework.dll
+//O2Ref:WindowsBase.dll
+//O2Ref:System.Xaml.dll
 
 namespace O2.XRules.Database.APIs
 {		
@@ -105,7 +107,7 @@ namespace O2.XRules.Database.APIs
 								ex.log("inside new AppDomain"); 
 							}
 							
-							PublicDI.log.showMessageBox("Click OK to close the '{0}' AppDomain (and close all open windows)".format(appDomainName));							
+							DebugMsg.showMessageBox("Click OK to close the '{0}' AppDomain (and close all open windows)".format(appDomainName));							
 							o2AppDomain.unLoadAppDomain();
 						});
 		  }

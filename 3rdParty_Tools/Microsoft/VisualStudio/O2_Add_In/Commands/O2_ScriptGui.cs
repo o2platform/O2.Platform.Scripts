@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Diagnostics;
+using O2.XRules.Database.Utils;
 
 using O2.Kernel					 .ExtensionMethods;
 using O2.FluentSharp.VisualStudio.ExtensionMethods;
@@ -33,9 +34,10 @@ namespace O2.FluentSharp.VisualStudio
 			this.Execute = () =>
 					{
 						var title	 = "O2 REPL Script Editor (Read-Eval-Print-Loop)";
-						var o2Script = "ascx_Simple_Script_Editor.cs.o2";
-						var type	 = "ascx_Simple_Script_Editor";
-						O2AddIn.add_WinForm_Control_from_O2Script(title, o2Script, type, 500,300);
+						//var o2Script = "ascx_Simple_Script_Editor.cs.o2";
+						//var type	 = "ascx_Simple_Script_Editor";
+						//O2AddIn.add_WinForm_Control_from_O2Script(title, o2Script, type, 500,300);
+						O2AddIn.add_WinForm_Panel(title, 500,300).add_Script();						
 					};
 
 		}

@@ -25,9 +25,6 @@ foreach(var referencedAssmebly in compiledFile.assembly().referencedAssemblies()
 }
 targetFolder.startProcess(); 
 return "ok"; 
-//O2File:_Extra_methods_Compilation.cs
-//O2File:_Extra_methods_Reflection.cs
-//O2File:_Extra_methods_Windows.cs
 //O2Tag_DontAddExtraO2Files   </SourceCode>
   <ReferencedAssemblies />
 </H2>

@@ -13,7 +13,7 @@ using O2.FluentSharp.VisualStudio;
 using O2.API.Visualization.ExtensionMethods;
 
 //O2File:API_VisualStudio_2010.cs
-//O2File:WPF_ExtensionMethods.cs
+//O2File:WPF_Controls_ExtensionMethods.cs
 
 //O2Ref:EnvDTE.dll
 //O2Ref:EnvDTE80.dll
@@ -68,7 +68,7 @@ namespace O2.XRules.Database.APIs
     
     	public static ViewElement control(this ViewElement viewElement, string title)
     	{
-    		return viewElement.wpfInvoke(
+    		return (ViewElement)viewElement.wpfInvoke(
 				()=>{	
 		    			foreach(var control in viewElement.controls())
     						if (control.str() == title)
@@ -84,7 +84,7 @@ namespace O2.XRules.Database.APIs
     	
     	public static  List<ViewElement> controls(this ViewElement viewElement, Predicate<ViewElement> predicate)    	
     	{
-    		return viewElement.wpfInvoke(
+    		return (List<ViewElement>)viewElement.wpfInvoke(
 				()=>{						
 						return viewElement.FindAll(predicate).toList();
 					});    	
@@ -92,7 +92,7 @@ namespace O2.XRules.Database.APIs
 		
 		public static  List<string> titles(this List<ViewElement> viewElements)
     	{
-    		return viewElements.first().wpfInvoke(
+    		return (List<string>)viewElements.first().wpfInvoke(
 				()=>{	
 						return (from viewElement in viewElements
 								select viewElement.str()).toList();						

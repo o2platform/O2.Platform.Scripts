@@ -31,20 +31,13 @@ using SHDocVw;
 using mshtml; 
 
 //O2File:WatiN_IE.cs
-//O2File:ascx_CaptchaQuestion.cs
-//O2File:ascx_AskUserForLoginDetails.cs
-//O2File:ISecretData.cs
 //O2File:DotNet_Viewstate.cs
-
-//O2File:_Extra_methods_WinForms_Controls.cs
 
 //O2Ref:O2_External_IE.dll
 //O2Ref:WatiN.Core.1x.dll
-//O2Ref:Interop.SHDocVw.dll
 //O2Ref:Microsoft.mshtml.dll
 //O2Ref:System.Xml.Linq.dll
 //O2Ref:System.Xml.dll
-//O2Ref:O2_API_Ast.dll
 //O2Ref:Microsoft.mshtml.dll
 
 namespace O2.XRules.Database.APIs

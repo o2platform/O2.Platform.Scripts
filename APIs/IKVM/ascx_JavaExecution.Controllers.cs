@@ -64,7 +64,7 @@ namespace O2.XRules.Database.APIs.IKVM
 
         private void deleteJarStubs()
         {
-            Files.deleteFiles(directoryWithJarStubFiles.getFiles(),true);            
+            Files_WinForms.deleteFiles(directoryWithJarStubFiles.getFiles(),true);            
         }
 
         private void deleteEmptyJarStubs()
@@ -72,11 +72,11 @@ namespace O2.XRules.Database.APIs.IKVM
             var filesToDelete = new List<string>();
             foreach (var file in directoryWithJarStubFiles.getFiles())
             {
-                var fileSize = Files.getFileSize(file);
+                var fileSize = Files_WinForms.getFileSize(file);
                 if (fileSize == 0)
                     filesToDelete.Add(file);
             }
-            Files.deleteFiles(filesToDelete, true);
+            Files_WinForms.deleteFiles(filesToDelete, true);
         }
 
 

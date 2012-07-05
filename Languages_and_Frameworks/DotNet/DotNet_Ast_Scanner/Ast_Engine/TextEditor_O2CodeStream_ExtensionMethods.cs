@@ -9,7 +9,6 @@ using O2.API.AST.ExtensionMethods;
 using O2.API.AST.ExtensionMethods.CSharp;
 
 //O2File:Ast_Engine_ExtensionMethods.cs
-//O2Ref:O2_API_AST.dll
 
 
 namespace O2.XRules.Database.Languages_and_Frameworks.DotNet

@@ -18,9 +18,7 @@ using NUnit.Util;
 using NUnit.Core;
 
 //O2File:API_NUnit.cs
-//O2File:_Extra_methods_Files.cs
-//O2File:_Extra_methods_Reflection.cs
-//O2File:_Extra_methods_AppDomain.cs
+//O2File:_Extra_methods_AppDomain.cs 
 
 //O2Ref:nunit-gui-runner.dll
 //O2Ref:nunit.util.dll

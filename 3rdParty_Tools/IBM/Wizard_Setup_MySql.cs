@@ -1,4 +1,9 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
+
+//THIS FILE WAS CREATED FOR THE 6.0 RELEASE OF OUNCELABS
+//AND IT IS CURRENTLY NOT WORKING
+
+//O2Tag:SkipGlobalCompilation
 using System;
 using System.Collections.Generic;
 using System.Linq;

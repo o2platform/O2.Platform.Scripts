@@ -76,7 +76,6 @@ actionsPanel.add_Link("Install LinqPad", ()=&gt; "LinqPad.cs".local().executeFir
 
 return "ok";
 
-//O2Ref:LINQPad\LINQPad.exe
-//O2File:Scripts_ExtensionMethods.cs</SourceCode>
+//O2Ref:LINQPad\LINQPad.exe</SourceCode>
   <ReferencedAssemblies />
 </H2>

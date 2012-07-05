@@ -46,6 +46,10 @@ tableList.getListViewControl().onDrop((folder)=&gt; loadFile(folder));
 
 //loadFile(testFile);
 //O2File:Ref:API_WebScarab.cs 
-//O2File:Scripts_ExtensionMethods.cs </SourceCode>
+
+//O2Ref:PresentationCore.dll
+//O2Ref:WindowsBase.dll
+//O2Ref:System.Xaml.dll
+//O2Ref:PresentationFramework.dll</SourceCode>
   <ReferencedAssemblies />
 </H2>

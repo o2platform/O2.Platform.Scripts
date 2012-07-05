@@ -30,8 +30,6 @@ injectScriptIntoGui();
 
 return "done";
 //return .insert_Below(200);//.typeName(); 
-//return appScan.controls&lt;TreeView&gt;(true)[0].add_Node("a");;
-
-//O2File:Scripts_ExtensionMethods.cs</SourceCode>
+//return appScan.controls&lt;TreeView&gt;(true)[0].add_Node("a");;</SourceCode>
   <ReferencedAssemblies />
 </H2>

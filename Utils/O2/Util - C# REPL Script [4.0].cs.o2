@@ -3,7 +3,7 @@ using System;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;
+using O2.DotNetWrappers.ExtensionMethods; 
 using O2.DotNetWrappers.Windows;
 using O2.Views.ASCX.classes.MainGUI;  
 using O2.External.SharpDevelop.Ascx;
@@ -13,8 +13,6 @@ using Roslyn.Compilers;
 using Roslyn.Compilers.CSharp;
 
 //O2File:_Extra_methods_Roslyn_API.cs
-//O2File:ascx_Quick_Development_GUI.cs.o2
-//O2Ref:O2SharpDevelop.dll
 //O2Ref:O2_FluentSharp_Roslyn.dll
 
 //O2Ref:Roslyn.Compilers.CSharp.dll

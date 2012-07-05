@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
+using O2.DotNetWrappers.ExtensionMethods;
 using O2.DotNetWrappers.Windows;
 //O2File:API_IKVM.cs
 

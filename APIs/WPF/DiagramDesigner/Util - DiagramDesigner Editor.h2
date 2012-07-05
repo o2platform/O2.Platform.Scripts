@@ -316,7 +316,6 @@ return null;
 //O2Ref:O2_API_Visualization.dll 
 //O2Ref:DiagramDesigner.exe
 //O2Ref:Cropper.exe 
-//O2Ref:System.Xaml.dll
-//O2Ref:O2_API_AST.dll</SourceCode>
+//O2Ref:System.Xaml.dll</SourceCode>
   <ReferencedAssemblies />
 </H2>

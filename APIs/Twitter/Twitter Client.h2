@@ -229,7 +229,7 @@ followingTab.onSelected(
 		});
 return "done";
 */ 
-//O2File:ascx_AskUserForLoginDetails.cs
+
 //O2File:O2TwitterAPI.cs
 //O2File:WPF_GUI.cs
 
@@ -242,6 +242,11 @@ return "done";
 //O2Ref:GraphSharp.Controls.dll
 //O2Ref:ICSharpCode.AvalonEdit.dll
 //O2Ref:WatiN.Core.1x.dll
-</SourceCode>
+
+//O2Ref:PresentationCore.dll 
+//O2Ref:PresentationFramework.dll
+//O2Ref:System.Xaml.dll
+//O2Ref:WindowsBase.dll
+//O2Ref:WindowsFormsIntegration.dll</SourceCode>
   <ReferencedAssemblies />
 </H2>

@@ -14,7 +14,7 @@ using O2.Views.ASCX.ExtensionMethods;
 using O2.API.Visualization.ExtensionMethods;
 using O2.XRules.Database.Utils;
 
-//O2File:WPF_ExtensionMethods.cs
+//O2File:WPF_Controls_ExtensionMethods.cs
 
 //O2Ref:O2_API_Visualization.dll
 //O2Ref:PresentationCore.dll

@@ -17,8 +17,7 @@ using O2.DotNetWrappers.ExtensionMethods;
 using O2.DotNetWrappers.Windows;
 
 //O2Ref:itextsharp.dll 
-//O2Ref:O2_DotNetWrappers.dll
-//O2Ref:O2_Kernel.dll
+
 
 namespace O2.XRules.Database.APIs
 {

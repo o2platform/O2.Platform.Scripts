@@ -8,7 +8,6 @@ using O2.API.AST.CSharp;
 
 //O2File:Rule_DotNet_FindSources.cs
 
-//O2Ref:O2_API_AST.dll
 
 namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 {

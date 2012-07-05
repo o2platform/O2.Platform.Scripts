@@ -52,26 +52,6 @@ namespace O2.XRules.Database.APIs
 		 	if (LogCallbacks)
 				"HtmlContentReplace: {0} with html content with size: {1}".info(remoteUri, htmlContent.size());
 		 	return htmlContent;
-		 }		 		 
-		 
-/*		 public virtual void InterceptOnResponseReceived(object requestResponseData)
-		 {
-		 	"OnResponseReceived...".error();
-		 	//show.info(requestResponseData);
-//O2File:_Extra_methods_WinForms_Controls.cs		 	
-//O2File:Scripts_ExtensionMethods.cs		 	
-			//"aaa1".popupWindow().add_Script().InvocationParameters.Add("bytes",requestResponseData.prop("ResponseBytes"));
-		 	
-		 	
-		 	
-		 	//var 
-		 	/*if (LogCallbacks)
-				"OnResponseReceived: {0} with html content with size: {1}".info(requestResponseData.WebRequest.RequestUri, 
-																				requestResponseData.ResponseString.size());
-			if (OnResponseReceived.notNull())
-				OnResponseReceived(requestResponseData);
-			
-		 }
-		 */
+		 }		 		 		
     }
 }

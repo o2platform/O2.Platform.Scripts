@@ -11,7 +11,7 @@ using O2.XRules.Database.Utils;
 using CefSharp;
 using CefSharp.Wpf;
 
-//O2File:WPF_ExtensionMethods.cs
+//O2File:WPF_Controls_ExtensionMethods.cs
 
 //O2Ref:CefSharp\CefSharp-0.11-bin\CefSharp.Wpf.dll
 //O2Ref:CefSharp\CefSharp-0.11-bin\CefSharp.dll

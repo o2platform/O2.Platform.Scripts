@@ -93,16 +93,11 @@ return "ok";
 return o2Projects.files("*.csproj",true);  
  //return msBuild.build_Ok(coreLib);
  
-  
+   
 return msBuild;  
 */
   
 //O2File:API_MSBuild.cs
-//O2File:_Extra_methods_Misc.cs
-//O2File:_Extra_methods_WinForms_Controls.cs
-//O2File:_Extra_methods_WinForms_TextBox.cs
-//O2File:_Extra_methods_WinForms_Misc.cs
-//O2File:_Extra_methods_WinForms_TableList.cs
 //O2Tag_DontAddExtraO2Files
 
 </SourceCode>

@@ -8,7 +8,6 @@ using O2.Kernel;
 using O2.Kernel.ExtensionMethods;
 using O2.DotNetWrappers.ExtensionMethods;
 //O2File:WAF_Rule.cs
-//O2Ref:O2_Kernel.dll
     
 namespace O2.XRules.Database.APIs  
 {

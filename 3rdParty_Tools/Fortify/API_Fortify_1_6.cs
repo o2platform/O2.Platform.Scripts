@@ -11,8 +11,6 @@ using O2.XRules.Database.Utils;
 using xmlns.www.fortifysoftware.com.schema.fvdl;
 //O2File:Fortify.fvdl.1.6.xsd.cs
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
-//O2File:_Extra_methods_Items.cs
-//O2File:_Extra_methods_Collections.cs 
 
 namespace O2.XRules.Database.APIs
 {

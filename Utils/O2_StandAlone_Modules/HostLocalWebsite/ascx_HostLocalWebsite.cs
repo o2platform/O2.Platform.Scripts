@@ -12,8 +12,6 @@ using O2.XRules.Database.Utils;
 //O2File:webservices.cs
 //O2File:ascx_HostLocalWebsite.designer.cs
 
-//O2File:_Extra_methods_WinForms_Controls.cs
-
 namespace O2.Tool.HostLocalWebsite.ascx
 {
 	public class test_ascx_HostLocalWebsite

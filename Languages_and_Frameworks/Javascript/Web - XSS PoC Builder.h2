@@ -92,7 +92,7 @@ Action&lt;string&gt; openUrl =
  					{
  						O2Thread.mtaThread(()=&gt;element.flash());	
  						 						 						
- 						Ascx_ExtensionMethods.show(step3_PropertyGrid, (Element)element);				 	 
+ 						step3_PropertyGrid.show((Element)element);				 	 
  						var elementText = element.str(); 
  						if (elementText.size() &gt; 7)
  							elementText = elementText.Substring(0,7) + "...";  						  						
@@ -153,10 +153,16 @@ MethodInvoker publishExploit =
 			var injectionMethod = step4_ComboBox.get_Text_Wpf();
 			var payload = step5_SourceCodeEditor.get_Text(); 
 			
-			var exploitScript = "ie.open(\""+ page + "\");".line() +   
+			var exploitScript = "var topPanel = panel.clear().add_Panel();".line() + 
+								"var ie = topPanel.add_IE().silent(true);".line() + 
+								"ie.open(\""+ page + "\");".line() +
+								"".line() + 
 							    "  var target = ie.elements(\""+elementTag+"\").str(\""+ elementValue+"\");".line() +   
 							    "  target.flash();".line() +  
-								"  target.injectHtml(\"" + injectionMethod + "\"," + payload.encodeAsO2ScriptText("",5).trim() + ");".line();  
+								"  target.injectHtml(\"" + injectionMethod + "\"," + payload.encodeAsO2ScriptText("",5).trim() + ");".line() + 
+								"".line() + 
+								"//O2File:WatiN_IE_ExtensionMethods.cs".line() + 
+								"//O2Ref:WatiN.Core.1x.dll".line();
 								
 			
 			var exploitGui = O2Gui.open&lt;ascx_IE_ScriptExecution&gt;("Xss Exploit",600,600); 
@@ -228,8 +234,6 @@ step6_Button.wpfInvoke(
 //using O2.API.Visualization.Xaml
 
 //O2File:WatiN_IE_ExtensionMethods.cs 		
-//O2File:ascx_Simple_Script_Editor.cs.o2
-//O2File:Scripts_ExtensionMethods.cs
 //O2File:DiagramDesigner_ExtensionMethods.cs
 //O2File:ascx_HtmlTagViewer.cs
 //O2File:ascx_IE_ScriptExecution.cs
@@ -243,6 +247,7 @@ step6_Button.wpfInvoke(
 //O2Ref:PresentationCore.dll
 //O2Ref:WindowsBase.dll
 //O2Ref:PresentationFramework.dll
+//O2Ref:System.Xaml.dll
 //O2Ref:QuickGraph.dll   
 //O2Ref:GraphSharp.dll
 //O2Ref:GraphSharp.Controls.dll

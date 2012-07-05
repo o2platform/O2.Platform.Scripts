@@ -7,8 +7,6 @@ using O2.DotNetWrappers.ExtensionMethods;
 //O2File:API_GuiAutomation.cs 
 //O2Ref:White.Core.dll 
 //O2Ref:UIAutomationClient.dll 
-
-//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
 using O2.XRules.Database.Utils;
 
 

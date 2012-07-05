@@ -1,0 +1,123 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>"O2Logo.ico".local().icon().set_As_Default_Form_Icon();
+var title = "OWASP O2 Platform v4.1 : {0}".format(clr.details());
+var topPanel = title.popupWindow(790,218);
+
+Action&lt;string&gt; executeH2Script = 
+	(script)=&gt; O2Thread.mtaThread( ()=&gt; script.executeFirstMethod());
+	
+//var topPanel = panel.fill(false).width(800).height(190).clear().add_Panel();  
+
+topPanel.parent().backColor(Color.White);   
+topPanel.insert_LogViewer().white(); 
+topPanel.splitContainer().distance(80).fixedPanel1();
+topPanel.add_PictureBox().open("OWASP_O2_Platform.png".local()).fill(false).width(341).height(41).top(10)
+		.onDoubleClick(()=&gt; executeH2Script("Util - O2 Available scripts.h2"));
+var menuPanel = topPanel.insert_Right&lt;Panel&gt;(440);  
+var scriptMappings = new Items(); 
+
+var o2Script = (Environment.Version.Major == 4) 
+					? "Util - C# REPL Script [4.0].cs.o2"
+					: "ascx_Quick_Development_GUI.cs.o2";
+  
+var scripting_Mappings = new Items().add("O2 Script",o2Script) 
+									.add("O2 Dev Environment", "Util - O2 Development Environment.h2")
+									.add("O2 Object Model", "Util - O2 Object Model.h2")
+							  		.add("IE Script","IE Automation (Simple mode).h2") 
+							  		.add("Graph Script","ascx_GraphWithInspector.cs.o2")
+							  		.add("IE Google", "IE_Google - Execution.h2")
+							  		.add("Write for NUnitGUI", "Util - Execute O2ified tests on NUnitGui.h2")
+							  		.add("Write Unit Tests", "Write and Execute Unit Tests.h2")
+							  		.add("SourceCode Editor", "Util - SourceCodeEditor.h2")
+							  		;							  		
+							  		
+var o2tools_Mappings = 	 new Items().add("Screenshot tool", "Util - Show ScreenShot Tool.h2")
+							 		.add("Search Engine", "Search Engine Tool.h2")
+									.add("Quick File Search", "Util - Quick File Search.h2")
+									.add("Execute Unit Tests", "Execute Unit Tests.h2")
+									.add("WSDL (Web Services)", "ascx_WSDL_Creation_and_Execution.cs.o2")																		
+					 				.add("O2 Web Proxy", "Util - O2 Web Proxy (simple view).h2")
+									.add("O2 Web Cache", "Tool - Cache from O2 Web Proxy.h2")
+									.add("O2 WAF Simulator", "Util - O2 WAF Simulator (simple Gui).h2")
+									.add("Movie Creator", "Util - Movie Creator.h2")		
+					 				.add("Find an O2 Script", "Util - O2 Available scripts.h2")
+									.add("Stop O2 Instances", "Uitl - Stop all (but current) O2_XRules_Database processes.h2");
+
+var otherTools_Mapping = new Items().add("Process Explorer", "ProcessExplorer.cs")
+									.add("Process Monitor", "ProcessMonitor.cs")
+									.add("Open Ports via Netstat", "Util - Show Open Ports (via NetStat -afo).h2")
+									.add("Putty", "Putty.cs")
+									.add("ILSpy (like Reflector)", "ILSpy.cs")
+									//.add("LINQPad", "Util - Inject O2 into LinqPad.h2")
+									.add("LINQPad", "LinqPad.cs")
+									.add("MDbg - Managed Debugger", "Installer_Mdbg_Sample_4_0.cs")
+									.add("HawkEye - Hook WinForms", "Installer_HawkEye.cs")
+									.add("Snoop - Hook WPF", "Snoop.cs")
+									.add("FuzzDB on RegEx", "Util - Text RegEx using FuzzDb.h2")
+									.add("Amazon EC2 Browser", "Tool - Amazon EC2 Browser.h2")
+									.add("Amazon S3 Browser", "Amazon S3 Browser.h2")
+									.add("OpenPGP Tool", "Tool - Using OpenPgp to Encrypt or Decrypt.h2")
+									//.add("AppScan Standard + O2","Util - Launch AppScan Standard (O2 version).h2")
+									.add("EtherPad (IE Viewer)","Util - EtherPad (IE Viewer).h2")
+									.add("EtherPad (Text Viewer)","Util - EtherPad (Text Viewer).h2");
+									
+
+var o2Guis_Mappings = 	 new Items().add("Security Consultants", "Security Consultants (Custom O2 version).h2")
+									.add("OWASP Projects &amp; Wiki", "OWASP Projects and Website (Custom O2).h2")
+									.add(".NET Static Analysis", "DotNet Static Analysis (Custom O2).h2")
+									.add("BlackBox", "BlackBox and Browser Automation (Custom O2).h2")
+									.add("SuperSecureBank", "_SSB - Custom O2.h2")
+									.add("HacmeBank", "HacmeBank - Vulnerable Web Application (Custom O2).h2");
+
+var help_Mappings = 	 new Items().add("O2 Documentation", "http://o2platform.com/wiki/Documentation")
+								  	.add("O2 Mailing list", "https://lists.owasp.org/mailman/listinfo/owasp-o2-platform")
+								  	.add("O2 Blog (tons of script samples", "http://o2platform.wordpress.com")
+								  	.add("O2 Website (at OWASP)", "http://owasp.org/index.php/O2");			  
+	
+var menu = topPanel.parentForm().add_Menu().white();
+menu.add_MenuItem("Main")
+	//.add_MenuItem("Find an O2 Script", ()=&gt; executeH2Script("Util - O2 Available scripts.h2"))
+	.add_MenuItem("Stop current process", ()=&gt; Processes.getCurrentProcess().stop());
+	
+menu.add_MenuItem("Debug")
+	.add_MenuItem("View O2 Config Object", ()=&gt; PublicDI.config.showInfo())
+	.add_MenuItem("Open ReferencesDownloadLocation Folder",()=&gt; PublicDI.config.ReferencesDownloadLocation.startProcess())
+	.add_MenuItem("Open TempDir",()=&gt; PublicDI.config.O2TempDir.startProcess())
+	.add_MenuItem("Clear Scripts Cache",()=&gt;  { CompileEngine.CachedCompiledAssemblies.Clear(); "Script Compilation Cache cleard".debug();})
+	.add_MenuItem("Compile All Scripts",()=&gt;  executeH2Script("Compile All Local O2 Scripts.h2"));
+menu.add_MenuItem("Help")	
+	.add_MenuItem("Report bug",()=&gt; ReportBug.showGui(topPanel))
+	.add_MenuItem("O2 Mailing list",()=&gt; "https://lists.owasp.org/mailman/listinfo/owasp-o2-platform".startProcess())
+	.add_MenuItem("Dinis Cruz Blog (Main O2 Dev", ()=&gt; "http://DinisCruz.blogger.com".startProcess())
+	.add_MenuItem("O2 Website (at OWASP)", ()=&gt; "http://owasp.org/index.php/O2".startProcess());
+	
+menuPanel.add_ExecutionComboBox("Write Script:",15,0,scripting_Mappings).dropDownHeight(300);
+menuPanel.add_ExecutionComboBox("O2 Tools:",36,0,o2tools_Mappings).leftAdd(13).dropDownHeight(300);   
+   
+menuPanel.add_Link("Find an O2 Script",57,69,()=&gt; executeH2Script("Util - O2 Available scripts.h2"));
+		 //.append_Below_Link("Clear Scripts Cache",()=&gt;  { CompileEngine.CachedCompiledAssemblies.Clear(); "Script Compilation Cache cleard".debug();}); 
+
+menuPanel.add_ExecutionComboBox("Open O2 Gui for:",15,200, o2Guis_Mappings).leftAdd(-5).widthAdd(20).dropDownHeight(300); 
+menuPanel.add_ExecutionComboBox("3rd Party Tools:",36,200,otherTools_Mapping).widthAdd(20).dropDownHeight(300);
+ 
+menuPanel.add_ExecutionComboBox("Need Help?",57,200, help_Mappings).leftAdd(20).widthAdd(20);
+
+//menuPanel.add_Link("Report bug",77,200,()=&gt; ReportBug.showGui(topPanel));
+
+
+
+
+//menuPanel.add_Link("Open Custom O2 for Security Consultants",15,185, ()=&gt; executeH2Script("Security Consultants (Custom O2 version).h2"));
+
+/*menuPanel.add_Label("Are you lost?",35,185)
+		 .append_Link("Open Help",()=&gt; "".startProcess()) 
+		 .append_Link("Mailing List",()=&gt; "".startProcess());
+*/		 
+		 
+return "done";		
+
+//using O2.Views.ASCX.Forms
+//O2Tag_DontAddExtraO2Files</SourceCode>
+  <ReferencedAssemblies />
+</H2>

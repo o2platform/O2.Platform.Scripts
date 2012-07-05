@@ -27,12 +27,11 @@ using O2.External.IE.Wrapper;
 using O2.External.IE.WebObjects;
 using O2.XRules.Database.Utils;
 
-//O2File:HtmlAgilityPack_ExtensionMethods.cs
-
 //O2Ref:Jint.dll
 //O2Ref:Antlr3.Runtime.dll
 //O2Ref:O2_External_SharpDevelop.dll
 //O2Ref:O2_External_IE.dll
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
 
 namespace O2.XRules.Database.Languages_and_Frameworks.Javascript
 {

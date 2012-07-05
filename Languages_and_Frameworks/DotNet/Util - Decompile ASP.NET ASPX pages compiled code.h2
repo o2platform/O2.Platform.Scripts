@@ -107,6 +107,9 @@ mainGui.insert_Above&lt;Panel&gt;(25)
 
 treeView.onDrop(loadDllsFromFolder);
 
+
+return "done";
+
 //using O2.External.O2Mono.CecilDecompiler;
 //using O2.External.O2Mono.MonoCecil;
 //using Mono.Cecil;

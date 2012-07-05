@@ -35,6 +35,11 @@ return "ok";
 //O2File:API_Fiddler.cs
 //O2File:WPF_Ribbon.cs
 //O2Ref:WindowsFormsIntegration.dll
-//O2Ref:RibbonControlsLibrary.dll</SourceCode>
+//O2Ref:RibbonControlsLibrary.dll
+
+//O2Ref:PresentationCore.dll
+//O2Ref:PresentationFramework.dll
+//O2Ref:WindowsBase.dll
+//O2Ref:System.Xaml.dll</SourceCode>
   <ReferencedAssemblies />
 </H2>

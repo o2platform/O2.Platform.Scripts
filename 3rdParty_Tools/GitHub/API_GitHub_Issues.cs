@@ -22,12 +22,9 @@ using GithubSharp.Core.Models.Internal;
 using GithubSharp.Core.API;  
 using GithubSharp.Core.Services; 
 using GithubSharp.Plugins.LogProviders.SimpleLogProvider; 
-//O2File:SecretData_ExtensionMethods.cs 
 //O2Ref:GithubSharp.Core.dll
 //O2Ref:BasicCacher.dll
 //O2Ref:GithubSharp.Plugins.LogProviders.SimpleLogProvider.dll
-
-//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
 
 
 namespace O2.XRules.Database.APIs

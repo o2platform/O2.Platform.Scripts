@@ -47,6 +47,8 @@ return  "ok";
 
 //using System.Data;
 //O2File:SSBService.cs
-//O2Ref:System.Web.Services.dll</SourceCode>
+//O2Ref:System.Web.Services.dll
+
+//O2Tag:SkipGlobalCompilation</SourceCode>
   <ReferencedAssemblies />
 </H2>

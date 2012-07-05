@@ -16,7 +16,6 @@ using O2.External.SharpDevelop.ExtensionMethods;
 using O2.Views.ASCX.ExtensionMethods;
 //O2Ref:System.Data.dll
 using O2.XRules.Database.Utils;
-//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
 
 namespace O2.XRules.Database.APIs
 {

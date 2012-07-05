@@ -75,15 +75,10 @@ Action&lt;string,string&gt; copyFileToWebSite =
 	 	
 var supportDlls = new List&lt;string&gt; {
 										//Needed for FluentSharp
-										"O2_Kernel.dll".assembly().Location,
-										"O2_Interfaces.dll".assembly().Location,
-										"O2_DotNetWrappers.dll".assembly().Location,
-										"O2_Views_ASCX.dll".assembly().Location,
+										"O2_FluentSharp_CoreLib.dll".assembly().Location,
+										"O2_FluentSharp_BCL.dll".assembly().Location,										
 										//Needed for scripting environment
-										"O2_External_SharpDevelop.dll".assembly().Location,
-										"O2SharpDevelop.dll".assembly().Location,
-										"O2_API_AST.dll".assembly().Location,
-										"O2_XRules_Database.exe".assembly().Location,
+										"O2_External_SharpDevelop.dll".assembly().Location,										
 										"O2_External_WinformsUI.dll".assembly().Location,
 										"log4net.dll".assembly().Location
 									};

@@ -15,7 +15,7 @@ Label messageLabel = null;
 
 var wikiApi = new OwaspWikiAPI(false); 
 
-Action showRecentChanges = `
+Action showRecentChanges = 
 	()=&gt;{
 			wikiApi.add_Table_with_RecentChanges(recentChanges.clear());
 		};

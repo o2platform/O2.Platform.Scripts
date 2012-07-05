@@ -21,9 +21,6 @@ using System.Management;
 using O2.XRules.Database.Utils;
 
 //O2Ref:System.Management.dll
-//O2File:DynamicTypes.cs
-
-//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
 //using O2.XRules.Database.Utils
 
 namespace O2.XRules.Database.APIs

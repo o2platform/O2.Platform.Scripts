@@ -93,7 +93,7 @@ tableList.getListViewControl().onDrop(openDroppedFile);
 //using FirebirdSql.Data.FirebirdClient 
 //using System.Data 
 //using System.Data.Common
-//O2Download:fbembed.dll
+//_O2Download:fbembed.dll
 //O2Ref:FirebirdSql.Data.FirebirdClient.dll
 
 //Note:Downloaded Embedded Firebird for Windows from http://sourceforge.net/projects/firebird/files/firebird-win32/2.0.6-Release/Firebird-2.0.6.13266-0_embed_pdb.zip/download

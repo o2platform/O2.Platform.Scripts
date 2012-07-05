@@ -18,9 +18,7 @@ using White.Core.UIItems.WindowItems;
 //O2File:API_GuiAutomation.cs
 //O2File:Tool_API.cs
 
-
 //using O2.XRules.Database.Utils;
-//_O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
 
 namespace O2.XRules.Database.APIs  
 {	

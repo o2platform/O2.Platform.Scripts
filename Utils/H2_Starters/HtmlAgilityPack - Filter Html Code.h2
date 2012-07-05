@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>var topPanel = panel.clear().add_Panel();
-//var topPanel = "HtmlAgilityPack - Filter Html Code".popupWindow();
+  <SourceCode>//var topPanel = panel.clear().add_Panel();
+var topPanel = "HtmlAgilityPack - Filter Html Code".popupWindow();
 var htmlCodeViewer = topPanel.add_SourceCodeViewer();
 var xpathQuery = topPanel.insert_Right("XPath query result");
 
@@ -16,8 +16,7 @@ treeView.after_TagSelect_showIn_SouceCodeViewer(htmlCodeViewer);
 textBox.sendKeys(query.line()); 
 
 return "ok";
- 	
-//O2File:HtmlAgilityPack_ExtensionMethods.cs
+
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
 </SourceCode>
   <ReferencedAssemblies />

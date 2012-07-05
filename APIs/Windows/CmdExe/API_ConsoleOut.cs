@@ -13,11 +13,6 @@ using O2.DotNetWrappers.ExtensionMethods;
 using O2.Views.ASCX.classes.MainGUI;
 using O2.XRules.Database.Utils;
 
-//O2File:_Extra_methods_Misc.cs
-//O2File:_Extra_methods_Windows.cs
-//O2File:_Extra_methods_WinForms_Misc.cs
-//O2File:_Extra_methods_WinForms_Controls.cs
-
 namespace O2.XRules.Database.APIs
 {
 	public class API_ConsoleOut_Test

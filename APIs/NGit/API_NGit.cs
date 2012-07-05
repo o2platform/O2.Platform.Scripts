@@ -7,7 +7,7 @@ using O2.Kernel.ExtensionMethods;
 using O2.DotNetWrappers.ExtensionMethods;
 using O2.XRules.Database.Utils;
 using NGit.Api;
-using NGit;
+using NGit; 
 
 //O2Ref:NGit.dll
 //O2Ref:NSch.dll

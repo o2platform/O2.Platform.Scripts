@@ -13,7 +13,6 @@ using NUnit.Framework;
 using System.Security.Principal;
 using System.Security.Permissions;
 using O2.XRules.Database.Utils;
-//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
 
 namespace O2.XRules.Database.UnitTests
 {		

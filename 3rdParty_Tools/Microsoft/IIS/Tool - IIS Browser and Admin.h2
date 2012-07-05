@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>var iis7 = new API_IIS7();  
+  <SourceCode>//REQUIRES IIS INSTALLED
+//O2Tag:SkipGlobalCompilation
+
+var iis7 = new API_IIS7();  
 if (iis7.checkIfUserHasEnoughPermissions().isFalse()) 
 	return null;
 

@@ -27,11 +27,7 @@ Action&lt;string,string,bool&gt; executeInAppDomain =
 												else
 													"file not found: {0}".error(fullPath);
 											}; 
-											
-							copyFileToAppDomain("O2_XRules_Database.exe", tempDir);			
-							copyFileToAppDomain("O2_Kernel.dll", tempDir);
-							copyFileToAppDomain("O2_DotNetWrappers.dll",tempDir);
-							copyFileToAppDomain("O2_Interfaces.dll",tempDir);
+																		
 							
 											
 							var o2AppDomain =  new O2.Kernel.Objects.O2AppDomainFactory(appDomainName,tempDir);
@@ -39,9 +35,7 @@ Action&lt;string,string,bool&gt; executeInAppDomain =
 							var o2AppDomain =  new O2.Kernel.Objects.O2AppDomainFactory(appDomainName);
 							try
 							{
-								o2AppDomain.load("O2_XRules_Database"); 	
-								o2AppDomain.load("O2_Kernel");
-								o2AppDomain.load("O2_DotNetWrappers");
+								o2AppDomain.load("O2_FluentSharp_CoreLib"); 									
 							
 								var o2Proxy =  (O2Proxy)o2AppDomain.getProxyObject("O2Proxy");
 								 
@@ -60,7 +54,7 @@ Action&lt;string,string,bool&gt; executeInAppDomain =
 								ex.log("inside new AppDomain"); 
 							}
 							
-							PublicDI.log.showMessageBox("Click OK to close the '{0}' AppDomain (and close all open windows)".format(appDomainName));
+							DebugMsg.showMessageBox("Click OK to close the '{0}' AppDomain (and close all open windows)".format(appDomainName));
 							//System.Threading.Thread.Sleep(5000); 
 							o2AppDomain.unLoadAppDomain();
 						});
@@ -75,21 +69,16 @@ executeButton.onClick(
 		});
 //default values
 
-script.set_Command("PublicDI.log.showMessageBox(\"Hello from app domain: \" + AppDomain.CurrentDomain.FriendlyName);"); 
+script.set_Command("DebugMsg.showMessageBox(\"Hello from app domain: \" + AppDomain.CurrentDomain.FriendlyName);"); 
 //script.set_Command("show.info(AppDomain.CurrentDomain);"); 
 appDomainName_TextBox.set_Text("Temp_AppDomain");
 
 
 return "ok";
 
-
+//using O2.Views.ASCX.classes.MainGUI
 //using O2.Kernel.Objects
 //return appDomain;
-
-//O2File:ascx_Simple_Script_Editor.cs.o2
-//O2File:Scripts_ExtensionMethods.cs
-
-//using O2.XRules.Database.Utils.O2
 </SourceCode>
   <ReferencedAssemblies />
 </H2>

@@ -24,9 +24,6 @@ using O2.XRules.Database.Utils;
 //O2File:Ast_Engine_ExtensionMethods.cs
 //O2File:SharpDevelop_O2MappedAstData_ExtensionMethods.cs
 
-//O2File:HtmlAgilityPack_ExtensionMethods.cs 
-//O2File:Scripts_ExtensionMethods.cs   
-
 
 namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 {

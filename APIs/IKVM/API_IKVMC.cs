@@ -19,7 +19,6 @@ using O2.External.SharpDevelop.Ascx;
 using O2.External.SharpDevelop.ExtensionMethods;
 
 //O2File:API_IKVMC_JavaMetadata.cs
-//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
 //O2Ref:IKVM.Runtime.dll
 //O2Ref:IKVM.Runtime.JNI.dll
 //O2Ref:IKVM.OpenJDK.Util.dll

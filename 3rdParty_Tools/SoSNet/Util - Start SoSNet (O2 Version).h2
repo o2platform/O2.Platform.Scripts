@@ -11,7 +11,7 @@
 					    .add_MenuItem("O2 C# REPL Script Editor", ()=&gt; mainForm.script_Me())
 					    .add_MenuItem("O2 Log Viewer", ()=&gt; "Util - LogViewer.h2".local().executeH2Script())
 					    .add_MenuItem("Open Find Scripts GUI", ()=&gt; "Util - O2 Available scripts.h2".local().executeH2Script())
-					    .add_MenuItem("Open Main O2 GUI", ()=&gt; "Simple O2 Gui.h2".local().executeH2Script());
+					    .add_MenuItem("Open Main O2 GUI", ()=&gt; "Main O2 Gui.h2".local().executeH2Script());
 
 				"mainForm".o2Cache(mainForm);
 				mainForm.ShowDialog();				
@@ -44,7 +44,6 @@ return sos;
 //using SOS.Net
 //using SOS.Net.Core.Cdb
 
-//O2File:Script_ExtensionMethods.cs
 //O2Ref:SosNet\SOS.Net.Core.dll
 //O2Ref:SosNet\SOS.Net.exe
 

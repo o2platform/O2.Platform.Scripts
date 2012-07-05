@@ -31,7 +31,6 @@ add_Button("  .NET Security Testing   ", 210,100,"O2 GUI - .Net Security Testing
 add_Button(" Use OWASP Projects  ", 338,100,"O2 GUI - Use OWASP Projects.h2");
 add_Button(" Use Other tools or APIs  ", 460,100,"O2 GUI - Use Other Tools or APIs.h2");
 add_Button(" Create Scripts / APIs ", 590 ,100,"O2 GUI - Create Scripts or APIs.h2");
-add_Button(" Buy O2 ", 705 ,100, "O2 GUI - Buy O2.h2");
 add_Button(" Help! ", 755 ,100 ,"O2 GUI - Help.h2");
  
 designerCanvas.add_Xaml_Link("Try new 1.5 Beta version!", ()=&gt;"v1.5_MainGui.h2".local().executeH2Script())
@@ -45,6 +44,11 @@ return designerCanvas.connect(label1,label2,"Right","Top");
 //O2File:DiagramDesigner_ExtensionMethods.cs
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:DiagramDesigner.exe
-//O2Ref:O2_API_Visualization.dll</SourceCode>
+//O2Ref:O2_API_Visualization.dll
+
+//O2Ref:PresentationCore.dll
+//O2Ref:PresentationFramework.dll
+//O2Ref:WindowsBase.dll
+//O2Ref:System.Xaml.dll</SourceCode>
   <ReferencedAssemblies />
 </H2>

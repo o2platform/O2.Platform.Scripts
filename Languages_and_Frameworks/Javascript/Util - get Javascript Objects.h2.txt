@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//panel.clear();
+
+
+//var topPanel = panel.clear().add_Panel();
+var topPanel = O2Gui.open&lt;Panel&gt;("Util - Get Javascript Objects (using Firefox)", 1100,400); 
+
+
+GeckoWebBrowser fireFox = null;
+
+
+Action&lt;Panel&gt; setUpFirefox = 
+	(targetPanel)=&gt; {
+						targetPanel .invokeOnThread(()=&gt;{
+
+						//using Skybound.Gecko
+						//see http://code.google.com/p/geckofx/wiki/GettingStarted for more details
+						var pathtofirefoxinstalldir = @"C:\O2\_tempDir\_ToolsOrAPIs\xulrunner-1.9.0.17.en-US.win32\xulrunner";
+						Skybound.Gecko.Xpcom.Initialize(pathtofirefoxinstalldir); 
+						fireFox = new GeckoWebBrowser {Dock = DockStyle.Fill};
+						//show.info(firefoxWebBrowser);
+						targetPanel.Controls.Add(fireFox);
+						});
+						//var xulrunnerPath = @"C:\O2\_tempDir\_ToolsOrAPIs\xulrunner-1.9.0.17.en-US.win32\xulrunner"; //@"C:\O2\_tempDir\_ToolsOrAPIs\xulrunner-1.9.en-US.win32\xulrunner";  // @"%ProgramFiles%\Mozilla Firefox";//@"C:\O2\_tempDir\_ToolsOrAPIs\xulrunner-1.9.en-US.win32.zip\xulrunner";
+						//Skybound.Gecko.Xpcom.Initialize(xulrunnerPath);
+						//fireFox = targetPanel.add_Control&lt;GeckoWebBrowser&gt;();
+					};
+
+Action&lt;string&gt; openUrl = (url)=&gt;{ 
+									fireFox.invokeOnThread(()=&gt; fireFox.Navigate(url)); 
+								};
+			
+Func&lt;string,int,string,string&gt; openUrlAndGetObjects = 	
+(url, delay, rootObject) =&gt; {
+								fireFox.invokeOnThread(()=&gt;{	fireFox.Navigate(url);});	
+								
+								this.sleep(delay);
+								openUrl("javascript:var m=[]; for(var item in "+ rootObject +") m.push(item) ; document.title= m.toString() ");   
+								
+								return fireFox.DocumentTitle;
+
+					 };
+
+
+setUpFirefox(topPanel);
+
+var actions = topPanel.insert_Above&lt;GroupBox&gt;(60).set_Text("Actions").add_Panel();
+
+var urlText = actions.add_Label("Url to load").top(3).append_TextBox("").width(300); 
+var delayText =  urlText.append_Label("delay").autoSize().top(3).append_TextBox("").width(50);
+var rootObjectText =  delayText.append_Label("rootObject").autoSize().top(3).append_TextBox("").width(50);
+var targetFolderText =  rootObjectText.append_Label("target folder").autoSize().top(3).append_TextBox("").width(300);
+var serializedFile = actions.add_Label("Save File:").top(25).append_TextBox("").width(883);         
+  
+targetFolderText.append_Link("Get data", 
+					()=&gt;{
+							var url = urlText.get_Text();
+							var rootObject = rootObjectText.get_Text();
+							var items = openUrlAndGetObjects(url,
+															 delayText.get_Text().toInt(),
+															 rootObject);
+							var targetFile = targetFolderText.get_Text().pathCombine("{0} - {1}.xml".format(url,rootObject).safeFileName());
+							
+							"Saving serialized data to:{0}".info(targetFile);
+							items.split(",").sort() .saveAs(targetFile);
+							openUrl(targetFile);
+							serializedFile.set_Text(targetFile);
+						}).top(3);
+
+//test data
+urlText.set_Text("http://127.0.0.1:8080/dwr/simpletext/index.html");		
+delayText.set_Text("1000");
+rootObjectText.set_Text("window");
+targetFolderText.set_Text("javascript_Objects".tempDir(false));				
+//return openUrlAndGetObjects("http://127.0.0.1:8080/dwr/simpletext/index.html", 1000, "window");
+
+//openUrl("http://www.google.com");
+//this.sleep(1000);
+
+
+//return "a" + fireFox.Text;
+
+
+return "done";
+return "ok";							
+//using Skybound.Gecko 
+//using System.Threading
+//O2Ref:C:\O2\_tempDir\_ToolsOrAPIs\xulrunner-1.9.0.17.en-US.win32\Skybound.Gecko.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

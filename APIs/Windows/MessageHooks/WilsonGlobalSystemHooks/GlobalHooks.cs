@@ -2,7 +2,7 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using O2.Kernel.ExtensionMethods;
+using O2.DotNetWrappers.ExtensionMethods;
 
 namespace TransparencyMenu
 {

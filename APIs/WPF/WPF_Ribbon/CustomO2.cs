@@ -132,9 +132,9 @@ namespace O2.XRules.Database.Utils
 		{		
 			if (tab.notNull())
 				tab.add_RibbonGroup("Development GUIs")
-						.add_RibbonButton_Script("Simple Script Editor","ascx_Simple_Script_Editor.cs.o2")
-						.add_RibbonButton_Script("Quick development GUI","ascx_Quick_Development_GUI.cs.o2")			
-						.add_RibbonButton_H2Script("O2 Development Environment","Util - O2 Development Environment.h2")					
+						//.add_RibbonButton_Script("Simple Script Editor", show.S "ascx_Simple_Script_Editor.cs.o2")
+						.add_RibbonButton("Quick development GUI", ()=> open.scriptEditor() )//"ascx_Quick_Development_GUI.cs.o2")			
+						.add_RibbonButton("O2 Development Environment", ()=> open.devEnvironment() )//"Util - O2 Development Environment.h2")					
 						.add_RibbonButton_H2Script("Source Code Viewer","Util - SourceCodeViewer.h2")
 						.add_RibbonButton_H2Script("Source Code Editor","Util - SourceCodeEditor.h2")
 						.add_RibbonButton("O2 Object Model", () => open.o2ObjectModel());

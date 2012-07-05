@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using O2.Kernel;
 using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.DotNet;
+using O2.DotNetWrappers.DotNet; 
 using O2.DotNetWrappers.ExtensionMethods;
 using O2.Views.ASCX.ExtensionMethods;
 using O2.External.SharpDevelop.ExtensionMethods;
@@ -17,12 +17,8 @@ using O2.XRules.Database.Utils;
 using O2.DotNetWrappers.Windows;
 using O2.XRules.Database.Languages_and_Frameworks.DotNet;
 
-//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
-//O2File:Scripts_ExtensionMethods.cs
 //O2File:DotNet_SDK_WSDL.cs
-//O2File:DynamicTypes.cs
-
-//O2Ref:O2_API_AST.dll
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
 
 
 

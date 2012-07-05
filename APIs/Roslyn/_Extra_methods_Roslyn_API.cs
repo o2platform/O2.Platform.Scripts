@@ -13,9 +13,6 @@ using Roslyn.Compilers.CSharp;
 using Roslyn.Compilers;
 using Roslyn.Services;
 
-//O2File:_Extra_methods_Reflection.cs
-//O2File:_Extra_methods_Files.cs
-
 //O2Ref:O2_FluentSharp_Roslyn.dll
 
 //O2Ref:Roslyn.Services.dll

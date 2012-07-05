@@ -35,7 +35,6 @@ methodStreams.insert_Above(20).add_TextBox("Filter","")
 							 	 	});
 
 //O2File:ascx_CodeStreams.cs
-//using O2.XRules.Database.Languages_and_Frameworks.DotNet
-//O2Ref:O2_API_AST.dll</SourceCode>
+//using O2.XRules.Database.Languages_and_Frameworks.DotNet</SourceCode>
   <ReferencedAssemblies />
 </H2>

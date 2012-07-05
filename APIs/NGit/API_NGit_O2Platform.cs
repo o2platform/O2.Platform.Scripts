@@ -11,8 +11,6 @@ using O2.XRules.Database.Utils;
 //using NGit; 
 
 //O2File:API_NGit.cs
-//_O2File:_Extra_methods_Collections.cs
-//_O2File:_Extra_methods_Items.cs
 
 //_O2Ref:NGit.dll
 //_O2Ref:NSch.dll

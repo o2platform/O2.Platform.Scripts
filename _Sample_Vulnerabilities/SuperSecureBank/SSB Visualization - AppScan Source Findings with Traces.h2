@@ -108,13 +108,15 @@ return "ok";
 //O2File:Findings_ExtensionMethods.cs
 //O2File:VerticesAndEdges_ExtensionMethods.cs
 //O2Ref:O2_API_Visualization.dll
-//O2Ref:PresentationFramework.dll
-//O2Ref:WindowsBase.dll   
-//O2Ref:System.Core.dll
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:GraphSharp.dll
 //O2Ref:QuickGraph.dll
 //O2Ref:GraphSharp.Controls.dll
+
+//O2Ref:PresentationCore.dll
+//O2Ref:PresentationFramework.dll
+//O2Ref:WindowsBase.dll
+//O2Ref:System.Xaml.dll
 </SourceCode>
   <ReferencedAssemblies />
 </H2>

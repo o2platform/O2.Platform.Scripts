@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Linq; 
 using System.Text;
 using System.Xml.Serialization;
 using System.Windows.Forms;
@@ -20,12 +20,10 @@ using O2.Interfaces.O2Findings;
 using ICSharpCode.NRefactory;
 using O2.DotNetWrappers.O2Findings;
 using O2.XRules.Database.Utils;
-using O2.External.SharpDevelop.Ascx;
+using O2.External.SharpDevelop.Ascx; 
 using O2.External.SharpDevelop.ExtensionMethods;
 //O2File:Ast_Engine_ExtensionMethods.cs
 //O2Ref:QuickGraph.dll
-
-//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
 
 namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 {	

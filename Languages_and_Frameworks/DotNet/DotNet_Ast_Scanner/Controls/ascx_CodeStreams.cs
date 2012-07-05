@@ -14,9 +14,6 @@ using O2.XRules.Database.Utils;
 using O2.XRules.Database.Languages_and_Frameworks.DotNet;
 
 //O2File:Saved_MethodStream.cs
-//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
-
-//O2Ref:O2_API_AST.dll
 
 
 namespace O2.XRules.Database.Languages_and_Frameworks.DotNet

@@ -12,7 +12,6 @@ using O2.XRules.Database.Utils;
 
 //O2File:API_IIS_Logs
 
-//O2File:_Extra_methods_Collections.cs
 
 namespace O2.XRules.Database.APIs
 {

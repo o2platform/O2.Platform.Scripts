@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>
+  <SourceCode>//O2Tag:SkipGlobalCompilation
     
 //based on the code from http://www.codeproject.com/KB/IP/HTTPSDebuggingProxy.aspx
 //originally coded by @matt_mcknight  
@@ -186,9 +186,6 @@ return "ok";
 
 //using HTTPProxyServer
 //O2File:API_WinProxy.cs 
-//O2File:Program.cs  
-//O2File:CacheEntry.cs
-//O2File:CacheKey.cs
 //O2File:ProxyCache.cs
 //O2File:ProxyServer.cs
 //O2Ref:System.Configuration.dll</SourceCode>

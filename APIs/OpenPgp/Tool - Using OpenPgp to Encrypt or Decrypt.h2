@@ -246,6 +246,12 @@ return "ok";
 //O2File:WPF_GUI.cs
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:O2_API_Visualization.dll
-//O2Ref:O2_External_IE.dll</SourceCode>
+//O2Ref:O2_External_IE.dll
+
+//O2Ref:PresentationCore.dll
+//O2Ref:PresentationFramework.dll
+//O2Ref:WindowsBase.dll
+//O2Ref:System.Xaml.dll
+</SourceCode>
   <ReferencedAssemblies />
 </H2>

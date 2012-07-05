@@ -2,18 +2,16 @@
 //O2Tag_OnlyAddReferencedAssemblies
 using System.IO;
 using System.Collections.Generic;
-//O2Ref:O2_Kernel.dll
 using O2.Interfaces.O2Core;
 using O2.Interfaces.XRules;
 using O2.Kernel;
-//O2Ref:O2_DotNetWrappers.dll
 using O2.DotNetWrappers.Windows;
 using O2.DotNetWrappers.O2CmdShell;
-//O2File:IAnalysisArtifacts.cs
 using O2.XRules.Database.Interfaces;
-//O2Ref:nunit.framework.dll
 using NUnit.Framework;
-//O2Ref:O2_Interfaces.dll
+
+//O2File:IAnalysisArtifacts.cs
+//O2Ref:nunit.framework.dll
 
 namespace O2.XRules.Database._Rules.IBM.Analysis_Workflows
 {

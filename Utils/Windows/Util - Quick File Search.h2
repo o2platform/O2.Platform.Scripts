@@ -6,9 +6,7 @@ var localScriptsFolder = PublicDI.config.LocalScriptsFolder;
 var filesToShow = localScriptsFolder.files(true,"*.cs","*.h2","*.o2");
 
 simpleSearch.loadFiles(localScriptsFolder, filesToShow); 
-
 								
-//O2File:ascx_SimpleFileSearch.cs
 //O2Tag_DontAddExtraO2Files</SourceCode>
   <ReferencedAssemblies />
 </H2>

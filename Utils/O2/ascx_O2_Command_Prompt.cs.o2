@@ -9,9 +9,6 @@ using System.Drawing;
 using System.Windows.Forms;
 using System; 
 
-//O2File:ascx_Simple_Script_Editor.cs.o2
-//O2File:Scripts_ExtensionMethods.cs
-//O2File:_Extra_methods_WinForms_Controls.cs
 
 namespace O2.XRules.Database.Utils
 {

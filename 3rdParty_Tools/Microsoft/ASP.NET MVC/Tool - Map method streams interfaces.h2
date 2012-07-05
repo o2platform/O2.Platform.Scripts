@@ -106,7 +106,6 @@ return null;
 //O2File:Ast_Engine_ExtensionMethods.cs
 //O2File:ascx_ManualMethodStreams.cs
 //O2Ref:O2_External_SharpDevelop.dll
-//O2Ref:O2_API_AST.dll 
 //O2Ref:QuickGraph.dll</SourceCode>
   <ReferencedAssemblies />
 </H2>

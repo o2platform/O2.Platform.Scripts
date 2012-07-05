@@ -1,4 +1,8 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
+
+//WILL FAIL on a box without IIS installed
+//O2Tag:SkipGlobalCompilation
+
 using System;
 using System.Xml.Serialization;
 using System.Linq;
@@ -18,7 +22,6 @@ using Microsoft.Web.Administration;
 using O2.XRules.Database.Utils;
 //O2Ref:C:\Windows\System32\InetSrv\Microsoft.Web.Administration.dll 
 //O2File:ascx_FolderViewer.cs
-//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
 
 namespace O2.XRules.Database.APIs
 {

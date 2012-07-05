@@ -52,13 +52,10 @@ using O2.XRules.Database.APIs;
 //O2File:ascx_SearchAST.cs
 //O2File:ascx_ViewAST.cs
 
-//O2File:HtmlAgilityPack_ExtensionMethods.cs 
-//O2File:Scripts_ExtensionMethods.cs   
 //O2File:ascx_GraphAst_MethodCalls.cs 
 
 //O2Ref:System.Data.dll 
 //O2Ref:O2_API_Visualization.dll 
-//O2Ref:O2_API_AST.dll
 //O2Ref:O2_External_IE.dll
 //O2Ref:System.Xml.Linq.dll
 //O2Ref:System.Xml.dll

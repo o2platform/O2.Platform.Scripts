@@ -17,7 +17,6 @@ using O2.Views.ASCX.classes.MainGUI;
 using O2.Views.ASCX.ExtensionMethods;
 
 //O2Ref:System.Web.dll
-//O2File:Scripts_ExtensionMethods.cs
 
 using O2.XRules.Database.Utils;
 

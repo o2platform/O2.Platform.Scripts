@@ -6,7 +6,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
 using System.Data;
-using O2.Kernel.ExtensionMethods;
+using O2.DotNetWrappers.ExtensionMethods;
 //O2Ref:System.Windows.Forms.dll
 //O2File:GlobalHooks.cs
 //O2File:Window.cs

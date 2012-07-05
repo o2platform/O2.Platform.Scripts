@@ -1,8 +1,7 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
-//Global Variables
-var previewSizeValue = -1;//50;
+  <SourceCode>//Global Variables
+var previewSizeValue = -1;//50; 
 var addDuplicateFrames = false;
 
 //panel.clear();
@@ -194,7 +193,9 @@ return "done";
 */
 return null; 
  
-//O2File:WPF_ExtensionMethods.cs
+//O2File:WPF_Controls_ExtensionMethods.cs
+//O2File:ElementHost_ExtensionMethods.cs
+//O2File:WPF_WinFormIntegration_ExtensionMethods.cs
 //O2File:API_AForge_Video_WPF_Image.cs  
 //O2File:API_WPF_ToolKit.cs
 //O2File:API_Cropper.cs
@@ -215,13 +216,16 @@ return null;
 //O2Ref:AForge.Controls.dll
 //O2Ref:AForge.Video.dll
 
-//O2Ref:O2_API_AST.dll
-
 //O2Ref:O2_API_Visualization.dll
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:GraphSharp.dll
 //O2Ref:QuickGraph.dll 
 //O2Ref:GraphSharp.Controls.dll
-//O2Ref:ICSharpCode.AvalonEdit.dll</SourceCode>
+//O2Ref:ICSharpCode.AvalonEdit.dll
+
+//O2Ref:PresentationCore.dll
+//O2Ref:PresentationFramework.dll
+//O2Ref:WindowsBase.dll
+//O2Ref:System.Xaml.dll</SourceCode>
   <ReferencedAssemblies />
 </H2>

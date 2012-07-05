@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>//var topPanel = O2Gui.open&lt;Panel&gt;("{name}",700,400);
+  <SourceCode>//O2Tag:SkipGlobalCompilation
+
+//var topPanel = O2Gui.open&lt;Panel&gt;("{name}",700,400);
 var topPanel = panel.clear().add_Panel();
 //var file = "o2platform.com.xml".local();
 

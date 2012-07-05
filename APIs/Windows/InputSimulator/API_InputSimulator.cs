@@ -18,6 +18,9 @@ using WindowsInput.Native;
 using WindowsInput;
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
 //O2Ref:O2_API_Visualization.dll
+//O2Ref:WindowsBase.dll
+//O2Ref:PresentationCore.dll
+
 
 namespace O2.XRules.Database.APIs
 {

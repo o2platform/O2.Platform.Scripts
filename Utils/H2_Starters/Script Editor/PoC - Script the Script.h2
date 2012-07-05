@@ -18,7 +18,6 @@ return _script.Code;
 //O2Tag_SetInvocationParameters"+@"ToDynamic
 //O2Tag_DontUseCachedAssemblyIfAvailable
 //O2Tag_DontAddExtraO2Files
-//O2File:ascx_Simple_Script_Editor.cs.o2
 //O2File:_Extra_methods_TypeConfusion.cs
 ".trim();
 

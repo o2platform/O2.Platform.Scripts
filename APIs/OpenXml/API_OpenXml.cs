@@ -18,7 +18,6 @@ using O2.XRules.Database.Utils;
 
 //O2Ref:DocumentFormat.OpenXml.dll
 //O2Ref:WindowsBase.dll
-//_O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
 
 namespace O2.XRules.Database.APIs
 {

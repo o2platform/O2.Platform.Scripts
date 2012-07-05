@@ -21,8 +21,6 @@ using Amazon.EC2.Model;
 //O2File:ascx_AskUserForLoginDetails.cs	
 //O2File:API_RSA.cs
 
-//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
-
 namespace O2.XRules.Database.APIs
 {	
 	public class API_AmazonEC2

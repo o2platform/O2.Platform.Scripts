@@ -34,7 +34,6 @@ using O2.API.AST.ExtensionMethods.CSharp;
 //O2File:DotNet_ViewState.cs
 //O2Ref:Interop.SHDocVw.dll
 //O2Ref:WatiN.Core.1x.dll
-//O2Ref:O2_API_AST.dll   
  
  
 namespace O2.XRules.Database.HacmeBank

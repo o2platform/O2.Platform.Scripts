@@ -28,9 +28,6 @@ using O2.XRules.Database.APIs;
 using O2.External.SharpDevelop.ExtensionMethods;
 
 //O2File:WPF_Ribbon.cs
-//O2File:Scripts_ExtensionMethods.cs
-
-//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
 
 namespace O2.XRules.Database.Utils
 {	

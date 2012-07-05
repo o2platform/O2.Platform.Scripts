@@ -265,7 +265,6 @@ return "ok";
 //O2File:AspNet_Page.cs
 //O2File:ascx_CodeStreams.cs
 //using O2.XRules.Database.Languages_and_Frameworks.DotNet
-//O2Ref:O2_API_AST.dll
 //O2File:WatiN_IE_ExtensionMethods.cs
 //using O2.XRules.Database.Utils.O2
 //O2Ref:WatiN.Core.1x.dll</SourceCode>

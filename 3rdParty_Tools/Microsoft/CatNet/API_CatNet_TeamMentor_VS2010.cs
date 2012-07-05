@@ -12,9 +12,6 @@ using O2.XRules.Database.Utils;
 using CefSharp.WinForms;
 using EnvDTE; 
 
-
-//O2File:_Extra_methods_WinForms_Controls.cs
-
 //O2File:API_CatNet_VS2010.cs
 //O2File:API_VisualStudio_2010.cs
 //O2File:O2_VS_AddIn.cs

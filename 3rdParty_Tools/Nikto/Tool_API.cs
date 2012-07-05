@@ -17,7 +17,6 @@ using O2.Views.ASCX.classes.MainGUI;
 using O2.Views.ASCX.ExtensionMethods;
 using O2.External.SharpDevelop.ExtensionMethods;
 using O2.XRules.Database.Utils;
-//O2File:_Extra_methods_Web.cs
 //O2File:_7_Zip.cs
 
 namespace O2.XRules.Database.APIs

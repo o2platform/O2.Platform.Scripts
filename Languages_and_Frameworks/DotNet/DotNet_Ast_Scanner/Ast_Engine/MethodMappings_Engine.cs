@@ -23,12 +23,11 @@ using ICSharpCode.NRefactory;
 using ICSharpCode.NRefactory.Ast;
 using O2.Kernel.Objects;
 
-//O2File:ascx_ManualMethodStreams.cs
+//O2File:ascx_ManualMethodStreams.cs 
 //O2File:Ast_Engine_ExtensionMethods.cs
 //O2File:MethodMappings_ExtensionMethods.cs
 //O2File:ascx_ManualMethodStreams.cs
 //O2Ref:O2_External_SharpDevelop.dll
-//O2Ref:O2_API_AST.dll  
 //O2Ref:Quickgraph.dll
 //O2Ref:GraphSharp.dll 
 //O2Ref:GraphSharp.Controls.dll

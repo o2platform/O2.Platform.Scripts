@@ -36,7 +36,7 @@ Action&lt;string&gt; showSearchFor =
 							var searchResults = new SearchEngine()
 													.loadFiles(sourceFolder.files(searchExtension,true))
 													.searchFor(searchText);				
-							dataGridView.loadInDataGridView_textSearchResults(searchResults);  						
+							SearchUtils.loadInDataGridView_textSearchResults(dataGridView, searchResults);  						
 						}			
 					};
 Action preview = 
@@ -80,7 +80,10 @@ replaceWith_TextBox.set_Text("//newTestText");
 topPanel.link("Preview")		
 		.click();
 
+return "ok";
+		
 //O2File:SearchEngine.cs
-//O2File:SearchUtils.cs</SourceCode>
+//O2File:SearchUtils.cs
+</SourceCode>
   <ReferencedAssemblies />
 </H2>

@@ -31,6 +31,11 @@ customO2.add_RibbonGroup("Raw Views")
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:RibbonControlsLibrary.dll
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
-//O2File:API_Veracode_DetailedXmlFindings.cs </SourceCode>
+//O2File:API_Veracode_DetailedXmlFindings.cs.o2 
+
+//O2Ref:PresentationCore.dll
+//O2Ref:PresentationFramework.dll
+//O2Ref:WindowsBase.dll
+//O2Ref:System.Xaml.dll</SourceCode>
   <ReferencedAssemblies />
 </H2>

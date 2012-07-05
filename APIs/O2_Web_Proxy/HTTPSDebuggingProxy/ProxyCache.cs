@@ -13,11 +13,6 @@ using O2.XRules.Database.APIs;
 using O2.XRules.Database.Utils;
 //O2File:HttpData.cs
 
-//O2File:_Extra_methods_Web.cs
-//O2File:_Extra_methods_Items.cs
-//O2File:_Extra_methods_WinForms_TreeView.cs
-//O2File:_Extra_methods_ObjectDetails.cs
-
 
 namespace HTTPProxyServer
 {	

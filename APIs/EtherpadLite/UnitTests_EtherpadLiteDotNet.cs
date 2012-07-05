@@ -14,11 +14,6 @@ using O2.XRules.Database.Utils;
 //O2File:EtherpadLiteDotNet.cs
 //O2Ref:nunit.framework.dll
 
-//O2File:_Extra_methods_Misc.cs
-
-//use when wanting to see an object details using {object}.details();
-//___O2File:_Extra_methods_ObjectDetails.cs
-
 //for more details about this API see: https://github.com/Pita/etherpad-lite/wiki/HTTP-API
 
 namespace O2.XRules.Database.UnitTests

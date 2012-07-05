@@ -14,19 +14,14 @@ using System.Linq;
 using System.Text;
 using O2.Kernel;
 using O2.Kernel.ExtensionMethods;
+using O2.DotNetWrappers.DotNet;
 using O2.DotNetWrappers.ExtensionMethods;
 using ICSharpCode.SharpDevelop.Dom;
 //using O2.API.AST.CSharp;
 using ICSharpCode.NRefactory.Ast;
 //using O2.API.AST.ExtensionMethods.CSharp;
 using O2.XRules.Database.Utils;
-
-
-//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
 //O2Ref:System.Configuration.dll
-
-//__O2File:Ast_Engine_ExtensionMethods.cs
-//__O2File:FileCache.cs
 
 
 namespace O2.XRules.Database.Languages_and_Frameworks.DotNet

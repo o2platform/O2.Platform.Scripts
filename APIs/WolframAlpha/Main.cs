@@ -1,4 +1,4 @@
-using System;
+	using System;
 using System.IO;
 using System.Xml;
 using System.Web;
@@ -6,11 +6,10 @@ using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
+using O2.DotNetWrappers.ExtensionMethods;
 using O2.XRules.Database.Utils;
 
 //O2File:WolframAlphaEngine.cs
-//O2File:_Extra_methods_ObjectDetails.cs
 
 public class WolframAlphaWrapperExample
 {

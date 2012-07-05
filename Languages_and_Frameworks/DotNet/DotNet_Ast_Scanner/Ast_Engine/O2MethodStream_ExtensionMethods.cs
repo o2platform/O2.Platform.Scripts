@@ -11,7 +11,6 @@ using O2.API.AST.ExtensionMethods.CSharp;
 using O2.XRules.Database.Utils;
 
 //O2File:Ast_Engine_ExtensionMethods.cs
-//O2File:FileCache.cs
 
 namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 {

@@ -31,6 +31,7 @@ actionsPanel.append_Link("proxy start", ()=&gt; o2webProxy.startWebProxy())
 return "done";
  
 //using HTTPProxyServer
-//O2File:API_WebProxy.cs</SourceCode>
+//O2File:API_WebProxy.cs
+//O2File:_Extra_methods_TypeConfusion.cs</SourceCode>
   <ReferencedAssemblies />
 </H2>

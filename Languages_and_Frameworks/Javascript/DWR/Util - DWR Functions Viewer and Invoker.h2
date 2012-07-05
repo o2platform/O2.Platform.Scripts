@@ -35,6 +35,7 @@ var demoServer = "http://directwebremoting.org/dwr-demo";
 serverTextBox.set_Text(demoServer);
 loadData(demoServer);
 
+return "ok";
 
 //O2File:API_DWR.cs  
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll

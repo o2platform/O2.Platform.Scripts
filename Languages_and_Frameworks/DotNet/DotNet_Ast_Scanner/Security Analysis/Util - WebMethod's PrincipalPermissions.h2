@@ -88,11 +88,10 @@ treeView.add_Node("    .NET source code to process it");
 return "ok";
 
 //using O2.XRules.Database.Languages_and_Frameworks.DotNet
-//O2Ref:O2_API_AST.dll
 //using O2.API.AST.CSharp; 
 //using O2.API.AST.ExtensionMethods.CSharp
 //O2File:O2MappedAstData_ExtensionMethods.cs 
-//O2File: SharpDevelop_O2MappedAstData_ExtensionMethods.cs				  
+//O2File:SharpDevelop_O2MappedAstData_ExtensionMethods.cs				  
 //using ICSharpCode.NRefactory.Ast</SourceCode>
   <ReferencedAssemblies />
 </H2>

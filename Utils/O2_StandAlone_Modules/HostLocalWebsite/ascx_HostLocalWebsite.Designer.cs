@@ -2,6 +2,8 @@
 using O2.Kernel.CodeUtils;
 using O2.Views.ASCX.CoreControls;
 
+//O2File:ascx_HostLocalWebsite.cs
+
 namespace O2.Tool.HostLocalWebsite.ascx
 {
     partial class ascx_HostLocalWebsite

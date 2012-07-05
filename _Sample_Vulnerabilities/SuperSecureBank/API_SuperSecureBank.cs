@@ -10,7 +10,6 @@ using O2.XRules.Database.Utils;
 //O2File:WatiN_IE_ExtensionMethods.cs    
 //O2File:WatiN_IE.cs
 //O2Ref:WatiN.Core.1x.dll
-//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
 
 namespace O2.XRules.Database.APIs
 {

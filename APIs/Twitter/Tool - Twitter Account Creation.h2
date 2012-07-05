@@ -94,6 +94,13 @@ step5_IE.open("http://google.com");
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:O2_API_Visualization.dll
 //O2Ref:WatiN.Core.1x.dll
+
+
+//O2Ref:PresentationCore.dll
+//O2Ref:PresentationFramework.dll
+//O2Ref:WindowsBase.dll
+//O2Ref:System.Xaml.dll
+
 </SourceCode>
   <ReferencedAssemblies />
 </H2>

@@ -16,13 +16,6 @@ using HTTPProxyServer;
 
 //O2File:O2_Web_Proxy.cs
 
-//_O2File:_Extra_methods_Files.cs
-//_O2File:_Extra_methods_Reflection.cs
-//_O2File:_Extra_methods_WinForms_Controls.cs
-//_O2File:_Extra_methods_WinForms_TreeView.cs
-//_O2File:_Extra_methods_ObjectDetails.cs
-
-//_O2Ref:System.Configuration.dll
   
   
 namespace O2.XRules.Database.APIs

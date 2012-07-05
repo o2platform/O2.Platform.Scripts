@@ -48,7 +48,7 @@ namespace O2.XRules.Database.Utils
  	  								  "		.add_Script(false)".line() + 
 									  " 	.onCompileExecuteOnce()".line() + 
 									  " 	.Code = \"hello\";".line() + 
-									  "//O2File:Scripts_ExtensionMethods.cs");
+									  "");
 			o2Proxy.executeScript(scriptToExecute);
 			
 			//PublicDI.log.showMessageBox
@@ -70,7 +70,7 @@ namespace O2.XRules.Database.Utils
  	  								  "		.add_Script(false)".line() + 
 									  " 	.onCompileExecuteOnce()".line() + 
 									  " 	.Code = \"{0}\".base64Decode();".line().format(script_Base64Encoded) + 
-									  "//O2File:Scripts_ExtensionMethods.cs";
+									  "";
 			scriptLauncher.executeScriptInSeparateAppDomain(false,false);
 			return scriptLauncher;									  
 		}

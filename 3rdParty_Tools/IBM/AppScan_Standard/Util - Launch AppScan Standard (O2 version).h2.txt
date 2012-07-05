@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//OUT OF DATE - For reference Only
+
+var currentFolder = PublicDI.CurrentScript.directoryName();
+
+
+var showGui = false;   
+
+var o2LauncherName = "AppScan_Standard_O2_Launcher";  
+var firstScriptName = "AppScan_Standard_1st_Script.cs";
+var targetFolder = @"C:\Program Files\IBM\Rational AppScan";
+if (targetFolder.dirExists().isFalse())
+{
+	DebugMsg.showMessageBox("IBM AppScan is not installed on this machine, stoping script execution");
+	return "AppScan not installed";
+}
+//var compiledDllsFolder = targetFolder;
+var o2Lancher = currentFolder.pathCombine(o2LauncherName + ".cs");
+
+
+//return currentFolder;
+//currentFolder = @"C:\O2\O2Scripts_Database\O2_Core_APIs";
+
+
+ 
+Action&lt;string&gt; compile =
+    (file)=&gt; file.compileToExtension(".dll", "", currentFolder, targetFolder); 
+ 
+ 
+Action runCompilationProcess =
+    ()=&gt;{
+            Files.Copy("O2_Kernel.dll".assembly().Location, targetFolder);
+            Files.Copy("O2_Interfaces.dll".assembly().Location, targetFolder);
+            Files.Copy("O2_DotNetWrappers.dll".assembly().Location, targetFolder);
+            Files.Copy("O2_Views_ASCX.dll".assembly().Location, targetFolder);
+            //required for script execution            
+            Files.Copy("O2_External_WinformsUI.dll".assembly().Location, targetFolder);
+            Files.Copy("O2_External_SharpDevelop.dll".assembly().Location, targetFolder);                        
+            Files.Copy("log4net.dll".assembly().Location, targetFolder);                       
+            Files.Copy("White.Core.dll".assembly().Location, targetFolder);            //Files.Copy(".dll".assembly().Location, compiledDllsFolder);
+            Files.Copy("O2_XRules_Database.exe".assembly().Location, targetFolder); 
+           
+            o2LauncherName.compileToExtension(".exe", "O2.Platform.Launcher", currentFolder, targetFolder); 
+           	
+            Files.Copy(currentFolder.pathCombine(firstScriptName), targetFolder);
+            "copied {0} to target folder".info(firstScriptName);
+        };
+ 
+Action executeO2Laucher = 
+	()=&gt;{
+			var exeFile = targetFolder.pathCombine(o2LauncherName + ".exe"); 
+			exeFile.startProcess();
+			//Processes.startProcessAsConsoleApplication(exeFile,"");//,"",compiledDllsFolder);  
+		};
+
+
+if (showGui)
+{
+	//var topPanel = panel.clear().add_Panel();
+	var topPanel = O2Gui.open&lt;Panel&gt;("Inject O2 into AppScan Standard",700,400);
+	var actionsPanel = topPanel.insert_Above(40); 
+	var codeEditor = topPanel.add_SourceCodeEditor();
+	topPanel.insert_LogViewer();
+
+
+	var compiledDllsFolder_TextBox = actionsPanel.add_TextBox(20,"Target Folder","").onTextChange((text)=&gt; targetFolder= text);
+
+	compiledDllsFolder_TextBox.set_Text(targetFolder); 
+	
+	actionsPanel.add_Link("Run Compilation Process", 0,0,()=&gt; runCompilationProcess() )
+	            .append_Link("Execute O2_Launcher.cs", ()=&gt; executeO2Laucher()) 
+	            .append_Link("Edit O2_Launcher.cs", ()=&gt; codeEditor.open(currentFolder.pathCombine(o2LauncherName + ".cs")))
+	            .append_Link("Edit O2_1st_Script.cs", ()=&gt; codeEditor.open(currentFolder.pathCombine(firstScriptName)));	
+	codeEditor.open(currentFolder.pathCombine(o2LauncherName + ".cs"));            
+}
+else
+{
+	var o2ConfigFile = targetFolder.pathCombine("o2.config");   
+	if (o2ConfigFile.fileExists())
+		Files.deleteFile(o2ConfigFile);			// to deal with a bug that tend to happen while developing this script
+	runCompilationProcess();
+	executeO2Laucher();
+}
+
+//runCompilationProcess();
+return "done";
+
+//O2Ref:White.Core.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

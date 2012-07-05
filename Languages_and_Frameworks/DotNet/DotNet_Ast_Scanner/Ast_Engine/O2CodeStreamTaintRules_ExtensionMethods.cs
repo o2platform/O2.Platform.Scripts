@@ -5,13 +5,11 @@ using O2.DotNetWrappers.ExtensionMethods;
 using O2.API.AST.CSharp;
 using ICSharpCode.NRefactory.Ast;
 
-//O2Ref:O2_API_AST.dll
-
 namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 {
     public static class O2CodeStreamTaintRules_ExtensionMethods
     {    
-    	
+    	  
     	public static O2CodeStreamTaintRules add_TaintPropagator(this O2CodeStreamTaintRules taintRules, string taintPropagator)
     	{    		
     		if (taintRules.TaintPropagators.Contains(taintPropagator).isFalse())

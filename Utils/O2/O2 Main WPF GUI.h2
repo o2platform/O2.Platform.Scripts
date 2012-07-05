@@ -171,10 +171,10 @@ wpfGui.add_Section("3rd Party Tools")
 wpfGui.add_Section("API / Script Development", "There are a number of development environments in O2, each is designed for a particular talk/workflow")
 	//.add_Label("[Dev GUIs]:")	
 	.add_Link("Source Code Editor",wpfGui.ExecuteScripts.openSourceCodeEditor)
-	.add_Link_O2Script("Simple Script Editor","ascx_Simple_Script_Editor.cs.o2")
-	.add_Link_O2Script("Quick development GUI","ascx_Quick_Development_GUI.cs.o2")			
+	//.add_Link_O2Script("Simple Script Editor","ascx_Simple_Script_Editor.cs.o2")
+	.add_Link("Quick development GUI", ()=&gt; open.scriptEditor()) // "ascx_Quick_Development_GUI.cs.o2")			
 	.add_Link_O2Script("'Graph' development gui","ascx_GraphWithInspector.cs")		
-	.add_Link("O2 Development Environment",() =&gt; open.scriptEditor())
+	.add_Link("O2 Development Environment",() =&gt; open.devEnvironment())
 	.add_Label("Unit Tests:")
 	.add_Link_O2Script("Execute Unit Tests","Execute Unit Tests.h2")			
 	.add_Link_O2Script("Write and Execute Unit Tests","Write and Execute Unit Tests.h2")				
@@ -249,7 +249,11 @@ return null;
 //O2Ref:GraphSharp.dll
 //O2Ref:QuickGraph.dll
 //O2Ref:ICSharpCode.AvalonEdit.dll
-//O2Ref:O2_API_AST.dll
-//O2Ref:O2_API_Visualization.dll</SourceCode>
+//O2Ref:O2_API_Visualization.dll
+
+//O2Ref:PresentationCore.dll
+//O2Ref:PresentationFramework.dll
+//O2Ref:WindowsBase.dll
+//O2Ref:System.Xaml.dll</SourceCode>
   <ReferencedAssemblies />
 </H2>

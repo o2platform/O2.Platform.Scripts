@@ -47,7 +47,6 @@ originalCode.open(originalFile);
 //using ICSharpCode.NRefactory
 //using O2.API.AST.CSharp;
 //using O2.API.AST.ExtensionMethods;
-//using O2.API.AST.ExtensionMethods.CSharp;
-//O2Ref:O2_API_AST.dll</SourceCode>
+//using O2.API.AST.ExtensionMethods.CSharp;</SourceCode>
   <ReferencedAssemblies />
 </H2>

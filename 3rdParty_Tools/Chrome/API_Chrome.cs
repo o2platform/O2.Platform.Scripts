@@ -3,8 +3,8 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Text;
+using System.Windows.Forms; 
+using System.Text; 
 using O2.Kernel.ExtensionMethods;
 using O2.DotNetWrappers.DotNet;
 using O2.DotNetWrappers.ExtensionMethods;
@@ -12,7 +12,7 @@ using CefSharp;
 using CefSharp.WinForms;
 
 //O2Ref:CefSharp\CefSharp-0.11-bin\CefSharp.WinForms.dll
-//O2Ref:CefSharp\CefSharp-0.11-bin\CefSharp.dll
+//O2Ref:CefSharp\CefSharp-0.11-bin\CefSharp.dll 
 
 //You will need to execute CefSharp.cs first (to download the CefSharp files)
 

@@ -25,7 +25,6 @@ using O2.Views.ASCX;
 //O2File:MethodMappings_ExtensionMethods.cs
 
 //O2Ref:QuickGraph.dll
-//O2Ref:O2_API_AST.dll
 //O2Ref:System.Xml.Linq.dll
 //O2Ref:System.Xml.dll
 

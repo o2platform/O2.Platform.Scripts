@@ -4,8 +4,8 @@
 var adminPwd = "as" + credential.password();
 
 
-var topPanel = panel.clear().add_Panel();
-//var topPanel = "Util - Access OWASP MainMan Admin".popupWindow(1000,500);
+//var topPanel = panel.clear().add_Panel();
+var topPanel = "Util - Access OWASP MainMan Admin".popupWindow(1000,500);
 
 topPanel.insert_Above(20)
 		.add_Label("List password").top(2)

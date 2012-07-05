@@ -19,8 +19,6 @@ using JoeBlogs.Structs;
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
 //O2Ref:System.Xml.Linq.dll
 //O2Ref:System.Xml.dll
-//O2File:ISecretData.cs
-//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
 
 namespace O2.XRules.Database.APIs
 {

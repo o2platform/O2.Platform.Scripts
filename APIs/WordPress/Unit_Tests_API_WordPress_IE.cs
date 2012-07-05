@@ -16,8 +16,6 @@ using WatiN.Core.DialogHandlers;
 //O2File:API_WordPress_IE.cs
 //O2File:API_GuiAutomation.cs
 
-//O2File:_Extra_methods_WinForms_Controls.cs
-
 namespace O2.UnitTests 
 {		
 	[TestFixture]

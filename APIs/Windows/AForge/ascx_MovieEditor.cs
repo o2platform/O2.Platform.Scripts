@@ -18,12 +18,11 @@ using O2.XRules.Database.Utils;
 using O2.XRules.Database.APIs;
 using O2.Views.ASCX.classes.MainGUI;
 //O2File:API_WPF_ToolKit.cs
-//O2File:WPF_ExtensionMethods.cs
+//O2File:WPF_Controls_ExtensionMethods.cs
+//O2File:ElementHost_ExtensionMethods.cs
 //O2File:API_AForge_Video.cs
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:O2_API_Visualization.dll
-
-//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
 
 namespace O2.XRules.Database.APIs
 {

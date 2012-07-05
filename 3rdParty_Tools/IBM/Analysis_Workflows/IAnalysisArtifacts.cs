@@ -3,10 +3,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-//O2Ref:System.Core.dll
 using System.Linq;
 //O2File:KAnalysisArtifacts.cs
-//O2Ref:O2_Interfaces.dll
 //O2Ref:NUnit.Framework.dll
 
 namespace O2.XRules.Database.Interfaces

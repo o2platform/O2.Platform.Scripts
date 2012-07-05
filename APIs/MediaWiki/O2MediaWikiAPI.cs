@@ -24,9 +24,6 @@ using O2.External.IE.Wrapper;
 using O2.External.IE.ExtensionMethods;
 using O2.XRules.Database.Utils;
 
-//O2File:HtmlAgilityPack_ExtensionMethods.cs
-//O2File:FileCache.cs
-
 //O2Ref:O2_External_IE.dll
 //O2Ref:System.Xml.Linq.dll
 //O2Ref:System.Xml.dll

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>O2Gui.open&lt;ascx_XRules_Editor&gt;("O2 Development Environment",1024, 600);
+  <SourceCode>O2Gui.open&lt;ascx_XRules_Editor&gt;("O2 Development Environment       ({0}".format(clr.details()),1024, 600);
     
 //using O2.Core.XRules.Ascx
 //O2Ref:O2_External_SharpDevelop.dll</SourceCode>

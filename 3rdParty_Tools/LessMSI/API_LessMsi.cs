@@ -6,7 +6,6 @@ using O2.Kernel.ExtensionMethods;
 using O2.DotNetWrappers.ExtensionMethods; 
 using O2.XRules.Database.Utils;
 using LessMsi.Msi;
-//O2File:_Extra_methods_Files.cs
 //O2File:LessMsi.cs
 
 //O2Ref:LessMsi/lessmsi.exe

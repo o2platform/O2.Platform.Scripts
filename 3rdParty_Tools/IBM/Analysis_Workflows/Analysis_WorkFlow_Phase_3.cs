@@ -8,7 +8,6 @@ using O2.DotNetWrappers.Windows;
 using O2.XRules.Database.Interfaces;
 //O2Ref:nunit.framework.dll
 using NUnit.Framework;
-//O2Ref:O2_Interfaces.dll
 using O2.XRules.Database._Rules;
 using O2.XRules.Database._Rules.J2EE.Struts;
 //O2File:IAnalysisArtifacts.cs

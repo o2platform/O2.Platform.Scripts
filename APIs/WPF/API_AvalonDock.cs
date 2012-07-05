@@ -17,8 +17,8 @@ using O2.API.Visualization.ExtensionMethods;
 using O2.XRules.Database.Utils;
 using WPF = System.Windows.Controls;
 
-//O2File:WPF_ExtensionMethods.cs
-
+//O2File:ElementHost_ExtensionMethods.cs
+//O2File:WPF_WinFormIntegration_ExtensionMethods.cs
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:ICSharpCode.AvalonEdit.dll
 //O2Ref:QuickGraph.dll
@@ -27,6 +27,7 @@ using WPF = System.Windows.Controls;
 //O2Ref:O2_API_Visualization.dll
 //O2Ref:PresentationCore.dll
 //O2Ref:WindowsBase.dll
+//O2Ref:System.Xaml.dll
 //O2Ref:PresentationFramework.dll
 //O2Ref:AvalonDock.dll
 

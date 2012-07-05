@@ -12,8 +12,6 @@ using Microsoft.Samples.Debugging.CorDebug;
 using Microsoft.Samples.Debugging.CorMetadata;
 using Microsoft.Samples.Debugging.CorDebug.NativeApi;
 
-//O2File:_Extra_methods_Reflection.cs
-
 //O2Ref:MDbg_Sample\MDbg\mdbgeng.dll
 //O2Ref:MDbg_Sample\MDbg\corapi.dll 
 //O2Ref:MDbg_Sample\MDbg\mdbgeng.dll  

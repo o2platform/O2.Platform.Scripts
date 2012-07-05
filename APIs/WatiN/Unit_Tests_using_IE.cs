@@ -6,15 +6,13 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using O2.Kernel;
 using O2.XRules.Database.APIs;
-using O2.XRules.Database.Utils;
+using O2.XRules.Database.Utils; 
 using O2.DotNetWrappers.Network;
 using O2.DotNetWrappers.ExtensionMethods;
 using O2.Kernel.ExtensionMethods;
 //O2File:WatiN_IE_ExtensionMethods.cs
 //O2Ref:WatiN.Core.1x.dll
 //O2Ref:nunit.framework.dll
-
-//__O2File:_Extra_methods_Web.cs
 
 namespace O2.UnitTests
 {		

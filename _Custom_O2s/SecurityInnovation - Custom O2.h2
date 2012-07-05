@@ -23,6 +23,11 @@ ribbon.add_Tab_MiscTools();
 //O2File:CustomO2.cs  
 
 //O2Ref:WindowsFormsIntegration.dll
-//O2Ref:RibbonControlsLibrary.dll</SourceCode>
+//O2Ref:RibbonControlsLibrary.dll
+
+//O2Ref:PresentationCore.dll
+//O2Ref:PresentationFramework.dll
+//O2Ref:WindowsBase.dll
+//O2Ref:System.Xaml.dll</SourceCode>
   <ReferencedAssemblies />
 </H2>

@@ -14,8 +14,6 @@ using O2.API.AST.Visitors;
 using O2.API.AST.ExtensionMethods;
 using O2.API.AST.ExtensionMethods.CSharp;
 
-//O2Ref:O2_API_AST.dll
-
 namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 {
     public class Ast_Engine_Cache

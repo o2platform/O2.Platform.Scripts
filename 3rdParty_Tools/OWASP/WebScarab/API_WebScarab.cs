@@ -22,7 +22,6 @@ using O2.DotNetWrappers.Windows;
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
 
 using O2.XRules.Database.Utils;
-//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
 
 namespace O2.XRules.Database.APIs
 {	

@@ -13,9 +13,6 @@ using O2.DotNetWrappers.ExtensionMethods;
 using O2.XRules.Database.Utils;
 //O2Ref:SharpCompress.3.5.dll
 
-//O2File:_Extra_methods_Misc.cs
-//O2File:_Extra_methods_Web.cs
-//O2File:_Extra_methods_Files.cs
 
 namespace O2.XRules.Database.APIs
 {

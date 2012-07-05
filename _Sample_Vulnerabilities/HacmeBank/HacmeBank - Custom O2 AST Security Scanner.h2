@@ -126,7 +126,6 @@ step4_FindingsCreated.add_ContextMenu()
 //using O2.XRules.Database.Findings
 //using O2.XRules.Database.HacmeBank
 
-//O2File:WPF_ExtensionMethods.cs
 //O2File:DiagramDesigner_ExtensionMethods.cs
 //O2File:Ast_Engine_ExtensionMethods.cs
 //O2File:Rule_DotNet_FindSources.cs 
@@ -137,9 +136,6 @@ step4_FindingsCreated.add_ContextMenu()
 //O2Ref:System.Xml.dll
 //O2Ref:System.Xml.Linq.dll
 //O2Ref:WindowsFormsIntegration.dll
-//O2Ref:PresentationCore.dll
-//O2Ref:WindowsBase.dll
-//O2Ref:PresentationFramework.dll
 //O2Ref:QuickGraph.dll   
 //O2Ref:GraphSharp.dll
 //O2Ref:GraphSharp.Controls.dll
@@ -148,7 +144,12 @@ step4_FindingsCreated.add_ContextMenu()
 //O2Ref:WatiN.Core.1x.dll
 
 //O2Ref:O2_API_Visualization.dll
-//O2Ref:O2_API_AST.dll
-//O2Ref:O2_ImportExport_OunceLabs.dll</SourceCode>
+//O2Ref:O2_ImportExport_OunceLabs.dll
+
+//O2Ref:PresentationCore.dll
+//O2Ref:PresentationFramework.dll
+//O2Ref:WindowsBase.dll
+//O2Ref:System.Xaml.dll
+</SourceCode>
   <ReferencedAssemblies />
 </H2>

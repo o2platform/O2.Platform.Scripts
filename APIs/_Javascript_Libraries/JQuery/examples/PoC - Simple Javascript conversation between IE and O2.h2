@@ -16,6 +16,8 @@ ie.eval("$o2.write('hello again')");
 
 //O2File:WatiN_IE_ExtensionMethods.cs 
 //O2Ref:WatiN.Core.1x.dll
+
+//O2Tag:SkipGlobalCompilation
 </SourceCode>
   <ReferencedAssemblies />
 </H2>

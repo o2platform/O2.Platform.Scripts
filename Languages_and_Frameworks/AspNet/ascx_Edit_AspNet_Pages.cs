@@ -17,7 +17,6 @@ using O2.External.SharpDevelop.ExtensionMethods;
 using O2.XRules.Database.Utils;
 using O2.XRules.Database.APIs;
 
-//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
 //O2File:WatiN_IE_ExtensionMethods.cs
 
 //O2Ref:WatiN.Core.1x.dll

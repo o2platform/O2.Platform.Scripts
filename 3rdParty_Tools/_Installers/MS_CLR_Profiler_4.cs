@@ -6,8 +6,6 @@ using O2.Kernel.ExtensionMethods;
 using O2.DotNetWrappers.ExtensionMethods; 
 
 //O2File:Tool_API.cs
-//O2File:_Extra_methods_Windows.cs
-//O2File:_Extra_methods_Zip.cs
 
 namespace O2.XRules.Database.APIs
 {

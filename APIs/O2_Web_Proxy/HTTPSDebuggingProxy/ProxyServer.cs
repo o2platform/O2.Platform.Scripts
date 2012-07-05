@@ -28,9 +28,6 @@ using O2.XRules.Database.Utils;
 
 //O2File:HttpData.cs
 //O2File:ProxyCache.cs
-//O2File:_Extra_methods_Web.cs
-//O2File:_Extra_methods_Misc.cs
-//O2File:_Extra_methods_Items.cs
 
 namespace HTTPProxyServer
 {       
@@ -688,7 +685,7 @@ namespace HTTPProxyServer
         	{
         		sr.Peek();
         	}
-        	catch(Exception ex)		// means the stream is closed (probably due to an response with "(400) Bad Request" 
+        	catch//(Exception ex)		// means the stream is closed (probably due to an response with "(400) Bad Request" 
         	{
         		return contentLen;
         	}

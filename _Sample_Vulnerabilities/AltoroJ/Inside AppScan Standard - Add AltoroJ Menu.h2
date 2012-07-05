@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>Action&lt;string&gt; openScanFile = 
+  <SourceCode>//O2Tag:SkipGlobalCompilation
+
+Action&lt;string&gt; openScanFile = 
 	(scanFileToLoad)=&gt;{
 							if (scanFileToLoad.fileExists())
 							{

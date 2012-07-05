@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>
-var topPanel = O2Gui.open&lt;Panel&gt;("Util - Convert VB to CSharp (or CSharp to VB)",640,480);
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - Convert VB to CSharp (or CSharp to VB)",640,480);
 var mainGui = topPanel.add_1x1("Files", "Source Code",true, 200); 
 var code = mainGui[1].add_1x1("CSharp", "VB.Net",false); 
 var sourceFiles = mainGui[0].add_TreeView().showSelection();
@@ -104,11 +103,11 @@ targetComboBox.set_Text(targetDirectory);
 this.sleep(1000);
 sourceFiles.selectFirst();
 
+return "ok";
 
 //using O2.External.SharpDevelop.AST
 //using O2.API.AST.ExtensionMethods;
 //using O2.API.AST.ExtensionMethods.CSharp;
-//O2Ref:O2_API_AST.dll
 //O2Ref:QuickGraph.dll</SourceCode>
   <ReferencedAssemblies />
 </H2>

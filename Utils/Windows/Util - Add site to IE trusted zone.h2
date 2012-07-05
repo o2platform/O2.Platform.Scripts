@@ -28,7 +28,6 @@ addSite_Button.onClick(()=&gt; addDomain(domain_TextBox.get_Text(),subDomain_Tex
 
 //using Microsoft.Win32
 //using O2.XRules.Database.Utils
-//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs 
 
 </SourceCode>
   <ReferencedAssemblies />

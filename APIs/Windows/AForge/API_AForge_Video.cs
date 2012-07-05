@@ -27,7 +27,6 @@ using AForge.Video.DirectShow;
 //O2Ref:AForge.Controls.dll
 //O2Ref:AForge.Video.dll
 
-//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
 
 namespace O2.XRules.Database.APIs
 {
@@ -85,7 +84,7 @@ namespace O2.XRules.Database.APIs
 				aviWriter.Open("a.avi".tempFile(),800,600);
 				"WMV3 is installed".info();
 			}
-			catch(Exception ex)
+			catch//(Exception ex)
 			{				
 				"WMV3 Codec is not installed, so downloading it now and starting installation".debug();
 				var wmv3InstallerUrl = "http://www.microsoft.com/downloads/info.aspx?na=41&SrcFamilyId=0C99C648-5800-4AA3-A2FE-3DE948689DB8&SrcDisplayLang=en&u=http%3a%2f%2fdownload.microsoft.com%2fdownload%2f9%2f8%2fa%2f98a6cb2d-6659-485e-b1f9-2c0d9bf6c328%2fwmv9VCMsetup.exe";
@@ -137,7 +136,7 @@ namespace O2.XRules.Database.APIs
 		
 		public static API_AForge_Video add_Image(this API_AForge_Video aforgeVideo, string pathToImage)
 		{
-			aforgeVideo.add_Image(Misc_ExtensionMethods.bitmap(pathToImage));		// using the extension methods creates a weird conflic with the other bitmap<T>() where T : Control
+			aforgeVideo.add_Image(Misc_ExtensionMethods_BitMap.bitmap(pathToImage));		// using the extension methods creates a weird conflic with the other bitmap<T>() where T : Control
 			return aforgeVideo;
 		}
 		

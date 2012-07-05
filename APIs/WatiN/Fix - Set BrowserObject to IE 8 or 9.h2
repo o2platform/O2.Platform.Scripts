@@ -24,10 +24,8 @@ catch(Exception ex)
 	"NOTE: you need to run this under no UAC".info();
 }
 
-
-
 //using Microsoft.Win32
-//O2File:_Extra_methods_Windows.cs
-</SourceCode>
+
+return "ok";</SourceCode>
   <ReferencedAssemblies />
 </H2>

@@ -63,12 +63,16 @@ return "ok";
 //O2File:API_WordPress.cs
 //O2File:WPF_Ribbon.cs
 //O2File:Watin_IE.cs
-//O2File:SecretData_ExtensionMethods.cs 
-//O2File:ascx_AskUserForLoginDetails.cs
 //O2Ref:WordPress_XmlRpc_JoeBlogs.dll
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:RibbonControlsLibrary.dll
 //O2Ref:WatiN.Core.1x.dll
-//O2Ref:Interop.SHDocVw.dll</SourceCode>
+//O2Ref:Interop.SHDocVw.dll
+ 
+//O2Ref:PresentationCore.dll
+//O2Ref:PresentationFramework.dll
+//O2Ref:WindowsBase.dll
+//O2Ref:System.Xaml.dll
+</SourceCode>
   <ReferencedAssemblies />
 </H2>

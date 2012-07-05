@@ -2,7 +2,6 @@
 using System;
 using System.IO;
 using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
 using O2.DotNetWrappers.ExtensionMethods;
 using O2.XRules.Database.Utils;
 using Etherpad;
@@ -11,9 +10,6 @@ using Etherpad;
 //O2File:EtherpadLiteDotNet.cs
 //O2Ref:WatiN.Core.1x.dll
 
-//_O2File:_Extra_methods_Misc.cs
-//_O2File:_Extra_methods_Web.cs
-//_O2File:_Extra_methods_Files.cs
 
 namespace O2.XRules.Database.APIs
 {

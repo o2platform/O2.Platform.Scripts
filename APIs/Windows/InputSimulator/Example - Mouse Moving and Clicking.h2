@@ -11,8 +11,8 @@ var inputSimulator = new API_InputSimulator();
 inputSimulator.Move_SkipValue= 3;			// makes it faster
 var startPosition = inputSimulator.mouse_CurrentPosition();
 inputSimulator.mouse_MoveTo(button1,false).mouse_Click()
-			  .mouse_MoveTo(textBox).mouse_Click()
-			  .text_Send("this is a test")
+			  .mouse_MoveTo(textBox).mouse_MoveBy(0,-10).mouse_Click()
+			  .text_Send("this is a test!")			  
 			  .mouse_MoveBy(100,20)
 			  .mouse_MoveTo(button1).mouse_Click()
 			  .mouse_MoveBy(-100,-40)
@@ -24,6 +24,11 @@ return inputSimulator.mouse_CurrentPosition();
 //using WindowsInput.Native
 //using System.Threading
 //using WindowsInput
-//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll</SourceCode>
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
+
+//O2Ref:PresentationCore.dll
+//O2Ref:PresentationFramework.dll
+//O2Ref:WindowsBase.dll
+//O2Ref:System.Xaml.dll</SourceCode>
   <ReferencedAssemblies />
 </H2>

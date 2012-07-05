@@ -7,8 +7,8 @@ topPanel.fill(false)
 		.height(170); 
 */ 
 
-var title = "Create Scripts or APIs";
-var topPanel = O2Gui.open&lt;Panel&gt;("O2 GUI - " + title, 800,570);    
+var title = "O2 GUI - Create Scripts or APIs";
+var topPanel = O2Gui.open&lt;Panel&gt;(title, 800,570);    
 topPanel.insert_Below&lt;Panel&gt;(110).add_LogViewer();
 
 topPanel.parentForm().top(60).left(60); 
@@ -21,10 +21,10 @@ var ribbon = topPanel.insert_Above&lt;WPF_Ribbon&gt;(135);
 var apiScriptDevelopment = ribbon.Ribbon.add_RibbonTab("API / Script Development");   // "There are a number of development environments in O2, each is designed for a particular talk/workflow")
 
 apiScriptDevelopment.add_RibbonGroup("Development GUIs") 		
-					.add_RibbonButton_Script(topPanel,"Simple Script Editor","ascx_Simple_Script_Editor.cs.o2")
-					.add_RibbonButton_Script(topPanel,"Quick development GUI","ascx_Quick_Development_GUI.cs.o2")			
+					//.add_RibbonButton_Script(topPanel,"Simple Script Editor","ascx_Simple_Script_Editor.cs.o2")
+					.add_RibbonButton_Script(topPanel,"Util - C# REPL Script [4.0]","Util - C# REPL Script [4.0].cs.o2")			
 					.add_RibbonButton_H2Script(topPanel,"O2 Development Environment","Util - O2 Development Environment.h2")
-					.add_RibbonButton_Script(topPanel,"'Graph' development gui","ascx_GraphWithInspector.cs")			
+					.add_RibbonButton_Script(topPanel,"'Graph' development gui","ascx_GraphWithInspector.cs.o2")			
 					.add_RibbonButton_H2Script(topPanel,"Source Code Viewer","Util - SourceCodeViewer.h2")
 					.add_RibbonButton_H2Script(topPanel,"Source Code Editor","Util - SourceCodeEditor.h2");
 	
@@ -47,7 +47,7 @@ designerCanvas.add_Label(title ,160,140).fontSize(30);
  
 return "ok";
  
-//using Microsoft.Windows.Controls.Ribbon;
+//using Microsoft.Windows.Controls.Ribbon;   
 //using WPF= System.Windows.Controls
 //using DiagramDesigner
 //O2File:WPF_Ribbon.cs 
@@ -56,6 +56,10 @@ return "ok";
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:O2_API_Visualization.dll
 //O2Ref:DiagramDesigner.exe
-//O2Ref:RibbonControlsLibrary.dll</SourceCode>
+//O2Ref:RibbonControlsLibrary.dll
+//O2Ref:PresentationCore.dll
+//O2Ref:PresentationFramework.dll
+//O2Ref:WindowsBase.dll
+//O2Ref:System.Xaml.dll</SourceCode>
   <ReferencedAssemblies />
 </H2>

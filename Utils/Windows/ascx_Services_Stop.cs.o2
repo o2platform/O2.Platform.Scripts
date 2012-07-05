@@ -9,7 +9,6 @@ using System.Text;
 using System.Windows.Forms;
 using O2.Kernel;
 using O2.Kernel.ExtensionMethods;
-//O2Ref:O2_Interfaces.dll
 using O2.Interfaces.O2Core;
 using O2.DotNetWrappers.DotNet;
 using O2.DotNetWrappers.ExtensionMethods;

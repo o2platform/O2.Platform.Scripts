@@ -181,7 +181,6 @@ handleDrop(target);
 //using Microsoft.ACESec.CATNet.UI
 //O2File:API_CatNet.cs
 //O2File:_Extra_methods_Roslyn_API.cs
-//O2File:_Extra_methods_WinForms_Controls.cs
 //O2File:_Extra_methods_WinForms_Component.cs
 //O2Ref:EnvDTE.dll
 //O2Ref:Extensibility.dll

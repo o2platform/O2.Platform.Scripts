@@ -2,8 +2,8 @@
 using System;
 using System.Drawing;
 using System.Collections.Generic;
-using Forms = System.Windows.Forms;
-using WPF = System.Windows.Controls;
+using Forms = System.Windows.Forms; 
+using WPF = System.Windows.Controls; 
 using Media = System.Windows.Media;
 using System.Linq;
 using System.Reflection;
@@ -21,13 +21,11 @@ using O2.Views.ASCX;
 using GraphSharp.Controls;
 using O2.XRules.Database.Utils;
 
-//O2File:WPF_ExtensionMethods.cs
+//O2File:WPF_Controls_ExtensionMethods.cs
 //O2File:GraphLayout_O2CodeStream_ExtensionMethods.cs
 //O2File:VerticesAndEdges_ExtensionMethods.cs
 //O2File:Wpf_TextEditor_ExtensionMethods.cs
 //O2File:Ast_Engine_ExtensionMethods.cs
-//O2File:ascx_Simple_Script_Editor.cs.o2
-//O2File:Scripts_ExtensionMethods.cs
 
 //O2Ref:GraphSharp.dll
 //O2Ref:GraphSharp.Controls.dll
@@ -37,7 +35,6 @@ using O2.XRules.Database.Utils;
 //O2Ref:WindowsBase.dll
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:O2_API_Visualization.dll
-//O2Ref:O2_API_AST.dll
 //O2Ref:System.Xml.Linq.dll
 //O2Ref:System.Xml.dll
 

@@ -10,6 +10,8 @@ ie.button("Submit").flash().click();
 return ie.url();
 //O2File:WatiN_IE_ExtensionMethods.cs
 //using O2.XRules.Database.Utils.O2
-//O2Ref:WatiN.Core.1x.dll</SourceCode>
+//O2Ref:WatiN.Core.1x.dll
+
+//O2Tag:SkipGlobalCompilation</SourceCode>
   <ReferencedAssemblies />
 </H2>

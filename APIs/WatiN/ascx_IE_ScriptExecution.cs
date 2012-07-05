@@ -17,9 +17,6 @@ using O2.External.SharpDevelop.ExtensionMethods;
 
 using O2.XRules.Database.Utils;
 
-//O2File:ascx_Simple_Script_Editor.cs.o2
-//O2File:Scripts_ExtensionMethods.cs
-
 
 namespace O2.XRules.Database.Utils
 {
@@ -62,14 +59,18 @@ namespace O2.XRules.Database.Utils
     	}
     	    	
     	
-		public ascx_IE_ScriptExecution buildGui() 
+		public ascx_IE_ScriptExecution buildGui()
+		{
+			return buildGui(getDefaultScript());
+		}
+		public ascx_IE_ScriptExecution buildGui(string code) 
 		{
 			topPanel = this.add_Panel();			
 
 			script = topPanel.insert_Below<Panel>().add_Script(EnableCodeComplete);
 			script.InvocationParameters.Add("panel",topPanel); 
 			script.onCompileExecuteOnce();			
-			script.set_Command(getDefaultScript());
+			script.set_Command(code);
 			return this;
 		}
 		

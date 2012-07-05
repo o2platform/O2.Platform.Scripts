@@ -1,3 +1,5 @@
+//O2Tag:SkipGlobalCompilation
+
 using HacmeBank_v2_Website.dataClasses;
 using System.Web.Services.Protocols;
 using System;
@@ -105,7 +107,7 @@ namespace System.Web.Services.Protocols
 	}
 	public class SoapParameterStyle : System.Enum, System.IComparable, System.IFormattable, System.IConvertible
 	{
-		public static const System.Web.Services.Protocols.SoapParameterStyle Wrapped;
+		public static System.Web.Services.Protocols.SoapParameterStyle Wrapped;
 	}
 }
 namespace HacmeBank_v2_Website.dataClasses
@@ -135,7 +137,7 @@ namespace System.Web.Services.Description
 {
 	public class SoapBindingUse : System.Enum, System.IComparable, System.IFormattable, System.IConvertible
 	{
-		public static const System.Web.Services.Description.SoapBindingUse Literal;
+		public static System.Web.Services.Description.SoapBindingUse Literal;
 	}
 }
 namespace System.Web.UI

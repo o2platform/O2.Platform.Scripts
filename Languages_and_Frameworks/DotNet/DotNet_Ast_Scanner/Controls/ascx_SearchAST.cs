@@ -31,10 +31,8 @@ using ICSharpCode.NRefactory.Ast;
 //O2File:Ast_Engine_ExtensionMethods.cs
 //O2File:SharpDevelop_O2MappedAstData_ExtensionMethods.cs
 //O2File:TextEditor_O2CodeStream_ExtensionMethods.cs
-//O2Ref:O2_API_AST.dll
 //O2Ref:QuickGraph.dll
 
-//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
 
 
 namespace O2.XRules.Database.Languages_and_Frameworks.DotNet

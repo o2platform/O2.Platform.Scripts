@@ -12,7 +12,6 @@ using O2.DotNetWrappers.ExtensionMethods;
 using O2.Views.ASCX.classes.MainGUI;
 using O2.Views.ASCX.ExtensionMethods;
 //O2File:OwaspWikiAPI.cs
-//O2File:FileCache.cs 
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
 //O2File:WikiText.cs
 

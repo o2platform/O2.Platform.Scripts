@@ -126,11 +126,6 @@ return "ok";
 //O2Ref:GithubSharp.Core.dll 
 //O2Ref:BasicCacher.dll
 //O2Ref:GithubSharp.Plugins.LogProviders.SimpleLogProvider.dll 
- 
-//O2File:ISecretData;//_ExtensionMethods.cs 
-//O2File:SecretData_ExtensionMethods.cs 
-
-
 
 //using GithubSharp;
 //using GithubSharp.Core;
@@ -140,8 +135,6 @@ return "ok";
 //using GithubSharp.Core.Services; 
 //using GithubSharp.Plugins.LogProviders.SimpleLogProvider; 
 
-//O2File:API_GitHub_Objects.cs
-
-//O2File:ascx_FolderViewer.cs</SourceCode>
+//O2File:API_GitHub_Objects.cs</SourceCode>
   <ReferencedAssemblies />
 </H2>
