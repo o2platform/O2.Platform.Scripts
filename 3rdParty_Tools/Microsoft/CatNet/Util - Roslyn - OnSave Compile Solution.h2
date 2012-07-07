@@ -6,9 +6,12 @@
 var actionsPanel = topPanel.insert_Above(40,"");     
 var codeViewer = topPanel.title("Source Code").add_SourceCodeEditor(); 
 var solutionFiles = topPanel.insert_Left(300, "Source Files (in current solution)").add_TreeView_with_PropertyGrid().sort(); 
+var script = topPanel.insert_Right("Script Compiled Assembly").add_Script();
 var errorsList = topPanel.insert_Below(100,"Errors").add_TreeView(); 
-var solutionFile = ""; 
+
+//var solutionFile = ""; 
 var compilerAvailable = true;
+var createUniqueAssemblies = false;
 
 IWorkspace workspace = null;
  
@@ -38,27 +41,49 @@ solutionFiles.afterSelect&lt;IDocument&gt;(
 																
 Action compile = 
 	()=&gt;{	 
-		O2Thread.mtaThread( 
-			()=&gt;{
-					var o2Timer = new O2Timer("Solution Compilation").start();
-					//IWorkspace workspace = Workspace.LoadSolution(solutionFile);
-					"Compling Solution: {0}".info(solutionFile);
-					ISolution solution = workspace.CurrentSolution;
-					errorsList.clear();
-					var assembliesToScan = new List&lt;Assembly&gt;();
-					foreach(var project in solution.Projects)
-					{												
-						var assembly = project.compile_And_ReturnUniqueAssembly((errors)=&gt; errorsList.add_Nodes(errors));
-						if (assembly.notNull())						
-							assembliesToScan.add(assembly);
-					}											
-					errorsList.backColor(errorsList.nodes().size() &gt; 0 ? Color.LightPink : Color.Azure)
-							  .selectFirst()
-							  .focus()
-							  .parent&lt;GroupBox&gt;().set_Text("Compilation Errors: {0} : {1}".format(errorsList.nodes().size(), o2Timer.stop()));
-						//var assembly = compilation.create_Assembly();								
-					compilerAvailable = true;	
-				});
+			script.enabled(false);
+			O2Thread.mtaThread( 
+				()=&gt;{
+						var o2Timer = new O2Timer("Solution Compilation").start();
+						//IWorkspace workspace = Workspace.LoadSolution(solutionFile);						
+						ISolution solution = workspace.CurrentSolution;
+						errorsList.clear();
+						var compiledAssemblies = new List&lt;Assembly&gt;();
+						foreach(var project in solution.Projects)
+						{												
+							var assembly = (createUniqueAssemblies)
+												? project.compile_And_ReturnUniqueAssembly((errors)=&gt; errorsList.add_Nodes(errors))
+												: project.compile((errors)=&gt; errorsList.add_Nodes(errors)); 
+							if (assembly.notNull())						
+								compiledAssemblies.add(assembly);
+						}											
+						errorsList.backColor(errorsList.nodes().size() &gt; 0 ? Color.LightPink : Color.Azure)
+								  .selectFirst()
+								  .focus()
+								  .parent&lt;GroupBox&gt;().set_Text("Compilation Errors: {0} : {1}".format(errorsList.nodes().size(), o2Timer.stop()));
+							//var assembly = compilation.create_Assembly();															
+						compilerAvailable = true;	
+						if (errorsList.nodes().size() == 0)
+						{
+							script.InvocationParameters.Clear();
+							script.InvocationParameters.add("assemblies", compiledAssemblies.ToArray());						
+							script.enabled(true);
+							if(createUniqueAssemblies)
+							{
+								var uniqueId = "//Roslyn compiled assemblies".lineBeforeAndAfter();
+								var codeReferences = uniqueId;
+								foreach(var compiledAssembly in compiledAssemblies)
+								{
+									codeReferences+= "//O2Ref:{0}".format(compiledAssembly.Location).line();								
+								}
+								script.onCompileExecuteOnce();	
+								script.Code = script.Code.subString_Before(uniqueId)
+														 .append(codeReferences);
+							}	
+							else
+								script.execute();
+						}
+					});
 	}; 
 
 EventHandler&lt;WorkspaceEventArgs&gt; workspaceChanged = 
@@ -74,16 +99,20 @@ EventHandler&lt;WorkspaceEventArgs&gt; workspaceChanged =
 					//compile();
 				};
 
-Action&lt;string&gt; loadSolution =
-	(_solutionFile)=&gt;{ 	
-					"Loading File: {0}".info(_solutionFile);
-					if (_solutionFile.extension(".sln").isFalse())
-						return;																
-					solutionFile = _solutionFile;
+Action&lt;string&gt; loadSolutionOrProject =
+	(target)=&gt;{ 	
+					"Loading File: {0}".info(target);
+					if (target.extension(".sln"))
+						workspace = Workspace.LoadSolution(target, null,null, true);
+					else if (target.extension(".csproj"))
+							workspace = Workspace.LoadStandAloneProject(target, null,null,null, true);
+					else
+						return;
+					//solutionFile = _solutionFile;
 //					sourceCodeFiles.clear();
-					errorsList.clear().add_Node("Compiling solution....");
+					errorsList.clear().add_Node("Compiling solution or project....");
 					codeViewer.open("");
-					workspace = Workspace.LoadSolution(solutionFile, null,null, true);
+					
 					topPanel.onClosed(()=&gt;
 						{						
 							"On TopPanel closed".debug();
@@ -115,13 +144,20 @@ errorsList.afterSelect&lt;Diagnostic&gt;(
 			      });
 
 actionsPanel.add_Link("Re-compile loaded solution", ()=&gt; compile())
-	     .append_Label("Current Solution File (you can drop a *.sln file here to load it):").autoSize()
-	     .append_TextBox("").align_Right();
+			.append_CheckBox("Create Unique Assemblies", (value)=&gt; createUniqueAssemblies = value)
+	     	.append_Label("Current Solution File (you can drop a *.sln file here to load it):").autoSize()
+	     	.append_TextBox("").align_Right();
 
-topPanel.onDrop(loadSolution);	
+topPanel.onDrop(loadSolutionOrProject);	
 //sourceCodeFiles.onDrop(loadSolution);
-errorsList.parentForm().onDrop(loadSolution);
-			
+errorsList.parentForm().onDrop(loadSolutionOrProject);
+script.InvocationParameters.Add("assemblies",new List&lt;Assembly&gt;().ToArray());
+script.Code = 
+@"var assembly = assemblies.first(); 
+return assembly;"; 
+
+loadSolutionOrProject(@"E:\o2_v4\O2.FluentSharp\O2.FluentSharp.CoreLib\O2.FluentSharp.CoreLib.sln");
+return codeViewer.open(workspace.file("o2.cs").FilePath);
 
 //O2File:_Extra_methods_Roslyn_API.cs
 //O2File:Findings_ExtensionMethods.cs
@@ -135,7 +171,7 @@ errorsList.parentForm().onDrop(loadSolution);
 //O2Ref:Roslyn.Compilers.CSharp.dll
 //O2Ref:O2_FluentSharp_Roslyn.dll 
 
-//O2Tag_DontAddExtraO2Files
+//_O2Tag_DontAddExtraO2Files
 </SourceCode>
   <ReferencedAssemblies />
 </H2>

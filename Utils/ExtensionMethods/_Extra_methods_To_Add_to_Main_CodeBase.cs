@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.Collections;   
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Runtime.InteropServices;
 using System.Linq;
 using System.Xml.Linq;  
 using System.Reflection; 
@@ -55,11 +56,187 @@ using Ionic.Zip;
 //O2File:_Extra_methods_AppDomain.cs
 
 namespace O2.XRules.Database.Utils
-{		
-	
-	public static class _Extra_O2_PictureBox
+{	
+	public class Native
 	{
+		public string test { get;set; }
+		 // P/Invoke declarations
+	    [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+	    public static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
+	
+	    [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+	    public static extern bool AppendMenu(IntPtr hMenu, int uFlags, int uIDNewItem, string lpNewItem);
+	
+	    [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+	    public static extern bool InsertMenu(IntPtr hMenu, int uPosition, int uFlags, int uIDNewItem, string lpNewItem);
+	}
 
+	public static class _Extra_WinForms_Controls
+	{
+		public static T onThread<T>(this T control, Action action) where T : Control
+		{
+			return control.update((c)=> action());
+		}
+		
+		public static T onThread<T>(this T control, Action<T> action) where T : Control
+		{
+			return (T)control.invokeOnThread(
+					()=>{						
+							action(control);
+							return control;
+						});
+		}
+		
+		public static T update<T>(this T control, Action updateAction) where T : Control
+		{
+			return control.update((c)=> updateAction());
+		}
+		
+		public static T update<T>(this T control, Action<T> updateAction) where T : Control
+		{
+			return (T)control.invokeOnThread(
+						()=>{
+								control.refresh_Disable();
+								updateAction(control);
+								control.refresh_Enable();
+								return control;
+							});
+		}
+		
+		public static T refresh_Disable<T>(this T control) where T : Control
+		{
+			return control.beginUpdate();
+		}
+		
+		public static T refresh_Enable<T>(this T control) where T : Control
+		{
+			return control.endUpdate();
+		}
+		
+		public static T beginUpdate<T>(this T control) where T : Control
+		{
+			control.invoke("BeginUpdateInternal");
+			return control;
+		}
+		
+		public static T endUpdate<T>(this T control) where T : Control
+		{
+			control.invoke("EndUpdateInternal");
+			return control;
+		}
+	}
+	
+	public static class _Extra_SourceCodeViewer
+	{		
+		public static Location location(this TextLocation textLocation)
+		{
+			return new Location(textLocation.X+1, textLocation.Y +1);		
+		}
+		
+		public static ascx_SourceCodeViewer selectText(this ascx_SourceCodeViewer codeViewer, int offsetStart, int offsetEnd)
+		{
+			codeViewer.editor().selectText(offsetStart, offsetEnd);
+			return codeViewer;
+		}
+		
+		public static ascx_SourceCodeEditor selectText(this ascx_SourceCodeEditor codeEditor, int offsetStart, int offsetEnd)		
+		{
+			codeEditor.textEditor().invokeOnThread(
+				()=>{
+						try
+						{
+							var position1 = codeEditor.document().OffsetToPosition(offsetStart).location();
+							var position2 = codeEditor.document().OffsetToPosition(offsetEnd).location();											
+							codeEditor.setSelectionText(position1, position2);
+						}
+						catch(Exception ex)
+						{
+							ex.log("in ascx_SourceCodeEditor selectText");
+						}
+					});
+			return codeEditor;
+		}
+		public static ascx_SourceCodeViewer add_CodeMarker(this ascx_SourceCodeViewer codeViewer, int offsetStart, int offsetEnd)
+		{
+			codeViewer.editor().add_CodeMarker(offsetStart, offsetEnd);
+			return codeViewer;
+		}
+		
+		public static ascx_SourceCodeEditor add_CodeMarker(this ascx_SourceCodeEditor codeEditor, int offsetStart, int offsetEnd)
+		{
+			codeEditor.textEditor().invokeOnThread(
+				()=>{
+						var position1 = codeEditor.document().OffsetToPosition(offsetStart);
+						var position2 = codeEditor.document().OffsetToPosition(offsetEnd);					
+						codeEditor.clearMarkers();
+						codeEditor.selectTextWithColor(position1, position2)
+											  .refresh();
+						codeEditor.document().MarkerStrategy.TextMarker.first().field("color", Color.Azure);					  
+					});
+			return codeEditor;
+		}
+		
+		public static ascx_SourceCodeViewer markerColor(this ascx_SourceCodeViewer codeViewer, Color color)
+		{
+			codeViewer.editor().markerColor(color);
+			return codeViewer;
+		}
+		
+		public static ascx_SourceCodeEditor markerColor(this ascx_SourceCodeEditor codeEditor, Color color)
+		{
+			codeEditor.textEditor().invokeOnThread(
+				()=>{
+						foreach(var marker in codeEditor.document().MarkerStrategy.TextMarker)
+							marker.field("color", color);
+					});
+			return codeEditor;	
+		}
+			
+	}
+	public static class _Extra_Assembly
+	{
+		public static object invokeStatic(this Assembly assembly, string type, string method, params object[] parameters)
+		{
+			return assembly.type(type).invokeStatic(method, parameters);
+		}
+	}
+	
+	public static class _Extra_String
+	{
+		public static string subString_Before(this string stringToProcess, string untilString)
+		{
+			var lastIndex = stringToProcess.indexLast(untilString);
+			return (lastIndex > 0) 
+						? stringToProcess.subString(0, lastIndex) 
+						: stringToProcess;		
+		}
+	}
+	
+	public static class _Extra_Methods_MessageBox
+	{
+		public static DialogResult alert(this string message, string title = null)
+		{
+			return message.messageBox(title);
+		}
+		
+		public static DialogResult msgbox(this string message, string title = null)
+		{
+			return message.messageBox(title);
+		}
+		
+		public static DialogResult messageBox(this string message, string title = null)
+		{
+			title = title ?? "O2 MessageBox";
+			return MessageBox.Show(message,title);
+		}
+	}
+	
+	public static class _Extra_O2_BitMap
+	{
+		public static Icon asIcon(this Bitmap bitmap)
+		{
+			return Icon.FromHandle(bitmap.GetHicon());
+		}
 	}
 	
 	

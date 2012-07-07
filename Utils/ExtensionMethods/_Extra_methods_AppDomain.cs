@@ -21,6 +21,24 @@ namespace O2.XRules.Database.Utils
 {		
 	public static class _Extra_AppDomain_ExtensionMethods
 	{
+		public static O2AppDomainFactory appDomain(this string appDomainName)
+		{			
+			var appDomain =  new O2AppDomainFactory(appDomainName);
+			return appDomain;
+		}
+	
+		public static O2AppDomainFactory loadMainO2Dlls(this O2AppDomainFactory o2AppDomain)
+		{
+			o2AppDomain.load("O2_FluentSharp_CoreLib.dll"); 	
+			o2AppDomain.load("O2_FluentSharp_BCL.dll");
+			return o2AppDomain;
+		}
+		
+		public static string executeCodeSnippet_InSeparateAppDomain(this string scriptToExecute)
+		{
+			return scriptToExecute.executeScriptInSeparateAppDomain(true, false);
+		}
+		
 		public static string executeScriptInSeparateAppDomain(this string scriptToExecute)
 		{
 			return scriptToExecute.executeScriptInSeparateAppDomain(true, false);
@@ -29,10 +47,9 @@ namespace O2.XRules.Database.Utils
 		public static string executeScriptInSeparateAppDomain(this string scriptToExecute, bool showLogViewer, bool openScriptGui)
 		{
 			var appDomainName = 12.randomLetters();
-			var o2AppDomain =  new O2AppDomainFactory(appDomainName);
-			o2AppDomain.load("O2_XRules_Database"); 	
-			o2AppDomain.load("O2_Kernel");
-			o2AppDomain.load("O2_DotNetWrappers");
+			var o2AppDomain =  new O2AppDomainFactory(appDomainName)
+									.loadMainO2Dlls();
+			
 			
 			var o2Proxy =  (O2Proxy)o2AppDomain.getProxyObject("O2Proxy");
 			if (o2Proxy.isNull())

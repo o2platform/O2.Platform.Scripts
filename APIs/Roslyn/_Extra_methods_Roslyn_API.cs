@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Collections.Generic;
 using O2.Kernel;
 using O2.Kernel.ExtensionMethods;
+using O2.DotNetWrappers.DotNet;
 using O2.DotNetWrappers.ExtensionMethods;
 using O2.External.SharpDevelop.ExtensionMethods;
 using O2.XRules.Database.Utils;
@@ -183,7 +184,32 @@ namespace O2.XRules.Database.APIs
 	}
 	
 	public static class _Extra_methods_Roslyn_API_Compiler
-	{
+	{						
+		
+		public static Assembly compile(this IProject project)
+		{
+			Action<List<CommonDiagnostic>>  onErrors = 
+				(errors)=> "{0}".error(errors.asString());
+			return project.compile(onErrors);
+		}
+		
+		public static Assembly compile(this IProject project, Action<List<CommonDiagnostic>> onErrors)
+		{
+			var o2Timer = new O2Timer("Compile Project {0}".format(project.Name)).start();
+			var compilation = project.GetCompilation();		
+			if (compilation.hasErrors())
+			{				
+				var errors = compilation.errors();						
+				"There are {0} errors".info(errors.size());					
+				if (onErrors.notNull())
+					onErrors(errors);
+				return null;
+			}					
+			var assembly = compilation.create_Assembly();
+			o2Timer.stop();
+			return assembly;
+		}
+		
 		public static List<Assembly> compileSolution(this string solutionFile, bool createUniqueAssemblies = true)
 		{			
 			var workspace = Workspace.LoadSolution(solutionFile);
@@ -426,7 +452,99 @@ namespace O2.XRules.Database.APIs
 		}					  
 	}
 	
+	public static class _Extra_methods_Roslyn_API_IWorkspace
+	{
+		public static List<IProject> projects(this IWorkspace workspace)
+		{
+			return workspace.CurrentSolution.projects();
+		}
+		
+		public static List<IDocument> files(this IWorkspace workspace)
+		{
+			return workspace.CurrentSolution.projects().files();
+		}
+		
+		public static IDocument file(this IWorkspace workspace, string fileName)
+		{
+			return workspace.files().file(fileName);
+		}
+		
+	}	
+	public static class _Extra_methods_Roslyn_API_ISolution
+	{
+		public static ISolution solution(this string solutionFile)
+		{
+			try
+			{
+				return Workspace.LoadSolution(solutionFile)
+								 .CurrentSolution;			
+			}
+			catch(Exception ex)
+			{
+				ex.log("in ISolution load for: {0}".format(solutionFile));
+				return null;
+			}
+		}	
+		
+		
+	}
 	
+	public static class _Extra_methods_Roslyn_API_IProject
+	{				
+		public static IProject project(this string projectFile)
+		{			
+			var workspace = Workspace.LoadStandAloneProject(projectFile);
+			return workspace.projects().first();
+		}
+		
+		public static IProject project(this string solutionFile, string projectName)
+		{
+			return solutionFile.solution().project(projectName);
+		}
+		
+		public static List<IProject> projects(this string solutionFile)
+		{
+			return solutionFile.solution().projects();
+		}
+		
+		public static List<IProject> projects(this ISolution solution)
+		{
+			return (solution.notNull()) ? solution.Projects.toList() : new List<IProject>();
+		}
+		
+		public static IProject project(this ISolution solution, string projectName)
+		{
+			return solution.Projects.Where((project)=>project.Name == projectName).first();
+		}
+		
+		public static List<IDocument> files(this List<IProject> projects)
+		{
+			return (from project in projects
+					from file in project.files()
+					select file).toList();
+		}
+		
+		public static List<IDocument> files(this IProject project)
+		{
+			return project.Documents.toList();
+		}
+		
+		public static List<string> names(this List<IDocument> files)
+		{
+			return files.Select((file)=>file.Name).toList();
+		}
+		
+		public static IDocument file(this IProject project, string name)
+		{
+			return project.files().file(name);
+		}
+		
+		public static IDocument file(this List<IDocument> files, string name)
+		{
+			return files.Where((file)=>file.Name == name).first();	
+		}
+		
+	}
 	public static class _Extra_methods_Roslyn_API_other
 	{		
 				

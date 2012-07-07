@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Diagnostics; 
 using O2.Kernel;
 using O2.Kernel.ExtensionMethods;
 using O2.DotNetWrappers.Windows; 
@@ -13,7 +13,9 @@ using O2.XRules.Database.Utils;
 
 //O2Ref:Mono.Posix.dll
 //O2Ref:ICSharpCode.SharpZipLib.dll 
-
+//O2Ref:Roslyn.Services.dll
+//O2Ref:Roslyn.Compilers.dll
+//O2Ref:Roslyn.Compilers.CSharp.dll
 namespace O2.XRules.Database.APIs
 {
 	public class Installer_SosNet_Test

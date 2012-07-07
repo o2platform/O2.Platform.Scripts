@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = "Util - View Roslyn AST Graph".popupWindow(1000,600);
+//var topPanel = panel.clear().add_Panel();
+
+var defaultCode = @"
+using System;
+using System.Diagnostics;
+public class Program 
+{
+	public static void Main(String[] args) 
+	{
+	  	//Debugger.Break();
+	  	var stream =  new System.IO.MemoryStream () { Position = 12 };
+	  	Test(""Hello world"");
+	}
+	 
+	public static void Test(String str) 
+	{
+	  	Console.WriteLine(str);
+	  	Console.ReadLine();
+	}
+}".trim();
+var codeToAnalyze = topPanel.title("C# code to see AST").add_SourceCodeViewer().set_ColorsForCSharp();
+var treeView = topPanel.insert_Left("Ast Tree of C# code on the right").add_TreeView();
+var propertyGrid = treeView.insert_Below("Selected AstNode Properties").add_PropertyGrid().helpVisible(false);
+var nodeCode = propertyGrid.parent().parent().insert_Right("Selected AstNode code").add_SourceCodeViewer().set_ColorsForCSharp();
+var actions = treeView.insert_Below(45,"Actions");
+
+var autoExpandAll = false;
+var triggerOnSelectEvents = true;
+Action expandAll = ()=&gt;
+	{	
+		triggerOnSelectEvents = false;
+		treeView.visible(false)
+				.expandAll()
+				.visible(true);
+		triggerOnSelectEvents = true;
+		treeView.selectFirst();
+	};
+
+treeView.beforeExpand&lt;SyntaxNode&gt;(
+	(treeNode,syntaxNode)=&gt;{			
+							var nodes = syntaxNode. ChildNodes();
+							treeNode.add_Nodes(nodes,(node)=&gt;node.Kind.str(),true);								 
+				 			});
+				 			
+treeView.afterSelect&lt;SyntaxNode&gt;(
+	(syntaxNode)=&gt;{
+					if (triggerOnSelectEvents)
+					{
+				 		nodeCode.set_Text(syntaxNode.str());				 	  
+						propertyGrid.show(syntaxNode);
+						if ((syntaxNode is CompilationUnitSyntax).isFalse())
+							codeToAnalyze.selectText(syntaxNode.Span.Start, syntaxNode.Span.End);				
+					}
+				  });
+
+Action&lt;string&gt; viewAstTree = 
+	(code)=&gt;{	
+				//var tree =  code.tree();				
+				var parserOptions =  ParseOptions.Default.WithKind(SourceCodeKind.Script);
+				var tree = SyntaxTree.ParseCompilationUnit(code, "",parserOptions);
+				var root =tree.GetRoot();
+				treeView.clear().add_Node(root.Kind.str(), root,true)
+						.expand();
+				if (autoExpandAll)
+					expandAll();
+			};
+			 
+codeToAnalyze.onTextChange((text)=&gt; viewAstTree(text));
+actions.add_Link("expand all", ()=&gt; expandAll() )
+	   .append_CheckBox("auto expand all", (value) =&gt; { autoExpandAll = value; if (value) viewAstTree(codeToAnalyze.get_Text());});
+
+codeToAnalyze.set_Text(defaultCode);	
+
+return "done";	   
+
+//using Roslyn.Compilers.CSharp;
+//using Roslyn.Compilers;
+//O2Ref:Roslyn.Compilers.dll
+//O2Ref:Roslyn.Compilers.CSharp.dll
+
+//O2Ref:O2_FluentSharp_Roslyn.dll
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -21,6 +21,8 @@ folderViewer.buildGui();
 var slider = folderViewer.CodeViewer.insert_Above_Slider();		
 slider.onSlide&lt;TreeNode&gt;((node)=&gt;node.selected());//.onSlide((value)=&gt; value.info());	
 
+folderViewer.FolderView.onDrag&lt;string&gt;(); 
+
 Action&lt;List&lt;TreeNode&gt;&gt; loadSlider = 
 	(nodes)=&gt;{
 				slider.set_Data(nodes);
