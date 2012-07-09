@@ -57,18 +57,17 @@ using Ionic.Zip;
 
 namespace O2.XRules.Database.Utils
 {	
-	public class Native
+	public static class _Extra_WinForms_Refection
 	{
-		public string test { get;set; }
-		 // P/Invoke declarations
-	    [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-	    public static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
-	
-	    [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-	    public static extern bool AppendMenu(IntPtr hMenu, int uFlags, int uIDNewItem, string lpNewItem);
-	
-	    [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-	    public static extern bool InsertMenu(IntPtr hMenu, int uPosition, int uFlags, int uIDNewItem, string lpNewItem);
+		public static List<Type> types<T>(this List<T> list)
+		{
+			return list.Select((item)=>item.type()).toList();
+		}
+		
+		public static List<string> names(this List<Type> types)
+		{
+			return types.Select((type)=>type.Name).toList();
+		}
 	}
 
 	public static class _Extra_WinForms_Controls

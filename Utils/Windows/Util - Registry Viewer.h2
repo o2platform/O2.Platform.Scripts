@@ -10,9 +10,13 @@ registryKeys.beforeExpand&lt;RegistryKey&gt;(
 						var currentNode = registryKeys.selected();
 						currentNode.clear();
 						foreach(var keyName in currentKey.GetSubKeyNames())
-						{
-							var subKey = currentKey.OpenSubKey(keyName);
-							currentNode.add_Node(subKey.Name.remove(currentKey.Name+"\\"), subKey, subKey.GetSubKeyNames().size()&gt;0);
+						{							
+						 	try
+						 	{
+								var subKey = currentKey.OpenSubKey(keyName);
+								currentNode.add_Node(subKey.Name.remove(currentKey.Name+"\\"), subKey, subKey.GetSubKeyNames().size()&gt;0);
+							}
+							catch {}							
 						}
 						"current key {0}".info(currentKey);
 				  	});
@@ -23,7 +27,16 @@ registryKeys.afterSelect&lt;RegistryKey&gt;(
 					 tableList.add_Columns("Name", "Type", "Value");  
 					 foreach(var name in currentKey.GetValueNames())
 					 {
-					 	var value = currentKey.GetValue(name);
+					 	object value = "";
+					 	try
+					 	{
+					 		value = currentKey.GetValue(name);
+					 		
+					 	}
+					 	catch(Exception ex)
+					 	{
+					 		value = ex.Message;
+					 	}
 					 	tableList.add_Row(name, value.typeName(),value.str());
 					 }
 					 tableList.makeColumnWidthMatchCellWidth();
@@ -34,7 +47,7 @@ Action loadRegistryData =
 	()=&gt;{	
 			registryKeys.clear();
 			registryKeys.add_Node(Registry.CurrentUser.Name, Registry.CurrentUser ,true);
-			//registryKeys.add_Node(Registry.LocalMachine.Name, Registry.LocalMachine ,true);
+			registryKeys.add_Node(Registry.LocalMachine.Name, Registry.LocalMachine ,true);
 			//registryKeys.add_Node(Registry.Users.Name, Registry.Users ,true);
 			
 			registryKeys.expand(); 

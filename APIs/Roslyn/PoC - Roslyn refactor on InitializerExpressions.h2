@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var testCode = @"
+{	
+	//comment this to see 2nd refactoring example
+   var stream =  new List&lt;object&gt;()  { file, ""aaa"", 123}; 
+   
+    
+   
+	var streams =  new System.IO.MemoryStream ()    
+	{ 
+		aa = 12,
+		bbb= new Object() ,
+		ccc= ""abc"" 
+	};
+ 
+} 
+";
+
+//return testCode.refactor_InitializerExpressions();
+//var topPanel = panel.clear().add_Panel();
+
+var topPanel = "PoC - Roslyn refactor on InitializerExpressions".popupWindow(1000,400);
+var actionsPanel = topPanel.insert_Above(20);
+var originalCode = topPanel.title("Original Code").add_SourceCodeViewer().set_ColorsForCSharp();
+var refactoredCode = topPanel.insert_Right("Refactored Code").add_SourceCodeViewer().set_ColorsForCSharp();
+
+originalCode.onTextChange(
+	(text)=&gt;{ 
+				var newText = "{{\n{0}\n}}".format(text).refactor_InitializerExpressions();
+				refactoredCode.set_Text(newText);
+				//newText.clipboardText_Set();
+			});  
+
+actionsPanel.add_Link("Refactor from Clipboard",()=&gt; originalCode.set_Text(topPanel.clipboardText_Get())).top(5);
+
+originalCode.set_Text(testCode);
+
+//return node.Parent.typeName( );
+/*
+return root.ReplaceNode(node.Parent, tempNode).str(); 
+return root.Ancestors();
+return ast.str(); 
+var @class = "aClass".classDeclaration(); 
+return ast.compilationUnit().add_Class(@class).str();
+*/
+//return ast.compilationUnit().add_Using(" System").str();
+//return ast.str();
+//using System.Linq;
+
+
+//O2File:_Extra_methods_Roslyn_API.cs
+//O2File:_Extra_methods_Roslyn_API_GuiHelpers.cs
+//O2File:_Extra_methods_Roslyn_API_Refactoring.cs 
+//using Roslyn.Compilers.CSharp;
+//using Roslyn.Compilers;
+//O2Ref:Roslyn.Compilers.dll
+//O2Ref:Roslyn.Compilers.CSharp.dll
+//O2Ref:Roslyn.Services.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

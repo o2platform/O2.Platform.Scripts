@@ -14,6 +14,8 @@ using Roslyn.Compilers.CSharp;
 using Roslyn.Compilers;
 using Roslyn.Services;
 
+//O2File:_Extra_methods_Roslyn_API_GuiHelpers.cs
+//O2File:_Extra_methods_Roslyn_API_Refactoring.cs
 //O2Ref:O2_FluentSharp_Roslyn.dll
 
 //O2Ref:Roslyn.Services.dll
@@ -33,7 +35,113 @@ namespace O2.XRules.Database.APIs
 		}
 	}		
 	
-	  
+	public static class _Extra_methods_Roslyn_API_SyntaxNodes
+	{						
+		public static BlockSyntax parse_Block(this string code)
+		{
+			var wrapInBrackets = "{".line() + code + "}";
+			return (BlockSyntax)wrapInBrackets.statement();
+		}					
+		
+		
+		public static NameSyntax parse_Name(this string name)
+		{		
+			return Syntax.ParseName(name);
+		}		
+		
+		public static TypeSyntax parse_TypeName(this string name)
+		{		
+			return Syntax.ParseTypeName(name ?? "void");
+		}
+		
+					
+		public static string code(this SyntaxNode syntaxNode)
+		{
+			return syntaxNode.formatedCode();
+		}
+		
+		public static BlockSyntax parent_Block(this SyntaxNode syntaxNode)
+		{
+			return syntaxNode.parent<BlockSyntax>();
+		}
+
+		public static SyntaxNode parent(this SyntaxNode syntaxNode)
+		{
+			if (syntaxNode.notNull())
+				return syntaxNode.Parent;
+			return null;
+		}
+		
+		public static T parent<T>(this SyntaxNode syntaxNode)
+			where T : SyntaxNode
+		{
+			if (syntaxNode.notNull())
+			{
+				if (syntaxNode.Parent is T)
+					return (T)syntaxNode.Parent;
+				return syntaxNode.Parent.parent<T>();
+			}
+			return default(T);
+		}
+		
+		public static SyntaxNode root(this SyntaxNode syntaxNode)
+		{
+			if (syntaxNode.parent().isNull())
+				return syntaxNode;
+			return syntaxNode.parent().root();		
+		}
+		
+		public static List<SyntaxNode> root_Path(this SyntaxNode syntaxNode)
+		{
+			var path = new List<SyntaxNode> ();
+			return syntaxNode.root_Path(path);
+		}
+		
+		public static List<SyntaxNode> root_Path(this SyntaxNode syntaxNode, List<SyntaxNode>  path)
+		{
+			if (syntaxNode.notNull())
+			{
+				path.add(syntaxNode);
+				return syntaxNode.parent().root_Path(path);
+			}
+			return path;
+		}
+		
+		public static List<SyntaxNode> nodes(this SyntaxTree syntaxTree)
+		{
+			return syntaxTree.root().nodes();
+		}
+		
+		public static List<SyntaxNode> nodes(this SyntaxNode syntaxNode)
+		{
+			return syntaxNode.DescendantNodes().toList();
+		}
+		
+		public static List<SyntaxNode> nodes(this SyntaxNode syntaxNode, SyntaxKind kind)			
+		{
+			return syntaxNode.nodes().where((childNode)=> childNode.Kind == kind).toList();
+		}		
+		
+		public static List<T> nodes<T>(this SyntaxNode syntaxNode)
+			where T : SyntaxNode
+		{
+			return (from node in syntaxNode.nodes()
+					where node is T
+					select (T)node).toList();									
+		}
+		
+		public static T node<T>(this SyntaxNode syntaxNode)
+			where T : SyntaxNode
+		{
+			return syntaxNode.nodes<T>().first();
+		}
+		
+		public static List<SyntaxKind> kinds(this List<SyntaxNode>  syntaxNodes)
+		{
+			return syntaxNodes.Select((syntaxNode)=> syntaxNode.Kind).toList();
+		}
+	}
+	
 	public static class _Extra_methods_Roslyn_API_ClassDeclaration
 	{			
 		public static ClassDeclarationSyntax classDeclaration(this string className, bool addEmptyBody = true)
@@ -121,6 +229,9 @@ namespace O2.XRules.Database.APIs
 
 	}
 	
+	
+	
+	
 	public static class _Extra_methods_Roslyn_API_SyntaxTree
 	{
 		
@@ -128,6 +239,12 @@ namespace O2.XRules.Database.APIs
 		{
 			var parserOptions =  ParseOptions.Default.WithKind(SourceCodeKind.Script);
 			return SyntaxTree.ParseCompilationUnit(code, "",parserOptions);
+		}
+		
+		public static SyntaxTree ast_Script(this string code)
+		{
+			var parserOptions =  ParseOptions.Default.WithKind(SourceCodeKind.Script);
+			return SyntaxTree.ParseCompilationUnit(code, "",parserOptions);			
 		}
 		
 		public static SyntaxTree ast(this string code)
@@ -544,47 +661,7 @@ namespace O2.XRules.Database.APIs
 			return files.Where((file)=>file.Name == name).first();	
 		}
 		
-	}
-	public static class _Extra_methods_Roslyn_API_other
-	{		
-				
-		public static BlockSyntax parse_Block(this string code)
-		{
-			var wrapInBrackets = "{".line() + code + "}";
-			return (BlockSyntax)wrapInBrackets.statement();
-		}
-		
-		
-		public static T parent<T>(this SyntaxNode syntaxNode)
-			where T : SyntaxNode
-		{
-			if (syntaxNode.notNull())
-			{
-				if (syntaxNode.Parent is T)
-					return (T)syntaxNode.Parent;
-				return syntaxNode.Parent.parent<T>();
-			}
-			return default(T);
-		}		
-		
-		
-		public static NameSyntax parse_Name(this string name)
-		{		
-			return Syntax.ParseName(name);
-		}		
-		
-		public static TypeSyntax parse_TypeName(this string name)
-		{		
-			return Syntax.ParseTypeName(name ?? "void");
-		}
-		
-					
-		public static string code(this SyntaxNode syntaxNode)
-		{
-			return syntaxNode.formatedCode();
-		}
-		
-	}
+	}	
 	
 }
     	

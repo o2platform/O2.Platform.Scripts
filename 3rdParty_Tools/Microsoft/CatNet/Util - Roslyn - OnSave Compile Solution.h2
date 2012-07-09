@@ -11,6 +11,7 @@ var errorsList = topPanel.insert_Below(100,"Errors").add_TreeView();
 
 //var solutionFile = ""; 
 var compilerAvailable = true;
+var compileOnSave = false;
 var createUniqueAssemblies = false;
 
 IWorkspace workspace = null;
@@ -42,27 +43,31 @@ solutionFiles.afterSelect&lt;IDocument&gt;(
 Action compile = 
 	()=&gt;{	 
 			script.enabled(false);
+			solutionFiles.azure();
 			O2Thread.mtaThread( 
 				()=&gt;{
 						var o2Timer = new O2Timer("Solution Compilation").start();
 						//IWorkspace workspace = Workspace.LoadSolution(solutionFile);						
-						ISolution solution = workspace.CurrentSolution;
-						errorsList.clear();
+						ISolution solution = workspace.CurrentSolution;						
 						var compiledAssemblies = new List&lt;Assembly&gt;();
+						var allErrors = new List&lt;CommonDiagnostic&gt;();
 						foreach(var project in solution.Projects)
-						{												
+						{		
+							"Compiling Project: {0}".info(project.Name);
 							var assembly = (createUniqueAssemblies)
-												? project.compile_And_ReturnUniqueAssembly((errors)=&gt; errorsList.add_Nodes(errors))
-												: project.compile((errors)=&gt; errorsList.add_Nodes(errors)); 
+												? project.compile_And_ReturnUniqueAssembly((errors)=&gt; allErrors.add(errors))
+												: project.compile((errors)=&gt; allErrors.add(errors)); 
 							if (assembly.notNull())						
 								compiledAssemblies.add(assembly);
-						}											
+						}
+						errorsList.clear()
+								  .add_Nodes(allErrors);
 						errorsList.backColor(errorsList.nodes().size() &gt; 0 ? Color.LightPink : Color.Azure)
 								  .selectFirst()
 								  .focus()
 								  .parent&lt;GroupBox&gt;().set_Text("Compilation Errors: {0} : {1}".format(errorsList.nodes().size(), o2Timer.stop()));
 							//var assembly = compilation.create_Assembly();															
-						compilerAvailable = true;	
+												
 						if (errorsList.nodes().size() == 0)
 						{
 							script.InvocationParameters.Clear();
@@ -83,20 +88,22 @@ Action compile =
 							else
 								script.execute();
 						}
+						compilerAvailable = true;
+						solutionFiles.white();
 					});
 	}; 
 
 EventHandler&lt;WorkspaceEventArgs&gt; workspaceChanged = 
-	(sender,e)=&gt;{
-					// this is being triggered to many times					
-					//"e: {0}".error(e.Kind);					
-					if (compilerAvailable)
-					{
-						"Workspace changed, triggering compilation".debug();					
-						compilerAvailable = false;
-						compile();
-					}
-					//compile();
+	(sender,e)=&gt;{									
+					if (compilerAvailable)					
+						if (compileOnSave)
+						{
+							"Workspace changed, triggering compilation".debug();					
+							compilerAvailable = false;
+							compile();
+						}
+						else
+							"Workspace changed, but compileOnSave is set to false".debug();					
 				};
 
 Action&lt;string&gt; loadSolutionOrProject =
@@ -145,6 +152,7 @@ errorsList.afterSelect&lt;Diagnostic&gt;(
 
 actionsPanel.add_Link("Re-compile loaded solution", ()=&gt; compile())
 			.append_CheckBox("Create Unique Assemblies", (value)=&gt; createUniqueAssemblies = value)
+			.append_CheckBox("Compile on Save", (value)=&gt;compileOnSave = value).@check()
 	     	.append_Label("Current Solution File (you can drop a *.sln file here to load it):").autoSize()
 	     	.append_TextBox("").align_Right();
 
@@ -163,10 +171,12 @@ return codeViewer.open(workspace.file("o2.cs").FilePath);
 //O2File:Findings_ExtensionMethods.cs
 //using O2.XRules.Database.Findings;
 //using Roslyn.Compilers.CSharp
+//using Roslyn.Compilers.Common
 //using System.Threading
 //using System.Reflection
 //using Roslyn.Services
 //O2Ref:Roslyn.Services.dll
+//O2Ref:Roslyn.Compilers.dll
 //O2Ref:Roslyn.Compilers.dll
 //O2Ref:Roslyn.Compilers.CSharp.dll
 //O2Ref:O2_FluentSharp_Roslyn.dll 

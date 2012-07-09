@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//note: add feature to auto execute trasformation on code change in the original code panel
+
+var topPanel = "Util - Roslyn AST Refactoring via REPL Script".popupWindow(1200,600);
+//var topPanel = panel.clear().add_Panel(); 
+
+var codeToRefactor = @"
+	  	var stream =  new System.IO.MemoryStream () { Position = 12 };	  	
+			".trim();
+var originalCodePanel = topPanel.insert_Left(400,"Original Code");
+var refactoredCodePanel = topPanel.insert_Right(400,"Refactored Code");
+codeToRefactor.view_Ast(originalCodePanel);
+
+originalCodePanel.insert_Below(30).add_RichTextBox()
+				 .set_Text(codeToRefactor.ast_Script().compiler().errors_Details()).foreColor(Color.Red);
+
+var refactorCodeCompileErrors = refactoredCodePanel.insert_Below(30).add_RichTextBox().foreColor(Color.Red);
+
+var script = topPanel.add_Script(); 
+script.InvocationParameters.Add("originalAst", codeToRefactor);
+script.onCompileExecuteOnce();
+
+script.onExecute =
+	(result)=&gt;{
+				refactoredCodePanel.add_AstViewer(result.str(),false);
+				refactoredCodePanel.controls&lt;TreeView&gt;(true).second().expandAll();
+				refactorCodeCompileErrors.set_Text(result.str().ast_Script().compiler().errors_Details());
+		 	  };
+
+
+script.Code = @"
+var ast = originalAst.ast_Script();
+return ast.str();
+//O2File:_Extra_methods_Roslyn_API.cs
+//using Roslyn.Compilers.CSharp;
+//using Roslyn.Compilers;
+//O2Ref:Roslyn.Compilers.dll
+//O2Ref:Roslyn.Compilers.CSharp.dll
+".trim();
+
+
+return "done";	   
+
+
+//using Roslyn.Compilers.CSharp;
+//using Roslyn.Compilers;
+//O2Ref:Roslyn.Compilers.dll
+//O2Ref:Roslyn.Compilers.CSharp.dll
+
+//O2Ref:O2_FluentSharp_Roslyn.dll
+
+//O2File:_Extra_methods_Roslyn_API.cs
+//O2File:_Extra_methods_Roslyn_API_GuiHelpers.cs
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>
