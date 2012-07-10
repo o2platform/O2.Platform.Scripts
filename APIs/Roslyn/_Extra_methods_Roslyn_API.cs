@@ -417,6 +417,7 @@ namespace O2.XRules.Database.APIs
 				return assembly.Location;			
 			return null;
 		}
+		
 		public static string compile_Script_in_Separate_Folder(this string h2Script)
 		{
 			var assembly = h2Script.compile_H2Script(); 
@@ -427,15 +428,17 @@ namespace O2.XRules.Database.APIs
 				var exeLocation = exe.Location; 
 				var fileName = h2Script.fileName_WithoutExtension(); 
 				var targetDir = exeLocation.fileName_WithoutExtension().tempDir(false); 
-				var fixedName = targetDir.pathCombine("{0}.exe".format(fileName));
+				//var fixedName = targetDir.pathCombine("{0}.exe".format(fileName));
 			  
 			
 				var dependencies = exe.referencedAssemblies(true);
 				//return dependencies;
 				dependencies.locations().files_Copy(targetDir);
 				
-				var exeInTargetDir = exeLocation.file_Copy(fixedName);
-				return fixedName;
+				//var exeInTargetDir = exeLocation.file_Copy(fixedName);
+				var exeInTargetDir = exeLocation.file_Copy(targetDir);
+				return exeInTargetDir;
+				//return fixedName;
 			}
 			return null;
 		}

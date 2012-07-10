@@ -13,6 +13,9 @@ using O2.DotNetWrappers.ExtensionMethods;
 using O2.Views.ASCX.classes.MainGUI;
 using O2.XRules.Database.Utils;
 
+
+using System.Runtime.InteropServices;
+
 namespace O2.XRules.Database.APIs
 {
 	public class API_ConsoleOut_Test
@@ -38,7 +41,8 @@ namespace O2.XRules.Database.APIs
 	}
     public class API_ConsoleOut : Control 
     {         	
-    	public O2StreamWriter o2StreamWriter;
+    	public O2StreamWriter   o2StreamWriter;
+    	public RichTextBox 		RichTextBox;
     	
     	public API_ConsoleOut()
     	{    	
@@ -58,7 +62,7 @@ namespace O2.XRules.Database.APIs
 		public bool LogAllChars				{ get; set; }
 		public bool LogAllLines				{ get; set; }
 		public string Name					{ get; set; }
-		public int PauseBetweenCharWrite	{ get; set; }
+		public int PauseBetweenCharWrite	{ get; set; }		
 		
 		public O2StreamWriter()
 		{
@@ -108,6 +112,30 @@ namespace O2.XRules.Database.APIs
         {
             get { return System.Text.Encoding.UTF8; }
         }
+	}
+	
+	public static class API_ConsoleOut_ExtensionMethods
+	{
+		public static API_ConsoleOut write(this API_ConsoleOut apiConsoleOut, string message)
+		{
+			Console.Write(message);
+			return apiConsoleOut;
+		}
+		
+		public static API_ConsoleOut writeLine(this API_ConsoleOut apiConsoleOut, string message = "")
+		{
+			Console.WriteLine(message);
+			return apiConsoleOut;
+		}
+		
+		public static API_ConsoleOut clear(this API_ConsoleOut apiConsoleOut, string message)
+		{
+			if (apiConsoleOut.RichTextBox.isNull())
+				"[API_ConsoleOut] in clean() richTextBox was not set".error();
+			else 
+				apiConsoleOut.RichTextBox.set_Text("");
+			return apiConsoleOut;
+		}
 	}
 	
     public static class API_ConsoleOut_ExtensionMethods_TestGuis
@@ -160,6 +188,11 @@ namespace O2.XRules.Database.APIs
 			return apiConsoleOut;
 		}
 		
+		public static API_ConsoleOut insert_ConsoleOut(this Control topPanel,  bool showO2Message = true)
+		{
+			return topPanel.insert_Below(100).add_ConsoleOut(showO2Message);
+		}
+		
 		public static API_ConsoleOut add_ConsoleOut(this Control topPanel,  bool showO2Message = true)
 		{
 			return topPanel.show_ConsoleOut(showO2Message);
@@ -187,21 +220,50 @@ namespace O2.XRules.Database.APIs
     		return apiConsoleOut.show_ConsoleOut(topPanel);
     	}
     	
-    	
+/*    	   [DllImport("user32.dll")]
+	    public static extern int SendMessage(IntPtr hWnd, Int32 wMsg, bool wParam, Int32 lParam);
+
+    private const int WM_SETREDRAW = 11; 
+
+    public static void SuspendDrawing(this Control parent )
+    {
+        SendMessage(parent.Handle, WM_SETREDRAW, false, 0);
+    }
+
+    public static void ResumeDrawing(this Control parent )
+    {
+        SendMessage(parent.Handle, WM_SETREDRAW, true, 0);
+        parent.Refresh();
+    }
+*/    
+    
     	public static API_ConsoleOut show_ConsoleOut(this API_ConsoleOut apiConsoleOut, Control topPanel)
-    	{
-    		var consoleOut = topPanel.add_RichTextBox().showSelection().wordWrap(false);
-			consoleOut.backColor(Color.Black);
-			consoleOut.foreColor(Color.White); 
-			consoleOut.font("Lucida Console");
+    	{    		
+    		var richTextBox = apiConsoleOut.RichTextBox = topPanel.add_RichTextBox().showSelection().wordWrap(false);
+    		var showData = true;
+			richTextBox.backColor(Color.Black)
+					   .foreColor(Color.White)
+					   .font("Lucida Console");
 			//.onKeyPress_getChar( (_char)=> { if (_char == '\x0d') Console.WriteLine(); else  Console.Write(_char); })
-			apiConsoleOut.o2StreamWriter.On_NewChar = (_char) => { if (_char != '\x0d') consoleOut.append_Text(_char.str()); };
+			apiConsoleOut.o2StreamWriter.On_NewChar = (_char) => 
+				{ 										
+//					richTextBox.SuspendDrawing();
+					if (showData)
+						if (_char != '\x0d') 
+							richTextBox.append_Text(_char.str()); 					
+						
+//					richTextBox.ResumeDrawing();	
+					
+					
+				};
 			//apiConsoleOut.o2StreamWriter.On_NewChar = (_char) => consoleOut.append_Text(_char.str());
 			apiConsoleOut.o2StreamWriter.LogAllLines = false;
 			
-			consoleOut.add_ContextMenu()
-					  .add_MenuItem("Clear", true, ()=> consoleOut.set_Text(""))
-					  .add_MenuItem("Write to Console Input", ()=> Console.WriteLine("Text to send to Console.Input".askUser()));
+			richTextBox.add_ContextMenu()
+					   .add_MenuItem("Clear", true, ()=> richTextBox.set_Text(""))
+					   .add_MenuItem("Write to Console Input",true, ()=> Console.WriteLine("Text to send to Console.Input".askUser()))
+					   .add_MenuItem("'Show' / 'Don't Show' received data", true, ()=> showData = !showData);
+					   
 			return apiConsoleOut;
     	}
     }

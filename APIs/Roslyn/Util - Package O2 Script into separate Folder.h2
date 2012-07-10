@@ -19,14 +19,25 @@ Action&lt;string&gt; packageH2 =
 					O2Thread.mtaThread(
 						()=&gt;{ 
 								compiledScript = h2Script.compile_Script_in_Separate_Folder();								
-								if (compiledScript.valid())
+								"CompiledScript: {0}".info(compiledScript);
+								if (compiledScript.valid()) 
 								{
-									browser.open(compiledScript.directoryName());
-									dropZone.azure();
-								}
-								else
-									dropZone.pink();
-								//dropZone.backColor("Control")  ; s 
+									var projectName = h2Script.fileName_WithoutExtension();
+									var sourceFile = "Program_UseWith_O2_CreatedExes.cs".local();
+									var pathToAssemblies = compiledScript.directoryName();
+									var targetDir = pathToAssemblies.pathCombine("_BuildFiles").createDir();
+																		
+									var createdExe = projectName.createProjectFile_and_Build(sourceFile, pathToAssemblies, targetDir, topPanel);
+									if (createdExe.valid())
+									{
+										Files.deleteAllFilesFromDir(pathToAssemblies);
+										createdExe.file_Copy(pathToAssemblies);
+										browser.open(targetDir.directoryName());
+										dropZone.azure();
+										return;
+									}
+								}							
+								dropZone.pink();								
 							});
 				};
 dropZone.parent().insert_Below(20).add_Link("Execute compiled script", ()=&gt; compiledScript.startProcess())
@@ -34,14 +45,18 @@ dropZone.parent().insert_Below(20).add_Link("Execute compiled script", ()=&gt; c
 dropZone.onDrop(packageH2);
 dropZone.onClick(()=&gt;packageH2(lastH2Script));
 
-//packageH2("Util - LogViewer.h2");
-//packageH2("Util - C# REPL Script [4.0].cs.o2");
+dropZone.add_ContextMenu()
+		.add_MenuItem("Test using LogViewer", true, ()=&gt; packageH2("Util - LogViewer.h2"))
+		.add_MenuItem("Test C# REPL Editor", true, ()=&gt; packageH2("Util - C# REPL Script [4.0].cs.o2"));
+
 return "ok";
 
 //O2Ref:Roslyn.Compilers.dll
 //O2Ref:Roslyn.Compilers.CSharp.dll
 //O2Ref:O2_FluentSharp_Roslyn.dll
+
 //O2File:_Extra_methods_Roslyn_API.cs
+//O2File:API_MicrosoftBuild.cs
 
 //O2Tag_DontAddExtraO2Files
 </SourceCode>

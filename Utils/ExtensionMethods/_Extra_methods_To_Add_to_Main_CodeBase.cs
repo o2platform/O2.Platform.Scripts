@@ -52,11 +52,38 @@ using System.Security.Cryptography;
 using Ionic.Zip;
 
 //O2Ref:Ionic.Zip.dll
-
+//O2Ref:O2_External_SharpDevelop.dll
 //O2File:_Extra_methods_AppDomain.cs
 
 namespace O2.XRules.Database.Utils
 {	
+	
+
+	public static class _Extra_WinForms_Files
+	{
+		public static bool file_Delete(this string path)
+		{
+			return path.delete_File();
+		}
+		
+		public static bool delete_File(this string path)
+		{
+			File.Delete(path);
+			return path.fileExists();
+		}
+		
+		public static bool folder_Delete(this string path)
+		{
+			return path.delete_Folder();
+		}
+		
+		public static bool delete_Folder(this string path)
+		{
+			Files.deleteAllFilesFromDir(path); 
+			Files.deleteFolder(path);
+			return path.dirExists();
+		}
+	}
 	public static class _Extra_WinForms_Refection
 	{
 		public static List<Type> types<T>(this List<T> list)
