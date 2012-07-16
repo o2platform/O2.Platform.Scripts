@@ -1,12 +1,15 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
 using System;
+using System.IO;
 using System.Text;
 using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using O2.Kernel;
 using O2.Kernel.ExtensionMethods;
 using O2.DotNetWrappers.DotNet;
+using O2.DotNetWrappers.Windows;
 using O2.DotNetWrappers.ExtensionMethods;
 using O2.External.SharpDevelop.Ascx;
 using O2.XRules.Database.Findings;
@@ -44,7 +47,7 @@ namespace O2.XRules.Database.APIs
 		
 		
 	}		
-	
+		
 	public class CatNetEvents	: EventSink
 	{
 		public StringBuilder OutputLines 		{ get; set;}		
@@ -198,7 +201,7 @@ namespace O2.XRules.Database.APIs
 			return catNet;
 		}
 	}
-	
+
 	public static class API_CatNet_ExtensionMethods_Scan_O2Findings
 	{
 		public static List<IO2Finding> findings(this string reportFile)
@@ -215,8 +218,7 @@ namespace O2.XRules.Database.APIs
 		
 		public static ascx_FindingsViewer add_CatNet_FindingsViewer(this Control control, string reportFile, ascx_SourceCodeEditor codeEditor = null)
 		{
-			var findingsViewer = control.control<ascx_FindingsViewer>();			
-			"here".error();
+			var findingsViewer = control.control<ascx_FindingsViewer>();						
 			if (findingsViewer.notNull())
 			{				
 				findingsViewer.clearO2Findings();							
@@ -236,6 +238,53 @@ namespace O2.XRules.Database.APIs
 			if (reportFile.valid())
 				return control.add_CatNet_FindingsViewer(reportFile, codeEditor);
 			return null;
+		}
+	}
+	
+	public class API_CatNet_Deployment
+	{
+		public static bool ensure_CatNet_Instalation()
+		{			
+			unzipEmbeddedResourceToFolder("CatNet_Files.zip" , @"..\_ToolsOrAPIs\CatNet_1.1");
+			var result = @"CatNet_1.1\SourceDir\Microsoft.ACESec.CATNet.Core.dll".assembly().notNull();	
+			if 	(result)
+				"CatNet is Installed OK".debug();
+			else
+				"CatNet is NOT Installed correctly".error();
+			return result;
+		}
+		
+		public static bool ensure_CatNet_Data()
+		{
+			return unzipEmbeddedResourceToFolder("LocalScriptsFolder.zip" , PublicDI.config.LocalScriptsFolder);
+		}
+		
+		public static bool unzipEmbeddedResourceToFolder(string resourceToUnzip, string virtalPathToTargetFolder)
+		{
+			var assembly = System.Reflection.Assembly.GetEntryAssembly();
+			var targetFile = PublicDI.config.O2TempDir.pathCombine(resourceToUnzip);
+			var targetFolder = PublicDI.config.O2TempDir.pathCombine(virtalPathToTargetFolder);
+			if (targetFile.fileExists().isFalse())
+			{
+				foreach (var resourceName in assembly.GetManifestResourceNames())
+				{
+					"resourceName: {0}".debug(resourceName);
+					if (resourceName == resourceToUnzip)
+					{						
+						"Extracting embeded reference and saving it to: {0}".info(targetFile);
+						var assemblyStream = assembly.GetManifestResourceStream(resourceName);
+						byte[] data = new BinaryReader(assemblyStream).ReadBytes((int)assemblyStream.Length);				
+						Files.WriteFileContent(targetFile,data);											
+						"unzing to: {0}".info(targetFolder);
+						targetFile.unzip_File(targetFolder.createDir());										
+					}		
+				}
+			}
+			if (targetFile.fileExists() && targetFolder.dirExists())
+				return true;
+			"requested embedded resource was not found: {0}".error(resourceToUnzip);
+			return false;
+			
 		}
 	}
 	

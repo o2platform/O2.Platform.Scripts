@@ -110,6 +110,7 @@ autoScanThread();
 //O2Tag_DontAddExtraO2Files
 //O2Ref:CefSharp\CefSharp-0.11-bin\CefSharp.WinForms.dll
 //O2Ref:CefSharp\CefSharp-0.11-bin\CefSharp.dll
-</SourceCode>
+
+//O2Ref:CatNet_1.1\SourceDir\Microsoft.ACESec.CATNet.Core.dll</SourceCode>
   <ReferencedAssemblies />
 </H2>

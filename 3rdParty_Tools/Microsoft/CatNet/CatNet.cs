@@ -6,15 +6,17 @@ using O2.DotNetWrappers.ExtensionMethods;
 using O2.XRules.Database.Utils;
 //O2File:Tool_API.cs
 
+public class DynamicType
+{
+	public void dynamicMethod()
+	{
+		new O2.XRules.Database.APIs.CatNet().start();  
+	}
+} 
+	
 namespace O2.XRules.Database.APIs 
 {
-	public class CatNet_Test
-	{
-		public void test()
-		{
-			new CatNet().start();  
-		}
-	} 
+	
 	public class CatNet : Tool_API  
 	{	
 		public CatNet()
@@ -22,7 +24,7 @@ namespace O2.XRules.Database.APIs
 			config("CatNet_1.1", 				   
 				   "http://download.microsoft.com/download/3/3/4/334E8A84-0F1B-4E3C-AF5F-99DA8AE0601F/CATNETx32.msi".uri(),
 				   "SourceDir\\CATNetCmd.exe");
-			install_JustMsiExtract_into_TargetDir();	       								
+			install_JustMsiExtract_into_TargetDir();
 		}
 				
 		
