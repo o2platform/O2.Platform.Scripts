@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>var topPanel = "Tool - Simple Cat.NET Scan Gui".popupWindow(700,400);
+  <SourceCode>var topPanel = "Tool - Simple Cat.NET Scan Gui v1.1".popupWindow(700,400);
 //var topPanel = panel.add_Panel(true);
 var logViewer = topPanel.title("Scan Logs").add_LogViewer();
 var codeViewer = topPanel.insert_Below("Scan results").add_SourceCodeViewer();
 
-API_CatNet_Deployment.checkCatNetInstalation();
+API_CatNet_Deployment.ensure_CatNet_Instalation();
 
 Action&lt;string&gt; scanFile = 
 	(target)=&gt;{

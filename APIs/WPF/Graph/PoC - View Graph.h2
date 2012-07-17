@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = "Graph".popupWindow();
+var graph = topPanel.add_Graph().testGraph();
+var script = topPanel.insert_Script();
+script.InvocationParameters.Add("graph", graph);
+script.Code = 
+@"return graph;
+
+//O2Ref:O2_API_Visualization.dll
+//O2Ref:GraphSharp.Controls.dll
+//O2Ref:GraphSharp.dll
+//O2Ref:QuickGraph.dll
+
+//O2Ref:PresentationCore.dll
+//O2Ref:PresentationFramework.dll
+//O2Ref:WindowsBase.dll
+//O2Ref:System.Xaml.dll
+//O2File:GraphSharp_ExtensionMethods.cs
+";
+
+//O2File:GraphSharp_ExtensionMethods.cs
+
+//O2Ref:O2_API_Visualization.dll
+//O2Ref:GraphSharp.Controls.dll
+//O2Ref:GraphSharp.dll
+//O2Ref:QuickGraph.dll
+
+//O2Ref:PresentationCore.dll
+//O2Ref:PresentationFramework.dll
+//O2Ref:WindowsBase.dll
+//O2Ref:System.Xaml.dll
+//O2Ref:WindowsFormsIntegration.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

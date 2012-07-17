@@ -52,7 +52,6 @@ return alerts;
 //search("asd&lt;h1&gt;asdas&lt;/h1&gt;");
 return "ok";
 //O2File:WatiN_IE_ExtensionMethods.cs
-//using O2.XRules.Database.Utils.O2
 //O2Ref:WatiN.Core.1x.dll
 //O2File:API_FuzzDB.cs
 //O2File:API_Cropper.cs</SourceCode>

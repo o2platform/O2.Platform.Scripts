@@ -13,6 +13,8 @@ using O2.DotNetWrappers.ExtensionMethods;
 using O2.Views.ASCX.classes.MainGUI;
 using O2.Views.ASCX.ExtensionMethods;
 
+//O2Ref:CassiniDev_4.0.exe
+
 namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 {
 	public class MS_VS_WebServer
@@ -29,7 +31,7 @@ namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 		public MS_VS_WebServer()
 		{
 			
-			WebServerExe = PublicDI.config.ReferencesDownloadLocation.pathCombine("MS_VS_WebDev.WebServer.exe"); 		
+			WebServerExe = "CassiniDev_4.0.exe".assembly().Location;
 		}
 		
 		public MS_VS_WebServer(string localPath, int port, string virtualPath) : this()
@@ -57,7 +59,7 @@ namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 					return false; 
 				} 
 				
-				var webServerStartArguments = "/port:\"{0}\" /path:\"{1}\" /vpath:\"{2}\"".format(Port, LocalPath,VirtualPath);
+				var webServerStartArguments = "/port:{0} /portMode:Specific /path:\"{1}\" /vpath:\"{2}\"".format(Port, LocalPath,VirtualPath);
 				WebServerProcess = Processes.startProcess(WebServerExe, webServerStartArguments);			
 				WebServerProcess.sleep(2000);
 				"website should be up now".debug();
@@ -155,7 +157,7 @@ namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 				if (msWebServer.WebServerProcess.notNull() && msWebServer.WebServerProcess.HasExited.isFalse())
 					return MS_VS_WebServer.serverCache[serverCacheKey];
 			}
-			"creating new instance of MS_VS_WebServer".info();
+			"creating new instance of Cassini 4.0".info();
 			var webServer = new MS_VS_WebServer(localPath, port, virtualPath);			
 			//if (webServer.WebServerProcess.isNull());	
 			//	return null;			

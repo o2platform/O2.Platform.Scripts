@@ -12,7 +12,6 @@ using O2.DotNetWrappers.DotNet;
 using O2.DotNetWrappers.ExtensionMethods;
 using O2.Views.ASCX.ExtensionMethods;
 using O2.Views.ASCX.classes.MainGUI;
-using O2.XRules.Database.Utils.O2;
 using O2.XRules.Database.Utils;
 
 using Amazon.S3.Model;

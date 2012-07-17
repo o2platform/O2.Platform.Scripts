@@ -12,7 +12,7 @@ var sampleXPathQueries = new List&lt;string&gt;
 									};
  
 // create GUI 
-var panel = O2Gui.open&lt;Panel&gt;("Quick HtmlCode Viewer",600,300);  
+var panel = O2Gui.open&lt;Panel&gt;("Quick HtmlCode Viewer",800,500).insert_LogViewer();  
 var groupBoxes = panel.add_1x1("Html Code", "TreeView", true, panel.width() /2 );
 var htmlCodeViewer = groupBoxes[0].add_SourceCodeViewer(); 
 var optionsPanel = htmlCodeViewer.insert_Below&lt;Panel&gt;(30);
@@ -106,7 +106,7 @@ foreach(var xPathQuery in sampleXPathQueries)
 
 pageToOpen.sendKeys(defaultPage.line());
 
-
+//O2File:HtmlAgilityPack_ExtensionMethods_SourceCodeViewer.cs
 //using O2.External.IE.ExtensionMethods
 //O2Ref:O2_External_IE.dll
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll

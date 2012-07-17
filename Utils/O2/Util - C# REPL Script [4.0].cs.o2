@@ -12,15 +12,17 @@ using O2.XRules.Database.APIs;
 using Roslyn.Compilers;
 using Roslyn.Compilers.CSharp;
 
-//O2File:_Extra_methods_Roslyn_API.cs
 //O2Ref:O2_FluentSharp_Roslyn.dll
-
 //O2Ref:Roslyn.Compilers.CSharp.dll
 //O2Ref:Roslyn.Compilers.dll
 
-//O2Tag_DontAddExtraO2Files
+//O2File:_Extra_methods_Roslyn_API.cs
 
-public class DynamicType
+//O2Package:scripts.ico
+//O2Package:_Extra_methods_To_Add_to_Main_CodeBase.cs
+//O2Package:_Extra_methods_Browser.cs
+
+public class DynamicType 
 {
 	public void dynamicMethod()
 	{
@@ -36,9 +38,11 @@ namespace O2.XRules.Database.Utils
 		
 		public CSharpREPL start()
 		{
+			O2Setup.extractEmbededConfigZips();
 			PanelWithInspector = ascx_Panel_With_Inspector.runControl();
 			PanelWithInspector.inspector.OnAstFail = OnAstFail;			
 			//PanelWithInspector.parentForm().set_Text(PanelWithInspector.parentForm().get_Text() + " [4.0 CLR]");
+			PanelWithInspector.parentForm().set_Icon("scripts.ico".local().icon());
 			return this;
 		}
 		

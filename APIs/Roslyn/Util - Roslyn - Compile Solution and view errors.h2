@@ -43,20 +43,27 @@ Action compile =
 
 Action&lt;string&gt; loadSolution =
 	(_solutionFile)=&gt;{ 	
-						"Loading File: {0}".info(_solutionFile);
-						if (_solutionFile.extension(".sln").isFalse())
-							return;										
-						solutionFile = _solutionFile;
-						sourceCodeFiles.clear();
-						errorsList.clear().add_Node("Compiling solution....");
-						codeViewer.open("");
-						IWorkspace workspace = Workspace.LoadSolution(solutionFile);
-						var files = (from project in workspace.CurrentSolution.Projects
-									 from document in project.Documents
-									 select document).toList();
-						sourceCodeFiles.add_Nodes(files, (file)=&gt;file.Name);
-						actionsPanel.control&lt;TextBox&gt;(true).set_Text(solutionFile);
-						compile();
+						try
+						{
+							"Loading File: {0}".info(_solutionFile);
+							if (_solutionFile.extension(".sln").isFalse())
+								return;										
+							solutionFile = _solutionFile;
+							sourceCodeFiles.clear();
+							errorsList.clear().add_Node("Compiling solution....");
+							codeViewer.open("");
+							IWorkspace workspace = Workspace.LoadSolution(solutionFile);
+							var files = (from project in workspace.CurrentSolution.Projects
+										 from document in project.Documents
+										 select document).toList();
+							sourceCodeFiles.add_Nodes(files, (file)=&gt;file.Name);
+							actionsPanel.control&lt;TextBox&gt;(true).set_Text(solutionFile);
+							compile();
+						}
+						catch(Exception ex)
+						{
+							ex.log();
+						}
 					};
 		
 errorsList.afterSelect&lt;Diagnostic&gt;(  

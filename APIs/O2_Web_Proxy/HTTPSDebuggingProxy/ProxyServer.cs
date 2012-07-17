@@ -20,7 +20,6 @@ using System.Net.Security;
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 
-using O2.Kernel.ExtensionMethods;
 using O2.DotNetWrappers.DotNet;
 using O2.DotNetWrappers.ExtensionMethods;
 using O2.XRules.Database.APIs;
@@ -454,7 +453,7 @@ namespace HTTPProxyServer
 		                   	}							
 						};
 						
-				Action handleResponse_viaRealTarget = 
+				Action handleResponse_viaRealTarget =  
 					()=>{	
 							if (skipRemaingSteps)
 								return;
@@ -474,7 +473,7 @@ namespace HTTPProxyServer
 				                		var responseString = response.isNull()
 				                								? ""
 				                								:	(response.ContentEncoding == "gzip")
-				                            							? memoryStream.ToArray().gzip_Decompress()
+				                            							? memoryStream.ToArray().gzip_Decompress().ascii()
 				                            							: memoryStream.ToArray().ascii();                            							                            	
 		                            	                            	
 		                            	var requestResponseData = proxyCache.add(webReq, response, requestPostBytes,  memoryStream.ToArray(), responseString);

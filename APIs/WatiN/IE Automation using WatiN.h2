@@ -34,8 +34,7 @@ var defaultScript = "// persist the ie objects accross multiple executions".line
 					"".line() +
 					"// *********** &lt;end of IE automation script&gt;  ***********".line() +
 					"".line() +
-					"//using O2.XRules.Database.APIs".line() +
-					"//using O2.XRules.Database.Utils.O2".line() +
+					"//using O2.XRules.Database.APIs".line() +					
 					"//using mshtml".line() +
 					"".line() +
 					"//O2File:Ref:WatiN_IE_ExtensionMethods.cs ".line() +
@@ -45,7 +44,6 @@ var defaultScript = "// persist the ie objects accross multiple executions".line
 script.set_Command(defaultScript);
 
 //O2File:Ref:WatiN_IE_ExtensionMethods.cs
-//using O2.XRules.Database.Utils.O2
 //using WatiN.Core
 //using WatiN.Core.Interfaces
 

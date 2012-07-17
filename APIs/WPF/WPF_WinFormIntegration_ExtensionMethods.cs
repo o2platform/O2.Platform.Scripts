@@ -84,7 +84,7 @@ namespace O2.XRules.Database.Utils
     	
     	public static ElementHost clear(this ElementHost elementHost)
     	{
-    		return (ElementHost)elementHost.invokeOnThread(()=> elementHost.Child = null);
+    		return (ElementHost)elementHost.invokeOnThread(()=>{  elementHost.Child = null; return elementHost;} );
     	}
 
 

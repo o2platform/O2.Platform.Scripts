@@ -225,7 +225,7 @@ references.append_Line("System.Web");
 references.append_Line("System.Web.Services");
 references.append_Line("System.Data");
 
-var testFiles = @"C:\O2\O2 Demos\HacmeBank_v2.0 (Dinis version - 7 Dec 08)\HacmeBank_v2_WS";
+var testFiles = @"E:\_Tests\Demos_Files\HacmeBank_v2.0 (7 Dec 08)\HacmeBank_v2_WS";
 
 
 //dev tests
@@ -245,7 +245,8 @@ if (astData_LoadedFiles.isNull())
 }*/
 
 references.insert_Right&lt;Panel&gt;(100).add_PropertyGrid().show(astData_LoadedFiles);
-foreach(var file in testFiles.files("*.cs",true))
+
+/*foreach(var file in testFiles.files("*.cs",true))
 	sourceFiles.add_Node(file.fileName(),file);
 
 
@@ -255,6 +256,7 @@ foreach(var file in testFiles.files("*.cs",true))
 //this.sleep(1000);
 sourceFiles.select("UserManagement.asmx.cs");//.select("InstallToos.cs")  ;
 selectedFileContents.editor().caret(49,20).focus();
+*/
 
 return "ok";
 //using ICSharpCode.SharpDevelop.Dom;

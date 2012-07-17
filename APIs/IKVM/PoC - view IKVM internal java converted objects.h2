@@ -1,6 +1,15 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>var topPanel = "util - view IKVM internal java converted objects".popupWindow(1000,600);
+  <SourceCode>//O2Ref:IKVM.OpenJDK.SwingAWT.dll
+//O2Ref:IKVM.OpenJDK.Security.dll
+//O2Ref:IKVM.Runtime.dll
+//O2Ref:IKVM.OpenJDK.Util.dll
+//O2Ref:IKVM.OpenJDK.Core.dll
+//O2Ref:IKVM.Reflection.dll
+//O2Ref:IKVM.Runtime.JNI.dll
+//return "IKVM.Runtime.JNI.dll".assembly();
+
+var topPanel = "util - view IKVM internal java converted objects".popupWindow(1000,600).insert_LogViewer();
 //var topPanel = panel.clear().add_Panel();
 
 //using IKVM.Runtime
@@ -25,11 +34,11 @@ Action&lt;string&gt; loadFile =
 				var ikvmcAssembly = "ikvmc.exe".assembly();
 				
 				var staticCompiler = ikvmcAssembly.type("StaticCompiler");
-				var ikvmRuntime = staticCompiler.invokeStatic("LoadFile",Environment.CurrentDirectory.pathCombine("IKVM.Runtime.dll")); 
+				var ikvmRuntime = staticCompiler.invokeStatic("LoadFile","IKVM.Runtime.JNI.dll".assembly().Location);//Environment.CurrentDirectory.pathCombine("IKVM.Runtime.dll")); 
 				PublicDI.reflection.setField((FieldInfo)staticCompiler.field("runtimeAssembly"),ikvmRuntime);  
 				//staticCompiler.field("runtimeAssembly",ikvmRuntime);     
 				
-				var ikvmRuntimeJni = staticCompiler.invokeStatic("LoadFile",Environment.CurrentDirectory.pathCombine("IKVM.Runtime.JNI.dll")); 
+				var ikvmRuntimeJni = staticCompiler.invokeStatic("LoadFile",("IKVM.Runtime.JNI.dll").assembly().Location);// Environment.CurrentDirectory.pathCombine("IKVM.Runtime.JNI.dll")); 
 				PublicDI.reflection.setField((FieldInfo)staticCompiler.field("runtimeJniAssembly"),ikvmRuntimeJni);  
 				
 				var ikvmcCompiler =  ikvmcAssembly.type("IkvmcCompiler").ctor();
@@ -239,10 +248,6 @@ var manifest = jarFile.getManifest();
 manifest.details();
 //jarFile.details();
 return jarFile;
-//O2Ref:IKVM.Runtime.dll
-//O2Ref:IKVM.OpenJDK.Util.dll
-//O2Ref:IKVM.OpenJDK.Core.dll
-//O2Ref:IKVM.Reflection.dll
 //O2Ref:ikvmc.exe
 //O2Ref:ICSharpCode.SharpZipLib.dll
 //

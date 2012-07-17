@@ -28,7 +28,6 @@ browser.onDocumentCompleted += (htmlPage)=&gt;
  
 //O2File:WatiN_IE_ExtensionMethods.cs 
 //O2File:ascx_HtmlTagViewer.cs 
-//using O2.XRules.Database.Utils.O2
 //using O2.XRules.Database.Languages_and_Frameworks.DotNet 
 //O2Ref:WatiN.Core.1x.dll
 //O2Ref:O2_External_IE.dll

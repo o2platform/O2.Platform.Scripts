@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.clear().add_Panel();
+var topPanel = "Util - Test MicrosoftBuild compilation".popupWindow(1300,700).insert_LogViewer();					 
+  
+var actionPanel = topPanel.insert_ActionPanel();
+var codeViewer_projectFile 	  = topPanel.insert_Left().add_SourceCodeEditor();
+var codeEditor_csharpFile	  = codeViewer_projectFile.insert_Below().add_SourceCodeEditor();
+
+var folderViewer  = topPanel.insert_Above().add_FolderViewer();
+var logView 	  = topPanel.title("Build Log result"); 
+ 
+var sourceFile = "Program_UseWith_O2_CreatedExes.cs".local(); 
+var scriptFile = "";
+var projectName = ""; 
+var pathToAssemblies = "";  
+var projectFile = "";  
+  
+Action compileSourceScript =  
+	()=&gt;{ 
+			projectName = scriptFile.fileName_WithoutExtension(); 
+			var compiledScript =  scriptFile.compileScriptFile_into_SeparateFolder();	 
+			pathToAssemblies = compiledScript.directoryName();
+			O2Setup.createEmbeddedFolder_Scripts(pathToAssemblies)
+				   .copyFileReferencesToEmbeddedFolder(scriptFile);
+			O2Setup.createEmbeddedFolder_Data(pathToAssemblies,projectName);
+		};
+ 
+Action createProjectFile =   
+	()=&gt;{ 
+			projectFile = projectName.createProjectFile(sourceFile, pathToAssemblies, pathToAssemblies);			
+			codeViewer_projectFile.open(projectFile); 			
+			folderViewer.open(pathToAssemblies); 
+		};
+
+Action buildProject =  
+	()=&gt;{					
+			if (pathToAssemblies.notValid())
+			{				
+				topPanel.clear();
+				return;
+			}
+			codeEditor_csharpFile.open(pathToAssemblies.pathCombine(sourceFile.fileName()));
+			var buildResult = projectFile.buildProject();
+			topPanel.showProjectBuildResult(projectName, pathToAssemblies, buildResult);
+			folderViewer.refresh();
+		};
+		
+Action executeCreatedExe =  
+	()=&gt;{
+			if (pathToAssemblies.notValid())
+				return;
+			var exeCreated = @"{0}/bin/{1}.exe".format(pathToAssemblies, projectName);
+			exeCreated.startProcess();
+		};
+ 
+TextBox textBox =null;		
+Action&lt;string&gt; compileScript = 
+	(file)=&gt;{
+				"Triggring compilation workflow for file: {0}".info(file);
+				textBox.set_Text(file);
+				scriptFile= file;
+				compileSourceScript();
+				createProjectFile(); 
+				buildProject();
+			};
+			  
+actionPanel.add_Label("Script to compile:").autoSize().top(2).append_TextBox("").width(300).onTextChange((text)=&gt;scriptFile = text)			
+		   .append_Link("Compile Source Script", ()=&gt; compileSourceScript()).top(2)
+		   .append_Link("Create Project File ", ()=&gt; createProjectFile())
+		   .append_Link("Build Project", ()=&gt; buildProject())
+		   .append_Link("Execute Created Exe", ()=&gt; executeCreatedExe())
+		   .append_Link("Open target Folder", ()=&gt; pathToAssemblies.startProcess())
+		   .append_Link("Open master C# file", ()=&gt; sourceFile.showInCodeEditor());
+		   
+textBox = actionPanel.controls&lt;TextBox&gt;()
+					 .onDrop(compileScript)
+					 .onEnter(compileScript)
+					 .add_MenuItem_with_TestScripts(compileScript);
+
+compileScript("Util - LogViewer.h2");
+
+return ""; 
+
+		   
+
+//O2File:API_MicrosoftBuild.cs</SourceCode>
+  <ReferencedAssemblies />
+</H2>

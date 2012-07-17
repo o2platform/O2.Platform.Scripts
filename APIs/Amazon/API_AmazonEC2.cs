@@ -19,7 +19,7 @@ using Amazon.EC2.Model;
 
 //O2Ref:AWSSDK.dll
 //O2File:ascx_AskUserForLoginDetails.cs	
-//O2File:API_RSA.cs
+//_O2File:API_RSA.cs
 
 namespace O2.XRules.Database.APIs
 {	
@@ -27,7 +27,7 @@ namespace O2.XRules.Database.APIs
 	{			
 		public ICredential ApiKey { get; set; }
 		public string DefaultRegion { get; set; }
-		public API_RSA ApiRsa { get; set; }
+//		public API_RSA ApiRsa { get; set; }
 		
 		public int TimerCount = 60;
 		public int TimerSleep  = 60 * 1000;
@@ -145,7 +145,7 @@ namespace O2.XRules.Database.APIs
 			return runningInstance;
 		}		
 	
-		public static string getPassword(this API_AmazonEC2 amazonEC2, RunningInstance runningInstance)	
+/*		public static string getPassword(this API_AmazonEC2 amazonEC2, RunningInstance runningInstance)	
 		{
 			return amazonEC2.getPassword(runningInstance,null);
 		}
@@ -160,7 +160,7 @@ namespace O2.XRules.Database.APIs
 			var decryptedPassword = amazonEC2.ApiRsa.decryptPasswordUsingPem(passwordResponse.GetPasswordDataResult.PasswordData.Data); 				
 			"decrypted password: {0}".info(decryptedPassword);
 			return decryptedPassword;			
-	   	}
+	   	}*/
 	   		   	
 	   	
 	   	public static string getRunningInstanceSignature(this API_AmazonEC2 amazonEC2, RunningInstance runningInstance)	

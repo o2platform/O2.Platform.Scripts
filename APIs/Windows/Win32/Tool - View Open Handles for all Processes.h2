@@ -10,9 +10,9 @@ var openHandles_TreeView = topPanel.insert_Left(400, "Processes (with more than 
 var processesToMap = 500;
 var onlyLoadFileHandles = true;
 var stopLoading = false;
-var allOpenHandles = new List&lt;OpenHandles&gt;();
+var allOpenHandles = new List&lt;OpenHandles&gt;(); 
 
- openHandles_TreeView.afterSelect&lt;OpenHandles&gt;( 
+ openHandles_TreeView.afterSelect&lt;OpenHandles&gt;(   
  	(openHandles)=&gt; { 
  						tableList.show(openHandles.Handles).title("Showing {0} / {1}".info(openHandles.Handles.size(), openHandles.HandlesCount)); 						
  						tableList.ascending()
@@ -86,11 +86,11 @@ actionsPanel.add_Label("# Processes to Map").top(2).autoSize()
 			.append_Link("Open Handle Search GUI", ()=&gt; open_SearchHandlesGui()).top(2);;
 			 
  loadData();
- 				   
+ 				    
  
 //using System.Diagnostics
 //O2File:API_Win32Processes_Handles.cs
 //O2Tag_DontAddExtraO2Files  
-</SourceCode>
+ </SourceCode>
   <ReferencedAssemblies />
 </H2>

@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <H2>
   <SourceCode>var richTextBox = O2Gui.open&lt;RichTextBox&gt;("Simple TextEditor (*.RTF based)", 400,300);
+//.insert_LogViewer();
 
 richTextBox.onDrop( 
 			(file)=&gt;{

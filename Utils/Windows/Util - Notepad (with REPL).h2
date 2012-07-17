@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = "Util - Notepad (with REPL and more :) )".popupWindow().insert_LogViewer();
+Action&lt;string&gt; openFile = null;
+Func&lt;string&gt; currentFile = null;
+var textArea = topPanel.add_Notepad(ref openFile, ref currentFile, true);
+ 
+Action openFromUrl = 
+	()=&gt;{
+			var url= "What is the Url to Open (via GET request".askUser();
+			if (url.isUri())
+			{
+				"Getting data from : {0}".info(url);
+				var savedContents = url.GET().saveWithExtension(".html");
+				"Temp file created : {0}".info(savedContents);
+				openFile(savedContents);
+			}
+		};
+Action insertBrowserViewer = 
+	()=&gt;{
+			var browser = textArea.insert_Right("Browser View")
+								  .add_WebBrowser()
+								  .silent(true)
+								  .log_DocumentCompleted();			
+			Action&lt;string&gt; viewHtml = 
+				(html)=&gt; browser.html(html);
+			
+			textArea.onTextChange(viewHtml);
+			viewHtml(textArea.contents());
+		};
+		
+textArea.mainMenu().add_Menu("Extra Features")
+		.add("Open from URL", ()=&gt; openFromUrl())
+		.add("Insert Browser Viewer", insertBrowserViewer)
+		.add("Insert REPL Script environment", ()=&gt; textArea.insert_Below_Script_Me(textArea));
+		
+topPanel.parentForm().set_Icon("notepad.ico".local().icon());</SourceCode>
+  <ReferencedAssemblies />
+</H2>

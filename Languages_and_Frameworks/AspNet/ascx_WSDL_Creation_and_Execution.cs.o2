@@ -26,13 +26,12 @@ namespace O2.XRules.Database.Languages_and_Frameworks.AspNet
 	public class test_ascx_WSDL_Creation_and_Execution
 	{		
 		public void launchGui()
-		{
-			"step -1".info();
+		{			
 			O2Thread.mtaThread(
-				()=>{
-						"step 0".info();
-						var wsdlCreation = "ascx_WSDL_Creation_and_Execution".showAsForm<ascx_WSDL_Creation_and_Execution>(1000,700 );			
-						wsdlCreation.TestWebServices.select_Item(0);
+				()=>{						
+						var wsdlCreation = "ascx_WSDL_Creation_and_Execution".showAsForm<ascx_WSDL_Creation_and_Execution>(1000,700 )
+												.createMainMenu();						
+						wsdlCreation.TestWebServices.selectFirst();
 					});
 		}
 	}
@@ -67,6 +66,7 @@ namespace O2.XRules.Database.Languages_and_Frameworks.AspNet
 		public ascx_WSDL_Creation_and_Execution add_TestWebServices()
 		{			
 			TestWebServices.add_Item("http://www.webservicex.net/globalweather.asmx?WSDL")
+						   .add_Item("http://owasp.teammentor.net/Aspx_Pages/TM_WebServices.asmx?wsdl")						   
 						   .add_Item("http://api.search.live.net/search.wsdl")
 						   .add_Item("http://www.webservicex.net/whois.asmx?WSDL" )
 						   .add_Item("http://www.webservicex.net/genericbarcode.asmx?WSDL")
@@ -195,11 +195,18 @@ namespace O2.XRules.Database.Languages_and_Frameworks.AspNet
 			addScriptingSupport();
 			
 			
-			add_TestWebServices();
+			add_TestWebServices();						
 			
 			return this;
 		} 
 		
+		public ascx_WSDL_Creation_and_Execution createMainMenu()
+		{
+			this.mainMenu()
+				.add_Menu("Script")
+					.add_MenuItem("Script this Form", ()=> this.script_Me());
+			return this;
+		}
 		public void load_Wsdl_From_Assembly(Assembly wsdlAssembly)
 		{
 			if (wsdlAssembly.notNull())

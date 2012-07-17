@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - Java Methods CallTo and IsCalledBy Mappings",1200,700);  
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - Java Methods CallTo and IsCalledBy Mappings",1200,700).insert_LogViewer();  
 //var topPanel = panel.clear().add_Panel();          
    
 JavaMetadata_XRefs javaXRefs = null;    
@@ -134,6 +134,14 @@ return "ok";
 //using O2.XRules.Database.APIs.IKVM  
 //O2File:API_IKVMC.cs 
 //O2File:API_IKVMC_CallMapping.cs 
-</SourceCode>
+//O2Ref:ikvmc.exe
+
+//O2Ref:IKVM.OpenJDK.SwingAWT.dll
+//O2Ref:IKVM.OpenJDK.Security.dll
+//O2Ref:IKVM.Runtime.dll
+//O2Ref:IKVM.OpenJDK.Util.dll
+//O2Ref:IKVM.OpenJDK.Core.dll
+//O2Ref:IKVM.Reflection.dll
+//O2Ref:IKVM.Runtime.JNI.dll</SourceCode>
   <ReferencedAssemblies />
 </H2>

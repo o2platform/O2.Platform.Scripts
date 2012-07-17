@@ -85,7 +85,7 @@ var ie = topPanel.add_IE().silent(true);
 ie.open(""http://www.google.com"");  
 
 //O2File:WatiN_IE_ExtensionMethods.cs 
-//using O2.XRules.Database.Utils.O2
+//using O2.XRules.Database.Utils
 //O2Ref:WatiN.Core.1x.dll
 
 //O2Tag_DontAddExtraO2Files;";

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = "PoC - Find Current location using Google GeoLocation services".popupWindow(1000,500)
+					.insert_LogViewer();
+//var topPanel = panel.clear().add_Panel();
+var url = "https://maps.googleapis.com/maps/api/browserlocation/json?browser=googlechrome&amp;sensor=true";
+"Making request to :{0}".info(url);
+var response = url.GET();
+topPanel.insert_Right(200,"Location Services response").add_TextArea().set_Text(response);
+dynamic json = response.json_Deserialize();
+object accuracy = json["accuracy"];
+object latitude = json["location"]["lat"];
+object longitude = json["location"]["lng"];
+"Google thinks we are at: {0} {1} , with {2} meters accuracy".info(latitude, longitude, accuracy);
+var mapUrl = "http://maps.google.co.uk/maps?hl=en&amp;q={0}+{1}".format(latitude, longitude);
+"Opening google map page: {0}".info(mapUrl);
+topPanel.title("Google Map").add_WebBrowser_Control().open(mapUrl);
+
+//O2Ref:Microsoft.CSharp.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -233,7 +233,7 @@ namespace O2.XRules.Database.APIs
     		Install_Uri.str().download(Executable);
     		return isInstalled();	
 		}
-		
+				
 		public bool install_JustMsiExtract_into_TargetDir()
 		{
 			if (isInstalled())    		

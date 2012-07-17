@@ -129,7 +129,13 @@ treeView.add_ContextMenu().add_MenuItem("Execute selected",true, ()=&gt; invokeS
 				          			()=&gt;{
 											var selectedNodeScript = selectedNode(); 				
 											selectedNodeScript.toClipboard();
-										})				
+										})	
+						  .add_MenuItem("Package current Script as StandAlone Exe", true,
+						  			()=&gt;{
+						  					var selectedNodeScript = selectedNode();
+						  					var packageScript = (Action&lt;string&gt;)"Util - Package O2 Script into separate Folder.h2".executeFirstMethod();
+            								packageScript(selectedNodeScript);
+						  				})
 				          .add_MenuItem("Refresh (reload files)",true, ()=&gt; refresh());
 
 optionsPanel.add_Link("invoke selected script", 22, 0, ()=&gt;invokeSelected()).left(filterText.Left)

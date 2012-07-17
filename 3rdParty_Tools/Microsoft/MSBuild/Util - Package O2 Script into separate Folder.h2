@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.clear().add_Panel(); 
+var topPanel = "Util - Compile H2, O2 or CS Script into separate Folder".popupWindow(800,300)
+													   .insert_LogViewer();
+  
+var browser = topPanel.add_WebBrowser_Control() 
+					  .add_NavigationBar();
+var dropZone = topPanel.insert_Left(200)
+					  .add_Button("Drop script file here \n\n to package it into seperate folder").fill()
+					  .font_bold();
+					  
+var lastScriptFile = "";					  
+var compiledScript = "";	
+Action&lt;string&gt; packageScript = 
+	(scriptFile)=&gt;{		
+					lastScriptFile = scriptFile;
+					dropZone.green();
+					O2Thread.mtaThread(  
+						()=&gt;{  								
+								//compiledScript = h2Script.compile_Script_in_Separate_Folder();								
+								compiledScript =  scriptFile.compileScriptFile_into_SeparateFolder();		
+								if (compiledScript.notNull())
+								{									
+									var pathToAssemblies = compiledScript.directoryName();
+									var buildFilesDir = pathToAssemblies.pathCombine("_BuildFiles").createDir();
+									
+									
+									//create wrapping exe using MicrosoftBuild
+									var projectName = scriptFile.fileName_WithoutExtension();
+									var sourceFile = "Program_UseWith_O2_CreatedExes.cs".local();										
+									
+									//add special folders
+									O2Setup.createEmbeddedFolder_Scripts(buildFilesDir)
+										   .copyFileReferencesToEmbeddedFolder(scriptFile);;
+									O2Setup.createEmbeddedFolder_Data(buildFilesDir,projectName);
+									
+									var extraEmbebbedResources = new List&lt;string&gt;();
+									//
+/*									
+									if (scriptFile.lower().contains("cat.net", "catnet"))
+									{
+											extraEmbebbedResources
+												.add(@"E:\TeamMentor\TM_UnitTests\StandAlone_Exes_Packages\CatNet_Files.zip")
+												.add(@"E:\TeamMentor\TM_UnitTests\StandAlone_Exes_Packages\LocalScriptsFolder.zip");
+									};*/
+									var createdExe = projectName.createProjectFile_and_Build(sourceFile, pathToAssemblies, buildFilesDir,extraEmbebbedResources);
+									this.sleep(500, false);
+									if (createdExe.valid())
+									{
+										Files.deleteAllFilesFromDir(pathToAssemblies);
+										compiledScript = createdExe.file_Copy(pathToAssemblies);
+										compiledScript = createdExe.file_Copy(buildFilesDir); // for now also copy it to the buildFileDir
+										"CompiledScript: {0}".info(compiledScript);
+										browser.open(pathToAssemblies);
+										dropZone.azure();
+										return;
+									}														
+								}
+								dropZone.pink();								
+							});
+				};
+dropZone.parent().insert_Below(20).add_Link("Execute", ()=&gt; compiledScript.startProcess())
+								  .append_Link("Open Folder", ()=&gt; compiledScript.directoryName().startProcess())
+								  .append_Link("Clear Cache", ()=&gt; { CompileEngine.CachedCompiledAssemblies.Clear(); "Compilation Cache Cleared".info();});
+dropZone.onDrop(packageScript);
+dropZone.onClick(()=&gt;packageScript(lastScriptFile));
+
+dropZone.add_MenuItem_with_TestScripts(packageScript);
+
+return packageScript;
+
+//O2File:API_MicrosoftBuild.cs
+
+//O2Tag_DontAddExtraO2Files_
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//force dependncy on MS_SDK_wsdl.exe
+var a = new Microsoft.DevApps.WebServices.CheckingRule();
+ 
+new test_ascx_WSDL_Creation_and_Execution().launchGui(); 
+
+//O2File:ascx_WSDL_Creation_and_Execution.cs.o2
+//using O2.XRules.Database.Languages_and_Frameworks.AspNet
+//O2Ref:MS_SDK_wsdl.exe</SourceCode>
+  <ReferencedAssemblies />
+</H2>

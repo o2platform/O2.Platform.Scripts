@@ -8,7 +8,7 @@ using O2.DotNetWrappers.Windows;
 using O2.Kernel.ExtensionMethods;
 using O2.DotNetWrappers.ExtensionMethods;
 
-//O2Ref:MS_VS_WebDev.WebServer.exe
+//O2Ref:CassiniDev_4.0.exe
 
 namespace O2.Tool.HostLocalWebsite.classes
 {
@@ -16,7 +16,7 @@ namespace O2.Tool.HostLocalWebsite.classes
     { 
         public Process pWebServiceProcess;
         //public static String sExe = @"C:\Program Files\Common Files\Microsoft Shared\DevServer\9.0\WebDev.WebServer.exe";
-        public String sExe = "MS_VS_WebDev.WebServer.exe".assembly().Location;
+        public String sExe = "CassiniDev_4.0.exe".assembly().Location;
         public String sParamsString = "/port:\"{0}\" /path:\"{1}\" /vpath:\"{2}\"";
         public String sPath = PublicDI.config.O2TempDir;
         public String sPort = (8000 + 2000.random()).str();

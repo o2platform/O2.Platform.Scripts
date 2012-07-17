@@ -8,34 +8,11 @@ using System.Windows.Forms;
 using System.ComponentModel; 
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices; 
-
+using O2.XRules.Database.Utils;
 using O2.DotNetWrappers.ExtensionMethods;
 
 namespace O2.XRules.Database.APIs
 {
-	public class test_WindowFinder
-	{
-		public void test()
-		{
-			var topPanel = "WindowFinder".popupWindow(400,400);
-			var activeControl = topPanel.title("Active Control").add_PropertyGrid().helpVisible(false);
-			var hawkeye = topPanel.insert_Above(30).add_Control<WindowFinder>().width(30).fill(false);
-			var targetProcess = activeControl.insert_Right("Target Process").add_PropertyGrid().helpVisible(false);
-			var windowFinder = targetProcess.parent().parent().insert_Below("Window Finder Object").add_PropertyGrid().helpVisible(false);
-			
-			hawkeye.ActiveWindowChanged += 
-				(sender, e)=>{
-								windowFinder.show(hawkeye.Window);								
-								var control = hawkeye.SelectedControl;								
-								activeControl.parent<GroupBox>().set_Text("Active Control: {0}".format(control.typeName()));
-								activeControl.show(control);
-								var process = hawkeye.TargetProcess;
-								targetProcess.show(process);
-								targetProcess.parent<GroupBox>().set_Text("Target Process: {0} : {1}".format(process.Id, process.ProcessName));
-							 };
-		}
-	}
-	
 	[DefaultEvent("ActiveWindowChanged")]
 	public class WindowFinder : UserControl
 	{
@@ -91,7 +68,11 @@ namespace O2.XRules.Database.APIs
 			base.MouseDown += new MouseEventHandler(this.WindowFinder_MouseDown);
 			base.Size = new Size(32, 32);
 			this.InitializeComponent();
-			this.BackgroundImage = "Hawkeye.gif".local().bitmap(); //SystemUtils.LoadImage("Hawkeye.gif");
+			if ("Hawkeye.gif".local().fileExists())
+				this.BackgroundImage = "Hawkeye.gif".local().bitmap(); //SystemUtils.LoadImage("Hawkeye.gif");
+			else
+				this.pink();
+			
 		}
 		protected override void Dispose(bool disposing)
 		{
@@ -108,7 +89,10 @@ namespace O2.XRules.Database.APIs
 		{
 			this.searching = true;
 			//Cursor.Current = new Cursor(base.GetType().Assembly.GetManifestResourceStream("ACorns.Hawkeye.Resources.Eye.cur"));
-			Cursor.Current = new Cursor("Eye.cur".local());
+			if ("Eye.cur".local().fileExists())
+				Cursor.Current = new Cursor("Eye.cur".local());
+			else
+				Cursor.Current	= Cursors.Cross;
 			base.Capture = true;
 			base.MouseMove += new MouseEventHandler(this.WindowFinder_MouseMove);
 			base.MouseUp += new MouseEventHandler(this.WindowFinder_MouseUp);

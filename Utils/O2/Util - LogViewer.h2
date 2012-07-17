@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <H2>
   <SourceCode>O2Gui.open&lt;Panel&gt;("Util - LogViewer", 400,140).add_LogViewer();
-</SourceCode>
+"Welcome to O2's LogViewer poc".info();
+
+//O2Tag_DontAddExtraO2Files</SourceCode>
   <ReferencedAssemblies />
 </H2>

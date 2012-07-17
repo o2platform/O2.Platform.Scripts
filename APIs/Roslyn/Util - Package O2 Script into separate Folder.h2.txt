@@ -21,7 +21,7 @@ Action&lt;string&gt; packageH2 =
 								compiledScript = h2Script.compile_Script_in_Separate_Folder();								
 								"CompiledScript: {0}".info(compiledScript);
 								if (compiledScript.valid()) 
-								{
+								{ 
 									var projectName = h2Script.fileName_WithoutExtension();
 									var sourceFile = "Program_UseWith_O2_CreatedExes.cs".local();
 									var pathToAssemblies = compiledScript.directoryName();
@@ -46,10 +46,13 @@ dropZone.onDrop(packageH2);
 dropZone.onClick(()=&gt;packageH2(lastH2Script));
 
 dropZone.add_ContextMenu()
-		.add_MenuItem("Test using LogViewer", true, ()=&gt; packageH2("Util - LogViewer.h2"))
-		.add_MenuItem("Test C# REPL Editor", true, ()=&gt; packageH2("Util - C# REPL Script [4.0].cs.o2"));
+		.add_MenuItem("Test with: LogViewer", true, ()=&gt; packageH2("Util - LogViewer.h2"))
+		.add_MenuItem("Test with: C# REPL Editor", true, ()=&gt; packageH2("Util - C# REPL Script [4.0].cs.o2"))
+		.add_MenuItem("Test with: Package O2 Script into separate Folder", true, ()=&gt; packageH2("Util - Package O2 Script into separate Folder.h2"))		
+		.add_MenuItem("View available Scripts", true, ()=&gt; "Util - O2 Available scripts.h2".executeFirstMethod());
+		;
 
-return "ok";
+return packageH2;
 
 //O2Ref:Roslyn.Compilers.dll
 //O2Ref:Roslyn.Compilers.CSharp.dll

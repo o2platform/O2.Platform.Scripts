@@ -50,12 +50,14 @@ Action startWebServer =
 
 Action showTestPage = 
 	()=&gt;{
-			
+			var defaultCode = 
+@"@&lt;%@ Page Language=""C#"" %&gt;
+&lt;head runat=""server"" /&gt;
+&lt;html&gt;&lt;body&gt;&lt;%=\""hello\"" %&gt;&lt;/body&gt;&lt;/html&gt;";			
 			var tempFileName = "a.aspx";
 			var tempFile = websiteDir.pathCombine(tempFileName);									
 			if (tempFile.fileExists().isFalse())
-				("&lt;%@ Page Language=\"C#\" %&gt;".line() + 
-				"&lt;html&gt;&lt;body&gt;&lt;%=\"hello\" %&gt;&lt;/body&gt;&lt;/html&gt;").saveAs(tempFile);		 		
+				(defaultCode).saveAs(tempFile);		 		
 			codeEditor.open(tempFile);
 			openWebPage(tempFileName);
 			
@@ -69,8 +71,8 @@ Action stopWebServer =
 Action&lt;string,string&gt; copyFileToWebSite = 
 	 (baseFolder, file)=&gt;{
 	 						"Copying file: {0}".debug(file);
-	 						Files.Copy(file,baseFolder);
-	 						Files.Copy(file, baseFolder.pathCombine("bin"));
+	 						//Files.Copy(file,baseFolder);
+	 						file.file_Copy(baseFolder.pathCombine("bin"));
 	 					 };
 	 	
 var supportDlls = new List&lt;string&gt; {
@@ -78,9 +80,9 @@ var supportDlls = new List&lt;string&gt; {
 										"O2_FluentSharp_CoreLib.dll".assembly().Location,
 										"O2_FluentSharp_BCL.dll".assembly().Location,										
 										//Needed for scripting environment
-										"O2_External_SharpDevelop.dll".assembly().Location,										
-										"O2_External_WinformsUI.dll".assembly().Location,
-										"log4net.dll".assembly().Location
+										"O2_FluentSharp_REPL.dll".assembly().Location,										
+										//"O2_External_WinformsUI.dll".assembly().Location
+										//"log4net.dll".assembly().Location
 									};
 									
 Action copySupportFilesToServer = 
@@ -91,18 +93,18 @@ Action copySupportFilesToServer =
 			
 			foreach(var dll in supportDlls) 
 				copyFileToWebSite(targetFolder, dll); 
-			var o2FolderWithAspxFiles = @"C:\O2\O2Scripts_Database\_Scripts\Languages_and_Frameworks\AspNet\_O2_AspNet";
-
+			var o2FolderWithAspxFiles = "Create_o2_AspNet_Page_Objects.h2".local().directoryName();
+			"o2FolderWithAspxFiles: {0}".info(o2FolderWithAspxFiles);
 			foreach(var file in o2FolderWithAspxFiles.files())
 				Files.Copy(file, tempAspxFolder);
 				
 			var webConfig = targetFolder.pathCombine("web.config");
 			
-			if (webConfig.fileExists().isFalse())
+			/*if (webConfig.fileExists().isFalse())
 			{
 				"there was no web.config: ({0}) ".debug(webConfig);
 				Files.Copy("3.5_compiler_web.config".local(), webConfig);
-			}			
+			}*/			
 			if (filesToCompile.size()&gt;0 )
 			{
 				"Compiling and publishing files in filesToCompile".debug();
@@ -139,7 +141,7 @@ Action&lt;string, string,int&gt; set_Values =
 
 actionsPanel.add_Link("Create Test Site", 180, 0, 
 	()=&gt;{
-			set_Values("_temp_IIS", "_temp_IIS".tempDir(false)	, 12345);			
+			set_Values("_temp_IIS", "_temp_IIS".tempDir(false)	, 12345);			 
 			startWebServer();
 			showTestPage();
 		});
@@ -153,7 +155,7 @@ returnValues.add("copySupportFilesToServer",copySupportFilesToServer);
 returnValues.add("addFileToCompile",addFileToCompile);
 returnValues.add("supportDlls",supportDlls);
 
-
+set_Values("Test", "_Test_Site".tempDir(false), 5000+1000.random());
 
 return returnValues;
  

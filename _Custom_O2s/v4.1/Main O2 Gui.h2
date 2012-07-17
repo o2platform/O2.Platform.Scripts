@@ -13,7 +13,8 @@ topPanel.parent().backColor(Color.White);
 topPanel.insert_LogViewer().white(); 
 topPanel.splitContainer().distance(80).fixedPanel1();
 topPanel.add_PictureBox().open("OWASP_O2_Platform.png".local()).fill(false).width(341).height(41).top(10)
-		.onDoubleClick(()=&gt; executeH2Script("Util - O2 Available scripts.h2"));
+		.onDoubleClick(()=&gt; executeH2Script("Util - O2 Available scripts.h2"))
+		.onDrop((file)=&gt; executeH2Script(file));
 var menuPanel = topPanel.insert_Right&lt;Panel&gt;(440);  
 var scriptMappings = new Items(); 
 
@@ -21,11 +22,12 @@ var o2Script = (Environment.Version.Major == 4)
 					? "Util - C# REPL Script [4.0].cs.o2"
 					: "ascx_Quick_Development_GUI.cs.o2";
   
-var scripting_Mappings = new Items().add("O2 Script",o2Script) 
+var scripting_Mappings = new Items().add("O2 REPL C# Script",o2Script) 
 									.add("O2 Dev Environment", "Util - O2 Development Environment.h2")
+									.add("Browser REPL","Util - Browser REPL.h2") 
 									.add("O2 Object Model", "Util - O2 Object Model.h2")
 							  		.add("IE Script","IE Automation (Simple mode).h2") 
-							  		.add("Graph Script","ascx_GraphWithInspector.cs.o2")
+							  		.add("Graph REPL","ascx_GraphWithInspector.cs.o2")
 							  		.add("IE Google", "IE_Google - Execution.h2")
 							  		.add("Write for NUnitGUI", "Util - Execute O2ified tests on NUnitGui.h2")
 							  		.add("Write Unit Tests", "Write and Execute Unit Tests.h2")
@@ -84,7 +86,7 @@ menu.add_MenuItem("Debug")
 	.add_MenuItem("View O2 Config Object", ()=&gt; PublicDI.config.showInfo())
 	.add_MenuItem("Open ReferencesDownloadLocation Folder",()=&gt; PublicDI.config.ReferencesDownloadLocation.startProcess())
 	.add_MenuItem("Open TempDir",()=&gt; PublicDI.config.O2TempDir.startProcess())
-	.add_MenuItem("Clear Scripts Cache",()=&gt;  { CompileEngine.CachedCompiledAssemblies.Clear(); "Script Compilation Cache cleard".debug();})
+	.add_MenuItem("Clear Compilation Cache",()=&gt;  { CompileEngine.clearCompilationCache();})
 	.add_MenuItem("Compile All Scripts",()=&gt;  executeH2Script("Compile All Local O2 Scripts.h2"));
 menu.add_MenuItem("Help")	
 	.add_MenuItem("Report bug",()=&gt; ReportBug.showGui(topPanel))

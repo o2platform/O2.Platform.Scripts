@@ -15,7 +15,7 @@ linkPanel.add_Link("loop execution", 20, 180, ()=&gt; tasks.loopExecution());
 tasks.add(flow.newInThread&lt;ascx_Task_Ping&gt;().start("127.0.0.1"));
 tasks.add(flow.newInThread&lt;ascx_Task_Ping&gt;().start("www.google.com")); 
 tasks.add(flow.newInThread&lt;ascx_Task_WebGet&gt;().start("www.google.com"));
-tasks.add(flow.newInThread&lt;ascx_Task_WebGet&gt;().start("www.o2platform.com/api.php"));
+tasks.add(flow.newInThread&lt;ascx_Task_WebGet&gt;().start("o2platform.wordpress.com"));
 tasks.add(flow.newInThread&lt;ascx_Task_WebPost&gt;().once().start("www.google_A.com"));
 tasks.add(flow.newInThread&lt;ascx_Task_WebPost&gt;().once().start("www.google.com"));
 

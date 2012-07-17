@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.add_Panel(true);
+var topPanel = "Util - Quick File Browser (with Notepad)".popupWindow(700,500).insert_LogViewer();
+var textArea = topPanel.title("Selected file contents").add_TextArea();
+
+Action&lt;string&gt; openFile =
+	(file)=&gt;{
+				var fileContents = file.fileContents(); 				
+				textArea.set_Text(fileContents);
+			};
+
+topPanel.insert_FolderViewer_Simple(openFile);
+
+//O2Tag_DontAddExtraO2Files;
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

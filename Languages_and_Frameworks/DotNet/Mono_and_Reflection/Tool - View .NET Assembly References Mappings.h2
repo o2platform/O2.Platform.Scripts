@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>
-var topPanel = O2Gui.open&lt;Panel&gt;("Tool - View .NET Assembly References Mappings", 800,600);
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Tool - View .NET Assembly References Mappings", 800,600)
+					.insert_LogViewer();
 
 var last_TargetFileOrFolder = "";
 var dllDependencies_TreeView = topPanel.add_GroupBox("Assemblies Mappings").add_TreeView().sort().showSelection();
@@ -10,8 +10,7 @@ var optionsPanel = topPanel.insert_Below&lt;Panel&gt;(40).add_GroupBox("Options"
 var showFullPaths = false;
 var recursiveSearch = false;
 var statusStrip = topPanel.parentForm().add_StatusStrip();
-
-
+ 
 Action&lt;string&gt; mapAssemblies = 
 	(targetFileOrFolder)=&gt;
 		{
@@ -90,11 +89,25 @@ optionsPanel.add_CheckBox("Recursive Search",0,130,
 									var folder = "which folder do you want to load assemblies from".askUser();
 									mapAssemblies(folder);
 								});
-						 
+Action askForAssembly = 
+	()=&gt;{
+			var file = topPanel.askUserForFileToOpen();
+			if (file.fileExists())
+				mapAssemblies(file);			
+		};
+topPanel.mainMenu()
+		.add_Menu("Open")
+		.add_MenuItem("Open Assembly to Analyze", askForAssembly);
+		
+
 			
 dllDependencies_TreeView.onDrop(mapAssemblies);
 dllXRefs_TreeView.onDrop(mapAssemblies);
-mapAssemblies(System.Reflection.Assembly.GetExecutingAssembly().Location);
+
+if (System.Reflection.Assembly.GetCallingAssembly().Location.valid())
+	mapAssemblies(System.Reflection.Assembly.GetCallingAssembly().Location);
+else if(System.Reflection.Assembly.GetEntryAssembly().Location.valid())
+	mapAssemblies(System.Reflection.Assembly.GetEntryAssembly().Location);
 
 return "done";
 //using O2.External.O2Mono.MonoCecil

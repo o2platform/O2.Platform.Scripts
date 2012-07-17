@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = "Tool - IE Browser".popupWindow(900,600);
+var browser = topPanel.add_WebBrowser_with_NavigationBar();
+browser.open("https://www.google.com");</SourceCode>
+  <ReferencedAssemblies />
+</H2>

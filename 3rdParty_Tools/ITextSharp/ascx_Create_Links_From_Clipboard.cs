@@ -42,7 +42,7 @@ namespace O2.XRules.Database.Utils
         {
         	var controls = this.add_1x1("Text to convert","converted links",true,200);
         	textBox = controls[0].add_RichTextBox();
-        	webBrowser = controls[1].add_WebBrowser();        	
+        	webBrowser = controls[1].add_O2_Browser_IE();        	
         	// events
         	textBox.onDrop(convertFile);
         	textBox.TextChanged += (sender,e) => convertText(textBox.Text);

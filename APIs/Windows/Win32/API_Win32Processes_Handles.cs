@@ -88,91 +88,111 @@ namespace O2.XRules.Database.APIs
         
         public static HandleDetails GetHandleDetails (Win32API.SYSTEM_HANDLE_INFORMATION sYSTEM_HANDLE_INFORMATION, Process process, bool onlyLoadFileHandles) 
         {
-        
-        	var handleDetails = new HandleDetails() {         												
-        												HandleId  = sYSTEM_HANDLE_INFORMATION.Handle,
-        												HandleHex = ((int)sYSTEM_HANDLE_INFORMATION.Handle).hex()        												
-        											};
-        	
-            IntPtr m_ipProcessHwnd = Win32API.OpenProcess(Win32API.ProcessAccessFlags.All, false, process.Id);
-            IntPtr ipHandle = IntPtr.Zero;
-            var objBasic = new Win32API.OBJECT_BASIC_INFORMATION();
-            IntPtr ipBasic = IntPtr.Zero;
-            var objObjectType = new Win32API.OBJECT_TYPE_INFORMATION();
-            IntPtr ipObjectType = IntPtr.Zero;
-            var objObjectName = new Win32API.OBJECT_NAME_INFORMATION();
-            IntPtr ipObjectName = IntPtr.Zero;
-            string strObjectTypeName = "";
-            string strObjectName = "";
-            int nLength = 0;
-            int nReturn = 0;
-            IntPtr ipTemp = IntPtr.Zero;
+        	var handleDetails = new HandleDetails();
+            try
+            {
+                handleDetails.HandleId = sYSTEM_HANDLE_INFORMATION.Handle;
+                handleDetails.HandleHex = ((int)sYSTEM_HANDLE_INFORMATION.Handle).hex();                
 
-            if (!Win32API.DuplicateHandle(m_ipProcessHwnd, sYSTEM_HANDLE_INFORMATION.Handle, Win32API.GetCurrentProcess(), out ipHandle, 0, false, Win32API.DUPLICATE_SAME_ACCESS))
-                return null;
+                IntPtr m_ipProcessHwnd = Win32API.OpenProcess(Win32API.ProcessAccessFlags.All, false, process.Id);
+                IntPtr ipHandle = IntPtr.Zero;
+                var objBasic = new Win32API.OBJECT_BASIC_INFORMATION();
+                IntPtr ipBasic = IntPtr.Zero;
+                var objObjectType = new Win32API.OBJECT_TYPE_INFORMATION();
+                IntPtr ipObjectType = IntPtr.Zero;
+                var objObjectName = new Win32API.OBJECT_NAME_INFORMATION();
+                IntPtr ipObjectName = IntPtr.Zero;
+                string strObjectTypeName = "";
+                string strObjectName = "";
+                int nLength = 0;
+                int nReturn = 0;
+                IntPtr ipTemp = IntPtr.Zero;
 
-            ipBasic = Marshal.AllocHGlobal(Marshal.SizeOf(objBasic));
-            Win32API.NtQueryObject(ipHandle, (int)Win32API.ObjectInformationClass.ObjectBasicInformation, ipBasic, Marshal.SizeOf(objBasic), ref nLength);
-            objBasic = (Win32API.OBJECT_BASIC_INFORMATION)Marshal.PtrToStructure(ipBasic, objBasic.GetType());
-            Marshal.FreeHGlobal(ipBasic);
-
-
-            ipObjectType = Marshal.AllocHGlobal(objBasic.TypeInformationLength);
-            nLength = objBasic.TypeInformationLength;
-            while ((uint)(nReturn = Win32API.NtQueryObject(ipHandle, (int)Win32API.ObjectInformationClass.ObjectTypeInformation, ipObjectType, nLength, ref nLength)) == Win32API.STATUS_INFO_LENGTH_MISMATCH) {
-                Marshal.FreeHGlobal(ipObjectType);
-                ipObjectType = Marshal.AllocHGlobal(nLength);
-            }
-
-            objObjectType = (Win32API.OBJECT_TYPE_INFORMATION)Marshal.PtrToStructure(ipObjectType, objObjectType.GetType());
-            if (Is64Bits()) {
-                ipTemp = new IntPtr(Convert.ToInt64(objObjectType.Name.Buffer.ToString(), 10) >> 32);
-            } else {
-                ipTemp = objObjectType.Name.Buffer;
-            }
-
-            strObjectTypeName = Marshal.PtrToStringUni(ipTemp, objObjectType.Name.Length >> 1);
-            handleDetails.ObjectType = strObjectTypeName;        
-            
-            Marshal.FreeHGlobal(ipObjectType);
-            if (onlyLoadFileHandles && strObjectTypeName != "File")
-                return null;
-
-            nLength = objBasic.NameInformationLength;
-
-            ipObjectName = Marshal.AllocHGlobal(nLength);
-            while ((uint)(nReturn = Win32API.NtQueryObject(ipHandle, (int)Win32API.ObjectInformationClass.ObjectNameInformation, ipObjectName, nLength, ref nLength)) == Win32API.STATUS_INFO_LENGTH_MISMATCH) {
-                Marshal.FreeHGlobal(ipObjectName);
-                ipObjectName = Marshal.AllocHGlobal(nLength);
-            }
-            objObjectName = (Win32API.OBJECT_NAME_INFORMATION)Marshal.PtrToStructure(ipObjectName, objObjectName.GetType());
-
-            if (Is64Bits()) {
-                ipTemp = new IntPtr(Convert.ToInt64(objObjectName.Name.Buffer.ToString(), 10) >> 32);
-            } else {
-                ipTemp = objObjectName.Name.Buffer;
-            }            
-		
-            if (ipTemp != IntPtr.Zero) {
-
-                byte[] baTemp = new byte[nLength];
-                try {
-                    Marshal.Copy(ipTemp, baTemp, 0, nLength);
-
-                    strObjectName = Marshal.PtrToStringUni(Is64Bits() ? new IntPtr(ipTemp.ToInt64()) : new IntPtr(ipTemp.ToInt32()));
-                } catch (AccessViolationException) {
+                if (!Win32API.DuplicateHandle(m_ipProcessHwnd, sYSTEM_HANDLE_INFORMATION.Handle, Win32API.GetCurrentProcess(), out ipHandle, 0, false, Win32API.DUPLICATE_SAME_ACCESS))
                     return null;
-                } finally {
-                    Marshal.FreeHGlobal(ipObjectName);
-                    Win32API.CloseHandle(ipHandle);
-                }
-            }			
-            string path = GetRegularFileNameFromDevice(strObjectName);
-            handleDetails.Path = path;
 
-            if (path.valid())
-            	handleDetails.Path = path;     	
-            return handleDetails;    
+                ipBasic = Marshal.AllocHGlobal(Marshal.SizeOf(objBasic));
+                Win32API.NtQueryObject(ipHandle, (int)Win32API.ObjectInformationClass.ObjectBasicInformation, ipBasic, Marshal.SizeOf(objBasic), ref nLength);
+                objBasic = (Win32API.OBJECT_BASIC_INFORMATION)Marshal.PtrToStructure(ipBasic, objBasic.GetType());
+                Marshal.FreeHGlobal(ipBasic);
+
+
+                ipObjectType = Marshal.AllocHGlobal(objBasic.TypeInformationLength);
+                nLength = objBasic.TypeInformationLength;
+                while ((uint)(nReturn = Win32API.NtQueryObject(ipHandle, (int)Win32API.ObjectInformationClass.ObjectTypeInformation, ipObjectType, nLength, ref nLength)) == Win32API.STATUS_INFO_LENGTH_MISMATCH)
+                {
+                    Marshal.FreeHGlobal(ipObjectType);
+                    ipObjectType = Marshal.AllocHGlobal(nLength);
+                }
+
+                objObjectType = (Win32API.OBJECT_TYPE_INFORMATION)Marshal.PtrToStructure(ipObjectType, objObjectType.GetType());
+                if (Is64Bits())
+                {
+                    ipTemp = new IntPtr(Convert.ToInt64(objObjectType.Name.Buffer.ToString(), 10) >> 32);
+                }
+                else
+                {
+                    ipTemp = objObjectType.Name.Buffer;
+                }
+
+                strObjectTypeName = Marshal.PtrToStringUni(ipTemp, objObjectType.Name.Length >> 1);
+                handleDetails.ObjectType = strObjectTypeName;
+
+                Marshal.FreeHGlobal(ipObjectType);
+                if (onlyLoadFileHandles && strObjectTypeName != "File")
+                    return null;
+
+                nLength = objBasic.NameInformationLength;
+
+                ipObjectName = Marshal.AllocHGlobal(nLength);
+                while ((uint)(nReturn = Win32API.NtQueryObject(ipHandle, (int)Win32API.ObjectInformationClass.ObjectNameInformation, ipObjectName, nLength, ref nLength)) == Win32API.STATUS_INFO_LENGTH_MISMATCH)
+                {
+                    Marshal.FreeHGlobal(ipObjectName);
+                    ipObjectName = Marshal.AllocHGlobal(nLength);
+                }
+                objObjectName = (Win32API.OBJECT_NAME_INFORMATION)Marshal.PtrToStructure(ipObjectName, objObjectName.GetType());
+
+                if (Is64Bits())
+                {
+                    ipTemp = new IntPtr(Convert.ToInt64(objObjectName.Name.Buffer.ToString(), 10) >> 32);
+                }
+                else
+                {
+                    ipTemp = objObjectName.Name.Buffer;
+                }
+
+                if (ipTemp != IntPtr.Zero)
+                {
+
+                    byte[] baTemp = new byte[nLength];
+                    try
+                    {
+                        Marshal.Copy(ipTemp, baTemp, 0, nLength);
+
+                        strObjectName = Marshal.PtrToStringUni(Is64Bits() ? new IntPtr(ipTemp.ToInt64()) : new IntPtr(ipTemp.ToInt32()));
+                    }
+                    catch (AccessViolationException)
+                    {
+                        return null;
+                    }
+                    finally
+                    {
+                        Marshal.FreeHGlobal(ipObjectName);
+                        Win32API.CloseHandle(ipHandle);
+                    }
+                }
+                string path = GetRegularFileNameFromDevice(strObjectName);
+                handleDetails.Path = path;
+
+                if (path.valid())
+                    handleDetails.Path = path;
+				
+            }
+            catch (Exception ex)
+            {
+                ex.log();
+            }
+            return handleDetails;
         }
 
 

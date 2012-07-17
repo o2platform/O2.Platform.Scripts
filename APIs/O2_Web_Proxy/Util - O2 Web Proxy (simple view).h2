@@ -2,7 +2,7 @@
 <H2>
   <SourceCode>Web.Https.ignoreServerSslErrors();                 
    	                  
-var topPanel = O2Gui.open&lt;Panel&gt;("Util - O2 Web Proxy (Simple View)",300,400); 
+var topPanel = O2Gui.open&lt;Panel&gt;("Util - O2 Web Proxy (Simple View)",300,400).insert_LogViewer(); 
 //var topPanel = panel.clear().add_Panel();  
 var o2WebProxy = new O2_Web_Proxy();                    
 o2WebProxy.Proxy.ProxyDisabled = false;       

@@ -35,6 +35,6 @@ treeView.add_Node("Drop here a local Jar file or Folder (with Jars) to view its 
 //using java.util.zip	 
 //O2Ref:IKVM.OpenJDK.Core.dll
 //O2Ref:IKVM.OpenJDK.Util.dll
-</SourceCode>
+//O2Tag_DontAddExtraO2Files</SourceCode>
   <ReferencedAssemblies />
 </H2>

@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = "Util - Notepad".popupWindow(700,400);
+var textArea = topPanel.add_TextBox(true).wordWrap(false); 
+
+var currentFile = "";
+
+Action&lt;string&gt; openFile =
+	(file)=&gt;{ 				
+				textArea.set_Text((currentFile = file).fileContents()
+													  .fixCRLF());
+			};
+
+Action&lt;string&gt; saveFile = 
+	(file)=&gt;{
+				if(file == "")
+					file = topPanel.askUserForFileToSave(currentFile.parentFolder());
+				if (file.notValid())
+					return;				
+				textArea.get_Text()
+						.saveAs(currentFile = file);
+			};			
+			
+topPanel.add_MainMenu()  
+		.add_Menu("File")
+			.add("Open"		, ()=&gt; openFile(topPanel.askUserForFileToOpen(currentFile.parentFolder())))
+			.add("Save"		, ()=&gt; saveFile(currentFile))
+			.add("Save As"	, ()=&gt; saveFile(""))
+			
+		.add_Menu("Edit")
+			.add("Undo"		, ()=&gt; textArea.Undo()	).add_Separator()
+			.add("Cut"		, ()=&gt; textArea.Cut()	)
+			.add("Copy"		, ()=&gt; textArea.Copy()	)
+			.add("Paste"	, ()=&gt; textArea.Paste()	).add_Separator()
+			.add("TextArea Object Properties", 	 ()=&gt; textArea.showInfo());
+ 
+textArea.onDrop(openFile);
+
+//var png = "http://upload.wikimedia.org/wikipedia/commons/e/ef/Gartoon-Gedit-icon.png".uri().download(false);
+topPanel.parentForm().set_Icon("notepad.ico".local().icon()); 
+
+return textArea;</SourceCode>
+  <ReferencedAssemblies />
+</H2>

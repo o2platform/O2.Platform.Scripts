@@ -12,7 +12,7 @@ Action&lt;RunningInstance&gt; rdpIntoBox =
 	(runningInstance)=&gt;{				
 							"Creating RDP connection to instance with ID: {0} and IP ".info(runningInstance.InstanceId,runningInstance.IpAddress);			
 							var username = "Administrator";
-							var password = amazonEC2.getPassword(runningInstance);
+							var password = "What is the Administrator Password".askUser();//amazonEC2.getPassword(runningInstance);
 							new API_RDP().launchRdpClient(runningInstance.IpAddress,username,password);					
 						};
 
@@ -69,7 +69,7 @@ Action&lt;Panel&gt; showRunningInstancesDetails =
 						RunningInstance selectedInstance = null; 
 						actionsPanel.add_Link("Show Instance Details", 40,0, ()=&gt;  selectedInstance.details()); 
 						actionsPanel.add_Link("View Instance  Console Out", 60,0, ()=&gt;  amazonEC2.showConsoleOut(selectedInstance));
-						var link = actionsPanel.add_Link("Show Decrypted password  ", 80,0, ()=&gt; amazonEC2.getPassword(selectedInstance)); 
+						//var link = actionsPanel.add_Link("Show Decrypted password  ", 80,0, ()=&gt; amazonEC2.getPassword(selectedInstance)); 
 						actionsPanel.add_Link("Start Instance ", 0,220, ()=&gt; amazonEC2.startInstance(selectedInstance));
 						actionsPanel.add_Link("Reboot Instance ", 20,220, ()=&gt; { if ("are you sure you want to reboot?".askUserQuestion()) amazonEC2.rebootInstance(selectedInstance); });						
 						actionsPanel.add_Link("Stop Instance (careful)", 40,220, ()=&gt; { if ("are you sure you want to stop?".askUserQuestion())  amazonEC2.stopInstance(selectedInstance); });  

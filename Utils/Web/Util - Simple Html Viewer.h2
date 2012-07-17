@@ -1,16 +1,17 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>var panel = O2Gui.open&lt;Panel&gt;("Simple Html Viewer",500,300);
-var controls = panel.add_1x1();
-var browser = controls[1].add_Browser();
-var htmlText = controls[0].add_TextArea();
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Simple Html Viewer",500,300);
+var controls = topPanel.add_1x1();
+var browser = controls[1].add_WebBrowser();
+var htmlText = controls[0].add_TextArea().unlimitedSize();
 htmlText.AcceptsTab = true;
 var currentDirectory = Environment.CurrentDirectory;
-htmlText.add_ContextMenu()
-		.add_MenuItem("render html", true,
+htmlText.mainMenu()
+		.add_Menu("File")
+/*		.add_MenuItem("render html", true,
 	   		()=&gt;{
 	   				browser.set_Text(htmlText.get_Text());
-	   			})
+	   			})*/
 	   	.add_MenuItem("save",
 	   		()=&gt;{
 	   				var target = O2Forms.askUserForFileToSave(currentDirectory);
@@ -28,9 +29,10 @@ htmlText.onDrop(
 					currentDirectory = file.directoryName();
 					
 				}
-			});
-			
-//using O2.External.IE.ExtensionMethods
-//O2Ref:O2_External_IE.dll</SourceCode>
+			});		
+htmlText.onTextChange(
+	(text)=&gt; browser.set_Text(text));
+	
+htmlText.set_Text("&lt;h1&gt;hello&lt;h1&gt; world");</SourceCode>
   <ReferencedAssemblies />
 </H2>

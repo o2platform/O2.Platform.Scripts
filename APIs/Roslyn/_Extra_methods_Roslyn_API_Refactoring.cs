@@ -77,7 +77,7 @@ namespace O2.XRules.Database.APIs
 
 				//var collectionInitializer = node.nodes(SyntaxKind.LiteralExpreInitializerExpression);
 				//return "got {0}".format(collectionInitializer.size());
-				return originalCode;
+				//return originalCode;
 			}
 			catch(Exception ex)
 			{

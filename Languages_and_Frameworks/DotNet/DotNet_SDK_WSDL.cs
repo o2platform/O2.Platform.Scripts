@@ -25,7 +25,9 @@ namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 		
 		public DotNet_SDK_WSDL()
 		{
-			Wsdl_Exe = PublicDI.config.ReferencesDownloadLocation.pathCombine("MS_SDK_wsdl.exe");
+			var assembly = "MS_SDK_wsdl.exe".assembly();			
+			Wsdl_Exe = assembly.notNull() ? assembly.Location
+										  : PublicDI.config.ReferencesDownloadLocation.pathCombine("MS_SDK_wsdl.exe");
 		}
 		
 		public bool wsdl_exe_exists()
@@ -105,7 +107,7 @@ namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
         		targetFolder = "wsdl".tempDir();
         	var cSharpFile = wsdl_CreateCSharp(wsdlSourceFileOrUrl,targetFolder, extraWsdlParameres);
 			cSharpFile.fileInsertAt(0, "//O2Ref:System.Web.Services.dll".line()); 		
-			var assembly = cSharpFile.compile(); 	
+			var assembly = cSharpFile.compile(true); 	
 			if (assembly.isNull())
 			{
 				"[wsdl_CreateAssembly] failed to create CSharp file from wsdl: {0}".error(wsdlSourceFileOrUrl);

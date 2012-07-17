@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>
+//var topPanel = panel.clear().add_Panel();
+
+//var topPanel = "{name}".popupWindow(700,400);
+var scriptFile = "\"hi there\".msgbox();".h2_File();
+scriptFile = "Util - LogViewer.h2".local();
+scriptFile = "Util - C# REPL Script [4.0].cs.o2".local();
+//.compile_H2Script().Location;  
+var targetDir = "{0} [{1}]".format(scriptFile.fileName_WithoutExtension(), 5.randomNumbers()).tempDir(false);
+//return scriptFile.h2_SourceCode().compile_CodeSnippet(true);
+
+
+var topPanel = "PoC - Created stand alone exe helper".popupWindow(1000,500)
+													 .insert_LogViewer();;
+var actionsPanel = topPanel.insert_Above(40,"Actions");
+var codeEditor = topPanel.insert_Left().add_SourceCodeEditor();
+var folderViewer = topPanel.insert_Below().add_FolderViewer();
+
+var sourceFile = "Program_UseWith_O2_CreatedExes.cs".local();
+codeEditor.open(sourceFile);
+
+Action createStandAloneExe = 
+	()=&gt;{
+			
+			folderViewer.open(targetDir);
+			var assembly =  scriptFile.compileScriptFile(true);			
+			var targetFile = assembly.Location.file_Copy(targetDir);
+			"[compiledIntoTempFolder]  assembly: {0}".debug(assembly.Location);
+			 
+			var referenceAssemblies = assembly.referencedAssemblies(true).names();
+			targetDir.copyAssembliesToFolder(referenceAssemblies.ToArray()) ;
+						
+			 
+			var projectName = scriptFile.fileName_WithoutExtension();
+			
+			var pathToAssemblies = targetFile.directoryName();
+			var buildFilesDir = pathToAssemblies.pathCombine("_BuildFiles").createDir();
+			var extraEmbebbedResources = new List&lt;string&gt;();
+			var createdExe = projectName.createProjectFile_and_Build(sourceFile, pathToAssemblies, buildFilesDir, extraEmbebbedResources, topPanel);
+			folderViewer.refresh();
+		};
+
+actionsPanel.add_Link("Create Stand Alone Exe", ()=&gt;createStandAloneExe());
+
+createStandAloneExe();
+return "done";
+
+//O2File:API_MicrosoftBuild.cs
+
+
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -116,6 +116,18 @@ namespace O2.XRules.Database.APIs
 	
 	public static class API_ConsoleOut_ExtensionMethods
 	{
+		public static API_ConsoleOut helloGreece(this API_ConsoleOut apiConsoleOut)
+		{
+			"Hello Greece !!!".debug();	
+			return apiConsoleOut;
+		}
+		
+		public static API_ConsoleOut helloGreece(this API_ConsoleOut apiConsoleOut , string name)
+		{
+			"Hello {0} !!!".error(name);	
+			return apiConsoleOut;
+		}
+		
 		public static API_ConsoleOut write(this API_ConsoleOut apiConsoleOut, string message)
 		{
 			Console.Write(message);

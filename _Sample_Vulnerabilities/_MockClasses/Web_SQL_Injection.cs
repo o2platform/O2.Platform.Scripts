@@ -1,43 +1,81 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
 using System;
+using System.IO;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Web.UI;
+using System.Web.Services;
 using System.Data.SqlClient; 
+using O2.DotNetWrappers.ExtensionMethods;
+//O2Ref:System.Web.Services.dll
    
 namespace O2.XRules.Database._Rules._Sample_Vulnerabilities
 {
-
-    public class HelloPage : Page
-    {
-    	//http://website.com/HelloPage.aspx?page=Main
-    	
-    	public void hello()
-    	{
-    		//helloAgain(Request["name"]);
-    	}
-    	
-    	public void ren(string name)
-    	{
-    		
-    		string pageName= "ll";//Request["name"];
-    		var userMessage = "Hello there, you are in page " + pageName + name;
-    		Response.Write(userMessage);
-    	}
+	public class LiveDemo : Page
+	{
+		
+		public void taintometer()
+		{
+			webMethod_Start(Request["Form"]);			
+		}
+		
+		[WebMethod]
+		public void webMethod_Start(string when)
+		{			
+			var safeText = Server.HtmlEncode(when);
+			var a = when + "aaaa";
+			Process.Start(when);
+			Process.Start(when);
+			startEngine(a);
+		}
+				
+		public void startNow()
+		{
+			startEngine("now");
+		}
+		
+		public void startIn1Hour()
+		{
+			startEngine("1hour");
+		}
+		
+		public void startEngine(string time)
+		{						
+			SqlConnection sqlConnection =null;
+			var sql = "Select * from engine when time=" + time;
+			var sqlCommand = new SqlCommand(sql,sqlConnection);
+		}
+		
 	}
 
 
 
+    public class HelloPage : Page
+    {
 
-
-
-
-
-
-
-
-
-
-
+		public void hello()
+    	{
+    		//helloAgain(Request["name"]);
+    	}
+		  	
+    	public void helloAgain(string name)
+    	{    		
+    		string pageName= "ll";//Request["name"];
+    		var userMessage = "Hello there, you are in page " + pageName + name;
+    		Response.Write(userMessage);
+    	}
+    	
+    	[WebMethod]
+    	public void multipeActions(string name)
+    	{       		
+    		new SqlCommand(name);
+    		Response.Write(name);
+    		File.OpenRead(name);
+    		Process.Start(name);
+    		Response.Redirect(name);
+    		
+    	}
+	}
 
 
 
@@ -48,7 +86,8 @@ namespace O2.XRules.Database._Rules._Sample_Vulnerabilities
         {
         	startEngine_When("");
         }
-        //[WebMethod]
+        
+        [WebMethod]
         public void startEngine_When(string when)
         {        	
         	startEngine(when);
@@ -75,23 +114,15 @@ namespace O2.XRules.Database._Rules._Sample_Vulnerabilities
     	}
     	
     	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
     	public SqlConnection sqlConnection { get; set; }
     	
         public void controller()
         {
             var taintedData = source_HttpRequest();
-            //sink_SqlDataExecute(taintedData); 
-            //sink_SqlDataExecute2(taintedData);
-            //sink_ResponseWrite(taintedData);
-            //createResponse(taintedData);   
+            sink_SqlDataExecute(taintedData); 
+            sink_SqlDataExecute2(taintedData);
+            sink_ResponseWrite(taintedData);
+            createResponse(taintedData);   
         }
 		
         public string source_HttpRequest()

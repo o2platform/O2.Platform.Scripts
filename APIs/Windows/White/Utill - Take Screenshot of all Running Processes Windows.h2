@@ -33,6 +33,7 @@ topPanel.parentForm().WindowState = FormWindowState.Normal;
 return  "ok:";				
 //using White.Core;
 //using White.Core.UIItems.WindowItems;
-//O2Ref:White.Core.dll</SourceCode>
+//O2Ref:White.Core.dll
+//O2Ref:log4net.dll</SourceCode>
   <ReferencedAssemblies />
 </H2>

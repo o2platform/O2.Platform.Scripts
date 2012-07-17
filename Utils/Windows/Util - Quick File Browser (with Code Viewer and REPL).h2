@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.add_Panel(true);
+var topPanel = "Util - Quick File Browser (with CodeViewer and REPL)".popupWindow(700,500).insert_LogViewer();
+var codeViewer = topPanel.title("Selected file contents").add_SourceCodeViewer();
+
+Action&lt;string&gt; openFile =
+	(file)=&gt;{				
+				codeViewer.open(file);
+			};
+
+topPanel.insert_FolderViewer_Simple(openFile);
+
+topPanel.mainMenu()
+		.add_Menu("Debug") 
+		.add_MenuItem("Open REPL Script GUI", ()=&gt; topPanel.parentForm().script_Me());
+
+
+//O2Tag_DontAddExtraO2Files;
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

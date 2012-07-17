@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <H2>
   <SourceCode>//var topPanel = panel.clear().add_Panel();
-var topPanel = "Tool - Cat.Net outside VisualStudio".popupWindow(1000, 600).insert_LogViewer();
+var topPanel = "Tool - Cat.Net outside VisualStudio v1.1".popupWindow(1000, 600).insert_LogViewer();
 												   
  
 var catNetGui = topPanel.add_CatNet();

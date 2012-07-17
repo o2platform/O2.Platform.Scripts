@@ -17,9 +17,9 @@ var runtime = engine.Runtime;
 executeScript = (script) =&gt;	{
 								try
 								{
-									"Execucuring code".info();
-									var source = engine.CreateScriptSourceFromString(script, SourceCodeKind.AutoDetect);
-									var mod = engine.CreateScope();
+									"Executing code".info();
+									var source = engine.CreateScriptSourceFromString(script, SourceCodeKind.AutoDetect);									
+									var mod = engine.CreateScope();									
 									source.Execute(mod);
 								}
 								catch(Exception ex)

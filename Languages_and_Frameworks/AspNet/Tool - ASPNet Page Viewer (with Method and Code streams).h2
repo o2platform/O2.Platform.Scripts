@@ -266,7 +266,6 @@ return "ok";
 //O2File:ascx_CodeStreams.cs
 //using O2.XRules.Database.Languages_and_Frameworks.DotNet
 //O2File:WatiN_IE_ExtensionMethods.cs
-//using O2.XRules.Database.Utils.O2
 //O2Ref:WatiN.Core.1x.dll</SourceCode>
   <ReferencedAssemblies />
 </H2>

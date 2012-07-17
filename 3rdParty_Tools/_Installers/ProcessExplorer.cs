@@ -7,15 +7,17 @@ using O2.XRules.Database.Utils;
 
 //O2File:Tool_API.cs
 
+public class DynamicType
+{
+	public void dynamicMethod()
+	{
+		new O2.XRules.Database.APIs.ProcessExplorer().start();
+	}
+}
+	
 namespace O2.XRules.Database.APIs
 {
-	public class Install_PE_Test
-	{
-		public void test()
-		{
-			new ProcessExplorer().start();
-		}
-	}
+	
 	public class ProcessExplorer : Tool_API 
 	{	
 		public ProcessExplorer() : this(true)

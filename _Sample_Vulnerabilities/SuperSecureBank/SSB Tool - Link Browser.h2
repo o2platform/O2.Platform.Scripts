@@ -43,7 +43,6 @@ ie.link(" Apply for a line of credit").click();
 return ie.url();
 
 //O2File:WatiN_IE_ExtensionMethods.cs
-//using O2.XRules.Database.Utils.O2
 //O2Ref:WatiN.Core.1x.dll
 //O2Ref:Interop.SHDocVw.dll</SourceCode>
   <ReferencedAssemblies />

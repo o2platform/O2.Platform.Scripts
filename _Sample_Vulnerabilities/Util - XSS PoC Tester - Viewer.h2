@@ -83,7 +83,6 @@ Action&lt;string&gt; setPayloadLocation =
 
 return setPayloadLocation;
 //O2File:WatiN_IE_ExtensionMethods.cs
-//using O2.XRules.Database.Utils.O2
 //O2Ref:WatiN.Core.1x.dll</SourceCode>
   <ReferencedAssemblies />
 </H2>

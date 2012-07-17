@@ -74,7 +74,7 @@ namespace O2.XRules.Database.Utils
 
 		#region O2BrowserIE
 		
-		public static O2BrowserIE add_WebBrowser(this GraphLayout graphLayout)
+		public static O2BrowserIE add_O2_Browser_IE(this GraphLayout graphLayout)
 		{
 			return (O2BrowserIE)graphLayout.add_WinForm<O2BrowserIE>(800,400);
 		}

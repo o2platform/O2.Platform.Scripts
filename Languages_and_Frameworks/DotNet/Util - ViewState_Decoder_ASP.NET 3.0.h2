@@ -29,7 +29,6 @@ ie.onNavigate((browser,url) =&gt;
  
 comboBox.sendKeys("http://www.microsoft.com/technet/security/current.aspx".line());
  
-//using O2.XRules.Database.Utils.O2; 
 //O2File:API_HacmeBank.cs
 //O2File:DotNet_ViewState.cs
 //O2File:WatiN_IE.cs
