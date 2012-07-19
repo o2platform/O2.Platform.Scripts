@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - Send Spoofed email",500, 340)	
+					.insert_LogViewer();
+topPanel.splitContainer().fixedPanel1();
+string host = "ASPMX.L.GOOGLE.COM"; 
+string fromEmail = "o2.bot1@o2platform.com"; 
+string toEmail = "o2@o2platform.com";
+string ccEmail = "";
+string subject = "Hi O2";
+string message = "42".line().line().line().add("Send using an O2 Platform script");
+var aSync = false;
+var attachmentFiles = new List&lt;String&gt; ();
+
+Action sendEmail = 
+	()=&gt;{		
+			"About to send email...".info();
+			if (Mail.sendMail(host, fromEmail, toEmail, ccEmail, subject, message,attachmentFiles, true))
+				"Email sent".debug();
+			else
+				"Error sending email".error();
+		}; 
+
+topPanel.add_Label("From",10,10).append_TextBox(fromEmail).left(75).onTextChange((text)=&gt;fromEmail = text).align_Right(topPanel)		
+		.append_Below_Label("To").left(10).append_TextBox(toEmail).left(75).onTextChange((text)=&gt;toEmail = text).align_Right(topPanel)
+		.append_Below_Label("CC").left(10).append_TextBox(ccEmail).left(75).onTextChange((text)=&gt;ccEmail = text).align_Right(topPanel)
+		.append_Below_Label("Subject").left(10).append_TextBox(subject).left(75).onTextChange((text)=&gt;subject = text).align_Right(topPanel)
+		.append_Below_Label("Body").left(10).append_TextBox(message).left(75).height(90).multiLine().onTextChange((text)=&gt;message = text).align_Right(topPanel);
+	
+		 
+topPanel.add_Button(200,75,"      Send Email   ").font_bold()
+	 	.onClick(()=&gt; sendEmail())
+		.append_Label("via Host").topAdd(5).append_TextBox(host).width(200).onTextChange((text)=&gt;host = text)
+		.append_CheckBox("Asyc",(value) =&gt; aSync = value);
+
+//panel.controls&lt;TextBox&gt;(true)[2].set_Text("..."); 
+//panel.controls&lt;TextBox&gt;(true)[2].set_Text("..."); 
+//sendEmail(true);
+
+
+/* 
+var sendSync = true;
+return Mail.sendMail(host, from, to, cc, subject, message,attachmentFiles, sendSync);
+*/
+//O2Embed:email.ico</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>try
+{
+//var topPanel = panel.clear().add_Panel();
+O2Setup.extractEmbededConfigZips();
+var topPanel = "Tool - Cat.Net outside VisualStudio v1.3.1".popupWindow(1000, 600).insert_LogViewer();
+												   
+var catNetGui = topPanel.add_CatNet();
+catNetGui.TriggerOnSelectedEvent = true;
+
+var csharpFileToScan = "Web_SQL_Injection.cs".local().fileContents().saveAs("_CatNet_Test.cs".tempFile());
+
+topPanel.mainMenu().clear() 
+		.add_Menu("File")
+			.add_MenuItem("Open"	, ()=&gt; catNetGui.loadFile(topPanel.askUserForFileToOpen()))
+			
+		.add_Menu("Sample Files") 
+			.add_MenuItem("Scan C# file with some Vulnerabilities"	, ()=&gt; catNetGui.loadFile(csharpFileToScan))
+			.add_MenuItem("Scan WebGoat.Net dll"					, ()=&gt; catNetGui.loadFile("DotNetGoat.dll".local()))
+			.add_MenuItem("Open Sample report: HacmeBank" 			, () =&gt; catNetGui.openReport("CatNet_HacmeBank.xml".local()))
+			.add_MenuItem("Open Sample report: SuperSecureBank"  	, () =&gt; catNetGui.openReport("CatNet_SuperSecureBank.xml".local()))
+		.add_Menu("Rules and Config")
+			.add_MenuItem("Open Cat.NET Folder (with Rules and Config)", ()=&gt; PublicDI.config.O2TempDir.pathCombine(@"..\_ToolsOrAPIs\CatNet_1.1\SourceDir").startProcess())
+		.add_Menu("REPL")
+			.add_MenuItem("Open REPL for CatNet GUI",()=&gt; { catNetGui.script_Me("catNetGui").Code+= "\n//O2Ref:Microsoft.ACESec.CATNet.Core\n//O2Ref:Microsoft.ACESec.CATNet.UI.VSAddIn.dll\n";})
+			.add_MenuItem("Open REPL for Form",()=&gt; topPanel.parentForm().script_Me("form"))			
+		;
+
+
+catNetGui.handleDrop(csharpFileToScan);
+ 
+return catNetGui;
+
+
+}
+catch(Exception ex)
+{
+	ex.log("in script body");
+}
+
+//using System.IO 
+//using System.Collections
+
+//O2File:API_CatNet.cs
+//O2File:API_CatNet_GUI.cs
+ 
+//O2Tag_DontAddExtraO2Files
+
+//O2Package:Web_SQL_Injection.cs
+//O2Package:DotNetGoat.dll
+//O2Package:cheshire_cat.ico
+//O2Package:CatNet_HacmeBank.xml
+//O2Package:CatNet_SuperSecureBank.xml
+//O2Embed:E:\TeamMentor\TM_UnitTests\StandAlone_Exes_Packages\CatNet_Files.zip
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

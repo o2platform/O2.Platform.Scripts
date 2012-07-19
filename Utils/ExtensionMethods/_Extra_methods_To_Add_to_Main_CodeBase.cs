@@ -56,44 +56,39 @@ namespace O2.XRules.Database.Utils
 {	
 
 	
-	public static class Extra_Embedded
+	public static class Extra_Browser
 	{
-		public static string copyFileReferencesToEmbeddedFolder(this string targetFolder, string sourceToParse)
+		public static HtmlElement id(this WebBrowser webBrowser, string id)
 		{
-			//"[copyFileReferencesToEmbeddedFolder] analyzing file: {0} with {1} lines".error(sourceToParse.local(), sourceToParse.local().lines().size());
-			var tag = "//O2Package:";
-			var sourceCode = sourceToParse.extension(".h2") ? sourceToParse.local().h2_SourceCode().fixCRLF()
-															: sourceToParse.local().fileContents().fixCRLF();
-			foreach(var line in sourceCode.lines())
-				if(line.starts(tag))
-				{
-					var file = line.remove(tag).local();
-					"[copyFileReferencesToEmbeddedFolder] found Package reference: {0}".debug(file);				
-					file.file_Copy(targetFolder);
-				}
-			return targetFolder;
+			return webBrowser.getElementById(id);
 		}
-	}	
-
-
-	
-	
-	public static class Extra_TextArea
-	{
-		public static string helloMe(this string name)
+		public static List<string> ids(this WebBrowser webBrowser)
 		{
-			return "hello {0}".info(name);
+			return webBrowser.all().where((htmlElement)=>htmlElement.Id.valid())
+								   .Select((htmlElement)=>htmlElement.Id).toList();
 		}
 		
-	}
-	public static class Extra_ToolStrip
+		public static List<HtmlElement> names(this WebBrowser webBrowser)
+		{
+			return webBrowser.all().where((htmlElement)=>htmlElement.Name.valid());
+		}
+		
+		public static string html(this HtmlElement htmlElement)
+		{
+			return htmlElement.outerHtml();
+		}
+		
+	}	
+
+	public static class Extra_Menus
 	{
-	
+
 
 	}
 	
-	public static class Extra_textBox
+	public static class Extra_Icon
 	{
+		
 		
 
 	}

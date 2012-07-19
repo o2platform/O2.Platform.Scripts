@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>ascx_Panel_With_Inspector PanelWithInspector = null;
+		
+Action showAstErrorsUsingRoslyn = 
+	()=&gt;{   
+     		var parserOptions =  ParseOptions.Default.WithKind(SourceCodeKind.Script);
+     		var astTree = SyntaxTree.ParseCompilationUnit(PanelWithInspector.inspector.Code, "",parserOptions);
+     		
+     		PanelWithInspector.inspector.result_RichTextBox.append_Text(astTree.errors_Details());
+     		
+     		var codeEditor = PanelWithInspector.inspector.commandsToExecute.editor();
+     		codeEditor.clearBookmarksAndMarkers();										
+			foreach(var error in astTree.errors())
+			{
+				var startLinePosition = error.Location
+											 .GetLineSpan(true)
+											 .StartLinePosition;
+				codeEditor.setSelectedText(startLinePosition.Line +1, startLinePosition.Character, true);								
+			}	
+		};
+		
+Action start = 
+	()=&gt;{
+			O2Setup.extractEmbededConfigZips();
+			PanelWithInspector = ascx_Panel_With_Inspector.runControl();
+			PanelWithInspector.inspector.OnAstFail = showAstErrorsUsingRoslyn;						
+			PanelWithInspector.parentForm().set_Icon("scripts.ico".local().icon());			
+		};
+start();
+		
+//using Roslyn.Compilers;
+//using Roslyn.Compilers.CSharp;				
+
+//O2Ref:O2_FluentSharp_Roslyn.dll
+//O2Ref:Roslyn.Compilers.CSharp.dll
+//O2Ref:Roslyn.Compilers.dll
+
+//O2File:_Extra_methods_Roslyn_API.cs
+
+//O2Package:scripts.ico
+//O2Package:_Extra_methods_To_Add_to_Main_CodeBase.cs,_Extra_methods_Browser.cs</SourceCode>
+  <ReferencedAssemblies />
+</H2>

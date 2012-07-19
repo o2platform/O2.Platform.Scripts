@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 using O2.Kernel;
 using O2.Kernel.ExtensionMethods;
 using O2.DotNetWrappers.DotNet;
@@ -44,9 +45,7 @@ namespace O2.XRules.Database.APIs
 											  .pathCombine(10.randomLetters() + ".xml");
 			this.save_Report_To(tempReportFile);						  
 		}	
-		
-		
-	}		
+	}			
 		
 	public class CatNetEvents	: EventSink
 	{
@@ -282,12 +281,46 @@ namespace O2.XRules.Database.APIs
 			}
 			if (targetFile.fileExists() && targetFolder.dirExists())
 				return true;
-			"requested embedded resource was not found: {0}".error(resourceToUnzip);
+			"requested embedded resource was not found: {0}".info(resourceToUnzip);
 			return false;
 			
 		}
 	}
 	
-
+	
+	
+	
+	[XmlRoot("CatNetRules")]
+	public class CatNet_Rules_Mappings : List<Rule_Mapping>
+	{
+		
+	}
+	[XmlRoot("Mapping")]
+	public class Rule_Mapping
+	{
+		[XmlAttribute] public string VulnName { get ; set; }
+		[XmlAttribute] public string Target { get ; set; }		
+	}
+	
+	public static class CatNet_Rules_Mappings_ExtensionMethods
+	{
+		public static CatNet_Rules_Mappings add(this CatNet_Rules_Mappings rulesMappings, string vulnName, string target)
+		{
+			rulesMappings.Add(new Rule_Mapping() { VulnName = vulnName, Target = target });
+			return rulesMappings;
+		} 
+		
+		public static string item(this CatNet_Rules_Mappings rulesMappings, string vulnName)
+		{
+			return rulesMappings.Where((mapping)=>mapping.VulnName == vulnName)
+								.Select((mapping)=> mapping.Target).first();
+		}
+		public static bool hasItem(this CatNet_Rules_Mappings rulesMappings, string vulnName)
+		{
+			return rulesMappings.item(vulnName).notNull();
+		}
+	}
+	
+	
 
 }

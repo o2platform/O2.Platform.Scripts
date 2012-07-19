@@ -89,16 +89,19 @@ namespace O2.XRules.Database.APIs
 			
 			var embeddedResources = project.Xml.AddItemGroup();
 			
-			foreach(var assemblyFile in gzAssemblyFiles)
+			foreach(var assemblyFile in gzAssemblyFiles)				
 				embeddedResources.AddItem("EmbeddedResource",assemblyFile.fileName()); 
-						
+			
+			var defaultIcon = "O2Logo.ico";
 			foreach(var extraResource in extraEmbebbedResources)
 			{
 				extraResource.file_Copy(targetDir);
 				embeddedResources.AddItem("EmbeddedResource",extraResource.fileName()); 	
+				if (extraResource.extension(".ico"))
+					defaultIcon = extraResource;
 			}			
 			
-			var defaultIcon = "O2Logo.ico";
+			
 			//add two extra folders (needs refactoring)
 			Action<string> addSpecialResources = 
 				(resourceFolder)=>{

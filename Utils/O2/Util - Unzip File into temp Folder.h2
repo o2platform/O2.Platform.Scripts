@@ -29,6 +29,7 @@ Action&lt;string&gt; unzipFile =
 					}				
 				};
 
-dropZone.onDrop(unzipFile);	</SourceCode>
+dropZone.onDrop(unzipFile);	
+//O2Embed:zip.ico</SourceCode>
   <ReferencedAssemblies />
 </H2>

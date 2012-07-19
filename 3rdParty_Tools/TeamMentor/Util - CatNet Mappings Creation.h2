@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = "Util - CatNet Mappings Creation".popupWindow(1200,400);
+var targetDir = "HeaderImage.jpg".local().parentFolder();
+
+//Create mappings for embeded resourcses
+var mappings = new CatNet_Rules_Mappings();
+mappings.add("Process Command Execution"			, "00000000-0000-0000-0000-0000002f9f56.html")
+		.add("XPath Injection"				 		, "00000000-0000-0000-0000-0000003d9ba2.html")
+		.add("File Canonicalization"			 	, "00000000-0000-0000-0000-0000004be9ad.html")
+		.add("SQL Injection"						, "00000000-0000-0000-0000-0000006cee50.html")
+		.add("Redirection to User Controlled Site"	, "00000000-0000-0000-0000-000000144f81.html")  		//Unvalidated Redirection
+		.add("Exception Information"				, "00000000-0000-0000-0000-000000366f98.html")			//Exception Information Disclosure
+		.add("LDAP Injection"						, "00000000-0000-0000-0000-000000801ce1.html")
+		.add("Cross-Site Scripting"			 		, "00000000-0000-0000-0000-000000078900.html");
+
+
+var targetFile = targetDir.pathCombine("CatNet_Mappings_TM_Embedded.xml");
+mappings.saveAs(targetFile);
+
+topPanel.title("CatNet_Mappings_TM_Embedded").add_SourceCodeEditor().open(targetFile);
+
+
+
+mappings = new CatNet_Rules_Mappings();
+mappings.add("Process Command Execution"			, "https://owasp.teammentor.net/article/c97da133-1150-4789-9d18-73ba221a4fba")
+		.add("XPath Injection"				 		, "https://owasp.teammentor.net/article/dfdb2801-2abe-44d3-93ff-9f6254197978")
+		.add("File Canonicalization"			 	, "https://owasp.teammentor.net/article/2b2a09fd-a10d-479f-a3df-8e28870319b6")
+		.add("SQL Injection"						, "https://owasp.teammentor.net/article/4e2f567c-e829-4710-9e2d-861757fb1854")
+		.add("Redirection to User Controlled Site"	, "https://owasp.teammentor.net/article/bfc48dfe-4235-4eaf-b290-f418a11ec876")  
+		.add("_Exception Information"				, "")			
+		.add("_LDAP Injection"						, "")
+		.add("Cross-Site Scripting"			 		, "https://owasp.teammentor.net/article/ec178496-024d-4b3c-8381-8db94767e539");
+
+targetDir = "HeaderImage.jpg".local().parentFolder();
+targetFile = targetDir.pathCombine("CatNet_Mappings_TM_OWASP.xml");
+mappings.saveAs(targetFile);
+
+topPanel.insert_Right("CatNet_Mappings_TM_OWASP").add_SourceCodeEditor().open(targetFile);
+return targetFile;
+
+//O2File:API_CatNet.cs   </SourceCode>
+  <ReferencedAssemblies />
+</H2>

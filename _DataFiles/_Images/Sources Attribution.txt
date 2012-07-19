@@ -1,1 +1,9 @@
-scripts.ico : http://files.softicons.com/download/toolbar-icons/fatcow-hosting-icons-by-fatcow/ico/scripts.ico
+scripts.ico	 	: http://files.softicons.com/download/toolbar-icons/fatcow-hosting-icons-by-fatcow/ico/scripts.ico
+blogs-stack.ico  	: http://files.softicons.com/download/toolbar-icons/fugue-16px-icons-by-yusuke-kamiyamane/ico/blogs-stack.ico
+package_development.ico : http://files.softicons.com/download/system-icons/glaze-icons-by-marco-martin/ico/apps/package_development.ico
+cheshire_cat.ico	: http://files.softicons.com/download/holidays-icons/halloween-icon-set-by-yootheme/ico/cheshire_cat.ico by http://www.softicons.com/free-icons/designers/yootheme
+devil.ico.ico           : http://files.softicons.com/download/web-icons/free-windows7-emoticons-by-visualpharm/ico/devil.ico
+email-icon.ico          : http://www.softicons.com/free-icons/social-media-icons/social-media-icons-by-desizn-tech/email-icon
+zip.ico			: http://www.softicons.com/free-icons/iphone-icons/iphone-unique-icons-by-e-young/zip-icon
+web.ico			: http://files.softicons.com/download/toolbar-icons/super-mono-sticker-icons-by-double-j-design/ico/web.ico
+execute.ico		: http://files.softicons.com/download/toolbar-icons/onebit-3-icons-by-icojoy/ico/execute.ico

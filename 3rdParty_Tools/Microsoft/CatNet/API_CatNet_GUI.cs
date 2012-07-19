@@ -45,20 +45,31 @@ namespace O2.XRules.Database.APIs
 {
 	public class API_CatNet_GUI
 	{
-		public Control 	HostControl 	{ get; set; }
-		public VsConnect vsConnect;
-		public SummaryView summaryView;
-		public ListView lvSummary;
-		public DetailView detailView;
-		public ListView lvDataFlow;
-		public ToolStrip _tsActions;	
+		public Control 	HostControl 			{ get; set; }
+		public VsConnect vsConnect				{ get; set; }
+		public SummaryView summaryView			{ get; set; }
+		public ListView lvSummary				{ get; set; }
+		public DetailView detailView			{ get; set; }
+		public ListView lvDataFlow				{ get; set; }
+		public ToolStrip _tsActions				{ get; set; }
+				
+		public Report report					{ get; set; }
 		
-		public ascx_SourceCodeEditor codeViewer;
-		public Report report;
+		public ascx_SourceCodeEditor 	CodeViewer					{ get; set; }
+		public string 				 	DroppedFile					{ get; set; }
+		//public bool  					IgnoreCodeViewOpenRequests 	{ get; set; }
+		public bool  					TriggerOnSelectedEvent 		{ get; set; }
 		
-		public string droppedFile;
+		public Action<string,int> 		onSelectedCodeReference;
+		public Action<string>	 		onSelectedReportItem;
+		
 		
 		public RulesSettings rulesSettings;
+
+        public API_CatNet_GUI()
+        {
+            "Microsoft.ACESec.CATNet.UI.VSAddIn.dll".assembly().location().info();      // ensure is loaded
+        }
 	}
 	
 	public static class API_CatNet_GUI_ExtensionMethods_Setup
@@ -73,12 +84,13 @@ namespace O2.XRules.Database.APIs
 			catNetGui.lvDataFlow 	= (ListView)	catNetGui.detailView.field("_lvDataFlow"); 
 			catNetGui._tsActions 	= (ToolStrip)	catNetGui.summaryView.field("_tsActions");		
 			
-			catNetGui.codeViewer 	= catNetGui.detailView.insert_Below().add_SourceCodeEditor();  
+			catNetGui.CodeViewer 	= catNetGui.detailView.insert_Below().add_SourceCodeEditor();  
 			return catNetGui;
 		}
 		
 		public static API_CatNet_GUI set_VsConnect(this API_CatNet_GUI catNetGui)
-		{		
+		{
+		
 			catNetGui.rulesSettings = new RulesSettings();		
 						
 			catNetGui.vsConnect.invoke("AddDefaultSettingsProvider", new GeneralSettings());
@@ -106,21 +118,31 @@ namespace O2.XRules.Database.APIs
 			catNetGui.lvDataFlow.showSelection();
 			
 			catNetGui.lvDataFlow.afterSelected<DataTransformation>(
-				(dataTransformation)=>{	
+				(dataTransformation)=>{				
+											
+											if (catNetGui.onSelectedCodeReference.notNull())
+											{
+												catNetGui.onSelectedCodeReference(dataTransformation.SourceFile, dataTransformation.SourceLine);
+												//"Igonoring after select event for: {0}: {1}".debug(dataTransformation.SourceFile, dataTransformation.SourceLine);
+												return;
+											}
 											if (dataTransformation.SourceFile.fileExists())
 											{
-												catNetGui.codeViewer.open(dataTransformation.SourceFile)
+												catNetGui.CodeViewer.open(dataTransformation.SourceFile)
 														  			.gotoLine(dataTransformation.SourceLine);
 												catNetGui.lvDataFlow.focus();		  
 											}
 											else
 												//codeViewer.editor().set_Text("").sPathToFileLoaded = "";
-												catNetGui.codeViewer.editor().set_Text(dataTransformation.serialize(false), ".xml").sPathToFileLoaded = "";
+												catNetGui.CodeViewer.editor().set_Text(dataTransformation.serialize(false), ".xml").sPathToFileLoaded = "";
 												
 									  });
 			
 			catNetGui.lvSummary.afterSelected<ReportItem>(
-				(reportItem) => {					
+				(reportItem) => {		
+									//reportItem.script_Me();
+									var ruleName = (string)reportItem.field("_ruleInfo").field("Name");
+									catNetGui.onSelectedReportItem.invoke(ruleName);
 									catNetGui.detailView.Clear();
 									reportItem.DisplayText(catNetGui.detailView);
 									
@@ -138,11 +160,12 @@ namespace O2.XRules.Database.APIs
 												  .tag(dataTransformation);
 									} 
 									catNetGui.detailView.AutoResizeColumns();
-									catNetGui.lvDataFlow.select(1);
+									if (catNetGui.TriggerOnSelectedEvent)
+										catNetGui.lvDataFlow.select(1);
 									catNetGui.lvSummary.focus();
 								});
 			catNetGui._tsActions.clearItems()
-					  .add_Button("Scan Again"	   , "_btAnalyze", () => catNetGui.handleDrop(catNetGui.droppedFile))					  
+					  .add_Button("Scan Again"	   , "_btAnalyze", () => catNetGui.handleDrop(catNetGui.DroppedFile))					  
 					  .add_Button("View loaded report xml" 			, "_btGeneralSettings" ,()=> catNetGui.viewReportXml());
 			
 			catNetGui.summaryView.onDrop((file)=>O2Thread.mtaThread(()=>catNetGui.handleDrop(file)));
@@ -165,7 +188,7 @@ namespace O2.XRules.Database.APIs
 		
 		public static API_CatNet_GUI viewReportXml(this API_CatNet_GUI catNetGui)
 		{
-			catNetGui.codeViewer.set_Text(catNetGui.report.serialize(false),".xml");
+			catNetGui.CodeViewer.set_Text(catNetGui.report.serialize(false),".xml");
 			return catNetGui;
 		}
 			
@@ -195,7 +218,7 @@ namespace O2.XRules.Database.APIs
 				catNetGui.openReport(catNet.scan(assembly).savedReport());				
 			}
 			else
-				catNetGui.codeViewer.open(file);					
+				catNetGui.CodeViewer.open(file);					
 			return catNetGui;	
 		}
 		
@@ -207,34 +230,41 @@ namespace O2.XRules.Database.APIs
 		
 		public static API_CatNet_GUI handleDrop(this API_CatNet_GUI catNetGui, string file)
 		{
-			if (file.inValid())
+			try
 			{
-				"There was no file to scan (drop or open a file first)".error();
-				return catNetGui;				
+				if (file.inValid())
+				{
+					"There was no file to scan (drop or open a file first)".error();
+					return catNetGui;				
+				}
+				catNetGui.lvSummary.pink();					
+				catNetGui.DroppedFile = file;					
+				"File Dropped: {0}".info(file);
+				switch(file.extension())
+				{					
+					case ".dll":
+					case ".exe":
+						catNetGui.scanAssembly(file);
+						break;
+			//		case ".sln":
+			//			catNetGui.scanSolution(file);
+			//			break;
+					case ".cs":
+						catNetGui.scanCSharpFile(file);
+						break;
+					case ".xml":
+						catNetGui.openReport(file);
+						break;
+					default:
+						"dropped file extension not supported: {0}".error(file.extension());
+						break;
+				}
+				catNetGui.lvSummary.white();
 			}
-			catNetGui.lvSummary.pink();					
-			catNetGui.droppedFile = file;					
-			"File Dropped: {0}".info(file);
-			switch(file.extension())
-			{					
-				case ".dll":
-				case ".exe":
-					catNetGui.scanAssembly(file);
-					break;
-		//		case ".sln":
-		//			catNetGui.scanSolution(file);
-		//			break;
-				case ".cs":
-					catNetGui.scanCSharpFile(file);
-					break;
-				case ".xml":
-					catNetGui.openReport(file);
-					break;
-				default:
-					"dropped file extension not supported: {0}".error(file.extension());
-					break;
+			catch(Exception ex)
+			{
+				"[catNetGui] in loadFile: {0}".error(file);
 			}
-			catNetGui.lvSummary.white();
 			return catNetGui;
 		}
 		
@@ -243,12 +273,17 @@ namespace O2.XRules.Database.APIs
 			API_CatNet_Deployment.ensure_CatNet_Instalation();
 			API_CatNet_Deployment.ensure_CatNet_Data();
 
-			var catNetGui = new API_CatNet_GUI(); 
+			return createAndSetup(control);
+		}
+
+        public static API_CatNet_GUI createAndSetup(this Control control)
+        {
+            var catNetGui = new API_CatNet_GUI(); 
 			catNetGui.setup_VsConnect(control.clear());
 			catNetGui.set_GUI();			 
 			catNetGui.set_VsConnect(); 
 			return catNetGui;
-		}
-	}
+        }
+    }
 }
 		

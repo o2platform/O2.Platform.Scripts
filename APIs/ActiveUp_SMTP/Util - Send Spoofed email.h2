@@ -2,8 +2,8 @@
 <H2>
   <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - Send Spoofed email",500, 320); 
 //var topPanel = panel.clear().add_Panel();
-topPanel.insert_LogViewer();
-
+topPanel.insert_LogViewer()
+		.splitContainer().fixedPanel1();
 string fromEmail = "me@thisDomainDoesntExist.com"; 
 string fromName = "me (at no Domain)";
 string toEmail = "myEmail@myDomain.net";
@@ -35,6 +35,7 @@ topPanel.add_Button(160,75,"      Send Spoof Email   ").font_bold()
 //panel.controls&lt;TextBox&gt;(true)[2].set_Text("..."); 
 //sendEmail(true);
 
-//O2File:API_ActiveUp_SendEmail.cs</SourceCode>
+//O2File:API_ActiveUp_SendEmail.cs
+//O2Embed:Devil.ico</SourceCode>
   <ReferencedAssemblies />
 </H2>

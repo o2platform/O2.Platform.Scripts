@@ -25,14 +25,15 @@ namespace O2.XRules.Database.Languages_and_Frameworks.AspNet
 {
 	public class test_ascx_WSDL_Creation_and_Execution
 	{		
-		public void launchGui()
+		public ascx_WSDL_Creation_and_Execution launchGui()
 		{			
+			var wsdlCreation = "ascx_WSDL_Creation_and_Execution".showAsForm<ascx_WSDL_Creation_and_Execution>(1000,700 );											
 			O2Thread.mtaThread(
 				()=>{						
-						var wsdlCreation = "ascx_WSDL_Creation_and_Execution".showAsForm<ascx_WSDL_Creation_and_Execution>(1000,700 )
-												.createMainMenu();						
+						wsdlCreation.createMainMenu();
 						wsdlCreation.TestWebServices.selectFirst();
 					});
+			return wsdlCreation;
 		}
 	}
 
@@ -204,7 +205,7 @@ namespace O2.XRules.Database.Languages_and_Frameworks.AspNet
 		{
 			this.mainMenu()
 				.add_Menu("Script")
-					.add_MenuItem("Script this Form", ()=> this.script_Me());
+					.add_MenuItem("Script this Form", ()=> this.script_Me("wsdlGui"));
 			return this;
 		}
 		public void load_Wsdl_From_Assembly(Assembly wsdlAssembly)

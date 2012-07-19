@@ -6,7 +6,6 @@ using System.Text.RegularExpressions;
 using System.Web.UI;
 using System.Web.Services;
 using System.Data.SqlClient; 
-using O2.DotNetWrappers.ExtensionMethods;
 //O2Ref:System.Web.Services.dll
    
 namespace O2.XRules.Database._Rules._Sample_Vulnerabilities

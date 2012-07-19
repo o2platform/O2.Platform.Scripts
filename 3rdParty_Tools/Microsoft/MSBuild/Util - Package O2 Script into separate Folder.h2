@@ -3,7 +3,7 @@
   <SourceCode>//var topPanel = panel.clear().add_Panel(); 
 var topPanel = "Util - Compile H2, O2 or CS Script into separate Folder".popupWindow(800,300)
 													   .insert_LogViewer();
-  
+    
 var browser = topPanel.add_WebBrowser_Control() 
 					  .add_NavigationBar();
 var dropZone = topPanel.insert_Left(200)
@@ -12,13 +12,13 @@ var dropZone = topPanel.insert_Left(200)
 					  
 var lastScriptFile = "";					  
 var compiledScript = "";	
-Action&lt;string&gt; packageScript = 
-	(scriptFile)=&gt;{		
+Action&lt;string&gt; packageScript =  
+	(scriptFile)=&gt;{		   
 					lastScriptFile = scriptFile;
-					dropZone.green();
-					O2Thread.mtaThread(  
-						()=&gt;{  								
-								//compiledScript = h2Script.compile_Script_in_Separate_Folder();								
+					dropZone.green(); 
+					O2Thread.mtaThread(   
+						()=&gt;{  				 				
+								//compiledScript = h2Script.compile_Sipt_in_Separate_Folder();								
 								compiledScript =  scriptFile.compileScriptFile_into_SeparateFolder();		
 								if (compiledScript.notNull())
 								{									
@@ -35,7 +35,7 @@ Action&lt;string&gt; packageScript =
 										   .copyFileReferencesToEmbeddedFolder(scriptFile);;
 									O2Setup.createEmbeddedFolder_Data(buildFilesDir,projectName);
 									
-									var extraEmbebbedResources = new List&lt;string&gt;();
+									var extraEmbebbedResources = buildFilesDir.mapExtraEmbebbedResources(scriptFile);
 									//
 /*									
 									if (scriptFile.lower().contains("cat.net", "catnet"))
@@ -62,7 +62,8 @@ Action&lt;string&gt; packageScript =
 				};
 dropZone.parent().insert_Below(20).add_Link("Execute", ()=&gt; compiledScript.startProcess())
 								  .append_Link("Open Folder", ()=&gt; compiledScript.directoryName().startProcess())
-								  .append_Link("Clear Cache", ()=&gt; { CompileEngine.CachedCompiledAssemblies.Clear(); "Compilation Cache Cleared".info();});
+								  .append_Link("Edit Target", ()=&gt; lastScriptFile.local().showInCodeEditor());
+//								  .append_Link("Clear Cache", ()=&gt; { CompileEngine.CachedCompiledAssemblies.Clear(); "Compilation Cache Cleared".info();});
 dropZone.onDrop(packageScript);
 dropZone.onClick(()=&gt;packageScript(lastScriptFile));
 
@@ -72,7 +73,7 @@ return packageScript;
 
 //O2File:API_MicrosoftBuild.cs
 
-//O2Tag_DontAddExtraO2Files_
+//O2Tag_DontAddExtraO2Files
 </SourceCode>
   <ReferencedAssemblies />
 </H2>

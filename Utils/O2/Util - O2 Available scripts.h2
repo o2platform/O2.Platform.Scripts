@@ -18,6 +18,8 @@ Func&lt;string&gt; selectedNode = ()=&gt; treeView.selected().get_Tag().str();
 Action&lt;TreeView, TreeNode&gt; mapFoldersAndFiles =
     (targetTreeView, treeNode) =&gt;
     { 
+    	targetTreeView.beginUpdate();
+    	treeView.sort(false);
         targetTreeView.clear(treeNode);
         var folder = treeNode.Tag.ToString();
         foreach (var dir in folder.dirs())
@@ -26,6 +28,7 @@ Action&lt;TreeView, TreeNode&gt; mapFoldersAndFiles =
         foreach (var file in folder.files())
             targetTreeView.add_Node(treeNode, file.fileName(), file, false)
                 .ForeColor = Color.DarkBlue;
+        targetTreeView.endUpdate();        
     };
 
 
@@ -83,14 +86,19 @@ Action showDefaultView =
 var allScripts = new List&lt;string&gt;();
 
 Action&lt;string&gt; applyFilter = 
-	(filter)=&gt;{
+	(filter)=&gt;{				
 					if(filter.valid())
 					{
+						treeView.azure();
+						Application.DoEvents();
+						treeView.beginUpdate();
 						treeView.clear(); 
 						var files = allScripts.where((file)=&gt; file.regEx(filter) || file.lower().contains(filter.lower()) );
 						treeView.add_Nodes(files, (file)=&gt; file.fileName());
-						
+						treeView.sort();
 						treeView.applyPathFor_1NodeMissingNodeBug(); 												
+						treeView.endUpdate();
+						treeView.white();
 					}
 					else
 						showDefaultView(); 

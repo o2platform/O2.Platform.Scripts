@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>"O2Logo.ico".local().icon().set_As_Default_Form_Icon();
+  <SourceCode>O2Setup.extractEmbededConfigZips();
+"O2Logo.ico".local().icon().set_As_Default_Form_Icon();
 var title = "OWASP O2 Platform v4.1 : {0}".format(clr.details());
 var topPanel = title.popupWindow(790,218);
 
@@ -9,19 +10,27 @@ Action&lt;string&gt; executeH2Script =
 	
 //var topPanel = panel.fill(false).width(800).height(190).clear().add_Panel();  
 
-topPanel.parent().backColor(Color.White);   
-topPanel.insert_LogViewer().white(); 
+topPanel.parent().backColor(Color.White); 
+
+var logViewerPanel  = topPanel.insert_Below(150);
+
 topPanel.splitContainer().distance(80).fixedPanel1();
+
+topPanel.visible(false);
 topPanel.add_PictureBox().open("OWASP_O2_Platform.png".local()).fill(false).width(341).height(41).top(10)
 		.onDoubleClick(()=&gt; executeH2Script("Util - O2 Available scripts.h2"))
 		.onDrop((file)=&gt; executeH2Script(file));
+	
 var menuPanel = topPanel.insert_Right&lt;Panel&gt;(440);  
-var scriptMappings = new Items(); 
 
+var menu = topPanel.parentForm().add_Menu().white();
+topPanel.visible(true);	
+
+var scriptMappings = new Items(); 
 var o2Script = (Environment.Version.Major == 4) 
 					? "Util - C# REPL Script [4.0].cs.o2"
 					: "ascx_Quick_Development_GUI.cs.o2";
-  
+
 var scripting_Mappings = new Items().add("O2 REPL C# Script",o2Script) 
 									.add("O2 Dev Environment", "Util - O2 Development Environment.h2")
 									.add("Browser REPL","Util - Browser REPL.h2") 
@@ -34,7 +43,8 @@ var scripting_Mappings = new Items().add("O2 REPL C# Script",o2Script)
 							  		.add("SourceCode Editor", "Util - SourceCodeEditor.h2")
 							  		;							  		
 							  		
-var o2tools_Mappings = 	 new Items().add("Screenshot tool", "Util - Show ScreenShot Tool.h2")
+var o2tools_Mappings = 	 new Items().add("Package O2 Script", "Util - Package O2 Script into separate Folder.h2")
+									.add("Screenshot tool", "Util - Show ScreenShot Tool.h2")
 							 		.add("Search Engine", "Search Engine Tool.h2")
 									.add("Quick File Search", "Util - Quick File Search.h2")
 									.add("Execute Unit Tests", "Execute Unit Tests.h2")
@@ -76,8 +86,8 @@ var help_Mappings = 	 new Items().add("O2 Documentation", "http://o2platform.com
 								  	.add("O2 Mailing list", "https://lists.owasp.org/mailman/listinfo/owasp-o2-platform")
 								  	.add("O2 Blog (tons of script samples", "http://o2platform.wordpress.com")
 								  	.add("O2 Website (at OWASP)", "http://owasp.org/index.php/O2");			  
-	
-var menu = topPanel.parentForm().add_Menu().white();
+ 	
+
 menu.add_MenuItem("Main")
 	//.add_MenuItem("Find an O2 Script", ()=&gt; executeH2Script("Util - O2 Available scripts.h2"))
 	.add_MenuItem("Stop current process", ()=&gt; Processes.getCurrentProcess().stop());
@@ -116,10 +126,14 @@ menuPanel.add_ExecutionComboBox("Need Help?",57,200, help_Mappings).leftAdd(20).
 		 .append_Link("Open Help",()=&gt; "".startProcess()) 
 		 .append_Link("Mailing List",()=&gt; "".startProcess());
 */		 
-		 
+logViewerPanel.add_LogViewer().white(); 
+ 
 return "done";		
 
 //using O2.Views.ASCX.Forms
-//O2Tag_DontAddExtraO2Files</SourceCode>
+//O2Tag_DontAddExtraO2Files
+//O2Package:OWASP_O2_Platform.png,O2Logo.ico
+//O2Package:Util - C# REPL Script [4.0].cs.o2, Util - O2 Development Environment.h2, Util - O2 Available scripts.h2
+//O2Package:Util - Browser REPL.h2</SourceCode>
   <ReferencedAssemblies />
 </H2>

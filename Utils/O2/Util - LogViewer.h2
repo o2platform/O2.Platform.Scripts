@@ -1,8 +1,14 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>O2Gui.open&lt;Panel&gt;("Util - LogViewer", 400,140).add_LogViewer();
+  <SourceCode>
+var logViewer = "Util - LogViewer".popupWindow(400,140).add_LogViewer()
+													   .set_Icon("blogs-stack.ico");
+ 
 "Welcome to O2's LogViewer poc".info();
+ 
 
-//O2Tag_DontAddExtraO2Files</SourceCode>
+//O2Tag_DontAddExtraO2Files
+//O2Embed:blogs-stack.ico
+</SourceCode>
   <ReferencedAssemblies />
 </H2>

@@ -1,12 +1,18 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>//force dependncy on MS_SDK_wsdl.exe
+  <SourceCode>O2Setup.extractEmbededConfigZips();
+//force dependncy on MS_SDK_wsdl.exe
 var a = new Microsoft.DevApps.WebServices.CheckingRule();
  
-new test_ascx_WSDL_Creation_and_Execution().launchGui(); 
+var wsdlGui = new test_ascx_WSDL_Creation_and_Execution()
+					.launchGui()
+					.set_Icon("execute.ico"); 
 
 //O2File:ascx_WSDL_Creation_and_Execution.cs.o2
+//O2File:DotNet_SDK_WSDL.cs
 //using O2.XRules.Database.Languages_and_Frameworks.AspNet
-//O2Ref:MS_SDK_wsdl.exe</SourceCode>
+//O2Ref:MS_SDK_wsdl.exe
+//O2Embed:execute.ico
+//O2Embed:MS_SDK_wsdl.exe</SourceCode>
   <ReferencedAssemblies />
 </H2>
