@@ -31,14 +31,14 @@ using Rules = Microsoft.ACESec.CATNet.Core.Rules;
 //O2Ref:EnvDTE.dll
 //O2Ref:Extensibility.dll
 
-//_O2File:_Extra_methods_Roslyn_API.cs
+//O2File:_Extra_methods_Roslyn_API.cs
 
 //O2Ref:EnvDTE.dll
 //O2Ref:Extensibility.dll
-// O2Ref:O2_FluentSharp_Roslyn.dll
-// O2Ref:Roslyn.Compilers.dll
-// O2Ref:Roslyn.Compilers.CSharp.dll
-// O2Ref:Roslyn.Services.dll
+//O2Ref:O2_FluentSharp_Roslyn.dll
+//O2Ref:Roslyn.Compilers.dll
+//O2Ref:Roslyn.Compilers.CSharp.dll
+//O2Ref:Roslyn.Services.dll
 
 
 namespace O2.XRules.Database.APIs
@@ -52,6 +52,8 @@ namespace O2.XRules.Database.APIs
 		public DetailView detailView			{ get; set; }
 		public ListView lvDataFlow				{ get; set; }
 		public ToolStrip _tsActions				{ get; set; }
+		
+		public TextBox  CompileResults			{ get; set; }
 				
 		public Report report					{ get; set; }
 		
@@ -59,10 +61,13 @@ namespace O2.XRules.Database.APIs
 		public string 				 	DroppedFile					{ get; set; }
 		//public bool  					IgnoreCodeViewOpenRequests 	{ get; set; }
 		public bool  					TriggerOnSelectedEvent 		{ get; set; }
+		public bool 					EngineBusy					{ get; set; }
+		public string 					SolutionLoaded				{ get; set; }
+	
 		
 		public Action<string,int> 		onSelectedCodeReference;
 		public Action<string>	 		onSelectedReportItem;
-		
+		public Action	 				onScanCompleted;
 		
 		public RulesSettings rulesSettings;
 
@@ -114,7 +119,8 @@ namespace O2.XRules.Database.APIs
 			catNetGui._tsActions.clearItems() 
 					  .add_Label("..... loading engine.....");
 			
-			catNetGui.lvSummary.remove_Event_SelectedIndexChanged(); //remove this event since it will use a method with DTE dependencies
+			catNetGui.lvSummary.remove_Event_SelectedIndexChanged(); // remove this event since it will use a method with DTE dependencies			
+			catNetGui.lvSummary.add_ContextMenu();					// also remove (for now) the context menu
 			catNetGui.lvDataFlow.showSelection();
 			
 			catNetGui.lvDataFlow.afterSelected<DataTransformation>(
@@ -194,23 +200,29 @@ namespace O2.XRules.Database.APIs
 			
 		public static API_CatNet_GUI scanAssembly(this API_CatNet_GUI catNetGui, string file)			  
 		{ 
+			catNetGui.SolutionLoaded = "";
+			catNetGui.TriggerOnSelectedEvent = false;
 			var catNet = new API_CatNet().loadRules();
 			var savedReport = catNet.scan(file).savedReport();
 			catNetGui.openReport(savedReport);
 			return catNetGui;
 		}
 		
-/*		public static API_CatNet_GUI scanSolution(this API_CatNet_GUI catNetGui, string solutionFile)				
+		public static API_CatNet_GUI scanSolution(this API_CatNet_GUI catNetGui, string solutionFile)				
 		{
+			catNetGui.TriggerOnSelectedEvent = true;
+			catNetGui.SolutionLoaded = solutionFile;
 			var catNet = new API_CatNet().loadRules();
 			var assemblies = solutionFile.compileSolution();
-			var savedReport = catNet.scan(assemblies).savedReport();
+			var savedReport = catNet.scan(assemblies).savedReport();			
 			catNetGui.openReport(savedReport);		
 			return catNetGui;
-		}*/
+		}
 		
 		public static API_CatNet_GUI scanCSharpFile(this API_CatNet_GUI catNetGui, string file)	
 		{
+			catNetGui.SolutionLoaded = "";
+			catNetGui.TriggerOnSelectedEvent = false;
 			var catNet = new API_CatNet().loadRules(); 
 			var assembly = new CompileEngine().compileSourceFile(file);
 			if (assembly.notNull())			
@@ -222,9 +234,56 @@ namespace O2.XRules.Database.APIs
 			return catNetGui;	
 		}
 		
-		
+		public static API_CatNet_GUI scanScript(this API_CatNet_GUI catNetGui, string codeSnippet)
+		{
+			catNetGui.SolutionLoaded = "";
+			catNetGui.TriggerOnSelectedEvent = false;
+			//Action<string> compileAndScan = 
+			//(text)=>{	
+			if (codeSnippet.notValid() || catNetGui.EngineBusy)
+				return catNetGui;
+			
+			catNetGui.EngineBusy = true;	
+			"compiling and scanning".info();
+			var ast = codeSnippet.contains("namespace ") ? codeSnippet.tree()
+													     : codeSnippet.ast_Script();			
+			var compilation = ast.compiler("test_Assembly_".add_RandomLetters())
+							     .add_Reference("mscorlib")
+							     .add_Reference("System")
+							     .add_Reference("System.Web")
+							     .add_Reference("System.Web.Services")
+							     .add_Reference("System.Data");
+			var errorDetails = compilation.errors_Details();
+			if (errorDetails.valid())
+			{
+				catNetGui.CompileResults.pink();
+				catNetGui.lvSummary.pink();
+				catNetGui.CompileResults.set_Text(errorDetails);
+				catNetGui.EngineBusy = false;
+			}
+			else 
+			{
+				catNetGui.CompileResults.set_Text("");
+				catNetGui.CompileResults.azure();
+				catNetGui.lvSummary.white();
+				".dll".tempFile().info();
+								
+				var assembly = compilation.create_Assembly(".dll".tempFile());
+				//"assembly: {0}".info(assembly.Location);
+				catNetGui.handleDrop(assembly.location());
+				
+				catNetGui.EngineBusy = false;			
+				//catNetGui.script_Me();
+				if (catNetGui.lvSummary.items().size() > 0)
+				{
+					catNetGui.lvSummary.select(1);
+				}				
+			}
+			return catNetGui;
+		}
+	
 		public static API_CatNet_GUI loadFile(this API_CatNet_GUI catNetGui, string file)
-		{			
+		{						
 			return catNetGui.handleDrop(file);
 		}
 		
@@ -234,36 +293,42 @@ namespace O2.XRules.Database.APIs
 			{
 				if (file.inValid())
 				{
-					"There was no file to scan (drop or open a file first)".error();
+			//		"There was no file to scan (drop or open a file first)".error();
 					return catNetGui;				
 				}
 				catNetGui.lvSummary.pink();					
 				catNetGui.DroppedFile = file;					
-				"File Dropped: {0}".info(file);
-				switch(file.extension())
-				{					
-					case ".dll":
-					case ".exe":
-						catNetGui.scanAssembly(file);
-						break;
-			//		case ".sln":
-			//			catNetGui.scanSolution(file);
-			//			break;
-					case ".cs":
-						catNetGui.scanCSharpFile(file);
-						break;
-					case ".xml":
-						catNetGui.openReport(file);
-						break;
-					default:
-						"dropped file extension not supported: {0}".error(file.extension());
-						break;
+				if (file.isFile().isFalse())
+					catNetGui.scanScript(file);
+				else
+				{
+					"File Dropped: {0}".info(file);				
+					switch(file.extension())
+					{					
+						case ".dll":
+						case ".exe":
+							catNetGui.scanAssembly(file);
+							break;
+						case ".sln":
+							catNetGui.scanSolution(file);
+							break;
+						case ".cs":
+							catNetGui.scanCSharpFile(file);
+							break;
+						case ".xml":
+							catNetGui.openReport(file);
+							break;
+						default:
+							"Provided file extension not supported: {0}".error(file.extension());
+							return catNetGui;										
+					}
 				}
 				catNetGui.lvSummary.white();
+				catNetGui.onScanCompleted.invoke();
 			}
 			catch(Exception ex)
 			{
-				"[catNetGui] in loadFile: {0}".error(file);
+				ex.log("[catNetGui] in loadFile: {0}".format(file));
 			}
 			return catNetGui;
 		}

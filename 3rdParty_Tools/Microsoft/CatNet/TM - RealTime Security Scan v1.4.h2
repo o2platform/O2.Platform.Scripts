@@ -2,7 +2,7 @@
 <H2>
   <SourceCode>//return "EnvDTE.dll".assembly();
 //var topPanel = panel.clear().add_Panel();
-var topPanel = "TM - RealTime Security Scan v1.3.1".popupWindow(1200,700).insert_LogViewer();
+var topPanel = "TM - RealTime Security Scan v1.4.0".popupWindow(1200,700).insert_LogViewer();
 
 try
 {
@@ -28,7 +28,9 @@ try
 //O2Package:HeaderImage.jpg
 //O2Package:SAST_DotNet_BlindSpot_Interface.cs
 //O2Package:SAST_DotNet_Template.cs
-//O2Package:Web_SQL_Injection.cs
+//O2Package:Web_SQL_Injection.cs 
+//O2Package:SAST DotNet Script - XSS.cs
+//O2Package:SAST DotNet Script - Misc Vulns.cs
 //O2Package:DotNetGoat.dll
 //O2Package:cheshire_cat.ico
 //O2Embed:E:\TeamMentor\TM_UnitTests\StandAlone_Exes_Packages\CatNet_Files.zip
@@ -43,12 +45,13 @@ try
 	CatNet_Rules_Mappings catNetMappings = null;
 	topPanel.visible(false);
 	var catNetGui = topPanel.add_CatNet();  
+		
 	var browser = catNetGui.CodeViewer.parent().add_WebBrowser();
 	var codeViewer = catNetGui.CodeViewer;
 	
-	topPanel.insert_Left().add_Control(codeViewer);
-	
-	var ignoreSelectedCodeRefereces = false;
+	topPanel.insert_Left().add_Control(codeViewer);	
+	var resultText = codeViewer.insert_Below(100, "Compilation results").add_TextArea();
+	catNetGui.CompileResults = resultText;
 	
 	Action loadRulesMappings = 
 		()=&gt;{
@@ -68,7 +71,7 @@ try
 					if(originalValue.starts("about:"))
 					{
 						var newValue = "http://teammentor.net/article/{0}".format(originalValue.remove("about:"));
-						"Remaped browser Link '{0}' to '{1}'".info(originalValue, newValue);
+						//"Remaped browser Link '{0}' to '{1}'".info(originalValue, newValue);
 						link.attribute("href",newValue);
 					}
 					//.first()
@@ -92,15 +95,24 @@ try
 												browser.waitForCompleted();												
 												remapBrowserLinks();
 											}
-										}
-									}
+										} 
+									}  
 									else
 										browser.showMessage(vulnType); 
 								});
 	
 					};
+					
+	Action&lt;string&gt; scanCodeSnippet = 
+		(text)=&gt;{		 
+					if (catNetGui.SolutionLoaded.notValid())
+						O2Thread.mtaThread(()=&gt;catNetGui.handleDrop(text));
+					else
+						"Solution is loaded so auto compile is disabled, click on Scan Again to rescan (after save)".info();
+				};  
+					  
 	catNetGui.onSelectedCodeReference = 
-		(path, line)=&gt;	{						
+		(path, line)=&gt;	{						 
 							"onSelectedCodeReference: {0}: {1}".info(path, line);
 							if (path.valid())
 								codeViewer.open(path); 
@@ -122,69 +134,32 @@ try
 							codeViewer.setSelectedText(line,0,true); 
 						}
 					};
+
+
+	catNetGui.onScanCompleted = 
+	()=&gt;{	
+			codeViewer.focus();			
+			//else
+			//		browser.showMessage("No Vulns :)");
+		};
+	
+	
+	
 	topPanel.visible(true); 
 	
 	
-	//catNetGui.openReport("CatNet_HacmeBank.xml".local());
-	var resultText = codeViewer.insert_Below(100, "Compilation results").add_TextArea();
 	
 	var targetAssembly = codeViewer.compileCSSharpFile().location();
 	var engineBusy = false;
-	Action&lt;string&gt; compileAndScan = 
-		(text)=&gt;{	
-					if (text.notValid())
-						return;
-					if (engineBusy)
-						return;
-					engineBusy = true;	
-					"compiling and scanning".info();
-					var compilation = text.tree()
-					   					  .compiler("test_Assembly_".add_RandomLetters())
-					   					  .add_Reference("mscorlib")
-					   					  .add_Reference("System")
-					   					  .add_Reference("System.Web")
-					   					  .add_Reference("System.Web.Services")
-					   					  .add_Reference("System.Data");
-					var errorDetails = compilation.errors_Details();
-					if (errorDetails.valid())
-					{
-						resultText.pink();
-						resultText.set_Text(errorDetails);
-						engineBusy = false;
-					}
-					else 
-					{
-						resultText.set_Text("");
-						resultText.azure();					
-						".dll".tempFile().info();
-						O2Thread.mtaThread(
-							()=&gt;{
-									ignoreSelectedCodeRefereces = true;
-									var assembly = compilation.create_Assembly(".dll".tempFile());
-									//"assembly: {0}".info(assembly.Location);
-									catNetGui.handleDrop(assembly.location());
-									codeViewer.focus();								
-									ignoreSelectedCodeRefereces = false;
-									engineBusy = false;			
-									//catNetGui.script_Me();
-									if (catNetGui.lvSummary.items().size() &gt; 0)
-									{
-										catNetGui.lvSummary.select(1);
-									}
-									else
-										browser.showMessage("No Vulns :)");
-									//catNetGui.onSelectedReportItem("vuln type");
-								});
-					}
-					
-				};
+	
 	  
-	codeViewer.onTextChange(compileAndScan);
+	codeViewer.onTextChange(scanCodeSnippet);
 	
 	 
 	
 	Action&lt;string&gt; newFromTemplate = 
-		(file)=&gt;{
+		(file)=&gt;{	
+					catNetGui.SolutionLoaded = "";
 					var csharpFileToScan = file.local().fileContents().saveAs(file.fileName().inTempDir()); 
 					codeViewer.open(csharpFileToScan);
 				};
@@ -194,6 +169,8 @@ try
 				.add_MenuItem("Open Assembly or C# file"	, ()=&gt; catNetGui.loadFile(topPanel.askUserForFileToOpen()))
 				
 			.add_Menu("Sample Files") 
+				.add_MenuItem("C# Snippet with some Vulnerabilities"		, ()=&gt; newFromTemplate("SAST DotNet Script - Misc Vulns.cs"))
+				.add_MenuItem("C# Snippet with only XSS"					, ()=&gt; newFromTemplate("SAST DotNet Script - XSS.cs"))
 				.add_MenuItem("C# with some Vulnerabilities"				, ()=&gt; newFromTemplate("Web_SQL_Injection.cs"))
 				.add_MenuItem("C# with an SAST BlindSpot"					, ()=&gt; newFromTemplate("SAST_DotNet_BlindSpot_Interface.cs"))
 				.add_MenuItem("C# with no vulnerabilites"					, ()=&gt; newFromTemplate("SAST_DotNet_Template.cs"))
@@ -209,24 +186,28 @@ try
 				.add_MenuItem("Set Rules for: TM OWASP"  					, ()=&gt; { rulesMappingFile = rules_TM_OWASP ; loadRulesMappings();} )						
 				.add_MenuItem("Open Cat.NET Folder (with Rules and Config)" , ()=&gt; PublicDI.config.O2TempDir.pathCombine(@"..\_ToolsOrAPIs\CatNet_1.1\SourceDir").startProcess())
 			.add_Menu("REPL")
-				.add_MenuItem("Open REPL for CatNet GUI",()=&gt; { catNetGui.script_Me("catNetGui").Code+= "\n//O2Ref:Microsoft.ACESec.CATNet.Core\n//O2Ref:Microsoft.ACESec.CATNet.UI.VSAddIn.dll\n";})
+				.add_MenuItem("Open REPL for CatNet GUI",()=&gt; { catNetGui.script_Me("catNetGui").Code+= "\n//O2Ref:Microsoft.ACESec.CATNet.Core\n//O2Ref:Microsoft.ACESec.CATNet.UI.VSAddIn.dll\n//O2Ref:Roslyn.Compilers.dll\n//O2Ref:Roslyn.Compilers.CSharp.dll\n";})
 				.add_MenuItem("Open REPL for Form"		,	()=&gt; topPanel.parentForm().script_Me("form"))			
 				.add_MenuItem("Open REPL for Browser"	,()=&gt; browser.script_Me("ie"))	
-			;
+			; 
+	 
+	 
+	//newFromTemplate("Web_SQL_Injection.cs");
+	newFromTemplate("SAST DotNet Script - Misc Vulns.cs");
 	
-	newFromTemplate("Web_SQL_Injection.cs");
+		
+	loadRulesMappings();			
+	//catNetGui.handleDrop(@"E:\_Tests\Demos_Files\SuperSecureBank\SecurityInnovation-SuperSecureBank-938fde3\SuperSecureBank.sln");
 	
-	
-	loadRulesMappings();
 }
 catch(Exception ex)
 {
-	ex.log();
+	ex.log(); 
 }
-//catNetGui.IgnoreCodeViewOpenRequests = true;
+
 //catNetGui.scanCSharpFile(csharpFileToScan);
 //catNetGui.IgnoreCodeViewOpenRequests = false;
-//codeViewer.script_Me();
+//codeViewer.script_Me();  
 return "ok";
 
 //O2File:API_CatNet_GUI.cs
