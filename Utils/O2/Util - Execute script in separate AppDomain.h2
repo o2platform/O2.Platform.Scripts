@@ -1,63 +1,43 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>var panel = O2Gui.open&lt;Panel&gt;("Execute script in separate AppDomain",700,400);
-var script = panel.add_Script(false);
+  <SourceCode>var panel = O2Gui.open&lt;Panel&gt;("Execute script in separate AppDomain",700,400).insert_LogViewer();;
+var script = panel.add_Script(false);  
 var leftPanel = script.insert_Above&lt;Panel&gt;(50);  
 var executeButton = leftPanel.add_Button("Execute Script in New AppDomain", 0,0,45,150); 
 
 var appDomainName_TextBox = leftPanel.add_Label("New AppDomain name:", 0,170).top(5) 
-						     .append_TextBox("");
+						      .append_TextBox("").width(200);
 
 var checkBox1 = leftPanel.add_CheckBox("Open Main 'O2 XRules Database' Gui", 30,170,(value)=&gt;{}) 
 						 .autoSize().visible(false);
-
+var openLogViewer = false;
+var openScriptEditor = false;
+leftPanel.add_CheckBox("Open Log Viewer", 30,170,(value)=&gt; openLogViewer = value).autoSize().tick()
+		 .append_CheckBox("Open Script Editor", (value)=&gt; openScriptEditor = value);
 Action&lt;string,string,bool&gt; executeInAppDomain =
 	(appDomainName, scriptToExecute, openMainO2Gui)
 		=&gt; {
-				O2Thread.mtaThread(
-					()=&gt;{
-							/*var tempDir = "_appDomain".tempDir();
-							"tempdir: {0}".info(tempDir);
-							
-							Action&lt;string, string&gt; copyFileToAppDomain = 
-							(file, target)=&gt;{
-												var fullPath = Environment.CurrentDirectory.pathCombine(file);												
-												if (fullPath.fileExists())
-													Files.Copy(fullPath,target);		
-												else
-													"file not found: {0}".error(fullPath);
-											}; 
-																		
-							
-											
-							var o2AppDomain =  new O2.Kernel.Objects.O2AppDomainFactory(appDomainName,tempDir);
-							*/
+				scriptToExecute.executeScriptInSeparateAppDomain(openLogViewer, openScriptEditor);
+				/*
+				O2Thread.mtaThread( 
+					()=&gt;{					 		
 							var o2AppDomain =  new O2.Kernel.Objects.O2AppDomainFactory(appDomainName);
 							try
 							{
+								"before appDomain creation".info();
 								o2AppDomain.load("O2_FluentSharp_CoreLib"); 									
 							
 								var o2Proxy =  (O2Proxy)o2AppDomain.getProxyObject("O2Proxy");
-								 
+								"o2Proxy:{0}".info(o2Proxy); 
 								o2Proxy.InvokeInStaThread = true;
-								o2Proxy.staticInvocation("O2_External_SharpDevelop","FastCompiler_ExtensionMethods","executeSourceCode",new object[]{ scriptToExecute });
-								//if (openMainO2Gui)
-								//	o2Proxy.staticInvocation("O2_XRules_Database","Program","Main",new object[] {});	
-								//var h2Script = @"C:\O2\_XRules_Local\H2Scripts\showConfig.h2";
-							//	C:\O2\_XRules_Local\H2Scripts
-								
-								 
-								//o2Proxy.staticInvocation("O2_External_SharpDevelop","FastCompiler_ExtensionMethods","executeH2Script",new object[]{h2Script});
+								o2Proxy.staticInvocation("O2_FluentSharp_REPL","FastCompiler_ExtensionMethods","executeSourceCode",new object[]{ scriptToExecute });								
 							}
 							catch(Exception ex)
 							{
 								ex.log("inside new AppDomain"); 
 							}
-							
-							DebugMsg.showMessageBox("Click OK to close the '{0}' AppDomain (and close all open windows)".format(appDomainName));
-							//System.Threading.Thread.Sleep(5000); 
 							o2AppDomain.unLoadAppDomain();
-						});
+						});*/
 		  };
 
 executeButton.onClick(
@@ -68,17 +48,20 @@ executeButton.onClick(
 			executeInAppDomain(name, scriptToExecute, checkBox1.value());  
 		});
 //default values
-
-script.set_Command("DebugMsg.showMessageBox(\"Hello from app domain: \" + AppDomain.CurrentDomain.FriendlyName);"); 
+var defaultCode = 
+@"""I'm inside another AppDomain"".info();
+var name = AppDomain.CurrentDomain.FriendlyName;
+""Hello from app domain: {0}"".format(name).alert();";
+script.set_Command(defaultCode); 
 //script.set_Command("show.info(AppDomain.CurrentDomain);"); 
-appDomainName_TextBox.set_Text("Temp_AppDomain");
+appDomainName_TextBox.set_Text("AppDomain_".add_RandomLetters(5));
 
 
 return "ok";
 
-//using O2.Views.ASCX.classes.MainGUI
-//using O2.Kernel.Objects
-//return appDomain;
+//_using O2.Views.ASCX.classes.MainGUI
+//_using O2.Kernel.Objects
+//O2File:_Extra_methods_AppDomain.cs
 </SourceCode>
   <ReferencedAssemblies />
 </H2>

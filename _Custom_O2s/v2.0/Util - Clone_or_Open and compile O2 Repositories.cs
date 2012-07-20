@@ -7,19 +7,20 @@ using O2.DotNetWrappers.ExtensionMethods;
 using O2.Views.ASCX.classes.MainGUI;
 using O2.XRules.Database.APIs; 
 //O2File:API_MSBuild.cs
-//O2File:API_NGit.cs
-//O2File:API_NGit_O2Platform.cs
+//O2Ref:O2_FluentSharp_NGit.dll
 //O2Tag_DontAddExtraO2Files
 
-namespace O2.XRules.Database.Utils
-{
-	public class Util_Sync_and_Compile_O2_Repositories_Test
+public class DynamicType
 	{
-		public void launch()
+		public void dynamicMethod()
 		{
-			Util_Sync_and_Compile_O2_Repositories.Main();
+			O2.XRules.Database.Utils.Util_Sync_and_Compile_O2_Repositories.Main();
 		}
 	}
+	
+namespace O2.XRules.Database.Utils
+{
+	
     public class Util_Sync_and_Compile_O2_Repositories
     { 
     	public static Action gitSync;
