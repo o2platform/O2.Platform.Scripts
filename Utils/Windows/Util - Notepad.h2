@@ -39,6 +39,8 @@ textArea.onDrop(openFile);
 //var png = "http://upload.wikimedia.org/wikipedia/commons/e/ef/Gartoon-Gedit-icon.png".uri().download(false);
 topPanel.parentForm().set_Icon("notepad.ico".local().icon()); 
 
-return textArea;</SourceCode>
+return textArea;
+
+//O2Embed:notepad.ico</SourceCode>
   <ReferencedAssemblies />
 </H2>

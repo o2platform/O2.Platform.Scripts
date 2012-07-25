@@ -34,6 +34,6 @@ textArea.mainMenu().add_Menu("Extra Features")
 		.add("Insert Browser Viewer", insertBrowserViewer)
 		.add("Insert REPL Script environment", ()=&gt; textArea.insert_Below_Script_Me(textArea));
 		
-topPanel.parentForm().set_Icon("notepad.ico".local().icon());</SourceCode>
+//O2Embed:notepad.ico</SourceCode>
   <ReferencedAssemblies />
 </H2>
