@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var progressBar = "Util - Download/Update O2 Scripts".popupWindow(400,50).add_ProgressBar();
+var statusBar = progressBar.parentForm().add_StatusStrip();
+progressBar.maximum(3);
+Action&lt;string&gt; _statusMessage = 
+	(text)=&gt;{
+				statusBar.set_Text(text);
+				progressBar.increment(1);
+				this.sleep(500);
+			};
+
+O2Scripts.downloadO2Scripts(_statusMessage);
+return "done";
+//using O2.FluentSharp.REPL</SourceCode>
+  <ReferencedAssemblies />
+</H2>

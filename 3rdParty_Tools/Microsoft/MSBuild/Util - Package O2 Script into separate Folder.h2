@@ -3,7 +3,7 @@
   <SourceCode>//var topPanel = panel.clear().add_Panel(); 
 var topPanel = "Util - Compile H2, O2 or CS Script into separate Folder".popupWindow(800,300)
 													   .insert_LogViewer();
-    
+     
 var browser = topPanel.add_WebBrowser_Control() 
 					  .add_NavigationBar();
 var dropZone = topPanel.insert_Left(200)
@@ -20,14 +20,15 @@ Action&lt;string&gt; packageScript =
 						()=&gt;{  				 				
 								//compiledScript = h2Script.compile_Sipt_in_Separate_Folder();								
 								compiledScript =  scriptFile.compileScriptFile_into_SeparateFolder();		
+								var projectFile = "";
 								if (compiledScript.notNull())
 								{									
 									var pathToAssemblies = compiledScript.directoryName();
-									var buildFilesDir = pathToAssemblies.pathCombine("_BuildFiles").createDir();
-									
+									var buildFilesDir = pathToAssemblies.pathCombine("_BuildFiles").createDir();									
 									
 									//create wrapping exe using MicrosoftBuild
 									var projectName = scriptFile.fileName_WithoutExtension();
+									projectFile = buildFilesDir.pathCombine(projectName + ".csproj");
 									var sourceFile = "Program_UseWith_O2_CreatedExes.cs".local();										
 									
 									//add special folders
@@ -55,11 +56,14 @@ Action&lt;string&gt; packageScript =
 										browser.open(pathToAssemblies);
 										dropZone.azure();
 										return;
-									}														
+									}										 	 			
 								}
-								dropZone.pink();								
-							});
-				};
+								var logFile = projectFile + ".log";
+								"LogFile: {0}".error(logFile); 
+								browser.set_Text(logFile.fileContents().replace("".line(), "&lt;br&gt;"));
+								dropZone.pink();								 
+							});  
+				};  
 dropZone.parent().insert_Below(20).add_Link("Execute", ()=&gt; compiledScript.startProcess())
 								  .append_Link("Open Folder", ()=&gt; compiledScript.directoryName().startProcess())
 								  .append_Link("Edit Target", ()=&gt; lastScriptFile.local().showInCodeEditor());

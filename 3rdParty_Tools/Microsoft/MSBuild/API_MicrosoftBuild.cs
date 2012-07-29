@@ -33,8 +33,20 @@ namespace O2.XRules.Database.APIs
 		public static string createProjectFile(this string projectName, string sourceFile, string pathToAssemblies, string targetDir, List<string> extraEmbebbedResources)
 		{
 			sourceFile.file_Copy(targetDir);
-			
 			var assemblyFiles = pathToAssemblies.files(false,"*.dll","*.exe");
+			
+			//NOT WORKING: hack to not include dlls that are already embedded inside the O2_FluentSharp_REPL
+		/*	if (assemblyFiles.fileNames().contains("O2_FluentSharp_REPL.dll"))
+				foreach(var file in assemblyFiles.toList())
+					if(file.fileName().info() == "O2_FluentSharp_CoreLib.dll" || 
+					   file.fileName().info() == "O2_FluentSharp_BCL.dll" ||
+					   file.fileName().info() == "O2_External_SharpDevelop.dll")
+					{					
+						assemblyFiles.remove(file);
+						"REMOVING {0}".error(file);
+					}*/
+					
+			
 			var gzAssemblyFiles = new List<string>();
 			
 			foreach(var assemblyFile in assemblyFiles)
@@ -73,13 +85,15 @@ namespace O2.XRules.Database.APIs
 			references.AddItem("Reference", "System.Core");
 			references.AddItem("Reference", "System.Windows.Forms");
 						
+				
 			foreach(var assemblyFile in assemblyFiles)
 			{
                 var assembly =  assemblyFile.fileName().assembly(); // first load from local AppDomain (so that we don't lock the dll in the target folder)
                 if (assembly.isNull())
                     assembly  =  assemblyFile.assembly();
-				//hack to only load the assemblies that are not strongly named (dealt with a  problem with loading/embedding Microsoft.cli.dll
-                if (assembly.str().contains("PublicKeyToken=null"))
+				//only load the O2 assemblies 
+				"assembly.str(): {0}".error(assembly.str());
+                if (assembly.str().lower().contains("o2"))
 				{
 					var item = references.AddItem("Reference",assemblyFile.fileName_WithoutExtension());
 					item.AddMetadata("HintPath",assemblyFile.fileName()); 

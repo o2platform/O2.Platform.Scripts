@@ -1,0 +1,259 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//panel.clear(); 
+var currentVersion = "v1.2 Beta";  
+var defaultWebsiteOnMainTab = "http://o2-platform.com/wiki/OWASP O2 Platform {0}".format(currentVersion);
+var formTitle = "OWASP O2 Platform {0} ({1})".format(currentVersion,"O2_XRules_Database.exe".assembly().version());
+var wpfGui = O2Gui.open&lt;WPF_GUI&gt;(formTitle,1020,700); 
+wpfGui.setExecuteScriptsEnvironment();
+wpfGui.parentForm()
+	  .top(10)
+	  .left(10);
+//var wpfGui = panel.add_Control&lt;WPF_GUI&gt;();    
+wpfGui.SideBarWidth = 190;       
+wpfGui.buildGui();
+
+Func&lt;Control&gt; buildMainControl =
+ 	()=&gt;{
+ 			var sidePanel = new Panel().fill().backColor(Color.White);
+   			sidePanel.height(700);
+   			sidePanel.width(300);
+   			var pictureBox = sidePanel.add_PictureBox()
+		   							  .show("O2_Logo.gif".local())
+		   							  .fill(false)
+		   							  .anchor()
+		   							  .anchor_Top()
+		   							  .width(260)
+		   							  .height(180)
+		   							  .leftAdd(30);
+		   	wpfGui.ExecuteScripts.invoke("setupPictureBoxContextMenu",pictureBox);
+		   	wpfGui.ExecuteScripts.statusLabel = wpfGui.StatusLabel;
+		   	var browser = sidePanel.add_WebBrowser()			   	         
+					   	         .left(0).top(160).fill(false)
+					   	         //.width(sidePanel.width()-2)						   	         
+					   	         .align_Right(sidePanel)
+					   	         .align_Bottom(sidePanel)
+					   	         .heightAdd(-22)
+					   	         .widthAdd(-2)
+					   	         .bringToFront();
+							
+			O2Thread.mtaThread(
+				()=&gt;{
+						browser.silent(true);
+						browser.set_Text("");	// (to show the scroolbars)
+						if (defaultWebsiteOnMainTab.uri().exists())
+    					{
+		   					browser.open(defaultWebsiteOnMainTab);
+		   				}
+		   				else
+		   					wpfGui.showOffineMessage(browser,"Could not show page: {0}".format(defaultWebsiteOnMainTab));
+		   				Application.DoEvents();
+		   			});
+			return sidePanel;
+		};
+  
+wpfGui.add_Section("Main", "Welcome to the OWASP O2 Platform!".line().line() +  
+						   "If you are looking where to start, select one of the areas below and follow the links.".line().line() +   
+						   "On the O2 logo on the top right, you can also: double-click to see the available scripts, right-click to see a context menu and drag'n'drop scripts for auto compile+execution".line(),
+						   buildMainControl)
+						   
+	  .add_Link("Available Scripts",wpfGui.ExecuteScripts.showAvailableScripts) 		
+	  .add_Link("O2 Log Viewer",wpfGui.ExecuteScripts.openO2LogViewer) 
+	  .add_Link_O2Script("Execute O2 Scripts","Util - Execute O2 Scripts") 	  
+	  .add_Link("O2 Command Prompt",wpfGui.ExecuteScripts.openO2CommandPromt)
+	  .add_Link_Web("O2Platform.com ({0})".format(currentVersion),defaultWebsiteOnMainTab)	  
+	  .add_Upgrade_Link(currentVersion, "http://code.google.com/p/o2platform/downloads/list");
+	  
+wpfGui.add_Section("Penetration Testing", "If you are performing security penetration tests (also called BlackBox security reviews) , here are a number of O2 Modules that will help you")
+	  .add_Label("IE Automation:")
+	  .add_Link_O2Script("Simple IE Scripting","ascx_IE_ScriptExecution.cs")
+	  .add_Link_O2Script("IE Automation Development","IE Automation using WatiN.h2")
+	  .add_Link_O2Script("WatiN Recorder","WatiN - Open 'Test Recorder' in new process.h2")	  
+	  
+	  .add_Label("Javascript:")
+	  .add_Link_O2Script("XSS PoC Builder","Web - XSS PoC Builder.h2")
+	  .add_Link_O2Script("Javascript AST Viewer","Web - Javascript AST Viewer.h2")	  
+	  .add_Link_O2Script("JavaScript Stats Viewer","Web - JavaScript Stats Viewer.h2")	  
+	  
+	  .add_Label("Html:")
+	  .add_Link_O2Script("Html Tag Viewer","ascx_HtmlTagViewer.cs")
+	  .add_Link_O2Script("View WebPage details","ascx_View_WebPage_Details.cs.o2")
+	  .add_Link_O2Script("Quick HtmlCode Viewer","Quick HtmlCode Viewer.h2")
+	  .add_Link_O2Script("Simple Html Viewer","Util - Simple Html Viewer.h2")
+	  .add_Link_O2Script("Html Editor","ascx_Html_Editor.cs.o2");
+		
+wpfGui.add_Section("Source-Code Reviews", "If you are performing securiiy reviews and have access to the source code (also called WhiteBox security reviews), here are a number of O2 Modules that will help you")
+	  .add_Label(".Net Scanner:")
+	  .add_Link_O2Script("Static Analysis Tool (.Net AST)","O2_DotNet_Ast_Scanner.h2")
+	  .add_Link_O2Script(".Net AST Engine","O2_DotNet_Ast_Engine.cs")
+	  .add_Link_O2Script("Method Streams Viewer","Util - MethodStreams Viewer.h2")
+	  .add_Link_O2Script("Method Streams Creator","Util - MethodStreams Creator.h2")
+	  //.add_Link_O2Script("Edit AST Rules","Util - Edit AST Rules.h2")
+	  //.add_Link_O2Script("Debug AST Rules","Util - Debug AST Rules.h2")
+	  .add_Label(".Net Utils:")
+	  .add_Link_O2Script("Viewstate Decoder","Util - ViewState_Decoder_ASP.NET 3.0.h2")	  
+	  .add_Link_O2Script("Copy GAC Dlls","Wizard - CopyGacDlls.cs.o2")	  
+	  .add_Link_O2Script("Precompile Asp.Net websites","DotNet_AspNet_Compiler.cs")	  	  
+	  .add_Link_O2Script("Decompile .NET Assemblies","ascx_MonoDecompiler.cs.o2")	  
+	  .add_Link_O2Script("Decompile ASP.NET Dlls","Util - Decompile ASP.NET ASPX pages compiled code.h2")
+	  .add_Link_O2Script("Convert VB.NET into C#","Util - Convert VB.Net to CSharp.h2");
+	  	  
+	  //.add_Label("Java")
+	  //.add_Label("     Struts &amp; Spring MVC Viewer",false);
+	  //.add_Label("Spring MVC Viewer (soon)",false);
+
+wpfGui.add_Section("O2Findings", "Tools to create and manipulate O2 Findings")
+	  .add_Link_O2Script("Simple Findings Viewer","Util - Simple Findings Viewer.h2")
+	  .add_Link_O2Script("Findings Viewer w/ SourceCode","Util - Simple Findings Viewer (with code viewer).h2")
+	  .add_Link_O2Script("Findings filtered by SourceCode","Util - Findings Viewer (filtered by SourceCode).h2")
+	  .add_Link_O2Script("Findings Viewer (tool)","Findings Viewer.h2");
+	  
+wpfGui.add_Section("Productivity Tools", "Here are a number of links to multiple O2 tools designed to solve a number of small but time consuming tasks" ) 
+	  .add_Label("web tools:")	  
+	  .add_Link_O2Script("MediaWiki Editor","MediaWikiEditor.cs.o2")
+	  .add_Link_O2Script("Twitter Client","Twitter Client.h2")
+	  .add_Link_O2Script("Amazon S3 Browser","Amazon S3 Browser.h2")
+	  .add_Link_O2Script("Login into BTOpenZone (UK)","API_BTOpenZone.cs")
+	  .add_Link_O2Script("StackOverflow search","Util - StackOveflow Search.h2")
+	  
+	  .add_Label("media tools:")	  
+	  .add_Link("screenshot tool",()=&gt;wpfGui.ExecuteScripts.invoke("screenShotTool"))
+	  .add_Link_O2Script("Image Editor", "Util - DiagramDesigner Editor.h2")	  	  
+	  .add_Link_O2Script("Movie Creator","Util - Movie Creator.h2")	  	  	  
+	  
+	  .add_Label("websites:")
+		  .add_Link_Web("google","http://www.google.com")
+		  .add_Link_Web("stackoverflow","http://www.stackoverflow.com");
+	  
+wpfGui.add_Section("Windows Tools", "Here are a number of windows utilities and quick-launch of commonly used tools")	  
+	  .add_Label("files utils:")
+	  .add_Link_O2Script("Map Files by Extension","Util - File Mapping (by extension).h2")	  
+	  .add_Link_O2Script("Quick File Search","Util - Quick File Search.h2")	  
+	  .add_Link_O2Script("Simple Text Editor","Util - Simple Text Editor.h2")	  
+	  
+	  .add_Label("O2 Windows Utils:")
+	  .add_Link_O2Script("O2 'Secret Data' Editor","SecretDataEditor.cs.o2")	  	  
+	  .add_Link_O2Script("Network Tests (Ping and Http)","Network Tests (Ping and Http).h2")	  
+	  .add_Link_O2Script("Running Processes Details","ascx_Running_Processes_Details.cs.o2")
+	  .add_Link_O2Script("Stop Processes","ascx_Processes_Stop.cs.o2")	  	  	  
+	  .add_Link_O2Script("Stop Services","ascx_Services_Stop.cs.o2")	  
+	  .add_Link_O2Script("Reset Network Interfaces","Wizard - Enable or Disable Network Interfaces.cs.o2")	  	  	  
+	  .add_Link_O2Script("CmdExe API/Wrapper","CmdExeAPI.cs")	  
+	
+	  .add_Label("windows executables:")	 
+	  .add_WrapPanel()
+	  .add_Link_Process("notepad","notepad")
+	  .add_Link_Process("cmd","cmd.exe")
+	  .add_Link_Process("calc","calc.exe");
+	  
+wpfGui.add_Section("OWASP Projects", "Here are several examples of OWASP Projects that O2 already provides an API for (or are currently on the roadmap for being supported)")	  
+	  .add_Label("WebGoat  (see Demos)",true)
+	  .add_Label("WebScarab  (soon)",true)
+	  .add_Label("Testing Guide  (soon)",true)
+	  .add_Label("Code Review  (soon)",true)
+	  .add_Label("Tools:")
+	  .add_Link_O2Script("Edit the OWASP Website","MediaWikiEditor.cs.o2")
+	  .add_Link_O2Script("OWASP Wiki Page Edit","Tool - OWASP Wiki Page Edit.h2")
+	  .add_Link_O2Script("OWASP Wiki Latest Changes","Tool - OWASP WIKI Diff of Latests Changes.h2");
+	  
+
+wpfGui.add_Section("3rd Party Tools")	  
+	  .add_Label("FindBugs (soon)")
+	  .add_Label("Burp Proxy (soon)")
+	  .add_Label("OunceLabs 6.x (soon)")
+	  .add_Label("AppScan (soon)")
+	  .add_Label("WebInspect (soon)")
+	  .add_Label("Armorize (soon)")
+	  .add_Label("Qualys (soon)")
+	  .add_Label("Maltego (soon)")
+	  .add_Label("NetSparker (soon)");
+
+wpfGui.add_Section("API / Script Development", "There are a number of development environments in O2, each is designed for a particular talk/workflow")
+	//.add_Label("[Dev GUIs]:")	
+	.add_Link("Source Code Editor",wpfGui.ExecuteScripts.openSourceCodeEditor)
+	//.add_Link_O2Script("Simple Script Editor","ascx_Simple_Script_Editor.cs.o2")
+	.add_Link("Quick development GUI", ()=&gt; open.scriptEditor()) // "ascx_Quick_Development_GUI.cs.o2")			
+	.add_Link_O2Script("'Graph' development gui","ascx_GraphWithInspector.cs")		
+	.add_Link("O2 Development Environment",() =&gt; open.devEnvironment())
+	.add_Label("Unit Tests:")
+	.add_Link_O2Script("Execute Unit Tests","Execute Unit Tests.h2")			
+	.add_Link_O2Script("Write and Execute Unit Tests","Write and Execute Unit Tests.h2")				
+	.add_Label("Utils:")
+	.add_Link("O2 Object Model", () =&gt; open.o2ObjectModel())
+	.add_Link("O2 Executable Directory", () =&gt; open.directory(PublicDI.config.CurrentExecutableDirectory, true))
+	.add_Link("View Loaded Script Source",wpfGui.ExecuteScripts.showLoadedScriptSourceCode)
+	.add_Link_O2Script("SVN Download (via HTTP)","Wizard - SVN Download (via HTTP).cs.o2");
+	
+
+wpfGui.add_Section("O2 Stand-Alone tools", "Here are a number of stand-alone O2 tools that use the previous MDI environment")
+	  .add_Link_O2Script("Search Engine","Search Engine Tool.h2")
+	  .add_Link_O2Script("Findings Viewer","Findings Viewer.h2")
+	  .add_Link_O2Script("CIR Viewer","CIR Viewer.h2");
+	  
+	  
+	  
+	  
+	  
+	  
+wpfGui.add_Section("Demos and Videos", "Demos: If you are unsure on where to start, check out these demos")
+	  .add_Link_O2Script("WebGoat - BlackBox Exploits","WebGoat_BlackBox_Exploits.cs")
+	  .add_Link_O2Script("HacmeBank - Start WebServer","Wizard - Start HacmeBank.cs.o2")
+	  .add_Link_O2Script("HacmeBank - BlackBox Exploits","HacmeBank_BlackBox_Exploits.cs")
+	  .add_Link_O2Script("HacmeBank - Custom Scanner","HacmeBank - Custom O2 AST Security Scanner.h2")
+	  .add_Link_O2Script("HacmeBank - Map EntryPoints","Map HacmeBank Ascx EntryPoints.h2")	  
+	  .add_TextBlock("Vidos: Mostly created using O2's Movie Editor tool, here are multiple O2 modules in action")
+	  .add_Link_YouTube("WebGoat: Exploits","1bbKNvyvLO0")
+	  .add_Link_YouTube("HacmeBank: start server","vucYncGiClE")
+	  .add_Link_YouTube("HacmeBank: Exploits","T2XVufhJLig")
+	  .add_Link_YouTube("Javascript: XSS PoC builder","YsVX5-nGHWI")
+	  .add_Link_YouTube("Javascript: AST Viewer","_pqY_6-P-xU")	  
+	  .add_Link_YouTube("DotNet: O2 .NET Ast Engine","j0d3F3wqfRU")
+	  .add_Link_YouTube("DotNet: Convert C#-&gt;VBNet","3eVeG2Pwa4U")
+	  .add_Link_YouTube("IE: Create a GMail account","rTD31e7HY4E");	  
+
+	  
+wpfGui.add_Section("Help", "If you are looking for help, here are the best places to start")	  
+	  .add_Link_Web("O2Platform.com website","http://www.o2platform.com")
+	  .add_Link_Web("O2 Mailing List","https://lists.owasp.org/mailman/listinfo/owasp-o2-platform")
+	  .add_Link_Web("Download Source Code","http://code.google.com/p/o2platform/source/checkout")
+	  .add_Link_Web("ClickOnce .NET Installer","http://o2platform.googlecode.com/svn/O2_ClickOnce_Installers/O2_XRules_Database/index.htm")
+	  .add_Link_Web("View O2's Bug Tracking","http://code.google.com/p/o2platform/issues/list")	  	  
+	  .add_Label("O2Platform.com Wiki Pages")
+	  .add_Link_O2Wiki("O2 Documentation","Documentation")	  	  
+	  .add_Link_O2Wiki("All Videos","O2_Videos_on_YouTube")
+	  .add_Label("Debug O2")
+	  .add_Link_O2Script("Compile ALL Scripts","Compile All Local O2 Scripts.h2")
+	  .add_Link("Rebuild Main Control", 
+	  		()=&gt;{
+		  			wpfGui.GuiSections[0].WinFormsControl = buildMainControl();
+		  		})
+	  .add_Link_O2Script("Edit O2Platform.com Wiki Page","ascx_MediaWiki_PageEditor_Simple.cs")
+	  .add_Link_O2Script("O2Platform.com Latest Changes","Tool - O2Platform.com WIKI Diff of Latests Changes.h2");
+		  		
+	  
+	   
+	  
+ 
+wpfGui.showFirstWinFormsPanel();	  
+wpfGui.statusMessage("Welcome to the OWASP O2 Platform");
+
+return null;
+
+
+//using O2.External.IE.ExtensionMethods
+//O2File:WPF_Gui.cs
+
+//O2Ref:Odyssey.dll
+//O2Ref:O2_External_IE.dll
+//O2Ref:GraphSharp.Controls.dll
+//O2Ref:GraphSharp.dll
+//O2Ref:QuickGraph.dll
+//O2Ref:ICSharpCode.AvalonEdit.dll
+//O2Ref:O2_API_Visualization.dll
+
+//O2Ref:PresentationCore.dll
+//O2Ref:PresentationFramework.dll
+//O2Ref:WindowsBase.dll
+//O2Ref:System.Xaml.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

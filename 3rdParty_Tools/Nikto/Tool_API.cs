@@ -214,7 +214,7 @@ namespace O2.XRules.Database.APIs
     							if (jarFile.fileExists())    							
     							{
     								Install_Dir.createDir();
-    								Files.MoveFile(jarFile, Install_Dir);    								
+    								Files.moveFile(jarFile, Install_Dir);    								
     							}
     					   };    		
     		return install(onDownload);
@@ -312,7 +312,7 @@ namespace O2.XRules.Database.APIs
              	{
 					this.sleep(1000);	            
 	            	"Copying file: {0}".info(targetFile);
-	            	if (Files.Copy(downloadedFile, targetFile).valid())
+	            	if (Files.copy(downloadedFile, targetFile).valid())
 	            	{
 	            		"Deleting file: {0}".info(downloadedFile);
 	            		Files.deleteFile(downloadedFile);                	
