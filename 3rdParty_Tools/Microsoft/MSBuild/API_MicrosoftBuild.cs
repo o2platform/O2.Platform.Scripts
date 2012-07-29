@@ -91,8 +91,7 @@ namespace O2.XRules.Database.APIs
                 var assembly =  assemblyFile.fileName().assembly(); // first load from local AppDomain (so that we don't lock the dll in the target folder)
                 if (assembly.isNull())
                     assembly  =  assemblyFile.assembly();
-				//only load the O2 assemblies 
-				"assembly.str(): {0}".error(assembly.str());
+				//only load the O2 assemblies 				
                 if (assembly.str().lower().contains("o2"))
 				{
 					var item = references.AddItem("Reference",assemblyFile.fileName_WithoutExtension());
@@ -212,7 +211,7 @@ namespace O2.XRules.Database.APIs
 		{
 			control .add_ContextMenu()
 					.add_MenuItem("Test with: LogViewer"								, true, ()=> onItemSelected("Util - LogViewer.h2"))
-					.add_MenuItem("Test with: C# REPL Editor"							, true, ()=> onItemSelected("Util - C# REPL Script [4.0].cs.o2"))
+					.add_MenuItem("Test with: C# REPL Editor"							, true, ()=> onItemSelected("Util - C# REPL Script [4.0].h2"))
 					.add_MenuItem("Test with: Package O2 Script into separate Folder"	, true, ()=> onItemSelected("Util - Package O2 Script into separate Folder.h2"))		
 					.add_MenuItem("Test with: HtmlAgilityPack - Filter Html Code"		, true, ()=> onItemSelected("HtmlAgilityPack - Filter Html Code.h2"))							
 					.add_MenuItem("View available Scripts"								, true, ()=> "Util - O2 Available scripts.h2".executeFirstMethod());

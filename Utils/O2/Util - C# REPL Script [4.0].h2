@@ -39,6 +39,7 @@ start();
 //O2File:_Extra_methods_Roslyn_API.cs
 
 //O2Package:scripts.ico
-//O2Package:_Extra_methods_To_Add_to_Main_CodeBase.cs,_Extra_methods_Browser.cs</SourceCode>
+//_O2Package:_Extra_methods_To_Add_to_Main_CodeBase.cs,_Extra_methods_Browser.cs
+//O2Package:ALL_SCRIPTS</SourceCode>
   <ReferencedAssemblies />
 </H2>

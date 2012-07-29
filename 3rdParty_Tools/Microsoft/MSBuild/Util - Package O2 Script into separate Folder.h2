@@ -41,7 +41,7 @@ Action&lt;string&gt; packageScript =
 /*									
 									if (scriptFile.lower().contains("cat.net", "catnet"))
 									{
-											extraEmbebbedResources
+								 			extraEmbebbedResources
 												.add(@"E:\TeamMentor\TM_UnitTests\StandAlone_Exes_Packages\CatNet_Files.zip")
 												.add(@"E:\TeamMentor\TM_UnitTests\StandAlone_Exes_Packages\LocalScriptsFolder.zip");
 									};*/
