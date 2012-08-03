@@ -5,7 +5,7 @@ var topPanel = "Util - Roslyn and Cat.Net - OnSave - Compile and Scan Solution".
 					.insert_LogViewer();
 					 
 "CatNet.cs".local().compile().type("CatNet").ctor();  //install Cat.NET if needed
-
+ 
 "**** CATNet.Core.dll is at: {0}".debug(@"CatNet_1.1/SourceDir/Microsoft.ACESec.CATNet.Core.dll".assembly_Location());
 
 

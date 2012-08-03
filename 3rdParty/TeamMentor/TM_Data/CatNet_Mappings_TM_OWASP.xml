@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<CatNetRules>
+  <Rule_Mapping VulnName="Process Command Execution" Target="http://localhost:12110/article/c97da133-1150-4789-9d18-73ba221a4fba" />
+  <Rule_Mapping VulnName="XPath Injection" Target="http://localhost:12110/article/dfdb2801-2abe-44d3-93ff-9f6254197978" />
+  <Rule_Mapping VulnName="File Canonicalization" Target="https://owasp.teammentor.net/article/2b2a09fd-a10d-479f-a3df-8e28870319b6" />
+  <Rule_Mapping VulnName="SQL Injection" Target="https://owasp.teammentor.net/article/4e2f567c-e829-4710-9e2d-861757fb1854" />
+  <Rule_Mapping VulnName="Redirection to User Controlled Site" Target="https://owasp.teammentor.net/article/bfc48dfe-4235-4eaf-b290-f418a11ec876" />
+  <Rule_Mapping VulnName="_Exception Information" Target="" />
+  <Rule_Mapping VulnName="_LDAP Injection" Target="" />
+  <Rule_Mapping VulnName="Cross-Site Scripting" Target="https://owasp.teammentor.net/article/ec178496-024d-4b3c-8381-8db94767e539" />
+</CatNetRules>

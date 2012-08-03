@@ -46,21 +46,25 @@ Action&lt;string&gt; mapFolder =
 					"Couldn't map folder: {0}".error(item);
 			  };
 
-treeView.afterSelect&lt;string&gt;((file)=&gt; "File {0} size = {1}".info(file, file.size()))
-		.add_ContextMenu().add_MenuItem("Open parent folder in Windows Explorer", true, ()=&gt; treeView.selected().tag&lt;string&gt;().parentFolder().startProcess())
-						  .add_MenuItem("Reload file list from disk", true, ()=&gt; mapFiles());
+//topPanel.mainMenu().add_Menu("Actions")
+treeView.add_ContextMenu()	
+		.add_MenuItem("For selected file, Open parent folder in Windows Explorer", true,()=&gt; treeView.selected().tag&lt;string&gt;().parentFolder().startProcess())
+		.add_MenuItem("Reload file list from disk", ()=&gt; mapFiles());
+		//.add_MenuItem("Download O2.Platform.Scritps", ()=&gt;O2Scripts.downloadO2Scripts());;
 
+treeView.afterSelect&lt;string&gt;((file)=&gt; "File {0} size = {1}".info(file, file.size()));
 topPanel.onDrop(mapFolder);
 textBox.onDrop(mapFolder);
 textBox.onTextChange(mapFolder);
 treeView.onDrag&lt;string&gt;();
 
-mapFiles();
+mapFiles(); 
 
 slider.maximum(240)
 	  .onValueChanged(showFiles)
 	  .value(120);
 
+//using O2.FluentSharp.REPL
 //O2Embed:Utility.ico</SourceCode>
   <ReferencedAssemblies />
 </H2>

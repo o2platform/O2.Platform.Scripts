@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<CatNetRules>
+  <Rule_Mapping VulnName="Process Command Execution" Target="00000000-0000-0000-0000-0000002f9f56.html" />
+  <Rule_Mapping VulnName="XPath Injection" Target="00000000-0000-0000-0000-0000003d9ba2.html" />
+  <Rule_Mapping VulnName="File Canonicalization" Target="00000000-0000-0000-0000-0000004be9ad.html" />
+  <Rule_Mapping VulnName="SQL Injection" Target="00000000-0000-0000-0000-0000006cee50.html" />
+  <Rule_Mapping VulnName="Redirection to User Controlled Site" Target="00000000-0000-0000-0000-000000144f81.html" />
+  <Rule_Mapping VulnName="Exception Information" Target="00000000-0000-0000-0000-000000366f98.html" />
+  <Rule_Mapping VulnName="LDAP Injection" Target="00000000-0000-0000-0000-000000801ce1.html" />
+  <Rule_Mapping VulnName="Cross-Site Scripting" Target="00000000-0000-0000-0000-000000078900.html" />
+</CatNetRules>
