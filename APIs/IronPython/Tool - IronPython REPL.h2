@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>O2Setup.extractEmbededConfigZips();
+
+if (@"IronPython\SourceDir\GAC\IronPython.dll".assembly().isNull())
+{
+	var logViewer = open.logViewer();
+	"IronPython is not installed so running the installer".debug();
+	"IronPython.cs".local().compile().type("IronPython_Install").ctor();
+	if (@"IronPython\SourceDir\GAC\IronPython.dll".assembly().isNull())
+	{
+		"IronPython Installation failed".error();
+		return "error";
+	} 
+	
+}
+var assembly = "PoC - IronPython REPL - Simple.h2".local().compile_H2Script();
+
+if (assembly.isNull())
+{
+	"failed to compile Script".error();	
+	return "error";
+}
+assembly.executeFirstMethod(); 
+
+//O2Package:Tool_API.cs
+//O2Package:_7_Zip.cs
+//O2Package:API_LessMsi.cs
+//O2Package:LessMsi.cs
+//O2Package:IronPython.cs
+//O2Package:API_ConsoleOut.cs
+//O2Package:PoC - IronPython REPL - Simple.h2
+//O2Embed:IronPython.ico
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

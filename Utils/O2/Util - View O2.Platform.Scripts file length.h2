@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = "Util - View O2.Platform.Scripts file length".popupWindow(1000,500).insert_LogViewer();
+//var topPanel = panel.add_Panel(true);
+var targetFolder = PublicDI.config.LocalScriptsFolder;;
+List&lt;string&gt; allFiles = null; 
+
+var treeView = topPanel.add_TreeView();
+var slider = treeView.insert_Above(20)
+					 .add_Slider();
+var label = slider.insert_Right(180).add_Label("",5).font_bold().text_Center().autoSize();
+var textBox = topPanel.insert_Above(20).add_Label("Target Folder",3).append_TextBox(targetFolder).align_Right();
+
+
+
+Action&lt;int&gt; showFiles = 
+	(depth)=&gt; 
+		{		
+			"Showing files with size bigger than {0}".info(depth);
+			var files = allFiles.where((file)=&gt;file.size() &gt; depth);		
+			treeView.beginUpdate();
+			treeView.clear().add_Nodes(files, (file)=&gt;file.remove(targetFolder));
+			treeView.endUpdate();
+			label.set_Text("of {0},  {1} files bigger than {2}".format(allFiles.size(),files.size(), depth));
+		};
+
+Action mapFiles = 
+	()=&gt;{
+			"finding all files from base folder: {0}".debug(targetFolder);
+			allFiles = targetFolder.files(true).remove_Containing(".git");
+			"loaded {0} files from disk (not including .git files)".debug(allFiles.size());
+		};
+
+Action&lt;string&gt; mapFolder = 	
+	(item)=&gt;{
+				if (item.isFile())
+					item = item.parentFolder();
+				if(item.isFolder())
+				{
+					targetFolder = item;
+					textBox.set_Text(targetFolder);
+					mapFiles();
+					showFiles(slider.value());
+				}
+				else
+					"Couldn't map folder: {0}".error(item);
+			  };
+
+treeView.afterSelect&lt;string&gt;((file)=&gt; "File {0} size = {1}".info(file, file.size()))
+		.add_ContextMenu().add_MenuItem("Open parent folder in Windows Explorer", true, ()=&gt; treeView.selected().tag&lt;string&gt;().parentFolder().startProcess())
+						  .add_MenuItem("Reload file list from disk", true, ()=&gt; mapFiles());
+
+topPanel.onDrop(mapFolder);
+textBox.onDrop(mapFolder);
+textBox.onTextChange(mapFolder);
+treeView.onDrag&lt;string&gt;();
+
+mapFiles();
+
+slider.maximum(240)
+	  .onValueChanged(showFiles)
+	  .value(120);
+
+//O2Embed:Utility.ico</SourceCode>
+  <ReferencedAssemblies />
+</H2>

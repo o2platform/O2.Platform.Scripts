@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//Package Script - Util - Roslyn and Cat.Net- OnSave - Compile and Scan Solution.h2
+
+//var topPanel = "{name}".popupWindow(700,400);
+var scriptFile = "Util - Roslyn and Cat.Net- OnSave - Compile and Scan Solution.h2";
+//var scriptFile = "Util - LogViewer.h2"; 
+var pathToAssemblies = ""; 
+var projectFile = "";
+var compiledScript = ""; 
+
+Action&lt;List&lt;string&gt;&gt; beforeAddingReferences =  
+	(referencesToAdd)=&gt; {   
+							foreach(var file in referencesToAdd.toList())
+								if(file.fileName_Is("O2_External_SharpDevelop.dll","Ionic.Zip.dll", "Mono.Cecil.dll","QuickGraph.dll",
+													"Microsoft.ACESec.CATNet.Core.dll"
+								//,"Roslyn.Compilers.CSharp.dll" , "O2_FluentSharp_BCL.dll",
+													//,
+													//"Roslyn.Compilers.dll","Roslyn.Services.dll","Roslyn.Utilities.dll","WeifenLuo.WinFormsUI.Docking.dll"
+													))
+								{
+									"[in beforeAddingReferences] removing reference: {0}".debug(file);
+									referencesToAdd.remove(file);
+								}
+							"[in beforeAddingReferences] assembly references: {0}".debug(referencesToAdd.asString());
+					 	};
+Action&lt;List&lt;string&gt;&gt; beforeEmbedingFiles = 
+	(filesToEmbed)=&gt;{ 						
+						"[in beforeEmbedingFiles] assembly references: {0}".debug(filesToEmbed.asString());								
+					};					
+
+var createdExe = scriptFile.package_Script(ref compiledScript, ref pathToAssemblies, ref projectFile, beforeAddingReferences, beforeEmbedingFiles);
+
+"scriptFile: {0}".info(scriptFile);
+"pathToAssemblies: {0}".info(pathToAssemblies);
+"projectFile: {0}".info(projectFile);
+"compiledScript: {0}".info(compiledScript);
+"createdExe: {0}".info(createdExe);
+pathToAssemblies.startProcess(); 
+
+//O2File:API_MicrosoftBuild.cs
+//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs</SourceCode>
+  <ReferencedAssemblies />
+</H2>

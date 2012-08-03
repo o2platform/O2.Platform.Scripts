@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = "{name}".popupWindow(700,400);
+var pathToAssemblies = "";
+var projectFile = "";
+var compiledScript = "";
+var scriptFile = "Util - LogViewer.h2"; 
+Action&lt;List&lt;string&gt;&gt; beforeAddingReferences = 
+	(referencesToAdd)=&gt; {  
+							"[in beforeAddingReferences] assembly references: {0}".debug(referencesToAdd.asString());													
+					 	};
+Action&lt;List&lt;string&gt;&gt; beforeEmbedingFiles = 
+	(filesToEmbed)=&gt;{ 						
+						"[in beforeEmbedingFiles] assembly references: {0}".debug(filesToEmbed.asString());								
+					};					
+
+var createdExe = scriptFile.package_Script(ref compiledScript, ref pathToAssemblies, ref projectFile, beforeAddingReferences, beforeEmbedingFiles);
+
+"scriptFile: {0}".info(scriptFile);
+"pathToAssemblies: {0}".info(pathToAssemblies);
+"projectFile: {0}".info(projectFile);
+"compiledScript: {0}".info(compiledScript);
+"createdExe: {0}".info(createdExe);
+pathToAssemblies.startProcess();
+
+//O2File:API_MicrosoftBuild.cs</SourceCode>
+  <ReferencedAssemblies />
+</H2>

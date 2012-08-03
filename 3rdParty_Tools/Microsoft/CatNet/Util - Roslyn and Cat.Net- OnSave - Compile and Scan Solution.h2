@@ -1,7 +1,14 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>var topPanel = "Util - Roslyn and Cat.Net - OnSave - Compile and Scan Solution".popupWindow(1024,576)    
+  <SourceCode>O2Setup.extractEmbededConfigZips();
+var topPanel = "Util - Roslyn and Cat.Net - OnSave - Compile and Scan Solution".popupWindow(1024,576)    
 					.insert_LogViewer();
+					 
+"CatNet.cs".local().compile().type("CatNet").ctor();  //install Cat.NET if needed
+
+"**** CATNet.Core.dll is at: {0}".debug(@"CatNet_1.1/SourceDir/Microsoft.ACESec.CATNet.Core.dll".assembly_Location());
+
+
 //var topPanel = panel.clear().add_Panel();	 	    
 var actionsPanel = topPanel.insert_Above(40,"");     
 var codeViewer = topPanel.title("Source Code").add_SourceCodeEditor(); 
@@ -13,10 +20,10 @@ scanResults.insert_Below("Trace Details").add_TraceViewer()
 										 .afterSelect_showTrace(scanResults)
 										 .afterSelect_ShowTraceInCodeEditor(codeViewer)
 										 .dontSelectNodeOnLoad();  
-var solutionFile = ""; 
 var compilerAvailable = true;
-
+var solutionFile = "";
 IWorkspace workspace = null;
+API_CatNet catNet = null;
  
 solutionFiles.beforeExpand&lt;ISolution&gt;( 
 	(treeNode,solution)=&gt;{
@@ -44,7 +51,7 @@ solutionFiles.afterSelect&lt;IDocument&gt;(
 												
 Action&lt;List&lt;Assembly&gt;&gt; scanAssemblies = 
 	(assembllies)=&gt;{
-					var catNet = new API_CatNet().loadRules();										
+					catNet = new API_CatNet().loadRules();										
 					
 					"CatNet ready for scan".debug();												 
 					//catNet.scan_Assembly(assembly)
@@ -142,12 +149,40 @@ topPanel.onDrop(loadSolution);
 //sourceCodeFiles.onDrop(loadSolution);
 errorsList.parentForm().onDrop(loadSolution);
 			
+Action openTestSolution = 
+	()=&gt;{
+			var tmpDir = "SuperSecureBankService_Solution".tempDir(false);
+			var ssbSolution = tmpDir.files(true,"*.sln").first();
+			if (ssbSolution.isNull())
+			{
+				"SuperSecureBankService.zip".local().info().unzip(tmpDir.info());
+				ssbSolution = tmpDir.files(true,"*.sln").first();
+			}
+			
+			loadSolution(ssbSolution);
+		};
 
-var ssbSolution = @"E:\_Tests\Demos_Files\SuperSecureBank\SecurityInnovation-SuperSecureBank-938fde3\SuperSecureBank.sln";
-//topPanel.closeForm_InNSeconds(3);
+var workspaceScriptMe_Script = 
+@"var workspace = (Workspace)loadedWorkspace;
+return workspace;
 
-loadSolution(ssbSolution);
-
+//using Roslyn.Services
+//O2Tag_SetInvocationParametersToDynamic
+//O2Ref:Roslyn.Services.dll
+//O2Tag_DontAddExtraO2Files
+//O2Ref:Microsoft.CSharp.dll";
+		
+topPanel.mainMenu()
+		.add_Menu("File")
+			.add("Open Solution", ()=&gt; loadSolution(topPanel.askUserForFileToOpen()))
+			.add("Open Test Solution (SuperSecureBank WebServices" , openTestSolution)
+		.add_Menu("REPL")
+			.add("Open C# REPL Script Environment", ()=&gt; open.scriptEditor())
+			.add("REPL this GUI", ()=&gt; topPanel.parentForm().script_Me("form"))
+			.add("REPL CatNet API object", ()=&gt; catNet.script_Me()) 
+			.add("REPL IWorkspace (from Roslyn)", ()=&gt; workspace.script_Me().Code = workspaceScriptMe_Script);
+		
+openTestSolution();
 //O2File:API_CatNet.cs
 //O2File:_Extra_methods_Roslyn_API.cs
 //O2File:Findings_ExtensionMethods.cs
@@ -162,6 +197,18 @@ loadSolution(ssbSolution);
 //O2Ref:O2_FluentSharp_Roslyn.dll 
 
 //O2Tag_DontAddExtraO2Files
-</SourceCode>
+
+//Files for Stand-alone package
+//O2Package:cheshire_cat.ico
+//O2Package:CatNet.cs
+//O2Package:API_CatNet.cs
+//O2Package:API_CatNet_GUI.cs
+
+//O2Package:Tool_API.cs
+//O2Package:_7_Zip.cs
+//O2Package:API_LessMsi.cs
+//O2Package:LessMsi.cs
+//O2Package:API_ConsoleOut.cs
+//O2Package:SuperSecureBankService.zip</SourceCode>
   <ReferencedAssemblies />
 </H2>

@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using O2.Views.ASCX.ExtensionMethods;
 using O2.DotNetWrappers.DotNet;
+using O2.DotNetWrappers.Windows;
 using O2.DotNetWrappers.ExtensionMethods;
 using O2.External.SharpDevelop.ExtensionMethods;
 using Microsoft.Build.Logging;
@@ -27,10 +28,10 @@ namespace O2.XRules.Database.APIs
 	{
 		public static string createProjectFile(this string projectName, string sourceFile, string pathToAssemblies, string targetDir)
 		{
-			return projectName.createProjectFile(sourceFile, pathToAssemblies, targetDir, new List<string>());
+			return projectName.createProjectFile(sourceFile, pathToAssemblies, targetDir, new List<string>(),null,null);
 		}
 		
-		public static string createProjectFile(this string projectName, string sourceFile, string pathToAssemblies, string targetDir, List<string> extraEmbebbedResources)
+		public static string createProjectFile(this string projectName, string sourceFile, string pathToAssemblies, string targetDir, List<string> extraEmbebbedResources, Action<List<string>> beforeAddingReferences, Action<List<string>> beforeEmbedingFiles)
 		{
 			sourceFile.file_Copy(targetDir);
 			var assemblyFiles = pathToAssemblies.files(false,"*.dll","*.exe");
@@ -46,18 +47,7 @@ namespace O2.XRules.Database.APIs
 						"REMOVING {0}".error(file);
 					}*/
 					
-			
-			var gzAssemblyFiles = new List<string>();
-			
-			foreach(var assemblyFile in assemblyFiles)
-			{
-				var gzFile = targetDir.pathCombine(assemblyFile.fileName() + ".gz");
-				assemblyFile.fileInfo().compress(gzFile);	
-				assemblyFile.file_Copy(targetDir);
-				gzAssemblyFiles.add(gzFile);
-			}
-			
-				
+						
 			var projectFile =  targetDir.pathCombine(projectName + ".csproj");
 			
 			var projectCollection = new ProjectCollection();
@@ -85,7 +75,7 @@ namespace O2.XRules.Database.APIs
 			references.AddItem("Reference", "System.Core");
 			references.AddItem("Reference", "System.Windows.Forms");
 						
-				
+			beforeAddingReferences.invoke(assemblyFiles);
 			foreach(var assemblyFile in assemblyFiles)
 			{
                 var assembly =  assemblyFile.fileName().assembly(); // first load from local AppDomain (so that we don't lock the dll in the target folder)
@@ -100,8 +90,17 @@ namespace O2.XRules.Database.APIs
 				}
 			} 
 			
+			var gzAssemblyFiles = new List<string>();
+			beforeEmbedingFiles.invoke(assemblyFiles);
+			foreach(var assemblyFile in assemblyFiles)
+			{
+				var gzFile = targetDir.pathCombine(assemblyFile.fileName() + ".gz");
+				assemblyFile.fileInfo().compress(gzFile);	
+				assemblyFile.file_Copy(targetDir);
+				gzAssemblyFiles.add(gzFile);
+			}			
 			var embeddedResources = project.Xml.AddItemGroup();
-			
+						
 			foreach(var assemblyFile in gzAssemblyFiles)				
 				embeddedResources.AddItem("EmbeddedResource",assemblyFile.fileName()); 
 			
@@ -182,9 +181,9 @@ namespace O2.XRules.Database.APIs
 			
 		}
 		
-		public static string createProjectFile_and_Build(this string projectName, string sourceFile, string pathToAssemblies, string targetDir, List<string> extraEmbebbedResources)
+		public static string createProjectFile_and_Build(this string projectName, string sourceFile, string pathToAssemblies, string targetDir, List<string> extraEmbebbedResources,  Action<List<string>> beforeAddingReferences = null, Action<List<string>> beforeEmbedingFiles = null)
 		{
-			var projectFile = projectName.createProjectFile(sourceFile, pathToAssemblies, targetDir, extraEmbebbedResources);
+			var projectFile = projectName.createProjectFile(sourceFile, pathToAssemblies, targetDir, extraEmbebbedResources, beforeAddingReferences ,beforeEmbedingFiles);
 			var buildResult= projectFile.buildProject();
 			if (buildResult)
 				return targetDir.pathCombine("bin").pathCombine(projectName + ".exe");
@@ -217,6 +216,53 @@ namespace O2.XRules.Database.APIs
 					.add_MenuItem("View available Scripts"								, true, ()=> "Util - O2 Available scripts.h2".executeFirstMethod());
 			return control;					
 		}
+		
+		public static string package_Script(this string scriptFile)
+		{
+			var compiledScript = "";
+			var pathToAssemblies = ""; 
+			var projectFile = "";
+			return scriptFile.package_Script(ref compiledScript, ref pathToAssemblies, ref projectFile);
+		}
+		
+		public static string package_Script(this string scriptFile, ref string compiledScript, ref string pathToAssemblies, ref string projectFile,   Action<List<string>> beforeAddingReferences = null, Action<List<string>> beforeEmbedingFiles = null)
+		{					
+			compiledScript =  scriptFile.compileScriptFile_into_SeparateFolder();		
+			
+			if (compiledScript.notNull())
+			{									
+				pathToAssemblies = compiledScript.directoryName();
+				var buildFilesDir = pathToAssemblies.pathCombine("_BuildFiles").createDir();									
+				
+				//create wrapping exe using MicrosoftBuild
+				var projectName = scriptFile.fileName_WithoutExtension();
+				projectFile = buildFilesDir.pathCombine(projectName + ".csproj");
+				var sourceFile = "Program_UseWith_O2_CreatedExes.cs".local();										
+				
+				//add special folders
+				O2Setup.createEmbeddedFolder_Scripts(buildFilesDir)
+					   .copyFileReferencesToEmbeddedFolder(scriptFile);;
+				O2Setup.createEmbeddedFolder_Data(buildFilesDir,projectName);
+				
+				var extraEmbebbedResources = buildFilesDir.mapExtraEmbebbedResources(scriptFile);
+				extraEmbebbedResources.add(scriptFile.local()) // include original script as an embeded file
+									  .add(sourceFile);		   //         and file that created the exe
+				
+				var createdExe = projectName.createProjectFile_and_Build(sourceFile, pathToAssemblies, buildFilesDir,extraEmbebbedResources,beforeAddingReferences, beforeEmbedingFiles);				
+				if (createdExe.valid())
+				{
+					createdExe.file_WaitFor_CanOpen();				
+					Files.deleteAllFilesFromDir(pathToAssemblies);
+					compiledScript = createdExe.file_Copy(pathToAssemblies);
+					compiledScript = createdExe.file_Copy(buildFilesDir); // for now also copy it to the buildFileDir
+					"CompiledScript: {0}".info(compiledScript);					
+					return compiledScript;
+				}										 	 			
+			}			
+			return null;
+		}
 	}
+	
+	
 }
 		
