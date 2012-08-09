@@ -1,0 +1,179 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//return "EnvDTE.dll".assembly();
+//var topPanel = panel.clear().add_Panel();
+var topPanel = "TM - RealTime Security Scan v1.4.0".popupWindow(1200,700).insert_LogViewer();
+
+try
+{
+	O2Setup.extractEmbededConfigZips();
+		
+	if("envdte80.dll".local().fileExists())
+	{
+		"Loading envDte80.dll to make sure it is ok".info();
+		"EnvDte on disk: {0}".debug("envdte80.dll".local());
+		var assembly = "envdte80.dll".local().assembly();  
+		"EnvDte from assembly {0} at {1}".debug(assembly.str(), assembly.location());
+	} 
+//_O2Package:CatNet_Mappings_TM_OWASP.xml
+//_O2Package:CatNet_Mappings_TM_Embedded.xml
+//_O2Package:00000000-0000-0000-0000-0000002f9f56.html
+//_O2Package:00000000-0000-0000-0000-0000003d9ba2.html
+//_O2Package:00000000-0000-0000-0000-0000004be9ad.html
+//_O2Package:00000000-0000-0000-0000-0000006cee50.html
+//_O2Package:00000000-0000-0000-0000-000000144f81.html
+//_O2Package:00000000-0000-0000-0000-000000366f98.html
+//_O2Package:00000000-0000-0000-0000-000000801ce1.html
+//_O2Package:00000000-0000-0000-0000-000000078900.html
+//O2Package:HeaderImage.jpg
+//O2Package:SAST_DotNet_BlindSpot_Interface.cs
+//O2Package:SAST_DotNet_Template.cs
+//O2Package:Web_SQL_Injection.cs 
+//O2Package:SAST DotNet Script - XSS.cs
+//O2Package:SAST DotNet Script - Misc Vulns.cs
+//O2Package:DotNetGoat.dll
+//O2Package:cheshire_cat.ico
+//O2Embed:E:\TeamMentor\TM_UnitTests\StandAlone_Exes_Packages\CatNet_Files.zip
+//O2Package:E:\teammentor\windows_power_tools\QA\envdte80.dll
+	
+	
+	var rules_TM_Embeded = "CatNet_Mappings_TM_Embedded.xml".local();
+	var rules_TM_OWASP  = "CatNet_Mappings_TM_OWASP.xml".local();
+	
+	var rulesMappingFile = rules_TM_Embeded;
+	
+	CatNet_Rules_Mappings catNetMappings = null;
+	topPanel.visible(false);
+	var catNetGui = topPanel.add_CatNet();  
+		
+	//var browser = catNetGui.CodeViewer.parent().add_WebBrowser();
+	//add codeViewer to left Panel and colapse the panel that it was under
+	var codeViewer = catNetGui.CodeViewer;	
+	topPanel.insert_Left().add_Control(codeViewer);		
+	catNetGui.HostControl.controls&lt;SplitContainer&gt;(true)[1].panel2Collapsed(true);
+				
+	var resultText = codeViewer.insert_Below(100, "Compilation results").add_TextArea();
+	catNetGui.CompileResults = resultText;
+	
+	Action loadRulesMappings = 
+		()=&gt;{
+					if (rulesMappingFile.fileExists())
+					{
+						catNetMappings = rulesMappingFile.load&lt;CatNet_Rules_Mappings&gt;();
+						"Loaded {0} rules from {1}".info(catNetMappings.size(), rulesMappingFile);
+					}
+				};			
+					
+	Action&lt;string&gt; scanCodeSnippet = 
+		(text)=&gt;{		 
+					if (catNetGui.SolutionLoaded.notValid())
+						O2Thread.mtaThread(()=&gt;catNetGui.handleDrop(text));
+					else
+						"Solution is loaded so auto compile is disabled, click on Scan Again to rescan (after save)".info();
+				};  
+					  
+	catNetGui.onSelectedCodeReference = 
+		(path, line)=&gt;	{						 
+							"onSelectedCodeReference: {0}: {1}".info(path, line);
+							if (path.valid())
+								codeViewer.open(path); 
+							if (line &gt;0)
+							{ 
+								codeViewer.gotoLine(line);							
+								catNetGui.lvDataFlow.focus();		 
+							}
+						};					
+	catNetGui.onSelectedReportItem = 
+		(vulnType)=&gt;{						
+						codeViewer.clearBookmarksAndMarkers();
+						foreach(var item in catNetGui.lvDataFlow.items())
+						{
+							var values = item.values();
+							var line = values.second().toInt();
+							//"Line: {0}".info(values.second());
+							codeViewer.setSelectedText(line,0,true); 
+						}
+					};
+
+
+	catNetGui.onScanCompleted = 
+	()=&gt;{	
+			codeViewer.focus();			
+			//else
+			//		browser.showMessage("No Vulns :)");
+		};
+	
+	
+	
+	topPanel.visible(true); 
+	
+	
+	
+	var targetAssembly = codeViewer.compileCSSharpFile().location();
+	var engineBusy = false;
+	
+	  
+	codeViewer.onTextChange(scanCodeSnippet);
+	
+	 
+	
+	Action&lt;string&gt; newFromTemplate = 
+		(file)=&gt;{	
+					catNetGui.SolutionLoaded = "";
+					var csharpFileToScan = file.local().fileContents().saveAs(file.fileName().inTempDir()); 
+					codeViewer.open(csharpFileToScan);
+				};
+	
+	topPanel.mainMenu().clear()
+			.add_Menu("File")					
+				.add_MenuItem("Open Assembly or C# file"	, ()=&gt; catNetGui.loadFile(topPanel.askUserForFileToOpen()))
+				
+			.add_Menu("Sample Files") 
+				.add_MenuItem("C# Snippet with some Vulnerabilities"		, ()=&gt; newFromTemplate("SAST DotNet Script - Misc Vulns.cs"))
+				.add_MenuItem("C# Snippet with only XSS"					, ()=&gt; newFromTemplate("SAST DotNet Script - XSS.cs"))
+				.add_MenuItem("C# with some Vulnerabilities"				, ()=&gt; newFromTemplate("Web_SQL_Injection.cs"))
+				.add_MenuItem("C# with an SAST BlindSpot"					, ()=&gt; newFromTemplate("SAST_DotNet_BlindSpot_Interface.cs"))
+				.add_MenuItem("C# with no vulnerabilites"					, ()=&gt; newFromTemplate("SAST_DotNet_Template.cs"))
+				.add_Separator()
+				.add_MenuItem("Scan WebGoat.Net dll"						, ()=&gt; catNetGui.loadFile("DotNetGoat.dll".local()))
+				.add_MenuItem("Open Sample report: HacmeBank" 				, () =&gt; catNetGui.openReport("CatNet_HacmeBank.xml".local()))
+				.add_MenuItem("Open Sample report: SuperSecureBank"  		, () =&gt; catNetGui.openReport("CatNet_SuperSecureBank.xml".local()))
+			.add_Menu("Rules and Config")
+				.add_MenuItem("Open Current Rules Mappings file"  			, ()=&gt; rulesMappingFile.showInCodeEditor())
+				.add_MenuItem("Reload Rules Mappings"  						, ()=&gt; loadRulesMappings())
+				.add_Separator()
+				.add_MenuItem("Set Rules for: TM Embeded"  					, ()=&gt; { rulesMappingFile = rules_TM_Embeded; loadRulesMappings();} )
+				.add_MenuItem("Set Rules for: TM OWASP"  					, ()=&gt; { rulesMappingFile = rules_TM_OWASP ; loadRulesMappings();} )						
+				.add_MenuItem("Open Cat.NET Folder (with Rules and Config)" , ()=&gt; PublicDI.config.O2TempDir.pathCombine(@"..\_ToolsOrAPIs\CatNet_1.1\SourceDir").startProcess())
+			.add_Menu("REPL")
+				.add_MenuItem("Open REPL for CatNet GUI",()=&gt; { catNetGui.script_Me("catNetGui").Code+= "\n//O2Ref:Microsoft.ACESec.CATNet.Core\n//O2Ref:Microsoft.ACESec.CATNet.UI.VSAddIn.dll\n//O2Ref:Roslyn.Compilers.dll\n//O2Ref:Roslyn.Compilers.CSharp.dll\n";})
+				.add_MenuItem("Open REPL for Form"		,	()=&gt; topPanel.parentForm().script_Me("form"))			
+				//.add_MenuItem("Open REPL for Browser"	,()=&gt; browser.script_Me("ie"))	
+			; 
+	 
+	 
+	//newFromTemplate("Web_SQL_Injection.cs");
+	newFromTemplate("SAST DotNet Script - Misc Vulns.cs");
+	
+		
+	loadRulesMappings();			
+	//catNetGui.handleDrop(@"E:\_Tests\Demos_Files\SuperSecureBank\SecurityInnovation-SuperSecureBank-938fde3\SuperSecureBank.sln");
+	
+}
+catch(Exception ex)
+{
+	ex.log(); 
+}
+
+//catNetGui.scanCSharpFile(csharpFileToScan);
+//catNetGui.IgnoreCodeViewOpenRequests = false;
+//codeViewer.script_Me();  
+return "ok";
+
+//O2File:API_CatNet_GUI.cs
+//O2Ref:O2_FluentSharp_Roslyn.dll
+//O2Ref:Roslyn.Compilers.dll
+//O2Ref:Roslyn.Compilers.CSharp.dll
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

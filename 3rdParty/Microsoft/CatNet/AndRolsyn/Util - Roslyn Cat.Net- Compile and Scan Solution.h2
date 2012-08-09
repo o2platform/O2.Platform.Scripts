@@ -57,8 +57,9 @@ Action&lt;List&lt;Assembly&gt;&gt; scanAssemblies =
 					//catNet.scan_Assembly(assembly)
 					catNet.scan(assembllies)
 						  .show(scanResults.parent()); 					
-					scanResults.getResultsTreeView().nodes().first()
-												   .expand().nodes().first().selected();
+					var nodes = scanResults.getResultsTreeView().nodes();
+					if (nodes.size() &gt; 0)
+						nodes.first().expand().nodes().first().selected();
 				};
 				
 Action compile = 
@@ -98,7 +99,7 @@ EventHandler&lt;WorkspaceEventArgs&gt; workspaceChanged =
 						compilerAvailable = false;
 						compile();
 					}
-					//compile();
+					//compile(); 
 				};
 
 Action&lt;string&gt; loadSolution =

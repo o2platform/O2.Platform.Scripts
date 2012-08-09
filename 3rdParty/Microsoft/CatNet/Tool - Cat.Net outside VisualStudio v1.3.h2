@@ -44,7 +44,11 @@ catch(Exception ex)
 
 //O2File:API_CatNet.cs
 //O2File:API_CatNet_GUI.cs
- 
+
+//O2Ref:Roslyn.Services.dll
+//O2Ref:Roslyn.Compilers.dll
+//O2Ref:Roslyn.Compilers.CSharp.dll
+
 //O2Tag_DontAddExtraO2Files
 
 //O2Package:Web_SQL_Injection.cs

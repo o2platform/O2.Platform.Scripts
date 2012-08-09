@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>//Package Script - Util - Roslyn and Cat.Net- OnSave - Compile and Scan Solution.h2
-
+  <SourceCode>//Package - Roslyn Cat.Net- Compile and Scan Solution.h2
+ 
 //var topPanel = "{name}".popupWindow(700,400);
-var scriptFile = "Util - Roslyn and Cat.Net- OnSave - Compile and Scan Solution.h2";
+var scriptFile = "Util - Roslyn Cat.Net- Compile and Scan Solution.h2"; 
 //var scriptFile = "Util - LogViewer.h2"; 
 var pathToAssemblies = ""; 
 var projectFile = "";
@@ -13,15 +13,15 @@ Action&lt;List&lt;string&gt;&gt; beforeAddingReferences =
 	(referencesToAdd)=&gt; {   
 							foreach(var file in referencesToAdd.toList())
 								if(file.fileName_Is("O2_External_SharpDevelop.dll","Ionic.Zip.dll", "Mono.Cecil.dll","QuickGraph.dll",
-													"Microsoft.ACESec.CATNet.Core.dll"
-								//,"Roslyn.Compilers.CSharp.dll" , "O2_FluentSharp_BCL.dll",
-													//,
-													//"Roslyn.Compilers.dll","Roslyn.Services.dll","Roslyn.Utilities.dll","WeifenLuo.WinFormsUI.Docking.dll"
+													"Microsoft.ACESec.CATNet.Core.dll","WeifenLuo.WinFormsUI.Docking.dll"
+								
+													//"Roslyn.Compilers.dll","Roslyn.Services.dll","Roslyn.Utilities.dll",
 													))
 								{
 									"[in beforeAddingReferences] removing reference: {0}".debug(file);
 									referencesToAdd.remove(file);
 								}
+							referencesToAdd.add("Roslyn.Services.CSharp.dll".assembly_Location());
 							"[in beforeAddingReferences] assembly references: {0}".debug(referencesToAdd.asString());
 					 	};
 Action&lt;List&lt;string&gt;&gt; beforeEmbedingFiles = 
@@ -36,7 +36,9 @@ var createdExe = scriptFile.package_Script(ref compiledScript, ref pathToAssembl
 "projectFile: {0}".info(projectFile);
 "compiledScript: {0}".info(compiledScript);
 "createdExe: {0}".info(createdExe);
-pathToAssemblies.startProcess(); 
+var testFolder = "_test_Packages".tempDir(false);
+createdExe.file_Copy(testFolder);
+testFolder.startProcess(); 
 
 //O2File:API_MicrosoftBuild.cs
 //O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs</SourceCode>
