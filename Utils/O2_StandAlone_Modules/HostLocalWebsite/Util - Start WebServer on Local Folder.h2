@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - Start Local Website on Folder",800,400);
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - Start WebServer on Local Folder",800,400);
    
 var hostLocalWebsite = topPanel.add_Control&lt;ascx_HostLocalWebsite&gt;();
 
