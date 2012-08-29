@@ -121,7 +121,6 @@ return webScarab;
 //O2File:WPF_Ribbon.cs
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:RibbonControlsLibrary.dll
-//O2Ref:O2_API_Visualization.dll
 
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
 

@@ -29,7 +29,8 @@ namespace O2.Tool.HostLocalWebsite.ascx
         public ascx_HostLocalWebsite()
         {
             InitializeComponent();
-            ascx_DropObject1.Text = "Drop Folder To Run";
+            ascx_DropObject1.Text = "Drop Folder here To Start WebServer (on that Folder)";           
+            btStartWebService.Text = "Restart WebServer";
             webservices = new WebServices();
             
             //extra GUI tweeks
@@ -42,6 +43,12 @@ namespace O2.Tool.HostLocalWebsite.ascx
 				 .width(40)
 				 .height(btStartWebService.height())
 				 .onClick(()=> webservices.StopWebService());
+				 
+			this.control<GroupBox>().align_Right();
+			tbSettings_Path.widthAdd(-50); 
+			tbSettings_Exe.widthAdd(-50); 	
+			tbSettings_Path.append_Link("explore",()=>tbSettings_Path.get_Text().startProcess()).anchor_TopRight();
+			tbSettings_Exe.append_Link("explore",()=>tbSettings_Exe.get_Text().parentFolder().startProcess()).anchor_TopRight();
         }
 
         private void onDispose()
@@ -53,8 +60,7 @@ namespace O2.Tool.HostLocalWebsite.ascx
         private void ascx_WebServiceScan_Load(object sender, EventArgs e) // this is not being fired at the moent
         {
             if (DesignMode == false)
-            {
-                PublicDI.log.error("THIS WAS NOT BEING FIRED IN DEVELOPMENT!!!");
+            {                
                 setupGui();
             }
         }
@@ -66,7 +72,11 @@ namespace O2.Tool.HostLocalWebsite.ascx
             tbSettings_Path.Text = webservices.sPath;
             tbSettings_VPath.Text = webservices.sVPath;
         }
- 
+ 		public void start()
+ 		{
+ 			btStartWebService_Click(null,null);
+ 		}
+ 		
         private void btStartWebService_Click(object sender, EventArgs e)
         {
         	try

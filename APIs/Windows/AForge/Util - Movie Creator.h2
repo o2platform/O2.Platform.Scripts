@@ -202,13 +202,14 @@ return null;
 //O2File:API_AForge_Video.cs
  
 //using O2.XRules.Database.APIs
-//using O2.API.Visualization.ExtensionMethods
 //using O2.Views.ASCX.ExtensionMethods
 //using AForge.Video.VFW
 //using AForge.Controls
 //using AForge.Video.DirectShow
 
 //using WPF = System.Windows.Controls
+
+//O2Ref:O2_FluentSharp_WPF.dll
  
 //O2Ref:AForge.dll
 //O2Ref:AForge.Video.VFW.dll 
@@ -216,7 +217,6 @@ return null;
 //O2Ref:AForge.Controls.dll
 //O2Ref:AForge.Video.dll
 
-//O2Ref:O2_API_Visualization.dll
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:GraphSharp.dll
 //O2Ref:QuickGraph.dll 

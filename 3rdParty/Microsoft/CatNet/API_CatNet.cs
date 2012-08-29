@@ -21,7 +21,7 @@ using Microsoft.ACESec.CATNet.Core.Driver;
 using Rules = Microsoft.ACESec.CATNet.Core.Rules;
 
 //O2File:Findings_ExtensionMethods.cs
-
+//Installer:CatNet_Installer.cs!CatNet_1.1/SourceDir/Microsoft.ACESec.CATNet.Core.dll
 //O2Ref:_O2_Scanner_MsCatNet.exe
 //O2Ref:CatNet_1.1/SourceDir/Microsoft.ACESec.CATNet.Core.dll
 //_O2Ref:CatNet_64/CAT.NET/Microsoft.ACESec.CATNet.Core.dll

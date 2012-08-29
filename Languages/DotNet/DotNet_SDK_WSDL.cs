@@ -113,7 +113,7 @@ namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 				"[wsdl_CreateAssembly] failed to create CSharp file from wsdl: {0}".error(wsdlSourceFileOrUrl);
 				return null;
 			}
-			this.Created_AssemblyPath = Files.Copy(assembly.Location,targetFolder.pathCombine(cSharpFile.fileName().replace(".cs",".dll")));
+			this.Created_AssemblyPath = Files.copy(assembly.Location,targetFolder.pathCombine(cSharpFile.fileName().replace(".cs",".dll")));
 			this.Wsdl_Data = cSharpFile + ".wsdl_Data.xml";
 			this.saveAs(this.Wsdl_Data);
 			return cSharpFile;

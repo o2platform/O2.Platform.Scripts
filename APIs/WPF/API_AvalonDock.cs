@@ -13,7 +13,6 @@ using O2.Views.ASCX.classes.MainGUI;
 using O2.Views.ASCX.ExtensionMethods;
 
 using AvalonDock;
-using O2.API.Visualization.ExtensionMethods;
 using O2.XRules.Database.Utils;
 using WPF = System.Windows.Controls;
 
@@ -24,7 +23,6 @@ using WPF = System.Windows.Controls;
 //O2Ref:QuickGraph.dll
 //O2Ref:GraphSharp.dll
 //O2Ref:GraphSharp.Controls.dll
-//O2Ref:O2_API_Visualization.dll
 //O2Ref:PresentationCore.dll
 //O2Ref:WindowsBase.dll
 //O2Ref:System.Xaml.dll

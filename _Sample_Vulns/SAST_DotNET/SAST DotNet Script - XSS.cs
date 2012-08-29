@@ -5,3 +5,6 @@ var request = HttpContext.Current.Request;
 var response = HttpContext.Current.Response;
 
 response.Write(request["UserName"]);
+
+
+//O2Tag:SkipGlobalCompilation

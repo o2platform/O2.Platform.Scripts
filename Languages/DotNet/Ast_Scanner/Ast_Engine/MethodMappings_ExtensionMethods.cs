@@ -234,7 +234,7 @@ namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 			var savedFile = savedMethodMappings.saveMappings();
 			if (savedFile.fileExists())
 			{								
-				Files.MoveFile(savedFile,targetFile);
+				Files.moveFile(savedFile,targetFile);
 				if (targetFile.fileExists())
 					return targetFile;
 			}
@@ -309,7 +309,7 @@ namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 						var savedMethodMappings = astData.saveMappings(mappings);
 						if (savedMethodMappings.fileExists())
 						{	
-							Files.MoveFile(savedMethodMappings, savedMethodMappingsFile);
+							Files.moveFile(savedMethodMappings, savedMethodMappingsFile);
 							methodMappingHashesFile.fileInsertAt(0,"{0}\t{1}".format(md5Hash, fullName).line());
 						}
 						
@@ -489,7 +489,7 @@ namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 			}
             var tempFile = astData.saveMappings(propertyMappings);
             if (tempFile.fileExists())
-				Files.MoveFile(tempFile, savedPropertiesMappingsFile);            
+				Files.moveFile(tempFile, savedPropertiesMappingsFile);            
             return savedPropertiesMappingsFile;
 			/// PROPERTIES
         }

@@ -16,8 +16,8 @@ using O2.DotNetWrappers.ExtensionMethods;
 using O2.Views.ASCX;
 using WindowsInput.Native;
 using WindowsInput;
+//O2Ref:O2_FluentSharp_WPF.dll
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
-//O2Ref:O2_API_Visualization.dll
 //O2Ref:WindowsBase.dll
 //O2Ref:PresentationCore.dll
 
@@ -271,7 +271,7 @@ namespace O2.XRules.Database.APIs
     	public static API_InputSimulator mouse_MoveTo_Wpf<T>(this API_InputSimulator inputSimulator, T uiElement)
     		where T : System.Windows.UIElement
     	{
-    		return (API_InputSimulator)O2.API.Visualization.ExtensionMethods.WPF_Threading_ExtensionMethods.wpfInvoke(
+    		return (API_InputSimulator)O2.DotNetWrappers.ExtensionMethods.WPF_Threading_ExtensionMethods.wpfInvoke(
     			uiElement, 
     				()=>{
     						try

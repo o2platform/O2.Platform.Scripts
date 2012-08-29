@@ -19,6 +19,8 @@ using O2.External.SharpDevelop.Ascx;
 //O2Ref:O2_External_SharpDevelop.dll
 //O2Ref:O2_Core_XRules.dll
 
+//O2File:o2Wizard.cs
+
 namespace O2.XRules.Database.Utils
 {
     [O2Wizard]

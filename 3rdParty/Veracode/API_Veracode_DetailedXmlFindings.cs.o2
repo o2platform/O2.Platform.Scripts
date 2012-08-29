@@ -78,7 +78,7 @@ namespace O2.XRules.Database.APIs
 	    				if (apiVeracode.WorkDir.isNull())
 	    					apiVeracode.ReportXmlFile = unzipedFiles[1];	
 	    				else
-	    					apiVeracode.ReportXmlFile = Files.Copy(unzipedFiles[1],apiVeracode.WorkDir);	
+	    					apiVeracode.ReportXmlFile = Files.copy(unzipedFiles[1],apiVeracode.WorkDir);	
 	    				
 	    				apiVeracode.DetailedReport = detailedreport.Load(apiVeracode.ReportXmlFile);	    				
 	    		}    		
@@ -183,7 +183,7 @@ namespace O2.XRules.Database.APIs
 			if (cSharpFile.fileExists())
 			{
 				if (targetDir.valid())
-					return Files.Copy(cSharpFile, targetDir);
+					return Files.copy(cSharpFile, targetDir);
 				return cSharpFile;
 			}
 			return null;

@@ -124,8 +124,8 @@ namespace O2.Script
 			if (targetFile.fileExists().isFalse())
 			{
 				"copying *.dll and *.pdb to bin folder file: {0} - > {1} ".info(file, targetFile); 
-	        	Files.Copy(file, targetFile);
-	        	Files.Copy(file.replace(".dll",".pdb"), targetFile); 
+	        	Files.copy(file, targetFile);
+	        	Files.copy(file.replace(".dll",".pdb"), targetFile); 
 	        }
 	        return this;
 		}
@@ -174,7 +174,7 @@ namespace O2.Script
 		{			
 			var targetFile = webServer.BinFolder.pathCombine(file.fileName());
 			if (targetFile.fileExists().isFalse())
-				Files.Copy(file, targetFile);
+				Files.copy(file, targetFile);
 			return webServer;
 
 		}

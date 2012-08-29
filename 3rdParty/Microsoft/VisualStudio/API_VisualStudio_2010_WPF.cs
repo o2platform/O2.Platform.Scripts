@@ -10,17 +10,15 @@ using O2.Kernel.ExtensionMethods;
 using O2.DotNetWrappers.ExtensionMethods;
 using O2.XRules.Database.Utils;
 using O2.FluentSharp.VisualStudio;
-using O2.API.Visualization.ExtensionMethods;
 
+//O2Ref:O2_FluentSharp_WPF.dll
 //O2File:API_VisualStudio_2010.cs
-//O2File:WPF_Controls_ExtensionMethods.cs
 
 //O2Ref:EnvDTE.dll
 //O2Ref:EnvDTE80.dll
 //O2Ref:Extensibility.dll 
 //O2Ref:Microsoft.VisualStudio.CommandBars.dll
 //O2Ref:Microsoft.VisualStudio.Shell.ViewManager.dll
-//O2Ref:O2_API_Visualization.dll
 
 //O2Ref:PresentationCore.dll 
 //O2Ref:PresentationFramework.dll

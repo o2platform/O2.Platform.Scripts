@@ -107,7 +107,7 @@ return "ok";
 //using O2.XRules.Database.Findings 
 //O2File:Findings_ExtensionMethods.cs
 //O2File:VerticesAndEdges_ExtensionMethods.cs
-//O2Ref:O2_API_Visualization.dll
+//O2Ref:O2_FluentSharp_WPF.dll
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:GraphSharp.dll
 //O2Ref:QuickGraph.dll

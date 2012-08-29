@@ -121,8 +121,6 @@ step4_FindingsCreated.add_ContextMenu()
 //using System.Windows.Media
 //using System.Windows.Media.Imaging
 //using System.Windows.Markup
-//using O2.API.Visualization.ExtensionMethods
-//using O2.API.Visualization.Xaml
 //using O2.XRules.Database.Findings
 //using O2.XRules.Database.HacmeBank
 
@@ -132,6 +130,7 @@ step4_FindingsCreated.add_ContextMenu()
 //O2File:Findings_ExtensionMethods.cs  
 //O2File:API_HacmeBank.cs
 
+//O2Ref:O2_FluentSharp_WPF.dll
 //O2Ref:System.Web.dll
 //O2Ref:System.Xml.dll
 //O2Ref:System.Xml.Linq.dll
@@ -143,7 +142,6 @@ step4_FindingsCreated.add_ContextMenu()
 //O2Ref:DiagramDesigner.exe
 //O2Ref:WatiN.Core.1x.dll
 
-//O2Ref:O2_API_Visualization.dll
 //O2Ref:O2_ImportExport_OunceLabs.dll
 
 //O2Ref:PresentationCore.dll

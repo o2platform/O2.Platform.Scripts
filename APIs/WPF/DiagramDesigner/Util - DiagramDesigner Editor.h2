@@ -45,7 +45,7 @@ WinForms.MethodInvoker saveDiagramAsGif =
 				copyCanvasToClipboard();
 				var bitmap = mainPanel.fromClipboardGetImage();
 				var tempJpg = bitmap.jpeg();
-				Files.MoveFile(tempJpg,gifLocation);
+				Files.moveFile(tempJpg,gifLocation);
 				"Gif saved with {0}x{1} size at location: {2} ".format(bitmap.Width, bitmap.Height,gifLocation);
 				O2Gui.open&lt;Panel&gt;("Saved JPG",bitmap.Width, bitmap.Height)
 					.add_PictureBox()
@@ -298,11 +298,11 @@ return null;
 //using O2.XRules.Database.APIs
 //using WinForms = System.Windows.Forms
 //using WPF = System.Windows.Controls
-//using O2.API.Visualization.ExtensionMethods
 //O2File:DiagramDesigner_ExtensionMethods.cs
 //O2File:XamlCode.cs
 //O2File:API_Cropper.cs
 
+//O2Ref:O2_FluentSharp_WPF.dll
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:System.Xml.dll
 //O2Ref:System.Xml.Linq.dll
@@ -313,7 +313,6 @@ return null;
 //O2Ref:PresentationCore.dll
 //O2Ref:WindowsBase.dll
 //O2Ref:PresentationFramework.dll
-//O2Ref:O2_API_Visualization.dll 
 //O2Ref:DiagramDesigner.exe
 //O2Ref:Cropper.exe 
 //O2Ref:System.Xaml.dll</SourceCode>

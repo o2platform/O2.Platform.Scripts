@@ -33,7 +33,7 @@ var viewAsXml = false;
 optionsPanel.add_CheckBox("View as Xml",0,5, (value) =&gt; viewAsXml = value);
 optionsPanel.add_Link("view in browser", 5,100,
 						()=&gt; O2Gui.open&lt;Panel&gt;("Browser view of HtmlCode",400,400)
-								  .add_Browser()	
+								  .add_WebBrowser()	
 								  .silent(true)
 								  .open(htmlCodeViewer.get_Text().save()))
 			.bringToFront();
@@ -106,9 +106,7 @@ foreach(var xPathQuery in sampleXPathQueries)
 
 pageToOpen.sendKeys(defaultPage.line());
 
-//O2File:HtmlAgilityPack_ExtensionMethods_SourceCodeViewer.cs
-//using O2.External.IE.ExtensionMethods
-//O2Ref:O2_External_IE.dll
+//O2File:HtmlAgilityPack_Extra_ExtensionMethods.cs
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
 //O2Ref:System.Xml.dll
 //O2Ref:System.Xml.Linq.dll</SourceCode>

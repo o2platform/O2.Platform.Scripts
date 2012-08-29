@@ -7,10 +7,11 @@ using O2.DotNetWrappers.ExtensionMethods;
 using O2.XRules.Database.Utils;
 
 //O2File:Tool_API.cs
-//O2File:API_NGit.cs 
+//_O2File:API_NGit.cs 
 //O2File:_Extra_methods_Roslyn_API.cs
 //O2File:API_MSBuild.cs
 
+//O2Ref:O2_FluentSharp_NGit.dll
 //O2Ref:Mono.Posix.dll
 //O2Ref:ICSharpCode.SharpZipLib.dll 
 //O2Ref:Roslyn.Services.dll
@@ -90,10 +91,10 @@ namespace O2.XRules.Database.APIs
 					if (pssCor4Zip.fileExists())
 					{
 						pssCor4Zip.unzip(Install_Dir);							   
-						Files.Copy(pssCor4_x86,x86_Folder);				
-						Files.Copy(pssCor4_x86.replace(".dll",".pdb"),x86_Folder);
-						Files.Copy(pssCor4_x64,x64_Folder);				
-						Files.Copy(pssCor4_x64.replace(".dll",".pdb"),x64_Folder);				
+						Files.copy(pssCor4_x86,x86_Folder);				
+						Files.copy(pssCor4_x86.replace(".dll",".pdb"),x86_Folder);
+						Files.copy(pssCor4_x64,x64_Folder);				
+						Files.copy(pssCor4_x64.replace(".dll",".pdb"),x64_Folder);				
 					}
 					else
 						"[psscor4 install], could not find psscor4  zip file: {0}".error(pssCor4Zip);
@@ -141,7 +142,7 @@ namespace O2.XRules.Database.APIs
 				//new System.Reflection.Assembly().GetName
 				var assemblyName = "{0}.{1}".format(assembly.GetName().Name, assembly.EntryPoint.isNull() ? "dll" : "exe");
 				var assemblyLocation = roslynAssemblies.pathCombine(assemblyName);
-				Files.Copy(assembly.Location, roslynAssemblies).info();				
+				Files.copy(assembly.Location, roslynAssemblies).info();				
 			}
 			return this;
 		}

@@ -22,7 +22,6 @@ using O2.Views.ASCX.classes.MainGUI;
 //O2File:ElementHost_ExtensionMethods.cs
 //O2File:API_AForge_Video.cs
 //O2Ref:WindowsFormsIntegration.dll
-//O2Ref:O2_API_Visualization.dll
 
 namespace O2.XRules.Database.APIs
 {
@@ -225,7 +224,7 @@ namespace O2.XRules.Database.APIs
     	public static string add_Bitmap(this ascx_MovieEditor movieEditor, Bitmap bitmap)
     	{    		
     		var tempFile = bitmap.save();
-    		var savedBitmap = Files.MoveFile(tempFile, movieEditor.TempVideoImages);
+    		var savedBitmap = Files.moveFile(tempFile, movieEditor.TempVideoImages);
     		movieEditor.FramesList.add_Item(savedBitmap);
     		return savedBitmap;
     	}

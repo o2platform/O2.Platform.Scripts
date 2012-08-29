@@ -19,7 +19,6 @@ using O2.DotNetWrappers.O2Findings;
 using O2.DotNetWrappers.DotNet;
 using O2.External.WinFormsUI.Forms;
 //O2Ref:O2_ImportExport_OunceLabs.dll
-//O2Ref:O2_External_WinFormsUI.dll
 //O2Ref:O2_Core_FileViewers.dll
 
 namespace O2.XRules.Database._Rules

@@ -1165,9 +1165,9 @@ namespace O2.XRules.Database.APIs
             return wikiApi.IndexPhp + "/" + page;
         }
         
-        public static O2BrowserIE add_WikiHelpPage(this Control control, O2MediaWikiAPI wikiApi,  string wikiPage)
+        public static WebBrowser add_WikiHelpPage(this Control control, O2MediaWikiAPI wikiApi,  string wikiPage)
         {
-            var browser = control.add_Browser();
+            var browser = control.add_WebBrowser();
             O2Thread.mtaThread(
                 () =>
                 {
@@ -1187,7 +1187,7 @@ namespace O2.XRules.Database.APIs
         	where T : Control
         {        	
         	var cancelLoad = false;
-			var browser = control.add_Browser();
+			var browser = control.add_WebBrowser();
 			var treeView = browser.insert_Left<TreeView>(200)
 								  .showSelection()	
 								  .afterSelect<string>((html)=>browser.set_Text(html));

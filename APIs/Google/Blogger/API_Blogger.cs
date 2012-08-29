@@ -13,6 +13,8 @@ using O2.DotNetWrappers.ExtensionMethods;
 using O2.Views.ASCX.ExtensionMethods;
 using O2.Views.ASCX.classes.MainGUI;
 using O2.External.IE.ExtensionMethods;
+using O2.External.IE.Interfaces;
+using O2.External.IE.Wrapper;
 using SHDocVw;
 using WatiN.Core;
 using O2.XRules.Database.Utils;
@@ -231,7 +233,7 @@ namespace O2.XRules.Database.APIs
 	   	panel.clear();
  
 			var hostPanel = panel.add_1x1("write","live view",false);
-			var newPostBody = hostPanel[0].add_Browser();
+			var newPostBody = (O2BrowserIE)hostPanel[0].add_O2_Browser_IE();
 			var optionsTab = newPostBody.insert_Above<TabControl>(100);
 			var bloggerView = hostPanel[1].add_IE();
 			var bloggerApi = new API_Blogger(bloggerView);

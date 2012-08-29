@@ -28,7 +28,7 @@ Func&lt;Control&gt; buildMainControl =
 		   							  .leftAdd(30);
 		   	wpfGui.ExecuteScripts.invoke("setupPictureBoxContextMenu",pictureBox);
 		   	wpfGui.ExecuteScripts.statusLabel = wpfGui.StatusLabel;
-		   	var browser = sidePanel.add_Browser()			   	         
+		   	var browser = sidePanel.add_WebBrowser()			   	         
 					   	         .left(0).top(160).fill(false)
 					   	         //.width(sidePanel.width()-2)						   	         
 					   	         .align_Right(sidePanel)
@@ -239,17 +239,14 @@ wpfGui.statusMessage("Welcome to the OWASP O2 Platform");
 
 return null;
 
-
-//using O2.External.IE.ExtensionMethods
 //O2File:WPF_Gui.cs
 
+//O2Ref:O2_FluentSharp_WPF.dll
 //O2Ref:Odyssey.dll
-//O2Ref:O2_External_IE.dll
 //O2Ref:GraphSharp.Controls.dll
 //O2Ref:GraphSharp.dll
 //O2Ref:QuickGraph.dll
 //O2Ref:ICSharpCode.AvalonEdit.dll
-//O2Ref:O2_API_Visualization.dll
 
 //O2Ref:PresentationCore.dll
 //O2Ref:PresentationFramework.dll

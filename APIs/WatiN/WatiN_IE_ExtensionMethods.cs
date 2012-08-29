@@ -32,7 +32,6 @@ using mshtml;
 //O2File:WatiN_IE.cs
 //O2File:DotNet_Viewstate.cs
 
-//O2Ref:O2_External_IE.dll
 //O2Ref:WatiN.Core.1x.dll
 //O2Ref:Microsoft.mshtml.dll
 //O2Ref:System.Xml.Linq.dll
@@ -69,10 +68,10 @@ namespace O2.XRules.Database.APIs
 			return ie;						
     	}
  
-    	public static WatiN_IE ie(this O2.External.IE.Wrapper.O2BrowserIE o2BrowserIE)
+    	/*public static WatiN_IE ie(this O2.External.IE.Wrapper.O2BrowserIE o2BrowserIE)
  		{ 			
 			return (o2BrowserIE as System.Windows.Forms.WebBrowser).ie();
-		}
+		}*/
  
 		public static WatiN_IE ie(this System.Windows.Forms.WebBrowser webBrowser)
  		{ 			

@@ -15,7 +15,6 @@ using O2.Views.ASCX.classes.MainGUI;
 using O2.Views.ASCX.Ascx.MainGUI;
 using O2.Views.ASCX.ExtensionMethods;
 using O2.API.Visualization.Xaml;
-using O2.API.Visualization.ExtensionMethods;
 using O2.External.SharpDevelop.Ascx;
 using  O2.XRules.Database.Utils;
 using DiagramDesigner;
@@ -30,7 +29,6 @@ using DiagramDesigner;
 //O2Ref:QuickGraph.dll   
 //O2Ref:GraphSharp.dll
 //O2Ref:GraphSharp.Controls.dll
-//O2Ref:O2_API_Visualization.dll 
 //O2Ref:DiagramDesigner.exe
 
 

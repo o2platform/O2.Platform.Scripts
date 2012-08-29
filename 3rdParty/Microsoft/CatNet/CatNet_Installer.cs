@@ -10,16 +10,16 @@ public class DynamicType
 {
 	public void dynamicMethod()
 	{
-		new O2.XRules.Database.APIs.CatNet().start();  
+		new O2.XRules.Database.APIs.CatNet_Installer().start();  
 	}
 } 
 	
 namespace O2.XRules.Database.APIs 
 {
 	
-	public class CatNet : Tool_API  
+	public class CatNet_Installer : Tool_API  
 	{	
-		public CatNet()
+		public CatNet_Installer()
 		{
 			config("CatNet_1.1", 				   
 				   "http://download.microsoft.com/download/3/3/4/334E8A84-0F1B-4E3C-AF5F-99DA8AE0601F/CATNETx32.msi".uri(),

@@ -51,7 +51,7 @@ namespace O2.XRules.Database._Rules.IBM.Analysis_Workflows
 		
         public void copyFinalAssessmentFileToWorkflowFolder()
         {
-            Files.Copy(finalAssessmentFile,workflowFolder);
+            Files.copy(finalAssessmentFile,workflowFolder);
         }
 	
         

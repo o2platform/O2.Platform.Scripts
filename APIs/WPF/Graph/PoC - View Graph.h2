@@ -7,7 +7,7 @@ script.InvocationParameters.Add("graph", graph);
 script.Code = 
 @"return graph;
 
-//O2Ref:O2_API_Visualization.dll
+//O2Ref:O2_FluentSharp_WPF.dll
 //O2Ref:GraphSharp.Controls.dll
 //O2Ref:GraphSharp.dll
 //O2Ref:QuickGraph.dll
@@ -20,8 +20,7 @@ script.Code =
 ";
 
 //O2File:GraphSharp_ExtensionMethods.cs
-
-//O2Ref:O2_API_Visualization.dll
+//O2Ref:O2_FluentSharp_WPF.dll
 //O2Ref:GraphSharp.Controls.dll
 //O2Ref:GraphSharp.dll
 //O2Ref:QuickGraph.dll

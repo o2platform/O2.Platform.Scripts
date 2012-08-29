@@ -7,7 +7,6 @@ using GraphSharp.Controls;
 using O2.Kernel.ExtensionMethods;
 using O2.DotNetWrappers.ExtensionMethods;
 using O2.API.AST.Graph;
-using O2.API.Visualization.ExtensionMethods;
 
 //O2File:WPF_Controls_ExtensionMethods.cs
 //O2File:GraphLayout_WPF_ExtensionMethods.cs

@@ -11,14 +11,20 @@ using System.Windows.Controls;
 using System.IO;
 using O2.XRules.Database.APIs;
 
-using O2.API.Visualization.ExtensionMethods;
-
-//O2File:WPF_Controls_ExtensionMethods.cs
+//O2Ref:O2_FluentSharp_WPF.dll
 //O2File:XamlCode.cs
-//O2Ref:WindowsFormsIntegration.dll
+
 //O2Ref:GraphSharp.dll
 //O2Ref:QuickGraph.dll
 //O2Ref:GraphSharp.Controls.dll 
+
+//O2Ref:WindowsFormsIntegration.dll
+//O2Ref:PresentationFramework.dll
+//O2Ref:PresentationCore.dll
+//O2Ref:WindowsBase.dll
+//O2Ref:System.Xaml.dll
+
+
 
 namespace O2.XRules.Database.Utils
 {
@@ -31,7 +37,7 @@ namespace O2.XRules.Database.Utils
 
         public static UIElement showXaml(this ElementHost elementHost, string xamlCode)
         {
-            return (UIElement)elementHost.invokeOnThread(
+            return elementHost.invokeOnThread<UIElement>(
                 () =>
                 {
                     try
@@ -50,6 +56,7 @@ namespace O2.XRules.Database.Utils
                                 childElement = frame;
                                 elementHost.Child = childElement;
                                 "Xaml code loaded into ElementHost".info();
+                                return (UIElement)xamlObject;
                             }
                         }
                     }

@@ -13,8 +13,11 @@ using O2.Views.ASCX;
 using O2.Views.ASCX.MerlinWizard;
 using O2.Views.ASCX.MerlinWizard.O2Wizard_ExtensionMethods;
 using Merlin;
+
 //O2Ref:merlin.dll
 //O2Ref:System.Management.dll
+
+//O2File:O2Wizard.cs
 
 namespace O2.Script
 {
@@ -26,14 +29,14 @@ namespace O2.Script
         {
         	var o2Wizard = new O2Wizard("Enable/Disable Network Adapters", 500, 500);		
         	if (false == Netsh.isAvailable())
-        		Ascx_ExtensionMethods_2.add_Message(o2Wizard.Steps,"Error onEnable/Disable Network Adapters","no NetSh found on this system");
+        		o2Wizard.Steps.add_Message("Error onEnable/Disable Network Adapters","no NetSh found on this system");
         	else
         	{        	
         		// step 1
         		var step1Message = string.Format("This wizard will allow the enable or disable the following Windows Network adapters: \r\n {0}\r\n{1}", 
         									 	Netsh.interfaces_getDetails(),
         									 	Netsh.interfaces_getIPConfig());
-        		Ascx_ExtensionMethods_2.add_Message(o2Wizard.Steps,"Current Network Adapter details", step1Message);        		        		
+        		o2Wizard.Steps.add_Message("Current Network Adapter details", step1Message);        		        		
         		// step 2
         		o2Wizard.Steps.add_Action("Disabling Network Adapters", disableNetworkAdapters);
         		// step 3

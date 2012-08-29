@@ -245,7 +245,6 @@ return "ok";
 //O2File:API_OpenPgp.cs
 //O2File:WPF_GUI.cs
 //O2Ref:WindowsFormsIntegration.dll
-//O2Ref:O2_API_Visualization.dll
 //O2Ref:O2_External_IE.dll
 
 //O2Ref:PresentationCore.dll

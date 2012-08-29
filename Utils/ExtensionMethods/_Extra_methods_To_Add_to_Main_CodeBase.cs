@@ -56,80 +56,31 @@ namespace O2.XRules.Database.Utils
 {	
 
 	
-	public static class Extra_Browser
-	{
-		public static HtmlElement id(this WebBrowser webBrowser, string id)
-		{
-			return webBrowser.getElementById(id);
-		}
-		public static List<string> ids(this WebBrowser webBrowser)
-		{
-			return webBrowser.all().where((htmlElement)=>htmlElement.Id.valid())
-								   .Select((htmlElement)=>htmlElement.Id).toList();
-		}
-		
-		public static List<HtmlElement> names(this WebBrowser webBrowser)
-		{
-			return webBrowser.all().where((htmlElement)=>htmlElement.Name.valid());
-		}
-		
-		public static string html(this HtmlElement htmlElement)
-		{
-			return htmlElement.outerHtml();
-		}
+	public static class Extra_Form
+	{		
 		
 	}	
+	
+	public static class Extra_Controls
+	{
+		
+		
+	}
 
 	public static class Extra_String
 	{
-		public static bool eq(this string _string, params string[] values)
-		{
-			foreach(var value in values)
-				if (_string == value)
-					return true;			
-			return false;		
-		}
 		
-		public static bool fileName_Is(this string file,  params string[] values)
-		{			
-			var fileName = file.fileName();
-			return fileName.eq(values);
-		}
-		
-		public static bool fileName_Contains(this string file,  params string[] values)
-		{			
-			var fileName = file.fileName();
-			return fileName.contains(values);
-		}
+				
  
 	}
 	
 	public static class Extra_TrackBar
 	{
-		public static int value(this TrackBar trackBar)
-		{
-			return trackBar.invokeOnThread(()=>	trackBar.Value );
-		}
-		public static TrackBar value(this TrackBar trackBar, int value)
-		{
-			return trackBar.invokeOnThread(()=>{ trackBar.Value = value; return trackBar;} );
-		}
 		
-		public static TrackBar onValueChanged(this TrackBar trackBar, Action<int> onSlideCallback)
-		{
-			return (TrackBar)trackBar.invokeOnThread(
-				()=>{
-						trackBar.ValueChanged+= (sender,e) => onSlideCallback(trackBar.Value);
-						return trackBar;
-					});
-		}
 	}
 	public static class Extra_compile_Collections
 	{
-		public static List<T> remove_Containing<T>(this List<T> list, string text)
-		{
-			return list.where((value)=> value.str().contains(text).isFalse());
-		}
+		
 	}
 	
 	public static class Extra_compile_TreeView
@@ -144,11 +95,7 @@ namespace O2.XRules.Database.Utils
 	{
 		
 		
-	}
-	public static class Extra_Controls
-	{
-		
-	}
+	}	
 	public static class _Extra_WinForms_Controls_MainMenu
 	{
 		

@@ -235,7 +235,6 @@ return "done";
 
 //O2Ref:TweetSharp.dll
 //O2Ref:TweetSharp.Twitter.dll
-//O2Ref:O2_API_Visualization.dll
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:GraphSharp.dll
 //O2Ref:QuickGraph.dll

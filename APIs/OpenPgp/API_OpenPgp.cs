@@ -64,8 +64,8 @@ namespace O2.XRules.Database.APIs
     	public static API_OpenPgp moveFilesToFolder(this API_OpenPgp openPgp, string targetFolder)
     	{
     		targetFolder.createDir(); // make sure it exists
-    		openPgp.PrivateKey = Files.Copy(openPgp.PrivateKey,targetFolder);
-    		openPgp.PublicKey = Files.Copy(openPgp.PublicKey,targetFolder);
+    		openPgp.PrivateKey = Files.copy(openPgp.PrivateKey,targetFolder);
+    		openPgp.PublicKey = Files.copy(openPgp.PublicKey,targetFolder);
     		return openPgp;
     	}
     	

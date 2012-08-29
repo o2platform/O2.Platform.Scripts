@@ -11,7 +11,6 @@ using O2.Kernel.ExtensionMethods;
 using O2.DotNetWrappers.ExtensionMethods;
 using O2.Views.ASCX.ExtensionMethods;
 using O2.Views.ASCX.classes.MainGUI;
-using O2.External.IE.ExtensionMethods;
 using SHDocVw;
 using WatiN.Core;
 using O2.XRules.Database.Utils;

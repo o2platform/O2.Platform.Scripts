@@ -7,7 +7,6 @@ using System.Windows.Controls;
 using QuickGraph;
 using GraphSharp.Controls;
 using O2.DotNetWrappers.ExtensionMethods;
-using O2.API.Visualization.ExtensionMethods;
 
 //O2File:GraphSharp_ExtensionMethods.cs
 

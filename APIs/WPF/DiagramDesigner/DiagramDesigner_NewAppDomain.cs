@@ -22,7 +22,6 @@ using DiagramDesigner;
 //O2Ref:QuickGraph.dll   
 //O2Ref:GraphSharp.dll
 //O2Ref:GraphSharp.Controls.dll
-//O2Ref:O2_API_Visualization.dll 
 //O2Ref:DiagramDesigner.exe
 
 //O2Ref:PresentationCore.dll

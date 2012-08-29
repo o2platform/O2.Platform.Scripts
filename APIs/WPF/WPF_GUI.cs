@@ -12,12 +12,8 @@ using O2.DotNetWrappers.ExtensionMethods;
 using O2.DotNetWrappers.Windows;
 using O2.Views.ASCX;
 using O2.Views.ASCX.classes.MainGUI;
-using O2.External.IE.ExtensionMethods;
-using O2.External.IE.Wrapper;
-using O2.External.IE.Interfaces;
 using System.Windows;
 using System.Windows.Controls;
-using O2.API.Visualization.ExtensionMethods;
 using O2.XRules.Database;
 using Odyssey.Controls;
 using O2.XRules.Database.Utils;
@@ -29,13 +25,11 @@ using O2.XRules.Database.Utils;
 //O2File:O2PlatformWikiAPI.cs
 
 //O2Ref:Odyssey.dll
-//O2Ref:O2_API_Visualization.dll
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:GraphSharp.dll
 //O2Ref:QuickGraph.dll 
 //O2Ref:GraphSharp.Controls.dll
 //O2Ref:ICSharpCode.AvalonEdit.dll
-//O2Ref:O2_External_IE.dll
 
 namespace O2.XRules.Database.APIs
 {
@@ -43,7 +37,7 @@ namespace O2.XRules.Database.APIs
     {        	
     	public OutlookBar GUI_OutlookBar { get; set; }
 		public WinForms.Panel WinFormPanel { get; set; }
-		public O2BrowserIE O2Browser { get; set; }
+		public WinForms.WebBrowser O2Browser { get; set; }
 		public List<WPF_GUI_Section> GuiSections { get; set;}
 		public O2PlatformWikiAPI Wiki_O2 { get; set; }
 		public WinForms.ToolStripStatusLabel StatusLabel { get; set; }
@@ -128,7 +122,7 @@ namespace O2.XRules.Database.APIs
 						StatusLabel = userControl.add_StatusStrip(Color.White);
 						WinFormPanel = userControl.add_Panel();						
 						
-						O2Browser  = WinFormPanel.add_Browser();
+						O2Browser  = WinFormPanel.add_WebBrowser();
 						/*O2Browser.fill(false)
 								 .align_Right(userControl)
 								 .align_Bottom(userControl)
@@ -356,7 +350,7 @@ namespace O2.XRules.Database.APIs
     		return wpf_Gui.showOffineMessage(wpf_Gui.O2Browser,message);
     	}
     	    	    	    	
-    	public static WPF_GUI showOffineMessage (this WPF_GUI wpf_Gui,O2BrowserIE browser, string message)
+    	public static WPF_GUI showOffineMessage (this WPF_GUI wpf_Gui,WinForms.WebBrowser browser, string message)
     	{
 			return wpf_Gui.showMessage(browser,"You are offline at the moment", message);
     	}    	
@@ -372,12 +366,12 @@ namespace O2.XRules.Database.APIs
     		return  wpf_Gui.showMessage(wpf_Gui.O2Browser, title, message,url);
     	}
     	
-    	public static WPF_GUI showMessage (this WPF_GUI wpf_Gui,O2BrowserIE browser, string title, string message)
+    	public static WPF_GUI showMessage (this WPF_GUI wpf_Gui,WinForms.WebBrowser browser, string title, string message)
     	{
     		return wpf_Gui.showMessage(title, message,"");
     	}
     	
-    	public static WPF_GUI showMessage (this WPF_GUI wpf_Gui,O2BrowserIE browser, string title, string message, string url)
+    	public static WPF_GUI showMessage (this WPF_GUI wpf_Gui,WinForms.WebBrowser browser, string title, string message, string url)
     	{
     		O2Thread.mtaThread(
     			()=>{

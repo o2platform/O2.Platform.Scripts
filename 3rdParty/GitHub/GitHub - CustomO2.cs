@@ -46,7 +46,7 @@ namespace O2.XRules.Database.APIs
     	
     	public GitHub_CustomO2 buildGui()
     	{
-    		var topPanel = O2Gui.open<Panel>("GitHub", 1024,600);
+    		var topPanel = O2Gui.open<Panel>("GitHub", 1024,600).insert_LogViewer();
     		return buildGui(topPanel);
     	}
     	

@@ -19,8 +19,7 @@ using O2.Views.ASCX.O2Findings;
 using O2.API.AST.CSharp;
 using O2.API.AST.ExtensionMethods;
 using O2.API.AST.ExtensionMethods.CSharp;
-using O2.API.Visualization.ExtensionMethods;
-using O2.External.SharpDevelop.Ascx;
+using O2.External.SharpDevelop.Ascx; 
 using O2.External.SharpDevelop.AST;
 using O2.External.SharpDevelop.ExtensionMethods;
 using O2.External.IE.ExtensionMethods;
@@ -55,7 +54,6 @@ using O2.XRules.Database.APIs;
 //O2File:ascx_GraphAst_MethodCalls.cs 
 
 //O2Ref:System.Data.dll 
-//O2Ref:O2_API_Visualization.dll 
 //O2Ref:O2_External_IE.dll
 //O2Ref:System.Xml.Linq.dll
 //O2Ref:System.Xml.dll
@@ -171,7 +169,7 @@ namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
             HostPanel.parent<SplitContainer>().borderNone();
             HostPanel.parent<SplitContainer>().fixedPanel1();
             
-            HostPanel.insert_Below<ascx_LogViewer>(100);
+            HostPanel.insert_Below<ascx_LogViewer>(100); 
 			
 			statusMessage("all ready...");
 			*/

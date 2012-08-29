@@ -40,7 +40,7 @@ namespace O2.XRules.Database.Findings
 				{						
 					var tempFolder = "HacmeBank_COMPLETE_TRACES.zip".local().unzip_File();
 					var tempUnzipedFile = tempFolder.files()[0];				
-					Files.MoveFile(tempUnzipedFile, findingsFile);
+					Files.moveFile(tempUnzipedFile, findingsFile);
 					Files.deleteFolder(tempFolder);
 				}
 				return findingsFile.loadFindingsFile();

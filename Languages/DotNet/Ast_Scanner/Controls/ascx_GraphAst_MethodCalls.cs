@@ -16,7 +16,6 @@ using O2.DotNetWrappers.DotNet;
 using O2.API.AST.CSharp;
 using O2.API.AST.ExtensionMethods;
 using O2.API.AST.ExtensionMethods.CSharp;
-using O2.API.Visualization.ExtensionMethods;
 using O2.Views.ASCX;
 using GraphSharp.Controls;
 using O2.XRules.Database.Utils;
@@ -34,7 +33,6 @@ using O2.XRules.Database.Utils;
 //O2Ref:PresentationCore.dll
 //O2Ref:WindowsBase.dll
 //O2Ref:WindowsFormsIntegration.dll
-//O2Ref:O2_API_Visualization.dll
 //O2Ref:System.Xml.Linq.dll
 //O2Ref:System.Xml.dll
 

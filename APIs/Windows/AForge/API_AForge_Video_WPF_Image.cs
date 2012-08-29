@@ -11,16 +11,15 @@ using O2.Kernel;
 using O2.Kernel.ExtensionMethods;
 using O2.DotNetWrappers.ExtensionMethods;
 using O2.Views.ASCX.ExtensionMethods;
-using O2.API.Visualization.ExtensionMethods;
 using O2.XRules.Database.Utils;
 
-//O2File:WPF_Controls_ExtensionMethods.cs
+//O2Ref:O2_FluentSharp_WPF.dll
 
-//O2Ref:O2_API_Visualization.dll
 //O2Ref:PresentationCore.dll
 //O2Ref:PresentationFramework.dll
 //O2Ref:WindowsBase.dll   
 //O2Ref:System.Core.dll
+//O2Ref:System.Xaml.dll
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:GraphSharp.dll
 //O2Ref:QuickGraph.dll 

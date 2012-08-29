@@ -1,4 +1,5 @@
-﻿using System;
+﻿//O2Tag:SkipGlobalCompilation
+using System;
 using System.IO.Compression;
 using System.Collections.Generic;
 using System.Linq;

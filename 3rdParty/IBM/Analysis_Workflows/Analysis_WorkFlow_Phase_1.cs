@@ -45,11 +45,11 @@ namespace O2.XRules.Database._Rules.IBM.Analysis_Workflows
             foreach(var fileOrFolder in analysisArtifacts.assessmentFilesOrFolderToLoad)
             {        		
                 if (File.Exists(fileOrFolder))
-                    filesCopied.Add(Files.CopyVerbose(fileOrFolder, folderWithArtifacts_Phase1,dontCopyIfTargetFileAlreadyExists));
+                    filesCopied.Add(Files.copyVerbose(fileOrFolder, folderWithArtifacts_Phase1,dontCopyIfTargetFileAlreadyExists));
                 else 
                     if (Directory.Exists(fileOrFolder))        		        			
                         foreach(var assessmentFile in Files.getFilesFromDir_returnFullPath(fileOrFolder, "*.ozasmt", true))
-                            filesCopied.Add(Files.CopyVerbose(assessmentFile, folderWithArtifacts_Phase1,dontCopyIfTargetFileAlreadyExists));
+                            filesCopied.Add(Files.copyVerbose(assessmentFile, folderWithArtifacts_Phase1,dontCopyIfTargetFileAlreadyExists));
             }
 
   			            
@@ -89,7 +89,7 @@ namespace O2.XRules.Database._Rules.IBM.Analysis_Workflows
                 Assert.That(Directory.Exists(targetFolder), "targetFolder did not exist: " + targetFolder);		
                 // copy config *.xml files
                 foreach(var configFile in Files.getFilesFromDir_returnFullPath(projectWebInf,"*.xml", false))
-                    Files.Copy(configFile, targetFolder);
+                    Files.copy(configFile, targetFolder);
 				
                 // make sure target folder has at least 1 file
                 Assert.That(Files.getFilesFromDir_returnFullPath(targetFolder).Count > 0, "There wer no config files copied to: " + targetFolder);               

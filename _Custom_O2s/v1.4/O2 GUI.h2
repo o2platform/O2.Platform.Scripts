@@ -42,9 +42,9 @@ return designerCanvas.connect(label1,label2,"Right","Top");
 //using WPF= System.Windows.Controls
 //using DiagramDesigner
 //O2File:DiagramDesigner_ExtensionMethods.cs
+//O2Ref:O2_FluentSharp_WPF.dll
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:DiagramDesigner.exe
-//O2Ref:O2_API_Visualization.dll
 
 //O2Ref:PresentationCore.dll
 //O2Ref:PresentationFramework.dll

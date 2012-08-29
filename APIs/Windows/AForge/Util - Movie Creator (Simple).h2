@@ -52,7 +52,7 @@ wpfRibbon.tab("Movie Creation")
 		 				{
 		 					var targetFile = O2Forms.askUserForFileToSave(Environment.CurrentDirectory,"*.avi");
 		 					"Moving created movie from: {0} to {1}".info();
-		 					Files.MoveFile(movieEditor.AForge_Video.PathToAviVideo,targetFile);
+		 					Files.moveFile(movieEditor.AForge_Video.PathToAviVideo,targetFile);
 		 					if (targetFile.fileExists())
 		 						movieEditor.AForge_Video.PathToAviVideo =targetFile;
 		 				 }
@@ -84,7 +84,6 @@ return "done";
 //O2File:API_WPF_ToolKit.cs
 //O2File:API_MiniFramework.cs
 //O2Ref:WindowsFormsIntegration.dll
-//O2Ref:O2_API_Visualization.dll
 //O2Ref:RibbonControlsLibrary.dll
 
 //O2Ref:PresentationCore.dll

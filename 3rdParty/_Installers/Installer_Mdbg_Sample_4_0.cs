@@ -14,13 +14,13 @@ namespace O2.XRules.Database.APIs
 	{
 		public static void test()  
 		{
-			new Installer_MDbg_Sample().start(); 
+			new Installer_MDbg_Sample_4_0().start(); 
 		}
 	}
 	 
-	public class Installer_MDbg_Sample : Tool_API    
+	public class Installer_MDbg_Sample_4_0 : Tool_API    
 	{				
-		public Installer_MDbg_Sample()
+		public Installer_MDbg_Sample_4_0()
 		{			
 			config("MDbg_Sample", 				    
 				   "http://download.microsoft.com/download/E/5/B/E5BF5F79-45FB-4ACA-AA6F-4F2C0DFE29C8/MDbgSample4.EXE".uri(),
@@ -28,7 +28,7 @@ namespace O2.XRules.Database.APIs
 			install_MDbg();
 		}		
 		
-		public Installer_MDbg_Sample install_MDbg()
+		public Installer_MDbg_Sample_4_0 install_MDbg()
 		{
 			if (this.isInstalled().isFalse())
 			{

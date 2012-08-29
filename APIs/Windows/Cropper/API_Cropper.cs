@@ -87,7 +87,7 @@ namespace O2.XRules.Database.APIs
 		
 		public static void openGui()
 		{
-			O2Thread.staThread(new O2Thread.FuncVoid(Program.Main));
+			O2Thread.staThread(Program.Main);
 		}
     }
     

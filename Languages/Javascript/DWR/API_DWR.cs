@@ -659,7 +659,7 @@ namespace O2.XRules.Database.APIs
 			}
 			catch
 			{
-				return Files.Copy(dwr_Request.serialize(), folder);
+				return Files.copy(dwr_Request.serialize(), folder);
 			}
 		}						
 	}

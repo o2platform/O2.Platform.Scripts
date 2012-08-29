@@ -4,13 +4,13 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Windows.Forms;
-using System.Collections;    
+using System.Collections;     
 using System.Collections.Generic;
 using O2.Kernel;
+using O2.DotNetWrappers.DotNet;
 using O2.Kernel.ExtensionMethods;
 using O2.DotNetWrappers.ExtensionMethods;
 
-//O2File:DynamicTypes.cs 
 //O2Tag_DontAddExtraO2Files
 //O2Ref:TypeConfusion.dll
 

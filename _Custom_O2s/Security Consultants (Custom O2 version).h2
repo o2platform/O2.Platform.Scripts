@@ -158,7 +158,6 @@ return ribbon;
 //O2File:WPF_Ribbon_ExtensionMethods.cs
 //O2File:DiagramDesigner_ExtensionMethods.cs
 //O2Ref:WindowsFormsIntegration.dll
-//O2Ref:O2_API_Visualization.dll
 //O2Ref:DiagramDesigner.exe
 
 //O2Ref:RibbonControlsLibrary.dll

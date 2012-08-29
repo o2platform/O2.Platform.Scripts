@@ -88,6 +88,6 @@ return "ok";
 //O2File:NodeJS.cs
 //O2File:CmdExeAPI.cs
 //O2Tag_DontAddExtraO2Files
- //O2Ref: Microsoft.CSharp.dll</SourceCode>
+//O2Ref: Microsoft.CSharp.dll</SourceCode>
   <ReferencedAssemblies />
 </H2>

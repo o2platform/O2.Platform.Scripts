@@ -11,10 +11,9 @@ using O2.DotNetWrappers.ExtensionMethods;
 using CefSharp;
 using CefSharp.WinForms;
 
+//Installer:CefSharp.cs!CefSharp\CefSharp-0.11-bin\CefSharp.WinForms.dll
 //O2Ref:CefSharp\CefSharp-0.11-bin\CefSharp.WinForms.dll
 //O2Ref:CefSharp\CefSharp-0.11-bin\CefSharp.dll 
-
-//You will need to execute CefSharp.cs first (to download the CefSharp files)
 
 namespace O2.XRules.Database.APIs
 {

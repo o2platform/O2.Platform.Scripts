@@ -11,9 +11,6 @@ using O2.Tool.HostLocalWebsite.ascx;
 //O2File:ascx_HostLocalWebsite.Designer.cs
 //O2File:webservices.cs
 
-//O2Ref:O2_External_WinFormsUI.dll
-//O2Ref:WeifenLuo.WinFormsUI.Docking.dll
-
 namespace O2.Tool.HostLocalWebsite
 {
     internal static class main

@@ -18,7 +18,6 @@ using O2.DotNetWrappers.DotNet;
 using O2.DotNetWrappers.ExtensionMethods;
 using O2.Views.ASCX.classes.MainGUI;
 using O2.Kernel.ExtensionMethods;
-using O2.API.Visualization.ExtensionMethods;
 using Microsoft.Windows.Controls.Ribbon;
 using O2.XRules.Database.APIs;
 using O2.External.SharpDevelop.ExtensionMethods;
@@ -31,7 +30,6 @@ using O2.External.SharpDevelop.ExtensionMethods;
 //O2Ref:Microsoft.Windows.Shell.dll
 //O2File:WPF_Ribbon_ExtensionMethods.cs
 
-//O2Ref:O2_API_Visualization.dll
 //O2Ref:System.Xaml.dll
 
 //O2Ref:PresentationCore.dll

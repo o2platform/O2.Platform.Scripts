@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 using System.Threading;
-using System.Collections.Generic;
+using System.Collections.Generic;  
 using System.Text;
 using O2.Kernel.ExtensionMethods;
 using O2.DotNetWrappers.DotNet;
@@ -11,7 +11,7 @@ using O2.XRules.Database.Utils;
 using CefSharp;
 using CefSharp.Wpf;
 
-//O2File:WPF_Controls_ExtensionMethods.cs
+//O2Ref:O2_FluentSharp_WPF.dll
 
 //O2Ref:CefSharp\CefSharp-0.11-bin\CefSharp.Wpf.dll
 //O2Ref:CefSharp\CefSharp-0.11-bin\CefSharp.dll
@@ -31,7 +31,7 @@ namespace O2.XRules.Database.APIs
 		public void launchChrome()
 		{
 			"Chrome Browser test".popupWindow()
-								 .add_Chrome_Wpf()
+								 .add_Chrome_Wpf(true)
 								 .Load("http://news.bbc.co.uk");
 		}
 	}
@@ -64,7 +64,7 @@ namespace O2.XRules.Database.APIs
 			{
 				control.insert_Above(20)
 					   .add_TextBox("Url:","")
-					   .onEnter((text)=> _webView.open_ASync(text));
+					   .onEnter((text)=> _webView.open_ASync(text.info()));
 				//webView.onNavigate((url)=> urlTextBox.set_Text(url));
 			}
 			return _webView;

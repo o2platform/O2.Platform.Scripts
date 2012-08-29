@@ -55,14 +55,12 @@ return "done";
 //using System.Xml.Linq
 //using System.Linq
 //using System.Collections.Generic
-//using O2.API.Visualization.ExtensionMethods
 
 //O2File:WPF_Controls_ExtensionMethods.cs
 //O2File:Xaml_ExtensionMethods.cs
 
 //O2Ref:System.Xml.dll
 //O2Ref:System.Xml.Linq.dll
-//O2Ref:O2_API_Visualization.dll
 //O2Ref:PresentationCore.dll
 //O2Ref:PresentationFramework.dll
 //O2Ref:WindowsBase.dll   

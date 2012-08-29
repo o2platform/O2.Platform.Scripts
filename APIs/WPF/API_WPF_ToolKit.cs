@@ -9,17 +9,17 @@ using O2.Kernel;
 using O2.Kernel.ExtensionMethods;
 using O2.DotNetWrappers.ExtensionMethods;
 using O2.Views.ASCX.ExtensionMethods;
-using O2.API.Visualization.ExtensionMethods;
 
 using Gong = GongSolutions.Wpf.DragDrop	;
 
+//O2Ref:O2_FluentSharp_WPF.dll
+//O2Ref:System.Core.dll
 //O2Ref:WPFToolkit.dll
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:ICSharpCode.AvalonEdit.dll
 //O2Ref:QuickGraph.dll
 //O2Ref:GraphSharp.dll
 //O2Ref:GraphSharp.Controls.dll
-//O2Ref:O2_API_Visualization.dll
 //O2Ref:PresentationCore.dll
 //O2Ref:WindowsBase.dll
 //O2Ref:PresentationFramework.dll

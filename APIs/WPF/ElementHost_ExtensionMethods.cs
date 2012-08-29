@@ -7,11 +7,15 @@ using System.Windows.Controls;
 using System.Windows.Forms.Integration;
 using O2.Kernel.ExtensionMethods;
 using O2.DotNetWrappers.ExtensionMethods;
-using O2.API.Visualization.ExtensionMethods;
 
 //O2File:WPF_Controls_ExtensionMethods.cs
-
+//O2Ref:O2_FluentSharp_WPF.dll
 //O2Ref:WindowsFormsIntegration.dll
+//O2Ref:PresentationFramework.dll
+//O2Ref:PresentationCore.dll
+//O2Ref:WindowsBase.dll
+//O2Ref:System.Xaml.dll
+
 
 namespace O2.XRules.Database.Utils
 {
@@ -25,7 +29,7 @@ namespace O2.XRules.Database.Utils
         }*/
         #region ElementHost add		
         
-		public static T add_Control_Wpf<T>(this ElementHost elementHost) where T : UIElement
+/*		public static T add_Control_Wpf<T>(this ElementHost elementHost) where T : UIElement
     	{
     		return (T)elementHost.invokeOnThread(
     			()=>{
@@ -45,13 +49,13 @@ namespace O2.XRules.Database.Utils
 			            return null;			    				
     				});     		
     	}
-
+*/
 		#endregion 
 				
 		    	
 
 		#region ElementHost - WPF Controls
-		public static Label add_Label_Wpf(this ElementHost elementHost, string text)
+/*		public static Label add_Label_Wpf(this ElementHost elementHost, string text)
 		{
 			return elementHost.add_Control_Wpf<Label>().set_Text_Wpf(text);
 		}
@@ -70,7 +74,7 @@ namespace O2.XRules.Database.Utils
         {
             return elementHost.add_Control_Wpf<System.Windows.Controls.ListView>();
         }
-                
+*/                
         #endregion
 
     }

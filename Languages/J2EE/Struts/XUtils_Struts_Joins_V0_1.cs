@@ -15,7 +15,6 @@ using O2.DotNetWrappers.DotNet;
 using O2.DotNetWrappers.O2Findings;
 using O2.External.WinFormsUI.Forms;
 using O2.Views.ASCX.O2Findings;
-//O2Ref:O2_External_WinFormsUI.dll
 //O2Ref:O2_Core_FileViewers.dll
 //O2File:XUtils_Findings_v0_1.cs
 

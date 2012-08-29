@@ -192,8 +192,6 @@ return "ok";
 //using System.Windows.Media
 //using System.Windows.Media.Imaging
 //using System.Windows.Markup
-//using O2.API.Visualization.ExtensionMethods
-//using O2.API.Visualization.Xaml
 //using O2.XRules.Database.Findings
 
 //O2File:DiagramDesigner_ExtensionMethods.cs
@@ -201,6 +199,7 @@ return "ok";
 //O2File:Rule_DotNet_FindSources.cs 
 //O2File:Findings_ExtensionMethods.cs  
 
+//O2Ref:O2_FluentSharp_WPF.dll
 //O2Ref:System.Web.dll
 //O2Ref:System.Xml.dll
 //O2Ref:System.Xml.Linq.dll
@@ -214,7 +213,6 @@ return "ok";
 //O2Ref:ICSharpCode.AvalonEdit.dll
 //O2Ref:DiagramDesigner.exe
 
-//O2Ref:O2_API_Visualization.dll
 //O2Ref:System.Xaml.dll
 </SourceCode>
   <ReferencedAssemblies />

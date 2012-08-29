@@ -270,7 +270,7 @@ namespace O2.XRules.Database.Languages_and_Frameworks.AspNet
 						{
 							//create a cache copy of the dll	
 							"Saving {0} dll cache to {1}".info(compiledAssemblyPath,cacheLocation);
-							Files.Copy(compiledAssemblyPath, cacheLocation);
+							Files.copy(compiledAssemblyPath, cacheLocation);
 						}
 					  });
 		}

@@ -13,8 +13,9 @@ using SOS.Net.Core;
 using SOS.Net.Core.Cdb;
 using SOS.Net.Core.Cdb.Commands;
 
-//O2Ref:SosNet\SOS.Net.Core.dll
-//O2Ref:SosNet\SOS.Net.exe
+//Installer:Installer_SosNet.cs!SosNet\SOS.Net.Core.dll
+//O2Ref:SosNet\Debug\SOS.Net.Core.dll
+//O2Ref:SosNet\Debug\SOS.Net.exe
 
 namespace O2.XRules.Database.Utils
 {

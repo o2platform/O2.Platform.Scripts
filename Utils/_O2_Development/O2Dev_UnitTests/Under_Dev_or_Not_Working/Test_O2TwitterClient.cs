@@ -21,6 +21,11 @@ using WindowsInput;
 //O2File:API_InputSimulator.cs
 //O2File:WPF_Controls_ExtensionMethods.cs
 
+//O2Ref:WindowsFormsIntegration.dll
+//O2Ref:PresentationFramework.dll
+//O2Ref:PresentationCore.dll
+//O2Ref:WindowsBase.dll
+//O2Ref:System.Xaml.dll
 
 namespace O2.XRules.Database.UnitTests
 {		

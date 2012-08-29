@@ -12,16 +12,15 @@ using GraphSharp.Algorithms.Layout;
 using O2.Kernel.ExtensionMethods;
 using O2.DotNetWrappers.ExtensionMethods;
 using O2.API.AST.ExtensionMethods;
-using O2.API.Visualization.ExtensionMethods;
 using O2.API.Visualization;
 
 //O2File:WPF_Controls_ExtensionMethods.cs
 //O2File:GraphLayout_WPF_ExtensionMethods.cs
+//O2File:GraphFactory.cs
 
 //O2Ref:GraphSharp.dll
 //O2Ref:QuickGraph.dll
 //O2Ref:GraphSharp.Controls.dll 
-//O2Ref:O2_API_Visualization.dll
 
 namespace O2.XRules.Database.Utils
 {

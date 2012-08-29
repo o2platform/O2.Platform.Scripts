@@ -34,6 +34,7 @@ codeEditor.parent().insert_Above(20).add_Link("Execute Pyhton code" , ()=&gt; ex
 //using Microsoft.Scripting
 //using IronPython
 //using IronPython.Hosting
+//Installer:IronPython_Install.cs!IronPython\SourceDir\GAC\IronPython.dll
 //O2Ref:IronPython\SourceDir\GAC\IronPython.dll
 //O2Ref:IronPython\SourceDir\GAC\Microsoft.Dynamic.dll
 //O2Ref:IronPython\SourceDir\GAC\Microsoft.Scripting.dll

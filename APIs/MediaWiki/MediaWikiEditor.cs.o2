@@ -20,7 +20,6 @@ using O2.External.IE.ExtensionMethods;
 
 using O2.XRules.Database.APIs; 
 using O2.XRules.Database.Utils;
-using O2.API.Visualization.ExtensionMethods;
 using AvalonDock;
 
 //O2File:OwaspWikiAPI.cs
@@ -34,7 +33,6 @@ using AvalonDock;
 //O2File:ascx_MediaWiki_PageEditor_Simple.cs
 
 //O2Ref:AvalonDock.dll
-//O2Ref:O2_API_Visualization.dll
 //O2Ref:PresentationCore.dll
 //O2Ref:WindowsBase.dll
 //O2Ref:PresentationFramework.dll
@@ -448,8 +446,8 @@ namespace O2.XRules.Database.APIs
 			var rawWiki = topPanel[0].add_TextArea(); 
 			var bottomPanel = topPanel[1].add_1x1x1("Pure Html", "Browser (pure html View)", "Browser (view using site's Styles)");
 			var htmlViewer = bottomPanel[0].add_RichTextBox();
-			var browserSimple = bottomPanel[1].add_Browser(); 
-			var browserWithSyles = bottomPanel[2].add_Browser(); 
+			var browserSimple = bottomPanel[1].add_WebBrowser(); 
+			var browserWithSyles = bottomPanel[2].add_WebBrowser(); 
 			
 			Action<string> processWikiText = 
 				(wikiText)=>{															

@@ -15,13 +15,11 @@ using O2.External.IE.Wrapper;
 using O2.External.IE.ExtensionMethods;
 using O2.External.SharpDevelop.ExtensionMethods;
 using O2.API.Visualization.Ascx;
-using O2.API.Visualization.ExtensionMethods;
 using O2.Views.ASCX.classes.MainGUI;
 
 //O2File:GraphSharp_ExtensionMethods.cs
 //O2File:VerticesAndEdges_ExtensionMethods.cs
 //O2File:WPF_Controls_ExtensionMethods.cs
-//O2Ref:O2_API_Visualization.dll
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:GraphSharp.dll
 //O2Ref:QuickGraph.dll
@@ -89,8 +87,7 @@ namespace O2.XRules.Database.Utils
 						  "//O2File:VerticesAndEdges_ExtensionMethods.cs".line()+
 						  "//O2File:WPF_Controls_ExtensionMethods.cs".line()+						  
 						  "//O2Ref:System.Xml.dll".line()+
-						  "//O2Ref:System.Xml.Linq.dll".line()+
-						  "//O2Ref:O2_API_Visualization.dll".line()+
+						  "//O2Ref:System.Xml.Linq.dll".line()+						  
 						  "//O2Ref:PresentationCore.dll".line()+
 						  "//O2Ref:PresentationFramework.dll".line()+
 						  "//O2Ref:WindowsBase.dll   ".line()+

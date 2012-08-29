@@ -14,14 +14,12 @@ using O2.DotNetWrappers.ExtensionMethods;
 using O2.Views.ASCX.classes.MainGUI;
 using O2.Views.ASCX.ExtensionMethods;
 using O2.Views.ASCX.CoreControls;
-using O2.External.IE.ExtensionMethods;
-using O2.External.IE.Wrapper;
+
 using O2.XRules.Database.Utils;
 //O2File:O2PlatformWikiAPI.cs
 //O2File:O2MediaWikiApi.cs
 //O2File:ascx_AskUserForLoginDetails.cs
 
-//O2Ref:O2_External_IE.dll
 
 namespace O2.XRules.Database.APIs
 {
@@ -32,8 +30,8 @@ namespace O2.XRules.Database.APIs
     	public TextBox WikiPage_TextBox  {get; set;}
     	
     	public RichTextBox WikiTextEditor { get; set; }
-		public O2BrowserIE BrowserPreview { get; set; }
-		public O2BrowserIE BrowserCurrent { get; set; }
+		public WebBrowser BrowserPreview { get; set; }
+		public WebBrowser BrowserCurrent { get; set; }
 		public ComboBox CurrentPageUrl { get; set; }
 		public Button SaveButton { get; set; }
 		public Label StatusLabel { get; set; }
@@ -71,8 +69,8 @@ namespace O2.XRules.Database.APIs
 			  	var verticalSplitterPosition = topPanel.width()/2;
 				var controls = topPanel.add_1x2("WikiText","Preview","Live (Current page)",false,horizontalSplitterPosition,verticalSplitterPosition); 
 				WikiTextEditor = controls[0].add_RichTextBox();
-				BrowserPreview = controls[1].add_Browser();
-				BrowserCurrent = controls[2].add_Browser(); 
+				BrowserPreview = controls[1].add_WebBrowser();
+				BrowserCurrent = controls[2].add_WebBrowser(); 
 							
 				WikiPage_TextBox = 	WikiTextEditor.insert_Above<TextBox>(50);	
 				var bottomPanel = WikiPage_TextBox.insert_Below<Panel>(30);  			

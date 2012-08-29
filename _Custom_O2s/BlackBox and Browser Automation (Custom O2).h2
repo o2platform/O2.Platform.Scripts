@@ -82,7 +82,6 @@ demoVulnerableApplications.add_RibbonGroup("HacmeBank")
 //using Microsoft.Windows.Controls.Ribbon;
 
 //O2Ref:WindowsFormsIntegration.dll
-//O2Ref:O2_API_Visualization.dll
 //O2Ref:RibbonControlsLibrary.dll
 
 //O2Ref:PresentationFramework.dll

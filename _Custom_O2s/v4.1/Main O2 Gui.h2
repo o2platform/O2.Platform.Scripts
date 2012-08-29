@@ -89,15 +89,18 @@ var help_Mappings = 	 new Items().add("O2 Documentation", "http://o2platform.com
  	
 
 menu.add_MenuItem("Main")
-	//.add_MenuItem("Find an O2 Script", ()=&gt; executeH2Script("Util - O2 Available scripts.h2"))
-	.add_MenuItem("Stop current process", ()=&gt; Processes.getCurrentProcess().stop());
+	.add_MenuItem("Find an O2 Script", ()=&gt; executeH2Script("Util - O2 Available scripts.h2"));
+	
 	
 menu.add_MenuItem("Debug")
+	.add_MenuItem("Restart O2 (will kill current process)", ()=&gt; { Application.ExecutablePath.startProcess(); Processes.getCurrentProcess().stop();})
 	.add_MenuItem("View O2 Config Object", ()=&gt; PublicDI.config.showInfo())
 	.add_MenuItem("Open ReferencesDownloadLocation Folder",()=&gt; PublicDI.config.ReferencesDownloadLocation.startProcess())
 	.add_MenuItem("Open TempDir",()=&gt; PublicDI.config.O2TempDir.startProcess())
-	.add_MenuItem("Clear Compilation Cache",()=&gt;  { CompileEngine.clearCompilationCache();})
-	.add_MenuItem("Compile All Scripts",()=&gt;  executeH2Script("Compile All Local O2 Scripts.h2"));
+	.add_MenuItem("Clear Compilation Cache and Downloads",()=&gt;  { CompileEngine.clearAllCompilationRelatedDownloadsAndCaches();})
+	.add_MenuItem("Compile All Scripts",()=&gt;  executeH2Script("Compile All Local O2 Scripts.h2"))
+	.add_MenuItem("REPL this GUI",()=&gt;  topPanel.parentForm().script_Me("form"));
+	
 menu.add_MenuItem("Help")	
 	.add_MenuItem("Report bug",()=&gt; ReportBug.showGui(topPanel))
 	.add_MenuItem("O2 Mailing list",()=&gt; "https://lists.owasp.org/mailman/listinfo/owasp-o2-platform".startProcess())
@@ -107,25 +110,14 @@ menu.add_MenuItem("Help")
 menuPanel.add_ExecutionComboBox("Write Script:",15,0,scripting_Mappings).dropDownHeight(300);
 menuPanel.add_ExecutionComboBox("O2 Tools:",36,0,o2tools_Mappings).leftAdd(13).dropDownHeight(300);   
    
-menuPanel.add_Link("Find an O2 Script",57,69,()=&gt; executeH2Script("Util - O2 Available scripts.h2"));
-		 //.append_Below_Link("Clear Scripts Cache",()=&gt;  { CompileEngine.CachedCompiledAssemblies.Clear(); "Script Compilation Cache cleard".debug();}); 
+menuPanel.add_Link("Find an O2 Script",57,69,()=&gt; executeH2Script("Util - O2 Available scripts.h2"));		 
 
 menuPanel.add_ExecutionComboBox("Open O2 Gui for:",15,200, o2Guis_Mappings).leftAdd(-5).widthAdd(20).dropDownHeight(300); 
 menuPanel.add_ExecutionComboBox("3rd Party Tools:",36,200,otherTools_Mapping).widthAdd(20).dropDownHeight(300);
  
 menuPanel.add_ExecutionComboBox("Need Help?",57,200, help_Mappings).leftAdd(20).widthAdd(20);
 
-//menuPanel.add_Link("Report bug",77,200,()=&gt; ReportBug.showGui(topPanel));
 
-
-
-
-//menuPanel.add_Link("Open Custom O2 for Security Consultants",15,185, ()=&gt; executeH2Script("Security Consultants (Custom O2 version).h2"));
-
-/*menuPanel.add_Label("Are you lost?",35,185)
-		 .append_Link("Open Help",()=&gt; "".startProcess()) 
-		 .append_Link("Mailing List",()=&gt; "".startProcess());
-*/		 
 logViewerPanel.add_LogViewer().white(); 
  
 return "done";		

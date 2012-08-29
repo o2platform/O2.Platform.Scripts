@@ -12,3 +12,6 @@ response.Write(taint);
 response.Redirect(taint);
 Process.Start(taint);
 File.OpenRead(taint);
+
+
+//O2Tag:SkipGlobalCompilation

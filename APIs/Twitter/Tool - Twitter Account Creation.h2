@@ -92,10 +92,9 @@ step5_IE.open("http://google.com");
  //O2File:DiagramDesigner_ExtensionMethods.cs
 //O2Ref:DiagramDesigner.exe
 //O2Ref:WindowsFormsIntegration.dll
-//O2Ref:O2_API_Visualization.dll
 //O2Ref:WatiN.Core.1x.dll
 
-
+//O2Ref:O2_FluentSharp_WPF.dll
 //O2Ref:PresentationCore.dll
 //O2Ref:PresentationFramework.dll
 //O2Ref:WindowsBase.dll

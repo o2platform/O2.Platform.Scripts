@@ -21,6 +21,12 @@ using O2.DotNetWrappers.Windows;
 //O2File:Tool_API.cs
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
 
+//O2Ref:WindowsFormsIntegration.dll
+//O2Ref:PresentationFramework.dll
+//O2Ref:PresentationCore.dll
+//O2Ref:WindowsBase.dll
+//O2Ref:System.Xaml.dll
+
 using O2.XRules.Database.Utils;
 
 namespace O2.XRules.Database.APIs
