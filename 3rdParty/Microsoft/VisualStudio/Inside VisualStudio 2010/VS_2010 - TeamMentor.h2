@@ -21,6 +21,7 @@ return "done";
 //O2Ref:PresentationCore.dll
 //O2Ref:WindowsBase.dll
 //O2Ref:System.Xaml.dll
-</SourceCode>
+
+//O2Tag:SkipGlobalCompilation</SourceCode>
   <ReferencedAssemblies />
 </H2>

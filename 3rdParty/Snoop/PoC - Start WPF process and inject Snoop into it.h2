@@ -26,6 +26,7 @@ var arguments = string.Concat(new object[]
 	
 return fileName.startProcess(arguments);
 
+//Installer:Snoop_Installer.cs!Snoop\Snoop.exe
 //using Snoop;
 //O2Ref:Snoop\Snoop.exe</SourceCode>
   <ReferencedAssemblies />

@@ -13,7 +13,7 @@ using SOS.Net.Core;
 using SOS.Net.Core.Cdb;
 using SOS.Net.Core.Cdb.Commands;
 
-//Installer:Installer_SosNet.cs!SosNet\SOS.Net.Core.dll
+//Installer:Installer_SosNet.cs!SosNet\Debug\SOS.Net.Core.dll
 //O2Ref:SosNet\Debug\SOS.Net.Core.dll
 //O2Ref:SosNet\Debug\SOS.Net.exe
 

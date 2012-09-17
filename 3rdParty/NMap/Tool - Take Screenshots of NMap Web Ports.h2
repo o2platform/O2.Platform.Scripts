@@ -83,9 +83,11 @@ actionsPanel.add_Link("take screnshots of all pages", takeScreenShotsOfAllPages)
 			.append_Link("stop execution", ()=&gt; stopExecution = true)
 			.append_Link("View Folder with Screenshots", ()=&gt; targetFolder.startProcess());
 
-			 
-loadNmapXmlFile(@"o2platform.com.xml".local());	 
+//if ("o2platform.com.xml".local().fileExists())		 
+//	loadNmapXmlFile(@"o2platform.com.xml".local());	 
 return "ok";			
+
+//using tempuri.org.nmap
 //O2File:nmap.cs
 //O2File:API_Cropper.cs
 //O2File:WatiN_IE_ExtensionMethods.cs

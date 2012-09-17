@@ -27,8 +27,8 @@ sosController.detach();
 return ""Detached"";
 //O2File:SoSNet_ExtensionMethods.cs
 //O2Tag_DontAddExtraO2Files
-//O2Ref:SosNet\SOS.Net.exe
-//O2Ref:SOS.Net.Core.dll
+//O2Ref:SosNet\Debug\SOS.Net.exe
+//O2Ref:SosNet\Debug\SOS.Net.Core.dll
 ";
 
 Func&lt;Process&gt; startTestProcess = 
@@ -76,7 +76,7 @@ return "done";
 //using System.Diagnostics
 
 //O2File:SoSNet_ExtensionMethods.cs
-//O2Ref:SosNet\SOS.Net.exe
+//O2Ref:SosNet\Debug\SOS.Net.exe
 //O2Tag_DontAddExtraO2Files
 //O2Ref:SOS.Net.Core.dll</SourceCode>
   <ReferencedAssemblies />

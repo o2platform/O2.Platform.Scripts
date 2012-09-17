@@ -13,16 +13,16 @@ namespace O2.XRules.Database.APIs
 	{
 		public void test()
 		{
-			new Snoop().start();
+			new Snoop_Installer().start();
 		}
 	}
-	public class Snoop : Tool_API 
+	public class Snoop_Installer : Tool_API 
 	{	
-		public Snoop() : this(true)
+		public Snoop_Installer() : this(true)
 		{
 		}
 		
-		public Snoop(bool installNow)
+		public Snoop_Installer(bool installNow)
 		{
 			config("Snoop", "Snoop v2.7.1", "Snoop.zip");			
     		Install_Uri = "https://github.com/downloads/cplotts/snoopwpf/Snoop.zip".uri();

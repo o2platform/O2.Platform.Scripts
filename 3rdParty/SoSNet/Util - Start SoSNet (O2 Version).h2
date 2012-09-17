@@ -44,8 +44,8 @@ return sos;
 //using SOS.Net
 //using SOS.Net.Core.Cdb
 
-//O2Ref:SosNet\SOS.Net.Core.dll
-//O2Ref:SosNet\SOS.Net.exe
+//O2Ref:SosNet\Debug\SOS.Net.Core.dll
+//O2Ref:SosNet\Debug\SOS.Net.exe
 
 /*
 

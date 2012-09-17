@@ -17,7 +17,7 @@ for(int i = 0 ; i &lt; 1000; i++)
 	
 }
 //var files = targetFolder.files("*.html").sort();
-var browser = topPanel.add_Browser();
+var browser = topPanel.add_WebBrowser();
 var openOnSliderChange = true;
 var slider = browser.insert_Above&lt;TrackBar&gt;(30); 
 slider.insert_Right&lt;Button&gt;(150)
@@ -28,7 +28,8 @@ slider.insert_Right&lt;Button&gt;(150)
 	   					{
 	   						var filePath = files[i];
 	   						slider.Value = i;
-	   						browser.openSync(filePath);
+	   						browser.waitForCompleted();
+	   						//browser.openSync(filePath);
 	   						var bitmap = topPanel.bitmap();
 	   						bitmap.save(filePath +".jpg");
 	   					}
@@ -54,8 +55,7 @@ slider.Scroll += (sender,e) =&gt;
 		showPageWithID(slider.Value);
 	};
 showPageWithID(0);	
-//using O2.External.IE.ExtensionMethods
-//O2Ref:O2_External_IE.dll
+
 //O2File:API_Cropper.cs</SourceCode>
   <ReferencedAssemblies />
 </H2>

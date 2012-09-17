@@ -33,6 +33,7 @@ ribbon.add_Tab_MiscTools();
 return webPages.group("Web Pages").buttons()[0].click(); 
 //O2File:CustomO2.cs  
 
+//O2Ref:O2_FluentSharp_WPF.dll
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:RibbonControlsLibrary.dll
 

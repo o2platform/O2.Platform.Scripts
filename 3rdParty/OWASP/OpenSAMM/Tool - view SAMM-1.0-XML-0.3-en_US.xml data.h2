@@ -25,7 +25,7 @@ foreach(var businessFunction in samm.businessfunctions[0].businessfunction)
 businessFunctions_TreeView.selectFirst();
 return samm;
 
-//O2File:Ref:SAMM-1.0-XML-0.3-en_US.cs
+//O2File:SAMM-1.0-XML-0.3-en_US.cs
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll</SourceCode>
   <ReferencedAssemblies />
 </H2>

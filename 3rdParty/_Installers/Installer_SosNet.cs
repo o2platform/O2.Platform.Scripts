@@ -7,7 +7,6 @@ using O2.DotNetWrappers.ExtensionMethods;
 using O2.XRules.Database.Utils;
 
 //O2File:Tool_API.cs
-//_O2File:API_NGit.cs 
 //O2File:_Extra_methods_Roslyn_API.cs
 //O2File:API_MSBuild.cs
 
@@ -17,6 +16,11 @@ using O2.XRules.Database.Utils;
 //O2Ref:Roslyn.Services.dll
 //O2Ref:Roslyn.Compilers.dll
 //O2Ref:Roslyn.Compilers.CSharp.dll
+
+//O2Ref:NGit.dll
+//O2Ref:NSch.dll
+//O2Ref:Mono.Security.dll 
+//O2Ref:Sharpen.dll 
 namespace O2.XRules.Database.APIs
 {
 	public class Installer_SosNet_Test
@@ -41,13 +45,17 @@ namespace O2.XRules.Database.APIs
 		
 		public void download_Update_and_Install()
 		{		
+			//ensure this dll is loaded in memory			
+			"O2_FluentSharp_NGit.dll".assembly().Location.info();
+			
 			//use the O2 Fork:
 			config("SosNet", 
 				   "https://github.com/o2platform/O2_Fork_SoS_Net.git".uri(),
 				   "Sos.Net.exe");
 			var codeDir = this.Install_Dir.pathCombine("O2_Fork_SoS_Net");	   			
+			
 			if (codeDir.dirExists().isFalse())
-			{
+			{				
 				this.Install_Uri.git_Clone(codeDir);	   
 			}
 			else
