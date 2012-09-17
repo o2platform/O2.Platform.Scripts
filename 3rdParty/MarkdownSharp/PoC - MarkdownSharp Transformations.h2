@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 <H2>
   <SourceCode>//var topPanel = panel.add_Panel(true);
-var topPanel = "PoC - MarkdownSharp Transformations".popupWindow();
+var topPanel = "PoC - MarkdownSharp Transformations".popupWindow()
+													.insert_LogViewer();
 var textArea_Source = topPanel.add_TextArea();
 var textArea_Transformed = textArea_Source.insert_Right()
 										  .add_TextArea();
@@ -13,9 +14,12 @@ markdown.syncWith_Browser(browser)
 		.syncWith_TextArea(textArea_Transformed);
  
 textArea_Source.onTextChange((text)=&gt;markdown.transform(text))
-	           .set_Text("#Hello World");
+	           .set_Text("#Hello World".line().add(
+	           			 "* an item"));
 
-;           
+ 
+//browser.script_Me();
+           
 return markdown;
 //O2File:API_MarkdownSharp.cs</SourceCode>
   <ReferencedAssemblies />

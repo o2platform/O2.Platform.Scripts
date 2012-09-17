@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Forms; 
 using System.Collections.Generic; 
 using O2.Kernel; 
+using O2.DotNetWrappers.DotNet;
 using O2.DotNetWrappers.ExtensionMethods;
 using O2.XRules.Database.Utils;
 using MarkdownSharp;
@@ -46,7 +47,7 @@ namespace O2.XRules.Database.APIs
 			if (markdown.Browser.isNull())
 				markdown.Browser ="Markdown Transformation".popupWindow().add_WebBrowser();
 			//var browser = open.webBrowser();			
-			markdown.Browser.set_Text(markdown.LastText_Transformed);
+			O2Thread.mtaThread(()=>markdown.Browser.html(markdown.LastText_Transformed));
 			return markdown;
 		}
 		

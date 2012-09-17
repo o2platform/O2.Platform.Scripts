@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.add_Panel(true);
+var topPanel = "Util - Try BootStrap CSS".popupWindow(1000,500)
+									     .insert_LogViewer();
+
+O2Setup.extractEmbededConfigZips();
+var bootStrap_Example = "Bootstrap Example.html".local();
+var bootStrap_SamplesFolder = bootStrap_Example.parentFolder();
+
+
+var currentFile = topPanel.insert_Above(40, "CurrentFile").add_TextBox().fill();
+var textArea_Source = topPanel.add_GroupBox("Html code").add_SourceCodeViewer();
+var webBrowser = topPanel.insert_Right("Rendered Html").add_WebBrowser(); 
+var codeSamples = topPanel.insert_Left("Code Samples")
+								 .add_Directory(bootStrap_SamplesFolder);
+codeSamples.setFileFilter("*.html");
+HtmlElement contentElement = null;
+
+Action&lt;string&gt; loadFile = 
+	(file)=&gt;{		
+				currentFile.set_Text(file);
+				webBrowser.emptyPage().waitForCompleted();
+				
+				var bodyHtml = webBrowser.body().innerHtml();
+				webBrowser.body().innerHtml(bodyHtml + "&lt;span style='block:hidden'&gt;&amp;nbsp&lt;/span&gt;&lt;style&gt;" + "bootstrap.min.css".local().fileContents() + "&lt;/style&gt;");
+				webBrowser.add_Script_To_Head(@"jquery-1.8.1.min.js".local().fileContents().line());
+				webBrowser.add_Script_To_Head(@"bootstrap.min.js".local().fileContents().line());
+				
+				contentElement = webBrowser.createElement("content");
+				webBrowser.body().appendChild(contentElement);
+				
+				var htmlContent = file.fileExists() ? file.fileContents() : "Could not find file: {0}".format(file);
+				textArea_Source.set_Text(htmlContent, file.extension());
+			};
+Action saveAsCurrentFile = 
+	()=&gt;{
+			var htmlContent = contentElement.innerHtml();
+			var targetFile = currentFile.get_Text();
+			"Saving content with size {0} to file {1}".info(htmlContent.size(), targetFile);
+			htmlContent.saveAs(targetFile);
+		};
+Action viewRenderedHtml = 
+	()=&gt;{
+			webBrowser.html_Rendered().show_in_TextArea();
+		};
+Action&lt;string&gt; textChanged = 
+	(text)=&gt;{
+				contentElement.innerHtml(text); 
+			};
+
+codeSamples.afterFileSelect((file)=&gt; O2Thread.mtaThread(()=&gt; loadFile(file)));
+
+textArea_Source.onTextChange(textChanged);
+
+textArea_Source.textEditor()			   .add_ContextMenu()
+			   .add_MenuItem("Save to CurrentFile", ()=&gt; saveAsCurrentFile());
+
+textArea_Source.insert_Below(30)
+				.add_ToolStrip()
+					.add_Button("Save", saveAsCurrentFile).with_Icon_Save()
+					.add_Button("View RenderedHtml", viewRenderedHtml);
+					;
+
+loadFile(bootStrap_Example);
+
+
+topPanel.mainMenu().clear()
+	    .add_Menu("REPL")
+	    	.add_MenuItem("REPL Browser", ()=&gt; webBrowser.script_Me())
+	    	.add_MenuItem("REPL TextArea", ()=&gt; textArea_Source.script_Me())
+	    	.add_MenuItem("REPL Content Element", ()=&gt; contentElement.script_Me())
+	    	.add_MenuItem("REPL GUI", ()=&gt; topPanel.parentForm().script_Me("form"));
+	    	
+//O2Package:Bootstrap Example.html,Bootstrap Example - Basic Marketing Site.html,Bootstrap Example - Fluid Layout.html,Bootstrap Example - Starter template.html,QuickTest.html 
+//O2Package:jquery-1.8.1.min.js,bootstrap.ico,bootstrap.min.js,bootstrap.min.css
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>
