@@ -8,7 +8,6 @@ using System.Windows.Forms.Integration;
 using O2.Kernel.ExtensionMethods;
 using O2.DotNetWrappers.ExtensionMethods;
 
-//O2File:WPF_Controls_ExtensionMethods.cs
 //O2Ref:O2_FluentSharp_WPF.dll
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:PresentationFramework.dll

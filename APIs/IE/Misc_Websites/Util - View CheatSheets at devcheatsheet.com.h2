@@ -2,7 +2,7 @@
 <H2>
   <SourceCode>var baseUrl = "http://devcheatsheet.com";   
 
-//var topPanel = panel.clear().add_Panel();
+//var topPanel = panel.clear().add_Panel().insert_LogViewer();
 var topPanel = "Util - View CheatSheets at devcheatsheet.com".popupWindow(1000,500); 
 
 var ie = topPanel.add_IE();
@@ -32,8 +32,9 @@ foreach(var tr in htmlDocument.filter("//tr"))
 
 parsedData.white();
 
-//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
 //O2File:WatiN_IE_ExtensionMethods.cs
+//O2File:HtmlAgilityPack_Extra_ExtensionMethods.cs
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
 //O2Ref:WatiN.Core.1x.dll</SourceCode>
   <ReferencedAssemblies />
 </H2>

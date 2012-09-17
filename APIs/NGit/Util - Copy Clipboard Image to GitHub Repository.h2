@@ -37,9 +37,10 @@ actionsPanel.add_Link("Open Screenshot tool", ()=&gt; API_Cropper.openGui())
 
 return nGit;
 
-//O2File:API_NGit.cs
+
 //O2File:API_Cropper.cs
 
+//O2Ref:O2_FluentSharp_NGit.dll
 //O2Ref:NGit.dll
 //O2Ref:NSch.dll
 //O2Ref:Mono.Security.dll 

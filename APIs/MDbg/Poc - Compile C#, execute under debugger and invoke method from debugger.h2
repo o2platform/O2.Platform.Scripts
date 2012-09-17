@@ -66,11 +66,12 @@ return "all done";
 //O2Ref:Roslyn.Compilers.dll
 //O2Ref:Roslyn.Compilers.CSharp.dll
 
-//O2Ref:MDbg_Sample\MDbg\mdbgeng.dll
-//O2Ref:MDbg_Sample\MDbg\corapi.dll 
-//O2Ref:MDbg_Sample\MDbg\mdbgeng.dll  
-//O2Ref:MDbg_Sample\MDbg\mdbg.exe
-//O2Ref:MDbg_Sample\MDbg\mdbgext.dll
+//Installer:Installer_MDbg_Sample_4_0.cs!MDbg_Sample\MDbg Sample\bin\debug\mdbgeng.dll
+//O2Ref:MDbg_Sample\MDbg Sample\bin\debug\mdbgeng.dll
+//O2Ref:MDbg_Sample\MDbg Sample\bin\debug\corapi.dll 
+//O2Ref:MDbg_Sample\MDbg Sample\bin\debug\mdbgeng.dll  
+//O2Ref:MDbg_Sample\MDbg Sample\bin\debug\mdbg.exe
+//O2Ref:MDbg_Sample\MDbg Sample\bin\debug\mdbgext.dll
 //O2Tag_DontAddExtraO2Files</SourceCode>
   <ReferencedAssemblies />
 </H2>

@@ -20,6 +20,8 @@ using O2.Views.ASCX.classes.MainGUI;
 //O2File:GraphSharp_ExtensionMethods.cs
 //O2File:VerticesAndEdges_ExtensionMethods.cs
 //O2File:WPF_Controls_ExtensionMethods.cs
+
+//O2Ref:O2_FluentSharp_WPF.dll
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:GraphSharp.dll
 //O2Ref:QuickGraph.dll

@@ -22,8 +22,6 @@ using Microsoft.Windows.Controls.Ribbon;
 using O2.XRules.Database.APIs;
 using O2.External.SharpDevelop.ExtensionMethods;
 
-//O2File:WPF_Controls_ExtensionMethods.cs
-//O2File:WPF_WinFormIntegration_ExtensionMethods.cs
 //O2File:ElementHost_ExtensionMethods.cs
 //O2File:API_InputSimulator.cs
 //O2Ref:RibbonControlsLibrary.dll

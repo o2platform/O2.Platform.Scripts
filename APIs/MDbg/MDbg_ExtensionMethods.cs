@@ -12,7 +12,7 @@ using Microsoft.Samples.Debugging.CorDebug;
 using Microsoft.Samples.Debugging.CorMetadata;
 using Microsoft.Samples.Debugging.CorDebug.NativeApi;
 
-//Installer:Installer_MDbg_Sample_4_0.cs!MDbg_Sample\MDbg\mdbgeng.dll
+//Installer:Installer_MDbg_Sample_4_0.cs!MDbg_Sample\MDbg Sample\bin\debug\mdbgeng.dll
 //O2Ref:MDbg_Sample\MDbg Sample\bin\debug\mdbgeng.dll
 //O2Ref:MDbg_Sample\MDbg Sample\bin\debug\corapi.dll 
 //O2Ref:MDbg_Sample\MDbg Sample\bin\debug\mdbgeng.dll  

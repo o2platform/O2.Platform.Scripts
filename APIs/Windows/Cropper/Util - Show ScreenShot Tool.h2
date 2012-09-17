@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <H2>
   <SourceCode>//"Cropper.exe".assembly().Location.startProcess();
-O2Thread.staThread(new O2Thread.FuncVoid(Program.Main));
+O2Thread.staThread(Program.Main);
 //using Fusion8.Cropper;
 //O2Ref:Cropper.exe
 //O2Tag_DontAddExtraO2Files

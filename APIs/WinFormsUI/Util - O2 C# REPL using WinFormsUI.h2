@@ -20,8 +20,6 @@ script.Code =
      .add_TextArea()
      .set_Text(""hello"");";
 
-//O2Embed:scripts.ico
-//O2File:_Extra_methods_WinFormsUI.cs
-//O2Ref:WeifenLuo.WinFormsUI.Docking.dll </SourceCode>
+//O2Embed:scripts.ico</SourceCode>
   <ReferencedAssemblies />
 </H2>

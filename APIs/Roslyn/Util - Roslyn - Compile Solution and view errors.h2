@@ -94,8 +94,8 @@ o2Solutions.add_Files(PublicDI.config.CurrentExecutableDirectory.pathCombine(@".
 //using Roslyn.Services
 //using Roslyn.Compilers.CSharp
 //O2Ref:O2_FluentSharp_Roslyn.dll
-//O2Ref:Roslyn\lib\net40\Roslyn.Services.dll
-//O2Ref:Roslyn\lib\net40\Roslyn.Compilers.dll
-//O2Ref:Roslyn\lib\net40\Roslyn.Compilers.CSharp.dll</SourceCode>
+//O2Ref:Roslyn.Services.dll
+//O2Ref:Roslyn.Compilers.dll
+//O2Ref:Roslyn.Compilers.CSharp.dll</SourceCode>
   <ReferencedAssemblies />
 </H2>

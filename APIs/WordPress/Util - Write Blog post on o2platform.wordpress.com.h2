@@ -169,7 +169,7 @@ return "ok";
 //using System.IO
 //using System.Drawing.Imaging
 //O2File:API_WordPress.cs
-//O2File:Watin_IE.cs
+//O2File:WatiN_IE_ExtensionMethods.cs
 //O2Ref:WordPress_XmlRpc_JoeBlogs.dll
 //O2Ref:Interop.SHDocVw.dll
 //O2Ref:WatiN.Core.1x.dll

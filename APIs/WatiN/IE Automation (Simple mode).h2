@@ -13,7 +13,7 @@ topPanel.insert_Below(80).add_LogViewer();
  
 topPanel.add_Control&lt;ascx_IE_ScriptExecution&gt;().buildGui();
 
-//O2File:Ref:WatiN_IE_ExtensionMethods.cs
+//O2File:WatiN_IE_ExtensionMethods.cs
 //O2File:ascx_IE_ScriptExecution.cs
 //O2Ref:WatiN.Core.1x.dll
 //O2Tag_DontAddExtraO2Files</SourceCode>
