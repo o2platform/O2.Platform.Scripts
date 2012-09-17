@@ -6,19 +6,17 @@ var textArea_Source = topPanel.add_TextArea();
 var textArea_Transformed = textArea_Source.insert_Right()
 										  .add_TextArea();
 var browser = textArea_Transformed.insert_Above()
-								  .add_WebBrowser();
-Action&lt;string&gt; applyTransform = 
-	(source) =&gt; {
-					var transformed = new Markdown().Transform(source);
-					textArea_Transformed.set_Text(transformed);
-					browser.set_Html(transformed);
-			    };
+								  .add_WebBrowser(); 
 
-textArea_Source.onTextChange(applyTransform)
+var	markdown = 	new API_MarkdownSharp();			 			  
+markdown.syncWith_Browser(browser)
+		.syncWith_TextArea(textArea_Transformed);
+ 
+textArea_Source.onTextChange((text)=&gt;markdown.transform(text))
 	           .set_Text("#Hello World");
 
-//using MarkdownSharp
-//O2Ref:NuGet\MarkdownSharp.1.13.0.0\lib\35\MarkdownSharp.dll
-</SourceCode>
+;           
+return markdown;
+//O2File:API_MarkdownSharp.cs</SourceCode>
   <ReferencedAssemblies />
 </H2>
