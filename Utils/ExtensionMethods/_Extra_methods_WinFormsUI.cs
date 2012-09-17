@@ -13,8 +13,6 @@ using WeifenLuo.WinFormsUI.Docking;
 using O2.External.SharpDevelop.Ascx;
 using O2.External.SharpDevelop.ExtensionMethods;
 
-//O2Ref:WeifenLuo.WinFormsUI.Docking
-
 namespace O2.XRules.Database.Utils
 {		
 	public static class _Extra_methods_WinFormsUI

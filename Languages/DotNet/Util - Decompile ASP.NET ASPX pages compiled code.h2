@@ -57,14 +57,14 @@ Func&lt;TypeDefinition, string&gt; getMethodCode =
 							}
 							code = "public partial class {0}".format(typeDefinition.Name).line() +
 								   "{".line() + 
-								   code.tabRight() + 
+								   code.tabLeft() + 
 								   "}".lineBefore();
 								   
 							if (typeDefinition.Namespace.valid())
 							{							
 								code = "namespace {0}".format(typeDefinition.Namespace).line() +
 								   "{".line() + 
-								   code.tabRight() + 
+								   code.tabLeft() + 
 								   "}".lineBefore();
 							}
 							var usingStatements = "using System.Web.UI.HtmlControls;".line() + 

@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>//var topPanel = panel.clear().add_Panel();
+  <SourceCode>//THIS IS OUT OF DATE (Since it points to the older version of the O2 platform code base)
+// but since the new one uses Git, to replicate this script we need to find a way to get the file listing from it
+
+//var topPanel = panel.clear().add_Panel();
 var topPanel = "Get O2 Reference dll (double click on file to download it)".popupWindow(400,500);  
 topPanel.insert_LogViewer();
 
@@ -28,7 +31,7 @@ treeView.onDoubleClick&lt;string&gt;(
 				treeView.pink(); 
 				"you selected the url: {0}".info(url);
 				var localTempFile = url.uri().download();
-				var copiedFile = Files.Copy(localTempFile,PublicDI.config.CurrentExecutableDirectory);
+				var copiedFile = Files.copy(localTempFile,PublicDI.config.CurrentExecutableDirectory);
 				"file was copied to: {0}".info(copiedFile);
 				treeView.white();
 			});

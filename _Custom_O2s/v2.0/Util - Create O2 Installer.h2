@@ -19,7 +19,7 @@ foreach(var referencedAssmebly in compiledFile.assembly().referencedAssemblies()
 	var location = referencedAssmebly.assembly().Location;
 	if (location.lower().contains("microsoft.net").isFalse())
 	{
-		Files.Copy(location, targetFolder);
+		Files.copy(location, targetFolder);
 		location.info();
 	}
 }

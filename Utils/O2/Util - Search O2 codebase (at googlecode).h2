@@ -5,7 +5,7 @@ var codeSearchUrl = @"http://www.google.com/codesearch?q={0}+package:http://o2pl
 var defaultSearch = "reflection";
 
 var topPanel = O2Gui.open&lt;Panel&gt;("Search O2 Code Base", 700,400); //panel.add_Panel(); 
-var browser = topPanel.add_Browser().silent(true);
+var browser = topPanel.add_WebBrowser().silent(true);
 
 Action&lt;string&gt; search = 
 	(text)=&gt;{
@@ -16,8 +16,6 @@ topPanel.insert_Above&lt;Panel&gt;(20)
 		.add_LabelAndComboBoxAndButton("Search O2 codebase",defaultSearch,"search",search);
 
 
-search(defaultSearch); 
-//using O2.External.IE.ExtensionMethods;
-//O2Ref:O2_External_IE.dll</SourceCode>
+search(defaultSearch); </SourceCode>
   <ReferencedAssemblies />
 </H2>

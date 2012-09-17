@@ -80,8 +80,7 @@ var supportDlls = new List&lt;string&gt; {
 										"O2_FluentSharp_CoreLib.dll".assembly().Location,
 										"O2_FluentSharp_BCL.dll".assembly().Location,										
 										//Needed for scripting environment
-										"O2_FluentSharp_REPL.dll".assembly().Location,										
-										//"O2_External_WinformsUI.dll".assembly().Location
+										"O2_FluentSharp_REPL.dll".assembly().Location
 										//"log4net.dll".assembly().Location
 									};
 									
@@ -96,7 +95,7 @@ Action copySupportFilesToServer =
 			var o2FolderWithAspxFiles = "Create_o2_AspNet_Page_Objects.h2".local().directoryName();
 			"o2FolderWithAspxFiles: {0}".info(o2FolderWithAspxFiles);
 			foreach(var file in o2FolderWithAspxFiles.files())
-				Files.Copy(file, tempAspxFolder);
+				Files.copy(file, tempAspxFolder);
 				
 			var webConfig = targetFolder.pathCombine("web.config");
 			

@@ -89,7 +89,8 @@ targets.afterSelect(
 									if (openUsingWebBrowser)
 									{										
 										var newTab = siteDownloadTabControl.add_Tab(url);										
-										var browser = newTab.add_Browser().silent(true);
+										var browser = ((O2BrowserIE)newTab.add_O2_Browser_IE());
+										browser.silent(true);
 										siteDownloadTabControl.select_Tab(newTab);
 																				 											
 										browser.onDocumentCompleted +=  

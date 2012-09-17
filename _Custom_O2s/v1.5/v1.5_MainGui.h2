@@ -57,7 +57,7 @@ browser.Navigated+=
 */
 
 return "ok"; 
-//O2File:Watin_IE.cs
+//O2File:Watin_IE_ExtensionMethods.cs
 //O2Ref:WatiN.Core.1x.dll
 //O2Ref:Interop.SHDocVw.dll
 //O2Ref:Microsoft.mshtml.dll</SourceCode>
