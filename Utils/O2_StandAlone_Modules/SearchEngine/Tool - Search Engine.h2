@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//open.logViewer();
+
+//"O2_FluentSharp_REPL.exe: {0}".info("O2_FluentSharp_REPL.exe".assembly());
+//"O2_FluentSharp_BCL.exe: {0}".info("O2_FluentSharp_BCL.exe".assembly());
+
+new SearchEngineGui().buildGui();
+
+
+//	new ascx_SearchTargets();
+//	new ascx_SearchResults();
+	
+//using O2.Tool.SearchEngine.Ascx;
+//using O2.Tool.SearchEngine
+//O2File:SearchEngineGui.cs
+//_O2Package:O2_FluentSharp_BCL.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

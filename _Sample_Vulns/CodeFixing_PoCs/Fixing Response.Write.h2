@@ -1,8 +1,12 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>//panel.clear();
+  <SourceCode>PublicDI.config.LocalScriptsFolder+="_AutoFix_PoC";
+O2Setup.extractEmbededConfigZips();
+PublicDI.config.LocalScriptsFolder.script_Me("scripts");
+//panel.clear(); 
 //var topPanel = panel;
-var topPanel = O2Gui.open&lt;Panel&gt;("Fixing Response.Write",1000,500); 
+var topPanel = O2Gui.open&lt;Panel&gt;("Fixing Response.Write",1000,500)
+					.insert_LogViewer(); 
 var controls = topPanel.add_1x1("Original Code", "Patched Code");
 var originalCode = controls[0].add_SourceCodeEditor();
 var patchedCode = controls[1].add_SourceCodeEditor(); 
@@ -47,6 +51,8 @@ originalCode.open(originalFile);
 //using ICSharpCode.NRefactory
 //using O2.API.AST.CSharp;
 //using O2.API.AST.ExtensionMethods;
-//using O2.API.AST.ExtensionMethods.CSharp;</SourceCode>
+//using O2.API.AST.ExtensionMethods.CSharp;
+
+//O2Package:Request.Write.cs</SourceCode>
   <ReferencedAssemblies />
 </H2>

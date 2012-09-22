@@ -20,10 +20,15 @@ namespace O2.XRules.Database.APIs
 		public WebBrowser 	Browser					{ get; set; }
 		public TextBox 		TextArea				{ get; set; }
 		
-		public API_MarkdownSharp()
+		public API_MarkdownSharp() : this("")
+		{
+			
+		}
+		
+		public API_MarkdownSharp(string text)
 		{
 			AfterTransform  = new List<Action>();
-			Text = "";
+			Text = text;			
 		}
 	}
 	

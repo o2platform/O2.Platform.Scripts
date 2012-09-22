@@ -2,7 +2,7 @@
 <H2>
   <SourceCode>O2Setup.extractEmbededConfigZips();
 "O2Logo.ico".local().icon().set_As_Default_Form_Icon();
-var title = "OWASP O2 Platform v4.1 : {0}".format(clr.details());
+var title = "OWASP O2 Platform v4.3 : {0}".format(clr.details());
 var topPanel = title.popupWindow(790,218);
 
 Action&lt;string&gt; executeH2Script = 

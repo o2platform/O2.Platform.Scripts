@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = "Util - Text Based C# REPL".popupWindow(800,400).insert_LogViewer();  
+//var topPanel = panel.clear().add_Panel();   
+
+var replGui = topPanel.add_REPL_Gui();   
+ 
+var codeText = replGui.Code_Panel.add_TextArea().allowTabs(); 
+ 
+ 
+Action execute = 
+	()=&gt;{ 
+			var compilationOk = false;   
+			var code = codeText.get_Text();
+			var result = code.compileAndExecuteCodeSnippet(
+								(okMsg)=&gt;   { replGui.showOutput(okMsg); compilationOk = true;},
+								(failMsg)=&gt; { replGui.showErrorMessage(failMsg); });
+			if(compilationOk)
+				replGui.showOutput(result); 
+			//replGui.Output_RichTextBox.set_Text(code); 
+		}; 
+		
+replGui.On_ExecuteCode = execute;  
+
+codeText.set_Text("return \"Hello World\";");
+
+replGui.Execute_Button.click();
+
+
+return "done";
+
+//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs</SourceCode>
+  <ReferencedAssemblies />
+</H2>
