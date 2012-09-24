@@ -12,7 +12,7 @@ using O2.DotNetWrappers.DotNet;
 using O2.DotNetWrappers.Windows;
 using O2.DotNetWrappers.Network;
 using O2.DotNetWrappers.ExtensionMethods;
-using O2.External.SharpDevelop.ExtensionMethods;
+//using O2.External.SharpDevelop.ExtensionMethods;
 using O2.Views.ASCX;
 using O2.Views.ASCX.DataViewers;
 using O2.Views.ASCX.ExtensionMethods;
@@ -20,11 +20,11 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.IO;
 using System.Drawing.Imaging;
-using O2.External.IE.Wrapper;
-using O2.External.IE.ExtensionMethods;
+//using O2.External.IE.Wrapper;
+//using O2.External.IE.ExtensionMethods;
 using O2.XRules.Database.Utils;
 
-//O2Ref:O2_External_IE.dll
+//_O2Ref:O2_External_IE.dll
 //O2Ref:System.Xml.Linq.dll
 //O2Ref:System.Xml.dll
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
@@ -378,7 +378,8 @@ namespace O2.XRules.Database.APIs
             {
                 var response = wikiApi.editPage(page, pageContent, "", "");
                 var result = response.xRoot().element("edit").attribute("result").value();
-                if (result == "Failure")
+                
+/*                if (result == "Failure")
                 {
                     "trying to save using captcha".info();
                     var captchaId = response.xRoot().element("edit").element("captcha").attribute("id").value();
@@ -390,7 +391,7 @@ namespace O2.XRules.Database.APIs
                     "MediaWiki Captcha Answer: {0}".info(captchaAnswer);
                     response = wikiApi.editPage(page, pageContent, captchaId, captchaAnswer.str());                    
                     return response;
-                }
+                }*/
             }
             catch (Exception ex)
             {
@@ -642,34 +643,42 @@ namespace O2.XRules.Database.APIs
         public static List<XElement> getQueryContinueResults(this O2MediaWikiAPI wikiApi, string pages, string limitVar, int limitValue, 
                                                              string properyType,string propertyName , string continueVarName , string continueValue, 
     														 string dataElement, int maxItemsToFetch, bool resolveRedirects) 
-    	{
+    	{   	
     		var results = new List<XElement>();
-    		var cmd = "{0}&{1}={2}".format(propertyName, limitVar, limitValue);
-            if (resolveRedirects)
-    		    cmd += "&redirects";		// to automatically resolve redirects
-    		if (continueValue != "")
-    			cmd += "&{0}={1}".format(continueVarName, continueValue);
-            var data = wikiApi.action_query(properyType,cmd, pages).xRoot();
-    		if (data == null || data.elements("query-continue").size() == 0)
-    			continueValue = "";
-    		else
-    			continueValue = data.elements("query-continue").element(propertyName).attribute(continueVarName).Value;
-    		if (data!= null)
-    			results.AddRange(data.elementsAll(dataElement));
-    		if (maxItemsToFetch > -1 && maxItemsToFetch < results.size())
-            {
-                "in O2MediaWikiAPI.getQueryContinueResults, maxItemsToFetch reached ({0}), so stoping recursive fetch".debug(maxItemsToFetch);
-                return results;
-            }
-                
-    		//continueValue.error();
-    		if (continueValue != "")
-                results.AddRange(wikiApi.getQueryContinueResults(pages, limitVar, limitValue, 
-                                 properyType, propertyName, 
-                                 continueVarName, continueValue, dataElement,
-                                 maxItemsToFetch, resolveRedirects));
-    								//wikiApi.templates(pages, rvlimit, continueValue)
-    							//);
+    		try
+    		{
+	    		var cmd = "{0}&{1}={2}".format(propertyName, limitVar, limitValue);
+	            if (resolveRedirects)
+	    		    cmd += "&redirects";		// to automatically resolve redirects
+	    		if (continueValue != "")
+	    			cmd += "&{0}={1}".format(continueVarName, continueValue);
+	            var data = wikiApi.action_query(properyType,cmd, pages).xRoot();
+	    		if (data == null || data.elements("query-continue").size() == 0)
+	    			continueValue = "";
+	    		else
+	    			continueValue = data.elements("query-continue").element(propertyName).attribute(continueVarName).Value;
+	    		if (data!= null)
+	    			results.AddRange(data.elementsAll(dataElement));
+	    		if (maxItemsToFetch > -1 && maxItemsToFetch < results.size())
+	            {
+	                "in O2MediaWikiAPI.getQueryContinueResults, maxItemsToFetch reached ({0}), so stoping recursive fetch".debug(maxItemsToFetch);
+	                return results;
+	            }
+	                
+	    		//continueValue.error();
+	    		if (continueValue != "")
+	                results.AddRange(wikiApi.getQueryContinueResults(pages, limitVar, limitValue, 
+	                                 properyType, propertyName, 
+	                                 continueVarName, continueValue, dataElement,
+	                                 maxItemsToFetch, resolveRedirects));
+	    								//wikiApi.templates(pages, rvlimit, continueValue)
+	    							//);
+	    	}
+	    	catch(Exception ex)
+	    	{
+	    		ex.log("in getQueryContinueResults");
+	    	}
+	    
     		return results;    		
     	}
     	
@@ -748,9 +757,9 @@ namespace O2.XRules.Database.APIs
     		return wikiApi.getQueryContinueResults(page, rvlimit, propertyName, continueVarName, "", dataElement);  
     	}
     	
-    	public static string diff_Current(this O2MediaWikiAPI wikiApi, string page)
+    	public static string diff_Current(this O2MediaWikiAPI wikiApi, string page, bool diffOnly)
     	{
-    		var requestData = "title={0}&diff=cur&action=render".format(page);
+    		var requestData = "title={0}&diff=cur&action=render&diffonly={1}".format(page, (diffOnly) ? 1 : 0);
     		var diffContent = wikiApi.getIndexPhp(requestData);
 			return wikiApi.wrapOnHtmlPage(diffContent);
     	}
@@ -1159,6 +1168,38 @@ namespace O2.XRules.Database.APIs
             }
             return "";
         }
+        
+        public static List<Items> getDataFromPagesTemplateData(this O2MediaWikiAPI wikiApi, List<string> pages, bool addWikiTest = false) 
+        {
+        	var allData = new List<Items>();
+        	foreach(var page in pages)        	
+        		allData.add(wikiApi.getDataFromPageTemplateData(page, addWikiTest));
+        	return allData;
+        }
+        public static Items getDataFromPageTemplateData(this O2MediaWikiAPI wikiApi, string page, bool addWikiTest = false) 
+        {
+        	var wikiText = wikiApi.wikiText(page);
+        	var items = new Items();
+        	items.add("_TARGET_PAGE", page);
+			items.add("_DATETIME_NOW", DateTime.Now.str());
+			if (addWikiTest)
+				items.add("_WIKITEXT", wikiText ?? "");
+        	if (wikiText.valid())
+        	{        	
+				var linesWithData = wikiText.lines().containing("|");
+				foreach(var line in linesWithData)
+				{
+					var indexOf = line.IndexOf("=");
+					if (indexOf > 0)
+					{
+						var name = line.subString(1,indexOf-1).trim();
+						var value = line.subString(indexOf + 1).trim();
+						items.add(name,value);
+					}
+				}
+			}			
+			return items;
+        }
 
         public static string pageUrl(this O2MediaWikiAPI wikiApi, string page)
         {
@@ -1176,35 +1217,37 @@ namespace O2.XRules.Database.APIs
                 });
             return browser;
         }
+         
         
-        
-        public static T show_Diff_LatestChanges<T>(this T control, O2MediaWikiAPI wikiApi)
+        public static T show_Diff_LatestPagesChanges<T>(this T control, O2MediaWikiAPI wikiApi, bool diffOnly = true)
         	where T : Control
         {
-        	return 	control.show_Diff_LatestChanges(wikiApi,100);
+        	return 	control.show_Diff_LatestPagesChanges(wikiApi,100, diffOnly);
         }
-        public static T show_Diff_LatestChanges<T>(this T control, O2MediaWikiAPI wikiApi, int itemsToShow)
+        
+        public static T show_Diff_LatestPagesChanges<T>(this T control, O2MediaWikiAPI wikiApi, int itemsToShow,  bool diffOnly = true)
         	where T : Control
         {        	
         	var cancelLoad = false;
-			var browser = control.add_WebBrowser();
+			var browser = control.clear().add_WebBrowser().silent(true);
 			var treeView = browser.insert_Left<TreeView>(200)
 								  .showSelection()	
-								  .afterSelect<string>((html)=>browser.set_Text(html));
+								  .afterSelect<string>((html)=>O2Thread.mtaThread(()=> browser.set_Text(html)));
 			treeView.backColor(Color.LightPink);		  
-			var recentPages = wikiApi.recentPages(itemsToShow);
+			var recentPages = wikiApi.recentPages(itemsToShow);			
 			treeView.backColor(Color.Azure); 
 			treeView.add_ContextMenu().add_MenuItem("Cancel Load", ()=>cancelLoad = true);
+			
 			foreach(var recentPage in recentPages)
 			{
-				var diffHtml = wikiApi.diff_Current(recentPage); 	
+				var diffHtml = wikiApi.diff_Current(recentPage, diffOnly); 	
 				treeView.add_Node(recentPage, diffHtml);
 				if (treeView.nodes().size()==1)
 					treeView.selectFirst();		
 				if (cancelLoad)
 					break;
 			}
-			treeView.backColor(Color.White);
+			treeView.backColor(Color.White);					
 			return control;
 
         }

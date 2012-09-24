@@ -242,9 +242,49 @@ public class DynamicType
 			return null;
 		}
 	}
-	
-	public static class Extra_Form
+	public static class Extra_Collections
+	{
+		public static List<T> take<T>(this IEnumerable<T> data, int count)
+		{
+			if (count == -1)
+				return data.toList();
+			return data.Take(count).toList(); 
+		}
+	}
+	public static class Extra_Items
 	{		
+		public static List<string> uniqueKeys(this List<Items> itemsList)
+		{
+			return (from items in itemsList
+				    from key in items.keys()
+				    select key).distinct();
+		}
+		
+		public static List<string> uniqueKeys_WithValidValue(this List<Items> itemsList)
+		{
+			return (from items in itemsList
+				    from item in items
+				    where item.Value.valid()
+				    select item.Key).distinct();
+		}
+		
+		public static List<string> values(this Items items, List<string> columns)
+		{
+			return (from column in columns
+					select items[column]).toList();
+		}
+		
+		
+		public static Dictionary<string,List<string>> indexBy_Key(this List<Items> itemsList)
+		{
+			var mappedData = new Dictionary<string, List<string>>();
+			foreach(var items in itemsList)
+				foreach(var item in items)
+					mappedData.add(item.Key, item.Value);
+			return mappedData;
+		}
+		
+		
 		
 	}	
 	

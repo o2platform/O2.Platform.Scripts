@@ -9,11 +9,7 @@ using O2.Kernel;
 using O2.Kernel.ExtensionMethods;
 using O2.DotNetWrappers.ExtensionMethods;
 
-
 //O2File:O2MediaWikiApi.cs
-//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
-//O2Ref:System.Xml.Linq.dll
-//O2Ref:System.Xml.dll
 
 namespace O2.XRules.Database.APIs
 {
@@ -31,6 +27,7 @@ namespace O2.XRules.Database.APIs
 		{	
 			this.ApiName = "OwaspWiki";
 			init("https://www.owasp.org/api.php");
+			
 			this.Styles = (loadStylesFromWebsite) ? owaspStyles() : "";
 		}
 		
@@ -39,20 +36,32 @@ namespace O2.XRules.Database.APIs
  			return ApiName;
  		}
  		
-		//TODO: add detection to see if we are a)online and b) able to access the www.owasp.org website
-		
+		//TODO: add detection to see if we are a)online and b) able to access the www.owasp.org website				
 		// dynamically (one per session) grab the current header scripts used in OWASP
 		public string owaspStyles()
-		{
+		{			
 			try
 			{
+				"Preloading OWASP Wiki Styles".debug();		
 				//var page = @"http://www.owasp.org/index.php?title=Special:UserLogin";  
-				var page = "http://www.owasp.org/index.php?title=Test&diff=cur";
+				
+				var cssFiles = new [] {"https://www.owasp.org/load.php?debug=false&lang=en&modules=mediawiki.action.history.diff&only=styles&skin=vector&*" ,
+							 		   "https://www.owasp.org/load.php?debug=false&lang=en&modules=mediawiki.legacy.commonPrint%2Cshared%7Cskins.vector&only=styles&skin=vector&*"};
+
+				var headerText = "<style>".line() + 
+									cssFiles[0].url().get_Html().line() +
+								 	cssFiles[1].url().get_Html().line() + 
+								 "</style>".line();
+				
+					
+				return headerText;
+				
+/*				var page = "http://www.owasp.org/index.php?title=Test&diff=cur";
 				var codeToParse = page.uri().getHtml(); 
 				
 				var htmlDocument = new HtmlAgilityPack.HtmlDocument();
 				htmlDocument.LoadHtml(codeToParse);
-									
+								
 				var headerText = "".line().line();
 				foreach(var node in htmlDocument.DocumentNode.SelectNodes("//link[@type='text/css']"))
 				{
@@ -80,7 +89,8 @@ namespace O2.XRules.Database.APIs
 					AllOk = true;
 					return headerText.line().line();
 				}			
-				"problem retrieving owasp.org headers".error();				
+			
+				"problem retrieving owasp.org headers".error();				*/
 			}
 			catch(Exception ex)
 			{
