@@ -1,8 +1,11 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>//var topPanel = panel.add_Panel(true);
+  <SourceCode>//O2ConfigSettings.O2Version = "MarkdownTest";
+//var topPanel = panel.add_Panel(true);
 var topPanel = "PoC - MarkdownSharp Transformations".popupWindow()
 													.insert_LogViewer();
+"tempdir: {0}".info(PublicDI.config.O2TempDir);
+
 var textArea_Source = topPanel.add_TextArea();
 var textArea_Transformed = textArea_Source.insert_Right()
 										  .add_TextArea();

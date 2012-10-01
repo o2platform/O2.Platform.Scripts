@@ -2,7 +2,7 @@
 <H2>
   <SourceCode>PublicDI.config.LocalScriptsFolder+="_AutoFix_PoC";
 O2Setup.extractEmbededConfigZips();
-PublicDI.config.LocalScriptsFolder.script_Me("scripts");
+//PublicDI.config.LocalScriptsFolder.script_Me("scripts");
 //panel.clear(); 
 //var topPanel = panel;
 var topPanel = O2Gui.open&lt;Panel&gt;("Fixing Response.Write",1000,500)
