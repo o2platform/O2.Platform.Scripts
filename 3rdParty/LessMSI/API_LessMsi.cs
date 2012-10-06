@@ -1,13 +1,13 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Diagnostics;
-using O2.Kernel;
+using O2.Kernel; 
 using O2.Kernel.ExtensionMethods;
 using O2.DotNetWrappers.ExtensionMethods; 
 using O2.XRules.Database.Utils;
 using LessMsi.Msi;
-//O2File:LessMsi.cs
-
+//O2File:LessMsi.cs 
+//Installer:LessMsi_Install.cs!LessMsi/lessmsi.exe
 //O2Ref:LessMsi/lessmsi.exe
 
 namespace O2.XRules.Database.APIs 
@@ -15,9 +15,9 @@ namespace O2.XRules.Database.APIs
 
 	public class LessMsi_Test
 	{
-		public void test()
+		public void launchGui()
 		{
-			new LessMsi_Install().start(); 
+			new API_LessMSI().launchGui();
 		}
 	}
 	
@@ -58,8 +58,12 @@ namespace O2.XRules.Database.APIs
 		}
 	}
 	
-	public static class LessMSI_ExtensionMethods
+	public static class API_LessMSI_ExtensionMethods
 	{
-		
+		public static API_LessMSI launchGui(this API_LessMSI lessMSI)
+		{
+			"lessmsi.exe".assembly_Location().startProcess();
+			return lessMSI;
+		}
 	}
 }

@@ -6,6 +6,13 @@ using O2.DotNetWrappers.ExtensionMethods;
 using O2.XRules.Database.Utils;
 //O2File:Tool_API.cs
 
+public class DynamicType
+{
+	public void dynamicMethod()
+	{
+		new O2.XRules.Database.APIs.LessMsi_Install();
+	}
+}
 
 namespace O2.XRules.Database.APIs 
 {	
@@ -37,7 +44,7 @@ namespace O2.XRules.Database.APIs
 		{
 			"Installing {0}".info(ToolName);
 			return installFromZip_Web(); 						
-			//return false;
+			return false;
 		}
 		
 		public Process start()

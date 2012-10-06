@@ -6,12 +6,9 @@ var browser = controls[1].add_WebBrowser();
 var htmlText = controls[0].add_TextArea().unlimitedSize();
 htmlText.AcceptsTab = true;
 var currentDirectory = Environment.CurrentDirectory;
+var autoRender = true;
 htmlText.mainMenu()
 		.add_Menu("File")
-/*		.add_MenuItem("render html", true,
-	   		()=&gt;{
-	   				browser.set_Text(htmlText.get_Text());
-	   			})*/
 	   	.add_MenuItem("save",
 	   		()=&gt;{
 	   				var target = O2Forms.askUserForFileToSave(currentDirectory);
@@ -21,6 +18,8 @@ htmlText.mainMenu()
 	   					htmlText.get_Text().save(target);
 	   				}
 	   			});
+Action&lt;string&gt; render = 
+	(html)=&gt; O2Thread.mtaThread(()=&gt; browser.set_Html(html));	   			
 htmlText.onDrop(
 	(file)=&gt;{
 				if(file.isFile())
@@ -29,9 +28,16 @@ htmlText.onDrop(
 					currentDirectory = file.directoryName();
 					
 				}
-			});		
+			});	
+			
 htmlText.onTextChange(
-	(text)=&gt; browser.set_Text(text));
+	(text)=&gt;{
+				render(text);
+			});
+
+htmlText.insert_Below(20)
+		.add_CheckBox("Auto Render Html on Text Change",0,0, (value)=&gt; autoRender= value).autoSize().tick()
+		.append_Link("Render html", ()=&gt; render(htmlText.get_Text()));
 	
 htmlText.set_Text("&lt;h1&gt;hello&lt;h1&gt; world");</SourceCode>
   <ReferencedAssemblies />
