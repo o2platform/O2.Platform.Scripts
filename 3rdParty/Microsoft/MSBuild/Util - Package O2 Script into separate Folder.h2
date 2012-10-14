@@ -2,8 +2,8 @@
 <H2>
   <SourceCode>//var topPanel = panel.clear().add_Panel(); 
 var topPanel = "Util - Compile H2, O2 or CS Script into separate Folder".popupWindow(800,300)
-													   .insert_LogViewer();
-       
+													   .insert_LogViewer(); 
+        
 var browser = topPanel.add_WebBrowser_Control() 
 					  .add_NavigationBar();
 var dropZone = topPanel.insert_Left(200)

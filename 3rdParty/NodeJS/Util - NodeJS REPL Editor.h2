@@ -7,7 +7,7 @@ topPanel.insert_LogViewer();
 var code = "console.log(2+2);";
 var consoleOut = topPanel.title("Execution result (console Out)").add_TextArea();
 
-var nodeJS = new NodeJS(); 
+var nodeJS = new API_NodeJS(); 
 
 Process executionProcess = null;
 
@@ -85,9 +85,10 @@ return "ok";
 
 //using System.Diagnostics
 //using System.Dynamic
-//O2File:NodeJS.cs
+//O2File:API_NodeJS.cs
 //O2File:CmdExeAPI.cs
 //O2Tag_DontAddExtraO2Files
-//O2Ref: Microsoft.CSharp.dll</SourceCode>
+//O2Ref: Microsoft.CSharp.dll
+//O2Embed:E:\o2_v4\_TempDir_v4.3.2.0\_ToolsOrApis\NodeJS\node.exe</SourceCode>
   <ReferencedAssemblies />
 </H2>

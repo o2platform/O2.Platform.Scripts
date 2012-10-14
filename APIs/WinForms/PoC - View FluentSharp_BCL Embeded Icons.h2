@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.add_Panel(true);
+var topPanel = "PoC - View FluentSharp_BCL Embeded Icons".popupWindow(1000,700).add_Panel(true);
+var toolStrip = topPanel.add_ToolStrip()
+						.layout_Flow();
+
+var iconsMappings = typeof(FormImages).ctor().propertyValues_MappedBy_Name&lt;Bitmap&gt;();
+
+foreach(var iconMapping in iconsMappings) 
+{
+	var name = iconMapping.Key;
+	var image= iconMapping.Value;
+	toolStrip.add_Button(name , image,()=&gt; name.alert());
+}
+toolStrip.wait_n_Seconds(1)	
+		 .layout_HorizontalStackWithOverflow()
+		 .wait_n_Seconds(1)		 
+		 .layout_StackWithOverflow()
+		 .wait_n_Seconds(1)
+		 .layout_Table()
+		 .wait_n_Seconds(1)
+		 .layout_VerticalStackWithOverflow()
+		 .wait_n_Seconds(1)
+		 .layout_Flow();
+		 ;
+
+return toolStrip;
+
+//using O2.Platform.BCL.O2_Views_ASCX
+
+//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs</SourceCode>
+  <ReferencedAssemblies />
+</H2>

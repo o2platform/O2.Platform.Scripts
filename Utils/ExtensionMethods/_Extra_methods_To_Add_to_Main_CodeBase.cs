@@ -55,14 +55,49 @@ using System.Security.Cryptography;
 namespace O2.XRules.Database.Utils
 {	
 	
-	public static class Extra_Forms
-	{		
-		
+	public static class Extra_Object
+	{				
+		public static T wait_n_Seconds<T>(this T _object, int seconds)
+		{
+			return _object.wait(seconds * 1000);
+		}
 	}
 	
-	public static class Extra_Collections
+	public static class Extra_WinForm_Controls_ToolStripLayout
 	{
-	
+		public static ToolStrip layoutStyle(this ToolStrip toolStrip, ToolStripLayoutStyle layoutStyle)
+		{
+			return toolStrip.invokeOnThread(
+				()=>{ 
+						toolStrip.LayoutStyle = layoutStyle;
+						return toolStrip;
+					});			
+		}
+		
+		public static ToolStrip layout_Flow(this ToolStrip toolStrip)
+		{
+			return toolStrip.layoutStyle(ToolStripLayoutStyle.Flow);
+		}
+		
+		public static ToolStrip layout_HorizontalStackWithOverflow(this ToolStrip toolStrip)
+		{
+			return toolStrip.layoutStyle(ToolStripLayoutStyle.HorizontalStackWithOverflow);
+		}
+		
+		public static ToolStrip layout_VerticalStackWithOverflow(this ToolStrip toolStrip)
+		{
+			return toolStrip.layoutStyle(ToolStripLayoutStyle.VerticalStackWithOverflow);
+		}
+		
+		public static ToolStrip layout_Table(this ToolStrip toolStrip)
+		{
+			return toolStrip.layoutStyle(ToolStripLayoutStyle.Table);
+		}
+		
+		public static ToolStrip layout_StackWithOverflow(this ToolStrip toolStrip)
+		{
+			return toolStrip.layoutStyle(ToolStripLayoutStyle.StackWithOverflow);
+		}				
 	}
 	public static class Extra_Items
 	{						

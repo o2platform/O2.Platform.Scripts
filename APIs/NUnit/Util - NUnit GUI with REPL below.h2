@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>new API_NUnit_Gui().insert_REPL_Below(); 
+
+//O2Ref:nunit-gui-runner.dll
+//O2Ref:nunit.util.dll
+//O2File:API_NUnit_Gui.cs </SourceCode>
+  <ReferencedAssemblies />
+</H2>

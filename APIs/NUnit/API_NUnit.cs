@@ -14,20 +14,24 @@ using O2.DotNetWrappers.ExtensionMethods;
 using O2.DotNetWrappers.DotNet;
 using O2.XRules.Database.Utils;
 
-//O2File:Installer_NUnit.cs
-
+//Installer:NUnit_Installer.cs!NUnit\NUnit-2.5.10.11092\bin\net-2.0\nunit.exe
+//O2Ref:NUnit\NUnit-2.5.10.11092\bin\net-2.0\\nunit.exe
+//O2Ref:NUnit\NUnit-2.5.10.11092\bin\net-2.0\lib\nunit-gui-runner.dll
+//O2Ref:NUnit\NUnit-2.5.10.11092\bin\net-2.0\lib\nunit.util.dll
+//O2Ref:NUnit\NUnit-2.5.10.11092\bin\net-2.0\lib\nunit.core.dll
+//O2Ref:NUnit\NUnit-2.5.10.11092\bin\net-2.0\lib\nunit.core.interfaces.dll
+//O2Ref:NUnit\NUnit-2.5.10.11092\bin\net-2.0\lib\nunit.uikit.dll
 
 namespace O2.XRules.Database.APIs
 {
     public class API_NUnit
-    {        			
-    	public Installer_NUnit installer;
+    {        			    	
     	public Process NUnitProcess;
-    	
+    	public string Executable { get; set;}
     	public API_NUnit()
-    	{
-    		installer = new Installer_NUnit();	//this will download NUnit on the first time it is called
+    	{    		
     		
+    		this.Executable = PublicDI.config.ToolsOrApis.pathCombine(@"NUnit\NUnit-2.5.10.11092\bin\net-2.0\nunit.exe");
     	}
     }
     public static class API_NUnit_ExtensionMethods_NUnitGui_Compilation
@@ -82,7 +86,7 @@ namespace O2.XRules.Database.APIs
     	public static API_NUnit openNUnitGui(this API_NUnit nUnitApi, string projectOrAssembly, string extraStartupOptions)
     	{
     		var startUpOpptions = "\"{0}\" {1}".format(projectOrAssembly ?? "" , extraStartupOptions ?? "");
-    		nUnitApi.NUnitProcess = new API_NUnit().installer.Executable.startProcess(startUpOpptions);
+    		nUnitApi.NUnitProcess = new API_NUnit().Executable.startProcess(startUpOpptions);
     		return nUnitApi;
     	}
     	
@@ -143,7 +147,7 @@ namespace O2.XRules.Database.APIs
     		
     	public static Process executeNUnitConsole(this API_NUnit nUnitApi, string parameters, Action<string> consoleOut)
     	{
-    		var nUnitConsole = nUnitApi.installer.Executable.directoryName().pathCombine("nunit-console.exe");    	
+    		var nUnitConsole = nUnitApi.Executable.directoryName().pathCombine("nunit-console.exe");    	
     		return nUnitConsole.startProcess(parameters,consoleOut);
     	}
     	

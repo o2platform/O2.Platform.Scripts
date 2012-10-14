@@ -3,11 +3,14 @@
   <SourceCode>var baseUrl = "http://devcheatsheet.com";   
 
 //var topPanel = panel.clear().add_Panel().insert_LogViewer();
-var topPanel = "Util - View CheatSheets at devcheatsheet.com".popupWindow(1000,500); 
+var topPanel = "Util - View CheatSheets at devcheatsheet.com".popupWindow(1000,500)
+						.insert_LogViewer(); 
 
-var ie = topPanel.add_IE();
+
+var ie = topPanel.add_WebBrowser();
+
 var parsedData = topPanel.insert_Left(200, "Available CheatSheets").add_TreeView_for_HtmlTags();
-
+"Opening: {0}".info(baseUrl);
 parsedData.afterSelect&lt;string&gt;(	
 	(location)=&gt;{
 					var cheatSheet_Location = "{0}{1}".format(baseUrl, location);
@@ -16,14 +19,14 @@ parsedData.afterSelect&lt;string&gt;(
 
 parsedData.pink();
 
-ie.open(baseUrl);
+ie.open(baseUrl).waitForCompleted();
 
 //var htmlContent = baseUrl.uri().getHtml().save(); 
-var htmlContent = ie.IE.Html;
+var htmlContent = ie.html_Rendered();
 
 var htmlDocument = htmlContent.htmlDocument();
 foreach(var tr in htmlDocument.filter("//tr"))
-	foreach(var th in tr.nodes("th"))
+	foreach(var th in tr.nodes("th")) 
 	{
 	 	var titleNode = parsedData.add_Node(th.value().htmlDecode());
 	 	foreach(var a in tr.nodes("td").nodes("a"))
@@ -32,9 +35,8 @@ foreach(var tr in htmlDocument.filter("//tr"))
 
 parsedData.white();
 
-//O2File:WatiN_IE_ExtensionMethods.cs
 //O2File:HtmlAgilityPack_Extra_ExtensionMethods.cs
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
-//O2Ref:WatiN.Core.1x.dll</SourceCode>
+</SourceCode>
   <ReferencedAssemblies />
 </H2>

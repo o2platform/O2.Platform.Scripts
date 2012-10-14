@@ -55,7 +55,7 @@ namespace O2.XRules.Database.APIs
 			var outputPath = "bin";
 			Project project = new Project(projectCollection);
 			project.SetProperty("DefaultTargets", "Build");
-			
+		 	
 			var propertyGroup = project.Xml.CreatePropertyGroupElement();
 			project.Xml.InsertAfterChild(propertyGroup, project.Xml.LastChild);
 			propertyGroup.AddProperty("TargetFrameworkVersion", "v4.0");
@@ -131,8 +131,7 @@ namespace O2.XRules.Database.APIs
 											}											
 										}
 								   };
-			addSpecialResources("O2.Platform.Scripts");
-			addSpecialResources(projectName + ".Data");
+			addSpecialResources("O2.Platform.Scripts");			
 			
 			//now add the icon
 			propertyGroup.AddProperty("ApplicationIcon", defaultIcon);
@@ -224,7 +223,7 @@ namespace O2.XRules.Database.APIs
 			var projectFile = "";
 			return scriptFile.package_Script(ref compiledScript, ref pathToAssemblies, ref projectFile);
 		}
-		
+		 
 		public static string package_Script(this string scriptFile, ref string compiledScript, ref string pathToAssemblies, ref string projectFile,   Action<List<string>> beforeAddingReferences = null, Action<List<string>> beforeEmbedingFiles = null)
 		{					
 			compiledScript =  scriptFile.compileScriptFile_into_SeparateFolder();		
@@ -241,8 +240,9 @@ namespace O2.XRules.Database.APIs
 				
 				//add special folders
 				O2Setup.createEmbeddedFolder_Scripts(buildFilesDir)
-					   .copyFileReferencesToEmbeddedFolder(scriptFile);;
-				O2Setup.createEmbeddedFolder_Data(buildFilesDir,projectName);
+					   .copyFileReferencesToFolder(scriptFile);
+				buildFilesDir.pathCombine("ToolsOrApis")
+					   .copyToolReferencesToFolder(scriptFile);
 				
 				var extraEmbebbedResources = buildFilesDir.mapExtraEmbebbedResources(scriptFile);
 				extraEmbebbedResources.add(scriptFile.local()) // include original script as an embeded file

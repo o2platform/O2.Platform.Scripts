@@ -18,13 +18,6 @@ using NUnit.Util;
 using NUnit.Core;
 
 //O2File:API_NUnit.cs
-//O2File:_Extra_methods_AppDomain.cs 
-
-//O2Ref:nunit-gui-runner.dll
-//O2Ref:nunit.util.dll
-//O2Ref:nunit.core.dll
-//O2Ref:nunit.core.interfaces.dll
-//O2Ref:nunit.uikit.dll
 
 namespace O2.XRules.Database.APIs
 {
@@ -138,6 +131,20 @@ namespace O2.XRules.Database.APIs
     		nUnitGui.nUnitForm.visible(value);
     		return nUnitGui;
     	}
+    	
+    	public static API_NUnit_Gui add_LogViewer(this API_NUnit_Gui nUnitGui)
+    	{
+    		nUnitGui.nUnitForm.insert_LogViewer();
+    		return nUnitGui;
+    	}
+    	
+    	public static API_NUnit_Gui insert_REPL_Below(this API_NUnit_Gui nUnitGui)
+    	{
+    		var _panel = nUnitGui.nUnitForm.insert_Below("Script NUnit GUI");
+			nUnitGui.nUnitForm.script_Me(_panel);
+			return nUnitGui;
+    	}
+    	
     }
     
     public static class API_NUnit_GUI_ExtensionMethods_LoadGui
@@ -149,7 +156,7 @@ namespace O2.XRules.Database.APIs
     	
     	public static API_NUnit_Gui openNUnitGui(this API_NUnit_Gui nUnitGui)
     	{    		
-			var nunitGuiRunner = nUnitGui.installer.Executable.parentFolder().pathCombine("lib\\nunit-gui-runner.dll");
+			var nunitGuiRunner = nUnitGui.Executable.parentFolder().pathCombine("lib\\nunit-gui-runner.dll");
 			nunitGuiRunner.loadAssemblyAndAllItsDependencies();
 			nunitGuiRunner.type("AppEntry").method("Main").invokeStatic_StaThread(new string[] {} )  ;
 			return nUnitGui;
@@ -173,6 +180,7 @@ namespace O2.XRules.Database.APIs
 		
 		public static NUnitForm nUnitGui_ShowGui(this API_NUnit_Gui nUnitGui, GuiOptions guiOptions)	
 		{						
+			"[API_NUnit_Gui] in nUnitGui_ShowGui".info();
 			Func<NUnitForm> createNUnitForm = 
 				()=>{		
 						var sync = new AutoResetEvent(false);
@@ -181,7 +189,7 @@ namespace O2.XRules.Database.APIs
 						()=>{
 								if(NUnit.Util.Services.TestAgency.isNull())
 								{
-										var nunitGuiRunner = nUnitGui.installer.Executable.parentFolder().pathCombine("lib\\nunit-gui-runner.dll");
+										var nunitGuiRunner = nUnitGui.Executable.parentFolder().pathCombine("lib\\nunit-gui-runner.dll");
 										nunitGuiRunner.loadAssemblyAndAllItsDependencies();
 								
 										SettingsService settingsService = new SettingsService();
@@ -194,13 +202,16 @@ namespace O2.XRules.Database.APIs
 										ServiceManager.Services.AddService(new AddinManager());
 										ServiceManager.Services.AddService(new TestAgency());
 										ServiceManager.Services.InitializeServices();
-								}																		
+								}
+								else 
+									"[API_NUnit_Gui] in nUnitGui_ShowGui: NUnit.Util.Services.TestAgency was not null: {0}".debug(NUnit.Util.Services.TestAgency);
 														
 								ServiceManager.Services.AddService(new TestLoader(new GuiTestEventDispatcher()));											
 								nUnitForm = new NUnitForm(guiOptions);												
 								"NUnitForm".o2Cache(nUnitForm);		
 								sync.Set();
-								nUnitForm.ShowDialog();								
+								nUnitForm.ShowDialog();	
+								"NUnitForm".o2Cache(null);
 							});
 						sync.WaitOne();
 						return nUnitForm;

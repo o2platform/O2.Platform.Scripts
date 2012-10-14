@@ -10,21 +10,21 @@ using O2.XRules.Database.Utils;
 
 namespace O2.XRules.Database.APIs
 {
-	public class Installer_NUnit_Test
+	public class NUnit_Installer_Test
 	{ 
 		public void test()
 		{
-			new Installer_NUnit().start(); 
+			new NUnit_Installer().start(); 
 		}
 	}
-	public class Installer_NUnit : Tool_API  
+	public class NUnit_Installer : Tool_API  
 	{			
 		
-		public Installer_NUnit() : this(true)
+		public NUnit_Installer() : this(true)
 		{
 		}
 		
-		public Installer_NUnit(bool installNow)
+		public NUnit_Installer(bool installNow)
 		{
 			//Install_Uri = "http://launchpad.net/nunitv2/2.5/2.5.10/+download/NUnit-2.5.10.11092.zip".uri();
 			this.ToolName = "NUnit";

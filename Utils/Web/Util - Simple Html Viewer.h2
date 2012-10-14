@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Simple Html Viewer",500,300);
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Simple Html Viewer",600,400);
 var controls = topPanel.add_1x1();
 var browser = controls[1].add_WebBrowser();
 var htmlText = controls[0].add_TextArea().unlimitedSize();
@@ -32,7 +32,8 @@ htmlText.onDrop(
 			
 htmlText.onTextChange(
 	(text)=&gt;{
-				render(text);
+				if(autoRender)
+					render(text);
 			});
 
 htmlText.insert_Below(20)

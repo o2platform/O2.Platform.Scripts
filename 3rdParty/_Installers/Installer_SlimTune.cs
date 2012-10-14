@@ -11,7 +11,7 @@ using O2.XRules.Database.Utils;
 
 namespace O2.XRules.Database.APIs
 {
-	public class Installer_NUnit_Test
+	public class Installer_SlimTune_Test
 	{ 
 		public void test()
 		{
@@ -31,7 +31,7 @@ namespace O2.XRules.Database.APIs
 			config("SlimTune", "http://slimtune.googlecode.com/files/SlimTune-0.3.0.exe".uri(), "SlimTune-.exe");										
 			Install_Dir = ProgramFilesFolder;
 			this.Executable =  this.ProgramFilesFolder.pathCombine(@"SlimTune Profiler\SlimTuneUI.exe");			    		
-			this.showInfo();
+			//this.showInfo();
 			this.installFromMsi_Web(); 						  		    		
 		}				
 		
