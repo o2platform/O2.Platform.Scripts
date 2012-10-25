@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>var topPanel = "NodeJS REPL Script".popupWindow(600,400)
+  <SourceCode>O2ConfigSettings.O2Version = "NodeJS_v1";
+O2Setup.extractEmbededConfigZips(); 
+var topPanel = "NodeJS REPL Script".popupWindow(600,400)
 								   .add_Panel();		// to allow toplevel panel injection
 topPanel.insert_LogViewer();
 //var topPanel = panel.clear().add_Panel();
@@ -75,6 +77,7 @@ topPanel.onClosed(()=&gt; stopExecution());
 dynamic expando = new ExpandoObject();	
 expando.topPanel 		  = topPanel;
 expando.form 	 		  = topPanel.parentForm();
+
 return expando;
 
 //nodeJS.start();
@@ -87,8 +90,8 @@ return "ok";
 //using System.Dynamic
 //O2File:API_NodeJS.cs
 //O2File:CmdExeAPI.cs
-//O2Tag_DontAddExtraO2Files
 //O2Ref: Microsoft.CSharp.dll
-//O2Embed:E:\o2_v4\_TempDir_v4.3.2.0\_ToolsOrApis\NodeJS\node.exe</SourceCode>
+//O2EmbedTool:NodeJs
+//O2Package:Hello World.js,Simple WebServer.js,Simple WebServer II.js</SourceCode>
   <ReferencedAssemblies />
 </H2>

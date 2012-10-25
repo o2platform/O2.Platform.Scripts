@@ -1,15 +1,18 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>//var topPanel = panel.clear().add_Panel(); 
+  <SourceCode>O2ConfigSettings.O2Version = "Package_O2_Script_v1";
+O2Setup.extractEmbededConfigZips(); 
+
+//var topPanel = panel.clear().add_Panel(); 
 var topPanel = "Util - Compile H2, O2 or CS Script into separate Folder".popupWindow(800,300)
 													   .insert_LogViewer(); 
-        
+          
 var browser = topPanel.add_WebBrowser_Control() 
 					  .add_NavigationBar();
 var dropZone = topPanel.insert_Left(200)
 					  .add_Button("Drop script file here \n\n to package it into seperate folder").fill()
 					  .font_bold();
-					  
+	 	 		    
 var lastScriptFile = "";					  
 var compiledScript = "";
 	
@@ -49,7 +52,7 @@ return packageScript;
 
 //O2File:API_MicrosoftBuild.cs
 
-//O2Tag_DontAddExtraO2Files
+//O2Package:ALL_SCRIPTS
 </SourceCode>
   <ReferencedAssemblies />
 </H2>

@@ -35,19 +35,7 @@ namespace O2.XRules.Database.APIs
 		{
 			sourceFile.file_Copy(targetDir);
 			var assemblyFiles = pathToAssemblies.files(false,"*.dll","*.exe");
-			
-			//NOT WORKING: hack to not include dlls that are already embedded inside the O2_FluentSharp_REPL
-		/*	if (assemblyFiles.fileNames().contains("O2_FluentSharp_REPL.dll"))
-				foreach(var file in assemblyFiles.toList())
-					if(file.fileName().info() == "O2_FluentSharp_CoreLib.dll" || 
-					   file.fileName().info() == "O2_FluentSharp_BCL.dll" ||
-					   file.fileName().info() == "O2_External_SharpDevelop.dll")
-					{					
-						assemblyFiles.remove(file);
-						"REMOVING {0}".error(file);
-					}*/
-					
-						
+											
 			var projectFile =  targetDir.pathCombine(projectName + ".csproj");
 			
 			var projectCollection = new ProjectCollection();
@@ -225,7 +213,19 @@ namespace O2.XRules.Database.APIs
 		}
 		 
 		public static string package_Script(this string scriptFile, ref string compiledScript, ref string pathToAssemblies, ref string projectFile,   Action<List<string>> beforeAddingReferences = null, Action<List<string>> beforeEmbedingFiles = null)
-		{					
+		{	
+		
+			Action<string,List<string>> handleReferencesFor_ToolsOrApis = 
+				(buildFilesDir,extraEmbebbedResources)=>{
+									var toolsO2ApisFolder = buildFilesDir.pathCombine("_ToolsOrApis");
+									toolsO2ApisFolder.copyToolReferencesToFolder(scriptFile);
+									if (toolsO2ApisFolder.folders().size() > 0)
+									{
+										var zipFolder = buildFilesDir.pathCombine("_ToolsOrApis.zip");
+										toolsO2ApisFolder.zip_Folder(zipFolder);
+										extraEmbebbedResources.add(zipFolder);										
+									}
+								 };
 			compiledScript =  scriptFile.compileScriptFile_into_SeparateFolder();		
 			
 			if (compiledScript.notNull())
@@ -241,12 +241,12 @@ namespace O2.XRules.Database.APIs
 				//add special folders
 				O2Setup.createEmbeddedFolder_Scripts(buildFilesDir)
 					   .copyFileReferencesToFolder(scriptFile);
-				buildFilesDir.pathCombine("ToolsOrApis")
-					   .copyToolReferencesToFolder(scriptFile);
-				
+												
 				var extraEmbebbedResources = buildFilesDir.mapExtraEmbebbedResources(scriptFile);
 				extraEmbebbedResources.add(scriptFile.local()) // include original script as an embeded file
 									  .add(sourceFile);		   //         and file that created the exe
+				
+				handleReferencesFor_ToolsOrApis(buildFilesDir,extraEmbebbedResources);
 				
 				var createdExe = projectName.createProjectFile_and_Build(sourceFile, pathToAssemblies, buildFilesDir,extraEmbebbedResources,beforeAddingReferences, beforeEmbedingFiles);				
 				if (createdExe.valid())

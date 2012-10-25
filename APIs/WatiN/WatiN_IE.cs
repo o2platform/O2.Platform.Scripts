@@ -182,8 +182,9 @@ namespace O2.XRules.Database.APIs
 		public WatiN_IE execute(MethodInvoker callback)
 		{			
 			var executionComplete = new AutoResetEvent(false);
-			IEThread.invoke(
-				()=>{
+			//IEThread.invoke(
+			//WebBrowser.invokeOnThread(
+				//(()=>{
 						try
 						{							
 							callback();
@@ -193,7 +194,7 @@ namespace O2.XRules.Database.APIs
 							ex.log("in WatiN_IE execute");
 						}
 						executionComplete.Set();
-					});
+				//	})
 			if (executionComplete.WaitOne(maxExecutionWaitTime).isFalse())
 				"in WatiN_IE executeOnThread, maxExecutionWaitTime ({0} ms} was reached for action".error(maxExecutionWaitTime);
 			return this;
@@ -203,8 +204,9 @@ namespace O2.XRules.Database.APIs
 		{
 			object returnData = null;
 			var executionComplete = new AutoResetEvent(false);
-			IEThread.invoke(
-				()=>{
+//			IEThread.invoke(
+			//WebBrowser.invokeOnThread(
+			//	()=>{
 						try
 						{	
 							returnData = callback();						
@@ -214,7 +216,7 @@ namespace O2.XRules.Database.APIs
 							ex.log("in WatiN_IE execute<T>");
 						}
 						executionComplete.Set();
-					});
+			//		});
 			if (executionComplete.WaitOne(maxExecutionWaitTime).isFalse())
 				"in WatiN_IE executeOnThread, maxExecutionWaitTime ({0} ms} was reached for action".error(maxExecutionWaitTime);
  

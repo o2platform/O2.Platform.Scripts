@@ -95,7 +95,7 @@ namespace O2.Tool.HostLocalWebsite.ascx
 	        	PublicDI.log.error("in btStartWebService_Click: {0}", ex);
 	        }
 	        var webServiceUrl = webservices.GetWebServiceURL();
-            tbUrlToLoad.Text = webServiceUrl;
+            tbUrlToLoad.set_Text(webServiceUrl);
         }
 
         private void btSetTestEnvironment_Click(object sender, EventArgs e)
