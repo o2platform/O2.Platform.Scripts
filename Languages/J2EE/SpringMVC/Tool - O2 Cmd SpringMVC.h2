@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>O2ConfigSettings.O2Version = "O2CmdSpringMVC_v1";
+O2Setup.extractEmbededConfigZips(); 
+@"O2CmdSpringMVC\SourceDir\O2_Cmd_SpringMvc.exe".local().startProcess();
+ 
+//Installer:O2CmdSpringMVC_Installer.cs!O2CmdSpringMVC\SourceDir\O2_Cmd_SpringMvc.exe
+//O2EmbedTool:O2CmdSpringMVC</SourceCode>
+  <ReferencedAssemblies />
+</H2>
