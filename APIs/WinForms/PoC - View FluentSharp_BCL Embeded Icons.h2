@@ -11,9 +11,9 @@ foreach(var iconMapping in iconsMappings)
 {
 	var name = iconMapping.Key;
 	var image= iconMapping.Value;
-	toolStrip.add_Button(name , image,()=&gt; name.alert());
+	toolStrip.add_Button(name , image,()=&gt; "Copied value {0} to clipboard".format(name.clipboardText_Set()).alert());
 }
-toolStrip.wait_n_Seconds(1)	
+/*toolStrip.wait_n_Seconds(1)	
 		 .layout_HorizontalStackWithOverflow()
 		 .wait_n_Seconds(1)		 
 		 .layout_StackWithOverflow()
@@ -24,11 +24,11 @@ toolStrip.wait_n_Seconds(1)
 		 .wait_n_Seconds(1)
 		 .layout_Flow();
 		 ;
-
+*/
 return toolStrip;
 
 //using O2.Platform.BCL.O2_Views_ASCX
-
+ 
 //O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs</SourceCode>
   <ReferencedAssemblies />
 </H2>

@@ -1,13 +1,12 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>//O2Ref:IKVM.OpenJDK.SwingAWT.dll
-//O2Ref:IKVM.OpenJDK.Security.dll
-//O2Ref:IKVM.Runtime.dll
-//O2Ref:IKVM.OpenJDK.Util.dll
-//O2Ref:IKVM.OpenJDK.Core.dll
-//O2Ref:IKVM.Reflection.dll
-//O2Ref:IKVM.Runtime.JNI.dll
-//return "IKVM.Runtime.JNI.dll".assembly();
+  <SourceCode>//O2Ref:IKVM\ikvm-7.1.4532.2\bin\IKVM.OpenJDK.SwingAWT.dll
+//O2Ref:IKVM\ikvm-7.1.4532.2\bin\IKVM.OpenJDK.Security.dll
+//O2Ref:IKVM\ikvm-7.1.4532.2\bin\IKVM.Runtime.dll
+//O2Ref:IKVM\ikvm-7.1.4532.2\bin\IKVM.OpenJDK.Util.dll
+//O2Ref:IKVM\ikvm-7.1.4532.2\bin\IKVM.OpenJDK.Core.dll
+//O2Ref:IKVM\ikvm-7.1.4532.2\bin\IKVM.Reflection.dll
+//O2Ref:IKVM\ikvm-7.1.4532.2\bin\IKVM.Runtime.JNI.dll
 
 var topPanel = "util - view IKVM internal java converted objects".popupWindow(1000,600).insert_LogViewer();
 //var topPanel = panel.clear().add_Panel();
@@ -53,17 +52,18 @@ Action&lt;string&gt; loadFile =
 				ikvmcCompiler.invoke("ParseCommandLine", args, targets, compilerOptions);  
 				
 				compilerOptions =  (targets as IEnumerable).first();
-				var classes =   (Dictionary&lt;string, byte[]&gt;) compilerOptions.field("classes");  
+				var classes =   (IDictionary) compilerOptions.field("classes");  
 												
-				foreach(var @class in classes) 
+				foreach(DictionaryEntry @class in classes)  
 				{
 					
 					//var f = new ClassFile(buf, 0, buf.Length, null, ClassFileParseOptions.None);
 					var classFileType = ikvmcAssembly.type("ClassFile");
 					var ctor = classFileType.ctors().first();
 					//classFileType.details();   
-					var classFile = ctor.Invoke(new object[] { @class.Value,0, @class.Value.Length, null,1 });   //1= Nuno2 = ClassFileParseOptions.LineNumberTable  
-					var classNode = treeView.add_Node(@class.Key,classFile);
+					var bytes = (byte[])@class.Value.field("data");
+					var classFile = ctor.Invoke(new object[] { bytes,0,bytes.Length, null,1 });   //1= Nuno2 = ClassFileParseOptions.LineNumberTable  
+					var classNode = treeView.add_Node(@class.Key.str(),classFile);
 					
 					var constantPoolRaw = new Dictionary&lt;int,object&gt;();
 					var constantPool =  (IEnumerable)classFile.field("constantpool");  
@@ -74,7 +74,7 @@ Action&lt;string&gt; loadFile =
 					var constantPoolValues = new Dictionary&lt;int,string&gt;();	 
 				//	var stillToMap = new List&lt;object&gt;();
 					for(int i=0; i &lt; constantPoolRaw.size() ; i++)
-					{
+					{  
 						var currentItem = constantPoolRaw[i];
 						switch(currentItem.str())
 						{
@@ -172,107 +172,11 @@ treeView.onDrop((file)=&gt;O2Thread.mtaThread(()=&gt;loadFile(file)));
 //loadFile( commons_Logging_Jar);	
 return "ok";
 
-var jarsFolder = @"C:\O2\Demos\WebGoat\WebGoat-5.3_RC1\tomcat\webapps\webgoat\WEB-INF\lib";
-var commons_Logging_Jar = jarsFolder.pathCombine("commons-logging-1.0.4.jar"); 
-
-//ikvmcCompiler.details(); 
-
-//var compilerClassLoader = ikvmcAssembly.type("CompilerClassLoader");
-
-//using System.Collections 
-//var compile = compilerClassLoader.method("Compile"); 
-
-//var createCompiler = compilerClassLoader.method("CreateCompiler"); 
-
-//PublicDI.reflection.invokeMethod_Static(compile, new object[] {null,targets});  
-//ikvmcCompiler.details(); 
-//return ikvmcCompiler;
-//return createCompiler.invoke(null, compilerOptions);
-
-//return StaticCompiler.runtimeAssembly;
-
-//using jlClass = java.lang.Class
-//using jlrMethod = java.lang.reflect.Method 
-
-
-
-//O2FIl
-
-JarFile jarFile = new JarFile(commons_Logging_Jar);
-
-//return jarFile.getClass("org/apache/commons/logging/impl/SimpleLog.class");
-
-var entries = jarFile.entries();
-var zipEntries = new List&lt;ZipEntry&gt;();
-while (entries.hasMoreElements())
-{
-	ZipEntry zipEntry = (ZipEntry)entries.nextElement();	
-	zipEntries.add(zipEntry);
-}
-
-var _class = zipEntries[18].str().replace("/",".").remove(".class"); 
-//return _class;
-
-var urls = new java.net.URL[] { new java.net.URL("file:///" + commons_Logging_Jar ) } ;
-var urlClassLoader = new java.net.URLClassLoader(urls);
- 
-// return urlClassLoader.invoke("getResources"); 
-//return urlClassLoader.invoke("getPackages");;
-
-var props = new Hashtable(); 
-props["java.class.path"] = commons_Logging_Jar;
-Startup.setProperties(props); 
-
-var sysClassLoader = ClassLoader.getSystemClassLoader();
-//sysClassLoader.details();
-//return sysClassLoader.invoke("getPackages");
-
-Class clazz = java.lang.Class.forName(_class, false , ClassLoader.getSystemClassLoader()); 
-return clazz;
-
-
-return sysClassLoader.typeFullName();
-
-//sysClassLoader.details();
-return sysClassLoader.loadClass("org/apache/commons/logging/impl/Jdk14Logger.class");
-return sysClassLoader;
-
-//org/apache/commons/logging/impl/Jdk14Logger.class
-//return new java.lang.ClassLoader(); 
-//return _class;
-//jarFile.entries().details();
-//foreach(var entry in jarFile.entries())
-//	"entry: {0}".info(entry);
-return "ok";
-var manifest = jarFile.getManifest();
-manifest.details();
-//jarFile.details();
-return jarFile;
-//O2Ref:ikvmc.exe
-//O2Ref:ICSharpCode.SharpZipLib.dll
-//
-var ikvmApi = new API_IKVM();
-//ikvmApi.install_IKVM_Assemblies_on_GAC();  // first time install on GAC
-
-
-   
-//return gacUtil.startProcess_getConsoleOut("/l ikvm");   
-
-
-
-
-//var textBox = topPanel.add_TextBox(true);
-//textBox.set_Text("hello world");
-
-
-return ikvmApi.IKVMInstallationDir;
 //return O2.DotNetWrappers.DotNet.GacUtils.currentGacAssemblies();
 //using O2.XRules.Database.APIs.IKVM
 //O2File:API_IKVM.cs
    
 //using System.Collections 
- 
-//using O2.XRules.Database.Languages_and_Frameworks.DotNet
-//O2File:DotNet_SDK_GacUtil.cs  </SourceCode>
+ </SourceCode>
   <ReferencedAssemblies />
 </H2>

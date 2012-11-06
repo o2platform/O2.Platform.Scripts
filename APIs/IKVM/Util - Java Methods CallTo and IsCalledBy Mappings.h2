@@ -13,8 +13,8 @@ var show_Implements = false;
 var show_EnclosingMethod = false;
 var show_SourceCode = false; 	
 var showStubTreeNodes = false;
-Action showData = null;     
-     
+Action showData = ()=&gt;{};     
+   
 var codeViewer = topPanel.add_SourceCodeViewer();        
   
       
@@ -23,10 +23,10 @@ var treeView = topPanel.insert_Left().add_TreeView();
 var configPanel = treeView.insert_Below(65);	              
    
 var showCallsTo_Checkbox =    configPanel.add_CheckBox("show 'Calls To' mappings", 0,0, 			(value)=&gt; { show_CallsTo = value; 					showData(); }).autoSize().check();
-							  configPanel.add_CheckBox("show 'ImplementedBy' mappings", 20,0, 		(value)=&gt; { show_ImplementedBy = value ; 			showData(); }).autoSize().check();							  
+							  configPanel.add_CheckBox("show 'ImplementedBy' mappings", 20,0, 		(value)=&gt; { show_ImplementedBy = value ; 			showData(); }).autoSize().check();							  							  
 var showIsCalledBy_CheckBox = configPanel.add_CheckBox("show 'IsCalledBy' mappings", 0,200,  		(value)=&gt; { show_IsCalledBy= value; 				showData(); }).autoSize().check(); 							  
-							  configPanel.add_CheckBox("show 'Implements' mappings", 20,200, 	(value)=&gt; { show_Implements = value ; 		showData(); }).autoSize().check();							  							  							  
-							  configPanel.add_CheckBox("show 'EnclosingMethod' mappings", 40,200, 	(value)=&gt; { show_EnclosingMethod = value ; 		showData(); }).autoSize().check();							  							  
+							  configPanel.add_CheckBox("show 'Implements' mappings", 20,200, 		(value)=&gt; { show_Implements = value ; 				showData(); }).autoSize().check();							  							  							  
+							  configPanel.add_CheckBox("show 'EnclosingMethod' mappings", 40,200, 	(value)=&gt; { show_EnclosingMethod = value ; 			showData(); }).autoSize().check();							  							  
 							  configPanel.add_CheckBox("Hide 'Type Nodes'", 40,400, 				(value)=&gt; { showStubTreeNodes = value ; 			showData(); }).autoSize().check();							  
 		          							  
 							  configPanel.add_CheckBox("on Select, open Source Code ", 40,0, 		(value)=&gt; { show_SourceCode= value;								}).autoSize().check();
@@ -129,19 +129,10 @@ treeView.add_Node("Drop here Jar or Class file to view its call mappings");
  
 return "ok";
 
-//O2File:API_IKVMC_JavaMetadata.cs
+//O2File:API_IKVMC_JavaMetadata.cs 
 
 //using O2.XRules.Database.APIs.IKVM  
 //O2File:API_IKVMC.cs 
-//O2File:API_IKVMC_CallMapping.cs 
-//O2Ref:ikvmc.exe
-
-//O2Ref:IKVM.OpenJDK.SwingAWT.dll
-//O2Ref:IKVM.OpenJDK.Security.dll
-//O2Ref:IKVM.Runtime.dll
-//O2Ref:IKVM.OpenJDK.Util.dll
-//O2Ref:IKVM.OpenJDK.Core.dll
-//O2Ref:IKVM.Reflection.dll
-//O2Ref:IKVM.Runtime.JNI.dll</SourceCode>
+//O2File:API_IKVMC_CallMapping.cs </SourceCode>
   <ReferencedAssemblies />
 </H2>

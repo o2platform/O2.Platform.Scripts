@@ -24,7 +24,7 @@ using O2.External.SharpDevelop.ExtensionMethods;
 using O2.API.AST.CSharp;
 using O2.API.AST.ExtensionMethods;
 using O2.API.AST.ExtensionMethods.CSharp;
-using O2.XRules.Database.Utils;
+using O2.XRules.Database.Utils; 
 using ICSharpCode.SharpDevelop.Dom;
 using ICSharpCode.NRefactory;
 using ICSharpCode.NRefactory.Ast;

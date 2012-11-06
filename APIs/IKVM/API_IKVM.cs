@@ -4,15 +4,17 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using O2.Kernel;
+using O2.Kernel; 
 using O2.Kernel.ExtensionMethods;
 using O2.DotNetWrappers.ExtensionMethods;
 using O2.DotNetWrappers.Windows;
 using O2.DotNetWrappers.Zip;
 using O2.XRules.Database.Utils;
-using O2.XRules.Database.Languages_and_Frameworks.DotNet;
+//using O2.XRules.Database.Languages_and_Frameworks.DotNet;
 
-//O2File:DotNet_SDK_GacUtil.cs  
+//Installer:IKVM_Installer.cs!IKVM\ikvm-7.1.4532.2\bin\ikvm.exe
+
+//_O2File:DotNet_SDK_GacUtil.cs  
 
 namespace O2.XRules.Database.APIs.IKVM
 {
@@ -23,8 +25,7 @@ namespace O2.XRules.Database.APIs.IKVM
             IKVMInstall.checkIKVMInstallation();
         }*/
 
-        public string _IKVMRuntimeDir { get; set; }
-        public Uri zippedIKVMRunTime { get; set; }
+        public string _IKVMRuntimeDir { get; set; }        
         public string IKVMExecutable { get; set; }
         public string IKVMCompilerExecutable { get; set; }
         public string IKVMCompilerArgumentsFormat { get; set; }
@@ -37,10 +38,10 @@ namespace O2.XRules.Database.APIs.IKVM
         
         public API_IKVM()
         {        	
-        	_IKVMRuntimeDir = PublicDI.config.O2TempDir.pathCombine("..\\_ToolsOrAPIs\\_IKVM_Runtime");
-        	zippedIKVMRunTime = "http://o2platform.googlecode.com/svn/trunk/O2%20-%20All%20Active%20Projects/_3rdPartyDlls/FilesWithNoCode/_IKVM_Runtime.zip".uri();
+        
+        	_IKVMRuntimeDir = PublicDI.config.ToolsOrApis.pathCombine(@"\IKVM\ikvm-7.1.4532.2\bin");        	
         	//"_IKVM_Runtime.zip";
-        	
+        	 
         	IKVMExecutable = Path.Combine(_IKVMRuntimeDir, "ikvm.exe");
         	IKVMCompilerExecutable = Path.Combine(_IKVMRuntimeDir, "ikvmc.exe");
         	IKVMCompilerArgumentsFormat = "\"{0}\" -out:\"{1}\"";
@@ -52,21 +53,7 @@ namespace O2.XRules.Database.APIs.IKVM
         	javaParserExecutable = "";
         	this.checkIKVMInstallation();
         }
-
-        public string IKVMInstallationDir
-        {
-            get
-            {
-                this.checkIKVMInstallation();
-                return _IKVMRuntimeDir;
-            }
-            set
-            {
-                this.uninstallIKVM();
-                _IKVMRuntimeDir = value;
-                this.installIKVM();
-            }
-        }
+    
     }
     
     public static class API_IKVM_ExtensionMethods_Install
@@ -77,36 +64,17 @@ namespace O2.XRules.Database.APIs.IKVM
             if (ikvm.checkIfJavaPathIsCorrectlySet())
             {
                 if (Directory.Exists(ikvm._IKVMRuntimeDir) && File.Exists(ikvm.IKVMCompilerExecutable) && File.Exists(ikvm.IKVMStubExecutable))
-                    return true;
-                ikvm.installIKVM();
-                return (Directory.Exists(ikvm._IKVMRuntimeDir) && File.Exists(ikvm.IKVMCompilerExecutable) && File.Exists(ikvm.IKVMStubExecutable));
+                    return true;                
             }
             return false;
         }
-
-        public static API_IKVM installIKVM(this API_IKVM ikvm)
-        {
-			var downloadedFile = ikvm.zippedIKVMRunTime.downloadFile();
-            if (false == downloadedFile.fileExists())
-                "in installIKVM, could not find downloaded file (url was: {0})".error(ikvm.zippedIKVMRunTime);
-            else
-            {
-                "Installing IKVM to: {0}".info(ikvm._IKVMRuntimeDir);
-                new zipUtils().unzipFile(downloadedFile, ikvm._IKVMRuntimeDir);
-                if (Directory.Exists(ikvm._IKVMRuntimeDir))
-                    "IKVM sucessfully installed".info();
-                else
-                    "Problem installing/unziping _IKVMRuntimeDir: {0}".error(ikvm._IKVMRuntimeDir);
-                //JavaShell.testIKVM();
-            }
-            return ikvm;
-        }
+      
         
-        public static API_IKVM install_IKVM_Assemblies_on_GAC(this API_IKVM ikvm)
+/*        public static API_IKVM install_IKVM_Assemblies_on_GAC(this API_IKVM ikvm)
         {
         	"Installing IKVM dlls in local GAC folder".info();
         	var gacUtil =  new DotNet_SDK_GacUtil();  
-        	foreach(var file in ikvm.IKVMInstallationDir.files("ikvm*.*"))
+        	foreach(var file in ikvm._IKVMRuntimeDir.files("ikvm*.*"))
         		if (file.fileName().neq("ikvm-native.dll") && gacUtil.install(file).isFalse())              		
         		{
         			"Failed to install into GAC, so stopping installation process".error();
@@ -114,7 +82,7 @@ namespace O2.XRules.Database.APIs.IKVM
         		}
 			return ikvm;
         }
-
+*/
         public static bool checkIfJavaPathIsCorrectlySet(this API_IKVM ikvm)
         {
             var javaHome = Environment.GetEnvironmentVariable("Java_Home");

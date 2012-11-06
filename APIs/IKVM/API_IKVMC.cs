@@ -19,13 +19,20 @@ using O2.External.SharpDevelop.Ascx;
 using O2.External.SharpDevelop.ExtensionMethods;
 
 //O2File:API_IKVMC_JavaMetadata.cs
-//O2Ref:IKVM.Runtime.dll
-//O2Ref:IKVM.Runtime.JNI.dll
-//O2Ref:IKVM.OpenJDK.Util.dll
-//O2Ref:IKVM.OpenJDK.Core.dll
-//O2Ref:IKVM.Reflection.dll
-//O2Ref:ikvmc.exe
-//O2Ref:ICSharpCode.SharpZipLib.dll
+//O2Ref:IKVM\ikvm-7.1.4532.2\bin\IKVM.Runtime.dll
+//O2Ref:IKVM\ikvm-7.1.4532.2\bin\IKVM.Runtime.JNI.dll
+//O2Ref:IKVM\ikvm-7.1.4532.2\bin\IKVM.OpenJDK.Util.dll
+//O2Ref:IKVM\ikvm-7.1.4532.2\bin\IKVM.OpenJDK.Core.dll
+//O2Ref:IKVM\ikvm-7.1.4532.2\bin\IKVM.Reflection.dll
+//O2Ref:IKVM\ikvm-7.1.4532.2\bin\ikvmc.exe
+
+//_O2Ref:IKVM.OpenJDK.SwingAWT.dll
+//_O2Ref:IKVM.OpenJDK.Security.dll
+//_O2Ref:IKVM.Runtime.dll
+//_O2Ref:IKVM.OpenJDK.Util.dll
+//_O2Ref:IKVM.OpenJDK.Core.dll
+//_O2Ref:IKVM.Reflection.dll
+//_O2Ref:IKVM.Runtime.JNI.dll
 
 namespace O2.XRules.Database.APIs.IKVM
 {
@@ -47,10 +54,12 @@ namespace O2.XRules.Database.APIs.IKVM
     	{    		
     		IkvmcAssembly = "ikvmc.exe".assembly();
     		StaticCompiler = IkvmcAssembly.type("StaticCompiler");
-			IkvmRuntime = StaticCompiler.invokeStatic("LoadFile",Environment.CurrentDirectory.pathCombine("IKVM.Runtime.dll")); 
+			//IkvmRuntime = StaticCompiler.invokeStatic("LoadFile",Environment.CurrentDirectory.pathCombine("IKVM.Runtime.dll")); 
+			IkvmRuntime = StaticCompiler.invokeStatic("LoadFile","IKVM.Runtime.dll".assembly().Location); 			 			
 			PublicDI.reflection.setField((FieldInfo)StaticCompiler.field("runtimeAssembly"),IkvmRuntime);  				
 			
-			IkvmRuntimeJni = StaticCompiler.invokeStatic("LoadFile",Environment.CurrentDirectory.pathCombine("IKVM.Runtime.JNI.dll")); 
+			//IkvmRuntimeJni = StaticCompiler.invokeStatic("LoadFile",Environment.CurrentDirectory.pathCombine("IKVM.Runtime.JNI.dll")); 
+			IkvmRuntimeJni = StaticCompiler.invokeStatic("LoadFile","IKVM.Runtime.JNI.dll".assembly().Location); 
 			PublicDI.reflection.setField((FieldInfo)StaticCompiler.field("runtimeJniAssembly"),IkvmRuntimeJni);  
 			
 			IkvmcCompiler =  IkvmcAssembly.type("IkvmcCompiler").ctor();
@@ -62,13 +71,14 @@ namespace O2.XRules.Database.APIs.IKVM
 	
 	public static class API_IKVMC_ExtensionMethods_CreateJavaMetadata
 	{
-		public static Dictionary<string, byte[]> getRawClassesData_FromFile_ClassesOrJar(this API_IKVMC ikvmc, string classOrJar)
+		public static IDictionary getRawClassesData_FromFile_ClassesOrJar(this API_IKVMC ikvmc, string classOrJar)
 		{
 			var targets = typeof(List<>).MakeGenericType(new System.Type[] { ikvmc.CompilerOptions.type()}).ctor();
 			var args = classOrJar.wrapOnList().GetEnumerator();
 			ikvmc.IkvmcCompiler.invoke("ParseCommandLine", args, targets, ikvmc.CompilerOptions);  				
 			var compilerOptions =  (targets as IEnumerable).first();
-			var classes =   (Dictionary<string, byte[]>) compilerOptions.field("classes");  
+			//var classes =   (Dictionary<string, byte[]>) compilerOptions.field("classes");  
+			var classes =   (IDictionary) compilerOptions.field("classes");  			
 			return classes;
 		}				
 		
@@ -98,10 +108,10 @@ namespace O2.XRules.Database.APIs.IKVM
 			var javaMetaData = new API_IKVMC_Java_Metadata();
 			javaMetaData.FileProcessed = fileToProcess;
 			var classes = ikvmc.getRawClassesData_FromFile_ClassesOrJar(fileToProcess);
-			foreach(var item in classes)
+			foreach(DictionaryEntry item in classes)
 			{
-				var name = item.Key;
-				var bytes = item.Value;
+				var name = item.Key.str();
+				var bytes = (byte[])item.Value.field("data");
 				var classFile = ikvmc.createClassFile(bytes,1);				// value of 1 gets the local variables
 				var javaClass = new Java_Class {
 													Signature = name,													

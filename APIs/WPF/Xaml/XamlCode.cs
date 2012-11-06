@@ -99,5 +99,17 @@ namespace O2.XRules.Database.APIs
 					 "    </Button>".line();
 
 		}
+		
+		
+		public static string textBlock(string text, string alignment, string family, string weight, string size, string color)
+		{
+			return @"<TextBlock TextAlignment=""{0}"" 
+								FontFamily=""{1}"" 
+								FontWeight=""{2}"" 
+								FontSize=""{3}"" 
+								Foreground=""{4}"">{5}</TextBlock>"
+					 	.format(alignment, family, weight, size, color, text);
+		}
+		
     }      
 }

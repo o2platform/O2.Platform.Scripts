@@ -4,7 +4,6 @@
 topPanel.add_WebBrowser_Control().showMessage("Welcome to O2's WebBrowser REPL script environment")
 		.script_Me("ie", topPanel.insert_Below());
 
-var stream = "".resourceStream();
 return topPanel; </SourceCode>
   <ReferencedAssemblies />
 </H2>

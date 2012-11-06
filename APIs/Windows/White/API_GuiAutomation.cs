@@ -34,6 +34,7 @@ using System.Windows.Automation;
 //O2Ref:Bricks.RuntimeFramework.dll
 //O2Ref:Castle.Core.dll
 //O2Ref:Castle.DynamicProxy2.dll 
+//O2Ref:log4net.dll
 //O2Ref:UIAutomationTypes.dll
 //O2Ref:UIAutomationClient.dll
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll

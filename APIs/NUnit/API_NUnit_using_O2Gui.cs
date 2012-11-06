@@ -19,6 +19,7 @@ using O2.XRules.Database.Utils;
 using O2.Core.XRules.Ascx;
 
 //O2Ref:O2_Core_XRules.dll
+//O2Ref:O2_External_O2Mono.dll
 
 namespace O2.XRules.Database.APIs
 {

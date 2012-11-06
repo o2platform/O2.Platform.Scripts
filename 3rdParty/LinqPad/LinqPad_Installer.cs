@@ -9,23 +9,21 @@ using O2.XRules.Database.Utils;
 namespace O2.XRules.Database.APIs
 {
 
-	public class LinqPad_Test
+	public class LinqPad_Installer_Test
 	{
 		public void test()
 		{
-			new LinqPad().start(); 
+			new LinqPad_Installer().start(); 
 		}
 	}
-	public class LinqPad : Tool_API 
+	public class LinqPad_Installer : Tool_API 
 	{	
-		public LinqPad() : this(true)
+		public LinqPad_Installer() : this(true)
 		{
 		}
 		
-		public LinqPad(bool installNow)
-		{
-			
-    		
+		public LinqPad_Installer(bool installNow)
+		{			    		
     		/*config("LinqPad", 
     			  "LinqPad v3.5", 
     			  @"C:\Program Files\LinqPad\",
@@ -33,7 +31,7 @@ namespace O2.XRules.Database.APIs
     			  "http://www.linqpad.net/GetFile.aspx?LINQPadSetup.exe".uri());
     		
     		*/    		
-    		config("LinqPad", "LinqPad.4.0", "LINQPad4.zip");			
+    		config("_LinqPad", "LinqPad.4.0", "LINQPad4.zip");			
     		Install_Uri = "http://www.linqpad.net/GetFile.aspx?LINQPad4.zip".uri();    		
     		Executable = Install_Dir.pathCombine("LINQPad.exe");
     		if (installNow)

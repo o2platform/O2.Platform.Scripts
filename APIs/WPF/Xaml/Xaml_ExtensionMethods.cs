@@ -211,6 +211,16 @@ namespace O2.XRules.Database.Utils
     					link.onClick_Wpf(onClickCallback);
     					return link;
     				});
-    	}    	    	    	     
+    	}    
+    	
+    	//public static TextBlock add_TextBlock(this  
+    	public static TextBlock add_Xaml_Title(this UIElement uiElement, string text)
+    	{
+	    	return (TextBlock)uiElement.wpfInvoke(
+	    			()=>{
+	    					var textXaml = XamlCode.textBlock(text, "Center", "Segoe, Segoe UI, Arial", "Bold", "14pt", "Black");
+	    					return uiElement.xaml_CreateUIElement<TextBlock>(textXaml);
+	    				});
+    	}    		
     }
 }

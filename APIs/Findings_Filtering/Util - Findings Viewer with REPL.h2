@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.add_Panel(true);
+var topPanel = O2Gui.open&lt;Panel&gt;("Util - Findings Viewer with REPL",400,400);
+topPanel.add_FindingsViewer();
+
+topPanel.mainMenu().clear().add_Menu("REPL")
+						   .add_MenuItem("Find control to REPL", ()=&gt; new API_HawkEye().openControlFinder());	
+			
+return topPanel; 
+
+//using O2.XRules.Database.Findings
+//O2File:Findings_ExtensionMethods.cs
+//O2File:API_HawkEye.cs
+
+
+
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

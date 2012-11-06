@@ -29,15 +29,20 @@ treeView.beforeExpand&lt;XElement&gt;(
 						(snippet) =&gt;  treeView.current().add_Node(snippet.attribute("Name").value(),snippet));					
 				 }); 
 				 
-treeView.onDoubleClick&lt;XElement&gt;((xElement) =&gt; xamlViewer.showXaml(xElement.value()));
-xamlCode.textEditor().DragDrop+= (sender,e) =&gt; 
+treeView.onDoubleClick&lt;XElement&gt;(
+	(xElement) =&gt; {
+						xamlViewer.showXaml(xElement.value());
+						xamlCode.set_Text(xElement.value());
+				  });
+/*xamlCode.textEditor().DragDrop+= (sender,e) =&gt; 
 	{ 
 		var droppedValue = O2.DotNetWrappers.DotNet.Dnd.tryToGetObjectFromDroppedObject(e).str();
-		xamlCode.set_Text(droppedValue);
+		"droppped value:{0}".info(droppedValue);
+		xamlCode.textEditor().script_Me();
+		//xamlCode.set_Text(droppedValue);
 	};
-	
-xamlCode.onDrop(
-	(aa)=&gt; aa.info());
+*/	
+
 treeView.expandAll(true);  
 
 xamlCode.editor().set_Text("&lt;StackPanel  Background=\"#DDFFFF\"&gt;".line() + 

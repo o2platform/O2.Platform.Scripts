@@ -9,7 +9,7 @@ if (hwnd == IntPtr.Zero)
 	return "Could not get MainWindow handle";
 "Got main Window Handle: {0}".info(hwnd);	
 
-var snoopAssembly = @"Snoop\Snoop.exe".assembly(); 
+var snoopAssembly = @"Snoop\Snoop\Snoop.exe".assembly(); 
 var directoryName = snoopAssembly.Location.directoryName();
 
 var suffix = snoopAssembly.type("Injector")
@@ -26,8 +26,8 @@ var arguments = string.Concat(new object[]
 	
 return fileName.startProcess(arguments);
 
-//Installer:Snoop_Installer.cs!Snoop\Snoop.exe
+//Installer:Snoop_Installer.cs!Snoop\Snoop\Snoop.exe
 //using Snoop;
-//O2Ref:Snoop\Snoop.exe</SourceCode>
+//O2Ref:Snoop\Snoop\Snoop.exe</SourceCode>
   <ReferencedAssemblies />
 </H2>

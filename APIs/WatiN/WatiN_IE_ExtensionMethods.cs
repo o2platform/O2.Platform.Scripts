@@ -37,7 +37,7 @@ using mshtml;
 //O2Ref:System.Xml.Linq.dll
 //O2Ref:System.Xml.dll
 //O2Ref:Microsoft.mshtml.dll
-
+ 
 namespace O2.XRules.Database.APIs
 {
     public static class WatiN_IE_ExtensionMethods

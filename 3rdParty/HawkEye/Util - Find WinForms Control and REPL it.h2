@@ -1,31 +1,7 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>
-var topPanel = "Util - Find WinForms Control and REPL it".popupWindow(300,300);
-var activeControl = topPanel.title("Active Control").add_PropertyGrid().helpVisible(false);
-   
-var hawkeye = topPanel.insert_Above(30).add_Control&lt;WindowFinder&gt;().width(30).fill(false);
-//var targetProcess = activeControl.insert_Right("Target Process").add_PropertyGrid().helpVisible(false);
-//var windowFinder = targetProcess.parent().parent().insert_Below("Window Finder Object").add_PropertyGrid().helpVisible(false);
-Action&lt;Control&gt; setTarget =  
-	(control)=&gt; { 
-					activeControl.parent&lt;GroupBox&gt;().set_Text("Active Control: {0}".format(control.typeName()));
-					activeControl.show(control);								
-				};
-hawkeye.ActiveWindowChanged += 
-	(sender, e)=&gt;{
-					//windowFinder.show(hawkeye.Window);								
-					var control = hawkeye.SelectedControl;								
-					setTarget(control);
-//					var process = hawkeye.TargetProcess;
-//					targetProcess.show(process); 
-//					targetProcess.parent&lt;GroupBox&gt;().set_Text("Target Process: {0} : {1}".format(process.Id, process.ProcessName));
-				 }; 
-hawkeye.append_Link("Open ScriptMe for this control" ,()=&gt; activeControl.SelectedObject.script_Me() )
-	   .top(9).leftAdd(40);				 
- 
-setTarget(topPanel); 
+  <SourceCode>new API_HawkEye().openControlFinder();
 
-//O2File:WindowFinder.cs</SourceCode>
+//O2File:API_HawkEye.cs</SourceCode>
   <ReferencedAssemblies />
 </H2>

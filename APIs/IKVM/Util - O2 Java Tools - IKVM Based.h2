@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>O2ConfigSettings.O2Version = "IKVM_v1";
+//var topPanel = panel.add_Panel(true);
+var topPanel = "O2 Java Tools - IKVM Based".popupWindow(350,280).insert_LogViewer();
+
+O2Setup.extractEmbededConfigZips();      
+
+
+
+var wpfStackPanel = topPanel.add_WpfHost()
+					        .add_Control_Wpf&lt;WPF.Grid&gt;()
+			                .add_StackPanel();   ;  
+ 
+wpfStackPanel.add_Xaml_Title("O2 Tools (IKVM based)"); 
+Action&lt;string&gt; addScript = 
+	(scriptFile)=&gt;	wpfStackPanel.add_Xaml_Button(scriptFile, ()=&gt; scriptFile.local().executeH2Script() );
+
+addScript("Util - Java Methods CallTo and IsCalledBy Mappings.h2");
+addScript("Util - View Java Mappings.h2");
+addScript("Util - Jar or Class Browser.h2");
+addScript("Util - View Jar File Entries.h2");
+//addScript("PoC - view IKVM internal java converted objects.h2"); 
+
+var ikvmcCode = 
+@"var ikvm = new API_IKVMC(); 
+return ikvm;
+
+//using O2.XRules.Database.APIs.IKVM
+//O2File:API_IKVMC.cs";
+
+topPanel.add_MainMenu().add_Menu("REPL")
+					   .add_MenuItem("REPL for API_IKVM object" , ()=&gt; "API_IKVM REPL".popupWindow(700,350).add_Script().set_Code((ikvmcCode)))
+					   .add_MenuItem("REPL this form" , ()=&gt; topPanel.parentForm().script_Me());
+
+//O2Package:Util - Java Methods CallTo and IsCalledBy Mappings.h2, Util - View Java Mappings.h2, Util - Jar or Class Browser.h2, Util - View Jar File Entries.h2, PoC - view IKVM internal java converted objects.h2
+//O2Package:API_IKVM.cs, API_IKVMC.cs, API_IKVMC_JavaMetadata.cs,API_IKVMC_CallMapping.cs
+//O2EmbedTool:IKVM
+
+//O2File:Xaml_ExtensionMethods.cs
+//O2File:XamlCode.cs 
+
+//O2Ref:O2_FluentSharp_WPF.dll
+
+//using WPF = System.Windows.Controls
+//O2Ref:PresentationCore.dll
+//O2Ref:PresentationFramework.dll
+//O2Ref:WindowsBase.dll   
+//O2Ref:System.Core.dll
+//O2Ref:WindowsFormsIntegration.dll
+//O2Ref:System.Xaml.dll
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

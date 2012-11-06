@@ -40,7 +40,7 @@ namespace O2.XRules.Database.APIs
 		public Process start()
 		{
 			if (install())
-				return Install_Dir.pathCombine("snoop.exe").startProcess();
+				return Install_Dir.pathCombine("Snoop\\snoop.exe").startProcess();
 			return null;
 		}		
 	}

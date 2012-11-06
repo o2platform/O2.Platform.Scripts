@@ -1,0 +1,130 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = "Util - CheckMarx Rule and Guidance Viewer".popupWindow(1000, 600).insert_LogViewer();
+//var topPanel = panel.add_Panel(true);
+var settingsPanel = topPanel.insert_Above(40,"Settings");
+var treeView = topPanel.add_TreeView_with_PropertyGrid().sort();
+var codeViewer = topPanel.insert_Right().add_SourceCodeViewer();
+var browser = codeViewer.insert_Below().add_WebBrowser();
+
+var cxPortal = new CxPortalWebService();
+
+settingsPanel.add_Label("Server:",2).append_TextBox(cxPortal.Url).align_Right();
+			 //.widthAdd(-100)
+			 //.append_Link("Connect", ()=&gt;{});
+
+"cxSessionId".o2Cache(null);
+var sessionId = "cxSessionId".o2Cache(
+	()=&gt;{
+			var user = "What user do you want to use".askUser();
+			var pwd  = "What is the pwd for user {0}".format(user).askUser();
+			
+			var credentials = new Credentials()
+				{ 
+					User = user,
+					Pass = pwd
+				};
+			var result = cxPortal.Login(credentials);
+			
+			if (result.SessionId.valid())
+				return result.SessionId;
+			
+			return result.SessionId;;
+		});
+		
+if(sessionId.isNull())
+{
+	"Login Failed!!".alert("User Message");
+	return "login fail";
+}
+
+var checkMark_Data = "_CheckMark_Data".tempDir(false);		
+
+		
+var queryQueryCollection = (CxQueryCollectionResponse)"CxQueryCollectionResponse".o2Cache(
+	()=&gt;{			
+			"Loading data from GetQueryCollection (its about 2.5Mb".debug();
+			var queryCollectionFile = checkMark_Data.pathCombine("WS_GetQueryCollection.xml");
+			var response = cxPortal.GetQueryCollection(sessionId);
+			response.saveAs(queryCollectionFile);
+			return queryCollectionFile.load&lt;CxQueryCollectionResponse&gt;();
+		});
+
+
+Action&lt;long&gt; showCweData = 
+	(cweId)=&gt;{
+				O2Thread.mtaThread(
+					()=&gt;{
+							browser.showMessage("Loading CweId: {0}".format(cweId));
+							var cweHtml = cxPortal.GetQueryDescription(sessionId, (int)cweId)
+												  .QueryDescription.saveWithExtension(".html");
+														
+							browser.open(cweHtml);				 			
+						});
+			 };
+	
+
+treeView.afterSelect&lt;CxWSQuery&gt;(
+	(query)=&gt;{
+				
+				codeViewer.set_Text(query.Source, ".cs");
+				showCweData(query.Cwe);
+			 });
+
+treeView.beginUpdate();
+var queryGroupMappings = new Dictionary&lt;string, List&lt;CxWSQueryGroup&gt;&gt;();
+foreach(var queryGroup in queryQueryCollection.QueryGroups)
+	queryGroupMappings.add(queryGroup.LanguageName, queryGroup);
+
+foreach(var queryGroupMapping in queryGroupMappings)
+{	
+	var groupMappingNode = treeView.add_Node(queryGroupMapping.Key, queryGroupMapping.Value);
+	foreach(var queryGroup in queryGroupMapping.Value)
+	{
+		var groupNode = groupMappingNode.add_Node(queryGroup.Name, queryGroup);
+		foreach(var query in queryGroup.Queries)	
+			groupNode.add_Node(query.Name, query);		
+	}
+}
+treeView.endUpdate();
+/*treeView.selectFirst()
+		.nodes().first().expand()
+		.nodes().second().selected();
+*/
+
+return "done";
+
+
+
+
+
+
+		
+//return sessionId;
+var zipFile = @"E:\_Tests\Demos_Files\_VS_Project_With_Couple_Vunls.zip";
+
+var projectSettings = new ProjectSettings()
+		{
+			ProjectName = zipFile.fileName_WithoutExtension()
+		};
+projectSettings.PresetID = 7;
+
+var localCodeContainer = new LocalCodeContainer()	
+		{
+			ZippedFile = zipFile.fileContents_AsByteArray(),
+			FileName = zipFile.fileName()
+		};
+	
+var visibleToOtherUsers = true;
+
+/*var response = cxPortal.CreateAndRunProject(sessionId ,
+											projectSettings ,
+											localCodeContainer ,
+											visibleToOtherUsers );
+return response;
+*/
+//O2File:CxPortalWebService.cs
+//O2Ref:System.Web.Services.dll 
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>
