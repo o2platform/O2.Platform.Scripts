@@ -7,6 +7,8 @@ using O2.External.WinFormsUI.Forms;
 using O2.Interfaces.Views;
 using O2.Views.ASCX.DataViewers;
 using System.Data;
+//O2File:struts-config.cs
+//O2File:validation.cs
 
 namespace O2.Core.FileViewers.Struts_1_5
 {

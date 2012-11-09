@@ -7,19 +7,30 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using O2.Core.FileViewers.JoinTraces;
+using O2.DotNetWrappers.ExtensionMethods;
+
+//O2File:ascx_O2Rules_Struts.Controllers.cs
+//O2File:ascx_O2Rules_Struts.Designer.cs
+//O2File:ascx_FilteredFindings.cs
+//O2File:ascx_StrutsMappings.cs
 
 namespace O2.Core.FileViewers.Ascx.O2Rules
 {
+	public class ascx_O2Rules_Struts_Test
+	{
+		public void launch()
+		{
+			"ascx_O2Rules_Struts".popupWindow<ascx_O2Rules_Struts>(1300,800)
+								 .insert_LogViewer();
+		}
+	}
+
     public partial class ascx_O2Rules_Struts : UserControl
     {
         public ascx_O2Rules_Struts()
         {
             InitializeComponent();
         }
-
-        
-        
 
         private void llReCalculateResults_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {

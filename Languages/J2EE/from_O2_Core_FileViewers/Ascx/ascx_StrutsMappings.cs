@@ -7,18 +7,31 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using O2.Core.FileViewers.Struts_1_5;
+//using O2.Core.FileViewers.Struts_1_5;
 using O2.DotNetWrappers.DotNet;
 using O2.DotNetWrappers.Windows;
+using O2.DotNetWrappers.ExtensionMethods;
+
+//O2File:ascx_StrutsMappings.Designer.cs
+//O2File:ascx_StrutsMappings.Controllers.cs
 
 namespace O2.Core.FileViewers.Ascx
-{
+{ 
+	public class ascx_StrutsMappings_Test 
+	{
+		public void launch() 
+		{
+			var strutsMappings = "ascx_StrutsMappings".popupWindow<ascx_StrutsMappings>(1200,600)
+							     			    	  .insert_LogViewer();	
+		}
+	}
+	 
     public partial class ascx_StrutsMappings : UserControl
     {
         
         public ascx_StrutsMappings()
         {
-            InitializeComponent();
+            InitializeComponent();                        
         }
 
         private void llTempRefresh_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -30,7 +43,7 @@ namespace O2.Core.FileViewers.Ascx
         {
             loadFileOrFolder(Dnd.tryToGetFileOrDirectoryFromDroppedObject(e));
         }
-
+ 
         private void tvStrutsMappings_DragEnter(object sender, DragEventArgs e)
         {
             Dnd.setEffect(e);

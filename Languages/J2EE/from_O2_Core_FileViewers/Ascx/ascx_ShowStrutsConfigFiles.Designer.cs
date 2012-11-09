@@ -1,4 +1,7 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
+
+//O2File:ascx_ShowStrutsConfigFiles.cs
+
 namespace O2.Core.FileViewers.Ascx
 {
     partial class ascx_ShowStrutsConfigFiles
@@ -255,18 +258,18 @@ namespace O2.Core.FileViewers.Ascx
 
         #endregion
 
-        private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ListBox lbLoadedFiles;
-        private System.Windows.Forms.SplitContainer splitContainer2;
-        private System.Windows.Forms.SplitContainer splitContainer3;
-        private ascx_J2EE_web_xml j2EE_web_xml;
-        private ascx_Validation_xml validator_xml1;
-        private System.Windows.Forms.SplitContainer splitContainer4;
-        private ascx_Struts_config_xml struts_config_xml1;
-        private ascx_TilesDefinition_xml tilesDefinition_xml1;
-        private System.Windows.Forms.SplitContainer splitContainer5;
-        private System.Windows.Forms.TreeView treeView1;
-        private System.Windows.Forms.Label label2;
+        public System.Windows.Forms.SplitContainer splitContainer1;
+        public System.Windows.Forms.Label label1;
+        public System.Windows.Forms.ListBox lbLoadedFiles;
+        public System.Windows.Forms.SplitContainer splitContainer2;
+        public System.Windows.Forms.SplitContainer splitContainer3;
+        public ascx_J2EE_web_xml j2EE_web_xml;
+        public ascx_Validation_xml validator_xml1;
+        public System.Windows.Forms.SplitContainer splitContainer4;
+        public ascx_Struts_config_xml struts_config_xml1;
+        public ascx_TilesDefinition_xml tilesDefinition_xml1;
+        public System.Windows.Forms.SplitContainer splitContainer5;
+        public System.Windows.Forms.TreeView treeView1;
+        public System.Windows.Forms.Label label2;
     }
 }

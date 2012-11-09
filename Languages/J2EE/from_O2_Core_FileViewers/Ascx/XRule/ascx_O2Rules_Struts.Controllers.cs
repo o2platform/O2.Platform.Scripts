@@ -6,11 +6,13 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
-using O2.Core.FileViewers.JoinTraces;
+//using O2.Core.FileViewers.JoinTraces;
 using O2.DotNetWrappers.DotNet;
 using O2.DotNetWrappers.O2Findings;
 using O2.Interfaces.O2Findings;
 using O2.Views.ASCX.O2Findings;
+
+//O2File:ascx_O2Rules_Struts.cs
 
 namespace O2.Core.FileViewers.Ascx.O2Rules
 {

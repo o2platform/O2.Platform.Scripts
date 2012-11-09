@@ -2,7 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Text; 
+using O2.Kernel;
 using O2.DotNetWrappers.DotNet;
 using O2.DotNetWrappers.O2Findings;
 using O2.Interfaces.FrameworkSupport.J2EE;
@@ -99,7 +100,7 @@ namespace O2.Core.FileViewers.JoinTraces
                         }
                         else
                         {
-                            DI.log.error("Something is wrong since we could not find the Join sink trace: {0}",
+                            PublicDI.log.error("Something is wrong since we could not find the Join sink trace: {0}",
                                          joinSinkSignature);
                         }
                     }

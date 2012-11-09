@@ -1,18 +1,27 @@
 <?xml version="1.0"?>
 <H2>
   <SourceCode>//var topPanel = panel.add_Panel(true);
-var topPanel = "PoC - View FluentSharp_BCL Embeded Icons".popupWindow(1000,700).add_Panel(true);
-var toolStrip = topPanel.add_ToolStrip()
-						.layout_Flow();
+var topPanel = "PoC - View FluentSharp_BCL Embeded Icons (in type O2.Platform.BCL.O2_Views_ASCX.FormImages)".popupWindow(1200,740).add_Panel(true);
+var toolStrip1 = topPanel.add_ToolStrip()
+						 .layout_Flow();
+var toolStrip2 = toolStrip1.insert_Above(120)
+						   .add_ToolStrip()
+						   .layout_Flow();
 
 var iconsMappings = typeof(FormImages).ctor().propertyValues_MappedBy_Name&lt;Bitmap&gt;();
+Action&lt;bool,ToolStrip&gt; show = 
+	(withDescription,target) =&gt;
+		{
+			foreach(var iconMapping in iconsMappings) 
+			{				
+				var iconName = iconMapping.Key;
+				var image= iconMapping.Value;
+				target.add_Button((withDescription) ? iconName : "" , image,()=&gt; "Copied value {0} to clipboard".format(iconName.clipboardText_Set()).alert());
+			}
+		};
 
-foreach(var iconMapping in iconsMappings) 
-{
-	var name = iconMapping.Key;
-	var image= iconMapping.Value;
-	toolStrip.add_Button(name , image,()=&gt; "Copied value {0} to clipboard".format(name.clipboardText_Set()).alert());
-}
+show(true,toolStrip1);
+show(false,toolStrip2);
 /*toolStrip.wait_n_Seconds(1)	
 		 .layout_HorizontalStackWithOverflow()
 		 .wait_n_Seconds(1)		 
@@ -25,7 +34,7 @@ foreach(var iconMapping in iconsMappings)
 		 .layout_Flow();
 		 ;
 */
-return toolStrip;
+return "done";
 
 //using O2.Platform.BCL.O2_Views_ASCX
  

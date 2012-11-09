@@ -10,9 +10,26 @@ using System.Text;
 using System.Windows.Forms;
 using O2.DotNetWrappers.DotNet;
 using O2.DotNetWrappers.Windows;
+using O2.DotNetWrappers.ExtensionMethods;
+
+//O2File:ascx_ShowStrutsConfigFiles.Designer.cs
+//O2File:ascx_TilesDefinition_xml.cs
+//O2File:ascx_Struts_config_xml.cs
+//O2File:ascx_Validation_xml.cs
+//O2File:ascx_J2EE_web_xml.cs
+
 
 namespace O2.Core.FileViewers.Ascx
 {
+	public class ascx_ShowStrutsConfigFiles_Test
+	{
+		public void launch()
+		{
+			"ascx_ShowStrutsConfigFiles".popupWindow<ascx_ShowStrutsConfigFiles>(1200,600)
+									    .insert_LogViewer();
+		}
+	}
+
     public partial class ascx_ShowStrutsConfigFiles : UserControl
     {
         public ascx_ShowStrutsConfigFiles()
@@ -32,6 +49,7 @@ namespace O2.Core.FileViewers.Ascx
 
         private void loadFileorFolder(string fileOrDirectoryToLoad)
         {
+        	"in loadFileorFolder: {0}".info(fileOrDirectoryToLoad);
             if (Directory.Exists(fileOrDirectoryToLoad))
             {
                 foreach (var file in Files.getFilesFromDir_returnFullPath(fileOrDirectoryToLoad))

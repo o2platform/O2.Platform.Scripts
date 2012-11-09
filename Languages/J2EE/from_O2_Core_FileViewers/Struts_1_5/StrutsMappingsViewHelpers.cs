@@ -6,6 +6,7 @@ using System.Text;
 using System.Windows.Forms;
 using O2.DotNetWrappers.Windows;
 using O2.Interfaces.FrameworkSupport.J2EE;
+//O2File:KStrutsConfigXml.cs
 
 namespace O2.Core.FileViewers.Struts_1_5
 {

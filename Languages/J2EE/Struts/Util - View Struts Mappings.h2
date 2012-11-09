@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var strutsMappings = "Util - View Struts Mappings".popupWindow&lt;ascx_StrutsMappings&gt;(1200,600)
+							     			    	  .insert_LogViewer();
+
+var scriptExample = 
+@"var result = """";
+foreach(var servlet in kStrutsMappings.actionServlets)
+	foreach(var controller in servlet.controllers.Values)
+		foreach(var path in controller.paths)				
+			result+= ""The path: {0} \t\t  maps to controller: {3} \t\t(with {1} forwards and {2} views) "".line()
+							.format(path.path , path.forwards.size(), path.resolvedViews.size(), controller.type);		
+""Raw Mapping"".popupWindow(900,400).add_TextArea(result);
+return ""see popup window"";";
+	
+strutsMappings.mainMenu().add_Menu("REPL")
+						 .add_MenuItem("REPL StrutsMappings", ()=&gt;strutsMappings.StrutsMappings.script_Me())
+						 .add_MenuItem("REPL StrutsMappings (with code sample)", ()=&gt;strutsMappings.StrutsMappings.script_Me().set_Code(scriptExample))
+						 .add_MenuItem("REPL GUI", ()=&gt;strutsMappings.StrutsMappings.script_Me("strutsMappingsGui"))					 
+						 .add_MenuItem("REPL Form", ()=&gt;strutsMappings.parentForm().script_Me("form"));						 
+						 
+//using O2.Core.FileViewers.Ascx
+//O2File:ascx_StrutsMappings.cs
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

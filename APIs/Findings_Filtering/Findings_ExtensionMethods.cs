@@ -18,7 +18,7 @@ using O2.ImportExport.OunceLabs;
 using O2.External.SharpDevelop.ExtensionMethods;
 using O2.External.SharpDevelop.Ascx;
 using O2.Views.ASCX.O2Findings;
-
+ 
 //O2File:Findings_ExtensionMethods_Gui_Viewers.cs
 //O2File:OunceAvailableEngines.cs
 
@@ -159,9 +159,10 @@ namespace O2.XRules.Database.Findings
 		
 		public static ascx_FindingsViewer add_FindingsViewer(this Control control, bool includeSourceCodeViewer)
         {
-        	OunceAvailableEngines.addAvailableEnginesToControl(typeof(ascx_FindingsViewer));
+        	//OunceAvailableEngines.addAvailableEnginesToControl(typeof(ascx_FindingsViewer));
          
             var findingsViewer = control.add_Control<ascx_FindingsViewer>();
+            findingsViewer.add_AvailableEngines_Ounce();
             if (includeSourceCodeViewer)
 			{
 				var codeViewer = findingsViewer.insert_Right<Panel>(control.width()/2).add_SourceCodeViewer();
@@ -240,6 +241,8 @@ namespace O2.XRules.Database.Findings
 
 		public static List<IO2Finding> loadO2Findings(this string fileToLoad)
 		{
+			if(fileToLoad.isFolder())
+				return fileToLoad.files().loadFindingsFiles();
 			return fileToLoad.loadFindingsFile();
 		}
 		

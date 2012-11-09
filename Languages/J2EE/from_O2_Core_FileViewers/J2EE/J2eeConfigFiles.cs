@@ -3,9 +3,18 @@ using System;
 using System.Collections.Generic;
 using O2.Core.FileViewers.Struts_1_5;
 using O2.Core.FileViewers.XSD;
+using O2.Kernel;
 using O2.DotNetWrappers.DotNet;
 using O2.DotNetWrappers.Windows;
 using O2.Interfaces.FrameworkSupport.J2EE;
+//O2File:KWebXml.cs
+//O2File:web-app_2_4.cs
+//O2File:validation.cs
+//O2File:KValidationXml.cs
+//O2File:KStrutsConfigXml.cs
+//O2File:KTilesDefinition.cs
+//O2File:struts-config.cs
+//O2File:tiles-definition.cs
 
 namespace O2.Core.FileViewers.J2EE
 {
@@ -20,7 +29,7 @@ namespace O2.Core.FileViewers.J2EE
             {
                 fileContents = fileContents.Replace("<web-app>",
                                                     "<web-app version=\"2.4\" xmlns=\"http://java.sun.com/xml/ns/j2ee\">");
-                pathToWebXmlFile = DI.config.getTempFileInTempDirectory("web.xml");
+                pathToWebXmlFile = PublicDI.config.getTempFileInTempDirectory("web.xml");
                 Files.WriteFileContent(pathToWebXmlFile, fileContents);            
             }
             var webXml = new KWebXml();
@@ -41,7 +50,7 @@ namespace O2.Core.FileViewers.J2EE
                             break;
                         case "paramvalueType":
                             var paramvalue = (paramvalueType)item;
-                            DI.log.debug("paramvalueType:  {0} = {1}", paramvalue.paramname.Value, paramvalue.paramvalue.Value);
+                            PublicDI.log.debug("paramvalueType:  {0} = {1}", paramvalue.paramname.Value, paramvalue.paramvalue.Value);
                             //webXml.displayName = displayName.Value;
                             break;
                         case "filterType":
@@ -105,7 +114,7 @@ namespace O2.Core.FileViewers.J2EE
                             webXml.servletMappings.Add(newServletMapping);
                             break;
                         default:
-                            DI.log.info("no mapping for :" + item.GetType().Name);
+                            PublicDI.log.info("no mapping for :" + item.GetType().Name);
                             break;
                     }
                 }
@@ -163,7 +172,7 @@ namespace O2.Core.FileViewers.J2EE
                                     validationForms.Add(validationForm.name, validationForm);
                                 else
                                 {
-                                    DI.log.error("Duplicate form validator: {0}", validationForm.name);
+                                    PublicDI.log.error("Duplicate form validator: {0}", validationForm.name);
                                     //var asd = validationForms[validationForm.name].fields;
                                 }
 
@@ -265,7 +274,7 @@ namespace O2.Core.FileViewers.J2EE
             }
             catch (Exception ex)
             {
-                DI.log.error("in getStrutsConfig: {0}", ex.Message);
+                PublicDI.log.error("in getStrutsConfig: {0}", ex.Message);
 
             }
             return strutsConfigXml;
@@ -336,7 +345,7 @@ namespace O2.Core.FileViewers.J2EE
             }
             catch (Exception ex)
             {
-                DI.log.error("in getValidationXml: {0}", ex.Message);                
+                PublicDI.log.error("in getValidationXml: {0}", ex.Message);                
             }
             return validatorXml;
         }

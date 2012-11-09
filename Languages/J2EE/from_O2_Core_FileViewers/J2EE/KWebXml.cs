@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using O2.Kernel;
 using O2.Interfaces.FrameworkSupport.J2EE;
 
 namespace O2.Core.FileViewers.J2EE
@@ -49,7 +50,7 @@ namespace O2.Core.FileViewers.J2EE
                 if (currentFilters.ContainsKey(filterMapping.filterName))                
                     filtersDictionary.Add(filterMapping, currentFilters[filterMapping.filterName]);                
                 else
-                    DI.log.error("in getFiltersDictionary, could not map filter: {0}", filterMapping.filterName);
+                    PublicDI.log.error("in getFiltersDictionary, could not map filter: {0}", filterMapping.filterName);
             return filtersDictionary;
         }
     }

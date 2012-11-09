@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>"Util - View Web.Xml mappings".popupWindow&lt;ascx_J2EE_web_xml&gt;(600,500);
+
+//O2File:ascx_J2EE_web_xml.cs
+//using O2.Core.FileViewers.Ascx</SourceCode>
+  <ReferencedAssemblies />
+</H2>

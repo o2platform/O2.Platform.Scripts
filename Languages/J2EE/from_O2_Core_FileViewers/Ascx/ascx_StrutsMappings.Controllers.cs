@@ -7,15 +7,22 @@ using System.Text;
 using System.Windows.Forms;
 using O2.Core.FileViewers.JoinTraces;
 using O2.Core.FileViewers.Struts_1_5;
+using O2.Kernel;
 using O2.DotNetWrappers.DotNet;
 using O2.DotNetWrappers.ExtensionMethods;
 using O2.DotNetWrappers.Windows;
 using O2.Interfaces.FrameworkSupport.J2EE;
 
+//O2File:ascx_StrutsMappings.cs
+//O2File:StrutsMappingsViewHelpers.cs
+//O2File:StrutsMappingsHelpers.cs
+//O2File:StrutsMappingHelpers.cs
+
 namespace O2.Core.FileViewers.Ascx
 {
     partial class ascx_StrutsMappings
     {
+    	public IStrutsMappings StrutsMappings;
         public bool runOnLoad = true;        
 
         private string webXmlToMap = "";
@@ -27,7 +34,7 @@ namespace O2.Core.FileViewers.Ascx
         {
             if (DesignMode == false && runOnLoad)
             {
-                tbTargetDirectoryOrFolder.Text = DI.config.O2TempDir;
+                tbTargetDirectoryOrFolder.Text = PublicDI.config.O2TempDir;
                 runOnLoad = false;
             }
         }                
@@ -35,11 +42,11 @@ namespace O2.Core.FileViewers.Ascx
         {
             if (strutsMappings == null)
             {
-                DI.log.error("in showStrutsMappings, strutsMappings == null");
+                PublicDI.log.error("in showStrutsMappings, strutsMappings == null");
                 return;
             }
-
-            tvStrutsMappings.Tag = strutsMappings;
+			StrutsMappings = strutsMappings;
+            tvStrutsMappings.Tag = strutsMappings;            
             tvStrutsMappings.invokeOnThread(() => refreshTreeView());
         }
 
@@ -67,6 +74,8 @@ namespace O2.Core.FileViewers.Ascx
                             }
                             foreach (var otherServlet in strutsMappings.otherServlets)
                                 O2Forms.newTreeNode(tvStrutsMappings.Nodes, otherServlet);
+                                
+                            tvStrutsMappings.white();
                         }
                     });
         }
@@ -88,6 +97,7 @@ namespace O2.Core.FileViewers.Ascx
 
         private void loadFileOrFolder(string fileOrFolderToLoad)
         {
+        	tvStrutsMappings.azure();
             if (Directory.Exists(fileOrFolderToLoad))
             {
                 foreach (var file in Files.getFilesFromDir_returnFullPath(fileOrFolderToLoad, "*.xml"))
@@ -128,24 +138,27 @@ namespace O2.Core.FileViewers.Ascx
                 var tagObjectType = tagObject.GetType().FullName;
                 switch (tagObjectType)
                 {
-                    case "O2.Kernel.Interfaces.FrameworkSupport.J2EE.KStrutsMappings_ActionServlet":
+                    //case "O2.Kernel.Interfaces.FrameworkSupport.J2EE.KStrutsMappings_ActionServlet":
+                    case "O2.Interfaces.FrameworkSupport.J2EE.KStrutsMappings_ActionServlet":                     
                         var strutsActionServet = (KStrutsMappings_ActionServlet)tagObject;
                         StrutsMappingsViewHelpers.populateTreeNodeWith_ActionServlet(treeNode, strutsActionServet);
 
                         break;
                     //case "System.Collections.Generic.List`1[[O2.Core.FileViewers.Interfaces.IStrutsMappings_Controller, O2_Core_FileViewers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]":
                     //case "System.Collections.Generic.Dictionary`2[[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[O2.Core.FileViewers.Interfaces.IStrutsMappings_Controller, O2_Core_FileViewers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]":
-                    case "System.Collections.Generic.Dictionary`2[[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[O2.Kernel.Interfaces.FrameworkSupport.J2EE.IStrutsMappings_Controller, O2_Kernel, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]":
+                    //case "System.Collections.Generic.Dictionary`2[[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[O2.Kernel.Interfaces.FrameworkSupport.J2EE.IStrutsMappings_Controller, O2_Kernel, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]":                    
+                    case "System.Collections.Generic.Dictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[O2.Interfaces.FrameworkSupport.J2EE.IStrutsMappings_Controller, O2_FluentSharp_CoreLib, Version=4.4.2.0, Culture=neutral, PublicKeyToken=55a0f9bf4256d533]]":
                         var controllers = (Dictionary<string, IStrutsMappings_Controller>)tagObject;
                         StrutsMappingsViewHelpers.populateTreeNodeWith_Controllers(treeNode, controllers);
                         break;
-                    case "O2.Kernel.Interfaces.FrameworkSupport.J2EE.KStrutsMappings_Controller_Path":
+                    case "O2.Interfaces.FrameworkSupport.J2EE.KStrutsMappings_Controller_Path":
                     //case "O2.Core.FileViewers.Interfaces.KStrutsMappings_Controller_Path":
                         var path = (KStrutsMappings_Controller_Path)tagObject;
                         StrutsMappingsViewHelpers.populateTreeNodeWith_Controller_Path(treeNode, path);
                         break;
                     //case "System.Collections.Generic.Dictionary`2[[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[O2.Core.FileViewers.Interfaces.IStrutsConfig_FormBean, O2_Core_FileViewers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]":
-                    case "System.Collections.Generic.Dictionary`2[[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[O2.Kernel.Interfaces.FrameworkSupport.J2EE.IStrutsConfig_FormBean, O2_Kernel, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]":
+                    //case "System.Collections.Generic.Dictionary`2[[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[O2.Kernel.Interfaces.FrameworkSupport.J2EE.IStrutsConfig_FormBean, O2_Kernel, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]":
+                    case "System.Collections.Generic.Dictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[O2.Interfaces.FrameworkSupport.J2EE.IStrutsConfig_FormBean, O2_FluentSharp_CoreLib, Version=4.4.2.0, Culture=neutral, PublicKeyToken=55a0f9bf4256d533]]":
                         var formBeans = (Dictionary<string, IStrutsConfig_FormBean>)tagObject;
                         StrutsMappingsViewHelpers.populateTreeNodeWith_FormBeans(treeNode, formBeans);
                         break;
@@ -158,13 +171,13 @@ namespace O2.Core.FileViewers.Ascx
                         StrutsMappingsViewHelpers.populateTreeNodeWith_FormBean_Field(treeNode, formBeanField);
                         break;
                     default:
-                        DI.log.error("in onTreeViewBeforeExpand, tag type not supported: {0}", tagObjectType);
+                        PublicDI.log.error("in onTreeViewBeforeExpand, tag type not supported: {0}", tagObjectType);
                         break;
                 }
             }
             catch (Exception ex)
             {
-                DI.log.error("on onTreeViewBeforeExpand: {0}", ex.Message);
+                PublicDI.log.error("on onTreeViewBeforeExpand: {0}", ex.Message);
             }
         }
 
@@ -178,11 +191,11 @@ namespace O2.Core.FileViewers.Ascx
         
         public void openMappingsFile()
         {
-            DI.log.info("Select file to open");
+            PublicDI.log.info("Select file to open");
             var openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                DI.log.info("Loading file: {0}", openFileDialog.FileName);
+                PublicDI.log.info("Loading file: {0}", openFileDialog.FileName);
                 loadO2StrutsMappingFile(openFileDialog.FileName);
             }
         }
@@ -197,11 +210,11 @@ namespace O2.Core.FileViewers.Ascx
             var strutsMappings = StrutsMappingHelpers.loadO2StrutsMappingFile(fileToProcess);
             if (strutsMappings != null)
             {
-                DI.log.info("Sucessfuly create struts mapping object from file: {0}", fileToProcess);
+                PublicDI.log.info("Sucessfuly create struts mapping object from file: {0}", fileToProcess);
                 refreshTreeView(strutsMappings);
             }
             else
-                DI.log.error("There was a problem serializing Struts Mapping object saved to: {0}", fileToProcess);
+                PublicDI.log.error("There was a problem serializing Struts Mapping object saved to: {0}", fileToProcess);
         }
 
         public void saveCurrentMappings(string targetFileOrFolder)

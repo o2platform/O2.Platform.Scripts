@@ -7,15 +7,27 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using NUnit.Framework;
 using O2.Core.FileViewers.J2EE;
 using O2.DotNetWrappers.DotNet;
 using O2.Core.FileViewers.ViewHelpers;
 using O2.DotNetWrappers.ExtensionMethods;
 using O2.Interfaces.FrameworkSupport.J2EE;
 
+//O2File:J2eeConfigFiles.cs
+//O2File:CreateDataTable.cs
+//O2File:ascx_Validation_xml.Designer.cs
+
 namespace O2.Core.FileViewers.Ascx
 {
+	public class ascx_Validation_xml_Test 
+	{
+		public void launch() 
+		{
+			var strutsMappings = "ascx_Validation_xml".popupWindow<ascx_Validation_xml>(1200,600)
+							     			    	  	 .insert_LogViewer();	
+		}
+	}
+
     public partial class ascx_Validation_xml : UserControl
     {
         private string loadedFile = "";

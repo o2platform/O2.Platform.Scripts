@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>
+//var topPanel = panel.add_Panel(true); 
+var topPanel = "Util - Filter Findings by Source and Sink (RegEx)".popupWindow(800,700)
+																  .insert_LogViewer();
+var filteredFindings = topPanel.add_Control&lt;ascx_FilteredFindings&gt;();
+
+ 
+topPanel.insert_Above(40).green()
+		.add_Label("Drop *.ozasmt files to filter here")
+			.fill().text_Center() 
+			.font_bold().size(20) 
+			.onDrop((fileOrFolder)=&gt;
+				{	
+					filteredFindings.setFindingsToFilter(fileOrFolder);
+					filteredFindings.calculateFindings();
+				});
+
+var sampleCode = 
+@"//var pathToOzsmntOrFolder = @""...put path here..."";       //uncomment these two lines to programatically load an *.ozasmt file
+//filteredFindings.setFindingsToFilter(pathToOzsmntOrFolder);  //you only need to run this once
+filteredFindings.setSinkSignatureRegEx(""setAttribute"")
+				.setSourceSignatureRegEx(""getAttribute"")
+				.calculateFindings();
+
+return ""configured default sources and sinks"";
+//using O2.Core.FileViewers.Ascx.O2Rules;				
+//O2Ref:{0}".format(filteredFindings.type().assemblyLocation().fileName());
+
+
+topPanel.insert_Below().add_Script() 
+					   .onCompileExecuteOnce()
+					   .set_Code(sampleCode)
+					   .InvocationParameters.add("filteredFindings",filteredFindings);
+
+
+				
+
+return filteredFindings.typeFullName();
+
+//using O2.XRules.Database.Findings
+//using O2.Core.FileViewers.Ascx.O2Rules
+
+//O2File:Findings_ExtensionMethods.cs
+//O2File:ascx_FilteredFindings.cs
+
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

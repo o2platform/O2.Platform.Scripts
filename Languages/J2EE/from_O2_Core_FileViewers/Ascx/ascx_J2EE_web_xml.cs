@@ -7,15 +7,26 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using NUnit.Framework;
 using O2.Core.FileViewers.J2EE;
 using O2.DotNetWrappers.DotNet;
 using O2.Core.FileViewers.ViewHelpers;
 using O2.DotNetWrappers.ExtensionMethods;
 using O2.Interfaces.FrameworkSupport.J2EE;
 
+//O2File:J2eeConfigFiles.cs
+//O2File:ascx_J2EE_web_xml.Designer.cs
+//O2File:CreateDataTable.cs
+
 namespace O2.Core.FileViewers.Ascx
 {
+	public class ascx_J2EE_web_xml_Test
+	{
+		public void launch()
+		{
+			"ascx_J2EE_web_xml".popupWindow<ascx_J2EE_web_xml>();
+		}
+	}
+
     public partial class ascx_J2EE_web_xml : UserControl
     {
         private string loadedFile = "";

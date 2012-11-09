@@ -3,10 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using O2.Kernel;
 using O2.DotNetWrappers.O2Findings;
 using O2.ImportExport.OunceLabs.Ozasmt_OunceV6;
 using O2.Interfaces.O2Findings;
 using O2.Views.ASCX.O2Findings;
+
+//O2File:O2AssessmentLoad_OunceV6.cs
 
 namespace O2.Core.FileViewers.JoinTraces
 {
@@ -65,8 +68,8 @@ namespace O2.Core.FileViewers.JoinTraces
                     sinkFindings.Add(o2Finding);
                 else if (o2Finding.SourceContext.IndexOf(sourceMethodToFind) > -1)
                     sourceFindings.Add(o2Finding);
-            DI.log.info("There are {0} sinkFindings ( sink ~= {1} )", sinkFindings.Count, sinkMethodToFind);
-            DI.log.info("There are {0} sourceFindings ( source ~= {1})", sourceFindings.Count, sourceMethodToFind);
+            PublicDI.log.info("There are {0} sinkFindings ( sink ~= {1} )", sinkFindings.Count, sinkMethodToFind);
+            PublicDI.log.info("There are {0} sourceFindings ( source ~= {1})", sourceFindings.Count, sourceMethodToFind);
 
             //ascx_FindingsViewer.openInFloatWindow(results.ToList());
         }

@@ -7,9 +7,23 @@ using O2.Core.FileViewers.JoinTraces;
 using O2.DotNetWrappers.DotNet;
 using O2.DotNetWrappers.ExtensionMethods;
 using O2.Interfaces.O2Findings;
+using O2.XRules.Database.Findings;
+using O2.ImportExport.OunceLabs;
+//O2File:ascx_FilteredFindings.Designer.cs
+//O2File:O2FindingsHelpers.cs
+//O2File:Findings_ExtensionMethods.cs
 
 namespace O2.Core.FileViewers.Ascx.O2Rules
 {
+	public class ascx_FilteredFindings_Test
+	{
+		public void launch()
+		{
+			"ascx_FilteredFindings".popupWindow<ascx_FilteredFindings>(700,600)
+								   .insert_LogViewer();
+		}
+	}
+
     public partial class ascx_FilteredFindings : UserControl
     {
 
@@ -19,6 +33,7 @@ namespace O2.Core.FileViewers.Ascx.O2Rules
         public ascx_FilteredFindings()
         {
             InitializeComponent();
+            findingsViewer_Results.add_AvailableEngines_Ounce();
         }
 
 
@@ -37,7 +52,7 @@ namespace O2.Core.FileViewers.Ascx.O2Rules
             calculateFindings();
         }
 
-        public void calculateFindings()
+        public ascx_FilteredFindings calculateFindings()
         {
             var results = O2FindingsHelpers.calculateFindings(findingsToFilter, tbSourceSignatures.Text, tbSinkSignatures.Text);
 
@@ -47,49 +62,50 @@ namespace O2.Core.FileViewers.Ascx.O2Rules
 
             findingsViewer_Results.loadO2Findings(results,true);
             tcFilteredFindings.invokeOnThread(() => tcFilteredFindings.SelectedTab = tpResults);            
+            return this;
         }
 
-        public void setFindingsResult(List<IO2Finding> results)
+        public ascx_FilteredFindings setFindingsResult(List<IO2Finding> results)
         {
             findingsViewer_Results.loadO2Findings(results, true);
+            return this;
         }
-
-        public void setFindingsToFilter(List<IO2Finding> _findingsToFilter)
+        
+		public ascx_FilteredFindings setFindingsToFilter(string fileOrFolder)		
+		{
+			var findings = fileOrFolder.loadO2Findings();
+			return this.setFindingsToFilter(findings);
+		}
+        public ascx_FilteredFindings setFindingsToFilter(List<IO2Finding> _findingsToFilter)
         {
             findingsToFilter = _findingsToFilter;
             showFindingsToFilterDetails();
+            return this;
         }
 
-        public void setSourceSignatureRegEx(string regexSignature)
+        public ascx_FilteredFindings setSourceSignatureRegEx(string regexSignature)
         {            
-            tbSourceSignatures.invokeOnThread(
-                () =>
-                    {
-                        tbSourceSignatures.Text = regexSignature;
-                        return true;
-                    });
-
+        	tbSourceSignatures.set_Text(regexSignature);            
+			return this;
         }
         
-        public void setSinkSignatureRegEx(string regexSignature)
-        {            
-            tbSinkSignatures.invokeOnThread(
-             () =>
-             {
-                 tbSinkSignatures.Text = regexSignature;
-                 return true;
-             });            
+        public ascx_FilteredFindings setSinkSignatureRegEx(string regexSignature)
+        {        
+        	tbSinkSignatures.set_Text(regexSignature);
+            return this;
         }
         
-        public void setMapJointPointsCallback(Func<List<IO2Finding>, List<IO2Finding>> mapJointPointsCallback)
+        public ascx_FilteredFindings setMapJointPointsCallback(Func<List<IO2Finding>, List<IO2Finding>> mapJointPointsCallback)
         {
             MapJointPointsCallback = mapJointPointsCallback;
+            return this;
         }
 
 
-        private void showFindingsToFilterDetails()
+        private ascx_FilteredFindings showFindingsToFilterDetails()
         {
             tableList_LoadedFindingsDetails.setDataTable(O2FindingsHelpers.getDataTableWithFindingsDetails(findingsToFilter));
+            return this;
         }
 
 
@@ -109,10 +125,11 @@ namespace O2.Core.FileViewers.Ascx.O2Rules
             return results;
         }
 
-        public void setFindingsViewerFilters(string filter1, string filter2)
+        public ascx_FilteredFindings setFindingsViewerFilters(string filter1, string filter2)
         {
             findingsViewer_Results.setFilter1Value(filter1);
             findingsViewer_Results.setFilter2Value(filter2);
+            return this;
         }
 
         public List<IO2Finding> getResults()

@@ -1,4 +1,9 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
+
+using O2.Platform.BCL.O2_Views_ASCX;
+
+//O2File:ascx_StrutsMappings.cs
+
 namespace O2.Core.FileViewers.Ascx
 {
     partial class ascx_StrutsMappings
@@ -29,7 +34,7 @@ namespace O2.Core.FileViewers.Ascx
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ascx_StrutsMappings));
+            //System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ascx_StrutsMappings));
             this.tvStrutsMappings = new System.Windows.Forms.TreeView();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
@@ -78,7 +83,8 @@ namespace O2.Core.FileViewers.Ascx
             // btOpenStrutsMappingsFile
             // 
             this.btOpenStrutsMappingsFile.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btOpenStrutsMappingsFile.Image = ((System.Drawing.Image)(resources.GetObject("btOpenStrutsMappingsFile.Image")));
+            //this.btOpenStrutsMappingsFile.Image = ((System.Drawing.Image)(resources.GetObject("btOpenStrutsMappingsFile.Image")));
+            this.btOpenStrutsMappingsFile.Image = FormImages.btOpenFile_Image;
             this.btOpenStrutsMappingsFile.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btOpenStrutsMappingsFile.Name = "btOpenStrutsMappingsFile";
             this.btOpenStrutsMappingsFile.Size = new System.Drawing.Size(23, 22);
@@ -88,12 +94,13 @@ namespace O2.Core.FileViewers.Ascx
             // tbTargetDirectoryOrFolder
             // 
             this.tbTargetDirectoryOrFolder.Name = "tbTargetDirectoryOrFolder";
-            this.tbTargetDirectoryOrFolder.Size = new System.Drawing.Size(100, 25);
+            this.tbTargetDirectoryOrFolder.Size = new System.Drawing.Size(300, 25);
             // 
             // btSaveCurrentMappings
             // 
             this.btSaveCurrentMappings.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btSaveCurrentMappings.Image = ((System.Drawing.Image)(resources.GetObject("btSaveCurrentMappings.Image")));
+            //this.btSaveCurrentMappings.Image = ((System.Drawing.Image)(resources.GetObject("btSaveCurrentMappings.Image")));
+            this.btSaveCurrentMappings.Image = FormImages.btSaveFile_Image;
             this.btSaveCurrentMappings.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btSaveCurrentMappings.Name = "btSaveCurrentMappings";
             this.btSaveCurrentMappings.Size = new System.Drawing.Size(23, 22);
@@ -103,7 +110,8 @@ namespace O2.Core.FileViewers.Ascx
             // btRemoveLoadedMappings
             // 
             this.btRemoveLoadedMappings.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btRemoveLoadedMappings.Image = ((System.Drawing.Image)(resources.GetObject("btRemoveLoadedMappings.Image")));
+            //this.btRemoveLoadedMappings.Image = ((System.Drawing.Image)(resources.GetObject("btRemoveLoadedMappings.Image")));
+            this.btRemoveLoadedMappings.Image  = FormImages.user_trash;
             this.btRemoveLoadedMappings.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btRemoveLoadedMappings.Name = "btRemoveLoadedMappings";
             this.btRemoveLoadedMappings.Size = new System.Drawing.Size(23, 22);
@@ -128,12 +136,12 @@ namespace O2.Core.FileViewers.Ascx
 
         #endregion
 
-        private System.Windows.Forms.TreeView tvStrutsMappings;
-        private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
-        private System.Windows.Forms.ToolStripButton btSaveCurrentMappings;
-        private System.Windows.Forms.ToolStripButton btOpenStrutsMappingsFile;
-        private System.Windows.Forms.ToolStripTextBox tbTargetDirectoryOrFolder;
-        private System.Windows.Forms.ToolStripButton btRemoveLoadedMappings;
+        public System.Windows.Forms.TreeView tvStrutsMappings;
+        public System.Windows.Forms.ToolStrip toolStrip1;
+        public System.Windows.Forms.ToolStripLabel toolStripLabel1;
+        public System.Windows.Forms.ToolStripButton btSaveCurrentMappings;
+        public System.Windows.Forms.ToolStripButton btOpenStrutsMappingsFile;
+        public System.Windows.Forms.ToolStripTextBox tbTargetDirectoryOrFolder;
+        public System.Windows.Forms.ToolStripButton btRemoveLoadedMappings;
     }
 }

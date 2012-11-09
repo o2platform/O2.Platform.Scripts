@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using O2.Interfaces.FrameworkSupport.J2EE;
+using O2.Kernel;
 
 namespace O2.Core.FileViewers.ViewHelpers
 {
@@ -15,15 +16,15 @@ namespace O2.Core.FileViewers.ViewHelpers
             var dataTable = new DataTable();
             //var type = genericList.GetType();
             //var typeName = genericList.GetType().Name;      //"List`1
-            foreach (var property in DI.reflection.getProperties(typeof(T)))
+            foreach (var property in PublicDI.reflection.getProperties(typeof(T)))
                 dataTable.Columns.Add(property.Name);
 
             foreach (var item in genericList)
             {
                 var newRow = dataTable.NewRow();
-                foreach (var property in DI.reflection.getProperties(typeof(T)))
+                foreach (var property in PublicDI.reflection.getProperties(typeof(T)))
                 {
-                    var cellValue = DI.reflection.getProperty(property.Name, item) ?? "";                    
+                    var cellValue = PublicDI.reflection.getProperty(property.Name, item) ?? "";                    
                     switch (cellValue.GetType().ToString())
                     {
                         case "System.Collections.Generic.Dictionary`2[System.String,System.String]":

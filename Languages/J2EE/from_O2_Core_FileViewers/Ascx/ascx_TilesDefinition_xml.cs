@@ -7,13 +7,26 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using NUnit.Framework;
 using O2.Core.FileViewers.J2EE;
 using O2.DotNetWrappers.DotNet;
+using O2.DotNetWrappers.ExtensionMethods;
 using O2.Core.FileViewers.ViewHelpers;
+
+//O2File:ascx_TilesDefinition_xml.Designer.cs
+//O2File:CreateDataTable.cs
+//O2File:J2eeConfigFiles.cs
 
 namespace O2.Core.FileViewers.Ascx
 {
+	public class ascx_TilesDefinition_xml_Test 
+	{
+		public void launch() 
+		{
+			var strutsMappings = "ascx_TilesDefinition_xml".popupWindow<ascx_TilesDefinition_xml>(1200,600)
+							     			    	  	   .insert_LogViewer();	
+		}
+	}
+	
     public partial class ascx_TilesDefinition_xml : UserControl
     {
         private string loadedFile = "";

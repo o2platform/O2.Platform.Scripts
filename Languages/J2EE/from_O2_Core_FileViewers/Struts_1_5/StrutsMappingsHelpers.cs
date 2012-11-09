@@ -4,10 +4,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using O2.Kernel;
 using O2.Core.FileViewers.J2EE;
 using O2.DotNetWrappers.DotNet;
 using O2.DotNetWrappers.Windows;
 using O2.Interfaces.FrameworkSupport.J2EE;
+//O2File:J2eeConfigFiles.cs
 
 namespace O2.Core.FileViewers.Struts_1_5
 {
@@ -55,7 +57,7 @@ namespace O2.Core.FileViewers.Struts_1_5
                                       servlet.servletClass));
                 }
                 else
-                    DI.log.error("in calculateStrutsMapping, could not find servlet: {0}", servletMapping.servletName);
+                    PublicDI.log.error("in calculateStrutsMapping, could not find servlet: {0}", servletMapping.servletName);
                     
             }            
             return strutsMappings;
@@ -102,7 +104,7 @@ namespace O2.Core.FileViewers.Struts_1_5
                                 actionServlet.chainConfigFiles.Add(chainConfigFile.Trim());
                             break;
                         default:
-                            DI.log.error("in calculateActionServlet, unsupported servlet.initParam key value: {0}", param.Key);
+                            PublicDI.log.error("in calculateActionServlet, unsupported servlet.initParam key value: {0}", param.Key);
                             break;
                     }
 
@@ -168,7 +170,7 @@ namespace O2.Core.FileViewers.Struts_1_5
             }
             catch (Exception ex)
             {
-                DI.log.error("in calculateActionServlet: {0}", ex.Message);
+                PublicDI.log.error("in calculateActionServlet: {0}", ex.Message);
             }
             return actionServlet;
         }
@@ -200,13 +202,13 @@ namespace O2.Core.FileViewers.Struts_1_5
                 targetFileOrFolder = Path.Combine(targetFileOrFolder, Files.getTempFileName() + strutsMappingExtension);
             else if (false == Directory.Exists(Path.GetDirectoryName(targetFileOrFolder)))
             {
-                DI.log.error("Invalid filename supplied since that directly doesnt exist: {0}", targetFileOrFolder);
+                PublicDI.log.error("Invalid filename supplied since that directly doesnt exist: {0}", targetFileOrFolder);
                 return "";
             }
             if (Serialize.createSerializedBinaryFileFromObject(strutsMappings, targetFileOrFolder))
-                DI.log.info("Serialized Struts Mapping object saved to: {0}", targetFileOrFolder);
+                PublicDI.log.info("Serialized Struts Mapping object saved to: {0}", targetFileOrFolder);
             else
-                DI.log.error("There was a problem serializing Struts Mapping object saved to: {0}", targetFileOrFolder);
+                PublicDI.log.error("There was a problem serializing Struts Mapping object saved to: {0}", targetFileOrFolder);
             return targetFileOrFolder;
         }        
     }
