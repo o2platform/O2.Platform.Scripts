@@ -1,9 +1,12 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
 using System;
 using System.Collections.Generic;
+using O2.Kernel;
 using O2.DotNetWrappers.DotNet;
 using O2.DotNetWrappers.O2Findings;
 using O2.Interfaces.O2Findings;
+
+//O2File:xsd_Ozasmt_OunceV6_1.cs
 
 namespace O2.ImportExport.OunceLabs.Ozasmt_OunceV6_1
 {
@@ -26,7 +29,7 @@ namespace O2.ImportExport.OunceLabs.Ozasmt_OunceV6_1
             }
             catch (Exception ex)
             {
-                DI.log.ex(ex, "in OzasmtUtils_OunceV6_1.importOzasmtAssessmentIntoO2Assessment");
+                PublicDI.log.ex(ex, "in OzasmtUtils_OunceV6_1.importOzasmtAssessmentIntoO2Assessment");
             }
             return false;
         }
@@ -50,7 +53,7 @@ namespace O2.ImportExport.OunceLabs.Ozasmt_OunceV6_1
             AssessmentRunFindingData findingData = assessmentRun.FindingDataPool[finding.data_id-1];
             AssessmentRunSite siteData = assessmentRun.SitePool[findingData.site_id - 1];
             if (findingData.id != finding.data_id || siteData.id != findingData.site_id)
-                DI.log.error("in addFindingDataToO2Finding findingData.id != (finding.data_id-1) or siteData.id != (findingData.site_id - 1)");
+                PublicDI.log.error("in addFindingDataToO2Finding findingData.id != (finding.data_id-1) or siteData.id != (findingData.site_id - 1)");
             else
             {
                 o2Finding.actionObject = findingData.ao_id;
@@ -112,7 +115,7 @@ namespace O2.ImportExport.OunceLabs.Ozasmt_OunceV6_1
                     }
                     else
                     {
-                        DI.log.error("in addTraceToO2Finding , could not parse into int {0} from {1}", splittedTrace[0], traceItem);
+                        PublicDI.log.error("in addTraceToO2Finding , could not parse into int {0} from {1}", splittedTrace[0], traceItem);
                     }
                     if (splittedTrace.Length > 1) // means there were dots in the traceitem
                         for (var i = 1; i < splittedTrace.Length; i++)

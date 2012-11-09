@@ -1,8 +1,13 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
 using System;
+using O2.DotNetWrappers.ExtensionMethods;
 using O2.DotNetWrappers.DotNet;
 using O2.DotNetWrappers.O2Findings;
 using O2.Interfaces.O2Findings;
+
+//O2File:xsd_Ozasmt_OunceV6.cs
+//O2File:O2AssessmentData_OunceV6.cs
+//O2File:OzasmtUtils_OunceV6.cs
 
 namespace O2.ImportExport.OunceLabs.Ozasmt_OunceV6
 {
@@ -22,7 +27,7 @@ namespace O2.ImportExport.OunceLabs.Ozasmt_OunceV6
             string rootElementText = XmlHelpers.getRootElementText(fileToTryToLoad);
             if (rootElementText.IndexOf(expectedRootElementText) > -1 && rootElementText.IndexOf(notExpectedRootElementText)== -1)
                 return true;
-            DI.log.error("in {0} engine, could not load file {1} since the root element value didnt match: {2}!={3}",
+            "in {0} engine, could not load file {1} since the root element value didnt match: {2}!={3}".error(
                          engineName, fileToTryToLoad, rootElementText ,expectedRootElementText);
             return false;
         }
@@ -91,7 +96,7 @@ namespace O2.ImportExport.OunceLabs.Ozasmt_OunceV6
             catch
                 (Exception ex)
             {
-                DI.log.error("in importAssessmentRun: {0}", ex.Message);
+                "in importAssessmentRun: {0}".error(ex.Message);
             }
             return false;
 

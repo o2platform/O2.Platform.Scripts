@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
+//O2File:xsd_Ozasmt_OunceV6.cs
 
 namespace O2.ImportExport.OunceLabs.Ozasmt_OunceV6
 {

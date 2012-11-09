@@ -7,9 +7,11 @@ using System.Xml;
 using O2.DotNetWrappers.DotNet;
 using O2.DotNetWrappers.O2Findings;
 using O2.DotNetWrappers.Windows;
+using O2.DotNetWrappers.ExtensionMethods;
 using O2.ImportExport.OunceLabs;
 using O2.ImportExport.OunceLabs.Ozasmt_OunceV6;
 using O2.Interfaces.O2Findings;
+//O2File:O2AssessmentData_OunceV6.cs
 
 namespace O2.ImportExport.OunceLabs.Ozasmt_OunceV6
 {
@@ -85,7 +87,7 @@ namespace O2.ImportExport.OunceLabs.Ozasmt_OunceV6
                         foreach (Assessment aAssessment in fadO2AssessmentDataOunceV6.arAssessmentRun.Assessment.Assessment)
                         {
                             AssessmentAssessmentFile[] afAssessmentFiles = aAssessment.AssessmentFile;
-                            DI.log.debug("There are {0} assessment files loaded", afAssessmentFiles.Length.ToString());
+                            "There are {0} assessment files loaded".debug(afAssessmentFiles.Length.ToString());
                             foreach (AssessmentAssessmentFile afAssessmentFile in afAssessmentFiles)
                                 if (null != afAssessmentFile.Finding)
                                     foreach (AssessmentAssessmentFileFinding fFinding in afAssessmentFile.Finding)
@@ -93,11 +95,11 @@ namespace O2.ImportExport.OunceLabs.Ozasmt_OunceV6
                                             lsActionObjects.Add(fFinding.actionobject_id.ToString());
                         }
 
-                DI.log.debug("There are {0} unique ActionObjects", lsActionObjects.Count.ToString());
+                "There are {0} unique ActionObjects".debug(lsActionObjects.Count.ToString());
             }
             catch (Exception e)
             {
-                DI.log.error("In getListWithUsedActionObjects: {0}", e.Message);
+                "In getListWithUsedActionObjects: {0}".error(e.Message);
             }
             return lsActionObjects;
         }
@@ -142,8 +144,7 @@ namespace O2.ImportExport.OunceLabs.Ozasmt_OunceV6
             long fileSize = Files_WinForms.getFileSize(sAssessmentFile);
             if (fileSize > iMaxFileSize) //
             {
-                DI.log.error("Skipping fromAssessmentFile_get_DbId since file size is bigger that {0}: {1}",
-                             iMaxFileSize, fileSize);
+                "Skipping fromAssessmentFile_get_DbId since file size is bigger that {0}: {1}".error(iMaxFileSize, fileSize);
                 return "";
             }
             try
@@ -166,7 +167,7 @@ namespace O2.ImportExport.OunceLabs.Ozasmt_OunceV6
             }
             catch (Exception ex)
             {
-                DI.log.error("fromAssessmentFile_get_DbId: {0}", ex.Message);
+                "fromAssessmentFile_get_DbId: {0}".error(ex.Message);
             }
             return "";
         }
@@ -204,7 +205,7 @@ namespace O2.ImportExport.OunceLabs.Ozasmt_OunceV6
             }
             catch (Exception ex)
             {
-                DI.log.ex(ex, "in addTextToStringIndexes ");
+                ex.log("in addTextToStringIndexes ");
                 return 0;
             }
         }
@@ -418,7 +419,7 @@ namespace O2.ImportExport.OunceLabs.Ozasmt_OunceV6
             }
             catch (Exception ex)
             {
-                DI.log.ex(ex, "in getAssessmentAssessmentFileFinding");
+                ex.log("in getAssessmentAssessmentFileFinding");
             }
             return null;
         }

@@ -3,6 +3,9 @@ using System;
 using System.Collections.Generic;
 using O2.DotNetWrappers.DotNet;
 using O2.Interfaces.O2Findings;
+using O2.Kernel;
+//O2File:xsd_Ozasmt_OunceV6.cs
+//O2File:OzasmtUtils_OunceV6.cs
 
 namespace O2.ImportExport.OunceLabs.Ozasmt_OunceV6
 {
@@ -21,7 +24,7 @@ namespace O2.ImportExport.OunceLabs.Ozasmt_OunceV6
 
         public string save(List<IO2Finding> o2Findings)
         {
-            string tempOzasmtFile = DI.config.getTempFileInTempDirectory("ozasmt");
+            string tempOzasmtFile = PublicDI.config.getTempFileInTempDirectory("ozasmt");
 
             return (save(o2Findings,tempOzasmtFile)) ? tempOzasmtFile : "";
         }

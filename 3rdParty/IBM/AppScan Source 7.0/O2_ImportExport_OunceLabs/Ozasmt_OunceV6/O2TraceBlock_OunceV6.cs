@@ -3,6 +3,9 @@ using System;
 using System.Collections.Generic;
 using O2.ImportExport.OunceLabs.Ozasmt_OunceV6;
 
+//O2File:xsd_Ozasmt_OunceV6.cs
+//O2File:O2AssessmentData_OunceV6.cs
+
 namespace O2.ImportExport.OunceLabs.Ozasmt_OunceV6
 {
     public class O2TraceBlock_OunceV6

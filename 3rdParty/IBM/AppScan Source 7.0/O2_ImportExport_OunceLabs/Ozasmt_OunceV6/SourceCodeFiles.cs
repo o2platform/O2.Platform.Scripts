@@ -3,11 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
+using O2.Kernel;
 using O2.DotNetWrappers.DotNet;
 using O2.DotNetWrappers.O2Misc;
 using O2.DotNetWrappers.Xsd;
 using O2.ImportExport.OunceLabs;
 using O2.ImportExport.OunceLabs.Ozasmt_OunceV6;
+
+//O2File:O2AssessmentData_OunceV6.cs
 
 namespace O2.Legacy.OunceV6.SavedAssessmentFile.classes
 {
@@ -15,10 +18,10 @@ namespace O2.Legacy.OunceV6.SavedAssessmentFile.classes
     {
         public static bool areAllSourceCodeReferencesInAssessmentFileValid(O2AssessmentData_OunceV6 oadO2AssessmentDataOunceV6)
         {
-            DI.log.debug("Checking to see if all source code references are valid");
+            PublicDI.log.debug("Checking to see if all source code references are valid");
             if (oadO2AssessmentDataOunceV6.arAssessmentRun == null)
             {
-                DI.log.error(
+                PublicDI.log.error(
                     "in areAllSourceCodeReferencesInAssessmentFileValid: oadO2AssessmentDataOunceV6.arAssessmentRun == null  (aborting)");
                 return true;
             }
@@ -31,14 +34,14 @@ namespace O2.Legacy.OunceV6.SavedAssessmentFile.classes
             }
             catch (Exception ex)
             {
-                DI.log.error("in areAllSourceCodeReferencesInAssessmentFileValid: {0}", ex.Message);
+                PublicDI.log.error("in areAllSourceCodeReferencesInAssessmentFileValid: {0}", ex.Message);
                 return false;
             }
         }
 
         public static void tryToFixSourceCodeReferences(O2AssessmentData_OunceV6 oadO2AssessmentDataOunceV6)
         {
-            DI.log.debug("Trying To Fix Source Code References");
+            PublicDI.log.debug("Trying To Fix Source Code References");
             SourceCodeMappings scmSourceCodeMappings = SourceCodeMappingsUtils.getSourceCodeMappings();
             foreach (SourceCodeMappingsMapping mMapping in scmSourceCodeMappings.Mapping)
             {
