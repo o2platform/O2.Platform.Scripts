@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="struts-config">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="display-name" type="xs:string" />
+        <xs:element name="description" type="xs:string" />
+        <xs:element name="form-beans">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="form-bean">
+                <xs:complexType>
+                  <xs:sequence minOccurs="0">
+                    <xs:element maxOccurs="unbounded" name="form-property">
+                      <xs:complexType>
+                        <xs:attribute name="name" type="xs:string" use="required" />
+                        <xs:attribute name="type" type="xs:string" use="required" />
+                        <xs:attribute name="initial" type="xs:string" use="optional" />
+                        <xs:attribute name="reset" type="xs:boolean" use="optional" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="name" type="xs:string" use="required" />
+                  <xs:attribute name="type" type="xs:string" use="optional" />
+                  <xs:attribute name="extends" type="xs:string" use="optional" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="global-forwards">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="forward">
+                <xs:complexType>
+                  <xs:attribute name="name" type="xs:string" use="required" />
+                  <xs:attribute name="path" type="xs:string" use="required" />                  
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="action-mappings">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="action">
+                <xs:complexType mixed="true">
+                  <xs:sequence minOccurs="0">
+                    <xs:element minOccurs="0" name="exception">
+                      <xs:complexType>
+                        <xs:attribute name="key" type="xs:string" use="required" />
+                        <xs:attribute name="type" type="xs:string" use="required" />
+                        <xs:attribute name="path" type="xs:string" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element maxOccurs="unbounded" name="forward">
+                      <xs:complexType>
+                        <xs:attribute name="name" type="xs:string" use="required" />
+                        <xs:attribute name="path" type="xs:string" use="required" />
+                        <xs:attribute name="redirect" type="xs:string" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="path" type="xs:string" use="required" />
+                  <xs:attribute name="forward" type="xs:string" use="optional" />
+                  <xs:attribute name="type" type="xs:string" use="optional" />
+                  <xs:attribute name="parameter" type="xs:string" use="optional" />
+                  <xs:attribute name="name" type="xs:string" use="optional" />
+                  <xs:attribute name="scope" type="xs:string" use="optional" />
+                  <xs:attribute name="cancellable" type="xs:boolean" use="optional" />
+                  <xs:attribute name="validate" type="xs:boolean" use="optional" />
+                  <xs:attribute name="input" type="xs:string" use="optional" />
+                  <xs:attribute name="extends" type="xs:string" use="optional" />
+                  <xs:attribute name="unknown" type="xs:string" use="optional" />                  
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="controller">
+          <xs:complexType>
+            <xs:attribute name="pagePattern" type="xs:string" use="required" />
+            <xs:attribute name="inputForward" type="xs:boolean" use="required" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element maxOccurs="unbounded" name="message-resources">
+          <xs:complexType>
+            <xs:attribute name="parameter" type="xs:string" use="required" />
+            <xs:attribute name="key" type="xs:string" use="optional" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element maxOccurs="unbounded" name="plug-in">
+          <xs:complexType>
+            <xs:sequence minOccurs="0">
+              <xs:element maxOccurs="unbounded" name="set-property">
+                <xs:complexType>
+                  <xs:attribute name="property" type="xs:string" use="required" />
+                  <xs:attribute name="value" type="xs:string" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="className" type="xs:string" use="required" />
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

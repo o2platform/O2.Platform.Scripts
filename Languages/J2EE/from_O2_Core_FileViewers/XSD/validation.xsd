@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="form-validation">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="global">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="constant">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="constant-name" type="xs:string" />
+                    <xs:element name="constant-value" type="xs:string" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element maxOccurs="unbounded" name="formset">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="constant">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="constant-name" type="xs:string" />
+                    <xs:element name="constant-value" type="xs:string" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element maxOccurs="unbounded" name="form">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element maxOccurs="unbounded" name="field">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element minOccurs="0" name="msg">
+                            <xs:complexType>
+                              <xs:attribute name="name" type="xs:string" use="required" />
+                              <xs:attribute name="key" type="xs:string" use="required" />
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element maxOccurs="unbounded" name="arg">
+                            <xs:complexType>
+                              <xs:attribute name="key" type="xs:string" use="required" />
+                              <xs:attribute name="position" type="xs:unsignedByte" use="optional" />
+                              <xs:attribute name="name" type="xs:string" use="optional" />
+                              <xs:attribute name="resource" type="xs:boolean" use="optional" />
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element minOccurs="0" maxOccurs="unbounded" name="var">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="var-name" type="xs:string" />
+                                <xs:element name="var-value" type="xs:string" />
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="property" type="xs:string" use="required" />
+                        <xs:attribute name="depends" type="xs:string" use="optional" />
+                        <xs:attribute name="page" type="xs:unsignedByte" use="optional" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="name" type="xs:string" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="language" type="xs:string" use="optional" />
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
