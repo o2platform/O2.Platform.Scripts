@@ -13,7 +13,9 @@ using O2.Interfaces.O2Findings;
 using O2.Kernel;
 using O2.Views.ASCX.O2Findings;
 //O2Ref:O2_Core_FileViewers.dll
-//O2Ref:O2_ImportExport_OunceLabs.dll
+
+//O2File:O2AssessmentLoad_OunceV6.cs
+//O2File:O2AssessmentSave_OunceV6.cs
 
 namespace O2.XRules.Database._Rules
 {

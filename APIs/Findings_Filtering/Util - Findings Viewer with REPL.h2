@@ -2,9 +2,10 @@
 <H2>
   <SourceCode>//var topPanel = panel.add_Panel(true);
 var topPanel = O2Gui.open&lt;Panel&gt;("Util - Findings Viewer with REPL",400,400);
-topPanel.add_FindingsViewer();
+var findingsViewer = topPanel.add_FindingsViewer();
 
 topPanel.mainMenu().clear().add_Menu("REPL")
+						   .add_MenuItem(" REPL Findings Viewer", ()=&gt; findingsViewer.script_Me("findingsViewer"))
 						   .add_MenuItem("Find control to REPL", ()=&gt; new API_HawkEye().openControlFinder());	
 			
 return topPanel; 

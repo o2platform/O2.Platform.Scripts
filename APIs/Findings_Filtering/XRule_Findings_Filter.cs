@@ -12,7 +12,6 @@ using O2.Kernel;
 using O2.DotNetWrappers.O2Findings;
 using O2.Views.ASCX.O2Findings;
 using O2.XRules.Database._Rules;
-//O2Ref:O2_ImportExport_OunceLabs.dll
 //O2File:xUtils_Findings_v0_1.cs
 
 namespace O2.XRules.Database._Rules
