@@ -36,7 +36,6 @@ topPanel.insert_Above(40)
 //using O2.Core.FileViewers.JoinTraces
 //O2File:Findings_ExtensionMethods.cs
 //O2File:xUtils_Findings_v0_1.cs
-//O2Ref:O2_Core_FileViewers.dll
-//O2Ref:O2_ImportExport_OunceLabs.dll</SourceCode>
+//O2Ref:O2_Core_FileViewers.dll</SourceCode>
   <ReferencedAssemblies />
 </H2>

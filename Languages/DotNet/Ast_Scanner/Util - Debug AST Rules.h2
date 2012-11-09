@@ -12,7 +12,7 @@ var scriptEditor = leftPanel[1].add_Script(false);
 
 var sourceCodeViewer = rightPanel[0].add_Control&lt;ascx_SourceCodeViewer&gt;(); 
 var codeStreamTreeView = sourceCodeViewer.insert_Left&lt;TreeView&gt;().showSelection();
-O2.ImportExport.OunceLabs.OunceAvailableEngines.addAvailableEnginesToControl(typeof(ascx_FindingsViewer));
+OunceAvailableEngines.addAvailableEnginesToControl(typeof(ascx_FindingsViewer));
 var findingsViewer = rightPanel[1].add_Control&lt;ascx_FindingsViewer&gt;();  
 
 
@@ -81,10 +81,11 @@ scriptEditor.onCompileExecuteOnce();
 //using O2.DotNetWrappers.ExtensionMethods
 //using O2.API.AST.CSharp
 //using O2.XRules.Database.Languages_and_Frameworks.DotNet
+//using O2.ImportExport.OunceLabs
 //using O2.Views.ASCX.O2Findings
 //O2File:ascx_WriteRule.cs
 //O2File:ascx_ManualMethodStreams.cs
-//O2Ref:O2_ImportExport_OunceLabs.dll
+//O2File:OunceAvailableEngines.cs
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll</SourceCode>
   <ReferencedAssemblies />
 </H2>

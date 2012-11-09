@@ -21,10 +21,10 @@ using O2.DotNetWrappers.DotNet;
 //O2File:ascx_SearchResults.cs
 //O2File:ascx_SearchTargets.cs
 //O2File:ascx_TextSearch.cs
+//O2File:OunceAvailableEngines.cs
 
 //O2Ref:O2_Core_FileViewers.dll
 //O2Ref:O2_Core_CIR.dll
-//O2Ref:O2_ImportExport_OunceLabs.dll
 
 namespace O2.Tool.SearchEngine
 {

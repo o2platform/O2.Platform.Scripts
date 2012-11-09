@@ -13,7 +13,6 @@
 
 //using O2.Core.CIR.Ascx
 //O2Ref:O2_Core_CIR.dll
-//O2Ref:O2_ImportExport_OunceLabs.dll
 //O2Ref:O2_External_O2Mono.dll
 //O2Ref:Mono.Cecil.Pdb.dll</SourceCode>
   <ReferencedAssemblies />

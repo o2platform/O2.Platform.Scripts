@@ -14,13 +14,13 @@ using O2.Interfaces.O2Core;
 using O2.Interfaces.O2Findings;
 using O2.Kernel;
 using O2.Kernel.ExtensionMethods;
+using O2.ImportExport.OunceLabs;
 using O2.External.SharpDevelop.ExtensionMethods;
 using O2.External.SharpDevelop.Ascx;
 using O2.Views.ASCX.O2Findings;
 
 //O2File:Findings_ExtensionMethods_Gui_Viewers.cs
-//O2File:O2AssessmentLoad_OunceV6.cs
-//O2File:O2AssessmentSave_OunceV6.cs
+//O2File:OunceAvailableEngines.cs
 
 namespace O2.XRules.Database.Findings
 {
@@ -159,9 +159,8 @@ namespace O2.XRules.Database.Findings
 		
 		public static ascx_FindingsViewer add_FindingsViewer(this Control control, bool includeSourceCodeViewer)
         {
-            "O2_ImportExport_OunceLabs.dll".assembly()
-                                           .type("OunceAvailableEngines")
-                                           .invokeStatic("addAvailableEnginesToControl", new object[] {typeof(ascx_FindingsViewer)});
+        	OunceAvailableEngines.addAvailableEnginesToControl(typeof(ascx_FindingsViewer));
+         
             var findingsViewer = control.add_Control<ascx_FindingsViewer>();
             if (includeSourceCodeViewer)
 			{

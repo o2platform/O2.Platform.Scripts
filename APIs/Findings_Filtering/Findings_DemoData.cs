@@ -20,7 +20,6 @@ using O2.Views.ASCX.O2Findings;
 
 //O2File:Findings_ExtensionMethods.cs
 
-//O2Ref:O2_ImportExport_OunceLabs.dll
 
 namespace O2.XRules.Database.Findings
 {

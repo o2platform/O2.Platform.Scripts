@@ -11,7 +11,7 @@ var taintRules = new O2CodeStreamTaintRules();
 taintRules.add_TaintPropagator("System.Web.HttpServerUtility.HtmlDecode");  
 var o2Findings = new List&lt;IO2Finding&gt;();
 var cancelScan = false;
-O2.ImportExport.OunceLabs.OunceAvailableEngines.addAvailableEnginesToControl(typeof(ascx_FindingsViewer));
+OunceAvailableEngines.addAvailableEnginesToControl(typeof(ascx_FindingsViewer));
 //Canvas
 var designerCanvas = topPanel.add_DesignerCanvas();   
 
@@ -123,11 +123,13 @@ step4_FindingsCreated.add_ContextMenu()
 //using System.Windows.Markup
 //using O2.XRules.Database.Findings
 //using O2.XRules.Database.HacmeBank
+//using O2.ImportExport.OunceLabs
 
 //O2File:DiagramDesigner_ExtensionMethods.cs
 //O2File:Ast_Engine_ExtensionMethods.cs
 //O2File:Rule_DotNet_FindSources.cs 
 //O2File:Findings_ExtensionMethods.cs  
+//O2File:OunceAvailableEngines.cs
 //O2File:API_HacmeBank.cs
 
 //O2Ref:O2_FluentSharp_WPF.dll
@@ -141,8 +143,6 @@ step4_FindingsCreated.add_ContextMenu()
 //O2Ref:ICSharpCode.AvalonEdit.dll
 //O2Ref:DiagramDesigner.exe
 //O2Ref:WatiN.Core.1x.dll
-
-//O2Ref:O2_ImportExport_OunceLabs.dll
 
 //O2Ref:PresentationCore.dll
 //O2Ref:PresentationFramework.dll
