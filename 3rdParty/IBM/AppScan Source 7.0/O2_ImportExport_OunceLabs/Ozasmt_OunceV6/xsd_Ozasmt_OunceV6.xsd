@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="AssessmentRun">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="0" ref="AssessmentStats" />
+        <xs:element name="AssessmentConfig">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Application">
+                <xs:complexType>
+                  <xs:attribute name="name" type="xs:string" use="required" />
+                  <xs:attribute name="path" type="xs:string" use="required" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Project">
+                <xs:complexType>
+                  <xs:attribute name="name" type="xs:string" use="required" />
+                  <xs:attribute name="path" type="xs:string" use="required" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element maxOccurs="unbounded" name="File">
+                <xs:complexType>
+                  <xs:attribute name="path" type="xs:string" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="analysis_type" type="xs:unsignedInt" use="required" />
+            <xs:attribute name="assessment_type" type="xs:unsignedInt" use="required" />
+            <xs:attribute name="stop_on_error" type="xs:boolean" use="required" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="FileIndeces">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="FileIndex">
+                <xs:complexType>
+                  <xs:attribute name="id" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="value" type="xs:string" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="StringIndeces">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="StringIndex">
+                <xs:complexType>
+                  <xs:attribute name="id" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="value" type="xs:string" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Assessment">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="0" ref="AssessmentStats" />
+              <xs:element maxOccurs="unbounded" ref="Assessment" />
+            </xs:sequence>
+            <xs:attribute name="owner_type" type="xs:string" use="required" />
+            <xs:attribute name="owner_name" type="xs:string" use="required" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Messages">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="Message">
+                <xs:complexType>
+                  <xs:attribute name="id" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="type" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="message" type="xs:string" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:string" use="optional" />
+    </xs:complexType>
+  </xs:element>
+  <!-- Assessment-->
+  <xs:element name="Assessment">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="0" ref="AssessmentStats" />
+        <xs:element maxOccurs="unbounded" name="AssessmentFile">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="0" ref="AssessmentStats" />
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="Finding">
+                <xs:complexType mixed="true">
+                  <xs:sequence minOccurs="0">
+                    <xs:element name="Trace">
+                      <xs:complexType>
+                        <xs:sequence minOccurs="0">
+                          <xs:element maxOccurs="unbounded" ref="CallInvocation" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="record_id" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="line_number" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="column_number" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="actionobject_id" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="severity" type="xs:unsignedByte" use="required" />
+                  <xs:attribute name="context" type="xs:string" use="required" />
+                  <xs:attribute name="vuln_name" type="xs:string" use="required" />
+                  <xs:attribute name="caller_name" type="xs:string" use="required" />
+                  <xs:attribute name="confidence" type="xs:unsignedByte" use="required" />
+                  <xs:attribute name="vuln_type" type="xs:string" use="required" />
+                  <xs:attribute name="exclude" type="xs:boolean" use="required" />
+                  <xs:attribute name="project_name" type="xs:string" use="required" />
+                  <xs:attribute name="ordinal" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="property_ids" type="xs:string" use="required" />
+                  <xs:attribute name="caller_name_id" type="xs:string" />
+                  <xs:attribute name="cxt_id" type="xs:string" />
+                  <xs:attribute name="project_name_id" type="xs:string" />
+                  <xs:attribute name="vuln_name_id" type="xs:string" />
+                  <xs:attribute name="vuln_type_id" type="xs:string" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="filename" type="xs:string" use="required" />
+            <xs:attribute name="error_status" type="xs:unsignedByte" use="required" />
+            <xs:attribute name="last_modified_time" type="xs:unsignedByte" use="required" />
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="owner_type" type="xs:string" use="required" />
+      <xs:attribute name="owner_name" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <!--  AssessmentStats  -->
+  <xs:element name="AssessmentStats">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" name="VulnType">
+          <xs:complexType>
+            <xs:attribute name="name" type="xs:string" use="required" />
+            <xs:attribute name="total_high_finding" type="xs:unsignedInt" use="required" />
+            <xs:attribute name="total_med_finding" type="xs:unsignedInt" use="required" />
+            <xs:attribute name="total_low_finding" type="xs:unsignedInt" use="required" />
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="duration" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="date" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="language_type" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="total_files" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="total_findings" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="error_status" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="line_total" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="vkloc" type="xs:decimal" use="required" />
+      <xs:attribute name="vdensity" type="xs:decimal" use="required" />
+      <xs:attribute name="max_vkloc" type="xs:decimal" use="required" />
+      <xs:attribute name="max_vdensity" type="xs:decimal" use="required" />
+      <xs:attribute name="total_high_finding" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="total_high_high_finding" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="total_high_med_finding" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="total_high_low_finding" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="total_med_finding" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="total_med_high_finding" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="total_med_med_finding" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="total_med_low_finding" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="total_low_finding" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="total_low_high_finding" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="total_low_med_finding" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="total_low_low_finding" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="total_call_sites" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="total_call_sites_not_vulnerable" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="owner_type" type="xs:string" use="required" />
+      <xs:attribute name="owner_name" type="xs:string" use="required" />
+      <xs:attribute name="class_total" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="method_total" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="total_call_sites_informational" type="xs:unsignedInt" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <!-- Call Invocation -->
+  <xs:element name="CallInvocation">
+    <xs:complexType mixed="true">
+      <xs:sequence minOccurs="0">
+        <xs:element maxOccurs="unbounded" ref="CallInvocation" />
+      </xs:sequence>
+      <xs:attribute name="fn_id" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="sig_id" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="cxt_id" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="mn_id" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="cn_id" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="line_number" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="column_number" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="trace_type" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="ordinal" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="taint_propagation" type="xs:unsignedInt" use="required" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

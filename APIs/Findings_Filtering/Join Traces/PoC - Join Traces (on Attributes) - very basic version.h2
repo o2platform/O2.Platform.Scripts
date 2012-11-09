@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.add_Panel(true);
+var topPanel = "PoC - Join Traces (on Attributes) - very basic version".popupWindow(1000,800);
+					  
+
+var findingsViewer_joinedTraces = topPanel.add_FindingsViewer();
+var findingsViewer_setAttributes = findingsViewer_joinedTraces.insert_Above().add_FindingsViewer();
+var findingsViewer_getAttributes = findingsViewer_setAttributes.insert_Right().add_FindingsViewer();
+
+
+
+Action joinTraces = 
+	()=&gt;{
+			//var getAttributes_Findings = getAttributes_Ozasmt.loadO2Findings();
+			//var setAttributes_Findings = setAttributes_Ozasmt.loadO2Findings();
+			var getAttributes_Findings = findingsViewer_getAttributes.o2Findings();
+			var setAttributes_Findings = findingsViewer_setAttributes.o2Findings();
+			
+			JoinOnAttributes.fixSinkVulnNamesBasedOnSinkContextHashMapKey("Attribute", setAttributes_Findings);
+			findingsViewer_setAttributes.show(setAttributes_Findings);
+
+			JoinOnAttributes.fixSourceVulnNamesBasedOnSinkContextHashMapKey("Attribute", getAttributes_Findings);
+			findingsViewer_getAttributes.show(getAttributes_Findings);
+			
+			var joinedTraces = JoinOnAttributes.joinTracesWhereSinkMatchesSource(setAttributes_Findings, getAttributes_Findings);
+			findingsViewer_joinedTraces.show(joinedTraces);
+		};
+		
+topPanel.insert_Above(40)
+		.add_Label("Drop SetAttribute on Left and GetAttribute on Right").size(20)
+		.append_Link("After That click here",()=&gt;joinTraces()).size(20);
+
+//
+//using O2.XRules.Database.Findings
+//using O2.Core.FileViewers.JoinTraces
+//O2File:Findings_ExtensionMethods.cs
+//O2File:xUtils_Findings_v0_1.cs
+//O2Ref:O2_Core_FileViewers.dll
+//O2Ref:O2_ImportExport_OunceLabs.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>
