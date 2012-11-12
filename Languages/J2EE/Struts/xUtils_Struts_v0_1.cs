@@ -12,12 +12,15 @@ using O2.Interfaces.Views;
 using O2.Interfaces.XRules;
 using O2.Kernel;
 using O2.Core.FileViewers.Ascx;
-using O2.Core.FileViewers.Ascx.O2Rules;
 using O2.Core.FileViewers.Struts_1_5;
 using O2.DotNetWrappers.O2Findings;
 using O2.DotNetWrappers.DotNet;
 using O2.External.WinFormsUI.Forms;
-//O2Ref:O2_Core_FileViewers.dll
+//O2File:ascx_Validation_xml.cs
+//O2File:ascx_J2EE_web_xml.cs
+//O2File:ascx_Struts_config_xml.cs
+//O2File:ascx_TilesDefinition_xml.cs
+//O2File:ascx_StrutsMappings.cs
 
 namespace O2.XRules.Database._Rules
 {

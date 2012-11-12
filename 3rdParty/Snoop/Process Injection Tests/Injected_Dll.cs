@@ -9,11 +9,13 @@ using System.Text;
 
 namespace O2.Script
 {
+	
     public class Test
     {    
     	static Process CurrentProcess = System.Diagnostics.Process.GetCurrentProcess();
     	static string  assemblyLocation = @"E:\O2_V4\O2.Platform.Projects\binaries\O2_FluentSharp_CoreLib.dll";
 		static Assembly assembly = Assembly.LoadFrom(assemblyLocation);
+		
 			
 /*		public static void invokeStatic(Assembly assembly, string method, string )
     	{
@@ -26,6 +28,7 @@ namespace O2.Script
 		
     	public static void info(string message)
     	{
+    		Debug.Write("[Info] " + message);
     		var type = assembly.GetType("O2.Kernel.PublicDI");
 			var method = type.GetMethod("get_log");
 			var kConfig = method.Invoke(null, new object[] { });
@@ -77,9 +80,18 @@ namespace O2.Script
     	public static Assembly compileFile(string file)
     	{
 			var compileEngineType = assembly.GetType("O2.DotNetWrappers.DotNet.CompileEngine");
+			//info("compileEngineType: " + compileEngineType);
 			var compileEngine = Activator.CreateInstance(compileEngineType);
+			//info("compileEngine: " + compileEngine);
 			var compileSourceFile = compileEngineType.GetMethod("compileSourceFile");
+			//info("compileSourceFile: " + compileSourceFile);
 			var compiledAssembly = (Assembly)compileSourceFile.Invoke(compileEngine, new object[] {file});
+			
+			var errorMessageProperty = compileEngineType.GetField("sbErrorMessage");
+			
+			info("errorMessageProperty: " + errorMessageProperty);
+			info("errorMessageProperty: " + errorMessageProperty.GetValue(compileEngine));
+			
 			if (compiledAssembly != null)
 				info("Compiled file ok to: " + compiledAssembly.Location);
 			return compiledAssembly;
@@ -96,19 +108,38 @@ namespace O2.Script
     	}
     	
     	public static void injectO2Script()
-    	{
-    		info("Injecting O2 REPL editor");
-			var file = @"E:\O2_V4\O2.Platform.Scripts\Utils\O2\ascx_Quick_Development_GUI.cs.o2";
+    	{    		
+			//var file = @"E:\O2_V4\O2.Platform.Scripts\Utils\O2\ascx_Quick_Development_GUI.cs.o2";
+			//var file = @"E:\O2_V4\O2.Platform.Scripts\Utils\O2\Util - C# REPL Script.h2";
+			//var file = @"E:\O2_V4\O2.Platform.Scripts\APIs\C# REPL\Util - Text Based C# REPL.h2";
+			//var file = @"E:\O2_V4\O2.Platform.Scripts\Utils\Web\SimpleTextEditor.cs";
+			var file = @"E:\O2_V4\O2.Platform.Scripts\Utils\Web\SimpleCSharpREPL.cs";
+			info("Injecting O2 REPL editor by compiling file: " + file);
 			var compiledAssembly = compileFile(file);
-			executeFirstMethod(compiledAssembly);
-			info("Injected O2 REPL editor");
+			if (compiledAssembly == null)
+				info("Error: in injectO2Script, failed to compile: " +  file);
+			else
+			{
+				executeFirstMethod(compiledAssembly);
+				info("Injected O2 REPL editor");
+			}
     	}
     	
 		public static string GoBabyGo()  
 		{
 			try
-			{
-				Debug.Write(">> Inside GoBabyGo method in Process " +CurrentProcess.ProcessName);
+			{				
+				Debug.Write(">>> Inside GoBabyGo method in Process " +CurrentProcess.ProcessName);
+				//System.Windows.Forms.MessageBox.Show("About to Inject script");
+				try
+				{
+					 Assembly bcl = Assembly.LoadFrom(@"E:\O2_V4\O2.Platform.Projects\binaries\O2_FluentSharp_BCL.dll");
+					 //Assembly repl = Assembly.LoadFrom(@"E:\O2_V4\O2.Platform.Projects\binaries\O2_FluentSharp_REPL.dll");
+				}
+				catch(Exception ex)
+				{
+					info("Error: loading assemblies " + ex.Message);
+				}
 				injectO2Script();
 				//listLoadedAssemblies();
 				//info("Starting nodepad");

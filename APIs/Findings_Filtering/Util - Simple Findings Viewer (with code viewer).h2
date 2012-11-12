@@ -1,7 +1,11 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Simple Findings Viewer",1000,400);
-topPanel.add_FindingsViewer(true);
+  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Simple Findings Viewer (with code viewer)",1000,400);
+var findingsViewer = topPanel.add_FindingsViewer(true);
+
+topPanel.mainMenu().add_Menu("REPL")
+				   .add_MenuItem("REPL findingsViewer", ()=&gt;findingsViewer.script_Me("findingsViewer"))
+				   .add_MenuItem("REPL Form", ()=&gt;findingsViewer.parentForm().script_Me("form"));
   
 //using O2.XRules.Database.Findings
 //O2File:Findings_ExtensionMethods.cs</SourceCode>

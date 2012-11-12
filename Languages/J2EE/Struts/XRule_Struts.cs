@@ -15,8 +15,8 @@ namespace O2.XRules.Database._Rules.J2EE.Struts
     public class XRule_Struts : KXRule
     {
 
-        static string strutsMappingsFile = @"F:\Java_Apps\struts\xplanner-0.7b7-war\_OunceApplication\O2Data\XPlanner.O2StrutsMapping";
-        static string baseO2FindingsFile = @"F:\Java_Apps\struts\xplanner-0.7b7-war\_OunceApplication\O2Data\OSA - XPlanner  11-3-09 807PM.ozasmt";    	
+        static string strutsMappingsFile = @"...\_OunceApplication\O2Data\....O2StrutsMapping";
+        static string baseO2FindingsFile = @"...\_OunceApplication\O2Data\OSA - ...  11-3-09 807PM.ozasmt";    	
 
         
         public static bool showResultsInO2RulesStrutsGUI = false;

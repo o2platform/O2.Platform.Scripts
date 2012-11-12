@@ -6,7 +6,6 @@ using O2.Kernel;
 using O2.Interfaces.O2Core;
 using O2.DotNetWrappers.O2Findings;
 using O2.Core.FileViewers.Struts_1_5;
-//O2Ref:O2_Core_FileViewers.dll
 //O2Ref:nunit.framework.dll
 using NUnit.Framework;
 using O2.Interfaces.XRules;
@@ -84,8 +83,8 @@ namespace O2.XRules.Database._Rules._Samples
         [XRule(Name="Invoke Struts rules (using pre-calculated O2StrutsMapping file)")]
         public string invokeStrutsRules_Variation_1_UsingPreCalculatedO2StrutsMappingFile()    	
         {
-            var strutsMappingsFile = @"F:\Java_Apps\struts\xplanner-0.7b7-war\_OunceApplication\O2Data\XPlanner.O2StrutsMapping";
-            var baseO2FindingsFile = @"F:\Java_Apps\struts\xplanner-0.7b7-war\_OunceApplication\O2Data\OSA - XPlanner  11-3-09 807PM.ozasmt"; 
+            var strutsMappingsFile = @"...\_OunceApplication\O2Data\....O2StrutsMapping";
+            var baseO2FindingsFile = @"...\_OunceApplication\O2Data\....ozasmt"; 
         	
             // make sure these files exist
             Assert.That(File.Exists(strutsMappingsFile), "Could not find file with strutsMappingsFile:\r\n    " + strutsMappingsFile); 
@@ -119,8 +118,8 @@ namespace O2.XRules.Database._Rules._Samples
         [XRule(Name="Invoke Struts rules (using struts config files)")]
         public string invokeStrutsRules_Variation_2_loadAllFiles()
         {
-            string webAppRoot = @"F:\Java_Apps\struts\xplanner-0.7b7-war\_OunceApplication\O2Data\xml config files";
-            string baseO2FindingsFile = @"F:\Java_Apps\struts\xplanner-0.7b7-war\_OunceApplication\O2Data\OSA - XPlanner  11-3-09 807PM.ozasmt";
+            string webAppRoot = @"...\_OunceApplication\O2Data\xml config files";
+            string baseO2FindingsFile = @"...\_OunceApplication\O2Data\OSA - ...  11-3-09 807PM.ozasmt";
             string webXml = Path.Combine(webAppRoot,@"web.xml"); 	
             string strutsConfigXml = Path.Combine(webAppRoot,@"struts-config.xml"); 	
             string tilesDefinitionXml = Path.Combine(webAppRoot,@"tiles-definitions.xml"); 	    		
@@ -182,7 +181,7 @@ namespace O2.XRules.Database._Rules._Samples
         [XRule(Name="Show struts files in O2 GUI")]
         public void showStrutsFilesInO2GUI()
         {
-            string webAppRoot = @"F:\Java_Apps\struts\xplanner-0.7b7-war\_OunceApplication\O2Data\xml config files";            
+            string webAppRoot = @"...\_OunceApplication\O2Data\xml config files";            
             string webXml = Path.Combine(webAppRoot,@"web.xml"); 	
             string strutsConfigXml = Path.Combine(webAppRoot,@"struts-config.xml"); 	
             string tilesDefinitionXml = Path.Combine(webAppRoot,@"tiles-definitions.xml"); 	    		

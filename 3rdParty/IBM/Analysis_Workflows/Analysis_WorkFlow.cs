@@ -7,14 +7,15 @@ using O2.DotNetWrappers.O2CmdShell;
 using O2.DotNetWrappers.Windows; 
 //O2File:IAnalysisArtifacts.cs
 using O2.XRules.Database.Interfaces;
+
 //O2Ref:nunit.framework.dll
-using NUnit.Framework;
+//using NUnit.Framework;
+
 //O2File:Analysis_WorkFlow_Phase_1.cs
 //O2File:Analysis_WorkFlow_Phase_2.cs
 //O2File:Analysis_WorkFlow_Phase_3.cs
 //O2File:Analysis_WorkFlow_Phase_4.cs
 //O2File:Analysis_WorkFlow_Phase_5.cs
-//O2Ref:O2_Core_FileViewers.dll
 
 namespace O2.XRules.Database._Rules.IBM.Analysis_Workflows
 {
@@ -22,7 +23,7 @@ namespace O2.XRules.Database._Rules.IBM.Analysis_Workflows
     public class Analysis_Workflow : KXRule
     {    
         string testAnalysisArtifactsFile = @"E:\O2\Demodata\_AnalysisWorkflow\WebGoat.AnalysisArtifacts";
-        //string testAnalysisArtifactsFile = @"E:\O2\Demodata\_AnalysisWorkflow\XPlanner.AnalysisArtifacts";
+        //string testAnalysisArtifactsFile = @"E:\O2\Demodata\_AnalysisWorkflow\....AnalysisArtifacts";
     	
         private static IO2Log log = PublicDI.log;
 

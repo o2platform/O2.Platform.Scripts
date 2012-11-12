@@ -22,7 +22,7 @@ namespace O2.XRules.Database._Rules.IBM.Analysis_Workflows
     public class Analysis_Workflow_Phase_3 : KXRule
     {        	     
         public string testAnalysisArtifactsFile = @"E:\O2\Demodata\_AnalysisWorkflow\WebGoat.AnalysisArtifacts.xml";
-        //public string testAnalysisArtifactsFile = @"E:\O2\Demodata\_AnalysisWorkflow\XPlanner.AnalysisArtifacts";    	                
+        //public string testAnalysisArtifactsFile = @"E:\O2\Demodata\_AnalysisWorkflow\....AnalysisArtifacts";    	                
     
         public static string  workflowFolder {get; set;}
         public string  folderWithArtifacts_Phase2;

@@ -9,19 +9,29 @@ using O2.XRules.Database.Utils;
 using O2.External.SharpDevelop.ExtensionMethods;
 using System.Runtime.InteropServices;
 //O2File:API_CLR.cs
+//O2Ref:Snoop\Snoop\Snoop.exe
+//Installer:Snoop_Installer.cs!Snoop\Snoop\Snoop.exe
 
 namespace O2.XRules.Database.APIs
 {
 	public class API_O2_Injector
-	{
-		public bool injectIntoProcess(Process process)
-		{			
-			return injectIntoProcess(process.Id);			
-		}
-		 		
-		 
+	{			 			
+		
 		public bool injectIntoProcess(int processId)
-		{			
+		{
+			var process = Processes.getProcess(processId);
+			return injectIntoProcess(process);
+		}
+		
+		public bool injectIntoProcess(Process process)
+		{		
+			var x64 = process.is64BitProcess();
+			var runtime40 = (process).isRuntime_V4();
+			return injectIntoProcess(process, x64, runtime40);
+		}
+		
+		public bool injectIntoProcess(Process process, bool x64, bool runtime40)
+		{
 		 	var codeFile = "Injected_Dll.cs".local();
 		 	var fixedCourceCode = codeFile.fileContents()	//ensure that we are pointing to the current locations of O2 folders
 		 							 	  .replace(@"E:\O2_V4\O2.Platform.Projects\binaries",PublicDI.config.CurrentExecutableDirectory)
@@ -32,25 +42,29 @@ namespace O2.XRules.Database.APIs
 			{
 				var className = "O2.Script.Test"; //"Snoop.SnoopUI";
 				var methodName = "GoBabyGo";
-				return injectIntoProcess(processId, compiledAssembly.Location, className, methodName);
+				return injectIntoProcess(process, compiledAssembly.Location, className, methodName, x64, runtime40);
 			}
 			return false;
 		}
 		
-		public bool injectIntoProcess(int processId,string assemblyToInject, string className, string methodName)
+		
+		
+		public bool injectIntoProcess(Process process,string assemblyToInject, string className, string methodName, bool x64, bool runtime40)
 		{		
 			try
-			{								
-				"Injecting into process {0} dll {1}".info(processId, assemblyToInject);				
-				var process = Processes.getProcess(processId);
+			{	
 				if (process.isNull())
 				{
-					"Could not find process with Id: {0}".error(processId);
+								
+					"The value of the process variable was null".error();
 					return false;
 				}
-				var x64 = process.is64BitProcess();
+				
+				"Injecting into process {0}:{1} dll {1}".info(process.Id,process.ProcessName, assemblyToInject);				
+		
+				
 				var suffix = (x64) ? "64-" : "32-";
-				suffix += (process).isRuntime_V4() ? "4.0" : "3.5";
+				suffix += (runtime40) ? "4.0" : "3.5";
 				//var process = Processes.getProcess(12168);
 				var hwnd = process.MainWindowHandle;
 //				var hwnd = process.Handle;
@@ -62,7 +76,8 @@ namespace O2.XRules.Database.APIs
 				}
 				"Got main Window Handle: {0}".info(hwnd);	
 				
-				var snoopAssembly = @"Snoop\Snoop.exe".assembly(); 
+				var snoopAssembly = @"Snoop\Snoop\Snoop.exe".assembly(); 
+				
 				var directoryName = snoopAssembly.Location.directoryName();
 				//return process.MainModule;
 //				var suffix = snoopAssembly.type("Injector")
@@ -113,6 +128,7 @@ namespace O2.XRules.Database.APIs
 	        if ( System.Environment.Is64BitOperatingSystem ) {
 	            IsWow64Process( process.Handle, out lIs64BitProcess );
 	        }
+	        "[Is Target Process 64Bit = {0}]".debug(lIs64BitProcess);
 	        return lIs64BitProcess;
 	    }
 	    

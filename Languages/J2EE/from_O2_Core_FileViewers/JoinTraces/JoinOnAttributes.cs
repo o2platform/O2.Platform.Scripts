@@ -8,6 +8,7 @@ using O2.DotNetWrappers.O2Findings;
 using O2.ImportExport.OunceLabs.Ozasmt_OunceV6;
 using O2.Interfaces.O2Findings;
 using O2.Views.ASCX.O2Findings;
+using O2.DotNetWrappers.ExtensionMethods;
 
 //O2File:O2AssessmentLoad_OunceV6.cs
 
@@ -61,32 +62,45 @@ namespace O2.Core.FileViewers.JoinTraces
         public static void findTracesToJoin(string ozasmtFileToLoad, string sinkMethodToFind, string sourceMethodToFind,
                                                  List<IO2Finding> sinkFindings, List<IO2Finding> sourceFindings)
         {
-            var o2Assessment = new O2Assessment(new O2AssessmentLoad_OunceV6(), ozasmtFileToLoad);
-
-            foreach (O2Finding o2Finding in o2Assessment.o2Findings)
-                if (o2Finding.Sink.IndexOf(sinkMethodToFind) > -1)
-                    sinkFindings.Add(o2Finding);
-                else if (o2Finding.SourceContext.IndexOf(sourceMethodToFind) > -1)
-                    sourceFindings.Add(o2Finding);
-            PublicDI.log.info("There are {0} sinkFindings ( sink ~= {1} )", sinkFindings.Count, sinkMethodToFind);
-            PublicDI.log.info("There are {0} sourceFindings ( source ~= {1})", sourceFindings.Count, sourceMethodToFind);
-
+            try
+            {
+	            var o2Assessment = new O2Assessment(new O2AssessmentLoad_OunceV6(), ozasmtFileToLoad);
+	
+	            foreach (O2Finding o2Finding in o2Assessment.o2Findings)
+	                if (o2Finding.Sink.IndexOf(sinkMethodToFind) > -1)
+	                    sinkFindings.Add(o2Finding);
+	                else if (o2Finding.SourceContext.IndexOf(sourceMethodToFind) > -1)
+	                    sourceFindings.Add(o2Finding);
+	            PublicDI.log.info("There are {0} sinkFindings ( sink ~= {1} )", sinkFindings.Count, sinkMethodToFind);
+	            PublicDI.log.info("There are {0} sourceFindings ( source ~= {1})", sourceFindings.Count, sourceMethodToFind);
+			}
+			catch(Exception ex)
+			{
+				ex.log("in findTracesToJoin");
+			}
             //ascx_FindingsViewer.openInFloatWindow(results.ToList());
         }
 
         public static void fixSinkVulnNamesBasedOnSinkContextHashMapKey(string vulnNamePrefix, List<IO2Finding> sinkFindings)
         {
-            //foreach(O2Finding o2Finding in sinkFindings)
-            //	log.info("{0} -> {1}",  o2Finding.vulnName, o2Finding.SinkContext);
-            foreach (O2Finding o2Finding in sinkFindings)
-            {
-                var hashTagName = extractNameFromContext(o2Finding.SinkContext, "\"", "\"");
-                if (hashTagName != "")
-                {
-                    o2Finding.vulnName = vulnNamePrefix + "_" + hashTagName;
-                    //o2Finding.vulnName = o2Finding.vulnName.Replace("addAttribute", "attribute");
-                }
-            }
+        	try
+        	{
+	            //foreach(O2Finding o2Finding in sinkFindings)
+	            //	log.info("{0} -> {1}",  o2Finding.vulnName, o2Finding.SinkContext);
+	            foreach (O2Finding o2Finding in sinkFindings)
+	            {
+	                var hashTagName = extractNameFromContext(o2Finding.SinkContext, "\"", "\"");
+	                if (hashTagName != "")
+	                {
+	                    o2Finding.vulnName = vulnNamePrefix + "_" + hashTagName;
+	                    //o2Finding.vulnName = o2Finding.vulnName.Replace("addAttribute", "attribute");
+	                }
+	            }
+			}
+			catch(Exception ex)
+			{
+				ex.log("in fixSinkVulnNamesBasedOnSinkContextHashMapKey");
+			}
 
             //ascx_FindingsViewer.openInFloatWindow(sinkFindings);
         }
@@ -109,15 +123,24 @@ namespace O2.Core.FileViewers.JoinTraces
 
         public static string extractNameFromContext(string textToProcess, string leftKeyword, string rigthKeyword)
         {
-            var indexOfFirstQuote = textToProcess.IndexOf(leftKeyword);
-            if (indexOfFirstQuote > -1)
-            {
-                var subString = textToProcess.Substring(indexOfFirstQuote + leftKeyword.Length);
-                var indexOf2ndQuote = subString.IndexOf(rigthKeyword);
-                if (indexOf2ndQuote > -1)
-                    return subString.Substring(0, indexOf2ndQuote);
-            }
-
+        	try
+        	{
+        		if (textToProcess.valid() && leftKeyword.valid() && rigthKeyword.valid())
+				{	
+		            var indexOfFirstQuote = textToProcess.index(leftKeyword);
+		            if (indexOfFirstQuote > -1)
+		            {
+		                var subString = textToProcess.Substring(indexOfFirstQuote + leftKeyword.Length);
+		                var indexOf2ndQuote = subString.IndexOf(rigthKeyword);
+		                if (indexOf2ndQuote > -1)
+		                    return subString.Substring(0, indexOf2ndQuote);
+		            }
+		        }
+			}
+			catch(Exception ex)
+			{
+				ex.log("in extractNameFromContext");
+			}
             return "";
         }
 
@@ -126,45 +149,39 @@ namespace O2.Core.FileViewers.JoinTraces
             var results = new List<IO2Finding>();
             foreach (var o2SinkFinding in sinkFindings)
                 foreach (var o2SourcesFinding in sourceFindings)
-                    if (o2SourcesFinding.vulnName.IndexOf(o2SinkFinding.vulnName) > -1)
+                    //if (o2SourcesFinding.vulnName.IndexOf(o2SinkFinding.vulnName) > -1)
+                    if (o2SourcesFinding.vulnName==o2SinkFinding.vulnName)
                     {
                         var o2NewFinding = (O2Finding)OzasmtCopy.createCopy(o2SinkFinding);
 
                         results.Add(o2NewFinding);
                         var sink = o2NewFinding.getSink();
-
-                        var joinPointTrace = new O2Trace(
-                        string.Format("O2 Auto Join Point::: {0}   ->  {1}", o2SinkFinding.vulnName, o2SourcesFinding.vulnName));
-
-                        sink.traceType = TraceType.Type_4;
-
-                        joinPointTrace.traceType = TraceType.Type_4;
-
-                        sink.childTraces.Add(joinPointTrace);
-
-                        var jspSignature = o2SourcesFinding.o2Traces[0].signature;
-                        var indexofJsp = jspSignature.IndexOf("._jsp");
-                        if (indexofJsp > -1)
-                            jspSignature = jspSignature.Substring(0, indexofJsp) + ".jsp";
-                        jspSignature = jspSignature.Replace("jsp_servlet", "").Replace("_45_", @"-").Replace(".__", @"/").Replace("._", @"/");
-
-
-                        var jspTrace = new O2Trace("JSP: " + jspSignature);
-
-                        joinPointTrace.childTraces.Add(jspTrace);
-                        jspTrace.childTraces.AddRange(o2SourcesFinding.o2Traces);
-
-                        //var copyOfSourcesFinding = (O2Finding)OzasmtCopy.createCopy(o2SourcesFinding);
-
-
-                        //copyOfSourcesFinding.o2Traces[0].signature = modifiedSignature;
-                        //newTrace.childTraces.AddRange(copyOfSourcesFinding.o2Traces);
-
-                        //newTrace.childTraces.AddRange(o2SourcesFinding.o2Traces);
-
-
-                        //log.info("we have a match: {0}        ->        {1}", o2SinkFinding.vulnName, o2SourcesFinding.vulnName);
-                        //return results;
+						if (sink.notNull())
+						{
+	                        var joinPointTrace = new O2Trace(
+	                        string.Format("O2 Auto Join Point::: {0}   ->  {1}", o2SinkFinding.vulnName, o2SourcesFinding.vulnName));
+	
+	                        sink.traceType = TraceType.Type_4;
+	
+	                        joinPointTrace.traceType = TraceType.Type_4;
+	
+	                        sink.childTraces.Add(joinPointTrace);
+	
+	                        var jspSignature = o2SourcesFinding.o2Traces[0].signature;
+	                        
+	                        var indexofJsp = jspSignature.IndexOf("._jsp");
+	                        if (indexofJsp > -1)
+	                            jspSignature = jspSignature.Substring(0, indexofJsp) + ".jsp";
+	                        jspSignature = jspSignature.Replace("jsp_servlet", "").Replace("_45_", @"-").Replace(".__", @"/").Replace("._", @"/");
+							
+	
+	                        var jspTrace = new O2Trace("JSP: " + jspSignature);
+						
+	                        joinPointTrace.childTraces.Add(jspTrace);
+	                        jspTrace.childTraces.AddRange(o2SourcesFinding.o2Traces);
+							
+	                        //log.info("we have a match: {0}        ->        {1}", o2SinkFinding.vulnName, o2SourcesFinding.vulnName);	                        
+						}
                     }
             return results;
         }

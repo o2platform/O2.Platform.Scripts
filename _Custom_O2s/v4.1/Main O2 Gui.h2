@@ -2,7 +2,7 @@
 <H2>
   <SourceCode>O2Setup.extractEmbededConfigZips();
 "O2Logo.ico".local().icon().set_As_Default_Form_Icon();
-var title = "OWASP O2 Platform v4.3 : {0}".format(clr.details());
+var title = "OWASP O2 Platform v4.5 : {0}".format(clr.details());
 var topPanel = title.popupWindow(790,218);
 
 Action&lt;string&gt; executeH2Script = 
@@ -94,12 +94,16 @@ menu.add_MenuItem("Main")
 	
 menu.add_MenuItem("Debug")
 	.add_MenuItem("Restart O2 (will kill current process)", ()=&gt; { Application.ExecutablePath.startProcess(); Processes.getCurrentProcess().stop();})
-	.add_MenuItem("View O2 Config Object", ()=&gt; PublicDI.config.showInfo())
-	.add_MenuItem("Open ReferencesDownloadLocation Folder",()=&gt; PublicDI.config.ReferencesDownloadLocation.startProcess())
-	.add_MenuItem("Open TempDir",()=&gt; PublicDI.config.O2TempDir.startProcess())
+	.add_MenuItem("View O2 Config Object", ()=&gt; PublicDI.config.showInfo())	
 	.add_MenuItem("Clear Compilation Cache and Downloads",()=&gt;  { CompileEngine.clearAllCompilationRelatedDownloadsAndCaches();})
 	.add_MenuItem("Compile All Scripts",()=&gt;  executeH2Script("Compile All Local O2 Scripts.h2"))
-	.add_MenuItem("REPL this GUI",()=&gt;  topPanel.parentForm().script_Me("form"));
+	.add_MenuItem("REPL this GUI",()=&gt;  topPanel.parentForm().script_Me("form"))
+	.add_MenuItem("Folders",false)
+		.add_MenuItem("TempDir",()=&gt; PublicDI.config.O2TempDir.startProcess())
+		.add_MenuItem("References Downloaded",()=&gt; PublicDI.config.ReferencesDownloadLocation.startProcess())		
+		.add_MenuItem("Embedded Assemblies",()=&gt; PublicDI.config.EmbeddedAssemblies.startProcess())
+		.add_MenuItem("Tools or APIs",()=&gt; PublicDI.config.ToolsOrApis.startProcess())
+		.add_MenuItem("of current Executable",()=&gt; PublicDI.config.CurrentExecutableDirectory.startProcess());
 	
 menu.add_MenuItem("Help")	
 	.add_MenuItem("Report bug",()=&gt; ReportBug.showGui(topPanel))

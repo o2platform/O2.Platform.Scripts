@@ -27,8 +27,6 @@ codeText.set_Text("return \"Hello World\";");
 replGui.Execute_Button.click();
 
 
-return "done";
-
-//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs</SourceCode>
+return "done";</SourceCode>
   <ReferencedAssemblies />
 </H2>

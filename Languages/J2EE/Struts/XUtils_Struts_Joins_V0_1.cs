@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using O2.Interfaces.FrameworkSupport.J2EE;
 using O2.Interfaces.O2Findings;
 using O2.Interfaces.Views;
-using O2.Kernel;
+using O2.Kernel; 
 using O2.Core.FileViewers.Ascx;
 using O2.Core.FileViewers.Ascx.O2Rules;
 using O2.Core.FileViewers.JoinTraces;
@@ -15,8 +15,13 @@ using O2.DotNetWrappers.DotNet;
 using O2.DotNetWrappers.O2Findings;
 using O2.External.WinFormsUI.Forms;
 using O2.Views.ASCX.O2Findings;
-//O2Ref:O2_Core_FileViewers.dll
 //O2File:XUtils_Findings_v0_1.cs
+//O2File:ascx_Validation_xml.cs
+//O2File:ascx_J2EE_web_xml.cs
+//O2File:ascx_FilteredFindings.cs
+//O2File:ascx_StrutsMappings.cs
+//O2File:ascx_FilteredFindings.cs
+//O2File:ascx_O2Rules_Struts.cs
 
 
 namespace O2.XRules.Database._Rules

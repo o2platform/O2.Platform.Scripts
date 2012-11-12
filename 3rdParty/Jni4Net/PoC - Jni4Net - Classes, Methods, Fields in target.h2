@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>Bridge.CreateJVM( new BridgeSetup(){Verbose=true}); //only needs to be called once
+
+var topPanel = "PoC - Jni4Net - Classes, Methods, Fields in target".popupWindow();
+//var topPanel = panel.add_Panel(true);
+
+var actionPanel = topPanel.insert_ActionPanel();
+
+var treeView = topPanel.add_Panel(true).add_TreeView_with_PropertyGrid(false).sort();
+
+actionPanel.add_Link("REPL selectedNode", ()=&gt; treeView.selected().Tag.script_Me())
+		   .append_Link("Copy selectedNode text to clipboard", ()=&gt; treeView.selected().str().clipboardText_Set());
+
+Action&lt;List&lt;TreeNode&gt;, Color&gt; colorNodes = 
+	(nodes, color)=&gt;{
+						treeView.beginUpdate();
+						foreach(var node in nodes)
+							node.foreColor(color);
+						treeView.endUpdate();
+					};
+
+treeView.beforeExpand&lt;java.lang.Class&gt;(
+	(treeNode, @class)=&gt;{
+							var ctors = @class.getDeclaredConstructors();
+							var methods = @class.getDeclaredMethods();
+							var fields = @class.getDeclaredFields();
+							var superClass = @class.getSuperclass();
+							//var annotations = @class.getDeclaredAnnotations();			
+							if (superClass.notNull()) treeNode.add_Node("SuperClass")
+															  .add_Node(superClass.getName(), superClass, true).foreColor(Color.Orange);;
+							 
+							if (ctors.size() &gt; 0)
+								treeNode.add_Node("ctors ({0})".format(ctors.size()), ctors,true);
+							if (methods.size() &gt; 0)			
+								treeNode.add_Node("methods ({0})".format(methods.size()), methods,true);										
+							if (fields.size() &gt; 0)		
+								treeNode.add_Node("fields ({0})".format(fields.size()), fields,true);										
+						});
+						
+treeView.beforeExpand&lt;java.lang.reflect.Method[]&gt;(
+	(treeNode,methods)=&gt;{
+							treeNode.add_Nodes(methods, (method)=&gt;"{0}           {1}".format(method.getName(),method.GetSignature()), true);
+							colorNodes(treeNode.nodes(), Color.Blue);
+					    });
+treeView.beforeExpand&lt;java.lang.reflect.Constructor[]&gt;(
+	(treeNode,ctors) =&gt; {
+							treeNode.add_Nodes(ctors, (ctor)=&gt;"{0}           {1}".format(ctor.getName(),ctor.GetSignature()), true);
+							colorNodes(treeNode.nodes(), Color.Blue);
+					    });
+					    
+treeView.beforeExpand&lt;java.lang.reflect.Field[]&gt;(
+	(treeNode,fields) =&gt; {
+							treeNode.add_Nodes(fields, (field)=&gt;"{0}           {1}".format(field.getName(),field.GetSignature()), true);
+							colorNodes(treeNode.nodes(), Color.Blue);
+					    });
+					    
+treeView.beforeExpand&lt;java.lang.reflect.Method&gt;(					  
+	(treeNode,method)=&gt;{
+							treeNode.add_Node("ToString: {0}".format(method.toGenericString()), method).foreColor(Color.DarkGray);
+							treeNode.add_Node("Java Signature: {0}".format(method.GetSignature()), method).foreColor(Color.DarkGray);;
+							var parameterNode = treeNode.add_Node("_Parameters");
+							parameterNode.add_Nodes(method.getParameterTypes(), (@class)=&gt;@class.getName(),true);
+							colorNodes(parameterNode.nodes(), Color.DarkOrange);
+							treeNode.add_Node("_ReturnType").add_Node(method.getReturnType().getName(), method.getReturnType(),true)
+															 .foreColor(Color.DarkOrange);
+					    });
+
+treeView.beforeExpand&lt;java.lang.reflect.Constructor&gt;(					  
+	(treeNode,ctor)=&gt;{
+							treeNode.add_Node("ToString: {0}".format(ctor.toGenericString()), ctor).foreColor(Color.DarkGray);
+							treeNode.add_Node("Java Signature: {0}".format(ctor.GetSignature()), ctor).foreColor(Color.DarkGray);;
+							var parameterNode = treeNode.add_Node("_Parameters");
+							parameterNode.add_Nodes(ctor.getParameterTypes(), (@class)=&gt;@class.getName(),true);
+							colorNodes(parameterNode.nodes(), Color.DarkOrange);							
+							
+					    });
+
+treeView.beforeExpand&lt;java.lang.reflect.Field&gt;(					  
+	(treeNode,field)=&gt;{
+							treeNode.add_Node("ToString: {0}".format(field.toGenericString()), field).foreColor(Color.DarkGray);
+							treeNode.add_Node("Java Signature: {0}".format(field.GetSignature()), field).foreColor(Color.DarkGray);;
+					    });
+
+var classes = new List&lt;java.lang.Class&gt;();
+
+Action&lt;string&gt; showClasses = 
+	(filter)=&gt;{										
+					var classesToShow =  (filter.notValid()) 
+											? classes
+											: classes.Where((@class)=&gt;@class.getName().str().regEx(filter));
+					treeView.beginUpdate()
+								.clear()
+								.add_Nodes(classesToShow, (@class)=&gt;@class.getName(), true)
+	    					.endUpdate();
+	    
+					colorNodes(treeView.nodes(), Color.DarkOrange);
+			  };
+
+treeView.insert_Above(40,"Filter (RegEx applied on text change)")
+			.add_TextBox().fill().onTextChange(showClasses);
+
+
+var classLoader = ClassLoader.getSystemClassLoader();
+var clClass = classLoader.getClass();
+while(clClass != java.lang.ClassLoader._class)
+{
+	"{0} - {1}".info(clClass.str(), clClass.getSuperclass().str());
+	clClass = clClass.getSuperclass();
+}
+
+var classes_Field = clClass.getDeclaredField("classes");
+var classes_Value = classes_Field.get(classLoader);
+
+var elements_Method = classes_Value.getClass().getMethod("elements",null);
+var elements = elements_Method.invoke(classes_Value,null);
+
+
+while (elements.Invoke&lt;bool&gt;("hasMoreElements","()Z"))
+{
+	classes.add(elements.Invoke&lt;java.lang.Class&gt;("nextElement", "()Ljava/lang/Object;"));
+}
+
+
+showClasses("zap");
+
+return "done";
+
+
+//using java.lang
+//using net.sf.jni4net;
+//using net.sf.jni4net.jni
+//using net.sf.jni4net.adaptors
+//O2Ref:C:\__Tests\JNI_4_net\jni4net-0.8.6.0-bin\lib\jni4net.n-0.8.6.0.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

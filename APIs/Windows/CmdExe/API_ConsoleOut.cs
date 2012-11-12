@@ -134,7 +134,11 @@ namespace O2.XRules.Database.APIs
 			return apiConsoleOut;
 		}
 		
-		public static API_ConsoleOut writeLine(this API_ConsoleOut apiConsoleOut, string message = "")
+		public static API_ConsoleOut writeLine(this API_ConsoleOut apiConsoleOut)
+		{
+			return apiConsoleOut.writeLine("");
+		}
+		public static API_ConsoleOut writeLine(this API_ConsoleOut apiConsoleOut, string message)
 		{
 			Console.WriteLine(message);
 			return apiConsoleOut;
@@ -199,18 +203,18 @@ namespace O2.XRules.Database.APIs
 			Console.WriteLine(message);
 			return apiConsoleOut;
 		}
-		
-		public static API_ConsoleOut insert_ConsoleOut(this Control topPanel,  bool showO2Message = true)
+		public static API_ConsoleOut insert_ConsoleOut(this Control topPanel) { return topPanel.insert_ConsoleOut(true);}
+		public static API_ConsoleOut insert_ConsoleOut(this Control topPanel,  bool showO2Message)
 		{
 			return topPanel.insert_Below(100).add_ConsoleOut(showO2Message);
 		}
-		
-		public static API_ConsoleOut add_ConsoleOut(this Control topPanel,  bool showO2Message = true)
+		public static API_ConsoleOut add_ConsoleOut(this Control topPanel) { return topPanel.add_ConsoleOut(true); }
+		public static API_ConsoleOut add_ConsoleOut(this Control topPanel,  bool showO2Message)
 		{
 			return topPanel.show_ConsoleOut(showO2Message);
 		}
-		
-		public static API_ConsoleOut show_ConsoleOut<T>(this T topPanel, bool showO2Message = true)
+		public static API_ConsoleOut show_ConsoleOut<T>(this T topPanel) where T : Control { return topPanel.show_ConsoleOut(true); }
+		public static API_ConsoleOut show_ConsoleOut<T>(this T topPanel, bool showO2Message)
 			where T : Control
 		{
 			return topPanel.show_ConsoleOut(showO2Message ? "ConsoleOut for current process (Console WriteLine will show here)" : "");

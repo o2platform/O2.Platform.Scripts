@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 <H2>
   <SourceCode>//var topPanel = panel.add_Panel(true);
-var topPanel = "PoC - Join Traces (on Attributes) - very basic version".popupWindow(1000,800);
+var topPanel = "PoC - Join Traces (on Attributes) - very basic version".popupWindow(1000,800).insert_LogViewer();
 					  
-
+ 
 var findingsViewer_joinedTraces = topPanel.add_FindingsViewer();
 var findingsViewer_setAttributes = findingsViewer_joinedTraces.insert_Above().add_FindingsViewer();
 var findingsViewer_getAttributes = findingsViewer_setAttributes.insert_Right().add_FindingsViewer();
 
 
-
+ 
 Action joinTraces = 
 	()=&gt;{
 			//var getAttributes_Findings = getAttributes_Ozasmt.loadO2Findings();
@@ -35,7 +35,6 @@ topPanel.insert_Above(40)
 //using O2.XRules.Database.Findings
 //using O2.Core.FileViewers.JoinTraces
 //O2File:Findings_ExtensionMethods.cs
-//O2File:xUtils_Findings_v0_1.cs
-//O2Ref:O2_Core_FileViewers.dll</SourceCode>
+//O2File:xUtils_Findings_v0_1.cs</SourceCode>
   <ReferencedAssemblies />
 </H2>

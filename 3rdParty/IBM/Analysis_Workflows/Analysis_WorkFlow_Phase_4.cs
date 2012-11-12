@@ -21,7 +21,7 @@ namespace O2.XRules.Database._Rules.IBM.Analysis_Workflows
     public class Analysis_Workflow_Phase_4 : KXRule
     {        	 
         //string testAnalysisArtifactsFile = @"E:\O2\Demodata\_AnalysisWorkflow\WebGoat.AnalysisArtifacts";
-        string testAnalysisArtifactsFile = @"E:\O2\Demodata\_AnalysisWorkflow\XPlanner.AnalysisArtifacts";
+        string testAnalysisArtifactsFile = @"E:\O2\Demodata\_AnalysisWorkflow\....AnalysisArtifacts";
     	
         public bool deleteAllFiles = true;           
     	
