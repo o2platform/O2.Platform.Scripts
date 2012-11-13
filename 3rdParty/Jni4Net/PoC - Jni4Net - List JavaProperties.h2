@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>O2Setup.extractEmbededConfigZips();
+var topPanel = "PoC - Jni4Net - List JavaProperties: {0}".format(clr.details()).popupWindow().insert_LogViewer();
+var tableList = topPanel.clear().add_TableList("Java Properties").add_Columns("Key", "Value");
+tableList.insert_Below().add_ConsoleOut();
+var bridgeSetup = new BridgeSetup(){Verbose=true};
+try
+{
+	Bridge.CreateJVM(bridgeSetup);
+}
+catch(System.Exception ex)
+{
+	ex.log();
+	return "error";
+}
+java.lang.System.@out.println("Hello Java world!");
+
+
+Properties javaSystemProperties = java.lang.System.getProperties();
+foreach (java.lang.String key in Adapt.Enumeration(javaSystemProperties.keys()))
+	tableList.add_Row(key, java.lang.System.getProperty(key));
+
+
+return "ok";
+//using java.io;
+//using java.lang;
+//using java.util;
+//using net.sf.jni4net;
+//using net.sf.jni4net.adaptors;
+//O2Ref:Jni4Net/lib/jni4net.n-0.8.6.0.dll
+//O2File:API_ConsoleOut.cs
+//O2EmbedTool:Jni4Net
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -1,5 +1,6 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
 using System;
+using System.IO;
 using System.Diagnostics;
 using System.Reflection;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace O2.Script
     public class Test
     {    
     	static Process CurrentProcess = System.Diagnostics.Process.GetCurrentProcess();
-    	static string  assemblyLocation = @"E:\O2_V4\O2.Platform.Projects\binaries\O2_FluentSharp_CoreLib.dll";
+    	static string  assemblyLocation = @"%CurrentExecutableDirectory%\O2_FluentSharp_CoreLib.dll";
 		static Assembly assembly = Assembly.LoadFrom(assemblyLocation);
 		
 			
@@ -107,21 +108,24 @@ namespace O2.Script
 			}
     	}
     	
-    	public static void injectO2Script()
+    	public static void executeDefaultO2Script()
     	{    		
 			//var file = @"E:\O2_V4\O2.Platform.Scripts\Utils\O2\ascx_Quick_Development_GUI.cs.o2";
 			//var file = @"E:\O2_V4\O2.Platform.Scripts\Utils\O2\Util - C# REPL Script.h2";
 			//var file = @"E:\O2_V4\O2.Platform.Scripts\APIs\C# REPL\Util - Text Based C# REPL.h2";
 			//var file = @"E:\O2_V4\O2.Platform.Scripts\Utils\Web\SimpleTextEditor.cs";
-			var file = @"E:\O2_V4\O2.Platform.Scripts\Utils\Web\SimpleCSharpREPL.cs";
-			info("Injecting O2 REPL editor by compiling file: " + file);
-			var compiledAssembly = compileFile(file);
-			if (compiledAssembly == null)
-				info("Error: in injectO2Script, failed to compile: " +  file);
-			else
+			var file = @"%scriptToExecute%";
+			if (File.Exists(file))
 			{
-				executeFirstMethod(compiledAssembly);
-				info("Injected O2 REPL editor");
+				info("compiling Default O2 Script: " + file);
+				var compiledAssembly = compileFile(file);
+				if (compiledAssembly == null)
+					info("Error: in injectO2Script, failed to compile: " +  file);
+				else
+				{
+					info("executing first method from: " + compiledAssembly.Location);
+					executeFirstMethod(compiledAssembly);		
+				}
 			}
     	}
     	
@@ -133,14 +137,14 @@ namespace O2.Script
 				//System.Windows.Forms.MessageBox.Show("About to Inject script");
 				try
 				{
-					 Assembly bcl = Assembly.LoadFrom(@"E:\O2_V4\O2.Platform.Projects\binaries\O2_FluentSharp_BCL.dll");
+					 //Assembly bcl = Assembly.LoadFrom(@"E:\O2_V4\O2.Platform.Projects\binaries\O2_FluentSharp_BCL.dll");
 					 //Assembly repl = Assembly.LoadFrom(@"E:\O2_V4\O2.Platform.Projects\binaries\O2_FluentSharp_REPL.dll");
 				}
 				catch(Exception ex)
 				{
 					info("Error: loading assemblies " + ex.Message);
 				}
-				injectO2Script();
+				executeDefaultO2Script();
 				//listLoadedAssemblies();
 				//info("Starting nodepad");
 			//	startProcess("notepad.exe");

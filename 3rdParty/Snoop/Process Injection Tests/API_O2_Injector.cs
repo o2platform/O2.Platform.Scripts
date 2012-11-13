@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Windows.Forms;
 using O2.Kernel;
 using O2.Kernel.ExtensionMethods;
 using O2.DotNetWrappers.ExtensionMethods; 
@@ -8,14 +9,19 @@ using O2.DotNetWrappers.Windows;
 using O2.XRules.Database.Utils;
 using O2.External.SharpDevelop.ExtensionMethods;
 using System.Runtime.InteropServices;
+
 //O2File:API_CLR.cs
 //O2Ref:Snoop\Snoop\Snoop.exe
 //Installer:Snoop_Installer.cs!Snoop\Snoop\Snoop.exe
+
+//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
 
 namespace O2.XRules.Database.APIs
 {
 	public class API_O2_Injector
 	{			 			
+		public string targetFile = "SimpleCSharpREPL.cs".local();
+		//"SimpleCSharpREPL.cs".local()
 		
 		public bool injectIntoProcess(int processId)
 		{
@@ -34,12 +40,13 @@ namespace O2.XRules.Database.APIs
 		{
 		 	var codeFile = "Injected_Dll.cs".local();
 		 	var fixedCourceCode = codeFile.fileContents()	//ensure that we are pointing to the current locations of O2 folders
-		 							 	  .replace(@"E:\O2_V4\O2.Platform.Projects\binaries",PublicDI.config.CurrentExecutableDirectory)
-		 							 	  .replace(@"E:\O2_V4\O2.Platform.Scripts", PublicDI.config.LocalScriptsFolder);
+		 							 	  .replace(@"%CurrentExecutableDirectory%",PublicDI.config.CurrentExecutableDirectory)
+		 							 	  .replace(@"%scriptToExecute%",targetFile );
 		 	//fixedCourceCode.showInCodeViewer();
-			var compiledAssembly = new CompileEngine().compileSourceCode(fixedCourceCode);
+		 	var compileEngine = new CompileEngine(runtime40 ? "v4.0" : "v3.5") { UseCachedAssemblyIfAvailable = false };		 	
+			var compiledAssembly = compileEngine.compileSourceCode(fixedCourceCode);			
 			if (compiledAssembly.notNull())
-			{
+			{				
 				var className = "O2.Script.Test"; //"Snoop.SnoopUI";
 				var methodName = "GoBabyGo";
 				return injectIntoProcess(process, compiledAssembly.Location, className, methodName, x64, runtime40);
@@ -61,14 +68,11 @@ namespace O2.XRules.Database.APIs
 				}
 				
 				"Injecting into process {0}:{1} dll {1}".info(process.Id,process.ProcessName, assemblyToInject);				
-		
-				
+						
 				var suffix = (x64) ? "64-" : "32-";
 				suffix += (runtime40) ? "4.0" : "3.5";
-				//var process = Processes.getProcess(12168);
+				
 				var hwnd = process.MainWindowHandle;
-//				var hwnd = process.Handle;
-				//var hwnd = new IntPtr(398680);
 				if (hwnd == IntPtr.Zero)
 				{
 				 	"Could not get MainWindow handle".error();
@@ -79,14 +83,9 @@ namespace O2.XRules.Database.APIs
 				var snoopAssembly = @"Snoop\Snoop\Snoop.exe".assembly(); 
 				
 				var directoryName = snoopAssembly.Location.directoryName();
-				//return process.MainModule;
-//				var suffix = snoopAssembly.type("Injector")
-//										   .invokeStatic("Suffix", hwnd);
-//				suffix = "64-4.0";
 				var fileName = directoryName.pathCombine("ManagedInjectorLauncher" + suffix+ ".exe");							  
 				
-				
-				var windowHandle= hwnd;							
+								var windowHandle= hwnd;							
 	
 				var arguments = string.Concat(new object[]
 					{
@@ -103,40 +102,31 @@ namespace O2.XRules.Database.APIs
 			}		
 		}
 	}
-	
-	public static class API_O2_Injector_ExtensionMethods
-	{
-		public static Process process_MainWindow_BringToFront(this Process process)
-		{
-			if (process.MainWindowHandle != IntPtr.Zero)
-				"WindowsBase.dll".assembly()
-							 	.type("UnsafeNativeMethods")					 
-							 	.invokeStatic("SetForegroundWindow",new HandleRef(null, process.MainWindowHandle)) ;
-			else
-				"[process_MainWindow_BringToFront] provided process has no main Window".error();
-			return process;
-		}
-		
-		public static bool is64BitProcess(this Process process )
-	    {
-	    	if (process.isNull())
-	    	{
-	    		"in process.is64BitProcess provided process value was null!".error();
-	    		return false;
-	    	}
-	        bool lIs64BitProcess = false;
-	        if ( System.Environment.Is64BitOperatingSystem ) {
-	            IsWow64Process( process.Handle, out lIs64BitProcess );
-	        }
-	        "[Is Target Process 64Bit = {0}]".debug(lIs64BitProcess);
-	        return lIs64BitProcess;
-	    }
-	    
-    	[DllImport( "kernel32.dll" )]
-    	static extern bool IsWow64Process( System.IntPtr aProcessHandle, out bool lpSystemInfo );
-	}
-	
-	
-    
 
+
+	public static class API_O2_Injector_GUI_Helpers
+	{
+		public static FlowLayoutPanel add_FlowLayoutPanel_with_DetectedModules(this Control targetControl, Process process)
+		{
+			targetControl.clear();
+			
+			var modules_byModuleName =  process.modules_Indexed_by_ModuleName();
+			var modules_byFileName =  process.modules_Indexed_by_FileName();
+			
+			var flowPanel = targetControl.add_FlowLayoutPanel();
+			Func<string,string, Button> add_Mapping = 
+				(key, text)=>{	
+									if (modules_byModuleName.hasKey(key) || modules_byFileName.hasKey(key))
+										return flowPanel.add_Button(text);
+									return null;
+							  };
+			
+			
+			add_Mapping("mscoree.dll"												, "CLR").green();
+			add_Mapping(@"C:\Windows\Microsoft.NET\Framework\v4.0.30319\clr.dll" 	, "CLR 4.0 32bit").blue();
+			add_Mapping(@"C:\Windows\Microsoft.NET\Framework64\v4.0.30319\clr.dll" 	, "CLR 4.0 64bit").blue();
+			add_Mapping("java.dll", "JVM").green();
+			return flowPanel;
+		}
+	}
 }

@@ -30,13 +30,15 @@ namespace O2.XRules.Database.APIs
 		
 		public Ctrl_ProcessFinder onProcessSelect(Action<Process> callback)
 		{
-			this.ActiveWindowSelected += (sender, e)=> callback.invoke(this.TargetProcess);
+			if(callback.notNull())
+				this.ActiveWindowSelected += (sender, e)=> callback.invoke(this.TargetProcess);
 			return this;
 		}
 		
 		public Ctrl_ProcessFinder onProcessChange(Action<Process> callback)
 		{
-			this.ActiveWindowChanged  += (sender, e)=> callback.invoke(this.TargetProcess);	
+			if(callback.notNull())
+				this.ActiveWindowChanged  += (sender, e)=> callback.invoke(this.TargetProcess);	
 			return this;
 		}
 	}
@@ -46,6 +48,17 @@ namespace O2.XRules.Database.APIs
 		public static Ctrl_ProcessFinder insert_Above_ProcessFinder(this Control control)
 		{
 			return control.insert_Above(30).add_Control<Ctrl_ProcessFinder>().width(30).fill(false);
+		}
+		
+		public static Ctrl_ProcessFinder add_ProcessFinder(this Control control, Action<Process> onProcessSelect)
+		{
+			return control.add_ProcessFinder(onProcessSelect, null);
+		}
+		public static Ctrl_ProcessFinder add_ProcessFinder(this Control control, Action<Process> onProcessSelect, Action<Process> onProcessChange )
+		{
+			return control.add_Control<Ctrl_ProcessFinder>().width(30).fill(false)
+						  .onProcessSelect(onProcessSelect)
+						  .onProcessChange(onProcessChange);
 		}
 		
 	}
