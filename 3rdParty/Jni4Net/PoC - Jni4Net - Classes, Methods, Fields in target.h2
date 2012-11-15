@@ -83,7 +83,7 @@ return "done";
 //using net.sf.jni4net.jni
 //using java.lang.reflect
 //using net.sf.jni4net.adaptors
-//O2Ref:Jni4Net/lib/jni4net.n-0.8.6.0.dll
+//O2Ref:Jni4Net/lib/jni4net.n-0.8.7.0.dll
 
 //O2File:API_Jni4Net_Active.cs
 //O2File:API_Jad.cs</SourceCode>

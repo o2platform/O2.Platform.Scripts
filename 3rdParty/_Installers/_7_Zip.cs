@@ -60,7 +60,7 @@ namespace O2.XRules.Database.APIs
 			return _7Zip.Executable.startProcess_getConsoleOut(_params); 
 		}
 	
-		public static string _7zip_Unzip(string file)
+		public static string _7zip_Unzip(this string file)
 		{
 			return new _7_Zip().unzip(file);
 		}
@@ -73,7 +73,7 @@ namespace O2.XRules.Database.APIs
 		{
 			"[7_Zip] Unzipping file '{0}' into folder '{1}'".info(file,targetDir);
 			var unzipArguments = "x -o\"{0}\" \"{1}\" ".format(targetDir,file);
-			_7Zip.execute_withParams(unzipArguments);
+			return _7Zip.execute_withParams(unzipArguments);
 			return targetDir;
 		}
 		

@@ -6,7 +6,6 @@ using O2.Kernel.ExtensionMethods;
 using O2.DotNetWrappers.ExtensionMethods; 
 using O2.XRules.Database.Utils;
 using LessMsi.Msi;
-//O2File:LessMsi.cs 
 //Installer:LessMsi_Install.cs!LessMsi/lessmsi.exe
 //O2Ref:LessMsi/lessmsi.exe
 
@@ -64,6 +63,11 @@ namespace O2.XRules.Database.APIs
 		{
 			"lessmsi.exe".assembly_Location().startProcess();
 			return lessMSI;
+		}
+		
+		public static bool extractMsi(this string msiFile, string targetDir)
+		{
+			return new API_LessMSI().extractMsi(msiFile, targetDir);
 		}
 	}
 }

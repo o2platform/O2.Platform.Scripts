@@ -9,7 +9,7 @@ using java.lang;
 using net.sf.jni4net;
 using net.sf.jni4net.jni;
 //Installer:Jni4Net_Installer.cs!Jni4Net/bin/proxygen.exe
-//O2Ref:Jni4Net/lib/jni4net.n-0.8.6.0.dll
+//O2Ref:Jni4Net/lib/jni4net.n-0.8.7.0.dll
 
 //O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
 
