@@ -55,8 +55,9 @@ namespace O2.XRules.Database.APIs
 		[DllImport("user32.dll")]		public static extern bool 		ScreenToClient(IntPtr hWnd, ref POINT lpPoint);				
 		[DllImport("user32.dll")]		public static extern bool 		SetWindowText(IntPtr hwnd, String lpString);		
 		[DllImport("user32.dll")]		public static extern bool 		SetForegroundWindow(IntPtr hwnd);		
-		[DllImport("user32.dll")]		public static extern IntPtr 	SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
- 		[DllImport("user32.dll")]	    public static extern bool 		ShowWindow(IntPtr hWnd, ShowWindowCommands nCmdShow);		
+		[DllImport("user32.dll")]		public static extern IntPtr 	SetParent(IntPtr hWndChild, IntPtr hWndNewParent); 		
+		[DllImport("user32.dll")]		public static extern bool 		SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, SetWindowPosFlags uFlags);
+		[DllImport("user32.dll")]	    public static extern bool 		ShowWindow(IntPtr hWnd, ShowWindowCommands nCmdShow);				
 		
 		[DllImport("user32.dll")]		public static extern bool 		UpdateWindow(IntPtr hWnd);
 		[DllImport("user32.dll")]		public static extern IntPtr 	WindowFromPoint(POINT Point);

@@ -1,7 +1,15 @@
-﻿namespace O2.XRules.Database.APIs
+﻿using System;
+
+namespace O2.XRules.Database.APIs
 {
 	public partial class WinAPI
-	{    	
+	{   
+		public static readonly IntPtr HWND_TOPMOST 	= new IntPtr(-1);
+		public static readonly IntPtr HWND_NOTOPMOST 	= new IntPtr(-2);
+		public static readonly IntPtr HWND_TOP 		= new IntPtr(0);
+		public static readonly IntPtr HWND_BOTTOM 	= new IntPtr(1);
+		
+		//Windows
       	public const int WM_NULL = 0x00;
 		public const int WM_CREATE = 0x01;
 		public const int WM_DESTROY = 0x02;

@@ -8,3 +8,4 @@ zip.ico			: http://www.softicons.com/free-icons/iphone-icons/iphone-unique-icons
 web.ico			: http://files.softicons.com/download/toolbar-icons/super-mono-sticker-icons-by-double-j-design/ico/web.ico
 execute.ico		: http://files.softicons.com/download/toolbar-icons/onebit-3-icons-by-icojoy/ico/execute.ico
 execute_arrow.ico	: http://files.softicons.com/download/system-icons/hadaikum-icons-by-tiny-lab/ico/Execute.ico
+target.png		: http://findicons.com/icon/download/267728/target/48/ico?id=427393

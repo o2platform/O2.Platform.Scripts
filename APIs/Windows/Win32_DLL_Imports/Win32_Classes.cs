@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace O2.XRules.Database.APIs
 {
-	public partial class Win32
+	public partial class WinAPI
 	{
 		public class WINDOWCMD
 		{
@@ -37,24 +37,46 @@ namespace O2.XRules.Database.APIs
 			public const uint RDW_FRAME = 1024u;
 			public const uint RDW_NOFRAME = 2048u;
 		}
-	}
-	
-	
-	//see http://www.pinvoke.net/default.aspx/Enums/ShowWindowCommand.html
-	public enum ShowWindowCommands : int
-	{	    
-	    Hide = 0,
-	    Normal = 1,
-	    ShowMinimized = 2,
-	    Maximize = 3, // is this the right value?
-	    ShowMaximized = 3,
-	    ShowNoActivate = 4,
-	    Show = 5,
-	    Minimize = 6,
-	    ShowMinNoActive = 7,
-	    ShowNA = 8,
-	    Restore = 9,
-	    ShowDefault = 10,
-	    ForceMinimize = 11
+		
+		
+			
+		public enum ShowWindowCommands : int			//see http://www.pinvoke.net/default.aspx/Enums/ShowWindowCommand.html
+		{	    
+		    Hide 			= 0,
+		    Normal 			= 1,
+		    ShowMinimized 	= 2,
+		    Maximize		= 3, // is this the right value?
+		    ShowMaximized 	= 3,
+		    ShowNoActivate 	= 4,
+		    Show 			= 5,
+		    Minimize 		= 6,
+		    ShowMinNoActive = 7,
+		    ShowNA 			= 8,
+		    Restore 		= 9,
+		    ShowDefault 	= 10,
+		    ForceMinimize 	= 11
+		}
+		
+		public  enum SetWindowPosFlags : uint			// see http://www.pinvoke.net/default.aspx/Enums/SetWindowPosFlags.html
+		{	    
+		    AsynchronousWindowPosition 	= 0x4000,
+		    DeferErase 					= 0x2000,
+		    DrawFrame		 			= 0x0020,
+		    FrameChanged 				= 0x0020,
+		    HideWindow 					= 0x0080,
+		    DoNotActivate 				= 0x0010,
+		    DoNotCopyBits 				= 0x0100,
+		    IgnoreMove 					= 0x0002,
+		    DoNotChangeOwnerZOrder 		= 0x0200,
+		    DoNotRedraw 				= 0x0008,
+		    DoNotReposition 			= 0x0200,
+		    DoNotSendChangingEvent 		= 0x0400,
+		    IgnoreResize 				= 0x0001,
+		    IgnoreZOrder 				= 0x0004,
+		    ShowWindow 					= 0x0040,
+		    
+		    
+		    IgnoreMoveAndResize			= IgnoreMove | IgnoreResize
+		}
 	}
 }

@@ -245,11 +245,60 @@ namespace O2.XRules.Database.APIs
 	            return ! lIs64BitProcess; // weirdly the value is reversed
 	        //}
 	        //"[Is Target Process 64Bit = {0}]".debug(lIs64BitProcess);
-	        //return lIs64BitProcess;
+	        //return lIs64BitProcess;	        	        
+	    }
+	    public static string process_Id_and_Name(this Process process)
+	    {
+	    	return "{0} : {1}".format(process.Id, process.ProcessName);
 	    }
 	    
+	    public static Process waitFor_MainWindowHandle(this Process process)
+	    {
+	    	"Waiting for MainWindowHandle for process: {0}".info(process.process_Id_and_Name());
+	    	250.sleep_While(()=> process.refresh().MainWindowHandle == IntPtr.Zero);
+			
+			"Got for MainWindowHandle: {0}".info(process.MainWindowHandle);
+			return process;
+	    }
+	    
+	    public static Process waitFor_2nd_MainWindowHandle(this Process process)
+	    {
+	    	var firstMainWindowHandle = process.waitFor_MainWindowHandle()
+	    									    .MainWindowHandle;
+	    	"Waiting for 2nd MainWindowHandle for process: {0}".info(process.process_Id_and_Name());
+	    	250.sleep_While(()=>process.refresh().MainWindowHandle == firstMainWindowHandle);
+			"Got 2nd MainWindowHandle: {0}".info(process.MainWindowHandle);
+			return process;
+	    }
+	    public static Process refresh(this Process process)
+	    {
+	    	process.Refresh();
+	    	return process;
+	    }
+	    public static Process end(this Process process)
+	    {
+	    	process.Kill();
+	    	return process;
+	    }
+	    public static Process stop_in_NSeconds(this Process process, int seconds)
+	    {
+	    	O2Thread.mtaThread(
+	    		()=>{
+	    				"Stopping process {0} in {1} seconds".debug(process.process_Id_and_Name(), seconds);
+	    				(seconds * 1000).sleep();
+	    				process.stop();
+	    			});
+	    	return process;
+	    }
     	[DllImport( "kernel32.dll" )]
     	public static extern bool IsWow64Process( System.IntPtr aProcessHandle, out bool lpSystemInfo );
+    	
+    	
+    	public static void sleep_While(this int miliseconds, Func<bool> whileCondition)
+    	{
+    		while(whileCondition())
+    			miliseconds.sleep();
+    	}
 	}	
 	
 	public static class Extra_ascx_Simple_Script_Editor

@@ -95,14 +95,7 @@ namespace O2.XRules.Database.APIs
 			IntPtr value = new IntPtr(Process.GetCurrentProcess().Id);
 			return value != intPtr;
 		}
-		
-		//**********************************
-		//using DllImports from DLL_Kernel32
-		//**********************************
-		//private static bool wow64DirectoryChecked;
-		//private static bool wow64DirectoryExists;
-		//private static NativeUtils.IsWow64ProcessHandler isWow64Process;
-		//private static bool isWow64ProcessChecked;
+				
 		
 		public static IsWow64ProcessHandler IsWow64Process
 		{
@@ -171,6 +164,7 @@ namespace O2.XRules.Database.APIs
 		public static void GetWindowThreadAndProcess(IntPtr windowHandle, out IntPtr threadId, out IntPtr processId)
 		{
 			threadId = GetWindowThreadProcessId(windowHandle, out processId);
-		}
+		}	
 	}
+	
 }
