@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//O2Include:Util - Windows Messages Handle Viewer (Simple Gui).h2
+
+topPanel.parentForm().set_Text("Util - Windows Messages Handle Viewer (Simple Gui WITH REPL)")
+					 .height(400).width(900);
+			  
+var scriptMePanel =  topPanel.insert_Below();
+
+topPanel.splitterDistance(70);
+
+topPanel.insert_Below(30).add_TextArea("Try changing this text, using the script below");
+var scriptMe = scriptMePanel.add_Script_Me(windowFinder);
+
+			
+string defaultScript = @"var lastHandle = windowFinder.Last_Handle;
+/* ### Task 1: select the textbox using the 'target' icon (will set the value of lastHandle)  
+               and uncomment the next line ###*/
+//lastHandle.set_ControlText(""Text value changed at {0}"".format(DateTime.Now)); 
+
+/* ### Tast 2: replace 12345 with the target handle value and uncomment the next line ###*/
+//12345.intPtr().set_ControlText(""Text value changed using IntPtr reference"".line());  
+
+return lastHandle.get_ControlText();";
+
+scriptMe.code_Insert(defaultScript);
+</SourceCode>
+  <ReferencedAssemblies />
+</H2>

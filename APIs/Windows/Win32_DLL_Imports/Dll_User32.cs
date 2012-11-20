@@ -13,6 +13,8 @@ namespace O2.XRules.Database.APIs
 
 		[DllImport("user32.dll")]		public static extern IntPtr 	AttachThreadInput(IntPtr idAttach, IntPtr idAttachTo, int fAttach);
 		
+		[DllImport("user32.dll")]		public static extern bool 		BringWindowToTop(IntPtr hWnd);
+		
 		[DllImport("user32.dll")]		public static extern IntPtr 	ChildWindowFromPoint(IntPtr hWndParent, POINT Point);				
 		[DllImport("user32.dll")]		public static extern bool 		CloseWindow(IntPtr hWnd);
 

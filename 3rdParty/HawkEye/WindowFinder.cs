@@ -12,20 +12,36 @@ using O2.XRules.Database.Utils;
 using O2.DotNetWrappers.ExtensionMethods; 
 
 //O2File:API_WinAPI.cs
+//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
 
 namespace O2.XRules.Database.APIs
 {
+	public class WindowFinder_SimpleGui
+	{
+		public void launch()
+		{			
+			var panel = "WindowFinder test".popupWindow(700,450).add_LogViewer();
+			var windowFinder =panel.insert_Above(30).add_Control<WindowFinder>().width(30).fill(false);
+			var script = panel.insert_Below().add_Script_Me(windowFinder);
+		}
+	}
+	
 	[DefaultEvent("ActiveWindowChanged")]
 	public class WindowFinder : UserControl
 	{
-		private bool searching;		
-		private Point lastPoint = Point.Empty;
+		public bool searching;		
+		public Point lastPoint = Point.Empty;
+		public IntPtr Last_Handle				{ get; set; }
+		public IntPtr Last_Window				{ get; set; }		
 		
 		public event EventHandler ActiveWindowChanged;
 		
 		public event EventHandler ActiveWindowSelected;		
 		
 		public WindowProperties Window { get; set;}
+		
+		public Action<IntPtr> Handle_Changed { get; set;}
+		public Action<IntPtr> Window_Changed { get; set;}
 		
 		public Control SelectedControl
 		{
@@ -130,8 +146,16 @@ namespace O2.XRules.Database.APIs
 			IntPtr intPtr = WinAPI.WindowFromPoint(point2);			
 			if (intPtr != IntPtr.Zero && WinAPI.ScreenToClient(intPtr, ref point2))
 			{
-				
+				if(intPtr!= Last_Handle)
+				{
+					"Handle Change: {0} : {1}".info(intPtr, WinAPI.GetControlText(intPtr));
+					Last_Handle.window_Redraw();
+					Last_Handle = intPtr;
+					Last_Handle.window_Highlight();
+					Handle_Changed.invoke(Last_Handle);
+				}
 				IntPtr intPtr2 = WinAPI.ChildWindowFromPoint(intPtr, point2);
+				
 				if (intPtr2 != IntPtr.Zero)
 				{
 					intPtr = intPtr2;
@@ -139,11 +163,12 @@ namespace O2.XRules.Database.APIs
 			}
 			if (this.lastPoint != point)
 			{
-				this.lastPoint = point;
-				//"New Handle: {0} : {1}".debug(intPtr, WinAPI.GetWindowText(intPtr));
+				this.lastPoint = point;				
 				if (this.Window.SetWindowHandle(intPtr, this.lastPoint))
 				{
-					"New Window Handle: {0} : {1}".debug(intPtr, WinAPI.GetWindowText(intPtr));
+					"Window Change: {0} : {1}".debug(intPtr, WinAPI.GetWindowText(intPtr));				
+					Last_Window = intPtr;					
+					Window_Changed.invoke(intPtr);
 					this.InvokeActiveWindowChanged();
 				}
 			}
@@ -255,11 +280,14 @@ namespace O2.XRules.Database.APIs
 		}
 		public void Refresh()
 		{
-			if (!this.IsValid)
+			/*if (!this.IsValid)
 			{
 				return;
 			}
 			IntPtr hWnd = this.detectedWindow;
+			hWnd.window_Redraw();*/
+			//this.Last_Window.window_Redraw();
+			/*
 			IntPtr parent = WinAPI.GetParent(hWnd);
 			if (parent != IntPtr.Zero)
 			{
@@ -267,21 +295,13 @@ namespace O2.XRules.Database.APIs
 			}
 			WinAPI.InvalidateRect(hWnd, IntPtr.Zero, true);
 			WinAPI.UpdateWindow(hWnd);
-			WinAPI.RedrawWindow(hWnd, IntPtr.Zero, IntPtr.Zero, 1921u);
+			WinAPI.RedrawWindow(hWnd, IntPtr.Zero, IntPtr.Zero, 1921u);*/
 		}
+		
 		public void Highlight()
 		{
-			WinAPI.RECT rECT = new WinAPI.RECT(0, 0, 0, 0);
-			WinAPI.GetWindowRect(this.detectedWindow, ref rECT);
-			WinAPI.GetParent(this.detectedWindow);
-			IntPtr windowDC = WinAPI.GetWindowDC(this.detectedWindow);
-			if (windowDC != IntPtr.Zero)
-			{
-				Graphics graphics = Graphics.FromHdc(windowDC, this.detectedWindow);
-				graphics.DrawRectangle(WindowProperties.drawPen, 1, 1, rECT.Width - 2, rECT.Height - 2);
-				graphics.Dispose();
-				WinAPI.ReleaseDC(this.detectedWindow, windowDC);
-			}
+			//this.Last_Window.window_Highlight();
+			//this.detectedWindow.window_Highlight();
 		}
 		public void Dispose()
 		{

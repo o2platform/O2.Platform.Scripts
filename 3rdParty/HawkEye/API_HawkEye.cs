@@ -8,7 +8,10 @@ namespace O2.XRules.Database.APIs
 {
 	public class API_HawkEye
 	{
-		
+		public Panel launch()
+		{
+			return new API_HawkEye().openControlFinder();
+		}
 	}
 	
 	public static class API_HawkEye_ExtensionMethods
@@ -28,8 +31,8 @@ namespace O2.XRules.Database.APIs
 			var activeControl = topPanel.title("Active Control").add_PropertyGrid().helpVisible(false);
 			   
 			var hawkeye = topPanel.insert_Above(30).add_Control<WindowFinder>().width(30).fill(false);
-			
-			Action<Control> setTarget =  
+			var currentHandle =  topPanel.insert_Above(20).add_Label("Current Handle").top(2).append_TextBox("").align_Right(topPanel);
+			Action<Control> setTarget =   
 				(control)=> { 
 								activeControl.parent<GroupBox>().set_Text("Active Control: {0}".format(control.typeName()));
 								activeControl.show(control);								
