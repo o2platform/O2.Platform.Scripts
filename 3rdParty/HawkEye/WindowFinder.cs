@@ -11,8 +11,8 @@ using System.Runtime.CompilerServices;
 using O2.XRules.Database.Utils;
 using O2.DotNetWrappers.ExtensionMethods; 
 
+
 //O2File:API_WinAPI.cs
-//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
 
 namespace O2.XRules.Database.APIs
 {
@@ -22,7 +22,7 @@ namespace O2.XRules.Database.APIs
 		{			
 			var panel = "WindowFinder test".popupWindow(700,450).add_LogViewer();
 			var windowFinder =panel.insert_Above(30).add_Control<WindowFinder>().width(30).fill(false);
-			var script = panel.insert_Below().add_Script_Me(windowFinder);
+			//var script = panel.insert_Below().add_Script_Me(windowFinder);
 		}
 	}
 	
@@ -83,13 +83,15 @@ namespace O2.XRules.Database.APIs
 		public WindowFinder()
 		{			
 			this.Window = new WindowProperties();
-			base.MouseDown += new MouseEventHandler(this.WindowFinder_MouseDown);
-			base.Size = new Size(32, 32);
-			this.InitializeComponent();
-			if ("Hawkeye.gif".local().fileExists())
+			base.MouseDown += new MouseEventHandler(this.WindowFinder_MouseDown);			
+			/*if ("Hawkeye.gif".local().fileExists())
 				this.BackgroundImage = "Hawkeye.gif".local().bitmap(); //SystemUtils.LoadImage("Hawkeye.gif");
 			else
-				this.pink();
+				this.pink();*/
+			base.Name = "WindowFinder";
+			base.Size = new Size(32, 32);
+			this.BackgroundImage = O2.Platform.BCL.O2_Views_ASCX.FormImages.target.ToBitmap();
+			this.BackgroundImageLayout = ImageLayout.Stretch;
 			
 		}
 		protected override void Dispose(bool disposing)
@@ -97,20 +99,16 @@ namespace O2.XRules.Database.APIs
 			this.Window.Dispose();
 			base.Dispose(disposing);
 		}
-		private void InitializeComponent()
-		{
-			this.BackColor = Color.White;
-			base.Name = "WindowFinder";
-			base.Size = new Size(32, 32);
-		}
+		
 		public void StartSearch()
 		{
 			this.searching = true;
 			//Cursor.Current = new Cursor(base.GetType().Assembly.GetManifestResourceStream("ACorns.Hawkeye.Resources.Eye.cur"));
-			if ("Eye.cur".local().fileExists())
-				Cursor.Current = new Cursor("Eye.cur".local());
-			else
-				Cursor.Current	= Cursors.Cross;
+			//if ("Eye.cur".local().fileExists())
+			//	Cursor.Current = new Cursor("Eye.cur".local());
+			//else
+			//	Cursor.Current	= Cursors.Cross;
+			Cursor.Current = new Cursor(new System.IO.MemoryStream(O2.Platform.BCL.O2_Views_ASCX.FormImages.Eye));
 			base.Capture = true;
 			base.MouseMove += new MouseEventHandler(this.WindowFinder_MouseMove);
 			base.MouseUp += new MouseEventHandler(this.WindowFinder_MouseUp);

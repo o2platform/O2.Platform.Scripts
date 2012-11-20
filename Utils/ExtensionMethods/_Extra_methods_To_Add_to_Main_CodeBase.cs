@@ -57,180 +57,25 @@ namespace O2.XRules.Database.APIs
 	
 	public static class Extra_TreeView
 	{				
-		public static List<TreeNode> colorNodes(this List<TreeNode> nodes, Color color)
-		{
-			if (nodes.notNull() && nodes.size()>0)
-			{
-				var treeView = nodes.first().treeView();
-				treeView.beginUpdate();
-				foreach(var node in nodes)
-					node.foreColor(color);
-				treeView.endUpdate();
-			}
-			return nodes;
-		}		
+				
 	}
 	public static class Extra_WinForm_Controls_Forms
 	{
-		public static Image formImage(this string imageKey)
-		{
-			return (Image)typeof(FormImages).prop(imageKey);
-		}
+		
 	}
 	
-	public class ToolStripCheckBox : ToolStripControlHost
-    {
-        public ToolStripCheckBox()
-            : base(new CheckBox())
-        {
-			this.BackColor = Color.Transparent;
-			this.Margin = new Padding(1,3,1,1);			
-        }
-    }
+	
     
 	public static class Extra_WinForm_Controls_ToolStrip
 	{
-		public static ToolStrip insert_ToolStrip(this Control control)
-		{
-			var panel = control.insert_Above(30);
-			panel.splitContainer().fixedPanel1().@fixed(true);;
-			return panel.add_ToolStrip();
-		}
-		public static ToolStrip insert_Below_ToolStrip(this Control control)
-		{
-			var panel = control.insert_Below(30);
-			panel.splitContainer().fixedPanel2().@fixed(true);;
-			return panel.add_ToolStrip();
-		}
-		public static ToolStrip add_CheckBox(this ToolStrip toolStrip, string text, Action<bool> onValueChange)
-		{
-			CheckBox checkBox_Ref = null;
-			return toolStrip.add_CheckBox(text, ref checkBox_Ref, onValueChange);
-		}
-		public static ToolStrip add_CheckBox(this ToolStrip toolStrip, string text, ref CheckBox checkBox_Ref)
-		{
-			return toolStrip.add_CheckBox(text, ref checkBox_Ref, (value)=> {});
-		}
-		public static ToolStrip add_CheckBox(this ToolStrip toolStrip, string text, ref CheckBox checkBox_Ref, Action<bool> onValueChange)
-		{
-			return toolStrip.add_CheckBox(text, null, ref checkBox_Ref, onValueChange);
-		}
-		
-		public static ToolStrip add_CheckBox(this ToolStrip toolStrip, string text, Image image, ref CheckBox checkBox_Ref, Action<bool> onValueChange)		
-		{
-			var checkBox = toolStrip.add_Control<ToolStripCheckBox>().Control as CheckBox;											
-			checkBox_Ref = checkBox;		// need to do this because we can't use the ref object inside the lambda method below
-			return toolStrip.invokeOnThread(
-				()=>{						
-						checkBox.Text = text;
-						checkBox.Image = image;						
-						checkBox.CheckedChanged += (sender,e)=> 
-							O2Thread.mtaThread(()=> onValueChange(checkBox.value()));						
-						return toolStrip;
-					});
-			
-		}
-		//merge with current one add_Button (without the image)
-		public static ToolStrip add_Button(this ToolStrip toolStrip, string text, Image image, Action onClick)
-		{
-			return toolStrip.invokeOnThread(
-				()=>{
-						var newButton = new ToolStripButton(text);
-						newButton.Image = image;
-						newButton.Click += (sender,e)=> O2Thread.mtaThread(()=> onClick());
-						toolStrip.Items.Add(newButton);
-						return toolStrip;
-					});
-		}
-		
-		public static ToolStripDropDown add_DropDown(this ToolStrip toolStrip, string text)
-		{
-			return toolStrip.add_DropDown(text,null);
-		}
-		public static ToolStripDropDown add_DropDown(this ToolStrip toolStrip, string text,  Image image)
-		{
-			return toolStrip.invokeOnThread(
-				()=>{
-						var dropDown = new ToolStripDropDown();
-						var menuButton = new ToolStripDropDownButton(text);
-						menuButton.Image = image;
-						menuButton.DropDown = dropDown;
-						toolStrip.Items.Add(menuButton);
-						return dropDown;			
-					});
-		}				
-		public static ToolStripDropDown add_DropDown_Button(this ToolStripDropDown dropDown, string text, Action onClick)
-		{
-			return dropDown.add_DropDown_Button(text, null, onClick);
-		}
-		
-		public static ToolStripDropDown add_DropDown_Button(this ToolStripDropDown dropDown, string text, Image image, Action onClick)
-		{
-			return dropDown.invokeOnThread(
-				()=>{
-						var newButton = new ToolStripButton(text);
-						newButton.Click += (sender,e)=>  O2Thread.mtaThread(()=> onClick());
-						dropDown.Items.Add(newButton);
-						return dropDown;
-					});
-		}		
+				
 	}
 	public static class Extra_Processes
 	{			
-		public static List<ProcessModule> modules(this Process process)
-		{
-			var modules = new List<ProcessModule>();
-			try
-			{		
-				foreach(ProcessModule module in process.Modules)
-					modules.Add(module);				
-			}
-			catch(Exception ex)
-			{
-				ex.log();				
-			}
-			return modules;
-		}
-		public static List<string> names(this List<ProcessModule> modules)
-		{
-			return modules.Select((module)=> module.ModuleName).toList();
-		}
-		public static Dictionary<string,ProcessModule> modules_Indexed_by_ModuleName(this Process process)
-		{
-			//return process.modules().ToDictionary((module)=> module.ModuleName.lower());;		 //doesn't handle duplicate names
-			var modulesIndexed = new Dictionary<string,ProcessModule>();
-			foreach(var module in process.modules())
-				modulesIndexed.add(module.ModuleName.lower(), module);
-			return modulesIndexed;
-		}
+		[DllImport( "kernel32.dll" )]
+    	public static extern bool IsWow64Process( System.IntPtr aProcessHandle, out bool lpSystemInfo );
 		
-		public static Dictionary<string,ProcessModule> modules_Indexed_by_FileName(this Process process)
-		{			
-			var modulesIndexed = new Dictionary<string,ProcessModule>();
-			foreach(var module in process.modules())
-				modulesIndexed.add(module.FileName.lower(), module);
-			return modulesIndexed;
-		}
-		
-		public static Process process_WithId(this int id)
-		{
-			return Processes.getProcess(id);
-		}
-		public static Process process_WithName(this string name)
-		{
-			return Processes.getProcessCalled(name);
-		}
-		public static Process process_MainWindow_BringToFront(this Process process)
-		{
-			if (process.MainWindowHandle != IntPtr.Zero)
-				"WindowsBase.dll".assembly()
-							 	.type("UnsafeNativeMethods")					 
-							 	.invokeStatic("SetForegroundWindow",new HandleRef(null, process.MainWindowHandle)) ;
-			else
-				"[process_MainWindow_BringToFront] provided process has no main Window".error();
-			return process;
-		}
-		
+		//this is not working correctly
 		public static bool is64BitProcess(this Process process )
 	    {
 	    	if (process.isNull())
@@ -247,79 +92,15 @@ namespace O2.XRules.Database.APIs
 	        //"[Is Target Process 64Bit = {0}]".debug(lIs64BitProcess);
 	        //return lIs64BitProcess;	        	        
 	    }
-	    public static string process_Id_and_Name(this Process process)
-	    {
-	    	return "{0} : {1}".format(process.Id, process.ProcessName);
-	    }
-	    
-	    public static Process waitFor_MainWindowHandle(this Process process)
-	    {
-	    	"Waiting for MainWindowHandle for process: {0}".info(process.process_Id_and_Name());
-	    	250.sleep_While(()=> process.refresh().MainWindowHandle == IntPtr.Zero);
-			
-			"Got for MainWindowHandle: {0}".info(process.MainWindowHandle);
-			return process;
-	    }
-	    
-	    public static Process waitFor_2nd_MainWindowHandle(this Process process)
-	    {
-	    	var firstMainWindowHandle = process.waitFor_MainWindowHandle()
-	    									    .MainWindowHandle;
-	    	"Waiting for 2nd MainWindowHandle for process: {0}".info(process.process_Id_and_Name());
-	    	250.sleep_While(()=>process.refresh().MainWindowHandle == firstMainWindowHandle);
-			"Got 2nd MainWindowHandle: {0}".info(process.MainWindowHandle);
-			return process;
-	    }
-	    public static Process refresh(this Process process)
-	    {
-	    	process.Refresh();
-	    	return process;
-	    }
-	    public static Process end(this Process process)
-	    {
-	    	process.Kill();
-	    	return process;
-	    }
-	    public static Process stop_in_NSeconds(this Process process, int seconds)
-	    {
-	    	O2Thread.mtaThread(
-	    		()=>{
-	    				"Stopping process {0} in {1} seconds".debug(process.process_Id_and_Name(), seconds);
-	    				(seconds * 1000).sleep();
-	    				process.stop();
-	    			});
-	    	return process;
-	    }
-    	[DllImport( "kernel32.dll" )]
-    	public static extern bool IsWow64Process( System.IntPtr aProcessHandle, out bool lpSystemInfo );
-    	
-    	
-    	public static void sleep_While(this int miliseconds, Func<bool> whileCondition)
-    	{
-    		while(whileCondition())
-    			miliseconds.sleep();
-    	}
+	   
 	}	
 	
 	public static class Extra_ascx_Simple_Script_Editor
 	{
-		public static ascx_Simple_Script_Editor add_InvocationParameter(this ascx_Simple_Script_Editor scriptEditor, string parameterName, object parameterObject)
-		{
-			scriptEditor.InvocationParameters.add(parameterName,parameterObject);
-			return scriptEditor;
-		}
-		public static ascx_Simple_Script_Editor code_Insert(this ascx_Simple_Script_Editor scriptEditor, string textToInsert)
-		{
-			scriptEditor.Code = textToInsert.line() + scriptEditor.Code;
-			return scriptEditor;
-		}
-		public static ascx_Simple_Script_Editor code_Append(this ascx_Simple_Script_Editor scriptEditor, string textToInsert)
-		{
-			scriptEditor.Code = scriptEditor.Code.line() +  scriptEditor.Code;
-			return scriptEditor;
-		}
+		
 	}
 
+	//move this to Win_API classes
 	public static class Extra_Screenshot
 	{
 		//based on code from http://stackoverflow.com/a/911225

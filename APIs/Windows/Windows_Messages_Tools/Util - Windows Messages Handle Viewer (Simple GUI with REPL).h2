@@ -24,6 +24,8 @@ string defaultScript = @"var lastHandle = windowFinder.Last_Handle;
 return lastHandle.get_ControlText();";
 
 scriptMe.code_Insert(defaultScript);
+
+//O2Emded:target.ico
 </SourceCode>
   <ReferencedAssemblies />
 </H2>

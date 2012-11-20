@@ -1,23 +1,25 @@
 <?xml version="1.0"?>
 <H2>
   <SourceCode>//var topPanel = panel.add_Panel(true);
-var topPanel = "PoC - View FluentSharp_BCL Embeded Icons (in type O2.Platform.BCL.O2_Views_ASCX.FormImages)".popupWindow(1200,740).add_Panel(true);
+var topPanel = "PoC - View FluentSharp_BCL Embeded Icons (in type O2.Platform.BCL.O2_Views_ASCX.FormImages)".popupWindow(1200,680).add_Panel(true);
 var toolStrip1 = topPanel.add_ToolStrip()
 						 .layout_Flow();
 var toolStrip2 = toolStrip1.insert_Above(120)
 						   .add_ToolStrip()
 						   .layout_Flow();
 
-var iconsMappings = typeof(FormImages).ctor().propertyValues_MappedBy_Name&lt;Bitmap&gt;();
+var iconsMappings = typeof(FormImages).ctor().propertyValues_MappedBy_Name&lt;Bitmap&gt;(); 
 Action&lt;bool,ToolStrip&gt; show = 
 	(withDescription,target) =&gt;
 		{
+		target.visible(false);
 			foreach(var iconMapping in iconsMappings) 
 			{				
 				var iconName = iconMapping.Key;
 				var image= iconMapping.Value;
 				target.add_Button((withDescription) ? iconName : "" , image,()=&gt; "Copied value {0} to clipboard".format(iconName.clipboardText_Set()).alert());
 			}
+			target.visible(true);
 		};
 
 show(true,toolStrip1);

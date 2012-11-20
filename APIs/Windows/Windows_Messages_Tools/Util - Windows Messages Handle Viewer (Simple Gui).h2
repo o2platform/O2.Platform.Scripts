@@ -2,6 +2,7 @@
 <H2>
   <SourceCode>//var topPanel = panel.add_Panel(true); 
 var topPanel = "Util - Windows Messages Handle Viewer (Simple GUI)".popupWindow(600,30);
+
 var windowFinder = topPanel.newInThread&lt;WindowFinder&gt;().width(30).fill(false);
 topPanel.add_Control(windowFinder);
 
@@ -26,7 +27,8 @@ textBox_CurrentHandleText.onTextChange(
 			});
 
 topPanel.parentForm().Handle.window_AlwaysOnTop();
-//O2File:WindowFinder.cs		
-</SourceCode>
+//O2File:WindowFinder.cs
+//O2Embed:target.ico
+ </SourceCode>
   <ReferencedAssemblies />
 </H2>
