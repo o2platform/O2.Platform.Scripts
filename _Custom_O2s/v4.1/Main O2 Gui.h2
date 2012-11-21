@@ -28,10 +28,14 @@ topPanel.visible(true);
 
 var scriptMappings = new Items(); 
 var o2Script = (Environment.Version.Major == 4) 
-					? "Util - C# REPL Script [4.0].cs.o2"
+					? "Util - C# REPL Script [4.0].h2"
 					: "ascx_Quick_Development_GUI.cs.o2";
 
 var scripting_Mappings = new Items().add("O2 REPL C# Script",o2Script) 
+								    .add("C# REPL (WinFormUI)", "Util - O2 C# REPL using WinFormsUI.h2")
+								    .add("C# REPL (Simple mode)", "Util - O2 C# REPL using WinFormsUI.h2")
+								    .add("C# REPL (Text Based)", "Util - Text Based C# REPL.h2")
+								    
 									.add("O2 Dev Environment", "Util - O2 Development Environment.h2")
 									.add("Browser REPL","Util - Browser REPL.h2") 
 									.add("O2 Object Model", "Util - O2 Object Model.h2")
@@ -46,7 +50,8 @@ var scripting_Mappings = new Items().add("O2 REPL C# Script",o2Script)
 var o2tools_Mappings = 	 new Items().add("Package O2 Script", "Util - Package O2 Script into separate Folder.h2")
 									.add("Screenshot tool", "Util - Show ScreenShot Tool.h2")
 							 		.add("Search Engine", "Search Engine Tool.h2")
-									.add("Quick File Search", "Util - Quick File Search.h2")
+							 		.add("Windows Handles Viewer", "Util - Windows Handles Viewer (Simple GUI with REPL).h2")
+									.add("Search O2 Scripts", "Util - Quick File Search.h2")
 									.add("Execute Unit Tests", "Execute Unit Tests.h2")
 									.add("WSDL (Web Services)", "ascx_WSDL_Creation_and_Execution.cs.o2")																		
 					 				.add("O2 Web Proxy", "Util - O2 Web Proxy (simple view).h2")
@@ -97,6 +102,7 @@ menu.add_MenuItem("Debug")
 	.add_MenuItem("View O2 Config Object", ()=&gt; PublicDI.config.showInfo())	
 	.add_MenuItem("Compile All Scripts",()=&gt;  executeH2Script("Compile All Local O2 Scripts.h2"))
 	.add_MenuItem("REPL this GUI",()=&gt;  topPanel.parentForm().script_Me("form"))
+	.add_MenuItem("Edit this Gui's Script", ()=&gt; open.scriptEditor("Main O2 Gui.h2".local()))
 	.add_MenuItem("Folders",false)
 		.add_MenuItem("TempDir",()=&gt; PublicDI.config.O2TempDir.startProcess())
 		.add_MenuItem("References Downloaded",()=&gt; PublicDI.config.ReferencesDownloadLocation.startProcess())		
@@ -105,9 +111,10 @@ menu.add_MenuItem("Debug")
 		.add_MenuItem("of current Executable",()=&gt; PublicDI.config.CurrentExecutableDirectory.startProcess());
 		
 menu.add_MenuItem("Compilation Cache(s)")		
-		.add_MenuItem("Clear LocalScript mappings",()=&gt;  { CompileEngine.clearLocalScriptFileMappings();})	
-		.add_MenuItem("Clear Compilation Cache",()=&gt;  { CompileEngine.clearCompilationCache();})	
-		.add_MenuItem("Clear Compilation Cache and Downloads",()=&gt;  { CompileEngine.clearAllCompilationRelatedDownloadsAndCaches();});
+		.add_MenuItem("Clear LocalScript mappings"				, ()=&gt;  { CompileEngine.clearLocalScriptFileMappings();})	
+		.add_MenuItem("Clear Compilation Cache"					, ()=&gt;  { CompileEngine.clearCompilationCache();})	
+		.add_MenuItem("Clear Compilation Cache and Downloads"	, ()=&gt;  { CompileEngine.clearAllCompilationRelatedDownloadsAndCaches();})
+		.add_MenuItem("clear AssembliesCheckedIfExists list"	, () =&gt; { O2GitHub.clear_AssembliesCheckedIfExists(); });
 	
 menu.add_MenuItem("Help")	
 	.add_MenuItem("Report bug",()=&gt; ReportBug.showGui(topPanel))
@@ -131,6 +138,7 @@ logViewerPanel.add_LogViewer().white();
 return "done";		
 
 //using O2.Views.ASCX.Forms
+//using O2.Kernel.CodeUtils
 //O2Tag_DontAddExtraO2Files
 //O2Embed:O2_FluentSharp_Roslyn.dll
 //O2Embed:O2_External_IE.dll

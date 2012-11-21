@@ -15,8 +15,7 @@ using Cecil.Decompiler.ControlFlow;
 //O2Ref:O2_External_O2Mono.dll
 using O2.External.O2Mono.CecilDecompiler;
 using O2.External.O2Mono.MonoCecil;
-//O2Ref:nunit.framework.dll
-using NUnit.Framework;
+
 using O2.External.SharpDevelop.ExtensionMethods;
 using O2.External.SharpDevelop.Ascx;
 using O2.DotNetWrappers.Filters;
@@ -30,17 +29,14 @@ using O2.Views.ASCX.classes.MainGUI;
 
 namespace O2.Script
 {
-
-	[TestFixture]
+	
     public class test_ascx_MonoDecompiler
     {        	
 
 		//public string testExe = @"C:\O2\_tempDir\tmp37E2.tmp.dll";
 		public string testExe = PublicDI.config.ExecutingAssembly;
 		
-		
-		
-		[Test]
+						
         public string openAscxInNewWindow()
     	{    	    	    	
     		var monoDecompiler = O2Gui.showAsForm<ascx_MonoDecompiler>("Mono Decompiler");//,400,400);    		
@@ -206,8 +202,7 @@ namespace O2.Script
     	public void loadAssembly(string assemblyToLoad)
     	{
     		log.debug("Loading assembly {0}", assemblyToLoad);
-    		var assemblyDefinition = CecilUtils.getAssembly(assemblyToLoad);
-    		Assert.That(assemblyDefinition != null, "could not load into an assembly the file: " + assemblyToLoad);
+    		var assemblyDefinition = CecilUtils.getAssembly(assemblyToLoad);    		
     		loadAssembly(assemblyDefinition);    
     	}
     	

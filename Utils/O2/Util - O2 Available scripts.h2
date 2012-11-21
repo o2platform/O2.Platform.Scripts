@@ -63,6 +63,14 @@ Action invokeSelected =
 			if (selectedItem.notNull())			
 				invokeScript(selectedItem.get_Tag().str());							
 	    };
+	    
+Action replSelected = 
+	()=&gt;{
+			var selectedItem = treeView.selected();
+			if (selectedItem.notNull())			
+				open.scriptEditor(selectedItem.get_Tag().str());
+		};
+	    
 treeView.onDoubleClick&lt;string&gt;(invokeScript);	
 
     
@@ -120,7 +128,8 @@ Action refresh =
 		
 treeView.add_ContextMenu().add_MenuItem("Execute selected",true, ()=&gt; invokeSelected())						 
 				          .add_MenuItem("Open parent folder in Windows Explorer",true, ()=&gt; selectedNode().directoryName().info().startProcess())
-				          .add_MenuItem("Edit Script",true, 
+				          .add_MenuItem("Edit Script (in C# REPL)",true, ()=&gt; replSelected())
+				          .add_MenuItem("Edit Script (in SourceCodeEditor)",true, 
 				          			()=&gt;{
 											var selectedNodeScript = selectedNode(); 
 											if (selectedNodeScript.extension(".h2") || selectedNodeScript.extension(".o2"))
