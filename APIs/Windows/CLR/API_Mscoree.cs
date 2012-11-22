@@ -13,7 +13,10 @@ namespace O2.XRules.Database.APIs
 {
 	public class API_Mscoree
 	{
-		
+		public API_Mscoree()
+		{
+			"mscoree loaded as: {0}".info("mscoree_v4.0.dll".assembly());
+		}
 	}
 	
 	public static class API_Mscoree_ExtensionMethods

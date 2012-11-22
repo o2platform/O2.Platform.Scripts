@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 <H2>
   <SourceCode>//var topPanel = panel.add_Panel(true);
-var topPanel = "Util - AppDomains in Current Process".popupWindow(1000,500);
+var topPanel = "Util - AppDomains in Current Process".popupWindow(1000,500)
+													 .insert_LogViewer();
 
 O2AppDomainFactory currentAppDomain = null;
 
@@ -19,31 +20,55 @@ var propertyGrid_SetupInformation	= propertyGrid_AppDomain.parent().insert_Right
 
 Action&lt;O2AppDomainFactory&gt; showAppDomain = 
 	(appDomainFactory)=&gt;{	
-							currentAppDomain = appDomainFactory;							
-							propertyGrid_AppDomain		 .show(appDomainFactory.appDomain);
-							treeView_AppDomainAssemblies.clear()
-														.add_Nodes(currentAppDomain.appDomain.GetAssemblies())
-														.selectFirst();
-							propertyGrid_SetupInformation.show(appDomainFactory.appDomain.SetupInformation);							
+							try
+							{
+								currentAppDomain = appDomainFactory;															
+								treeView_AppDomainAssemblies.clear();
+								
+								foreach(var assembly in currentAppDomain.appDomain.GetAssemblies())
+									try
+									{
+										treeView_AppDomainAssemblies.add_Node(assembly);
+									}
+									catch(Exception ex)
+									{
+										ex.log("[in showAppDomain, while adding assembly: {0}]".format(assembly));
+									}														
+								propertyGrid_SetupInformation.show(appDomainFactory.appDomain.SetupInformation);							
+								propertyGrid_AppDomain		 .show(appDomainFactory.appDomain);
+								treeView_AppDomainAssemblies.white();
+							}
+							catch(Exception ex)
+							{
+								ex.log("[in showAppDomain]");
+								treeView_AppDomainAssemblies.pink().add_Node("Error Loading AppDomain data","");
+							}
+							treeView_AppDomainAssemblies.selectFirst();	
 						};
  
 Action showAppDomains  = 
 	()=&gt;{	
-			var o2ManagedAppDomains = O2AppDomainFactory.AppDomains_ControledByO2Kernel;
-			var processAppDomains = new API_Mscoree().get_AppDomains_in_CurrentProcess();	
-			   			
-   			var liveAppDomains = new List&lt;O2AppDomainFactory&gt;();
-   			foreach(var o2ManagedAppDomain in o2ManagedAppDomains.toList())   			
-   				if (processAppDomains.contains(o2ManagedAppDomain.Value.appDomain))
-   				{
-   					liveAppDomains.add(o2ManagedAppDomain.Value);
-   					processAppDomains.remove(o2ManagedAppDomain.Value.appDomain);
-   				}
-   				else
-   					O2AppDomainFactory.AppDomains_ControledByO2Kernel.Remove(o2ManagedAppDomain.Key);   					
-   			if (processAppDomains.size() &gt; 0)
-   				"There were {0} AppDomains that are not currently controled by the O2AppDomainFactory".error(processAppDomains.size());
-   			
+			var liveAppDomains = new List&lt;O2AppDomainFactory&gt;();
+			try
+			{
+				var o2ManagedAppDomains = O2AppDomainFactory.AppDomains_ControledByO2Kernel;
+				var processAppDomains = new API_Mscoree().get_AppDomains_in_CurrentProcess();					   			
+	   			
+	   			foreach(var o2ManagedAppDomain in o2ManagedAppDomains.toList())   			
+	   				if (processAppDomains.contains(o2ManagedAppDomain.Value.appDomain))
+	   				{
+	   					liveAppDomains.add(o2ManagedAppDomain.Value);
+	   					processAppDomains.remove(o2ManagedAppDomain.Value.appDomain);
+	   				}
+	   				else
+	   					O2AppDomainFactory.AppDomains_ControledByO2Kernel.Remove(o2ManagedAppDomain.Key);   					
+	   			if (processAppDomains.size() &gt; 0)
+	   				"There were {0} AppDomains that are not currently controled by the O2AppDomainFactory".error(processAppDomains.size());
+   			}
+			catch(Exception ex)
+			{
+				ex.log("[in showAppDomains]");
+			}
    			treeView.clear();								 			
  			treeView.add_Nodes(liveAppDomains, (liveAppDomain)=&gt;liveAppDomain.Name);   			   		
 			

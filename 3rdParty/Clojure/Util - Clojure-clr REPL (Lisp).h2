@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//return "Clojure-icon.png".local().bitmap();
+
+O2ConfigSettings.O2Version = "Closure_v1.6"; 
+O2Setup.extractEmbededConfigZips(); 
+
+open.logViewer();
+new API_Clojure().openO2ReplInClojureFolder();
+
+//O2File:API_Clojure.cs 
+
+//O2EmbedTool:Clojure
+//O2Package:Clojure-icon.png,Launch Clojure REPL.h2,API_Closure.cs</SourceCode>
+  <ReferencedAssemblies />
+</H2>

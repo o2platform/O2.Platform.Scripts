@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.clear().add_Panel();   
+var topPanel = "Util - Clojure REPL (Lisp)".popupWindow(550,300);
+topPanel.set_Form_Icon("Clojure-icon.png".local().bitmap().asIcon());
+
+CheckBox autoCompile = null;
+
+var replGui = topPanel.add_REPL_Gui();
+replGui.Code_Panel.splitContainer().fixedPanel2().splitterDistance(400);
+var codeEditor = replGui.Code_Panel.add_SourceCodeViewer();
+codeEditor.textEditor().showInvalidLines(false);
+
+
+var tooStrip = codeEditor.insert_Above_ToolStrip();
+var examples = 	tooStrip.add_DropDown("Lisp Examples (tutorial)");
+tooStrip.add_CheckBox("Auto Execute",ref autoCompile); 
+
+Action&lt;string, string&gt; add_Example  =
+	(title, code)=&gt;{	
+						examples.add_DropDown_Button(title, ()=&gt; codeEditor.set_Text(code));
+					};
+					
+
+//Loadup clojure 
+RT.var("clojure.core", "require");
+Var.pushThreadBindings(RT.map(new object[]
+		{
+			Compiler.CompilePathVar, ".",
+			RT.WarnOnReflectionVar, false,
+			RT.UncheckedMathVar, false,
+			Compiler.CompilerOptionsVar, null
+		}));
+		
+//setup REPL GUI
+
+Action execute = 
+	()=&gt;{ 
+			var code = codeEditor.get_Text();
+			
+			try
+			{				
+				var result = Compiler.load(new StringReader(code), ".");				
+				replGui.showOutput(result); 			
+				replGui.Output_View_RichTextBox.green();
+			}
+			catch(Exception ex)
+			{
+				replGui.showOutput(ex.Message.lines().first()); 
+				replGui.Output_View_RichTextBox.pink();
+			}			
+		}; 
+		
+//replGui.On_ExecuteCode = execute;  
+
+codeEditor.onTextChange((text)=&gt; { if (autoCompile.value()) execute();});
+autoCompile.check();
+
+codeEditor.set_Text("(+ 2 2)");
+
+
+
+add_Example("arithmetic"		, "(+ 3 3)");
+add_Example("second"	, "(+ 2 22)");
+add_Example("third"		, "(+ 2 2123)");
+
+
+
+//using System.IO
+//using Clojure
+//using clojure.lang
+
+//O2Ref:Clojure.Main.exe
+//O2Ref:Clojure.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>
