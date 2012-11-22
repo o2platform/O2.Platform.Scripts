@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>//O2Include:Util - Windows Messages Handle Viewer (Simple Gui).h2
+  <SourceCode>//O2Include:Util - Windows Handles Viewer (Simple Gui).h2
 
 topPanel.parentForm().set_Text("Util - Windows Messages Handle Viewer (Simple Gui WITH REPL)")
 					 .height(400).width(900);

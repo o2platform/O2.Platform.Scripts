@@ -55,20 +55,68 @@ using System.Security.Cryptography;
 namespace O2.XRules.Database.APIs
 {	
 	
-	public static class Extra_TreeView
+	public static class Extra_AppDomains
 	{				
-				
-	}
-	public static class Extra_WinForm_Controls_Forms
-	{
+		//public static O2AppDomainFactory appDomain(this string name) //to also be called appDomain when moved to main codebase
+		public static O2AppDomainFactory appDomain_Get(this string name)
+		{
+			if (O2AppDomainFactory.AppDomains_ControledByO2Kernel.hasKey(name))
+				return O2AppDomainFactory.AppDomains_ControledByO2Kernel[name];
+			return null;
+		}
 		
+		public static bool isNotCurrentAppDomain(this O2AppDomainFactory appDomainFactory)
+		{
+			return appDomainFactory.isCurrentAppDomain().isFalse();
+		}
+		
+		public static bool isCurrentAppDomain(this O2AppDomainFactory appDomainFactory)
+		{
+			return appDomainFactory.appDomain != AppDomain.CurrentDomain;
+		}
+	}
+	public static class Extra_WinForm_Controls_PropertyGrid
+	{
+		public static PropertyGrid add_PropertyGrid(this Control control, bool helpVisible)
+		{
+			return control.add_PropertyGrid().helpVisible(helpVisible);
+		}
 	}
 	
 	
-    
+    public static class Extra_WinForm_Controls_TreeView
+    {
+    	public static TreeView selectSecond(this TreeView treeView)
+    	{
+    		treeView.nodes().second().selected();
+    		return treeView;
+    	}
+
+		public static TreeView selectThird(this TreeView treeView)
+    	{
+    		treeView.nodes().third().selected();
+    		return treeView;
+    	}    	
+    	
+    }
 	public static class Extra_WinForm_Controls_ToolStrip
 	{
-				
+		/*public static ToolStrip insert_Below_ToolStrip(this Control control)
+		{
+			var tooStrip = control.insert_Above(30).add_ToolStrip();
+			tooStrip.splitContainerFixed();
+			return tooStrip;
+		}*/
+		
+		/*public static ToolStrip add(this ToolStrip toolStrip, string text)
+		{
+			toolStrip.add_Button(text);
+			return toolStrip;
+		}*/
+		
+		
+		
+		
 	}
 	public static class Extra_Processes
 	{			

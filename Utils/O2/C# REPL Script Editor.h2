@@ -4,7 +4,6 @@
 					   .add_Script()
 					   .set_Code("return \"Hello O2 World\";");
 
-//O2Embed:scripts.ico
-//O2Package:ALL_SCRIPTS</SourceCode>
+//O2Embed:scripts.ico</SourceCode>
   <ReferencedAssemblies />
 </H2>

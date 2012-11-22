@@ -2,7 +2,7 @@
 <H2>
   <SourceCode>O2Setup.extractEmbededConfigZips();
 "O2Logo.ico".local().icon().set_As_Default_Form_Icon();
-var title = "OWASP O2 Platform v4.5 : {0}".format(clr.details());
+var title = "OWASP O2 Platform v{0} : {1}".format(o2.version(), clr.details());
 var topPanel = title.popupWindow(790,218);
 
 Action&lt;string&gt; executeH2Script = 
@@ -29,11 +29,11 @@ topPanel.visible(true);
 var scriptMappings = new Items(); 
 var o2Script = (Environment.Version.Major == 4) 
 					? "Util - C# REPL Script [4.0].h2"
-					: "ascx_Quick_Development_GUI.cs.o2";
+					: "C# REPL Script Editor.h2";
 
 var scripting_Mappings = new Items().add("O2 REPL C# Script",o2Script) 
 								    .add("C# REPL (WinFormUI)", "Util - O2 C# REPL using WinFormsUI.h2")
-								    .add("C# REPL (Simple mode)", "Util - O2 C# REPL using WinFormsUI.h2")
+								    .add("C# REPL (Simple mode)", "C# REPL Script Editor.h2")
 								    .add("C# REPL (Text Based)", "Util - Text Based C# REPL.h2")
 								    
 									.add("O2 Dev Environment", "Util - O2 Development Environment.h2")
@@ -54,11 +54,12 @@ var o2tools_Mappings = 	 new Items().add("Package O2 Script", "Util - Package O2
 									.add("Search O2 Scripts", "Util - Quick File Search.h2")
 									.add("Execute Unit Tests", "Execute Unit Tests.h2")
 									.add("WSDL (Web Services)", "ascx_WSDL_Creation_and_Execution.cs.o2")																		
-					 				.add("O2 Web Proxy", "Util - O2 Web Proxy (simple view).h2")
-									.add("O2 Web Cache", "Tool - Cache from O2 Web Proxy.h2")
-									.add("O2 WAF Simulator", "Util - O2 WAF Simulator (simple Gui).h2")
-									.add("Movie Creator", "Util - Movie Creator.h2")		
-					 				.add("Find an O2 Script", "Util - O2 Available scripts.h2")
+					 				//.add("O2 Web Proxy", "Util - O2 Web Proxy (simple view).h2")
+									//.add("O2 Web Cache", "Tool - Cache from O2 Web Proxy.h2")
+									//.add("O2 WAF Simulator", "Util - O2 WAF Simulator (simple Gui).h2")
+									//.add("Movie Creator", "Util - Movie Creator.h2")		
+					 				//.add("Find an O2 Script", "Util - O2 Available scripts.h2")
+					 				.add("Simple Text Edito","Util - Simple Text Editor.h2")
 									.add("Stop O2 Instances", "Uitl - Stop all (but current) O2_XRules_Database processes.h2");
 
 var otherTools_Mapping = new Items().add("Process Explorer", "ProcessExplorer.cs")
@@ -98,6 +99,7 @@ menu.add_MenuItem("Main")
 	
 	
 menu.add_MenuItem("Debug")
+	.add_MenuItem("AppDomains in Current Process", ()=&gt; executeH2Script("Util - AppDomains in Current Process.h2"))
 	.add_MenuItem("Restart O2 (will kill current process)", ()=&gt; { Application.ExecutablePath.startProcess(); Processes.getCurrentProcess().stop();})
 	.add_MenuItem("View O2 Config Object", ()=&gt; PublicDI.config.showInfo())	
 	.add_MenuItem("Compile All Scripts",()=&gt;  executeH2Script("Compile All Local O2 Scripts.h2"))
