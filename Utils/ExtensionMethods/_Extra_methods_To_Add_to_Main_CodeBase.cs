@@ -56,47 +56,56 @@ namespace O2.XRules.Database.APIs
 {	
 	
 	public static class Extra_AppDomains
-	{				
-		//public static O2AppDomainFactory appDomain(this string name) //to also be called appDomain when moved to main codebase
-		public static O2AppDomainFactory appDomain_Get(this string name)
-		{
-			if (O2AppDomainFactory.AppDomains_ControledByO2Kernel.hasKey(name))
-				return O2AppDomainFactory.AppDomains_ControledByO2Kernel[name];
-			return null;
-		}
-		
-		public static bool isNotCurrentAppDomain(this O2AppDomainFactory appDomainFactory)
-		{
-			return appDomainFactory.isCurrentAppDomain().isFalse();
-		}
-		
-		public static bool isCurrentAppDomain(this O2AppDomainFactory appDomainFactory)
-		{
-			return appDomainFactory.appDomain != AppDomain.CurrentDomain;
-		}
+	{						
+	
 	}
 	public static class Extra_WinForm_Controls_PropertyGrid
 	{
-		public static PropertyGrid add_PropertyGrid(this Control control, bool helpVisible)
-		{
-			return control.add_PropertyGrid().helpVisible(helpVisible);
-		}
+		
 	}
-	
+	public static class Extra_compile_Objects
+	{		
+		
+	}
+	public static class Extra_compile_Control
+	{
+		//not working (more work is needed to add drag and drop support to Images (and other WinForm controls)
+		/*public static T  onDrag<T, T1>(this T control, Func<T, T1> getDragData) where T : UserControl
+        {
+            control.ItemDrag += (sender, e) =>
+            {
+                var dataToDrag = getDragData(tag);                
+                    if (dataToDrag != null)
+                        control.DoDragDrop(dataToDrag, DragDropEffects.Copy);                    
+            };
+            return control;
+        }*/
+		
+	}
+	public static class Extra_compile_TextBox
+	{
+		
+	}
+	public static class Extra_compile_PictureBox
+	{
+		
+		
+	}
+		
+	public static class Extra_Controls_ToolStip
+	{
+		
+	 
+		
+	}	
+	public static class _Extra_WinForms_Controls_MainMenu
+	{
+		
+	}
 	
     public static class Extra_WinForm_Controls_TreeView
     {
-    	public static TreeView selectSecond(this TreeView treeView)
-    	{
-    		treeView.nodes().second().selected();
-    		return treeView;
-    	}
-
-		public static TreeView selectThird(this TreeView treeView)
-    	{
-    		treeView.nodes().third().selected();
-    		return treeView;
-    	}    	
+    	    	
     	
     }
 	public static class Extra_WinForm_Controls_ToolStrip
@@ -143,11 +152,12 @@ namespace O2.XRules.Database.APIs
 	   
 	}	
 	
-	public static class Extra_ascx_Simple_Script_Editor
+	public static class Extra_PictureBox
 	{
 		
 	}
 
+/*
 	//move this to Win_API classes
 	public static class Extra_Screenshot
 	{
@@ -290,7 +300,7 @@ namespace O2.XRules.Database.APIs
 		    }
 		}
  
-	}
+	}*/
 	
 	public static class Extra_TrackBar
 	{
@@ -301,23 +311,7 @@ namespace O2.XRules.Database.APIs
 		
 	}
 	
-	public static class Extra_compile_TreeView
-	{
-		
-		
-		
-
-	}
-		
-	public static class Extra_Controls_MainMenu
-	{
-		
-		
-	}	
-	public static class _Extra_WinForms_Controls_MainMenu
-	{
-		
-	}
+	
 		
 	
 	/*public static class _Extra_WinForms_Controls_MsgBox

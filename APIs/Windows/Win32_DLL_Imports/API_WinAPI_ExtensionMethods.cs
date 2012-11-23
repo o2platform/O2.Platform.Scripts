@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
+using System.Drawing;  
+using System.Drawing.Imaging; 
 using System.Diagnostics;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Runtime.InteropServices;
 using O2.DotNetWrappers.ExtensionMethods;
 //O2File:API_WinAPI.cs
@@ -78,6 +79,17 @@ namespace O2.XRules.Database.APIs
 			WinAPI.SetWindowPos(windowHandle, WinAPI.HWND_TOPMOST, 0, 0, 0, 0, WinAPI.SetWindowPosFlags.IgnoreMoveAndResize);
 			return windowHandle;
 		}
+		public static IntPtr window_BringToTop(this IntPtr windowHandle)
+		{
+			WinAPI.SetWindowPos(windowHandle, WinAPI.HWND_TOP, 0, 0, 0, 0, WinAPI.SetWindowPosFlags.IgnoreMoveAndResize);
+			return windowHandle;
+		}
+		
+		public static IntPtr window_MoveTo(this IntPtr windowHandle, int top, int left)
+		{
+			WinAPI.SetWindowPos(windowHandle, WinAPI.HWND_TOP, top, left, 0, 0, WinAPI.SetWindowPosFlags.IgnoreResize);
+			return windowHandle;
+		}
 		
 		
 		public static IntPtr window_Redraw(this IntPtr windowHandle)
@@ -112,6 +124,23 @@ namespace O2.XRules.Database.APIs
 			}
 			
 			return windowHandle;
+		}
+		//public static Bitmap PrintWindow(IntPtr hwnd)    
+		public static Bitmap window_ScreenShot(this IntPtr windowHandle)
+		{					
+		    WinAPI.RECT rc = default(WinAPI.RECT);         
+		    WinAPI.GetWindowRect(windowHandle, ref rc);
+		
+		    Bitmap bmp = new Bitmap(rc.Width, rc.Height, PixelFormat.Format32bppArgb);        
+		    Graphics gfxBmp = Graphics.FromImage(bmp);        
+		    IntPtr hdcBitmap = gfxBmp.GetHdc();        
+		
+		    WinAPI.PrintWindow(windowHandle, hdcBitmap, 0);  
+		
+		    gfxBmp.ReleaseHdc(hdcBitmap);               
+		    gfxBmp.Dispose(); 
+		
+		    return bmp;   		
 		}
 	}
 }

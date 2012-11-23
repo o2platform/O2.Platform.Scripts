@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var visualStudio = new VisualStudio_2010();
+
+var autoCreate = false;
+
+var topPanel = "topPanel__".o2Cache&lt;Panel&gt;(()=&gt; visualStudio.open_Panel("Auto Compile and Render User Controls"))
+ 						 .add_Panel(true);
+
+topPanel.add_Label("Waiting for UserControl to Render ....")
+		.textSize(20).fill(true).text_Center();
+
+   
+Action&lt;string&gt; currentFile = null; 
+Action&lt;string&gt; compiledType = null; 
+Assembly lastCompiledAssembly = null;
+Control lastControlCreated = null;
+var logViewer = topPanel.insert_LogViewer();
+var logViewer_splitContainer = logViewer.splitContainer().panel2Collapsed(true);
+					 				  
+bool busy = false;
+Action compileAndCreate = 
+	()=&gt;{
+			busy = true;
+			topPanel.enabled(false);			
+			O2Thread.mtaThread(
+				()=&gt;{ 
+						var file = visualStudio.activeFile();
+						var filesToCompile = file.wrapOnList();
+						var designerFile = file.replace(".cs", ".Designer.cs");
+						if (designerFile.fileExists())
+							filesToCompile.add(designerFile);
+						
+						var assembly = new CompileEngine(false).compileSourceFiles(filesToCompile);			
+						if (assembly.notNull())
+						{																		
+							var type = assembly.types().first();
+							compiledType(type.str());
+							if (type.baseTypes().contains(typeof(UserControl)))													
+								topPanel.enabled(true).clear().add_Control(type);							
+							else
+								"{0} compile type was not an UserControl: {1}".error(file.fileName(),type.str());					
+						}			
+						else
+							topPanel.enabled(false).controls(true).pink();							
+						busy = false;						
+					});
+		};
+Action&lt;Document&gt; refresh = 
+	(document)=&gt;{
+					if(document.notNull())
+					{												
+						if (autoCreate)
+							compileAndCreate();
+					}
+				};		
+VisualStudio_2010.on_DocumentSaved.clear().add(
+	(document)=&gt;{					
+					if (busy.isFalse())											
+						refresh(document);
+				});
+
+VisualStudio_2010.on_ActiveDocumentChange.clear()
+		.add((document)=&gt;{
+							currentFile(visualStudio.activeFile().fileName());					
+							//refresh(document);
+						  });
+
+topPanel.insert_Above_ToolStrip() 			
+			.add_Play("Compile and Create Control",compileAndCreate)
+			.add("REPL Control", "accessories_text_editor", ()=&gt; lastControlCreated.script_Me()) 		 				
+			.add_CheckBox("Auto Create (on Save)", (value)=&gt;{  autoCreate = value; compileAndCreate(); }) 
+			.add("View Logs","btShowHidePythonLogExecutionOutputData_Image", ()=&gt;logViewer_splitContainer.panel2Collapsed(false));
+							
+topPanel.insert_Above_ToolStrip()
+		.add_Text("Active Document:").add_TextBox("", ref currentFile)
+		.add_Text("Compiled Type")   .add_TextBox("", 200, ref compiledType);
+		
+
+refresh(default(Document));
+return topPanel;
+//using O2.Platform.BCL.O2_Views_ASCX
+//using EnvDTE
+//using System.Reflection
+
+//if (control.baseTypes().contains(typeof(UserControl)))
+//	"test".popupWindow().add_Control(control);
+//return visualStudio.typeFullName();
+//return visualStudio.activeDocument();
+//	return VisualStudio_2010.DTE2.ActiveDocument;
+return visualStudio.dte(); 
+//using O2.FluentSharp.VisualStudio
+//using EnvDTE80 
+
+//O2File:E:\O2_V4\O2.Platform.Scripts\Utils\ExtensionMethods\_Extra_methods_To_Add_to_Main_CodeBase.cs
+//O2File:E:\O2_V4\O2.Platform.Scripts\3rdParty\Microsoft\VisualStudio\Inside VisualStudio 2010\VisualStudio_2010_ExtensionMethods_ExtraMethods.cs</SourceCode>
+  <ReferencedAssemblies />
+</H2>

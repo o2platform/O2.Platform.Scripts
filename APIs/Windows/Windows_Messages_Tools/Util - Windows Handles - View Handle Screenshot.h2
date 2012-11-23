@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.add_Panel(true);
+var topPanel = "Util - Windows Handles - View Handle Screenshot".popupWindow(450,350);
+
+WindowFinder windowFinder 			= null;
+TextBox 	 textBox_CurrentHandle 	= null;
+PictureBox	 pictureBox				= null;
+Bitmap		 lastScreenShot			= null; 
+Label		 userMessage			= null;
+
+Action&lt;IntPtr&gt; onHandleChange =  
+	(handle)=&gt;{
+					textBox_CurrentHandle.set_Text(handle.str());
+					lastScreenShot = handle.window_ScreenShot();
+					if (lastScreenShot.notNull())
+					{
+						pictureBox.show(lastScreenShot);
+						userMessage.set_Text("Created screenshot of handle: {0}".format(handle)).foreColor(Color.Green);
+					}
+					else
+						userMessage.set_Text("Failed to create screenshot of handle: {0}".format(handle)).foreColor(Color.Red);
+					
+			  }; 
+Action copyToClipboard = 
+	()=&gt;{
+			topPanel.putBitmapOnClipboard(lastScreenShot); 
+			userMessage.set_Text("Image is in your Clipboard").foreColor(Color.DarkOrange);
+		};
+Action saveToDisk = 
+	()=&gt;{ 
+			lastScreenShot.save().clipboardText_Set(); 
+			userMessage.set_Text("File saved Path is on your clipboard").foreColor(Color.DarkOrange);
+		};
+	
+topPanel.insert_Above(30).white()
+			.add_WindowFinder(onHandleChange, ref windowFinder).width(30).fill(false)		
+			.append_Label	 ("Handle").top(10) 
+			.append_TextBox	 (ref textBox_CurrentHandle).width(75)
+			.append_Label	 ("ready when you are....", ref userMessage).font_bold().topAdd(2)
+		.splitContainer().splitterWidth(1)
+		.backTo(topPanel)		
+			.insert_Below_ToolStrip() 
+				.add_Copy(copyToClipboard) 
+				.add_Save("Save as temp file)",saveToDisk)
+				.add("Text Editor", "font_x_generic".formImage(), ()=&gt; "Simple Text Editor".popupWindow().add_RichTextBox())
+				.add_DropDown("Layout")
+					.add("None", ()=&gt; pictureBox.layout_None())
+					.add("Center", ()=&gt; pictureBox.layout_Center())
+					.add("Stretch", ()=&gt; pictureBox.layout_Stretch())
+					.add("Zoom", ()=&gt; pictureBox.layout_Zoom());
+
+topPanel.white().add_Label("Drag the target (top-left) into another Window or Control to see its screenshot").fill().text_Center().font_bold().size(20);	
+lastScreenShot = topPanel.handle().window_ScreenShot();
+
+topPanel.clear().add_PictureBox(ref pictureBox).white().layout_Zoom()
+			.show(lastScreenShot);
+			
+pictureBox.DoubleClick += (sender,e)=&gt; copyToClipboard();
+
+ return "ok";
+//O2File:WindowFinder.cs
+//O2Embed:target.ico</SourceCode>
+  <ReferencedAssemblies />
+</H2>

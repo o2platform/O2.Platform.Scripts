@@ -190,7 +190,6 @@ namespace O2.XRules.Database.APIs
 	}
 	
 	
-	
 	//was in WindowProperties.cs
 	
 	public class WindowProperties : IDisposable
@@ -269,11 +268,7 @@ namespace O2.XRules.Database.APIs
 			}
 			
 			object lastKnowSelectedObject = this.detectedWindow;
-			
-			/*if (point != Point.Empty && PluginManager.Instance.ResolveSelection(point, lastKnowSelectedObject, ref this.selectedObject))
-			{
-				result = true;
-			}*/
+						
 			return result;
 		}
 		public void Refresh()
@@ -306,5 +301,23 @@ namespace O2.XRules.Database.APIs
 			this.Refresh();
 		}
 	}
-
+	
+	public static class WindowFinder_ExtensionMethods
+	{
+		public static WindowFinder add_WindowFinder(this Control hostControl)
+		{
+			return hostControl.add_Control<WindowFinder>();
+		}
+		
+		public static WindowFinder add_WindowFinder(this Control hostControl, ref WindowFinder windowFinder)
+		{
+			return windowFinder = hostControl.add_Control<WindowFinder>();
+		}
+		public static WindowFinder add_WindowFinder(this Control hostControl, Action<IntPtr> onHandleChange, ref WindowFinder windowFinder)
+		{
+			windowFinder = hostControl.add_Control<WindowFinder>();
+			windowFinder.Handle_Changed = onHandleChange; 
+			return windowFinder;
+		}
+	}
 }
