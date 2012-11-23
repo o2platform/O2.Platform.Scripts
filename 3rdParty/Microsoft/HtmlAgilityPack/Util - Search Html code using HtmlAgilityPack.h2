@@ -12,8 +12,8 @@ var sampleXPathQueries = new List&lt;string&gt;
 									};
  
 // create GUI 
-var panel = O2Gui.open&lt;Panel&gt;("Quick HtmlCode Viewer",800,500).insert_LogViewer();  
-var groupBoxes = panel.add_1x1("Html Code", "TreeView", true, panel.width() /2 );
+var topPanel = O2Gui.open&lt;Panel&gt;("Quick HtmlCode Viewer",800,500).insert_LogViewer();  
+var groupBoxes = topPanel.add_1x1("Html Code", "TreeView", true, topPanel.width() /2 );
 var htmlCodeViewer = groupBoxes[0].add_SourceCodeViewer(); 
 var optionsPanel = htmlCodeViewer.insert_Below&lt;Panel&gt;(30);
 var treeView =  groupBoxes[1].add_TreeView();
@@ -105,8 +105,9 @@ foreach(var xPathQuery in sampleXPathQueries)
 	sampleQueries_MenuItem.add_MenuItem(xPathQuery , (text) =&gt; htmlNodeFilter.set_Text(text.str()));
 
 pageToOpen.sendKeys(defaultPage.line());
-
+ 
 //O2File:HtmlAgilityPack_Extra_ExtensionMethods.cs
+//O2File:HtmlAgilityPack_Extra_ExtensionMethods_SourceCodeViewer.cs
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
 //O2Ref:System.Xml.dll
 //O2Ref:System.Xml.Linq.dll</SourceCode>

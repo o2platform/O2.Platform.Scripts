@@ -13,14 +13,30 @@ codeEditor.textEditor().showInvalidLines(false);
 
 
 var tooStrip = codeEditor.insert_Above_ToolStrip();
-var examples = 	tooStrip.add_DropDown("Lisp Examples (tutorial)");
-tooStrip.add_CheckBox("Auto Execute",ref autoCompile); 
+
+var sampleClojureClrCode =  " var code = \"(+ 22 20)\";\n return Compiler.load(new StringReader(code), \".\");\n\n//using clojure.lang\n//O2Ref:Clojure.dll\n//using System.IO";
+
+topPanel.mainMenu().clear()
+		.add_Menu("C# REPL")
+			.add_MenuItem("REPL Clojure-clr engine", ()=&gt; "Clojure-cle engine".popupWindow().add_Script().set_Code(sampleClojureClrCode))			
+			.add_MenuItem("REPL this Form", ()=&gt; topPanel.script_Me())
+			.add_MenuItem("REPL Script that created this GUI", ()=&gt;open.scriptEditor("Launch Clojure REPL.h2".local()));
+
+topPanel.mainMenu().add_Menu("Resources (WebSites)")
+						.add_MenuItem("clojure.org Home Page"								, ()=&gt; "http://clojure.org".startProcess())					
+						.add_MenuItem("tryclj - Online Clojure REPL (with tutorial)"	 	, ()=&gt; "http://tryclj.com/".startProcess())
+						.add_MenuItem("himera - Online Clojure REPL (with 'at a glance')"	, ()=&gt; "http://himera.herokuapp.com/index.html".startProcess())
+						.add_MenuItem("Clojure-Clr (github)"								, ()=&gt; "https://github.com/clojure/clojure-clr".startProcess());
+						
+
+var samplesMenu = topPanel.mainMenu().add_Menu("Samples (start learning LISP here)");
 
 Action&lt;string, string&gt; add_Example  =
 	(title, code)=&gt;{	
-						examples.add_DropDown_Button(title, ()=&gt; codeEditor.set_Text(code));
+						samplesMenu.add_MenuItem(title, ()=&gt; codeEditor.set_Text(code));
 					};
 					
+
 
 //Loadup clojure 
 RT.var("clojure.core", "require");
@@ -42,7 +58,7 @@ Action execute =
 			{				
 				var result = Compiler.load(new StringReader(code), ".");				
 				replGui.showOutput(result); 			
-				replGui.Output_View_RichTextBox.green();
+				replGui.Output_View_RichTextBox.green();				
 			}
 			catch(Exception ex)
 			{
@@ -53,17 +69,24 @@ Action execute =
 		
 //replGui.On_ExecuteCode = execute;  
 
+tooStrip.add_Play("Execute", execute)
+		.add_CheckBox("Auto Execute",ref autoCompile); 
+
 codeEditor.onTextChange((text)=&gt; { if (autoCompile.value()) execute();});
 autoCompile.check();
 
-codeEditor.set_Text("(+ 2 2)");
+codeEditor.set_Text("(+ 20 22)");
 
 
-
-add_Example("arithmetic"		, "(+ 3 3)");
-add_Example("second"	, "(+ 2 22)");
-add_Example("third"		, "(+ 2 2123)");
-
+add_Example("tutorial"				, "(str \"These examples are the tutorial\" \"\\n\" \"code samples from\" \"\\n\" \"http://tryclj.com/\")");
+add_Example("arithmetic"			, "(+ 3 3)");
+add_Example("division"				, "(/ 10 3)");
+//add_Example("division #2"			, "(/ 10 3.0)");
+add_Example("multiple sums" 		, "(+ 1 2 3 4 5 6)");
+add_Example("our first function"	, "(defn square [x] (* x x)) \n (square 10)");
+add_Example("an anonymous function"	, "(fn [x] (* x x)) \n((fn [x] (* x x)) 20)");
+add_Example("named function" 		, "(def square (fn [x] (* x x)))");
+add_Example("a map"					, "(map inc [1 2 3 4])");
 
 
 //using System.IO

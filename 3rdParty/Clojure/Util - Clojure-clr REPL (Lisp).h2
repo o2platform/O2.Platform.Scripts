@@ -2,7 +2,7 @@
 <H2>
   <SourceCode>//return "Clojure-icon.png".local().bitmap();
 
-O2ConfigSettings.O2Version = "Closure_v1.6"; 
+O2ConfigSettings.O2Version = "Closure_v1.7"; 
 O2Setup.extractEmbededConfigZips(); 
 
 open.logViewer();

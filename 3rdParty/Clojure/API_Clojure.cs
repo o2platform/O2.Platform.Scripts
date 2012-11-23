@@ -50,6 +50,9 @@ namespace O2.XRules.Database.APIs
 				return null;
 			}
 			"Clojure-icon.png".local().file_Copy(baseFolder);
+			"Launch Clojure REPL.h2".local().file_Copy(baseFolder);
+			"API_Clojure.cs".local().file_Copy(baseFolder);
+			
 			"[openO2ReplInClojureFolder] creating AppDomain on folder {0}".info(baseFolder);
 			var o2AppDomain = new O2AppDomainFactory(name, baseFolder, defaultAssemblies);
 					
