@@ -14,6 +14,7 @@
 // 
 namespace O2.XRules.ThirdPary.IBM
 {
+	using System.Xml.Serialization;
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.1432")]
     [System.SerializableAttribute()]
@@ -21,159 +22,20 @@ namespace O2.XRules.ThirdPary.IBM
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true)]
     [System.Xml.Serialization.XmlRootAttribute(Namespace="", IsNullable=false)]
-    public partial class AssessmentRun {
-        
-        private AssessmentRunAssessmentStats assessmentStatsField;
-        
-        private AssessmentRunAssessmentConfig assessmentConfigField;
-        
-        private AssessmentRunSharedDataStats sharedDataStatsField;
-        
-        private AssessmentRunString[] stringPoolField;
-        
-        private AssessmentRunFile[] filePoolField;
-        
-        private AssessmentRunSite[] sitePoolField;
-        
-        private AssessmentRunTaint[] taintPoolField;
-        
-        private AssessmentRunFindingData[] findingDataPoolField;
-        
-        private AssessmentRunAssessment assessmentField;
-        
-        private AssessmentRunMessage[] messagesField;
-        
-        private string nameField;
-        
-        private string versionField;
-        
-        /// <remarks/>
-        public AssessmentRunAssessmentStats AssessmentStats {
-            get {
-                return this.assessmentStatsField;
-            }
-            set {
-                this.assessmentStatsField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public AssessmentRunAssessmentConfig AssessmentConfig {
-            get {
-                return this.assessmentConfigField;
-            }
-            set {
-                this.assessmentConfigField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public AssessmentRunSharedDataStats SharedDataStats {
-            get {
-                return this.sharedDataStatsField;
-            }
-            set {
-                this.sharedDataStatsField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute("String", IsNullable=false)]
-        public AssessmentRunString[] StringPool {
-            get {
-                return this.stringPoolField;
-            }
-            set {
-                this.stringPoolField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute("File", IsNullable=false)]
-        public AssessmentRunFile[] FilePool {
-            get {
-                return this.filePoolField;
-            }
-            set {
-                this.filePoolField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute("Site", IsNullable=false)]
-        public AssessmentRunSite[] SitePool {
-            get {
-                return this.sitePoolField;
-            }
-            set {
-                this.sitePoolField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute("Taint", IsNullable=false)]
-        public AssessmentRunTaint[] TaintPool {
-            get {
-                return this.taintPoolField;
-            }
-            set {
-                this.taintPoolField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute("FindingData", IsNullable=false)]
-        public AssessmentRunFindingData[] FindingDataPool {
-            get {
-                return this.findingDataPoolField;
-            }
-            set {
-                this.findingDataPoolField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public AssessmentRunAssessment Assessment {
-            get {
-                return this.assessmentField;
-            }
-            set {
-                this.assessmentField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute("Message", IsNullable=false)]
-        public AssessmentRunMessage[] Messages {
-            get {
-                return this.messagesField;
-            }
-            set {
-                this.messagesField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string name {
-            get {
-                return this.nameField;
-            }
-            set {
-                this.nameField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string version {
-            get {
-                return this.versionField;
-            }
-            set {
-                this.versionField = value;
-            }
-        }
+    public partial class AssessmentRun 
+    {        
+        															public AssessmentRunAssessmentStats		AssessmentStats 	{ get; set; }
+        															public AssessmentRunAssessmentConfig 	AssessmentConfig 	{ get; set; }
+        															public AssessmentRunSharedDataStats 	SharedDataStats 	{ get; set; }
+        [XmlArrayItemAttribute("String", 	  IsNullable=false)]	public AssessmentRunString[] 			StringPool	 		{ get; set; }
+        [XmlArrayItemAttribute("File",   	  IsNullable=false)]	public AssessmentRunFile[]	 			FilePool 			{ get; set; }
+        [XmlArrayItemAttribute("Site",   	  IsNullable=false)] 	public AssessmentRunSite[] 				SitePool 			{ get; set; }
+        [XmlArrayItemAttribute("Taint",  	  IsNullable=false)]	public AssessmentRunTaint[] 			TaintPool 			{ get; set; }
+        [XmlArrayItemAttribute("FindingData", IsNullable=false)]	public AssessmentRunFindingData[] 		FindingDataPool 	{ get; set; }
+        															public AssessmentRunAssessment 			Assessment 			{ get; set; }
+        [XmlArrayItemAttribute("Message", 	  IsNullable=false)]	public AssessmentRunMessage[] 			Messages 			{ get; set; }
+        [XmlAttributeAttribute()]									public string 							name 				{ get; set; }
+        [XmlAttributeAttribute()]									public string 							version 			{ get; set; }
     }
 
     /// <remarks/>
