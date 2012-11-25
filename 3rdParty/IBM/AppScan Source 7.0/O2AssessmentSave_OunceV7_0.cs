@@ -3,12 +3,13 @@ using System;
 using System.Collections.Generic;
 using O2.DotNetWrappers.DotNet;
 using O2.Interfaces.O2Findings;
+using O2.DotNetWrappers.ExtensionMethods;
 using O2.Kernel;
 using O2.XRules.ThirdPary.IBM;
 //O2File:xsd_Ozasmt_OunceV7_0.cs
 //___O2File:OzasmtUtils_OunceV6.cs
 
-namespace O2.ImportExport.OunceLabs.Ozasmt_OunceV6
+namespace O2.XRules.ThirdPary.IBM
 {
     public class O2AssessmentSave_OunceV7 : IO2AssessmentSave
     {        
@@ -17,7 +18,7 @@ namespace O2.ImportExport.OunceLabs.Ozasmt_OunceV6
         public O2AssessmentSave_OunceV7()
         {
             engineName = "O2AssessmentSave_OunceV7";
-            //assessmentRun = OzasmtUtils_OunceV7.getDefaultAssessmentRunObject();
+            assessmentRun = O2Assessment_OunceV7_Utils.getDefaultAssessmentRunObject();
         }
 
         public string engineName {get; set;}
@@ -32,25 +33,26 @@ namespace O2.ImportExport.OunceLabs.Ozasmt_OunceV6
 
         public bool save(List<IO2Finding> o2Findings, string sPathToSaveAssessment)
         {
-            return save(assessmentRun.name, o2Findings, sPathToSaveAssessment);
+            return save(assessmentRun.name, o2Findings, sPathToSaveAssessment);            
         }
 
         public bool save(string assessmentName, IEnumerable<IO2Finding> o2Findings, string sPathToSaveAssessment)
         {
-            //createAssessmentRunObject(assessmentName, o2Findings);
+            createAssessmentRunObject(assessmentName, o2Findings);
+            return assessmentRun.saveAs(sPathToSaveAssessment);
             //return OzasmtUtils_OunceV6.SaveAssessmentRun(assessmentRun, sPathToSaveAssessment);
             return false;
         }
 
-/*        private void createAssessmentRunObject(string assessmentName, IEnumerable<IO2Finding> o2Findings)
+        private void createAssessmentRunObject(string assessmentName, IEnumerable<IO2Finding> o2Findings)
         {
             assessmentRun.name = assessmentName ?? "";
-            assessmentRun.Assessment.owner_name = assessmentRun.name;
+            //assessmentRun.Assessment.owner_name = assessmentRun.name;
             assessmentRun.Assessment.assessee_name = assessmentRun.name;
-            assessmentRun.Assessment.owner_type = "Application";
-            addO2FindingsToAssessmentRunObject(o2Findings);
+            //assessmentRun.Assessment.owner_type = "Application";
+            //addO2FindingsToAssessmentRunObject(o2Findings);
         }
-
+/*
         private AssessmentRun createAssessmentRunObject(IO2Assessment o2Assessment)
         {
             createAssessmentRunObject(o2Assessment.name, o2Assessment.o2Findings);
@@ -145,5 +147,47 @@ namespace O2.ImportExport.OunceLabs.Ozasmt_OunceV6
             // save it 
             return OzasmtUtils_OunceV6.SaveAssessmentRun(assessmentRun, savedCreatedOzasmtAs);            
         }*/
+    }
+    
+    
+    public class O2Assessment_OunceV7_Utils
+    {
+        public static AssessmentRun getDefaultAssessmentRunObject()
+        {
+            // this is what we need to create a default assessment
+            var defaultName = "DefaultAssessmentRun_v8";
+            var defaultVersion  = "8.6.0.0";            				 
+            
+            var arNewAssessmentRun = new AssessmentRun
+                                         	{
+                                            	AssessmentStats = new AssessmentRunAssessmentStats(),         
+									         	AssessmentConfig = new AssessmentRunAssessmentConfig(),
+												SharedDataStats = new AssessmentRunSharedDataStats(),
+												StringPool = new AssessmentRunString[] {},
+												FilePool = new AssessmentRunFile[] {},
+												SitePool = new AssessmentRunSite[] {},
+												TaintPool = new AssessmentRunTaint[] {},
+												FindingDataPool = new AssessmentRunFindingData[] {},
+//												Assessment = new AssessmentRunAssessment(),
+												Messages = new AssessmentRunMessage[] {},
+												name = defaultName,		 			
+												version = defaultVersion
+                                         	};
+//not sure if this is needed                                         	
+/*            var armMessage = new AssessmentRunMessage
+                                 {
+                                     id = 0,
+                                     message =
+                                         ("Custom Assessment Run File created on " +
+                                          DateTime.Now)
+                                 };
+            arNewAssessmentRun.Messages = new[] { armMessage };*/
+            arNewAssessmentRun.Assessment = new AssessmentRunAssessment { Assessment = new[] { new Assessment() } };
+            // need to populate the date 
+            arNewAssessmentRun.AssessmentStats.date =
+                (uint)(DateTime.Now.Minute * 1000 + DateTime.Now.Second * 50 + DateTime.Now.Millisecond);
+            // This should be enough to create unique timestamps 
+            return arNewAssessmentRun;
+        }
     }
 }
