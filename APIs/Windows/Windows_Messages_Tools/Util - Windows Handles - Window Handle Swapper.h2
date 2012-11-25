@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = panel.add_Panel(true);
+
+var notepadPanel = topPanel.insert_Right("Notepad goes here"); 
+ 
+var notepad = "Notepad.exe".startProcess().waitFor_MainWindowHandle()
+										 .resizeprocessToControlSize(notepadPanel)
+										 .closeInNSeconds(5);
+
+
+WindowFinder windowFinder 				= null;
+TextBox 	 textBox_TargetHandle 		= null;
+TextBox 	 textBox_ReplacementHandle 	= null;
+PictureBox	 pictureBox					= null;
+Bitmap		 lastScreenShot				= null; 
+Label		 userMessage				=	null;
+
+Action&lt;IntPtr&gt; onHandleChange =  
+	(handle)=&gt;{
+					textBox_TargetHandle.set_Text(handle.str());					
+			  }; 
+	
+topPanel.insert_Above(30).white()
+			.add_WindowFinder(onHandleChange, ref windowFinder).width(30).fill(false)		
+			.append_Label	 ("Target Handle").top(10) 
+			.append_TextBox	 (ref textBox_TargetHandle).width(75)
+			.append_Label	 ("Replacement Handle").top(10) 
+			.append_TextBox	 (ref textBox_ReplacementHandle).width(75)			
+			.append_Label	 ("ready when you are....", ref userMessage).font_bold().topAdd(2)
+		.splitContainer().splitterWidth(1);
+
+ return "ok";
+ 
+//O2File:WindowFinder.cs
+//O2File:API_WinAPI_ExtensionMethods.cs
+
+//O2Embed:target.ico</SourceCode>
+  <ReferencedAssemblies />
+</H2>

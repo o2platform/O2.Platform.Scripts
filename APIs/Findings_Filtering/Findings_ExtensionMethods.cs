@@ -10,6 +10,8 @@ using O2.DotNetWrappers.O2Findings;
 using O2.DotNetWrappers.Windows;
 using O2.DotNetWrappers.ExtensionMethods;
 using O2.ImportExport.OunceLabs.Ozasmt_OunceV6;
+using O2.ImportExport.OunceLabs.Ozasmt_OunceV6_1;
+using O2.XRules.ThirdPary.IBM; //for O2.ImportExport.OunceLabs.Ozasmt_OunceV7_0;
 using O2.Interfaces.O2Core;
 using O2.Interfaces.O2Findings;
 using O2.Kernel;
@@ -251,8 +253,25 @@ namespace O2.XRules.Database.Findings
         public static List<IO2Finding> loadFindingsFile(this string fileToLoad)
         {
             var o2Assessment = new O2Assessment(new O2AssessmentLoad_OunceV6(), fileToLoad);
-            "there are {0} findings loaded in this file".info( o2Assessment.o2Findings.Count);
-            return o2Assessment.o2Findings;
+            if (o2Assessment.o2Findings.Count > 0)
+            {
+            	"[using O2AssessmentLoad_OunceV6] there are {0} findings loaded in this file".info( o2Assessment.o2Findings.Count);
+            	return o2Assessment.o2Findings;
+            }
+            o2Assessment = new O2Assessment(new O2AssessmentLoad_OunceV6_1(), fileToLoad);
+            if (o2Assessment.o2Findings.Count > 0)
+            {
+            	"[using O2AssessmentLoad_OunceV6_1] there are {0} findings loaded in this file".info( o2Assessment.o2Findings.Count);
+            	return o2Assessment.o2Findings;
+            }
+            o2Assessment = new O2Assessment(new O2AssessmentLoad_OunceV7_0(), fileToLoad);
+            if (o2Assessment.o2Findings.Count > 0)
+            {
+            	"[using O2AssessmentLoad_OunceV7_0] there are {0} findings loaded in this file".info( o2Assessment.o2Findings.Count);
+            	return o2Assessment.o2Findings;
+            }
+            "[There we no findings loaded from file: {0}".info(fileToLoad);
+            return new List<IO2Finding>();
         }
         
         public static string saveFindings(this List<IO2Finding> o2Findings)

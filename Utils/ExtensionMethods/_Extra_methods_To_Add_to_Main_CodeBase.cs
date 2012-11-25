@@ -54,21 +54,36 @@ using System.Security.Cryptography;
 
 namespace O2.XRules.Database.APIs
 {	
-	
-	public static class Extra_AppDomains
-	{						
-	
-	}
-	public static class Extra_WinForm_Controls_PropertyGrid
-	{
-		
-	}
-	public static class Extra_compile_Objects
-	{		
-		
-	}
 	public static class Extra_compile_Control
 	{
+	
+		public static T font<T>(this T control, Font font) where T : Control
+		{
+			return control.invokeOnThread(()=>{
+												 control.Font = font;
+												 return control;
+											  });			
+		}
+		 
+/*		public static T backColor<T>(this T control, string colorName) where T : Control
+    	{
+    		return control.backColor(colorName.color());    			
+    	}
+*/    	
+    	public static T foreColor<T>(this T control, string colorName) where T : Control
+    	{
+    		return control.foreColor(colorName.color());    			
+    	}
+    	
+    	public static T textColor<T>(this T control, string colorName) where T : Control
+    	{
+    		return control.foreColor(colorName);
+    	}
+    	public static T color<T>(this T control, string colorName) where T : Control
+    	{
+    		return control.foreColor(colorName);
+    	}
+    	
 		//not working (more work is needed to add drag and drop support to Images (and other WinForm controls)
 		/*public static T  onDrag<T, T1>(this T control, Func<T, T1> getDragData) where T : UserControl
         {
@@ -82,6 +97,183 @@ namespace O2.XRules.Database.APIs
         }*/
 		
 	}
+	public static class Extra_WinForm_Controls_Drawing
+	{
+		public static Color color(this string colorName)
+		{
+			var color = Color.FromName(colorName);
+	    	if (color.IsKnownColor.isFalse())
+	    		"In color, provided colorName was not found: {0}".error(colorName);
+	    	return color;
+		}    	
+		public static Font font(this string fontName)
+		{
+			return fontName.font(8);
+		}
+		public static Font font(this string fontName, int size)
+		{
+			return new Font(fontName, size);
+		}
+		
+		public static Font style_Add(this Font font, FontStyle fontStyle)
+		{
+			var currentStyle = (FontStyle)font.field("fontStyle");
+			var newStyle = currentStyle | fontStyle;
+			font.field("fontStyle", newStyle);
+			return font;
+		}
+		
+		public static Font bold(this Font font)
+		{
+			return font.style_Add(FontStyle.Bold);
+		}
+		public static Font italic(this Font font)
+		{
+			return font.style_Add(FontStyle.Italic);
+		}	
+		/*public static Font regular(this Font font)			// this requires a different approach
+		{
+			return font.style_Add(FontStyle.Regular);
+		}*/
+		public static Font strikeout(this Font font)
+		{
+			return font.style_Add(FontStyle.Strikeout);
+		}
+		public static Font underline(this Font font)
+		{
+			return font.style_Add(FontStyle.Underline);
+		}
+	}
+	
+	public static class Extra_WinForm_Controls_ImageList
+	{
+		public static ImageList imageList(this TreeView treeView)
+		{
+			return treeView.invokeOnThread(
+				()=>{
+						if (treeView.ImageList.isNull())
+							treeView.ImageList = new ImageList();
+						return treeView.ImageList;
+					});
+		}
+		/* we can't do this because of cross thread error, but I can't see how we can get the thread value from the Image list (even though it is already connected to a Treeview)
+		public static ImageList add(this ImageList imageList, params string[] keys)
+		{
+			foreach(var key in keys)
+				imageList.add(key, key.formImage());
+			return imageList;
+		}
+		public static ImageList add(this ImageList imageList, string key, Image image)
+		{
+			if (key.notNull() && image.notNull())
+				imageList.Images.Add(key, image);
+			return imageList;
+		}*/
+		
+		public static TreeView add_ToImageList(this TreeView treeView, params string[] keys)
+		{
+			foreach(var key in keys)
+				treeView.add_ToImageList(key, key.formImage());
+			return treeView;
+		}
+		public static TreeView add_ToImageList(this TreeView treeView, string key, Image image)
+		{
+			return treeView.invokeOnThread(
+				()=>{
+						if (key.notNull() && image.notNull()) 
+							treeView.imageList().Images.Add(key, image);
+						return treeView;
+					});
+		}
+		
+		
+	}
+	
+	public static class Extra_WinForm_Controls_TreeView
+	{
+		public static TreeView checkBoxes(this TreeView treeView)
+		{
+			return treeView.checkBoxes(true);
+		}
+	}
+	
+	public static class Extra_WinForm_Controls_TreeNode
+    {
+    	public static TreeNode backColor(this TreeNode treeNode, string colorName)
+    	{
+    		return treeNode.backColor(colorName.color());    			
+    	}
+    	
+    	public static TreeNode foreColor(this TreeNode treeNode, string colorName)
+    	{
+    		return treeNode.foreColor(colorName.color());    			
+    	}
+    	
+    	public static TreeNode textColor(this TreeNode treeNode, string colorName)
+    	{
+    		return treeNode.foreColor(colorName);
+    	}
+    	public static TreeNode color(this TreeNode treeNode, string colorName)
+    	{
+    		return treeNode.foreColor(colorName);
+    	}
+    	
+    	public static TreeNode font(this TreeNode treeNode, Font font)
+    	{
+			treeNode.treeView().invokeOnThread(()=> treeNode.NodeFont = font);
+			return treeNode;
+    	}
+		public static TreeNode @checked(this TreeNode treeNode)
+		{
+			return treeNode.@checked(true);
+		}
+		public static TreeNode @checked(this TreeNode treeNode, bool value)
+    	{
+    		treeNode.treeView().invokeOnThread(()=> treeNode.Checked = value);
+    		return treeNode;
+    	}
+    	
+    	public static TreeNode image(this TreeNode treeNode, string key)
+    	{
+    		return treeNode.treeView().invokeOnThread(
+    			()=>{
+    					treeNode.ImageKey = key;
+    					return treeNode;
+    				});
+    	}
+    	public static TreeNode image(this TreeNode treeNode, int index)
+    	{
+    		return treeNode.treeView().invokeOnThread(
+    			()=>{
+    					treeNode.ImageIndex = index; 
+    					return treeNode;
+    				});
+    	}
+    }
+	
+	public static class Extra_WinForm_Controls_Label
+	{
+		public static Label append_Label(this Control control, string text, int top)
+		{
+			return control.append_Label(text).top(top);
+		}
+		
+		public static Label append_Label(this Control control, string text, int top, ref Label label)
+		{
+			return label = control.append_Label(text).top(top);
+		}
+		
+		public static Label bold(this Label label)
+		{
+			return label.font_bold();
+		}
+	}
+	public static class Extra_compile_SplitContainer
+	{		
+		
+		
+	}
+
 	public static class Extra_compile_TextBox
 	{
 		
@@ -103,30 +295,7 @@ namespace O2.XRules.Database.APIs
 		
 	}
 	
-    public static class Extra_WinForm_Controls_TreeView
-    {
-    	    	
-    	
-    }
-	public static class Extra_WinForm_Controls_ToolStrip
-	{
-		/*public static ToolStrip insert_Below_ToolStrip(this Control control)
-		{
-			var tooStrip = control.insert_Above(30).add_ToolStrip();
-			tooStrip.splitContainerFixed();
-			return tooStrip;
-		}*/
-		
-		/*public static ToolStrip add(this ToolStrip toolStrip, string text)
-		{
-			toolStrip.add_Button(text);
-			return toolStrip;
-		}*/
-		
-		
-		
-		
-	}
+    
 	public static class Extra_Processes
 	{			
 		[DllImport( "kernel32.dll" )]
@@ -151,177 +320,5 @@ namespace O2.XRules.Database.APIs
 	    }
 	   
 	}	
-	
-	public static class Extra_PictureBox
-	{
-		
-	}
-
-/*
-	//move this to Win_API classes
-	public static class Extra_Screenshot
-	{
-		//based on code from http://stackoverflow.com/a/911225
-		public static Bitmap screenshot_MainWindow(this Process process)
-		{
-			return PrintWindow(process.MainWindowHandle);
-		}
-	
-			
-		[DllImport("user32.dll")]
-		public static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
-		[DllImport("user32.dll")]
-		public static extern bool PrintWindow(IntPtr hWnd, IntPtr hdcBlt, int nFlags);
-	
-		public static Bitmap PrintWindow(IntPtr hwnd)    
-		{       
-		    RECT rc;        
-		    GetWindowRect(hwnd, out rc);
-		
-		    Bitmap bmp = new Bitmap(rc.Width, rc.Height, PixelFormat.Format32bppArgb);        
-		    Graphics gfxBmp = Graphics.FromImage(bmp);        
-		    IntPtr hdcBitmap = gfxBmp.GetHdc();        
-		
-		    PrintWindow(hwnd, hdcBitmap, 0);  
-		
-		    gfxBmp.ReleaseHdc(hdcBitmap);               
-		    gfxBmp.Dispose(); 
-		
-		    return bmp;   
-		}
-		
-		[StructLayout(LayoutKind.Sequential)]
-		public struct RECT
-		{
-		    private int _Left;
-		    private int _Top;
-		    private int _Right;
-		    private int _Bottom;
-		
-		    public RECT(RECT Rectangle) : this(Rectangle.Left, Rectangle.Top, Rectangle.Right, Rectangle.Bottom)
-		    {
-		    }
-		    public RECT(int Left, int Top, int Right, int Bottom)
-		    {
-		        _Left = Left;
-		        _Top = Top;
-		        _Right = Right;
-		        _Bottom = Bottom;
-		    }
-		
-		    public int X {
-		        get { return _Left; }
-		        set { _Left = value; }
-		    }
-		    public int Y {
-		        get { return _Top; }
-		        set { _Top = value; }
-		    }
-		    public int Left {
-		        get { return _Left; }
-		        set { _Left = value; }
-		    }
-		    public int Top {
-		        get { return _Top; }
-		        set { _Top = value; }
-		    }
-		    public int Right {
-		        get { return _Right; }
-		        set { _Right = value; }
-		    }
-		    public int Bottom {
-		        get { return _Bottom; }
-		        set { _Bottom = value; }
-		    }
-		    public int Height {
-		        get { return _Bottom - _Top; }
-		        set { _Bottom = value + _Top; }
-		    }
-		    public int Width {
-		        get { return _Right - _Left; }
-		        set { _Right = value + _Left; }
-		    }
-		    public Point Location {
-		        get { return new Point(Left, Top); }
-		        set {
-		            _Left = value.X;
-		            _Top = value.Y;
-		        }
-		    }
-		    public Size Size {
-		        get { return new Size(Width, Height); }
-		        set {
-		            _Right = value.Width + _Left;
-		            _Bottom = value.Height + _Top;
-		        }
-		    }
-		
-		    public static implicit operator Rectangle(RECT Rectangle)
-		    {
-		        return new Rectangle(Rectangle.Left, Rectangle.Top, Rectangle.Width, Rectangle.Height);
-		    }
-		    public static implicit operator RECT(Rectangle Rectangle)
-		    {
-		        return new RECT(Rectangle.Left, Rectangle.Top, Rectangle.Right, Rectangle.Bottom);
-		    }
-		    public static bool operator ==(RECT Rectangle1, RECT Rectangle2)
-		    {
-		        return Rectangle1.Equals(Rectangle2);
-		    }
-		    public static bool operator !=(RECT Rectangle1, RECT Rectangle2)
-		    {
-		        return !Rectangle1.Equals(Rectangle2);
-		    }
-		
-		    public override string ToString()
-		    {
-		        return "{Left: " + _Left + "; " + "Top: " + _Top + "; Right: " + _Right + "; Bottom: " + _Bottom + "}";
-		    }
-		
-		    public override int GetHashCode()
-		    {
-		        return ToString().GetHashCode();
-		    }
-		
-		    public bool Equals(RECT Rectangle)
-		    {
-		        return Rectangle.Left == _Left && Rectangle.Top == _Top && Rectangle.Right == _Right && Rectangle.Bottom == _Bottom;
-		    }
-		
-		    public override bool Equals(object Object)
-		    {
-		        if (Object is RECT) {
-		            return Equals((RECT)Object);
-		        } else if (Object is Rectangle) {
-		            return Equals(new RECT((Rectangle)Object));
-		        }
-		
-		        return false;
-		    }
-		}
- 
-	}*/
-	
-	public static class Extra_TrackBar
-	{
-		
-	}
-	public static class Extra_compile_Collections
-	{
-		
-	}
-	
-	
-		
-	
-	/*public static class _Extra_WinForms_Controls_MsgBox
-	{
-		
-	}
-	
-	public static class _Extra_WinForms_Controls_Browser
-	{
-				
-	}*/		
 }
     	

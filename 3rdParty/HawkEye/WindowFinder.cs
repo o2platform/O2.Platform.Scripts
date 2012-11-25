@@ -146,7 +146,7 @@ namespace O2.XRules.Database.APIs
 			{
 				if(intPtr!= Last_Handle)
 				{
-					"Handle Change: {0} : {1}".info(intPtr, WinAPI.GetControlText(intPtr));
+					//"Handle Change: {0} : {1}".info(intPtr, WinAPI.GetControlText(intPtr));
 					Last_Handle.window_Redraw();
 					Last_Handle = intPtr;
 					Last_Handle.window_Highlight();
@@ -164,7 +164,7 @@ namespace O2.XRules.Database.APIs
 				this.lastPoint = point;				
 				if (this.Window.SetWindowHandle(intPtr, this.lastPoint))
 				{
-					"Window Change: {0} : {1}".debug(intPtr, WinAPI.GetWindowText(intPtr));				
+					//"Window Change: {0} : {1}".debug(intPtr, WinAPI.GetWindowText(intPtr));				
 					Last_Window = intPtr;					
 					Window_Changed.invoke(intPtr);
 					this.InvokeActiveWindowChanged();
@@ -306,16 +306,17 @@ namespace O2.XRules.Database.APIs
 	{
 		public static WindowFinder add_WindowFinder(this Control hostControl)
 		{
-			return hostControl.add_Control<WindowFinder>();
+			return hostControl.add_Control<WindowFinder>()
+							  .width(30).fill(false);
 		}
 		
 		public static WindowFinder add_WindowFinder(this Control hostControl, ref WindowFinder windowFinder)
 		{
-			return windowFinder = hostControl.add_Control<WindowFinder>();
+			return windowFinder = hostControl.add_WindowFinder();
 		}
 		public static WindowFinder add_WindowFinder(this Control hostControl, Action<IntPtr> onHandleChange, ref WindowFinder windowFinder)
 		{
-			windowFinder = hostControl.add_Control<WindowFinder>();
+			windowFinder = hostControl.add_WindowFinder();
 			windowFinder.Handle_Changed = onHandleChange; 
 			return windowFinder;
 		}

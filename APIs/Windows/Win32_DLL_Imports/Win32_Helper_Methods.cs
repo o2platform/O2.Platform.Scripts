@@ -28,12 +28,19 @@ namespace O2.XRules.Database.APIs
 		public static List<IntPtr> GetChildWindows(IntPtr hwnd)
 		{
 			var childWindows = new List<IntPtr>();
-			WinAPI.WindowEnumProc addChildWindow  =
-				(IntPtr childHwnd, IntPtr lparam)=>{
-													childWindows.Add(childHwnd);
-													return 1;
-								  			   };
-			WinAPI.EnumChildWindows(hwnd,addChildWindow, IntPtr.Zero);
+			try
+			{
+				WinAPI.WindowEnumProc addChildWindow  =
+					(IntPtr childHwnd, IntPtr lparam)=>{
+														childWindows.Add(childHwnd);
+														return 1;
+									  			   };
+				WinAPI.EnumChildWindows(hwnd,addChildWindow, IntPtr.Zero);
+			}
+			catch(Exception ex)
+			{
+				ex.log("in GetChildWindows");
+			}
 			return childWindows;
 		}
 		public static List<string> GetChildWindows_Texts(IntPtr hwnd)

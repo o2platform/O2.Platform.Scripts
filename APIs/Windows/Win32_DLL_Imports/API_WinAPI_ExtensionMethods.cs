@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using System.Drawing;  
+using System.Windows.Forms;
 using System.Drawing.Imaging; 
 using System.Diagnostics;
 using System.Collections.Generic;
@@ -43,6 +44,29 @@ namespace O2.XRules.Database.APIs
 	}
 	public static class WinAPI_ExtensionMethods_Misc
 	{
+		public static List<IntPtr> child_Windows(this IntPtr handle)
+		{
+			return WinAPI.GetChildWindows(handle);
+		}
+		
+		public static string className(this IntPtr handle)
+		{
+			return WinAPI.GetClassName(handle);
+		}
+		
+		public static List<string> classNames(this List<IntPtr> handles)
+		{
+			return (from handle in handles 
+					select handle.className()).distinct();
+		}
+		
+		public static Dictionary<string, List<IntPtr>> classNames_Indexed(this List<IntPtr> handles)
+		{		
+			var indexedClassNames = new Dictionary<string, List<IntPtr>>();			
+			foreach (var handle in handles)
+				indexedClassNames.add(handle.className(), handle);
+			return indexedClassNames;
+		}
 		public static IntPtr get_Parent(this IntPtr handle)
 		{
 			return WinAPI.GetParent(handle);
@@ -142,5 +166,59 @@ namespace O2.XRules.Database.APIs
 		
 		    return bmp;   		
 		}
+		public static Point pointToScreen(this Control control)
+		{
+			return control.invokeOnThread(()=> control.PointToScreen(System.Drawing.Point.Empty));
+		}
+		
+		
+	}
+	public static class WinAPI_ExtensionMethods_Process_TO_MOVE_TO_CORELIB
+	{
+		public static IntPtr handle(this Process process)
+		{			
+			if (process.notNull())
+				return process.MainWindowHandle;
+			return IntPtr.Zero;
+		}
+	}
+	public static class WinAPI_ExtensionMethods_Process
+	{				
+		public static Process window_AlwaysOnTop(this Process process)
+		{
+			process.handle().window_AlwaysOnTop();			
+			return process;
+		}
+		
+		public static Process set_Title(this Process process, string text)
+		{			
+			process.handle().set_WindowText(text);			
+			return process;
+		}
+		
+		public static List<IntPtr> child_Windows(this Process process)
+		{
+			return process.handle().child_Windows();
+		}
+		
+		
+		public static Process resizeprocessToControlSize(this Process process, Control controlToSync)
+        {        	
+            if (controlToSync.notNull() && process.notNull())
+            {             	
+            	var mainWindowHandle = process.MainWindowHandle;                
+                if (mainWindowHandle != IntPtr.Zero)
+                {
+                	var point = controlToSync.pointToScreen();                    
+                    var x = point.X;
+					var y = point.Y;
+                    var width = controlToSync.width();
+                    var height = controlToSync.height();
+                    "Setting process {0} location to {0}x{1} : {2}x{3}".info(process.ProcessName, x, y, width, height);
+                    mainWindowHandle.window_Move(x, y, width,height);
+                }
+            }
+            return process;
+        }
 	}
 }
