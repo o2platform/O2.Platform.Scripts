@@ -12,8 +12,9 @@ namespace O2.ImportExport.OunceLabs.Ozasmt_OunceV6_1
 { 
     public class O2AssessmentLoad_OunceV6_1 : IO2AssessmentLoad
     {
-        public string engineName { get; set; }
-
+        public string engineName 			{ get; set; }
+		public bool ShowErrorOnLoadFail 	{ get; set; }
+		
         public O2AssessmentLoad_OunceV6_1()
         {
             engineName = "O2AssessmentLoad_OunceV6_1";
@@ -28,9 +29,9 @@ namespace O2.ImportExport.OunceLabs.Ozasmt_OunceV6_1
             	"Engine {0} can load file {1}".info(engineName, fileToTryToLoad);
                 return true;
             }
-            
-            //PublicDI.log.debug("in {0} engine, could not load file {1} since the root element value didnt match the Regex: {2}!={3}",
-            //             engineName, fileToTryToLoad, rootElementText, expectedRootElementRegEx);
+            if(this.ShowErrorOnLoadFail)
+            	"in {0} engine, could not load file {1} since the root element value didnt match the Regex: {2}!={3}".error(
+                         engineName, fileToTryToLoad, rootElementText, expectedRootElementRegEx);
             return false;
         }
 

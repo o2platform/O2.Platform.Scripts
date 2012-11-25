@@ -1,5 +1,6 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using O2.DotNetWrappers.DotNet;
 using O2.Interfaces.O2Findings;
@@ -7,10 +8,25 @@ using O2.DotNetWrappers.ExtensionMethods;
 using O2.Kernel;
 using O2.XRules.ThirdPary.IBM;
 //O2File:xsd_Ozasmt_OunceV7_0.cs
-//___O2File:OzasmtUtils_OunceV6.cs
+
+//O2File:Findings_ExtensionMethods.cs 
+using O2.XRules.Database.Findings;
 
 namespace O2.XRules.ThirdPary.IBM
 {
+	public class O2AssessmentSave_OunceV7_test
+	{
+		public static void test()
+		{
+			var testFile = @"E:\_Work\IBM\8.6_files\8.6_files\AltoroJ_2.5 _Callbacks.ozasmt";
+	
+			var findings = "cachedFindings".o2Cache(()=>testFile.loadO2Findings());
+			var assessmentSave = new O2AssessmentSave_OunceV7();
+			    
+			var savedFile = assessmentSave.save(findings);
+		}
+
+	}
     public class O2AssessmentSave_OunceV7 : IO2AssessmentSave
     {        
         public AssessmentRun assessmentRun {get;set;}                
@@ -39,21 +55,22 @@ namespace O2.XRules.ThirdPary.IBM
         public bool save(string assessmentName, IEnumerable<IO2Finding> o2Findings, string sPathToSaveAssessment)
         {
             createAssessmentRunObject(assessmentName, o2Findings);
-            return assessmentRun.saveAs(sPathToSaveAssessment);
-            //return OzasmtUtils_OunceV6.SaveAssessmentRun(assessmentRun, sPathToSaveAssessment);
-            return false;
+            return assessmentRun.saveAs(sPathToSaveAssessment);            
+        } 
+		public void createAssessmentRunObject(IEnumerable<IO2Finding> o2Findings)
+		{
+			createAssessmentRunObject(assessmentRun.name, o2Findings);
+		}
+        public void createAssessmentRunObject(string assessmentName, IEnumerable<IO2Finding> o2Findings)
+        {
+            assessmentRun.name 						= assessmentName ?? "";
+            assessmentRun.Assessment.assessee_file 	= "";            
+            assessmentRun.Assessment.assessee_name 	= assessmentRun.name;
+            assessmentRun.Assessment.assessee_type 	= "Application";
+            addO2FindingsToAssessmentRunObject(o2Findings);
         }
 
-        private void createAssessmentRunObject(string assessmentName, IEnumerable<IO2Finding> o2Findings)
-        {
-            assessmentRun.name = assessmentName ?? "";
-            //assessmentRun.Assessment.owner_name = assessmentRun.name;
-            assessmentRun.Assessment.assessee_name = assessmentRun.name;
-            //assessmentRun.Assessment.owner_type = "Application";
-            //addO2FindingsToAssessmentRunObject(o2Findings);
-        }
-/*
-        private AssessmentRun createAssessmentRunObject(IO2Assessment o2Assessment)
+        public AssessmentRun createAssessmentRunObject(IO2Assessment o2Assessment)
         {
             createAssessmentRunObject(o2Assessment.name, o2Assessment.o2Findings);
             return assessmentRun;
@@ -61,8 +78,10 @@ namespace O2.XRules.ThirdPary.IBM
 
         public void addO2FindingsToAssessmentRunObject(IEnumerable<IO2Finding> o2Findings)
         {
-            Dictionary<string, List<AssessmentAssessmentFileFinding>> filesMappedToO2Findings =
-                getFilesToO2FindingMappings(o2Findings);
+        	assessmentRun.FilePool = getFilePool(o2Findings);
+            //Dictionary<string, List<AssessmentRunFile>> filesMappedToO2Findings = getFilePool(o2Findings);
+            
+            /*
             var assessmentFiles = new List<AssessmentAssessmentFile>();
             foreach (string file in filesMappedToO2Findings.Keys)
             {
@@ -74,8 +93,29 @@ namespace O2.XRules.ThirdPary.IBM
                 assessmentFiles.Add(assessmentFile);
             }
             assessmentRun.Assessment.Assessment[0].AssessmentFile = assessmentFiles.ToArray();
+            */
         }
+        
+        public AssessmentRunFile[] getFilePool(IEnumerable<IO2Finding> o2Findings)
+        {
+            
+            var uniqueFiles = (from o2Finding in o2Findings
+            					where o2Finding.file != null
+            					select o2Finding.file).distinct();
 
+			var filePool = new List<AssessmentRunFile>();
+			
+			filePool.add(new AssessmentRunFile() { id=1 });
+			UInt32 id = 2;
+			foreach(var uniqueFile in uniqueFiles)
+				filePool.add(new AssessmentRunFile() { id = id++ , value = uniqueFile});
+				
+		//	filePool.show_In_ListView().makeColumnWidthMatchCellWidth();
+		
+			return filePool.ToArray();
+            
+        }
+/*
         public Dictionary<String, List<AssessmentAssessmentFileFinding>> getFilesToO2FindingMappings(IEnumerable<IO2Finding> o2Findings)
         {
             var filesMappedToO2Findings = new Dictionary<string, List<AssessmentAssessmentFileFinding>>();
@@ -148,10 +188,22 @@ namespace O2.XRules.ThirdPary.IBM
             return OzasmtUtils_OunceV6.SaveAssessmentRun(assessmentRun, savedCreatedOzasmtAs);            
         }*/
     }
-    
-    
+       
     public class O2Assessment_OunceV7_Utils
     {
+    	public static AssessmentRun getVersionFromDirectLoad(string ozasmtFile)
+		{
+			return OzasmtUtils_OunceV7_0.getAssessmentRunObjectFromXmlFile(ozasmtFile);
+		}
+		
+		public static AssessmentRun getVersionFromSaveEngine(string ozasmtFile)
+		{
+			var findings = ozasmtFile.loadO2Findings();
+			var assessmentSave = new O2AssessmentSave_OunceV7(); 
+			assessmentSave.createAssessmentRunObject(findings);
+			return assessmentSave.assessmentRun;
+		}		
+    
         public static AssessmentRun getDefaultAssessmentRunObject()
         {
             // this is what we need to create a default assessment

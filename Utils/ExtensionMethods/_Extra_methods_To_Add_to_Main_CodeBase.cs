@@ -268,10 +268,16 @@ namespace O2.XRules.Database.APIs
 			return label.font_bold();
 		}
 	}
-	public static class Extra_compile_SplitContainer
+	public static class Extra_compile_Misc
 	{		
-		
-		
+		// do this propely when adding to main O2 code base since this will not work as expected when there are other textboxes and buttons on the same 'control' object
+		public static T add_LabelAndTextAndButton<T>(this T control, string labelText, string textBoxText, string buttonText,ref TextBox textBox, ref Button button, Action<string> onButtonClick)            where T : Control
+		{
+			control.add_LabelAndTextAndButton(labelText,textBoxText,buttonText, onButtonClick);
+			textBox = control.control<TextBox>();
+			button = control.control<Button>();
+			return control;
+		}
 	}
 
 	public static class Extra_compile_TextBox

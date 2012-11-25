@@ -1,13 +1,12 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>
-//panel.clear(); 
-//var topPanel = panel.add_Panel();	
+  <SourceCode>//var topPanel = panel.add_Panel(true);	
 var topPanel = O2Gui.open&lt;Panel&gt;("Write and Execute Unit Tests", 1000,600);
 var codeEditor = topPanel.add_SourceCodeEditor();
 var unitTest = codeEditor.insert_Right&lt;ascx_XRules_UnitTests&gt;(300);  
 unitTest.insert_Below&lt;Panel&gt;(130)
 		  .add_LogViewer();
+
 
 Action&lt;string&gt; loadFileAndCompile = 
 	(file)=&gt;{
@@ -15,33 +14,39 @@ Action&lt;string&gt; loadFileAndCompile =
 				codeEditor.compileSourceCode();
 			};
 
-
-var textBox = topPanel.insert_Above&lt;Panel&gt;(25)
-					  .add_LabelAndTextAndButton("Unit Test file","","load", loadFileAndCompile)
-					  .controls&lt;TextBox&gt;();
+TextBox textBox_LoadFile = null;
+Button  button_LoadFile  = null;
+topPanel.insert_Above&lt;Panel&gt;(25).add_LabelAndTextAndButton("Unit Test file","","load", ref textBox_LoadFile, ref button_LoadFile,  loadFileAndCompile);
 					  
 Action&lt;string&gt; loadFile = 
 	(file)=&gt;{
-				textBox.set_Text(file); 
+				textBox_LoadFile.set_Text(file); 
 				loadFileAndCompile(file);				
 			};
 			
-textBox.onDrop(
-	(text)=&gt; loadFile(text));
+textBox_LoadFile.onDrop((text)=&gt; loadFile(text));
 
 			
-			//unitTest.loadFile(text));	
+codeEditor.onCompile(
+	(assembly)=&gt;{	
+					unitTest.loadFile(assembly.Location,true); 
+					if(unitTest.control&lt;CheckBox&gt;(true).@checked())
+						unitTest.invoke("executeAllLoadedTests"); 
+					unitTest.XRulesTreeView_ExpandAll();
+				});
 //
-
 //Default data
-textBox.set_Text("DefaultUnitTest.cs".local().fileContents().saveWithExtension(".cs"));  
-textBox.sendEnter();
+var tempFile = "DefaultUnitTest.cs".local().fileContents().saveWithExtension(".cs");
+textBox_LoadFile.set_Text(tempFile);  
+button_LoadFile.click();
 
 return loadFile;
 
 //return unitTest.type().methods(); 
 //using O2.Core.XRules.Ascx
 //O2Ref:O2_Core_XRules.dll
-//O2Ref:O2_External_O2Mono.dll</SourceCode>
+//O2Ref:O2_External_O2Mono.dll
+
+//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs</SourceCode>
   <ReferencedAssemblies />
 </H2>
