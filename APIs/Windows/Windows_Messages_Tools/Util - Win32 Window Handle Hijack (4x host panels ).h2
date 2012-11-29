@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = "{name}".popupWindow(700,400);
+ 
+var topPanel = "Util - Win32 Window Handle Hijack (Multiple Guis)".popupWindow(1000,500);
+var parentForm = topPanel.parentForm();
+parentForm.insert_Right().add_Handle_HijackGui()
+		  .insert_Below().add_Handle_HijackGui(); 
+topPanel.add_Handle_HijackGui()
+		.insert_Below().add_Handle_HijackGui(); 
+ 
+Application.Run();
+//O2File:API_Win32_Handle_Hijack.cs
+//O2Package:target.ico</SourceCode>
+  <ReferencedAssemblies />
+</H2>

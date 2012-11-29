@@ -66,7 +66,7 @@ var otherTools_Mapping = new Items().add("Process Explorer", "ProcessExplorer.cs
 									.add("Process Monitor", "ProcessMonitor.cs")
 									.add("Open Ports via Netstat", "Util - Show Open Ports (via NetStat -afo).h2")
 									.add("Putty", "Putty.cs")
-									.add("ILSpy (like Reflector)", "ILSpy.cs")
+									.add("ILSpy (like Reflector)", "ILSpy_Installer.cs")
 									//.add("LINQPad", "Util - Inject O2 into LinqPad.h2")
 									.add("LINQPad", "LinqPad.cs")
 									.add("MDbg - Managed Debugger", "Installer_Mdbg_Sample_4_0.cs")

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = "{name}".popupWindow(700,400);
+
+var topPanel = "Util - Win32 Window Handle Hijack (simple)".popupWindow();
+
+topPanel.add_Handle_HijackGui();
+
+//O2File:API_Win32_Handle_Hijack.cs</SourceCode>
+  <ReferencedAssemblies />
+</H2>

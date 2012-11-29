@@ -19,6 +19,9 @@ using O2.XRules.Database.Findings;
 
 //O2Ref:nunit.framework.dll
 
+//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
+using O2.XRules.Database.APIs;
+
 namespace O2.XRules.Database.UnitTests
 {		
 	[TestFixture]
@@ -29,7 +32,7 @@ namespace O2.XRules.Database.UnitTests
     	
     	public LoadAndSave_Ozasmt8()
     	{
-    		TestFile = "JpetStore_8.6.ozasmt".local();
+    		TestFile = "JpetStore_8.6.ozasmt.zip".local().unzip_FirstFile();
     		Findings_Load = TestFile.loadO2Findings();
     	}
     	
@@ -68,11 +71,27 @@ namespace O2.XRules.Database.UnitTests
 			var directlyLoaded_Assessment = O2Assessment_OunceV7_Utils.getVersionFromDirectLoad(TestFile);
 			var fromSaveEngine_Assessment = O2Assessment_OunceV7_Utils.getVersionFromSaveEngine(TestFile);
 			
-			Assert.That(directlyLoaded_Assessment.name == fromSaveEngine_Assessment.name ,"name didn't match");
+			Assert.That(directlyLoaded_Assessment.name != fromSaveEngine_Assessment.name ,"names are not supposed to match");
+			
+			//check FilePool
+			var filesIn_Direct = directlyLoaded_Assessment.FilePool.files();
+			var filesIn_FromSave = fromSaveEngine_Assessment.FilePool.files();
+			
+			Assert.That(filesIn_Direct.size() >0 && filesIn_FromSave.size() > 0, "FilePool: No files found");
+			Assert.That(filesIn_Direct.contains(filesIn_FromSave), "FilePool: Direct didn't have all files in FromSave"); 		 
+			filesIn_FromSave.add("this should make the next test fail");
+			Assert.That(filesIn_Direct.contains(filesIn_FromSave).isFalse(), "FilePool: Something is wrong"); 		 
+			
+			//check StringPool
+			var strings_Direct   = directlyLoaded_Assessment.StringPool.strings();
+			var strings_FromSave = fromSaveEngine_Assessment.StringPool.strings();
+   
+   			Assert.That(strings_Direct.size() >0 && strings_FromSave.size() > 0, "StringPool: No strings found");
+			Assert.That(strings_Direct.contains(strings_FromSave), "StringPool: Direct didn't have all files in FromSave"); 		 			
 		}
 
 		
-		[Test]
+		//[Test]
 		public void SaveAndLoad_FindingsCountIsTheSame()
 		{
 			var savedFile = new O2AssessmentSave_OunceV7().save(Findings_Load);

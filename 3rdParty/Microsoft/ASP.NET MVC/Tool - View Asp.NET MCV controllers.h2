@@ -1,16 +1,23 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>//panel.clear();
-//var topPanel = panel; 
-var topPanel = O2Gui.open&lt;Panel&gt;("Tool - View Asp.NET MVC Controllers", 800,600);
-var useCachedData = true ;
+  <SourceCode>var topPanel = panel.add_Panel(true); 
+//var topPanel = O2Gui.open&lt;Panel&gt;("Tool - View Asp.NET MVC Controllers", 800,600);
+var useCachedData = false;
 //var manualMethodStreams = topPanel.add_Control&lt;ascx_ManualMethodStreams&gt;();
-
+var menu = topPanel.insert_MenuStrip();
 var sourceCodeViewer = topPanel.add_SourceCodeViewer();
 var astData = (O2MappedAstData)O2LiveObjects.get("astData");
 
+List&lt;IClass&gt; controllers = null;
+
 var treeView = sourceCodeViewer.insert_Left&lt;TreeView&gt;(400) 
 							   .showSelection();
+							   
+
+menu.add_Menu("REPL").add_MenuItem("REPL parent Form" 	, ()=&gt; topPanel.parentForm().script_Me())
+					 .add_MenuItem("REPL controllers"	, ()=&gt; controllers.ToArray().script_Me("controllers"))
+					 .add_MenuItem("REPL astData"		, ()=&gt; astData.script_Me("astData"));
+			
 treeView.afterSelect&lt;MethodDeclaration&gt;(
 	   		(methodDeclaration)=&gt;
 	   			{
@@ -40,25 +47,28 @@ Action&lt;string&gt; loadFilesFromFolder =
 						O2LiveObjects.set("astData",astData);
 					}	
 										
-					var controllers = new List&lt;IClass&gt;();
+					controllers = new List&lt;IClass&gt;();
 					foreach(var iClass in astData.iClasses())
 					{	
 						if (iClass.BaseTypes.Count  &gt;0)
 						{	
-							foreach(var baseType in iClass.BaseTypes)								
+							foreach(var baseType in iClass.BaseTypes)		
+							{
+								"iClass.baseType : {0}.{1}".debug(iClass.Name, baseType);
 								if(baseType.FullyQualifiedName == "System.Web.Mvc.Controller" || baseType.FullyQualifiedName == "ContentController")   
 									controllers.Add(iClass);
 								else
 								{ 
 									"bc: {0}".info(baseType.FullyQualifiedName);
 									//show.info(baseType);
-									//foreach(var baseBaseType in baseType.BaseTypes)								
-									//	if(baseBaseType.FullyQualifiedName == "System.Web.Mvc.Controller")   
-									//		controllers.Add(iClass);
-									//	else
-									////		"base.base class:{0}".info(baseBaseType.FullyQualifiedName);
-											
+								/*	foreach(var baseBaseType in baseType.BaseTypes)								
+										if(baseBaseType.FullyQualifiedName == "System.Web.Mvc.Controller")   
+											controllers.Add(iClass);
+										else
+											"base.base class:{0}".info(baseBaseType.FullyQualifiedName);
+								*/			
 								}
+							}
 						}	
 					}
 					treeView.clear();						
@@ -83,10 +93,11 @@ treeView.onDrop(
 					loadFilesFromFolder(folder);
 				  });
 
-var sourceFolder = @"C:\DotNet\AspNet-MVC\NerdDinner_2.0";
+var sourceFolder = @"C:\__Tests\Demos_Files\NerdDinner_2.0\NerdDinner";
 loadFilesFromFolder(sourceFolder);
 
 return astData; 
+
 //manualMethodStreams.buildGui();
 
 //using O2.API.AST.CSharp
@@ -105,6 +116,8 @@ return astData;
 //O2Ref:Quickgraph.dll
 //O2Ref:GraphSharp.dll
 //O2Ref:GraphSharp.Controls.dll
-//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll</SourceCode>
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
+
+//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs</SourceCode>
   <ReferencedAssemblies />
 </H2>

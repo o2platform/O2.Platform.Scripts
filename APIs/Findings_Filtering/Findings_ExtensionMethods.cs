@@ -216,6 +216,10 @@ namespace O2.XRules.Database.Findings
             return findingsViewer.getFindingsFromTreeView();
         }
 
+		public static ascx_FindingsViewer view(this List<IO2Finding> findings)
+		{
+			return "Viewing {0}".format(findings.size()).popupWindow().add_FindingsViewer().show(findings);
+		}
         public static Thread openFindingsInNewWindow(this List<IO2Finding> o2Findings)
         {
             return ascx_FindingsViewer.openInFloatWindow(o2Findings);
@@ -230,6 +234,8 @@ namespace O2.XRules.Database.Findings
 		{
 			return findingsViewer.show(o2Findings);	
 		}		
+		
+		
 		
 		public static ascx_FindingsViewer show(this ascx_FindingsViewer findingsViewer, IO2Finding o2Finding)
 		{

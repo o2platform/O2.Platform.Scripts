@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.add_Panel(true);
+var topPanel = "Util - Windows Handles Viewer (with Child Windows)".popupWindow(400,300);
+
+WindowFinder windowFinder 		= null;
+TextBox 	 handleValue 		= null; 
+Label		 userMessage		= null;
+TreeView 	 handleTree			= null;
+IntPtr		 selectedHandle 	= IntPtr.Zero;
+
+Action&lt;IntPtr&gt; selectHandle = 	
+	(handle)=&gt;{
+					selectedHandle.window_Redraw();
+					selectedHandle = handle.window_Highlight();
+			  };
+			  
+Action&lt;IntPtr,TreeNode&gt; addHandleToNode = 
+	(handle, treeNode) =&gt;{
+							    handleValue.set_Text(handle.str());		
+								var handleClass = handle.className(); 
+								var handleText  = handle.get_ControlText();
+								var nodeText = "{0} : {1} : {2}".format(handleClass,handle, handleText);
+								treeNode.add_Node(nodeText, handle, handle.hasChilds());
+						 };
+	
+Action&lt;IntPtr&gt; onHandleChange =  
+	(handle)=&gt;{
+					handleTree.clear();
+					addHandleToNode(handle, handleTree.rootNode());					
+					handleTree.expand();
+					selectedHandle = handle;
+			  };  
+
+
+topPanel.insert_Above(30).splitContainerFixed().white()
+			.add_WindowFinder(onHandleChange, ref windowFinder)
+			.append_Label	("Target Handle:",10)
+			.append_TextBox	(ref handleValue).width(75)
+			.append_Label	("ready when you are....", 10, ref userMessage).bold();
+			 	
+topPanel.add_TreeView(ref handleTree);
+
+handleTree.beforeExpand&lt;IntPtr&gt;(
+				(treeNode,handle)=&gt; {
+										foreach(var childHandle in handle.child_Windows_with_CurrentParent())
+											addHandleToNode(childHandle, treeNode);							
+						  			})
+		  .afterSelect&lt;IntPtr&gt;(selectHandle);
+			
+//onHandleChange(topPanel.handle());
+
+
+//O2File:WindowFinder.cs
+//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs</SourceCode>
+  <ReferencedAssemblies />
+</H2>

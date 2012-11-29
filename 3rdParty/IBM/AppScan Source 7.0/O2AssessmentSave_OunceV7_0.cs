@@ -7,10 +7,12 @@ using O2.Interfaces.O2Findings;
 using O2.DotNetWrappers.ExtensionMethods;
 using O2.Kernel;
 using O2.XRules.ThirdPary.IBM;
-//O2File:xsd_Ozasmt_OunceV7_0.cs
-
-//O2File:Findings_ExtensionMethods.cs 
 using O2.XRules.Database.Findings;
+//O2File:xsd_Ozasmt_OunceV7_0.cs
+//O2File:Findings_ExtensionMethods.cs 
+
+using O2.XRules.Database.APIs;
+//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
 
 namespace O2.XRules.ThirdPary.IBM
 {
@@ -54,14 +56,14 @@ namespace O2.XRules.ThirdPary.IBM
 
         public bool save(string assessmentName, IEnumerable<IO2Finding> o2Findings, string sPathToSaveAssessment)
         {
-            createAssessmentRunObject(assessmentName, o2Findings);
+            createAssessmentRunObject(assessmentName, o2Findings.toList());
             return assessmentRun.saveAs(sPathToSaveAssessment);            
         } 
-		public void createAssessmentRunObject(IEnumerable<IO2Finding> o2Findings)
+		public void createAssessmentRunObject(List<IO2Finding> o2Findings)
 		{
 			createAssessmentRunObject(assessmentRun.name, o2Findings);
 		}
-        public void createAssessmentRunObject(string assessmentName, IEnumerable<IO2Finding> o2Findings)
+        public void createAssessmentRunObject(string assessmentName, List<IO2Finding> o2Findings)
         {
             assessmentRun.name 						= assessmentName ?? "";
             assessmentRun.Assessment.assessee_file 	= "";            
@@ -76,9 +78,11 @@ namespace O2.XRules.ThirdPary.IBM
             return assessmentRun;
         }
 
-        public void addO2FindingsToAssessmentRunObject(IEnumerable<IO2Finding> o2Findings)
+        public void addO2FindingsToAssessmentRunObject(List<IO2Finding> o2Findings)
         {
-        	assessmentRun.FilePool = getFilePool(o2Findings);
+        	assessmentRun.FilePool 		= getFilePool(o2Findings);
+        	assessmentRun.StringPool	= getStringPool(o2Findings);
+        	
             //Dictionary<string, List<AssessmentRunFile>> filesMappedToO2Findings = getFilePool(o2Findings);
             
             /*
@@ -96,24 +100,51 @@ namespace O2.XRules.ThirdPary.IBM
             */
         }
         
-        public AssessmentRunFile[] getFilePool(IEnumerable<IO2Finding> o2Findings)
-        {
-            
-            var uniqueFiles = (from o2Finding in o2Findings
-            					where o2Finding.file != null
+        public AssessmentRunFile[] getFilePool(List<IO2Finding> o2Findings)
+        {            
+            var uniqueFiles = (	from o2Finding in o2Findings
+            					where o2Finding.file.notNull()
             					select o2Finding.file).distinct();
+            					
+			var filesFromTraces = (	from trace in o2Findings.withTraces().allTraces()				
+									where trace.file.notNull()
+								 	select trace.file).distinct();
+						
+			uniqueFiles.add_If_Not_There(filesFromTraces);		   
 
 			var filePool = new List<AssessmentRunFile>();
 			
-			filePool.add(new AssessmentRunFile() { id=1 });
+			filePool.add(new AssessmentRunFile() { id=1});
 			UInt32 id = 2;
 			foreach(var uniqueFile in uniqueFiles)
 				filePool.add(new AssessmentRunFile() { id = id++ , value = uniqueFile});
 				
-		//	filePool.show_In_ListView().makeColumnWidthMatchCellWidth();
 		
-			return filePool.ToArray();
-            
+		
+			return filePool.ToArray();            
+        }
+        
+        public AssessmentRunString[] getStringPool(List<IO2Finding> o2Findings)
+        {        	
+			var strings = new List<string>();
+			foreach(var finding in o2Findings)
+			{ 
+				strings.addRange(finding.callerName, finding.context, finding.method,
+								 finding.projectName,finding.vulnName,finding.vulnType);	
+				foreach(var trace in finding.allTraces())	
+					strings.addRange( trace.caller, trace.context ,trace.method ,trace.signature);				 
+			}
+						var filePool = new List<AssessmentRunFile>();
+			
+			var uniqueStrings = strings.distinct();
+			
+			var stringPool = new List<AssessmentRunString>();
+			//stringPool.add(new AssessmentRunString() { id=1});
+			UInt32 id = 1;
+			foreach(var uniqueString in uniqueStrings)
+				stringPool.add(new AssessmentRunString() { id = id++ , value = uniqueString});
+
+			return stringPool.ToArray();
         }
 /*
         public Dictionary<String, List<AssessmentAssessmentFileFinding>> getFilesToO2FindingMappings(IEnumerable<IO2Finding> o2Findings)
@@ -241,5 +272,19 @@ namespace O2.XRules.ThirdPary.IBM
             // This should be enough to create unique timestamps 
             return arNewAssessmentRun;
         }
+    }
+    
+    
+    public static class O2Assessment_OunceV7_ExtensionMethods
+    {
+    	public static List<string> files (this AssessmentRunFile[] assessmentRunFiles)
+    	{
+    		return assessmentRunFiles.Select((assessmentRunFile)=> assessmentRunFile.value).toList();
+    	}
+    	
+    	public static List<string> strings (this AssessmentRunString[] assessmentRunStrings)
+    	{
+    		return assessmentRunStrings.Select((assessmentRunString)=> assessmentRunString.value).toList();
+    	}
     }
 }

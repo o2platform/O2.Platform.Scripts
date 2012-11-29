@@ -122,7 +122,7 @@ namespace O2.XRules.ThirdPary.IBM
                         for (var i = 1; i < splittedTrace.Length; i++)
                             traceStack.Pop();
                 }
-                o2Finding.o2Traces[0].signature += traces;
+                //o2Finding.o2Traces[0].signature += traces;
             }
         }
         

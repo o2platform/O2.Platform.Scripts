@@ -51,9 +51,62 @@ using O2.Views.ASCX.DataViewers;
 using O2.Views.ASCX.Forms;
 using System.Security.Cryptography;
 
+using Ionic.Zip;
+//O2Ref:Ionic.Zip.dll
+
 
 namespace O2.XRules.Database.APIs
 {	
+
+	public static class Extra_compile_Collections
+	{
+		public static List<T> remove<T>(this List<T> targetList, List<T> itemsToRemove)
+		{
+			foreach(var item in itemsToRemove)
+				targetList.remove(item);
+			return targetList;
+		}
+	
+		public static List<T> addRange<T>(this List<T> targetList, params T[] items)
+		{
+			return targetList.addRange(items.toList());
+		}
+		
+		public static List<T> addRange<T>(this List<T> targetList, List<T> items)
+		{
+			if (targetList.notNull() && items.notNull())
+				targetList.AddRange(items.ToArray());
+			return targetList;
+		}
+		public static List<T> add<T>(this List<T> targetList, T[] items)
+		{
+			targetList.addRange(items.toList());
+			return targetList;
+		}				
+		public static bool contains(this List<string> targetList, List<string> sourceList)
+		{
+			foreach(string item in sourceList)
+				if (targetList.contains(item).isFalse())
+					return false;
+			return true;
+		}
+		public static List<string> add_If_Not_There(this List<string> targetList, List<string> sourceList)
+		{
+			foreach(string item in sourceList)
+				targetList.add_If_Not_There(item);
+			return targetList;
+		}
+		
+		
+		public static Panel diff_ListWith<T, T1>(this List<T> listA, List<T1> listB)
+		{
+			var topPanel = "List compare".popupWindow();
+			topPanel.add_GroupBox("List A: {0}".format(typeof(T))).add_TreeView().add_Nodes(listA).sort().parent()
+					.insert_Right("List B: {0}".format(typeof(T1))).add_TreeView().add_Nodes(listB).sort();
+			return topPanel;
+		}
+	}
+
 	public static class Extra_compile_Control
 	{
 	
@@ -94,8 +147,32 @@ namespace O2.XRules.Database.APIs
                         control.DoDragDrop(dataToDrag, DragDropEffects.Copy);                    
             };
             return control;
-        }*/
+        }*/		
+	}
+	
+	public static class Extra_WinForm_Controls_Menu
+	{
+		public static MenuStrip add_MenuStrip(this Control control)
+		{
+			return control.add_Control<MenuStrip>();
+		}
 		
+		public static MenuStrip insert_MenuStrip(this Control control)
+		{
+			return control.insert_Above(30).splitContainerFixed().add_MenuStrip();
+		}
+		
+		public static ToolStripMenuItem add_Menu(this MenuStrip menuStrip, string name)
+		{
+			return menuStrip.add_MenuItem(name);
+		}
+		public static ToolStripMenuItem add_Menu(this ToolStripMenuItem toolStripMenuItem, string name)
+		{
+			if (toolStripMenuItem.notNull() && toolStripMenuItem.Owner is MenuStrip)
+				return (toolStripMenuItem.Owner as MenuStrip).add_Menu(name);
+			"[in add_Menu] toolStripMenuItem.Owner was not a MenuStrip, it was: {0}".error(toolStripMenuItem.typeName());
+			return null;
+		}
 	}
 	public static class Extra_WinForm_Controls_Drawing
 	{
@@ -268,8 +345,52 @@ namespace O2.XRules.Database.APIs
 			return label.font_bold();
 		}
 	}
-	public static class Extra_compile_Misc
+	
+	public static class Extra_ZIp
+	{
+		public static string unzip_FirstFile(this string zipFile)
+		{
+			return zipFile.unzip_FirstFile(false);
+		}
+		public static string unzip_FirstFile(this string zipFile, bool overwrite)
+		{
+			try
+			{
+				if (zipFile.fileExists().isFalse())
+				{
+					"[in unzip_FirstFile] provided zipFile was e was not found {0}".info(zipFile);
+					return null;
+				}
+				var targetDir = "_UnzippedSingleFiles".tempDir(false);	
+				var zpZipFile = new ZipFile(zipFile);
+				var zipEntry = zpZipFile.Entries.first();				
+				var targetFile = targetDir.pathCombine(zipEntry.FileName);
+				if (targetFile.fileExists())
+					if (overwrite.isFalse())
+						return targetFile;
+					else
+						"[in unzip_FirstFile] target file already exists (will be overwriten): {0}".info(targetFile);
+				zipEntry.Extract(targetDir,ExtractExistingFileAction.OverwriteSilently);			
+				if (targetFile.fileExists())
+					return targetFile;
+				"[in unzip_FirstFile] after unzip target file was not found {0}".info(targetFile);
+			}
+			catch(Exception ex)
+			{
+				ex.log("[in unzip_FirstFile");		
+			}
+			return null;
+		}
+	}
+
+	public static class Extra_Misc
 	{		
+	
+		public static string pathCombine_WithTempDir(this string fileOrPath)
+		{
+			return PublicDI.config.O2TempDir.pathCombine(fileOrPath.fileName());
+		}
+		
 		// do this propely when adding to main O2 code base since this will not work as expected when there are other textboxes and buttons on the same 'control' object
 		public static T add_LabelAndTextAndButton<T>(this T control, string labelText, string textBoxText, string buttonText,ref TextBox textBox, ref Button button, Action<string> onButtonClick)            where T : Control
 		{
@@ -280,13 +401,22 @@ namespace O2.XRules.Database.APIs
 		}
 	}
 
-	public static class Extra_compile_TextBox
+	public static class Extra_compile_Label
 	{
-		
+		public static Label append_Label(this Control control, ref Label label)
+		{
+			return label = control.append_Control<Label>().autoSize();
+		}
 	}
 	public static class Extra_compile_PictureBox
 	{
-		
+		public static PictureBox append_PictureBox(this Control control, ref PictureBox pictureBox)
+		{
+			pictureBox = control.append_Control<PictureBox>();
+			pictureBox.height(control.height());
+			pictureBox.width(control.width());			
+			return pictureBox;
+		}
 		
 	}
 		

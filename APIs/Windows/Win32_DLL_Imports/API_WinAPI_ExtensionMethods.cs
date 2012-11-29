@@ -44,9 +44,35 @@ namespace O2.XRules.Database.APIs
 	}
 	public static class WinAPI_ExtensionMethods_Misc
 	{
+		public static IntPtr parent(this IntPtr handle)
+		{
+			return WinAPI.GetParent(handle);
+		}
+		
+		public static IntPtr setParent(this IntPtr handle, Control control)
+		{
+			return handle.setParent(control.Handle);
+		}
+		public static IntPtr setParent(this IntPtr handle, IntPtr newParent)
+		{
+			WinAPI.SetParent(handle, newParent);
+			return handle;
+		}
+		
+		public static bool hasChilds(this IntPtr handle)
+		{
+			return handle.child_Windows().size() > 0;
+		}
 		public static List<IntPtr> child_Windows(this IntPtr handle)
 		{
 			return WinAPI.GetChildWindows(handle);
+		}
+		
+		public static List<IntPtr> child_Windows_with_CurrentParent(this IntPtr handle)
+		{
+			return (from childWindow in handle.child_Windows()
+					where childWindow.parent() == handle
+					select childWindow).toList();
 		}
 		
 		public static string className(this IntPtr handle)
