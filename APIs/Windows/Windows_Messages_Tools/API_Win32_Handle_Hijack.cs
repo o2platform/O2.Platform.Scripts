@@ -116,17 +116,18 @@ namespace O2.XRules.Database.APIs
 					});
 			var groupBox = hijackedWindow.parent();;
 			var originalText = groupBox.get_Text();
+			var splitcontainer = groupBox.splitContainer();
 			groupBox.DoubleClick+=(sender,e)=>
 				{		
-					var collapsed = groupBox.splitContainer().Panel1Collapsed;
+					var collapsed = splitcontainer.Panel1Collapsed;
 					if (collapsed)
 					{
-						groupBox.splitContainer().panel1Collapsed(false);					
+						splitcontainer.panel1Collapsed(false);					
 						groupBox.set_Text(originalText);		
 					}
 					else
 					{
-						groupBox.splitContainer().panel1Collapsed(true);		
+						splitcontainer.panel1Collapsed(true);		
 						groupBox.set_Text("X");			
 					}
 				};		
