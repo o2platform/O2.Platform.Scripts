@@ -39,7 +39,7 @@ processesTreeView.afterSelect&lt;Process&gt;(
 					//modulesTreeView.parent&lt;GroupBox&gt;()
 					O2Thread.mtaThread(
 						()=&gt;{
-								processScreenshot.load(selectedProcess.screenshot_MainWindow() as Image);
+								processScreenshot.load(selectedProcess.handle().window_ScreenShot() as Image);
 								selectedProcessTab.add_FlowLayoutPanel_with_DetectedModules(process);
 						    });
 					try
@@ -85,15 +85,15 @@ Action injectO2IntoProcess =
 			o2Injector.injectIntoProcess(selectedProcess, x64_CheckBox.value(), runtime40_CheckBox.value());    
 		};   
    
-processesTreeView.insert_Below_ToolStrip()  
-				 .add_Button("Refresh", "view_refresh".formImage(), ()=&gt; refreshProcessList())
-				 .add_Button("Process Properties", "btSettings_Image".formImage(), ()=&gt; processesTreeView.selected().Tag.showInfo())
-				 .add_Button("Bring to front", "preferences_desktop_locale".formImage(), ()=&gt; selectedProcess.process_MainWindow_BringToFront())
+processesTreeView.insert_Below_ToolStrip()
+				 .add_Button("Refresh", "view_refresh".formImage(), ()=&gt; refreshProcessList()).toolStrip()
+				 .add_Button("Process Properties", "btSettings_Image".formImage(), ()=&gt; processesTreeView.selected().Tag.showInfo()).toolStrip()
+				 .add_Button("Bring to front", "preferences_desktop_locale".formImage(), ()=&gt; selectedProcess.process_MainWindow_BringToFront()).toolStrip()
 				 .add_Button("Stop Process", "process_stop".formImage(), () =&gt; { selectedProcess.stop(); refreshProcessList();});
 				 
 				   
 selectedProcessTab.insert_ToolStrip()
-	.add_Button("Inject O2 into Process","btExecuteSelectedMethod_Image".formImage(), ()=&gt;injectO2IntoProcess())
+	.add_Button("Inject O2 into Process","btExecuteSelectedMethod_Image".formImage(), ()=&gt;injectO2IntoProcess()).toolStrip()
 	.add_CheckBox("x64",ref x64_CheckBox)
 	.add_CheckBox(".Net 40 runtime",ref runtime40_CheckBox);
 	

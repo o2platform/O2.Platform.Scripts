@@ -58,16 +58,29 @@ namespace O2.XRules.Database.APIs
 					};
 					
 			Action hijack = 
-				()=>{
+				()=>{ 
 						restore();
 						var handle = targetHandle.get_Text().toInt().intPtr();						
-						var newParent = hijackedWindow.handle();
+						var newParent = hijackedWindow.clear().handle();
 						"Hijacking {0} into window {1}".info(handle, newParent);
 						hijackedHandle = handle;
 						hijackedParent = parentHandle.get_Text().toInt().intPtr();
 						handle.setParent(newParent);						
 					};					
-					
+			Action screenShot = 
+				()=>{	
+						restore();
+						try
+						{
+							var handle = targetHandle.get_Text().toInt().intPtr();						
+							var bitmap = handle.window_ScreenShot();
+							hijackedWindow.clear().add_PictureBox().layout_Zoom().show(bitmap);
+						}
+						catch(Exception ex)
+						{
+							ex.log();
+						}
+					};
 			Action<IntPtr> setTarget = 
 				(handle)=>{
 							 	targetHandle.set_Text(handle.str());
@@ -82,6 +95,7 @@ namespace O2.XRules.Database.APIs
 						.append_Label("Parent:").top(10).append_TextBox(ref parentHandle)
 						.append_Link("Hijack", ()=> hijack()).top(10)
 						.append_Link("Restore", ()=> restore()) 
+						.append_Link("Screenshot", ()=> screenShot()) 
 						.append_PictureBox(ref pictureBox)
 //						.append_TextBox(ref test).set_Text("Hijack me").top(10) 
 						.append_Label(ref className).topAdd(2);
@@ -94,12 +108,28 @@ namespace O2.XRules.Database.APIs
 				
 //			setTarget(test.handle()); 
 			
-			pictureBox.layout_Zoom();
+			pictureBox.layout_Zoom();					  
 			hostPanel.onClosed(
 				()=>{
 						"On Closed".info();
 						restore();
 					});
+			var groupBox = hijackedWindow.parent();;
+			var originalText = groupBox.get_Text();
+			groupBox.DoubleClick+=(sender,e)=>
+				{		
+					var collapsed = groupBox.splitContainer().Panel1Collapsed;
+					if (collapsed)
+					{
+						groupBox.splitContainer().panel1Collapsed(false);					
+						groupBox.set_Text(originalText);		
+					}
+					else
+					{
+						groupBox.splitContainer().panel1Collapsed(true);		
+						groupBox.set_Text("X");			
+					}
+				};		
 			return hostPanel;
 		}
 	}

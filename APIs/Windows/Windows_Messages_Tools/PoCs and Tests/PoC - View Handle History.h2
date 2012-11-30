@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var topPanel = panel.add_Panel(true);
+var topPanel = "PoC - View Handle History".popupWindow();
+var pictureBox = topPanel.add_PictureBox().layout_Zoom();
+var treeView = pictureBox.insert_Left(200).add_TreeView()
+		  				 .afterSelect&lt;IntPtr&gt;(
+		  				 	(intPtr)=&gt;{
+						  				 try
+						  				 {
+						  				 	pictureBox.show(intPtr.window_ScreenShot());
+						  				 	intPtr.str().clipboardText_Set();
+						  				 }
+						  				 catch(Exception ex)
+						  				 {
+						  					ex.log();
+						  				 }
+						  				 //pictureBox.show();
+						  			  })
+						.beforeExpand&lt;IntPtr&gt;(
+							(treeNode, intPtr)=&gt;{													
+													treeNode.add_Node("Parent: " + intPtr.parent().str(), intPtr.parent(), intPtr.parent().parent().notNull());
+													treeNode.add_Node("Child Windows")	
+															.add_Nodes(intPtr.child_Windows_with_CurrentParent(),
+																		(ip)=&gt; "{0} : {1}".format(ip, ip.className(), intPtr,true));
+												  });
+  
+topPanel.insert_Above(20).add_Label("Handle: ")
+		.append_TextBox("")
+		.onTextChange(
+			(text)=&gt;{
+						var handle = text.toInt().intPtr();
+						treeView.clear();
+						treeView.add_Node(handle.str(), handle, true);
+						//treeView.add_Node("Child Windows").add_Nodes(handle.child_Windows());
+					});		
+
+//O2Ref:tmp909E.tmp.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>
