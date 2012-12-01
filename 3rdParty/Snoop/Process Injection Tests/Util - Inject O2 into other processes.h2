@@ -85,12 +85,11 @@ Action injectO2IntoProcess =
 			o2Injector.injectIntoProcess(selectedProcess, x64_CheckBox.value(), runtime40_CheckBox.value());    
 		};   
    
-processesTreeView.insert_Below_ToolStrip()  
+processesTreeView.insert_Below_ToolStrip()
 				 .add_Button("Refresh", "view_refresh".formImage(), ()=&gt; refreshProcessList()).toolStrip()
 				 .add_Button("Process Properties", "btSettings_Image".formImage(), ()=&gt; processesTreeView.selected().Tag.showInfo()).toolStrip()
 				 .add_Button("Bring to front", "preferences_desktop_locale".formImage(), ()=&gt; selectedProcess.process_MainWindow_BringToFront()).toolStrip()
-				 .add_Button("Stop Process", "process_stop".formImage(), () =&gt; { selectedProcess.stop(); refreshProcessList();})
-				 ;
+				 .add_Button("Stop Process", "process_stop".formImage(), () =&gt; { selectedProcess.stop(); refreshProcessList();});
 				 
 				   
 selectedProcessTab.insert_ToolStrip()
