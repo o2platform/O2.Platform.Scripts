@@ -93,7 +93,7 @@ add_Example("a map"					, "(map inc [1 2 3 4])");
 //using Clojure
 //using clojure.lang
 
-//O2Ref:Clojure.Main.exe
+//O2Ref:Clojure\Debug 4.0\Clojure.Main.exe
 //O2Ref:Clojure.dll</SourceCode>
   <ReferencedAssemblies />
 </H2>

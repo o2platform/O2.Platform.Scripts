@@ -29,7 +29,8 @@ return "ok";
 //using java.util;
 //using net.sf.jni4net;
 //using net.sf.jni4net.adaptors;
-//O2Ref:E:\_Code_Tests\Jni4Net\jni4net-read-only\target\jni4net-0.8.7.0-bin\lib\jni4net.n-0.8.7.0.dll
+//O2Ref:Jni4Net/lib/jni4net.n-0.8.6.0.dll
+//_O2Ref:E:\_Code_Tests\Jni4Net\jni4net-read-only\target\jni4net-0.8.7.0-bin\lib\jni4net.n-0.8.7.0.dll
 //O2File:API_ConsoleOut.cs
 //O2EmbedTool:Jni4Net
 </SourceCode>

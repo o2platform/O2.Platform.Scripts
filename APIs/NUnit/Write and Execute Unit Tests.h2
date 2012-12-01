@@ -1,12 +1,13 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>//var topPanel = panel.add_Panel(true);	
+  <SourceCode>O2ConfigSettings.O2Version = "WriteUnitTest"; 
+O2Setup.extractEmbededConfigZips(); 
+//var topPanel = panel.add_Panel(true);	
 var topPanel = O2Gui.open&lt;Panel&gt;("Write and Execute Unit Tests", 1000,600);
 var codeEditor = topPanel.add_SourceCodeEditor();
-var unitTest = codeEditor.insert_Right&lt;ascx_XRules_UnitTests&gt;(300);  
-unitTest.insert_Below&lt;Panel&gt;(130)
-		  .add_LogViewer();
-
+var unitTest = codeEditor.insert_Right&lt;ascx_XRules_UnitTests&gt;(350);  
+unitTest.control&lt;CheckBox&gt;(true).@check();
+unitTest.insert_Below&lt;Panel&gt;(130).add_LogViewer();
 
 Action&lt;string&gt; loadFileAndCompile = 
 	(file)=&gt;{
@@ -25,28 +26,29 @@ Action&lt;string&gt; loadFile =
 			};
 			
 textBox_LoadFile.onDrop((text)=&gt; loadFile(text));
-
 			
 codeEditor.onCompile(
 	(assembly)=&gt;{	
 					unitTest.loadFile(assembly.Location,true); 
 					if(unitTest.control&lt;CheckBox&gt;(true).@checked())
-						unitTest.invoke("executeAllLoadedTests"); 
+						unitTest.invoke("executeAllLoadedTests"); 			
 					unitTest.XRulesTreeView_ExpandAll();
 				});
 //
 //Default data
+
 var tempFile = "DefaultUnitTest.cs".local().fileContents().saveWithExtension(".cs");
 textBox_LoadFile.set_Text(tempFile);  
-button_LoadFile.click();
+loadFile(tempFile);
+//button_LoadFile.click();
 
 return loadFile;
 
-//return unitTest.type().methods(); 
 //using O2.Core.XRules.Ascx
 //O2Ref:O2_Core_XRules.dll
 //O2Ref:O2_External_O2Mono.dll
-
-//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs</SourceCode>
+//O2Ref:nunit.framework.dll
+//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
+//O2Package:DefaultUnitTest.cs</SourceCode>
   <ReferencedAssemblies />
 </H2>

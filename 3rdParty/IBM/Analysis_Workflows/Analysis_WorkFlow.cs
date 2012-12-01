@@ -5,12 +5,11 @@ using O2.Interfaces.XRules;
 using O2.Kernel;
 using O2.DotNetWrappers.O2CmdShell;
 using O2.DotNetWrappers.Windows; 
-//O2File:IAnalysisArtifacts.cs
+using NUnit.Framework;
 using O2.XRules.Database.Interfaces;
 
 //O2Ref:nunit.framework.dll
-//using NUnit.Framework;
-
+//O2File:IAnalysisArtifacts.cs
 //O2File:Analysis_WorkFlow_Phase_1.cs
 //O2File:Analysis_WorkFlow_Phase_2.cs
 //O2File:Analysis_WorkFlow_Phase_3.cs
