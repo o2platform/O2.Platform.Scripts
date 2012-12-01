@@ -128,9 +128,16 @@ namespace O2.XRules.Database.APIs
 					else
 					{
 						splitcontainer.panel1Collapsed(true);		
-						groupBox.set_Text("X");			
+						groupBox.set_Text(".");			
 					}
-				};		
+				};	
+			groupBox.add_ContextMenu()				
+				.add_MenuItem("White Background", true,() => hostPanel.backColor("white"))
+				.add_MenuItem("Screenshot Stretch", true,() => hijackedWindow.control<PictureBox>().layout_Stretch())
+				.add_MenuItem("Screenshot Zoom", true, () => hijackedWindow.control<PictureBox>().layout_Zoom())
+				.add_MenuItem("REPL me", true, ()=> hostPanel.script_Me());
+				
+			
 			return hostPanel;
 		}
 	}
