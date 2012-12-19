@@ -15,16 +15,16 @@ using O2.Views.ASCX.classes.MainGUI;
 using O2.Views.ASCX.ExtensionMethods;
 using O2.External.SharpDevelop.ExtensionMethods;
 */
-namespace O2.Script
+namespace O2
 {
-    public class Test
+    public class InjectedClass
     {        				
-		public static string GoBabyGo()  
-		{
-			Debug.Write	("*** in Injected_Dll_WithO2.cs...");
+		public static string main()   
+		{			
 			try
 			{
-				//"test".info();				
+				Debug.Write	("*** in Injected_Dll_WithCodeSnippet.cs")	;
+				/*CODESNIPPET*/				
 				return "ok";			
 			}
 			catch(Exception ex)

@@ -9,22 +9,21 @@ using O2.XRules.Database.Utils;
   
 namespace O2.XRules.Database.APIs 
 { 
-	public class Install_NodeJS_Test
+	public class NodeJS_MSI_Installer_Test
 	{
 		public void test()
 		{
-			new NodeJS_Installer().start();
+			new NodeJS_MSI_Installer().start();
 		}
 	}
-	public class NodeJS_Installer : Tool_API 
+	public class NodeJS_MSI_Installer : Tool_API 
 	{			
-		public NodeJS_Installer()
+		public NodeJS_MSI_Installer()
 		{
-			Install_Uri = "http://nodejs.org/dist/v0.8.16/node-v0.8.16-x86.msi".uri();
-			Install_File = "node-v0.8.16-x86.msi";
-			Install_Dir = ProgramFilesFolder;			
-			Executable = ProgramFilesFolder.pathCombine("NodeJS//node.exe");				   			
-			startInstaller_FromMsi_Web();			
+			config("NodeJS_MSI", 				   
+				   "http://nodejs.org/dist/v0.8.16/node-v0.8.16-x86.msi".uri(),
+				   @"SourceDir\nodejs\node.exe");
+			install_JustMsiExtract_into_TargetDir();
 		}	
 		public Process start()
 		{

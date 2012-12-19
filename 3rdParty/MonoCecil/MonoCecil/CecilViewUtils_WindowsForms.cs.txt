@@ -1,0 +1,21 @@
+﻿//using System.Windows.Forms;
+namespace O2.core.MonoCecil
+{
+    public class CecilViewUtils_WindowsForms
+    {
+        public static int populateControlWith_Types(object targetObject, string targetAssembly)
+        {
+            return O2Forms.populateWindowsControlWithList(targetObject, CecilUtils.getTypes(targetAssembly));
+        }
+
+        public static int populateControlWith_Modules(object targetObject, string targetAssembly)
+        {
+            return O2Forms.populateWindowsControlWithList(targetObject, CecilUtils.getModules(targetAssembly));
+        }
+
+        public static int populateControlWith_Methods(object targetObject, string targetAssembly)
+        {
+            return O2Forms.populateWindowsControlWithList(targetObject, CecilUtils.getMethods(targetAssembly));
+        }
+    }
+}

@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = "Tool - C# Quick Decompiler".popupWindow(700,400)
+				.insert_LogViewer();
+//var topPanel = panel.clear().add_Panel();
+
+var toolStrip = topPanel.insert_ToolStrip();
+var types_TreeView = topPanel.insert_Left(300).add_TreeView().sort();
+var codeViewer = topPanel.add_SourceCodeEditor();
+
+types_TreeView.add_ToImageList("Class","Method");
+types_TreeView.imageIndex(0);
+
+types_TreeView.beforeExpand&lt;TypeDefinition&gt;( 
+	(treeNode,typeDefinition)=&gt;{ 
+								//treeNode.add_Node(typeDefinition.Methods);
+								foreach(var method in typeDefinition.Methods)
+								{
+									var cecilSignature = new CecilFilteredSignature(method);
+									treeNode.add_Node(cecilSignature.sFunctionNameAndParams, method).image(1);
+								}
+								//method_TreeView.clear();
+	//							method_TreeView.add_Node(typeDefinition.Methods);
+					  			});
+types_TreeView.afterSelect&lt;TypeDefinition&gt;(
+	(typeDefinition)=&gt;{
+							var sourceCode = new CecilDecompiler().getSourceCode(typeDefinition);
+							codeViewer.set_Text(sourceCode, ".cs");
+					  });
+types_TreeView.afterSelect&lt;MethodDefinition&gt;(
+	(methodDefinition)=&gt;{
+							var sourceCode = new CecilDecompiler().getSourceCode(methodDefinition);
+							codeViewer.set_Text(sourceCode, ".cs");
+					  });					  
+Action&lt;string&gt; loadAssembly = 
+	(pathToAssembly) =&gt; {
+							if(pathToAssembly.fileExists())
+							{
+								"Loading File: {0}".info(pathToAssembly);
+								var types = CecilUtils.getTypes(pathToAssembly);
+								types_TreeView.beginUpdate()
+												.clear()
+												.add_Nodes(types,(type)=&gt;type.Name,(type)=&gt;type, (type)=&gt;true)
+											  .endUpdate()
+											  .selectFirst();
+											
+												
+							}
+						};
+				
+
+types_TreeView.onDrop(loadAssembly);	
+
+toolStrip.add_Open(()=&gt;loadAssembly(topPanel.askUserForFileToOpen()))
+		 .add_Open(()=&gt;loadAssembly("Assembly to load".askUser()));
+ 
+loadAssembly(PublicDI.config.type().assemblyLocation());
+
+
+
+//return method.Body;
+//O2File:CecilDecompiler.cs
+//O2File:CecilUtils.cs
+//O2File:CecilFilteredSignature.cs
+//using Mono.Cecil
+//using O2.External.O2Mono
+//using O2.External.O2Mono.MonoCecil
+//O2Ref:ILSpy/Mono.Cecil.dll
+//O2Ref:ILSpy/ILSpy.exe
+//O2Ref:ILSpy/ICSharpCode.Decompiler.dll
+
+//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs</SourceCode>
+  <ReferencedAssemblies />
+</H2>

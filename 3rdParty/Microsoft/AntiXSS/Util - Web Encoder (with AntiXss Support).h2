@@ -7,8 +7,9 @@ var configPanel = topPanel.insert_Above(40,"Config");
 var sourceText = topPanel.add_GroupBox("Source Text").add_SourceCodeViewer();  
 var transformedText = topPanel.insert_Right("Transformed Text").add_SourceCodeViewer(); 
  
-var transformationsAvailable = new List&lt;string&gt; { "none", 
+var transformationsAvailable = new List&lt;string&gt; { "none",  
 												  "HtmlDecode",	"HtmlEncode","UrlDecode", "UrlEncode",
+												  "Base64Decode", "Base64Encode",
 												  "AntiXss.HtmlEncode", 		 	"AntiXss.UrlEncode", 		 			"AntiXss.JavaScriptEncode",  	"AntiXss.CssEncode",
 												  "AntiXss.HtmlAttributeEncode",	"AntiXss.HtmlFormUrlEncode",		 	"AntiXss.XmlAttributeEncode",	"AntiXss.XmlEncode",
 												  "AntiXss.VisualBasicScriptEncode","AntiXss.LdapDistinguishedNameEncode",	"AntiXss.LdapFilterEncode",
@@ -29,7 +30,10 @@ Func&lt;string,string, string&gt; applyTransformation =
 							case "HtmlDecode":							return text.htmlDecode();
 							case "HtmlEncode":							return text.htmlEncode();
 							case "UrlDecode":							return text.urlDecode();
-							case "UrlEncode":							return text.urlEncode();		
+							case "UrlEncode":							return text.urlEncode();	
+							
+							case "Base64Decode":						return text.base64Decode();
+							case "Base64Encode":						return text.base64Encode();
 							
 							case "AntiXss.HtmlEncode": 					return Encoder.HtmlEncode(text);
 							case "AntiXss.UrlEncode": 					return Encoder.UrlEncode(text);

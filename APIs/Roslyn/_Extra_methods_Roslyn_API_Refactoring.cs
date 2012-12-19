@@ -42,7 +42,7 @@ namespace O2.XRules.Database.APIs
 				
 				var new_StatementSyntax = node.parent<StatementSyntax>().ReplaceNode(node,null).code().trim();
 				var variableName = node.parent<VariableDeclarationSyntax>().Variables.first().Identifier.ValueText;
-								
+								 
 				var parentStatement = node.parent<StatementSyntax>();
 				var parentBlock = node.parent_Block();
 				var statements = parentBlock.Statements;

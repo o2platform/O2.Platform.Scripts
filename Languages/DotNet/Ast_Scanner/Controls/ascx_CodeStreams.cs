@@ -32,7 +32,8 @@ namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 	{
 	
 		public Saved_MethodStream savedMethodStream;
-		public ascx_SourceCodeViewer codeViewer;
+		//public ascx_SourceCodeViewer codeViewer;
+		public ascx_SourceCodeEditor _codeEditor;
 		public TreeView codeStreams;
 		public TreeView codeStreamViewer;
 		
@@ -48,8 +49,9 @@ namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 		
 		public ascx_CodeStreams buildGui() 
 		{
-			codeViewer = this.add_SourceCodeViewer();
-			codeStreams = codeViewer.insert_Right().add_GroupBox("All Code Streams").add_TreeView();
+			//codeViewer = this.add_SourceCodeViewer();
+			_codeEditor = this.add_SourceCodeEditor();
+			codeStreams = _codeEditor.insert_Right().add_GroupBox("All Code Streams").add_TreeView();
 			codeStreamViewer = codeStreams.parent().insert_Below().add_GroupBox("Selected Code Stream").add_TreeView(); 
 			//var codeStreamViewer = topPanel.insert_Right().add_TreeView();
 			
@@ -108,8 +110,8 @@ namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 							};
 			
 			
-			set_AfterSelect_SyncWithCodeEditor(codeStreams, codeViewer.editor()); 
-			set_AfterSelect_SyncWithCodeEditor(codeStreamViewer, codeViewer.editor());
+			set_AfterSelect_SyncWithCodeEditor(codeStreams, _codeEditor.editor()); 
+			set_AfterSelect_SyncWithCodeEditor(codeStreamViewer, _codeEditor.editor());
 			
 			codeStreams.afterSelect<CodeStreamPath>(
 				(codeStreamPath)=> showCodeStreamPath(codeStreamViewer, codeStreamPath));											
@@ -121,15 +123,15 @@ namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 											});
 			
 			
-			codeViewer.onClick(
+			_codeEditor.onClick(
 				()=>{ 
 						if (savedMethodStream.notNull())
 						{	
-							codeViewer.editor().clearMarkers();  
+							_codeEditor.editor().clearMarkers();  
 							codeStreamViewer.clear();
 							codeStreams.clear();
-							var line = codeViewer.caret().Line + 1; 				
-							var column = codeViewer.caret().Column + 1;  							
+							var line = _codeEditor.caret().Line + 1; 				
+							var column = _codeEditor.caret().Column + 1;  							
 							CodeStreamPath lastMatch = null;
 							foreach(var codeStreamPath in savedMethodStream.CodeStreams)
 							{
@@ -145,7 +147,7 @@ namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 								showCodeStreamPath(codeStreamViewer, lastMatch);
 								var codeStreamPaths = (from node in codeStreamViewer.allNodes() 
 													   select (CodeStreamPath)node.get_Tag()).toList();
-								colorCodePaths(codeViewer.editor(), codeStreamPaths);   
+								colorCodePaths(_codeEditor.editor(), codeStreamPaths);   
 							}
 							else
 								refresh_AllCodeStreams_TreeView();
@@ -161,7 +163,7 @@ namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 		{
 			codeStreams.clear();
 			codeStreams.add_Nodes(savedMethodStream.CodeStreams, (codeStream) => codeStream.CodeStreamPaths.size() > 0 );  
-			codeViewer.editor().clearMarkers(); 	
+			_codeEditor.editor().clearMarkers(); 	
 			O2.DotNetWrappers.DotNet.O2Thread.mtaThread(
 				()=>{						
 						codeStreams.selectFirst(); 						
@@ -180,7 +182,7 @@ namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 			else
 			{
 				savedMethodStream = _savedMethodStream;
-				codeViewer.set_Text(savedMethodStream.MethodStream );
+				_codeEditor.set_Text(savedMethodStream.MethodStream , "_.cs");
 				//codeViewer.open(savedMethodStream.MethodStream_FileCache );
 				refresh_AllCodeStreams_TreeView();				
 				//codeStreams.selectFirst();					    				

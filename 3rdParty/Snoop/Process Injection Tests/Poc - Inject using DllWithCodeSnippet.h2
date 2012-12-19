@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var topPanel = panel.add_Panel(true);
+
+Process process = null;
+var o2Injector = new API_O2_Injector();
+
+var codeEditor = topPanel.add_SourceCodeViewer();
+var toolStrip = topPanel.insert_ToolStrip(); 
+
+Action execute = 
+	()=&gt;{
+			var code =  "Injected_Dll_WithCodeSnippet.cs".local().fileContents();
+			var tempFile = code.replace("/*CODESNIPPET*/", codeEditor.get_Text()).saveWithExtension(".cs"); 
+			var assembly = tempFile.compile(true); 
+			if (assembly.isNull())
+				"Failed to compileAssemnbly to inject".error();
+			else
+				 o2Injector.injectIntoProcess(process,assembly.Location,"O2.InjectedClass", "main", false,true);
+		};
+
+Action startTestProcess = 
+	()=&gt;{
+
+			var testExe = @"E:/O2_V4/O2/_TempDir_v4.5.3.0/12_17_2012/tmp7F7D.tmp [98206]/tmp7F7D.tmp.exe";
+			process = testExe.startProcess().waitFor_MainWindowHandle();
+			//process.closeInNSeconds(20);
+		};
+
+toolStrip.add("Inject", "btExecuteSelectedMethod_Image".formImage(),execute);
+
+startTestProcess();
+
+//var process = "PaintDotNet".process_WithName();
+
+
+
+				//"System.Diagnostics.Debug.Write(\"Hello\");".com(true); 
+
+
+//return assembly.types().first().methods().first();
+//return o2Injector.injectIntoProcess(process, false,true, assembly);
+
+
+
+
+return o2Injector.injectIntoProcess(process,true,false );//, "\"hi\".alert();");
+
+//using System.Diagnostics
+//O2File:API_O2_Injector.cs
+//O2File:API_WinAPI.cs</SourceCode>
+  <ReferencedAssemblies />
+</H2>

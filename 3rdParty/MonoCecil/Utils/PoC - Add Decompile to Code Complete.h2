@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>Action&lt;string&gt; decompileType  = 
+	(typeFullName)=&gt;{	
+						try
+						{
+							"decompiling :{0}".info(typeFullName);
+							var assemblyLocation = PublicDI.reflection.getType(typeFullName).Assembly.Location;
+							var assemblyDefinition = CecilUtils.getAssembly(assemblyLocation);
+							
+							var typeDefinition = CecilUtils.getType(assemblyDefinition,typeFullName);
+							var sourceCode = new CecilDecompiler().getSourceCode(typeDefinition);
+							sourceCode.showInCodeEditor();
+						}
+						catch(Exception ex)
+						{
+							ex.log("in decompileType for: {0}".format(typeFullName));
+						}
+				};
+				
+var codeCompletion = script.commandsToExecute.editor().o2CodeCompletion;
+codeCompletion.After_CodeCompletionWindow_IsAvailable =
+	(codeCompletionWindow)=&gt;
+		{ 
+			var toolScript = codeCompletionWindow.insert_Below(30).splitContainerFixed()
+								.add_ToolStrip();
+											
+			toolScript.add("decompile type","ViewCode".formImage(),
+				()=&gt;{
+						var lastDecompileData = codeCompletionWindow.lastCodeCompleteData;
+						var member = lastDecompileData.member;
+						var declaryingType = member.DeclaringTypeReference;
+						decompileType(declaryingType.FullyQualifiedName);
+						//lastDecompileData.details();						
+					});
+			
+			"Decompilation configured".info();
+		};		
+
+//O2File:CecilDecompiler.cs
+//O2File:CecilUtils.cs
+//using O2.External.O2Mono
+//using O2.External.O2Mono.MonoCecil
+//O2Ref:ILSpy/Mono.Cecil.dll
+//O2Ref:ILSpy/ILSpy.exe
+//O2Ref:ILSpy/ICSharpCode.Decompiler.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

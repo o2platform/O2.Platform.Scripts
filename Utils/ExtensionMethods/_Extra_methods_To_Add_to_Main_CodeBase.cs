@@ -58,8 +58,30 @@ using Ionic.Zip;
 namespace O2.XRules.Database.APIs
 {	
 
+	public static class Extra_Assembly
+	{
+		public static object invoke_FirstMethod(this Assembly assembly)
+		{
+			return assembly.invoke_FirstMethod<object>();
+		}
+		
+		public static T invoke_FirstMethod<T>(this Assembly assembly)
+		{
+			var result = assembly.executeFirstMethod();
+			if (result is T)
+				return (T)result;
+			"in invoke_FirstMethod, returned value was not the expected type ('{0}') it was: '{1}'".error(typeof(T), result.type());
+			return default(T);
+		}
+	}
+	
 	public static class Extra_compile_Collections
 	{
+	
+	
+	
+	
+	
 		public static List<T> remove<T>(this List<T> targetList, List<T> itemsToRemove)
 		{
 			foreach(var item in itemsToRemove)
@@ -272,6 +294,12 @@ namespace O2.XRules.Database.APIs
 		{
 			return treeView.checkBoxes(true);
 		}
+		
+		public static TreeView imageIndex(this TreeView treeView, int index)
+		{
+			treeView.invokeOnThread(()=> treeView.ImageIndex = index);
+			return treeView;
+		}
 	}
 	
 	public static class Extra_WinForm_Controls_TreeNode
@@ -323,6 +351,7 @@ namespace O2.XRules.Database.APIs
     		return treeNode.treeView().invokeOnThread(
     			()=>{
     					treeNode.ImageIndex = index; 
+    					treeNode.SelectedImageIndex = index; 
     					return treeNode;
     				});
     	}
@@ -416,6 +445,18 @@ namespace O2.XRules.Database.APIs
 			pictureBox.height(control.height());
 			pictureBox.width(control.width());			
 			return pictureBox;
+		}
+		
+		public static Label add_Message(this Control control, string messageToShow)
+		{
+			return control.clear().white().add_Label(messageToShow)
+						  .fill().text_Center().font_bold().size(20);
+			
+			//lastScreenShot = topPanel.handle().window_ScreenShot();
+
+			//topPanel.clear().add_PictureBox(ref pictureBox).white().layout_Zoom()
+			//.show(lastScreenShot);
+
 		}
 		
 	}

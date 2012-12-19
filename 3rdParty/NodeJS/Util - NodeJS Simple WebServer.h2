@@ -1,19 +1,21 @@
 <?xml version="1.0"?>
 <H2>
   <SourceCode>// Processes.getProcessesCalled("cmd").stop();
+//O2Include:Util - NodeJS REPL Editor.h2
+//dynamic expando = "Util - NodeJS REPL Editor.h2".local().executeH2Script();
+ 
+//var topPanel = (Form)expando.form; 
+var form = topPanel.parentForm(); 
+form.set_Text("NodeJS Simple WebBrowser")
+	.width(1000)  
+	.height(500);  
 
-dynamic expando = "Util - NodeJS REPL Editor.h2".local().executeH2Script();
-
-var topPanel = (Form)expando.form; 
-topPanel.set_Text("NodeJS Simple WebBrowser");
-topPanel.width(1000)  
-		.height(500); 
-		
-var codeEditor = topPanel.control&lt;ascx_SourceCodeEditor&gt;(true);  
+//var codeEditor = topPanel.control&lt;ascx_SourceCodeEditor&gt;(true);  
   
-var browser = topPanel.control&lt;Panel&gt;().insert_Right(300,"Browser") 
-									   .add_WebBrowser_Control()  
-									   .add_NavigationBar();
+var browser = topPanel.insert_Right(300,"Browser") 
+					  .add_WebBrowser_Control()  
+					  .add_NavigationBar();
+					  
 Action refreshBrowser = 
 	()=&gt;{				
 			O2Thread.mtaThread(
@@ -25,7 +27,7 @@ Action refreshBrowser =
 		};
 		
 codeEditor.open("Simple WebServer.js".local());
-topPanel.link("Execute Javascript code")
+form.link("Execute Javascript code")
 		.onClick(refreshBrowser) 
 		.click();
 refreshBrowser();

@@ -1,45 +1,50 @@
 <?xml version="1.0"?>
 <H2>
   <SourceCode>//var topPanel = panel.add_Panel(true);
-var topPanel = "PoC - View FluentSharp_BCL Embeded Icons (in type O2.Platform.BCL.O2_Views_ASCX.FormImages)".popupWindow(1200,680).add_Panel(true);
-var toolStrip1 = topPanel.add_ToolStrip()
+var topPanel = "PoC - View FluentSharp_BCL Embeded Icons (in type O2.Platform.BCL.O2_Views_ASCX.FormImages)".popupWindow(620,320).add_Panel(true);
+
+var toolStrip = topPanel.title("Icons").add_ToolStrip()
 						 .layout_Flow();
-var toolStrip2 = toolStrip1.insert_Above(120)
-						   .add_ToolStrip()
-						   .layout_Flow();
+						   
+TextBox selectedIconText = null;
+TextBox filterText = null;
+
+topPanel.insert_Above(40, "Filter").add_Label("Filter:").top(3).append_TextBox(ref filterText)
+		 			 	 .append_Label("Selected Icon Text (also copied to clipboard on click)").top(3).append_TextBox(ref selectedIconText).align_Right();
 
 var iconsMappings = typeof(FormImages).ctor().propertyValues_MappedBy_Name&lt;Bitmap&gt;(); 
-Action&lt;bool,ToolStrip&gt; show = 
-	(withDescription,target) =&gt;
-		{
-		target.visible(false);
-			foreach(var iconMapping in iconsMappings) 
-			{				
-				var iconName = iconMapping.Key;
-				var image= iconMapping.Value;
-				target.add_Button((withDescription) ? iconName : "" , image,()=&gt; "Copied value {0} to clipboard".format(iconName.clipboardText_Set()).alert());
+
+Action&lt;bool,ToolStrip, string&gt; show = 
+	(withDescription,target, filter) =&gt;
+		{	
+			lock(target)
+			{
+				target.visible(false);
+				target.Items.Clear();
+				
+				foreach(var iconMapping in iconsMappings) 
+				{				
+					var iconName = iconMapping.Key; 
+					var image= iconMapping.Value;
+					if(filter.notValid() || iconName.lower().contains(filter))
+						target.add_Button((withDescription) ? iconName : "" , image,()=&gt; selectedIconText.set_Text(iconName.clipboardText_Set()))
+									.ToolTipText = iconName;
+				}
+				target.visible(true);
 			}
-			target.visible(true);
 		};
 
-show(true,toolStrip1);
-show(false,toolStrip2);
-/*toolStrip.wait_n_Seconds(1)	
-		 .layout_HorizontalStackWithOverflow()
-		 .wait_n_Seconds(1)		 
-		 .layout_StackWithOverflow()
-		 .wait_n_Seconds(1)
-		 .layout_Table()
-		 .wait_n_Seconds(1)
-		 .layout_VerticalStackWithOverflow()
-		 .wait_n_Seconds(1)
-		 .layout_Flow();
-		 ;
-*/
+show(false,toolStrip,"");
+
+filterText.onTextChange((text)=&gt;
+	{
+		show(false,toolStrip,text.lower())	;
+	});
+	
+
 return "done";
 
 //using O2.Platform.BCL.O2_Views_ASCX
- 
-//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs</SourceCode>
+</SourceCode>
   <ReferencedAssemblies />
 </H2>

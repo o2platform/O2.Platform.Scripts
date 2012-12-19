@@ -1,0 +1,82 @@
+﻿namespace O2.External.O2Mono.MonoCecil.RnD
+{
+/*    public class utils
+    {
+        // good code snippets at 
+        /// https://source.db4o.com/db4o/trunk/db4o.net/Db4oTool/Db4oTool/NQ/DelegateQueryProcessor.cs
+        /// http://www.google.com/codesearch/p?hl=en#sHsQHMYshcU/Afterex/Refactoring/CecilHelper.cs
+         
+        
+        
+        
+        private static ModuleDefinition mdTargetModule;
+
+        public static void testCreateAssembly(String sTarget)
+        {
+            String sAssemblyName = Path.GetFileNameWithoutExtension(sTarget);
+            AssemblyDefinition adAssembly = AssemblyFactory.DefineAssembly(sAssemblyName,TargetRuntime.NET_2_0,AssemblyKind.Console);
+            mdTargetModule = adAssembly.MainModule;
+                        
+            TypeDefinition tdType = new TypeDefinition("TypeTest", "Namespace", TypeAttributes.Class |TypeAttributes.Public, Import(typeof(System.Object)));            
+            tdType.Constructors.Add(CreateDefaultConstructor());
+
+            MethodDefinition mdMain = CreateTestMain();
+            tdType.Methods.Add(mdMain);
+
+            adAssembly.EntryPoint = mdMain;
+
+            adAssembly.Modules[0].Types.Add(tdType);
+
+            AssemblyFactory.SaveAssembly(adAssembly, sTarget);
+        }
+
+        private static MethodDefinition CreateTestMain()
+        {         
+            
+            MethodDefinition mdTestMain = new MethodDefinition("Main", MethodAttributes.Private | MethodAttributes.Static, Import(typeof(void)));
+            addConsoleWriteStringToMethod(mdTestMain, "This is a test Main (Dynamically Generated)");
+            CilWorker worker = mdTestMain.Body.CilWorker;                                             
+            worker.Emit(OpCodes.Ret);
+            return mdTestMain;
+
+        }
+
+        private static void addConsoleWriteStringToMethod(MethodDefinition mdTargetMethod, String sString)
+        {
+            MethodReference mrConsoleWriteLine = Import(typeof(Console).GetMethod("WriteLine", new Type[] { typeof(string) }));
+            CilWorker worker = mdTargetMethod.Body.CilWorker;
+            worker.Emit(OpCodes.Ldstr, sString);            
+            worker.Emit(OpCodes.Call, mrConsoleWriteLine);
+        }
+
+        private static MethodDefinition CreateDefaultConstructor()
+        {
+            MethodDefinition ctor = new MethodDefinition(
+                                            MethodDefinition.Ctor,
+                                            MethodAttributes.SpecialName | MethodAttributes.RTSpecialName | MethodAttributes.Public,
+                                            Import(typeof(void)));
+
+            CilWorker worker = ctor.Body.CilWorker;
+            worker.Emit(OpCodes.Ldarg_0);
+            worker.Emit(OpCodes.Call, DefaultObjectConstructor());
+            worker.Emit(OpCodes.Ret);
+            return ctor;
+        }
+
+        private static MethodReference DefaultObjectConstructor()
+        {
+            return mdTargetModule.Import(typeof(object).GetConstructors()[0]);
+        }
+
+        private static TypeReference Import(Type tType)
+        {
+            return mdTargetModule.Import(tType);
+        }
+
+        private static MethodReference Import(System.Reflection.MethodBase mbMethodBase)
+        {
+            return mdTargetModule.Import(mbMethodBase);
+        }  
+    }
+ */
+}

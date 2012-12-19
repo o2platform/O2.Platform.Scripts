@@ -57,7 +57,7 @@ Action&lt;string&gt; executeScript =
 					
 				};
 
-var codeEditor = topPanel.insert_Left(400,"Javascript Code").add_SourceCodeEditor().set_Text(code,".cs");
+var codeEditor = topPanel.insert_Left(400,"Javascript Code").add_SourceCodeViewer().set_Text(code,".cs");
 var executeOnTextChange = false;
 codeEditor.onTextChange(
 	(text)=&gt; {
@@ -74,24 +74,24 @@ topPanel.parent().parent().insert_Above(40,"Actions")
 						  
 topPanel.onClosed(()=&gt; stopExecution());
 	    
-dynamic expando = new ExpandoObject();	
+/*dynamic expando = new ExpandoObject();	
 expando.topPanel 		  = topPanel;
 expando.form 	 		  = topPanel.parentForm();
+*/
 
-return expando;
 
 //nodeJS.start();
 /*var nodeJsGui = new CmdExeGui(nodeJS.Executable);   
 nodeJsGui.cmd(".help"); 
 nodeJsGui.HostControl.parentForm().set_Text("NodeJs Gui"); */
-return "ok"; 
+
 
 //using System.Diagnostics
 //using System.Dynamic
 //O2File:API_NodeJS.cs
 //O2File:CmdExeAPI.cs
 //O2Ref: Microsoft.CSharp.dll
-//O2EmbedTool:NodeJs
+//O2EmbedTool:NodeJs_Exe
 //O2Package:Hello World.js,Simple WebServer.js,Simple WebServer II.js</SourceCode>
   <ReferencedAssemblies />
 </H2>

@@ -3,6 +3,6 @@
   <SourceCode>O2Gui.open&lt;ascx_XRules_Editor&gt;("O2 Development Environment       ({0}".format(clr.details()),1024, 600);
     
 //using O2.Core.XRules.Ascx
-//O2Ref:O2_External_SharpDevelop.dll</SourceCode>
+//O2Ref:O2_Platform_External_SharpDevelop.dll</SourceCode>
   <ReferencedAssemblies />
 </H2>

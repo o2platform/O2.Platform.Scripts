@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <H2>
   <SourceCode>//var topPanel = panel.clear().add_Panel();  
- 
 var topPanel = "Util - Inject O2 into Other processes v2.0".popupWindow(1200,600); 
+
 topPanel.insert_LogViewer();    
    
 
@@ -13,6 +13,7 @@ var selectedProcessTab   = tabPanel.add_Tab("Selected Process details").add_Pane
 
 var modulesTreeView 	= selectedProcessTab.insert_Below("Selected Process Modules List").add_TreeView_with_PropertyGrid(false).sort();
 var processScreenshot 	= modulesTreeView.insert_Left(100).add_PictureBox();
+var codeEditor			= selectedProcessTab.add_SourceCodeViewer();
 //processesTreeView.splitContainer().splitterDistance(300);
 //modulesTreeView.splitContainer().splitterDistance(300);
 Process selectedProcess 	 = null;
@@ -38,9 +39,10 @@ processesTreeView.afterSelect&lt;Process&gt;(
 					selectedProcessTab.parent&lt;TabPage&gt;().set_Text("Selected process: {0} (id: {1})".format(process.ProcessName, process.Id));
 					//modulesTreeView.parent&lt;GroupBox&gt;()
 					O2Thread.mtaThread(
-						()=&gt;{
+						()=&gt;{								
 								processScreenshot.load(selectedProcess.handle().window_ScreenShot() as Image);
-								selectedProcessTab.add_FlowLayoutPanel_with_DetectedModules(process);
+								
+								//selectedProcessTab.insert_Left(40).add_FlowLayoutPanel_with_DetectedModules(process);
 						    });
 					try
 					{						
@@ -84,6 +86,19 @@ Action injectO2IntoProcess =
 			var o2Injector =  new API_O2_Injector();				
 			o2Injector.injectIntoProcess(selectedProcess, x64_CheckBox.value(), runtime40_CheckBox.value());    
 		};   
+
+Action executeScriptInProcess = 
+	()=&gt;{
+			
+			var code =  "Injected_Dll_WithCodeSnippet.cs".local().fileContents();
+			var tempFile = code.replace("/*CODESNIPPET*/", codeEditor.get_Text()).saveWithExtension(".cs"); 
+			var assembly = tempFile.compile(true); 
+			if (assembly.isNull())
+				"Failed to compileAssemnbly to inject".error();
+			else 
+				 new API_O2_Injector().injectIntoProcess(selectedProcess,assembly.Location,"O2.InjectedClass", "main",  x64_CheckBox.value(), runtime40_CheckBox.value());
+		
+		};
    
 processesTreeView.insert_Below_ToolStrip()
 				 .add_Button("Refresh", "view_refresh".formImage(), ()=&gt; refreshProcessList()).toolStrip()
@@ -93,7 +108,8 @@ processesTreeView.insert_Below_ToolStrip()
 				 
 				   
 selectedProcessTab.insert_ToolStrip()
-	.add_Button("Inject O2 into Process","btExecuteSelectedMethod_Image".formImage(), ()=&gt;injectO2IntoProcess()).toolStrip()
+	.add("Execute Script (below) in process", "btExecuteSelectedMethod_Image".formImage(),()=&gt; executeScriptInProcess())
+	.add_Button("Inject O2 REPL into Process","btExecuteSelectedMethod_Image".formImage(), ()=&gt;injectO2IntoProcess()).toolStrip()
 	.add_CheckBox("x64",ref x64_CheckBox)
 	.add_CheckBox(".Net 40 runtime",ref runtime40_CheckBox);
 
@@ -112,6 +128,8 @@ toolStrip.add_Button("Open DbgViewer.exe (SysInternals)",  "btDebugMethod_Image"
 
 toolStrip.insert_Right(160).add_ProcessFinder(selectProcess, selectProcess).append_Label("Click to select process").top(10);
 
+codeEditor.set_Text("Debug.Write(\"Testing 123...\");".line() + 
+					"System.Windows.Forms.MessageBox.Show(\"Hello\");");
 //toolStrip.insert_Left(30).add_ProcessFindings((process)=&gt;{});
 //&lt;Ctrl_ProcessFinder&gt;
 //O2File:Ctrl_ProcessFinder.cs

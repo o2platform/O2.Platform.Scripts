@@ -2,9 +2,10 @@
 <H2>
   <SourceCode>//**************** StandAlone exe package and setup ****************
 //O2Embed:LessMsi\lessmsi.exe
-//O2Package:E:\O2_V4\_TempDir_v4.3.2.0\_ToolsOrApis\LessMsi\wix.dll
-//O2Package:E:\O2_V4\_TempDir_v4.3.2.0\_ToolsOrApis\LessMsi\wixcab.dll
+//O2Package:LessMsi\wix.dll
+//O2Package:LessMsi\wixcab.dll
 //O2Package:MSI_Icon.ico
+
 O2ConfigSettings.O2Version = "LessMSI";
 O2Setup.extractEmbededConfigZips();
 if ("wixcab.dll".local().fileExists())

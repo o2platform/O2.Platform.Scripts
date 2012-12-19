@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var visualStudio = new VisualStudio_2010();
+
+var enabled = false;
+
+Action buildSolution = 
+	()=&gt;{			
+			visualStudio.dte().Solution.SolutionBuild.Build(true);
+			"Build Complete".info();
+		};
+
+var browser = "webBrowser".o2Cache&lt;WebBrowser&gt;(()=&gt;visualStudio.open_Panel().add_WebBrowser_with_NavigationBar());
+
+Action onSave = 
+	()=&gt;{
+				O2Thread.mtaThread( 
+					()=&gt;{
+							browser.showMessage("...compiling project...");
+							buildSolution();
+							browser.open("http://localhost:1735/REST/users/.html");
+						});
+			};
+VisualStudio_2010.on_DocumentSaved.clear().add(
+	(document)=&gt;{ 
+					if (enabled)
+						onSave();
+				});
+
+return "Automated opening web page on document save (and post build): Enabled = {0}".format(enabled);
+
+//O2Ref:EndDTE2.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

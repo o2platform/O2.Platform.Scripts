@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Diagnostics;
 using System.Windows.Forms;
 using O2.Kernel;
@@ -42,14 +43,25 @@ namespace O2.XRules.Database.APIs
 		 	var fixedCourceCode = codeFile.fileContents()	//ensure that we are pointing to the current locations of O2 folders
 		 							 	  .replace(@"%CurrentExecutableDirectory%",PublicDI.config.CurrentExecutableDirectory)
 		 							 	  .replace(@"%scriptToExecute%",targetFile );
+		 	return 	injectIntoProcess(process, x64,runtime40, fixedCourceCode.saveWithExtension(".cs"));					 	  
+		}
+		
+		public bool injectIntoProcess(Process process, bool x64, bool runtime40, string sourceCodeFile)
+		{
 		 	//fixedCourceCode.showInCodeViewer();
 		 	var compileEngine = new CompileEngine(runtime40 ? "v4.0" : "v3.5") { UseCachedAssemblyIfAvailable = false };		 	
-			var compiledAssembly = compileEngine.compileSourceCode(fixedCourceCode);			
-			if (compiledAssembly.notNull())
+			//var compiledAssembly = compileEngine.compileSourceCode(fixedCourceCode);			
+			var compiledAssembly = compileEngine.compileSourceFile(sourceCodeFile);			
+			return injectIntoProcess(process,x64, runtime40,compiledAssembly);
+		}
+		
+		public bool injectIntoProcess(Process process, bool x64, bool runtime40, Assembly assemblyToExecute)
+		{
+			if (assemblyToExecute.notNull())
 			{				
 				var className = "O2.Script.Test"; //"Snoop.SnoopUI";
 				var methodName = "GoBabyGo";
-				return injectIntoProcess(process, compiledAssembly.Location, className, methodName, x64, runtime40);
+				return injectIntoProcess(process, assemblyToExecute.Location, className, methodName, x64, runtime40);
 			}
 			return false;
 		}

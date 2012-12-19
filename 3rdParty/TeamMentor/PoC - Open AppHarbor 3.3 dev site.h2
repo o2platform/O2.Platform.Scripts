@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>"TeamMentor deploy".popupWindow(1000, 500)
+				   .add_WebBrowser_with_NavigationBar()
+				   .open("http://teammentor-3-3.apphb.com");</SourceCode>
+  <ReferencedAssemblies />
+</H2>
