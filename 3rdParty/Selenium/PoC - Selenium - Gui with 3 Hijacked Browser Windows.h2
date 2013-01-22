@@ -1,0 +1,200 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>//var selectQuery = new SelectQuery("Win32_Process");
+
+IntPtr firefoxHandle = default(IntPtr);
+IntPtr chromeHandle = default(IntPtr);
+IntPtr ieHandle = default(IntPtr);
+Process firefoxProcess = null;
+Process chromeDriverProcess = null;
+Process ieDriverProcess = null;
+
+Func&lt;int, Process&gt; getProcessWithParentHandle = 
+	(processId)=&gt;{						
+						var selectQuery = "Select ProcessId from Win32_Process Where ParentProcessId = {0}".format(processId);;
+						foreach(var proc in new ManagementObjectSearcher(selectQuery).Get())
+						{	
+							var procId = (int)(UInt32)proc["ProcessId"];
+							var foundProcess = procId.process_WithId();
+							"foundProcess: {0}".debug(foundProcess);
+							return foundProcess;							
+						};
+						"Failed to find process with id: {0}".error(processId);
+						return null;
+				   };
+						 
+Func&lt;IntPtr, IWebDriver&gt; setup_Firefox =
+	(targetHandle)=&gt; {
+						var selenium = new API_Selenium();
+						selenium.setTarget_Firefox();	
+						firefoxProcess = "firefox".process_WithName();			
+						firefoxHandle = firefoxProcess.MainWindowHandle;
+						firefoxHandle.setParent(targetHandle);
+						WinAPI.ShowWindow(firefoxHandle, WinAPI.ShowWindowCommands.ShowMaximized);	
+						return selenium.WebDriver; 						
+					};
+
+
+Func&lt;IntPtr, IWebDriver&gt; setup_Chrome =
+	(targetHandle)=&gt;{
+						var selenium = new API_Selenium();
+						selenium.setTarget_Chrome();
+						chromeDriverProcess = "ChromeDriver".process_WithName();												
+						chromeHandle= getProcessWithParentHandle(chromeDriverProcess.Id).MainWindowHandle;
+						chromeHandle.setParent(targetHandle);
+						WinAPI.ShowWindow(chromeHandle, WinAPI.ShowWindowCommands.ShowMaximized);													
+						return selenium.WebDriver; 						
+					};
+Func&lt;IntPtr, IWebDriver&gt; setup_IE =
+	(targetHandle)=&gt;{
+						var selenium = new API_Selenium();
+						selenium.setTarget_IE();
+						ieDriverProcess = "IEDriverServer".process_WithName();												
+						ieHandle= getProcessWithParentHandle(ieDriverProcess.Id).MainWindowHandle;
+						ieHandle.setParent(targetHandle);
+						WinAPI.ShowWindow(ieHandle, WinAPI.ShowWindowCommands.ShowMaximized);
+						return selenium.WebDriver; 						
+					};
+
+//"Selenium_InternetExplorerDriver".o2Cache(null);
+"Selenium_ChromeDriver".o2Cache(null);
+"Selenium_FirefoxDriver".o2Cache(null);
+"Selenium_InternetExplorerDriver".o2Cache(null);
+
+var targetPanel = "hijack".popupWindow(1000,600);
+
+targetPanel.onClosed(
+	()=&gt;{			
+			firefoxProcess.stop();
+			chromeDriverProcess.stop();
+			ieDriverProcess.stop();
+			"Selenium_ChromeDriver".o2Cache(null);
+			"Selenium_FirefoxDriver".o2Cache(null);
+			"Selenium_InternetExplorerDriver".o2Cache(null);
+		});
+		
+/*targetPanel.insert_ActionPanel()
+		   .add_Link("close",()=&gt;{
+									fireFoxHandle.setParent(IntPtr.Zero);
+									chromeHandle.setParent(IntPtr.Zero);
+									
+									targetPanel.parentForm().close();
+								 });
+*/
+
+var fireFoxPanel = targetPanel.insert_Left(150,"Firefox");
+var chromePanel	 = targetPanel.insert_Right(150,"Chrome");
+var iePanel 	 = targetPanel.title("Chrome").add_Panel();
+var script 	 	 = targetPanel.insert_Script();
+
+targetPanel.parentForm().alwaysOnTop();
+
+targetPanel.Resize+=(sender,e)=&gt;{	 
+									ieHandle.resizeWindowToControlSize(iePanel,0,0);
+									chromeHandle.resizeWindowToControlSize(chromePanel,0,0);
+									firefoxHandle.resizeWindowToControlSize(fireFoxPanel,0,0);									
+	 							};		
+	
+
+var codeSnippet = 
+@"Action&lt;string&gt; openInAllBrowsers =
+	(url)=&gt; {
+				chrome.Navigate().GoToUrl(url);
+				firefox.Navigate().GoToUrl(url);
+				ie.Navigate().GoToUrl(url);
+			};
+openInAllBrowsers(""http://www.google.com"");
+//openInAllBrowsers(""http://www.whatismybrowser.com/"");
+//openInAllBrowsers(""http://localhost:12121/"");
+
+return ""done"";
+//O2Ref:Selenium\net40\WebDriver.dll
+";
+			
+
+
+var ieDriver	  = setup_IE(iePanel.handle());
+var firefoxDriver = setup_Firefox(fireFoxPanel.handle());
+var chromeDriver  = setup_Chrome(chromePanel.handle());
+			
+script.set_Code(codeSnippet);
+script.add_InvocationParameter("chrome", chromeDriver);
+script.add_InvocationParameter("firefox", firefoxDriver);
+script.add_InvocationParameter("ie", ieDriver);
+
+return "done";
+
+/*
+
+var driverProcessName = "Firefox";
+var ieDriver = driverProcessName.process_WithName();
+if (ieDriver.isNull())
+	return "ieDriver was null";
+
+
+
+var panelHandle = targetPanel.Handle;
+
+fireFoxHandle = ieDriver.MainWindowHandle;
+"panelHandle: {0} : {1}".info(panelHandle, panelHandle.get_Parent());	
+"firefoxHandle: {0} : {1}".info(fireFoxHandle, fireFoxHandle.get_Parent());
+fireFoxHandle.setParent(panelHandle);
+fireFoxHandle.window_Redraw();
+fireFoxHandle.window_Redraw();
+WinAPI.ShowWindow(fireFoxHandle, WinAPI.ShowWindowCommands.ShowMaximized);	
+return "firefox";
+*/
+/*
+var selectQuery = "Select ProcessId from Win32_Process Where ParentProcessId = {0}".format(ieDriver.Id);;
+
+
+
+foreach(var proc in new ManagementObjectSearcher(selectQuery).Get())
+{	
+	var procId = (int)(UInt32)proc["ProcessId"];
+	"process id:{0}".info(procId);
+	var process = procId.process_WithId();
+	var ieHandle = process.MainWindowHandle;
+	var ieParentHandle = ieHandle.get_Parent();
+	
+	
+	"panelHandle: {0} : {1}".info(panelHandle, panelHandle.get_Parent());
+	
+	"ieHandle: {0} : {1}".info(ieHandle, ieHandle.get_Parent());
+	
+	
+	ieHandle.setParent(panelHandle);
+	ieHandle.window_Redraw();
+	panelHandle.window_Redraw();
+	
+	WinAPI.ShowWindow(ieHandle, WinAPI.ShowWindowCommands.ShowMaximized);	
+}
+*/
+//using System.Management
+//O2Ref:System.Management.dll
+
+//"IEDriverServer".process_WithName().details();
+return "done";
+
+//var topPanel = "{name}".popupWindow(700,400); 
+//var selenium = new API_Selenium();
+//selenium.setTarget_Chrome();
+//selenium.setTarget_IE(); 
+//selenium.setTarget_Firefox();
+
+
+
+//driver.Navigate().GoToUrl("http://localhost:3187");
+//driver.details();
+//return driver;
+
+//using System.Diagnostics
+
+//O2File:API_WinAPI.cs
+//O2File:API_WinAPI_ExtensionMethods.cs
+//using OpenQA.Selenium
+//O2File:API_Selenium.cs 
+//O2File:SeleniumWebDrivers_Setup.cs
+//O2Ref:Selenium\net40\WebDriver.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

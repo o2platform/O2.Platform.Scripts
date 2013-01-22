@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Runtime.InteropServices;
+//using ComTypes = ;
 
 //O2File:API_WinAPI.cs
  
@@ -15,6 +16,9 @@ namespace O2.XRules.Database.APIs
 		[DllImport("kernel32.dll")]		public static extern int 	GetCurrentThreadId();
 		[DllImport("kernel32.dll", CharSet = CharSet.Ansi, ExactSpelling = true)] 
 										public static extern IntPtr GetProcAddress(IntPtr hModule, string procName);
+		//[DllImport("kernel32.dll")]		public static extern void 	GetSystemTimeAsFileTime(out System.Runtime.InteropServices.ComTypes.FILETIME lpSystemTimeAsFileTime);
+		[DllImport("kernel32.dll")]		public static extern void 	GetSystemTimeAsFileTime(out long lpSystemTimeAsFileTime);
+		
 		
 		[DllImport("kernel32.dll")]		public static extern IntPtr OpenProcess(int dwDesiredAccess, bool bInheritHandle, int dwProcessId);
 

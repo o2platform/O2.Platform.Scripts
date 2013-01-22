@@ -24,16 +24,17 @@ namespace O2.XRules.Database.APIs
 	// this calls exists to simplify the creation of new Tool APIs
 	public class Tool_API
     {   
-    	public string ToolName {get; set;}
-    	public string Version {get; set;}    	
-    	public string VersionWebDownload {get;set;} 
-    	public string Install_File {get;set;}
-    	public Uri 	  Install_Uri {get;set;}
-    	public string Install_Dir {get;set;}     	    
-    	public string DownloadedInstallerFile {get; set;}
-    	public string Executable { get;set;}
-    	public string Executable_Name { get; set; }
-    	public string ToolsDir 	{ get; set; }
+    	public string ToolName 					{ get; set; }
+    	public string Version 					{ get; set; }    	
+    	public string VersionWebDownload 		{ get; set; } 
+    	public string Install_File 				{ get; set; }
+    	public Uri 	  Install_Uri 				{ get; set; }
+    	public string Install_Dir 				{ get; set; }     	    
+    	public string DownloadedInstallerFile 	{ get; set; }
+    	public string Executable 				{ get; set; } 
+    	public string Executable_Name 			{ get; set; }
+    	public string ToolsDir 					{ get; set; }
+    	public string InstallProcess_Arguments 	{ get; set; }
     	//public string  toolsDir = PublicDI.config.O2TempDir.pathCombine("..\\_ToolsOrAPIs").createDir();
     	public string  localDownloadsDir = PublicDI.config.O2TempDir.pathCombine("..\\_O2Downloads").createDir();
     	public string  s3DownloadFolder = "http://s3.amazonaws.com/O2_Downloads/";
@@ -138,7 +139,7 @@ namespace O2.XRules.Database.APIs
     	public virtual bool installFromMsi_Local(string pathToMsi)
     	{    		
     		if (isInstalled(false).isFalse() && pathToMsi.fileExists())    							
-				Processes.startProcess(pathToMsi).WaitForExit();
+				Processes.startProcess(pathToMsi, this.InstallProcess_Arguments).WaitForExit();
 			return isInstalled();
     	}
     	
@@ -150,7 +151,7 @@ namespace O2.XRules.Database.APIs
     	public virtual bool startInstaller_FromMsi_Local(string pathToMsi)
     	{    		
     		if (isInstalled(false).isFalse() && pathToMsi.fileExists())    							
-				Install_Process = Processes.startProcess(pathToMsi);
+				Install_Process = Processes.startProcess(pathToMsi,this.InstallProcess_Arguments);
 			return isInstalled();
     	}
     	

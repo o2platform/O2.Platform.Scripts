@@ -12,7 +12,8 @@ var jsDecoded = topPanel.insert_Right("Formated Javascript").add_IE().silent(tru
 jsOriginal.MaxLength = 120000;
 var autoRefresh = false;
 
-var tempIE = topPanel.add_IE(); // will not be visible to the user and will be used for formating the code
+var tempIE = topPanel.insert_Below(1).add_IE(); // will not be visible to the user and will be used for formating the code
+
 Action&lt;string&gt; formatCode =    
 	(jsCode)=&gt; {					 
 					if (jsCode.valid())  

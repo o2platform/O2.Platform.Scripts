@@ -45,7 +45,7 @@ namespace O2.XRules.Database.APIs
 		    Hide 			= 0,
 		    Normal 			= 1,
 		    ShowMinimized 	= 2,
-		    Maximize		= 3, // is this the right value?
+		    //Maximize		= 3, // is this the right value?
 		    ShowMaximized 	= 3,
 		    ShowNoActivate 	= 4,
 		    Show 			= 5,

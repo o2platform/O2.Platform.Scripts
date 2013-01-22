@@ -77,11 +77,6 @@ namespace O2.XRules.Database.APIs
 	
 	public static class Extra_compile_Collections
 	{
-	
-	
-	
-	
-	
 		public static List<T> remove<T>(this List<T> targetList, List<T> itemsToRemove)
 		{
 			foreach(var item in itemsToRemove)
@@ -140,11 +135,6 @@ namespace O2.XRules.Database.APIs
 											  });			
 		}
 		 
-/*		public static T backColor<T>(this T control, string colorName) where T : Control
-    	{
-    		return control.backColor(colorName.color());    			
-    	}
-*/    	
     	public static T foreColor<T>(this T control, string colorName) where T : Control
     	{
     		return control.foreColor(colorName.color());    			
@@ -472,6 +462,18 @@ namespace O2.XRules.Database.APIs
 		
 	}
 	
+	public static class Extra_Misc_Icons
+	{
+		public static Bitmap asBitmap(this Image image)
+		{
+			return image as Bitmap;				
+		}
+		
+		public static Icon asIcon(this Image image)
+		{
+			return image.asBitmap().asIcon();
+		}
+	}
     
 	public static class Extra_Processes
 	{			

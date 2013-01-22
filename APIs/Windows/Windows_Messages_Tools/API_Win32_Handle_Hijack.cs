@@ -29,23 +29,28 @@ namespace O2.XRules.Database.APIs
 		
 	}
 	
-	public static class API_Win32_Handle_Hijack_ExtensionMethods
+	public class Win32_Handle_Hijack : Control
 	{
-	//var hostPanel  = panel.clear().add_Panel();
+		public Panel 			topPanel;
+		public WindowFinder 	windowFinder;
+		public TextBox 			targetHandle;	
+		public TextBox 			parentHandle;
+		public Panel 			hijackedWindow;		
+		public PictureBox 		pictureBox;
+		public Label 			className;
+		public IntPtr			hijackedHandle;
+		public IntPtr			hijackedParent;
+		public TextBox 			test;
 			
-		
-		public static T add_Handle_HijackGui<T>(this T hostPanel) where T : Control
+		public Win32_Handle_Hijack()
 		{
-			WindowFinder windowFinder 	= null;
-			TextBox targetHandle  	  	= null;
-			TextBox parentHandle 		= null;
-			//TextBox test 				= null;
-			Panel hijackedWindow 		= null;
-			PictureBox 	pictureBox 		= null;
-			Label 		className		= null;
-			IntPtr		hijackedHandle  = IntPtr.Zero;
-			IntPtr		hijackedParent  = IntPtr.Zero;
-						
+			this.width(400);
+			this.height(400);
+			buildGui();
+		}
+		
+		public Win32_Handle_Hijack buildGui()
+		{									
 			Action restore = 
 				()=>{												
 						if (hijackedHandle != IntPtr.Zero)
@@ -88,8 +93,8 @@ namespace O2.XRules.Database.APIs
 							 	pictureBox.show(handle.window_ScreenShot());
 								//pictureBox
 							};
-							
-			hostPanel.insert_Above(35).splitContainerFixed()
+			topPanel = this.add_Panel();				
+			topPanel.insert_Above(35).splitContainerFixed()
 						.add_WindowFinder(ref windowFinder) 
 						.append_Label("Handle:").top(10).append_TextBox(ref targetHandle)
 						.append_Label("Parent:").top(10).append_TextBox(ref parentHandle)
@@ -97,19 +102,20 @@ namespace O2.XRules.Database.APIs
 						.append_Link("Restore", ()=> restore()) 
 						.append_Link("Screenshot", ()=> screenShot()) 
 						.append_PictureBox(ref pictureBox)
-//						.append_TextBox(ref test).set_Text("Hijack me").top(10) 
+						.append_TextBox(ref test).set_Text("Hijack me").top(10) 
 						.append_Label(ref className).topAdd(2);
+
+				
 						
-						
-			hijackedWindow = hostPanel.add_GroupBox("Hijacked Window/Control").add_Panel();		
-			
+			hijackedWindow = topPanel.add_GroupBox("Hijacked Window/Control").add_Panel();		
+					
 			targetHandle.onTextChange((text)=> parentHandle.set_Text(text.toInt().intPtr().parent().str())); 
 			windowFinder.Window_Changed = setTarget; 
 				
 //			setTarget(test.handle()); 
 			
 			pictureBox.layout_Zoom();					  
-			hostPanel.onClosed(
+			this.onClosed(
 				()=>{
 						"On Closed".info();
 						restore();
@@ -117,6 +123,7 @@ namespace O2.XRules.Database.APIs
 			var groupBox = hijackedWindow.parent();;
 			var originalText = groupBox.get_Text();
 			var splitcontainer = groupBox.splitContainer();
+			
 			groupBox.DoubleClick+=(sender,e)=>
 				{		
 					var collapsed = splitcontainer.Panel1Collapsed;
@@ -131,14 +138,16 @@ namespace O2.XRules.Database.APIs
 						groupBox.set_Text(".");			
 					}
 				};	
-			groupBox.add_ContextMenu()				
-				.add_MenuItem("White Background", true,() => hostPanel.backColor("white"))
-				.add_MenuItem("Screenshot Stretch", true,() => hijackedWindow.control<PictureBox>().layout_Stretch())
-				.add_MenuItem("Screenshot Zoom", true, () => hijackedWindow.control<PictureBox>().layout_Zoom())
-				.add_MenuItem("REPL me", true, ()=> hostPanel.script_Me());
-				
-			
-			return hostPanel;
+			return this;	
+		}
+	}
+	
+	public static class API_Win32_Handle_Hijack_ExtensionMethods
+	{	
+					
+		public static Win32_Handle_Hijack add_Handle_HijackGui(this Control hostPanel)
+		{											
+			return hostPanel.add_Control<Win32_Handle_Hijack>();;
 		}
 	}
 }

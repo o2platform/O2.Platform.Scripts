@@ -228,23 +228,32 @@ namespace O2.XRules.Database.APIs
 		}
 		
 		
-		public static Process resizeprocessToControlSize(this Process process, Control controlToSync)
+		public static Process resizeProcessToControlSize(this Process process, Control controlToSync)
         {        	
             if (controlToSync.notNull() && process.notNull())
             {             	
-            	var mainWindowHandle = process.MainWindowHandle;                
-                if (mainWindowHandle != IntPtr.Zero)
-                {
-                	var point = controlToSync.pointToScreen();                    
-                    var x = point.X;
-					var y = point.Y;
-                    var width = controlToSync.width();
-                    var height = controlToSync.height();
-                    "Setting process {0} location to {0}x{1} : {2}x{3}".info(process.ProcessName, x, y, width, height);
-                    mainWindowHandle.window_Move(x, y, width,height);
-                }
+            	var mainWindowHandle = process.MainWindowHandle;                            	
+            	process.MainWindowHandle.resizeWindowToControlSize(controlToSync);
+	        }
+	        return process;
+	    }	    
+       	public static IntPtr resizeWindowToControlSize(this IntPtr handle, Control controlToSync)
+       	{            
+        	var point = controlToSync.pointToScreen();                    
+            var x = point.X;
+			var y = point.Y;
+			return handle.resizeWindowToControlSize(controlToSync, x, y);			
+		}
+		public static IntPtr resizeWindowToControlSize(this IntPtr handle, Control controlToSync, int x, int y)
+		{
+			if (handle != IntPtr.Zero)
+            {
+                var width = controlToSync.width();
+                var height = controlToSync.height();                    
+                handle.window_Move(x, y, width,height);
+                "Setting window with handle {0} to {0}x{1} : {2}x{3}".info(handle, x, y, width, height);
             }
-            return process;
-        }
+            return handle;                                
+		}
 	}
 }
