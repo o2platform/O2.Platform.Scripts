@@ -23,8 +23,8 @@ namespace O2.XRules.Database.APIs
 		
 		public Sumatra_PDF(bool installNow)
 		{
-			config("Sumatra PDF", "Sumatra PDF v1.4", "SumatraPDF-1.4-install.exe");			
-    		Install_Uri = "http://kjkpub.s3.amazonaws.com/sumatrapdf/rel/SumatraPDF-1.4-install.exe".uri();
+			config("Sumatra PDF", "Sumatra PDF v2.2.1", "SumatraPDF-2.2.1-install.exe");			
+    		Install_Uri = "https://kjkpub.s3.amazonaws.com/sumatrapdf/rel/SumatraPDF-2.2.1-install.exe".uri();
     		if (installNow)
     			install();		
 		}

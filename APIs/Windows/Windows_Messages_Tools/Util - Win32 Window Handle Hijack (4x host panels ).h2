@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <H2>
   <SourceCode>//var topPanel = "{name}".popupWindow(700,400);
- 
+  
 var topPanel = "Util - Win32 Window Handle Hijack (Multiple Guis)".popupWindow(1000,500);
 var parentForm = topPanel.parentForm(); 
 parentForm.insert_Right().add_Handle_HijackGui() 

@@ -3,19 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using iTextSharp;
+using iTextSharp.text.pdf;
+using iTextSharp.text.pdf.parser;
 using O2.Interfaces.O2Core;
 using O2.Kernel;
 using O2.Kernel.ExtensionMethods;
 using O2.DotNetWrappers.ExtensionMethods;
 using O2.DotNetWrappers.DotNet;
 using O2.Views.ASCX.classes.MainGUI;
-using O2.External.IE.ExtensionMethods;
-using O2.External.IE.Interfaces;
-using O2.External.IE.Wrapper;
 using O2.DotNetWrappers.Windows;
 
-//O2Ref:O2_External_IE.dll
-//O2Ref:itextsharp.dll
+//O2Ref:ITextSharp/itextsharp.dll
 
 
 
@@ -25,7 +23,7 @@ namespace O2.XRules.Database.Utils
     {    
     	private static IO2Log log = PublicDI.log;
 		public static RichTextBox textBox;
-		public static IO2Browser webBrowser;
+		public static WebBrowser webBrowser;
 		
 		public static void startControl()
 		{
@@ -42,7 +40,7 @@ namespace O2.XRules.Database.Utils
         {
         	var controls = this.add_1x1("Text to convert","converted links",true,200);
         	textBox = controls[0].add_RichTextBox();
-        	webBrowser = controls[1].add_O2_Browser_IE();        	
+        	webBrowser = controls[1].add_WebBrowser();        	
         	// events
         	textBox.onDrop(convertFile);
         	textBox.TextChanged += (sender,e) => convertText(textBox.Text);
@@ -57,12 +55,14 @@ namespace O2.XRules.Database.Utils
 			                if (fileToConvert.extension(".pdf"))
 			                {
 			                    textBox.set_Text("...processing pdf file: " + fileToConvert);
-			                    var pdfParser = new PDFParser();
-			                    var tempFile = PublicDI.config.getTempFileInTempDirectory(".txt");                    
-			                    pdfParser.ExtractText(fileToConvert, tempFile);
-			                    textBox.set_Text(tempFile.contents().fixCRLF());
-			                    Files.deleteFile(tempFile);
-			                }
+			                    var pdfReader = new PdfReader(fileToConvert);
+
+								var text = "";
+								for(int i=1; i < pdfReader.NumberOfPages + 1 ; i++)
+									text += "Page: {0}\n\n{1}\n\n".format(i, PdfTextExtractor.GetTextFromPage(pdfReader,i));
+    
+			                    textBox.set_Text(text);
+							}
 			                else
 			                    textBox.set_Text(fileToConvert.contents());        	
 			        });
@@ -83,7 +83,7 @@ namespace O2.XRules.Database.Utils
 			        		if (item.validUri() && item.ToLower().starts("http"))
 				        		htmlCode += "<a href=\"{0}\">{0}</a><br/>".format(item).line();
 			        		
-			        	((O2BrowserIE)webBrowser).DocumentText = htmlCode;
+			        	webBrowser.set_Html(htmlCode);
 			        });
         }
     	    	    	    	    
