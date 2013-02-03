@@ -1,6 +1,6 @@
 import clr
-clr.AddReferenceToFileAndPath("_temp\O2_FluentSharp_CoreLib.dll")
-clr.AddReferenceToFileAndPath("_temp\O2_FluentSharp_BCL.dll")
+clr.AddReferenceToFileAndPath("_temp\FluentSharp.CoreLib.dll")
+clr.AddReferenceToFileAndPath("_temp\FluentSharp.BCL.dll")
 import O2
 clr.ImportExtensions(O2.DotNetWrappers.ExtensionMethods)
 

@@ -2,9 +2,8 @@
 //O2Ref:System.dll
 //O2Ref:System.Core.dll
 //O2Ref:System.Windows.Forms.dll
-//O2Ref:O2_FluentSharp_CoreLib.dll
+//O2Ref:FluentSharp.CoreLib.dll
 //O2Ref:O2_External_IE.dll
-//O2Ref:O2_External_SharpDevelop.dll
 //O2Ref:System.Drawing.dll
 //O2Ref:Microsoft.mshtml.dll
 using System;

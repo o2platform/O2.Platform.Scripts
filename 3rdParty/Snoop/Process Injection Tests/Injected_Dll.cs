@@ -14,7 +14,7 @@ namespace O2.Script
     public class Test
     {    
     	static Process CurrentProcess = System.Diagnostics.Process.GetCurrentProcess();
-    	static string  assemblyLocation = @"%CurrentExecutableDirectory%\O2_FluentSharp_CoreLib.dll";
+    	static string  assemblyLocation = @"%CurrentExecutableDirectory%\FluentSharp.CoreLib.dll";
 		static Assembly assembly = Assembly.LoadFrom(assemblyLocation);
 		
 			
@@ -134,16 +134,7 @@ namespace O2.Script
 			try
 			{				
 				Debug.Write(">>> Inside GoBabyGo method in Process " +CurrentProcess.ProcessName);
-				//System.Windows.Forms.MessageBox.Show("About to Inject script");
-				try
-				{
-					 //Assembly bcl = Assembly.LoadFrom(@"E:\O2_V4\O2.Platform.Projects\binaries\O2_FluentSharp_BCL.dll");
-					 //Assembly repl = Assembly.LoadFrom(@"E:\O2_V4\O2.Platform.Projects\binaries\O2_FluentSharp_REPL.dll");
-				}
-				catch(Exception ex)
-				{
-					info("Error: loading assemblies " + ex.Message);
-				}
+				//System.Windows.Forms.MessageBox.Show("About to Inject script");				
 				executeDefaultO2Script();
 				//listLoadedAssemblies();
 				//info("Starting nodepad");

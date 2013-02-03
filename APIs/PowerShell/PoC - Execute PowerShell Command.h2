@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var command = "help";
+var powerShell = PowerShell.Create();
+powerShell.AddCommand(command);
+return powerShell.Invoke().typeFullName();
+
+//using System.Management.Automation
+//O2Ref:System.Management.Automation.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using O2.Kernel;
 using O2.DotNetWrappers.Windows; 
 using O2.DotNetWrappers.ExtensionMethods;
-//O2Ref:O2_FluentSharp_REPL.dll
+//O2Ref:FluentSharp.REPL.exe
 
 namespace O2.XRules.Database.Utils
 {

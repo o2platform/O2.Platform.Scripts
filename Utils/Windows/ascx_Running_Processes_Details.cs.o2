@@ -5,8 +5,8 @@
 //O2Ref:System.Xml.dll
 //O2Ref:System.Data.dll
 //O2Ref:System.Windows.Forms.dll
-//O2Ref:O2_FluentSharp_CoreLib.dll
-//O2Ref:O2_FluentSharp_BCL.dll
+//O2Ref:FluentSharp.CoreLib.dll
+//O2Ref:FluentSharp.BCL.dll
 using System;
 using System.Collections;
 using System.Collections.Generic;

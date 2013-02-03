@@ -15,7 +15,7 @@ var codeEditor = topPanel.title("C# code")
 						 .set_ColorsForCSharp();
 var result = topPanel.insert_Right(200,"Result")
 					 .add_TextArea();					 
-var scriptEngine = new ScriptEngine(new [] { "O2_FluentSharp_CoreLib.dll".assembly_Location()});
+var scriptEngine = new ScriptEngine(new [] { "FluentSharp.CoreLib.dll".assembly_Location()});
 var session = Session.Create(PublicDI.log);
 
 codeEditor.onTextChange(

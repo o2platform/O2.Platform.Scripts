@@ -70,7 +70,7 @@ namespace O2.XRules.Database.APIs
                 if (assembly.isNull())
                     assembly  =  assemblyFile.assembly();
 				//only load the O2 assemblies 				
-                if (assembly.str().lower().contains("o2"))
+                if (assembly.str().lower().contains("o2") || assembly.str().lower().contains("fluentsharp"))
 				{
 					var item = references.AddItem("Reference",assemblyFile.fileName_WithoutExtension());
 					item.AddMetadata("HintPath",assemblyFile.fileName()); 

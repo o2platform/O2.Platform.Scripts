@@ -6,7 +6,7 @@
 //O2Package:LessMsi\wixcab.dll
 //O2Package:MSI_Icon.ico
 
-O2ConfigSettings.O2Version = "LessMSI";
+O2ConfigSettings.o2Version = "LessMSI";
 O2Setup.extractEmbededConfigZips();
 if ("wixcab.dll".local().fileExists())
 {			

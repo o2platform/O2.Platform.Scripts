@@ -147,7 +147,7 @@ namespace O2.Core.FileViewers.Ascx
                     //case "System.Collections.Generic.List`1[[O2.Core.FileViewers.Interfaces.IStrutsMappings_Controller, O2_Core_FileViewers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]":
                     //case "System.Collections.Generic.Dictionary`2[[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[O2.Core.FileViewers.Interfaces.IStrutsMappings_Controller, O2_Core_FileViewers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]":
                     //case "System.Collections.Generic.Dictionary`2[[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[O2.Kernel.Interfaces.FrameworkSupport.J2EE.IStrutsMappings_Controller, O2_Kernel, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]":                    
-                    case "System.Collections.Generic.Dictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[O2.Interfaces.FrameworkSupport.J2EE.IStrutsMappings_Controller, O2_FluentSharp_CoreLib, Version=4.4.2.0, Culture=neutral, PublicKeyToken=55a0f9bf4256d533]]":
+                    case "System.Collections.Generic.Dictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[O2.Interfaces.FrameworkSupport.J2EE.IStrutsMappings_Controller, OFluentSharp.CoreLib, Version=4.4.2.0, Culture=neutral, PublicKeyToken=55a0f9bf4256d533]]":
                         var controllers = (Dictionary<string, IStrutsMappings_Controller>)tagObject;
                         StrutsMappingsViewHelpers.populateTreeNodeWith_Controllers(treeNode, controllers);
                         break;
@@ -158,7 +158,7 @@ namespace O2.Core.FileViewers.Ascx
                         break;
                     //case "System.Collections.Generic.Dictionary`2[[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[O2.Core.FileViewers.Interfaces.IStrutsConfig_FormBean, O2_Core_FileViewers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]":
                     //case "System.Collections.Generic.Dictionary`2[[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[O2.Kernel.Interfaces.FrameworkSupport.J2EE.IStrutsConfig_FormBean, O2_Kernel, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]":
-                    case "System.Collections.Generic.Dictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[O2.Interfaces.FrameworkSupport.J2EE.IStrutsConfig_FormBean, O2_FluentSharp_CoreLib, Version=4.4.2.0, Culture=neutral, PublicKeyToken=55a0f9bf4256d533]]":
+                    case "System.Collections.Generic.Dictionary`2[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[O2.Interfaces.FrameworkSupport.J2EE.IStrutsConfig_FormBean, FluentSharp.CoreLib, Version=4.4.2.0, Culture=neutral, PublicKeyToken=55a0f9bf4256d533]]":
                         var formBeans = (Dictionary<string, IStrutsConfig_FormBean>)tagObject;
                         StrutsMappingsViewHelpers.populateTreeNodeWith_FormBeans(treeNode, formBeans);
                         break;

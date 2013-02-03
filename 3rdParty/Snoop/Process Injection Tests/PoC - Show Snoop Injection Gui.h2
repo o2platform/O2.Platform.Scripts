@@ -4,19 +4,6 @@
 var formTitle ="PoC - Create Snoop Injection Gui (current process id: {0})".format(Processes.getCurrentProcess().Id);
 var topPanel = formTitle.popupWindow(1000,400);
 
-
-
-/*var file = @"C:\O2\_XRules_Local\test.cs";
-file.fileInsertAt(0," ");
-panel.clear().add_SourceCodeViewer().open(file); 
-var targetFolder = "_exe_text".tempDir(false);  
-return file.compileToExe("O2.Script.Test", targetFolder);*/
-
-//@"E:\O2_V4\_O2_V4_TempDir\5_31_2012\_exe_text\test.exe".startProcess();
-
-//var process = "O2 Xaml Editor (PoC).h2".local().startProcess();
-//this.sleep(2000);
-//var process = Processes.getProcess(1524);
 var suffix = "32-4.0"; 
 var assemblyLocation = @""; //snoopAssembly.Location;
 var processId = 20544;
@@ -32,10 +19,7 @@ Action inject =
 					"Could not find process with Id: {0}".error(processId);
 					return;
 				}
-				//var process = Processes.getProcess(12168);
 				var hwnd = process.MainWindowHandle;
-//				var hwnd = process.Handle;
-				//var hwnd = new IntPtr(398680);
 				if (hwnd == IntPtr.Zero)
 				{
 				 	"Could not get MainWindow handle".error();
@@ -45,22 +29,12 @@ Action inject =
 				
 				var snoopAssembly = @"Snoop\Snoop.exe".assembly(); 
 				var directoryName = snoopAssembly.Location.directoryName();
-				//return process.MainModule;
-//				var suffix = snoopAssembly.type("Injector")
-//										   .invokeStatic("Suffix", hwnd);
-//				suffix = "64-4.0";
 				var fileName = directoryName.pathCombine("ManagedInjectorLauncher" + suffix+ ".exe");							  
 				
 				
 				var windowHandle= hwnd;			
 				var className = "O2.Script.Test"; //"Snoop.SnoopUI";
 				var methodName = "GoBabyGo";
-
-//E:\O2_V4\O2.Platform.Projects\binaries\O2_FluentSharp_CoreLib.dl
-//assemblyLocation = "O2_FluentSharp_CoreLib.dll".assembly().Location;
-//assemblyLocation = @"E:\O2_V4\O2.Platform.Projects\binaries\O2_FluentSharp_CoreLib.dll";
-//className= "O2.DotNetWrappers.DotNet.CompileEngine";
-//methodName = "clearLocalScriptFileMappings";
 	
 				var arguments = string.Concat(new object[]
 					{

@@ -17,27 +17,7 @@ leftPanel.add_CheckBox("Open Log Viewer", 30,170,(value)=&gt; openLogViewer = va
 Action&lt;string,string,bool&gt; executeInAppDomain =
 	(appDomainName, scriptToExecute, openMainO2Gui)
 		=&gt; {
-				scriptToExecute.executeScriptInSeparateAppDomain(openLogViewer, openScriptEditor);
-				/*
-				O2Thread.mtaThread( 
-					()=&gt;{					 		
-							var o2AppDomain =  new O2.Kernel.Objects.O2AppDomainFactory(appDomainName);
-							try
-							{
-								"before appDomain creation".info();
-								o2AppDomain.load("O2_FluentSharp_CoreLib"); 									
-							
-								var o2Proxy =  (O2Proxy)o2AppDomain.getProxyObject("O2Proxy");
-								"o2Proxy:{0}".info(o2Proxy); 
-								o2Proxy.InvokeInStaThread = true;
-								o2Proxy.staticInvocation("O2_FluentSharp_REPL","FastCompiler_ExtensionMethods","executeSourceCode",new object[]{ scriptToExecute });								
-							}
-							catch(Exception ex)
-							{
-								ex.log("inside new AppDomain"); 
-							}
-							o2AppDomain.unLoadAppDomain();
-						});*/
+				scriptToExecute.executeScriptInSeparateAppDomain(openLogViewer, openScriptEditor);			
 		  };
 
 executeButton.onClick(

@@ -3,7 +3,6 @@ using System;
 using System.Windows.Forms;
 using O2.DotNetWrappers.Windows;
 using O2.DotNetWrappers.ExtensionMethods;
-//O2Ref:O2_FluentSharp_BCL.dll
 
 namespace O2.Script
 {

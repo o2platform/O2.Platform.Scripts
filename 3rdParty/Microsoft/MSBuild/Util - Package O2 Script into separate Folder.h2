@@ -49,7 +49,7 @@ dropZone.onClick(()=&gt;packageScript(lastScriptFile));
 dropZone.add_MenuItem_with_TestScripts(packageScript);
 
 return packageScript;
-
+ 
 //O2File:API_MicrosoftBuild.cs
 
 //O2Package:ALL_SCRIPTS

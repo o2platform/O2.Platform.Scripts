@@ -5,18 +5,20 @@ var topPanel = "Util - Clojure REPL (Lisp)".popupWindow(550,300);
 topPanel.set_Form_Icon("Clojure-icon.png".local().bitmap().asIcon());
 
 CheckBox autoCompile = null;
-
+ 
 var replGui = topPanel.add_REPL_Gui();
 replGui.Code_Panel.splitContainer().fixedPanel2().splitterDistance(400);
 var codeEditor = replGui.Code_Panel.add_SourceCodeViewer();
 codeEditor.textEditor().showInvalidLines(false);
-
+ 
 
 var tooStrip = codeEditor.insert_Above_ToolStrip();
 
 var sampleClojureClrCode =  " var code = \"(+ 22 20)\";\n return Compiler.load(new StringReader(code), \".\");\n\n//using clojure.lang\n//O2Ref:Clojure.dll\n//using System.IO";
 
-topPanel.mainMenu().clear()
+var samplesMenu = topPanel.mainMenu().clear()
+						  .add_Menu("Samples (start learning LISP here)");
+topPanel.mainMenu()
 		.add_Menu("C# REPL")
 			.add_MenuItem("REPL Clojure-clr engine", ()=&gt; "Clojure-cle engine".popupWindow().add_Script().set_Code(sampleClojureClrCode))			
 			.add_MenuItem("REPL this Form", ()=&gt; topPanel.script_Me())
@@ -26,10 +28,7 @@ topPanel.mainMenu().add_Menu("Resources (WebSites)")
 						.add_MenuItem("clojure.org Home Page"								, ()=&gt; "http://clojure.org".startProcess())					
 						.add_MenuItem("tryclj - Online Clojure REPL (with tutorial)"	 	, ()=&gt; "http://tryclj.com/".startProcess())
 						.add_MenuItem("himera - Online Clojure REPL (with 'at a glance')"	, ()=&gt; "http://himera.herokuapp.com/index.html".startProcess())
-						.add_MenuItem("Clojure-Clr (github)"								, ()=&gt; "https://github.com/clojure/clojure-clr".startProcess());
-						
-
-var samplesMenu = topPanel.mainMenu().add_Menu("Samples (start learning LISP here)");
+						.add_MenuItem("Clojure-Clr (github)"								, ()=&gt; "https://github.com/clojure/clojure-clr".startProcess());						
 
 Action&lt;string, string&gt; add_Example  =
 	(title, code)=&gt;{	
@@ -93,7 +92,7 @@ add_Example("a map"					, "(map inc [1 2 3 4])");
 //using Clojure
 //using clojure.lang
 
-//O2Ref:Clojure\Debug 4.0\Clojure.Main.exe
+//O2Ref:Clojure.Main.exe
 //O2Ref:Clojure.dll</SourceCode>
   <ReferencedAssemblies />
 </H2>

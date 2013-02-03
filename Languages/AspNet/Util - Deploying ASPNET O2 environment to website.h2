@@ -77,10 +77,10 @@ Action&lt;string,string&gt; copyFileToWebSite =
 	 	
 var supportDlls = new List&lt;string&gt; {
 										//Needed for FluentSharp
-										"O2_FluentSharp_CoreLib.dll".assembly().Location,
-										"O2_FluentSharp_BCL.dll".assembly().Location,										
+										"FluentSharp.CoreLib.dll".assembly().Location,
+										"FluentSharp.BCL.dll".assembly().Location,										
 										//Needed for scripting environment
-										"O2_FluentSharp_REPL.dll".assembly().Location
+										"FluentSharp.REPL.exe".assembly().Location
 										//"log4net.dll".assembly().Location
 									};
 									

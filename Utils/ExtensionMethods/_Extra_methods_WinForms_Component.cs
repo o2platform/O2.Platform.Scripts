@@ -19,8 +19,6 @@ using O2.Views.ASCX.O2Findings;
 using O2.External.SharpDevelop.ExtensionMethods;
 using System.ComponentModel;
 
-//O2Ref:O2_FluentSharp_BCL.dll
-
 namespace O2.XRules.Database.Utils
 {	
 /*	public static class _Extra_extensionMethods_Component
