@@ -21,9 +21,10 @@ using O2.External.IE.WebObjects;
 using Jint;
 using Jint.Expressions;
 //O2File:Jint_ExtensionMethods.cs
-//O2Ref:Jint.dll
-//O2Ref:Antlr3.Runtime.dll
+//O2Ref:Jint/Jint.dll
+//O2Ref:Antlr/Antlr3.Runtime.dll
 //O2Ref:O2_External_IE.dll
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
 
 
 namespace O2.XRules.Database.Languages_and_Frameworks.Javascript

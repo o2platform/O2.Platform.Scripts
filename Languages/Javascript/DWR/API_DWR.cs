@@ -20,7 +20,7 @@ using Jint.Expressions;
 //O2File:Jint_ExtensionMethods.cs
 //O2File:Jint_Objects.cs
 //O2File:Jint_Visitors.cs
-//O2Ref:Jint.dll
+//O2Ref:Jint/Jint.dll
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
 
 

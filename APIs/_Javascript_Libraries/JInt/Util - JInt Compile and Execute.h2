@@ -55,7 +55,7 @@ javascriptCode.set_Text(sampleCode);
 
 return "ok";
 //using Jint
-//O2Ref:Jint.dll
+//O2Ref:Jint/Jint.dll
 //O2File:Jint_ExtensionMethods.cs
 //using O2.XRules.Database.Languages_and_Frameworks.Javascript</SourceCode>
   <ReferencedAssemblies />

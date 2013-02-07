@@ -13,8 +13,8 @@ using CefSharp.Wpf;
 
 //O2Ref:O2_FluentSharp_WPF.dll
 
-//O2Ref:CefSharp\CefSharp-0.11-bin\CefSharp.Wpf.dll
-//O2Ref:CefSharp\CefSharp-0.11-bin\CefSharp.dll
+//O2Ref:CefSharp\CefSharp-1.19.0\CefSharp.Wpf.dll
+//O2Ref:CefSharp\CefSharp-1.19.0\CefSharp.dll
 
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:PresentationFramework.dll

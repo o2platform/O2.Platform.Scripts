@@ -7,13 +7,13 @@ var webView = topPanel.add_Chrome()
 					  .add_NavigationBar();
 
 webView.Load("http://www.whatismybrowser.com"); 
-
+//http://twitter.github.com/bootstrap/
 return webView;
 		
 
 
 //O2File:API_Chrome.cs
-//O2Ref:CefSharp\CefSharp-0.11-bin\CefSharp.WinForms.dll
-//O2Ref:CefSharp\CefSharp-0.11-bin\CefSharp.dll</SourceCode>
+//O2Ref:CefSharp\CefSharp-1.19.0\CefSharp.WinForms.dll
+//O2Ref:CefSharp\CefSharp-1.19.0\CefSharp.dll</SourceCode>
   <ReferencedAssemblies />
 </H2>

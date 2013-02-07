@@ -144,13 +144,7 @@ return "done";
 //using O2.Kernel.CodeUtils
 //O2Tag_DontAddExtraO2Files
 //O2Embed:O2_FluentSharp_Roslyn.dll
-//O2Embed:O2_External_IE.dll
 //O2Embed:WatiN.Core.1x.dll
-//O2Embed:Interop.SHDocVw.dll
-//O2Embed:O2_Misc_Microsoft_MPL_Libs.dll
-//_O2Package:OWASP_O2_Platform.png,O2Logo.ico
-//_O2Package:Util - C# REPL Script [4.0].cs.o2, Util - O2 Development Environment.h2, Util - O2 Available scripts.h2
-//_O2Package:Util - Browser REPL.h2
 //O2Package:ALL_SCRIPTS</SourceCode>
   <ReferencedAssemblies />
 </H2>

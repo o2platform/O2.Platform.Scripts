@@ -73,8 +73,7 @@ namespace O2.XRules.Database.APIs
 		{
 			"[7_Zip] Unzipping file '{0}' into folder '{1}'".info(file,targetDir);
 			var unzipArguments = "x -o\"{0}\" \"{1}\" ".format(targetDir,file);
-			return _7Zip.execute_withParams(unzipArguments);
-			return targetDir;
+			return _7Zip.execute_withParams(unzipArguments);			
 		}
 		
 		public static string get_FilesList(this _7_Zip _7Zip, string file)

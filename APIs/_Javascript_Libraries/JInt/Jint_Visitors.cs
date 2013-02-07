@@ -14,8 +14,8 @@ using Jint;
 using Jint.Native;
 using Jint.Debugger;
 using Jint.Expressions;
-
-//O2Ref:Jint.dll
+//O2Ref:Jint/jint.dll
+//Install:JInt_Installer.cs:Jint/Jint.dll
 
 namespace O2.XRules.Database.Languages_and_Frameworks.Javascript
 {
@@ -64,7 +64,8 @@ namespace O2.XRules.Database.Languages_and_Frameworks.Javascript
 		public virtual void Visit(Program program) 
 		{
 			logVisit(program);
-			foreach (var current in program.ReorderStatements())			
+			//foreach (var current in program.ReorderStatements())		// 7-Feb-13: fixed on jint.dll upgrade, not sure of the side effects of this
+			foreach (var current in program.Statements)			
 				current.Accept(this);			
 		}		
 		public virtual void Visit(AssignmentExpression expression) 

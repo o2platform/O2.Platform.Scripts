@@ -27,9 +27,11 @@ using O2.External.IE.Wrapper;
 using O2.External.IE.WebObjects;
 using O2.XRules.Database.Utils;
 
-//O2Ref:Jint.dll
-//O2Ref:Antlr3.Runtime.dll
-//O2Ref:O2_External_SharpDevelop.dll
+//Installer:JInt_Installer.cs!Jint/Jint.dll
+//Installer:Antlr_Installer.cs!Antlr/Antlr3.Runtime.dll
+//O2Ref:Jint/jint.dll
+//O2Ref:Antrl/Antlr3.Runtime.dll
+//O2Ref:O2_Platform_External_SharpDevelop.dll
 //O2Ref:O2_External_IE.dll
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
 

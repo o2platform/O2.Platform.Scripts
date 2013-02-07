@@ -150,7 +150,7 @@ targets.selectFirst();
 //O2Ref:System.Xml.dll
 //O2Ref:System.Xml.Linq.dll
 //O2Ref:System.Data.dll
-//O2Ref:Jint.dll
+//O2Ref:Jint/Jint.dll
 
 </SourceCode>
   <ReferencedAssemblies />

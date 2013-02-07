@@ -41,7 +41,7 @@ javascriptToDecode.onTextChange(
 javascriptToDecode.set_Text("if ('this_is' == /an_example/) { of_beautifer();} else {   var a=b?(c%d) : e[f];}");
 
 //using Jint
-//O2Ref:Jint.dll
+//O2Ref:Jint/Jint.dll
 //O2File:Jint_ExtensionMethods.cs
 //using O2.XRules.Database.Languages_and_Frameworks.Javascript</SourceCode>
   <ReferencedAssemblies />

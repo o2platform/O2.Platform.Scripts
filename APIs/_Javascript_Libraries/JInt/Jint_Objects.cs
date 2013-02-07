@@ -16,7 +16,6 @@ using Jint.Debugger;
 using Jint.Expressions;
 
 //O2File:Jint_Visitors.cs
-//O2Ref:Jint.dll
 
 //Jint Objects
 namespace O2.XRules.Database.Languages_and_Frameworks.Javascript

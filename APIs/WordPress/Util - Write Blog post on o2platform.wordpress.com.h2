@@ -177,6 +177,6 @@ return "ok";
 //using O2.XRules.Database.Languages_and_Frameworks.Javascript
 //O2File:Jint_ExtensionMethods.cs 
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
-//O2Ref:Jint.dll</SourceCode>
+//O2Ref:Jint/Jint.dll</SourceCode>
   <ReferencedAssemblies />
 </H2>

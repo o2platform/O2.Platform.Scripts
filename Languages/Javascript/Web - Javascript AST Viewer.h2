@@ -51,8 +51,8 @@ return null;
 //O2File:Jint_ExtensionMethods.cs
 //O2File:ascx_Javascript_AST.cs
 
-//O2Ref:Jint.dll
-//O2Ref:Antlr3.Runtime.dll
+//O2Ref:Jint/Jint.dll
+//O2Ref:Antrl/Antlr3.Runtime.dll
 //O2Ref:O2_External_IE.dll
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll 
 
