@@ -1,16 +1,19 @@
 <?xml version="1.0"?>
 <H2>
-  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Tool - View .NET Assembly References Mappings", 800,600)
+  <SourceCode>//var topPanel = panel.add_Panel(true);
+var topPanel = O2Gui.open&lt;Panel&gt;("Tool - View .NET Assembly References Mappings", 800,600)
 					.insert_LogViewer();
 
-var last_TargetFileOrFolder = "";
+var last_TargetFileOrFolder 				= "";
+CheckBox checkBox_OnDropRecursiveFileSearch = null;		
+CheckBox checkBox_ShowFullPaths 			= null;		
 var dllDependencies_TreeView = topPanel.add_GroupBox("Assemblies Mappings").add_TreeView().sort().showSelection();
 var dllXRefs_TreeView = dllDependencies_TreeView.parent().insert_Right&lt;Panel&gt;(topPanel.width()/2).add_GroupBox("Assemblies XRefs Mappings").add_TreeView().sort().showSelection();
-var optionsPanel = topPanel.insert_Below&lt;Panel&gt;(40).add_GroupBox("Options").add_Panel();
-var showFullPaths = false;
-var recursiveSearch = false;
-var statusStrip = topPanel.parentForm().add_StatusStrip();
- 
+var toolStrip 		  =  topPanel.insert_ToolStrip();
+
+dllDependencies_TreeView.add_ToImageList("Assembly", "btDragAssemblyCreated_Image");
+dllXRefs_TreeView.add_ToImageList("btDragAssemblyCreated_Image", "Assembly");//.onDrag&lt;string&gt;();
+
 Action&lt;string&gt; mapAssemblies = 
 	(targetFileOrFolder)=&gt;
 		{
@@ -21,6 +24,7 @@ Action&lt;string&gt; mapAssemblies =
 				()=&gt;{
 						try
 						{
+							var recursiveSearch = checkBox_OnDropRecursiveFileSearch.value();
 							var targetAssemblies = (targetFileOrFolder.dirExists())
 													? targetFileOrFolder.files(recursiveSearch,"*.dll", "*.exe")
 													: targetFileOrFolder.wrapOnList();
@@ -35,35 +39,37 @@ Action&lt;string&gt; mapAssemblies =
 							var xRefs = new Dictionary&lt;string,List&lt;string&gt;&gt;();
 							foreach(var targetDll in targetAssemblies)
 							{
-								statusStrip.set_Text("Processing Assembly: {0}".format(targetDll));							
+								"Processing Assembly: {0}".debug(targetDll);							
 								try
 								{
-									
+									var showFullPaths = checkBox_ShowFullPaths.value();
 									var dllDependencies = CecilAssemblyDependencies. getListOfDependenciesForAssembly(targetDll).remove(targetDll).Distinct();
 									var nodeText = (showFullPaths)
-												 ? targetDll
-												 : targetDll.fileName();
+												 		? targetDll
+												 		: targetDll.fileName();
 									if (showFullPaths.isFalse())
 										dllDependencies = (from dependency in dllDependencies select dependency.fileName()).toList();
-									dllDependencies_TreeView.add_Node(nodeText).add_Nodes(dllDependencies);
+									dllDependencies_TreeView.add_Node(nodeText, targetDll).image(1).add_Nodes(dllDependencies);
 									foreach(var dllDependency in dllDependencies)
 										xRefs.add(dllDependency, nodeText);
+										
+									dllDependencies_TreeView.applyPatchFor_1NodeMissingNodeBug()
+															.selectFirst();	
 								}
 								catch(Exception ex)
 								{
 									ex.Message.error();
 								}
 							}
-							
-							
-							statusStrip.set_Text("Loading Assemblies XReferences");
+														
+							"Loading Assemblies XReferences".info();
 						
 							foreach(var item in xRefs)
-								dllXRefs_TreeView.add_Node(item.Key).add_Nodes(item.Value);
+								dllXRefs_TreeView.add_Node(item.Key).image(1).add_Nodes(item.Value);
 								
 							dllDependencies_TreeView.backColor(Color.White);
 							dllXRefs_TreeView.backColor(Color.White);
-							statusStrip.set_Text("Done - Drop a file or folder to view its dependencies");
+							"Done - Drop a file or folder to view its dependencies".info();
 						}
 						catch(Exception ex)
 						{
@@ -73,31 +79,33 @@ Action&lt;string&gt; mapAssemblies =
 						}
 					});
 		};
-		
-optionsPanel.add_CheckBox("Show Full Paths",0,0,
-				(value)=&gt;{
-							showFullPaths= value;
-							mapAssemblies(last_TargetFileOrFolder);
-						 }).autoSize();
-						 
-optionsPanel.add_CheckBox("Recursive Search",0,130,
-				(value)=&gt;{
-							recursiveSearch = value;							
-						 }).autoSize().check()
-			.append_Link("Load from Folder", 
-							()=&gt;{
-									var folder = "which folder do you want to load assemblies from".askUser();
-									mapAssemblies(folder);
-								});
+
+
+checkBox_OnDropRecursiveFileSearch.check();
+checkBox_ShowFullPaths			  .onClick((value)=&gt; mapAssemblies(last_TargetFileOrFolder));
+						
 Action askForAssembly = 
 	()=&gt;{
 			var file = topPanel.askUserForFileToOpen();
 			if (file.fileExists())
 				mapAssemblies(file);			
 		};
-topPanel.mainMenu()
-		.add_Menu("Open")
-		.add_MenuItem("Open Assembly to Analyze", askForAssembly);
+//topPanel.mainMenu()
+//		.add_Menu("Open")
+//		.add_MenuItem("Open Assembly to Analyze", askForAssembly);
+toolStrip.add_Open(askForAssembly)
+		 .add_Button("Open Folder","folder_saved_search".formImage(), ()=&gt;{
+											var folder = "which folder do you want to load assemblies from".askUser();
+											mapAssemblies(folder);
+									   }).toolStrip()
+		 .add_CheckBox("On Drop Recursive File Search" , ref checkBox_OnDropRecursiveFileSearch)
+		 .add_CheckBox("Show Full Paths"			   , ref checkBox_ShowFullPaths)
+		 .add_Button("REPL Selected Assembly", "text_x_script".formImage(), ()=&gt;{
+									 												dllDependencies_TreeView.selected()
+									 																		.get_Tag().str()
+									 																		.script_Me("assemblyPath")
+									 																		.set_Code("return assemblyPath.assembly();");
+									 											});
 		
 
 			
@@ -110,9 +118,23 @@ else if(System.Reflection.Assembly.GetEntryAssembly().Location.valid())
 	mapAssemblies(System.Reflection.Assembly.GetEntryAssembly().Location);
 
 return "done";
+
+//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
+
 //using O2.External.O2Mono.MonoCecil
-//O2Ref:O2_External_O2Mono.dll 
-//O2Ref:Cecil.Decompiler.dll 
-//O2Ref:Mono.Cecil.dll</SourceCode>
+
+//O2File:O2MonoCecil.cs
+//O2File:CecilAssemblyDependencies.cs
+
+//O2Ref:ILSpy\ICSharpCode.Decompiler.dll 
+//O2Ref:ILSpy\Mono.Cecil.dll
+
+//O2Ref:ILSpy\ICSharpCode.NRefactory.CSharp.dll
+//O2Ref:ILSpy\ICSharpCode.NRefactory.dll
+//O2Ref:ILSpy\ICSharpCode.NRefactory.VB.dll
+//O2Ref:ILSpy\ICSharpCode.AvalonEdit.dll
+//O2Ref:ILSpy\ICSharpCode.TreeView.dll
+//O2Ref:ILSpy\ILSpy.SharpDevelop.LGPL
+//O2Ref:ILSpy\ILSpy.BamlDecompiler.Plugin</SourceCode>
   <ReferencedAssemblies />
 </H2>

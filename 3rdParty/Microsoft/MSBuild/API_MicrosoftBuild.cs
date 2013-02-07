@@ -33,6 +33,7 @@ namespace O2.XRules.Database.APIs
 		
 		public static string createProjectFile(this string projectName, string sourceFile, string pathToAssemblies, string targetDir, List<string> extraEmbebbedResources, Action<List<string>> beforeAddingReferences, Action<List<string>> beforeEmbedingFiles)
 		{
+			//O2.Kernel.debug._break();
 			sourceFile.file_Copy(targetDir);
 			var assemblyFiles = pathToAssemblies.files(false,"*.dll","*.exe");
 											
@@ -80,25 +81,42 @@ namespace O2.XRules.Database.APIs
 			
 			var gzAssemblyFiles = new List<string>();
 			beforeEmbedingFiles.invoke(assemblyFiles);
-			foreach(var assemblyFile in assemblyFiles)
+						
+			/*foreach(var assemblyFile in assemblyFiles)
 			{
 				var gzFile = targetDir.pathCombine(assemblyFile.fileName() + ".gz");
 				assemblyFile.fileInfo().compress(gzFile);	
 				assemblyFile.file_Copy(targetDir);
 				gzAssemblyFiles.add(gzFile);
-			}			
+			}*/			
+			
 			var embeddedResources = project.Xml.AddItemGroup();
 						
 			foreach(var assemblyFile in gzAssemblyFiles)				
 				embeddedResources.AddItem("EmbeddedResource",assemblyFile.fileName()); 
 			
 			var defaultIcon = "O2Logo.ico";
+			extraEmbebbedResources.add(assemblyFiles);
+            
 			foreach(var extraResource in extraEmbebbedResources)
 			{
-				extraResource.file_Copy(targetDir);
-				embeddedResources.AddItem("EmbeddedResource",extraResource.fileName()); 	
-				if (extraResource.extension(".ico"))
-					defaultIcon = extraResource;
+				if (extraResource.extension(".dll") || extraResource.extension(".exe"))
+				{				
+					//ignore these since they are already embded in the FluentSharp.REPL.exe dll
+                    if(extraEmbebbedResources.fileNames().contains("FluentSharp.REPL.exe") && (extraResource.contains("WeifenLuo.WinFormsUI.Docking.dll","QuickGraph.dll", "Ionic.Zip.dll", "Mono.Cecil.dll" )))                     
+                        continue;										
+					var gzFile = targetDir.pathCombine(extraResource.fileName() + ".gz");
+					extraResource.fileInfo().compress(gzFile);	
+					extraResource.file_Copy(targetDir);
+					embeddedResources.AddItem("EmbeddedResource",gzFile.fileName()); 
+				}
+				else
+				{
+					extraResource.file_Copy(targetDir);
+					embeddedResources.AddItem("EmbeddedResource",extraResource.fileName()); 					
+					if (extraResource.extension(".ico"))
+						defaultIcon = extraResource;
+				}
 			}			
 			
 			

@@ -13,7 +13,7 @@ using O2.External.O2Mono;
 using O2.External.O2Mono.MonoCecil;
 using O2.Interfaces.ExternalDlls;
 using O2.Kernel;
-
+//Installer:ILSpy_Installer.cs!ILSpy/ILSpy.exe
 //O2File:CecilFilteredSignature.cs
 //O2File:MonoCecil/CecilUtils.cs
 //O2File:IO2MonoCecil.cs

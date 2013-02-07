@@ -138,13 +138,13 @@ menuPanel.add_ExecutionComboBox("Need Help?",57,200, help_Mappings).leftAdd(20).
 
 logViewerPanel.add_LogViewer().white(); 
  
-return "done";		
+return "done";		 
 
 //using O2.Views.ASCX.Forms
 //using O2.Kernel.CodeUtils
-//O2Tag_DontAddExtraO2Files
 //O2Embed:O2_FluentSharp_Roslyn.dll
 //O2Embed:WatiN.Core.1x.dll
+//O2DontEmbed:Ionic.Zip.dll
 //O2Package:ALL_SCRIPTS</SourceCode>
   <ReferencedAssemblies />
 </H2>
