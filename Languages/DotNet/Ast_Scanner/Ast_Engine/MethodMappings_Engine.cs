@@ -10,7 +10,7 @@ using O2.DotNetWrappers.DotNet;
 using O2.DotNetWrappers.Windows;
 using O2.DotNetWrappers.ExtensionMethods;
 using O2.Views.ASCX.classes.MainGUI;
-using O2.Views.ASCX.ExtensionMethods;
+using O2.Views.ASCX.ExtensionMethods; 
 using O2.API.AST.CSharp;
 using O2.API.AST.ExtensionMethods;
 using O2.API.AST.ExtensionMethods.CSharp;
@@ -27,7 +27,7 @@ using O2.Kernel.Objects;
 //O2File:Ast_Engine_ExtensionMethods.cs
 //O2File:MethodMappings_ExtensionMethods.cs
 //O2File:ascx_ManualMethodStreams.cs
-//O2Ref:O2_External_SharpDevelop.dll
+//O2Ref:O2_Platform_External_SharpDevelop.dll
 //O2Ref:Quickgraph.dll
 //O2Ref:GraphSharp.dll 
 //O2Ref:GraphSharp.Controls.dll
@@ -117,9 +117,13 @@ namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
         	"Creating new AppDomain".info();
  			var appDomainName = 4.randomString();
 			var o2AppDomain =  new O2.Kernel.Objects.O2AppDomainFactory(appDomainName);			
-			o2AppDomain.load("O2_XRules_Database"); 	
-			o2AppDomain.load("O2_Kernel");
-			o2AppDomain.load("O2_DotNetWrappers");
+			//o2AppDomain.load("O2_XRules_Database"); 	
+			//o2AppDomain.load("O2_Kernel");
+			//o2AppDomain.load("O2_DotNetWrappers");
+			o2AppDomain.load("FluentSharp.CoreLib");
+			o2AppDomain.load("FluentSharp.BCL");
+			o2AppDomain.load("FluentSharp.REPL");
+			o2AppDomain.load("O2_Platform_External_SharpDevelop.dll");
 			var o2Proxy =  (O2Proxy)o2AppDomain.getProxyObject("O2Proxy");
 			var parameters = new object[]
 					{ 

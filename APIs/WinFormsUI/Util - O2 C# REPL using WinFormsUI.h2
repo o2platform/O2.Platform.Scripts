@@ -15,11 +15,11 @@ winFormsUI.mainMenu()
 winFormsUI.set_Icon("scripts.ico");
 
 script.InvocationParameters.add("panel", _panel); 
-script.Code = 
+script.Code =  
 @"panel.clear()
      .add_TextArea()
      .set_Text(""hello"");";
 
-//O2Embed:scripts.ico</SourceCode>
-  <ReferencedAssemblies />
+//O2Embed:scripts.ico
+//O2Ref:WeifenLuo.WinFormsUI.Docking.dll</SourceCode>
 </H2>

@@ -2,18 +2,20 @@
 using System;
 using System.Linq;
 using System.Threading;
-using System.Collections.Generic;
+using System.Collections.Generic; 
 using System.Windows.Forms; 
 using System.Text; 
 using O2.Kernel.ExtensionMethods;
 using O2.DotNetWrappers.DotNet;
 using O2.DotNetWrappers.ExtensionMethods;
 using CefSharp;
-using CefSharp.WinForms;
+using CefSharp.WinForms;  
 
 //Installer:CefSharp.cs!CefSharp\CefSharp-1.19.0\CefSharp.WinForms.dll
 //O2Ref:CefSharp\CefSharp-1.19.0\CefSharp.WinForms.dll
 //O2Ref:CefSharp\CefSharp-1.19.0\CefSharp.dll 
+
+//CLR_3.5
 
 namespace O2.XRules.Database.APIs
 {
@@ -78,5 +80,46 @@ namespace O2.XRules.Database.APIs
     				});
     		return webView;
     	}
+    	
+    	public static object eval(this WebView webView, string scriptToEval)
+    	{
+    		try
+    		{
+    			return webView.EvaluateScript(scriptToEval);
+    		}
+    		catch(Exception ex)
+    		{
+    			ex.log();
+    			return null;
+    		}
+    	}
+    	
+    	public static object alert(this WebView webView, string alertContents)
+    	{
+    		var alertCode = "alert({0});".format(alertContents);
+    		return webView.EvaluateScript(alertCode);
+    	}
+    	
+    	public static WebView inject_FirebugLite(this WebView webView)
+    	{
+    		var firebugLiteScript = "(function(F,i,r,e,b,u,g,L,I,T,E){if(F.getElementById(b))return;E=F[i+'NS']&&F.documentElement.namespaceURI;E=E?F[i+'NS'](E,'script'):F[i]('script');E[r]('id',b);E[r]('src',I+g+T);E[r](b,u);(F[e]('head')[0]||F[e]('body')[0]).appendChild(E);E=new Image;E[r]('src',I+L);})(document,'createElement','setAttribute','getElementsByTagName','FirebugLite','4','firebug-lite.js','releases/lite/latest/skin/xp/sprite.png','https://getfirebug.com/','#startOpened');";
+			webView.eval(firebugLiteScript);  
+			"[Injected FirebugLite]".info();
+			return webView;
+    	}
+    	
+    	public static WebView inject_JQuery(this WebView webView)
+    	{
+    		webView.eval("jquery-1.9.1.min.js".local().fileContents());
+    		"[Injected jquery 1.9]".info();
+    		return webView;
+    	}
+    	
+    	public static bool is_JQuery_Installed(this WebView webView)
+    	{
+    		return webView.eval("$.toString();").str() == "function (e,t){return new b.fn.init(e,t,r)}";
+    	}
+    	
+    	
    	}
 }

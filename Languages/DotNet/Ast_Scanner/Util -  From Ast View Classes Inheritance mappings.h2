@@ -8,7 +8,7 @@ var baseFolder = "";
 var useCachedData = true ;
 var referencesToLoad = new List&lt;string&gt;(); 
 var astData = (O2MappedAstData)O2LiveObjects.get(astDataCacheKey);
-var codeViewer = topPanel.add_SourceCodeEditor();   
+//var codeViewer = topPanel.add_SourceCodeEditor();   
 
 //var treeView = codeViewer.insert_Left&lt;TreeView&gt;(400) 
 //							     .showSelection();
@@ -116,5 +116,4 @@ return null;
 //O2Ref:O2_External_SharpDevelop.dll
 //O2Ref:QuickGraph.dll
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll</SourceCode>
-  <ReferencedAssemblies />
 </H2>

@@ -103,8 +103,13 @@ namespace O2.XRules.Database.APIs
 				if (extraResource.extension(".dll") || extraResource.extension(".exe"))
 				{				
 					//ignore these since they are already embded in the FluentSharp.REPL.exe dll
-                    if(extraEmbebbedResources.fileNames().contains("FluentSharp.REPL.exe") && (extraResource.contains("WeifenLuo.WinFormsUI.Docking.dll","QuickGraph.dll", "Ionic.Zip.dll", "Mono.Cecil.dll" )))                     
+                    if(extraEmbebbedResources.fileNames().contains("FluentSharp.REPL.exe") && 
+                       (extraResource.contains(
+								//"WeifenLuo.WinFormsUI.Docking.dll",
+                    			"QuickGraph.dll", "Ionic.Zip.dll", "Mono.Cecil.dll" )))
+                    {			
                         continue;										
+                    }
 					var gzFile = targetDir.pathCombine(extraResource.fileName() + ".gz");
 					extraResource.fileInfo().compress(gzFile);	
 					extraResource.file_Copy(targetDir);

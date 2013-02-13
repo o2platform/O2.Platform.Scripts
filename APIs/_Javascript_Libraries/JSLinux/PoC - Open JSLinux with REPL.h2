@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>open.logViewer();
+try
+{
+	O2ConfigSettings.O2Version = "JSLinux";
+
+	O2Setup.extractEmbededConfigZips();
+	var topPanel = "JSLinux".popupWindow(820,800);
+	topPanel.insert_Below_Script_Me(topPanel);
+	var chrome = topPanel.add_Chrome();
+}
+catch(Exception ex)
+{
+	ex.log();
+}
+/*
+
+
+var script = topPanel.insert_Below(250).add_Script();
+script.onCompileExecuteOnce()
+	  .add_InvocationParameter("chrome", chrome) 
+	  .set_Code(
+@"
+if(chrome.Title.isNull())
+	chrome.open(""http://bellard.org/jslinux""); 
+	
+//chrome.inject_JQuery();
+//chrome.inject_FirebugLite();
+//chrome.ShowDevTools();
+//chrome.eval(""term_handler('ls\\n')"");
+//chrome.eval(""term_handler('ps\\n')"");
+return chrome;
+*/
+
+
+//_using CefSharp.WinForms 
+//_O2File:API_Chrome.cs
+//_O2Ref:CefSharp
+//_O2Ref:CefSharp.WinForms.dll");
+
+return "done";
+ 
+//_using CefSharp.WinForms 
+//O2File:API_Chrome.cs
+//O2Ref:CefSharp\CefSharp-1.19.0\CefSharp
+//O2Ref:CefSharp\CefSharp-1.19.0\CefSharp.WinForms.dll
+
+//O2Package:API_Chrome.cs
+//O2EmbedTool:CefSharp</SourceCode>
+  <ReferencedAssemblies />
+</H2>

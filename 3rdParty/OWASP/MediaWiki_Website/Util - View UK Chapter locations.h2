@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<H2>
+  <SourceCode>var width = 1000;
+var height = 9000;
+var center = "Coventry";
+var zoom = 6;
+
+Func&lt;string[],string&gt; getImageUrl = 
+	(locations)=&gt;{
+					return ("http://maps.googleapis.com/maps/api/staticmap?" + //center=-15.800513,-47.91378&amp;zoom=11&amp;size=1000x400&amp;sensor=false";
+			 				"center={0}&amp;" +
+			 				"markers=color:blue|label:O|{1}" +				 		
+			 				"&amp;zoom={2}" + 
+			 				"&amp;size={3}x{4}&amp;sensor=false").format(center, locations.toList().add("").join(",England|"), zoom, width,height);
+			 	 };
+			 	 
+var owaspChapters = new []{ "Birmingham",
+							"Bristol",							
+							"Cambridge",							
+							"Leicester"			, //"East_Midlands chapter"
+							"Loughborough"		, //"East_Midlands chapter"
+							"Nottingham"		, //"East_Midlands chapter"
+							"Derby"				, //"East_Midlands chapter"
+							"Leeds"				, 
+							"London"			,
+							"Royal_Holloway"	,
+							"Manchester"		,
+							"Newcastle"			,
+							"Edinburgh,Scotland", //"Scotland chapter"		
+							"Cardiff, South Wales"			
+							};
+var imgUrl = getImageUrl(owaspChapters);
+ie.open(imgUrl);
+
+return imgUrl;
+
+//O2Ref:System.Windows.Forms.dll</SourceCode>
+  <ReferencedAssemblies />
+</H2>

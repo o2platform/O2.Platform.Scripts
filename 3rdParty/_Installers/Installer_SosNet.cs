@@ -5,6 +5,7 @@ using O2.Kernel.ExtensionMethods;
 using O2.DotNetWrappers.Windows; 
 using O2.DotNetWrappers.ExtensionMethods; 
 using O2.XRules.Database.Utils;
+using O2.FluentSharp;
 
 //O2File:Tool_API.cs
 //O2File:_Extra_methods_Roslyn_API.cs

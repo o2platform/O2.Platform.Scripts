@@ -2,13 +2,16 @@
 <H2>
   <SourceCode>//panel.clear();
 //var topPanel = panel;  
-var topPanel = O2Gui.open&lt;Panel&gt;("Tool - Method Invocations Creator", 1000,600); 
+var topPanel = O2Gui.open&lt;Panel&gt;("Tool - Method Invocations Creator", 1000,600)
+					.insert_LogViewer();; 
+
+
+var runOnSeparateAppDomain = false;
  
 var baseFolder = "";
 O2MappedAstData astData = null;
 var useCachedData = true; //false;//true ;
 var showLogViewer = true;   
-var runOnSeparateAppDomain = true;
 var sourceCodeViewer = topPanel.add_SourceCodeViewer();
 var treeViewPanel = sourceCodeViewer.insert_Left&lt;Panel&gt;();		  	 				     
 treeViewPanel.parent&lt;SplitContainer&gt;().splitterDistance(400);							     
@@ -31,7 +34,7 @@ Action showMethodMappings =
 				methodsMappings_TreeView.selectFirst();				 	        
 			}
 		};
-
+ 
 optionsPanel.add_Link("Clear loaded Data", 20,0, 
 	()=&gt;{
 			loadedMethodMappings = new MethodMappings();
@@ -65,7 +68,7 @@ loadFilesFromFolder=
 				});
 			};
 							     
-
+ 
 treeViewPanel.onDrop(loadFilesFromFolder);
 
 referencesToLoad.set_Text("System.Web".line() +    
@@ -90,9 +93,8 @@ return astData;
 //O2File:ascx_ManualMethodStreams.cs
 //O2File:Ast_Engine_ExtensionMethods.cs
 //O2File:ascx_ManualMethodStreams.cs
-//O2Ref:O2_External_SharpDevelop.dll  
+//O2Ref:O2_Platform_External_SharpDevelop.dll
 //O2Ref:Quickgraph.dll
 //O2Ref:GraphSharp.dll 
 //O2Ref:GraphSharp.Controls.dll</SourceCode>
-  <ReferencedAssemblies />
 </H2>

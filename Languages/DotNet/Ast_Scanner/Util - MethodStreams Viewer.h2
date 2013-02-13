@@ -5,5 +5,4 @@ var manualMethodStreams = O2Gui.open&lt;ascx_ManualMethodStreams&gt;("View Metho
 manualMethodStreams.buildGui();
 //using O2.XRules.Database.Languages_and_Frameworks.DotNet	
 //O2File:ascx_ManualMethodStreams.cs</SourceCode>
-  <ReferencedAssemblies />
 </H2>

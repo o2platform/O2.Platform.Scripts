@@ -40,6 +40,5 @@ start();
 
 //O2Package:scripts.ico
 //_O2Package:_Extra_methods_To_Add_to_Main_CodeBase.cs,_Extra_methods_Browser.cs
-//O2Package:ALL_SCRIPTS</SourceCode>
-  <ReferencedAssemblies />
+//_O2Package:ALL_SCRIPTS</SourceCode>
 </H2>
