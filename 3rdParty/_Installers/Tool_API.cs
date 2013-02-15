@@ -123,16 +123,13 @@ namespace O2.XRules.Database.APIs
     	
     	public virtual bool isInstalled(bool showLogMessage)
     	{    	
-    		if (Install_Dir.dirExists())
-    		{    		
-    			if (Executable.inValid() || Executable.fileExists())
-    			{
-    				"{0} tool is installed because installation dir was found: {1}".debug(ToolName, Install_Dir);
-    				return true;
-    			}
+    		if (Install_Dir.dirExists() || Executable.fileExists())
+    		{    		    			
+    				"{0} tool is installed because installation or main executable dir was found: {1} : {2}".debug(ToolName, Install_Dir, Executable);
+    				return true;    			
     		}
     		if (showLogMessage)
-    			"{0} tool is NOT installed because installation dir or main Executable was NOT found: {0}".debug(ToolName, Install_Dir);
+    			"{0} tool is NOT installed because installation dir or main Executable was NOT found: {1} : {2}".debug(ToolName, Install_Dir, Executable);
     		return false;
     	}    	    	
     	    	
