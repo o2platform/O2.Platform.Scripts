@@ -96,6 +96,7 @@ var help_Mappings = 	 new Items().add("O2 Documentation", "http://o2platform.com
  	
 
 menu.add_MenuItem("Main")
+ 	.add_MenuItem("Update O2 Scripts (from GitHub)", ()=&gt; executeH2Script("Util - Download Updated O2 Scripts.h2"))
 	.add_MenuItem("Find an O2 Script", ()=&gt; executeH2Script("Util - O2 Available scripts.h2"));
 	
 	
@@ -146,5 +147,4 @@ return "done";
 //O2Embed:WatiN.Core.1x.dll
 //O2DontEmbed:Ionic.Zip.dll
 //O2Package:ALL_SCRIPTS</SourceCode>
-  <ReferencedAssemblies />
 </H2>
