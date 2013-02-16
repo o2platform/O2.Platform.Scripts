@@ -18,18 +18,11 @@ namespace O2.XRules.Database.APIs
 	public class Git_Installer : Tool_API 
 	{			
 		public Git_Installer()
-		{
-			/*ToolName = "MsysGit"; 
-    		Version = "Git 1.7.4";
-    		Install_File = "Git-1.7.4-preview20110204.exe";
-    		Install_Uri = "http://msysgit.googlecode.com/files/Git-1.7.4-preview20110204.exe".uri();    		
-    		Install_Dir = @"C:\Program Files\Git\";
-    		if (installNow)
-    			install();    		*/
-    		    		
+		{			    		    	
 			config("Git", 
-			   "https://msysgit.googlecode.com/files/Git-1.8.1.2-preview20130201.exe".uri(),				   
-			   ProgramFilesFolder.pathCombine(@"git\bin\sh.exe"));
+			   	   "https://msysgit.googlecode.com/files/Git-1.8.1.2-preview20130201.exe".uri(),				   
+			   	   ProgramFilesFolder.pathCombine(@"git\bin\sh.exe"));
+			//InstallProcess_Arguments = "/SILENT";
     		installFromMsi_Web();
 		}		
 		public Process start()
