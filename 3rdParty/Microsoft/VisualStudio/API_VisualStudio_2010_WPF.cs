@@ -11,7 +11,7 @@ using O2.DotNetWrappers.ExtensionMethods;
 using O2.XRules.Database.Utils;
 using O2.FluentSharp.VisualStudio;
 
-//O2Ref:O2_FluentSharp_WPF.dll
+//O2Ref:FluentSharp.WPF.dll
 //O2File:API_VisualStudio_2010.cs
 
 //O2Ref:EnvDTE.dll

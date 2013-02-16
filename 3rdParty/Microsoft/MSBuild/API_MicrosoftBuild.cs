@@ -106,7 +106,8 @@ namespace O2.XRules.Database.APIs
                     if(extraEmbebbedResources.fileNames().contains("FluentSharp.REPL.exe") && 
                        (extraResource.contains(
 								//"WeifenLuo.WinFormsUI.Docking.dll",
-                    			"QuickGraph.dll", "Ionic.Zip.dll", "Mono.Cecil.dll" )))
+                    			//"QuickGraph.dll",
+                    			"Ionic.Zip.dll", "Mono.Cecil.dll" )))
                     {			
                         continue;										
                     }

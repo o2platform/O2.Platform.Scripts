@@ -17,7 +17,7 @@ using Roslyn.Services;
 
 //O2File:_Extra_methods_Roslyn_API.cs
 
-//O2Ref:O2_FluentSharp_Roslyn.dll
+//O2Ref:FluentSharp.Roslyn.dll
 
 //O2Ref:Roslyn.Services.dll
 //O2Ref:Roslyn.Services.CSharp.dll 

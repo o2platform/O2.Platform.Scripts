@@ -19,7 +19,6 @@ using O2.DotNetWrappers.DotNet;
 using O2.DotNetWrappers.ExtensionMethods;
 using O2.Views.ASCX.classes.MainGUI;
 using O2.Kernel.ExtensionMethods;
-//using O2.API.Visualization.ExtensionMethods;
 using Microsoft.Windows.Controls.Ribbon;
 using O2.XRules.Database.APIs;
 using O2.External.SharpDevelop.ExtensionMethods;
@@ -31,6 +30,7 @@ using O2.External.SharpDevelop.ExtensionMethods;
 //O2Ref:PresentationCore.dll
 //O2Ref:PresentationFramework.dll
 //O2Ref:WindowsBase.dll
+//O2Ref:WeifenLuo.WinFormsUI.Docking.dll
 
 namespace O2.XRules.Database.Utils
 {

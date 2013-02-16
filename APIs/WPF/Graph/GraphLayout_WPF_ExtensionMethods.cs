@@ -14,7 +14,6 @@ using WPFExtensions.Controls;
 using O2.API.Visualization.Ascx;
 using O2.External.IE.Wrapper;
 
-//O2File:WPF_Controls_ExtensionMethods.cs
 //O2File:GraphSharp_ExtensionMethods.cs
 //O2File:ElementHost_ExtensionMethods.cs
 

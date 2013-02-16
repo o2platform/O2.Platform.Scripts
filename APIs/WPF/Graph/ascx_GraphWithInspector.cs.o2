@@ -19,15 +19,13 @@ using O2.Views.ASCX.classes.MainGUI;
 
 //O2File:GraphSharp_ExtensionMethods.cs
 //O2File:VerticesAndEdges_ExtensionMethods.cs
-//O2File:WPF_Controls_ExtensionMethods.cs
 
-//O2Ref:O2_FluentSharp_WPF.dll
+//O2Ref:FluentSharp.WPF.dll
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:GraphSharp.dll
 //O2Ref:QuickGraph.dll
 //O2Ref:GraphSharp.Controls.dll
 //O2Ref:WPFExtensions.dll
-//O2Ref:O2_External_SharpDevelop.dll
 //O2Ref:O2_External_IE.dll
 
 //O2Ref:PresentationCore.dll
@@ -83,11 +81,10 @@ namespace O2.XRules.Database.Utils
                           "return graph;".line().line() +                           
 						  "//using System.Xml.Linq".line()+
 						  "//using System.Linq".line()+
-						  "//using WPF=System.Windows.Controls".line() + 
-						  "//using O2.API.Visualization.ExtensionMethods".line().line()+
+						  "//using WPF=System.Windows.Controls".line() + 						  
 						  "//O2File:GraphSharp_ExtensionMethods.cs".line()+
-						  "//O2File:VerticesAndEdges_ExtensionMethods.cs".line()+
-						  "//O2File:WPF_Controls_ExtensionMethods.cs".line()+						  
+						  "//O2File:VerticesAndEdges_ExtensionMethods.cs".line()+						  					  
+						  "//O2Ref:FluentSharp.WPF.dll".line()+
 						  "//O2Ref:System.Xml.dll".line()+
 						  "//O2Ref:System.Xml.Linq.dll".line()+						  
 						  "//O2Ref:PresentationCore.dll".line()+

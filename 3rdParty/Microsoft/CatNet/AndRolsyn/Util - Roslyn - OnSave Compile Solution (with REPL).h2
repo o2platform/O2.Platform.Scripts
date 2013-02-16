@@ -179,9 +179,7 @@ return codeViewer.open(workspace.file("o2.cs").FilePath);
 //O2Ref:Roslyn.Compilers.dll
 //O2Ref:Roslyn.Compilers.dll
 //O2Ref:Roslyn.Compilers.CSharp.dll
-//O2Ref:O2_FluentSharp_Roslyn.dll 
-
-//_O2Tag_DontAddExtraO2Files
+//O2Ref:FluentSharp.Roslyn.dll 
+//O2Ref:WeifenLuo.WinFormsUI.Docking.dll
 </SourceCode>
-  <ReferencedAssemblies />
 </H2>

@@ -11,7 +11,7 @@ using O2.FluentSharp;
 //O2File:_Extra_methods_Roslyn_API.cs
 //O2File:API_MSBuild.cs
 
-//O2Ref:O2_FluentSharp_NGit.dll
+//O2Ref:FluentSharp.NGit.dll
 //O2Ref:Mono.Posix.dll
 //O2Ref:ICSharpCode.SharpZipLib.dll 
 //O2Ref:Roslyn.Services.dll
@@ -47,7 +47,7 @@ namespace O2.XRules.Database.APIs
 		public void download_Update_and_Install()
 		{		
 			//ensure this dll is loaded in memory			
-			"O2_FluentSharp_NGit.dll".assembly().Location.info();
+			"FluentSharp.NGit.dll".assembly().Location.info();
 			
 			//use the O2 Fork:
 			config("SosNet", 

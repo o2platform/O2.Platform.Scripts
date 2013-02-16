@@ -15,7 +15,7 @@ using O2.DotNetWrappers.ExtensionMethods;
 //O2File:WPF_Controls_ExtensionMethods.cs
 //O2File:GraphSharp_ExtensionMethods.cs
 //O2File:WpfTextEditor.cs
-//O2Ref:O2_FluentSharp_WPF.dll
+//O2Ref:FluentSharp.WPF.dll
 //O2Ref:ICSharpCode.AvalonEdit.dll
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:PresentationCore.dll 

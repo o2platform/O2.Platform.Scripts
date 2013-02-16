@@ -7,5 +7,4 @@ executeScripts.status("Drop O2 Script on LOGO to execute it");
 return executeScripts;
 //using O2.XRules.Database
  </SourceCode>
-  <ReferencedAssemblies />
 </H2>

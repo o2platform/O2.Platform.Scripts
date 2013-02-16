@@ -40,7 +40,7 @@ topPanel.add_MainMenu().add_Menu("REPL")
 //O2File:Xaml_ExtensionMethods.cs
 //O2File:XamlCode.cs 
 
-//O2Ref:O2_FluentSharp_WPF.dll
+//O2Ref:FluentSharp.WPF.dll
 
 //using WPF = System.Windows.Controls
 //O2Ref:PresentationCore.dll
@@ -50,5 +50,4 @@ topPanel.add_MainMenu().add_Menu("REPL")
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:System.Xaml.dll
 </SourceCode>
-  <ReferencedAssemblies />
 </H2>

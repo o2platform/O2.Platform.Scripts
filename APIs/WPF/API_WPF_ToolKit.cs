@@ -12,7 +12,7 @@ using O2.Views.ASCX.ExtensionMethods;
 
 using Gong = GongSolutions.Wpf.DragDrop	;
 
-//O2Ref:O2_FluentSharp_WPF.dll
+//O2Ref:FluentSharp.WPF.dll
 //O2Ref:System.Core.dll
 //O2Ref:WPFToolkit.dll
 //O2Ref:WindowsFormsIntegration.dll

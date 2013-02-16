@@ -40,12 +40,11 @@ return nGit;
 
 //O2File:API_Cropper.cs
 
-//O2Ref:O2_FluentSharp_NGit.dll
+//O2Ref:FluentSharp.NGit.dll
 //O2Ref:NGit.dll
 //O2Ref:NSch.dll
 //O2Ref:Mono.Security.dll 
 //O2Ref:Sharpen.dll 
 
 //O2Tag_DontAddExtraO2Files </SourceCode>
-  <ReferencedAssemblies />
 </H2>

@@ -17,7 +17,7 @@ using O2.Views.ASCX;
 using WindowsInput.Native;
 using WindowsInput;
 
-//O2Ref:O2_FluentSharp_WPF.dll
+//O2Ref:FluentSharp.WPF.dll
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
 //O2Ref:WindowsBase.dll
 //O2Ref:PresentationCore.dll

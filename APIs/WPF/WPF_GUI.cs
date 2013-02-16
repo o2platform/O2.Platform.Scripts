@@ -237,14 +237,14 @@ namespace O2.XRules.Database.APIs
     		if (wpf_Gui.ExecuteScripts.isNull())
     		{    			
     			wpf_Gui.ExecuteScripts = new ascx_Execute_Scripts();
-    			wpf_Gui.ExecuteScripts.csharpCompiler_onAstOK = 
+    			wpf_Gui.ExecuteScripts.csharpCompiler_OnAstOk = 
     				()=> wpf_Gui.showMessage("Executing script: {0}".format(wpf_Gui.ExecuteScripts.currentScript.fileName()), "Ast was created Ok");
-    			wpf_Gui.ExecuteScripts.csharpCompiler_onAstFail = 
+    			wpf_Gui.ExecuteScripts.csharpCompiler_OnAstFail = 
     				()=>{
     						var scriptName = wpf_Gui.ExecuteScripts.currentScript.fileName();
     						wpf_Gui.showMessage("Executing script: {0}".format(scriptName), "Ast Creation Failed!", wpf_Gui.scriptHelpPage(scriptName));
     					};
-    			wpf_Gui.ExecuteScripts.csharpCompiler_onCompileFail = 
+    			wpf_Gui.ExecuteScripts.csharpCompiler_OnCompileFail = 
     				()=>{
     						var compilationErrors = wpf_Gui.ExecuteScripts.csharpCompiler.CompilationErrors;
     						var errorMessage = "Compilation Failed!".line() + 
@@ -253,7 +253,7 @@ namespace O2.XRules.Database.APIs
     										   "</h4><hr>".line();							    										   
     						wpf_Gui.showMessage("Executing script: {0}".format(wpf_Gui.ExecuteScripts.currentScript.fileName()), errorMessage);
     					};
-    			wpf_Gui.ExecuteScripts.csharpCompiler_onCompileOK = 
+    			wpf_Gui.ExecuteScripts.csharpCompiler_OnCompileOk = 
     				()=>{
     						var scriptName = wpf_Gui.ExecuteScripts.currentScript.fileName();
     						wpf_Gui.showMessage("Executing script: {0}".format(scriptName), "Compiled OK, executing first method",wpf_Gui.scriptHelpPage(scriptName));    						

@@ -241,7 +241,7 @@ return null;
 
 //O2File:WPF_Gui.cs
 
-//O2Ref:O2_FluentSharp_WPF.dll
+//O2Ref:FluentSharp.WPF.dll
 //O2Ref:Odyssey.dll
 //O2Ref:GraphSharp.Controls.dll
 //O2Ref:GraphSharp.dll
@@ -252,5 +252,4 @@ return null;
 //O2Ref:PresentationFramework.dll
 //O2Ref:WindowsBase.dll
 //O2Ref:System.Xaml.dll</SourceCode>
-  <ReferencedAssemblies />
 </H2>

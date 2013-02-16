@@ -25,7 +25,7 @@ return "ok";
 
 //O2Ref:CefSharp\CefSharp-1.19.0\CefSharp.Wpf.dll
 //O2Ref:CefSharp\CefSharp-1.19.0\CefSharp.dll
-//O2Ref:O2_FluentSharp_WPF.dll
+//O2Ref:FluentSharp.WPF.dll
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:PresentationFramework.dll
 //O2Ref:PresentationCore.dll
@@ -33,5 +33,4 @@ return "ok";
 //O2Ref:System.Xaml.dll
 //O2Tag_DontAddExtraO2Files
 </SourceCode>
-  <ReferencedAssemblies />
 </H2>

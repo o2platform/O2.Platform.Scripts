@@ -35,7 +35,7 @@ using Rules = Microsoft.ACESec.CATNet.Core.Rules;
 
 //O2Ref:EnvDTE.dll
 //O2Ref:Extensibility.dll
-//O2Ref:O2_FluentSharp_Roslyn.dll
+//O2Ref:FluentSharp.Roslyn.dll
 //O2Ref:Roslyn.Compilers.dll
 //O2Ref:Roslyn.Compilers.CSharp.dll
 //O2Ref:Roslyn.Services.dll

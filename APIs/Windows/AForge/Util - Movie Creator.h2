@@ -209,7 +209,7 @@ return null;
 
 //using WPF = System.Windows.Controls
 
-//O2Ref:O2_FluentSharp_WPF.dll
+//O2Ref:FluentSharp.WPF.dll
  
 //O2Ref:AForge.dll
 //O2Ref:AForge.Video.VFW.dll 
@@ -227,5 +227,4 @@ return null;
 //O2Ref:PresentationFramework.dll
 //O2Ref:WindowsBase.dll
 //O2Ref:System.Xaml.dll</SourceCode>
-  <ReferencedAssemblies />
 </H2>

@@ -11,7 +11,7 @@ using O2.XRules.Database.Utils;
 using CefSharp;
 using CefSharp.Wpf;
 
-//O2Ref:O2_FluentSharp_WPF.dll
+//O2Ref:FluentSharp.WPF.dll
 
 //O2Ref:CefSharp\CefSharp-1.19.0\CefSharp.Wpf.dll
 //O2Ref:CefSharp\CefSharp-1.19.0\CefSharp.dll

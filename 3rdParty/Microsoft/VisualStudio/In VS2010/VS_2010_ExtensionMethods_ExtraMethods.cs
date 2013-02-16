@@ -31,8 +31,7 @@ using O2.FluentSharp.VisualStudio;
 //O2Ref:WindowsBase.dll
 //O2Ref:System.Xaml.dll 
 
-//_O2Ref:O2_FluentSharp_VisualStudio_2010.dll
-//O2Ref:C:\Users\o2\AppData\Local\Microsoft\VisualStudio\10.0Exp\Extensions\OWASP O2 Platform\O2 FluentSharp for VisualStudio 2010 v1.5.3\1.5.3\O2_FluentSharp_VisualStudio_2010.dll
+//O2Ref:O2_FluentSharp_VisualStudio_2010.dll
 
 //O2Ref:VSLangProj.dll
 

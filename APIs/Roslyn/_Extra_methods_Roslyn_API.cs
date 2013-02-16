@@ -14,7 +14,7 @@ using Roslyn.Compilers.CSharp;
 using Roslyn.Compilers;
 using Roslyn.Services;
 using O2.FluentSharp;
-//O2Ref:O2_FluentSharp_Roslyn.dll
+//O2Ref:FluentSharp.Roslyn.dll
 
 //O2File:_Extra_methods_Roslyn_API_GuiHelpers.cs
 //O2File:_Extra_methods_Roslyn_API_Refactoring.cs

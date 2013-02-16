@@ -7,7 +7,7 @@ using O2.DotNetWrappers.ExtensionMethods;
 using O2.Views.ASCX.classes.MainGUI;
 using O2.XRules.Database.APIs; 
 //O2File:API_MSBuild.cs
-//O2Ref:O2_FluentSharp_NGit.dll
+//O2Ref:FluentSharp.NGit.dll
 //O2Tag_DontAddExtraO2Files
 
 public class DynamicType

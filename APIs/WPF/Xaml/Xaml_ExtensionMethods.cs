@@ -11,7 +11,7 @@ using System.Windows.Controls;
 using System.IO;
 using O2.XRules.Database.APIs;
 
-//O2Ref:O2_FluentSharp_WPF.dll
+//O2Ref:FluentSharp.WPF.dll
 //O2File:XamlCode.cs
 
 //O2Ref:GraphSharp.dll

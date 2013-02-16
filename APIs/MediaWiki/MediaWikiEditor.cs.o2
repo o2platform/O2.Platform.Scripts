@@ -32,7 +32,7 @@ using AvalonDock;
 //O2File:ascx_MediaWiki_Backup.cs
 //O2File:ascx_MediaWiki_PageEditor_Simple.cs
 
-//O2Ref:O2_FluentSharp_WPF.dll
+//O2Ref:FluentSharp.WPF.dll
 //O2Ref:AvalonDock.dll
 //O2Ref:PresentationCore.dll
 //O2Ref:WindowsBase.dll
@@ -240,7 +240,7 @@ namespace O2.XRules.Database.APIs
         		 RightPanel.add_Control(ConfigAndLogin);        		*/
         }   
         
-        public void showEditPage()
+        public void showEditPage() 
         {        	
         	MainDocumentPane.add_DocumentContent("Edit_Page", "Edit Page")
         					.setAsActive()

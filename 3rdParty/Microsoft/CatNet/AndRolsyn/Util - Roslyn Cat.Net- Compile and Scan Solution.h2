@@ -195,7 +195,7 @@ openTestSolution();
 //O2Ref:Roslyn.Services.dll
 //O2Ref:Roslyn.Compilers.dll
 //O2Ref:Roslyn.Compilers.CSharp.dll
-//O2Ref:O2_FluentSharp_Roslyn.dll 
+//O2Ref:FluentSharp.Roslyn.dll 
 
 //O2Tag_DontAddExtraO2Files
 
@@ -211,5 +211,4 @@ openTestSolution();
 //O2Package:LessMsi.cs
 //O2Package:API_ConsoleOut.cs
 //O2Package:SuperSecureBankService.zip</SourceCode>
-  <ReferencedAssemblies />
 </H2>

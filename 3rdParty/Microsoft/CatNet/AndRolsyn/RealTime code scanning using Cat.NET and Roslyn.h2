@@ -84,11 +84,10 @@ codeEditor.set_Text(code, ".cs");
 //O2File:API_CatNet.cs
 //O2File:API_CatNetGui.cs
 //O2File:Findings_ExtensionMethods.cs
-//O2Ref:O2_FluentSharp_Roslyn.dll
+//O2Ref:FluentSharp.Roslyn.dll
 //O2Ref:Roslyn.Compilers.dll
 //O2Ref:Roslyn.Compilers.CSharp.dll
 
 //O2Tag_DontAddExtraO2Files
 </SourceCode>
-  <ReferencedAssemblies />
 </H2>

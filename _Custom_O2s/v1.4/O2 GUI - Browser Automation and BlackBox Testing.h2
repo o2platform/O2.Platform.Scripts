@@ -60,7 +60,7 @@ return "ok";
 //O2File:WPF_Ribbon_ExtensionMethods.cs
 //O2File:DiagramDesigner_ExtensionMethods.cs
 
-//O2Ref:O2_FluentSharp_WPF.dll
+//O2Ref:FluentSharp.WPF.dll
 
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:DiagramDesigner.exe
@@ -71,5 +71,4 @@ return "ok";
 //O2Ref:WindowsBase.dll
 //O2Ref:System.Xaml.dll
 //O2Ref:WatiN.Core.1x.dll</SourceCode>
-  <ReferencedAssemblies />
 </H2>

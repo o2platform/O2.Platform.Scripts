@@ -14,13 +14,17 @@ using O2.DotNetWrappers.ExtensionMethods;
 using O2.API.AST.ExtensionMethods;
 using O2.API.Visualization;
 
-//O2File:WPF_Controls_ExtensionMethods.cs
 //O2File:GraphLayout_WPF_ExtensionMethods.cs
 //O2File:GraphFactory.cs
 
 //O2Ref:GraphSharp.dll
 //O2Ref:QuickGraph.dll
-//O2Ref:GraphSharp.Controls.dll 
+//O2Ref:GraphSharp.Controls.dll
+
+//O2Ref:PresentationCore.dll
+//O2Ref:PresentationFramework.dll
+//O2Ref:WindowsBase.dll
+//O2Ref:System.Xaml.dll 
 
 namespace O2.XRules.Database.Utils
 {

@@ -211,9 +211,8 @@ catch(Exception ex)
 return "ok";
 
 //O2File:API_CatNet_GUI.cs
-//O2Ref:O2_FluentSharp_Roslyn.dll
+//O2Ref:FluentSharp.Roslyn.dll
 //O2Ref:Roslyn.Compilers.dll
 //O2Ref:Roslyn.Compilers.CSharp.dll
 </SourceCode>
-  <ReferencedAssemblies />
 </H2>

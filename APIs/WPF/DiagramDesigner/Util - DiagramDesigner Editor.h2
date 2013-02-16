@@ -302,7 +302,7 @@ return null;
 //O2File:XamlCode.cs
 //O2File:API_Cropper.cs
 
-//O2Ref:O2_FluentSharp_WPF.dll
+//O2Ref:FluentSharp.WPF.dll
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:System.Xml.dll
 //O2Ref:System.Xml.Linq.dll
@@ -316,5 +316,4 @@ return null;
 //O2Ref:DiagramDesigner.exe
 //O2Ref:Cropper.exe 
 //O2Ref:System.Xaml.dll</SourceCode>
-  <ReferencedAssemblies />
 </H2>
