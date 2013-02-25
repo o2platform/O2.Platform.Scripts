@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//var topPanel = panel.clear().add_Panel();  
+//var topPanel = panel.clear().add_Panel();  
 var topPanel = "Util - Inject O2 into Other processes v2.0".popupWindow(1200,600); 
 
 topPanel.insert_LogViewer();    
@@ -20,11 +18,11 @@ Process selectedProcess 	 = null;
 CheckBox x64_CheckBox		 = null;
 CheckBox runtime40_CheckBox  = null;
 
-Action&lt;Process&gt; selectProcess =
-	(process)=&gt; {
+Action<Process> selectProcess =
+	(process)=> {
 	"select process: {0}".info(process.Id);
 					foreach(var treeNode in processesTreeView.nodes())
-						if (treeNode.tag&lt;Process&gt;().Id == process.Id)
+						if (treeNode.tag<Process>().Id == process.Id)
 						{
 							treeNode.selected();
 							return;
@@ -32,14 +30,14 @@ Action&lt;Process&gt; selectProcess =
 							
 				};
  
-processesTreeView.afterSelect&lt;Process&gt;( 
-	(process)=&gt; {		     
+processesTreeView.afterSelect<Process>( 
+	(process)=> {		     
 					selectedProcess = Processes.getProcess(process.Id);  //to refresh the values					
 					modulesTreeView.clear(); 
-					selectedProcessTab.parent&lt;TabPage&gt;().set_Text("Selected process: {0} (id: {1})".format(process.ProcessName, process.Id));
-					//modulesTreeView.parent&lt;GroupBox&gt;()
+					selectedProcessTab.parent<TabPage>().set_Text("Selected process: {0} (id: {1})".format(process.ProcessName, process.Id));
+					//modulesTreeView.parent<GroupBox>()
 					O2Thread.mtaThread(
-						()=&gt;{								
+						()=>{								
 								processScreenshot.load(selectedProcess.handle().window_ScreenShot() as Image);
 								
 								//selectedProcessTab.insert_Left(40).add_FlowLayoutPanel_with_DetectedModules(process);
@@ -67,28 +65,28 @@ processesTreeView.afterSelect&lt;Process&gt;(
 				});
 				
 Action refreshProcessList = 
-	()=&gt;{
+	()=>{
 			processesTreeView.clear();
 			foreach(Process process in Processes.getProcesses())
-				if (process.MainWindowHandle != IntPtr.Zero &amp;&amp; process.ProcessName !="Dbgview")			//Dbgview doens't like to send Dbg messages to itself
+				if (process.MainWindowHandle != IntPtr.Zero && process.ProcessName !="Dbgview")			//Dbgview doens't like to send Dbg messages to itself
 					processesTreeView.add_Node("{0,-40} id: {1}".format(process.ProcessName, process.Id), process);
 			processesTreeView.selectFirst();			
 		};
 
 Action refreshProcessList_in_1Second = 
-	()=&gt;{
+	()=>{
 			this.sleep(1000); 
 			refreshProcessList(); 
 		};
 Action injectO2IntoProcess = 
-	()=&gt;{						
+	()=>{						
 			"Injecting O2 into process '{0}' with id {1}".info(selectedProcess.ProcessName, selectedProcess.Id); 
 			var o2Injector =  new API_O2_Injector();				
 			o2Injector.injectIntoProcess(selectedProcess, x64_CheckBox.value(), runtime40_CheckBox.value());    
 		};   
 
 Action executeScriptInProcess = 
-	()=&gt;{
+	()=>{
 			
 			var code =  "Injected_Dll_WithCodeSnippet.cs".local().fileContents();
 			var tempFile = code.replace("/*CODESNIPPET*/", codeEditor.get_Text()).saveWithExtension(".cs"); 
@@ -101,42 +99,42 @@ Action executeScriptInProcess =
 		};
    
 processesTreeView.insert_Below_ToolStrip()
-				 .add_Button("Refresh", "view_refresh".formImage(), ()=&gt; refreshProcessList()).toolStrip()
-				 .add_Button("Process Properties", "btSettings_Image".formImage(), ()=&gt; processesTreeView.selected().Tag.showInfo()).toolStrip()
-				 .add_Button("Bring to front", "preferences_desktop_locale".formImage(), ()=&gt; selectedProcess.process_MainWindow_BringToFront()).toolStrip()
-				 .add_Button("Stop Process", "process_stop".formImage(), () =&gt; { selectedProcess.stop(); refreshProcessList();});
+				 .add_Button("Refresh", "view_refresh".formImage(), ()=> refreshProcessList()).toolStrip()
+				 .add_Button("Process Properties", "btSettings_Image".formImage(), ()=> processesTreeView.selected().Tag.showInfo()).toolStrip()
+				 .add_Button("Bring to front", "preferences_desktop_locale".formImage(), ()=> selectedProcess.process_MainWindow_BringToFront()).toolStrip()
+				 .add_Button("Stop Process", "process_stop".formImage(), () => { selectedProcess.stop(); refreshProcessList();});
 				 
 				   
 selectedProcessTab.insert_ToolStrip()
-	.add("Execute Script (below) in process", "btExecuteSelectedMethod_Image".formImage(),()=&gt; executeScriptInProcess())
-	.add_Button("Inject O2 REPL into Process","btExecuteSelectedMethod_Image".formImage(), ()=&gt;injectO2IntoProcess()).toolStrip()
+	.add("Execute Script (below) in process", "btExecuteSelectedMethod_Image".formImage(),()=> executeScriptInProcess())
+	.add_Button("Inject O2 REPL into Process","btExecuteSelectedMethod_Image".formImage(), ()=>injectO2IntoProcess()).toolStrip()
 	.add_CheckBox("x64",ref x64_CheckBox)
 	.add_CheckBox(".Net 40 runtime",ref runtime40_CheckBox);
 
 var toolStrip = topPanel.insert_Above(30).add_ToolStrip(); 
 toolStrip.add_DropDown("REPL", "document_save_as".formImage())
-		 	.add_DropDown_Button("REPL this Form   ", ()=&gt; topPanel.parentForm().script_Me("form"))
+		 	.add_DropDown_Button("REPL this Form   ", ()=> topPanel.parentForm().script_Me("form"))
 		 	.add_DropDown_Button("REPL selected Process and API_O2_Injector   ", 
-		 		()=&gt; new API_O2_Injector().script_Me().add_InvocationParameter("process", selectedProcess).code_Insert("//return process;"))
-		 	//.add_DropDown_Button("REPL selected Process", ()=&gt; selectedProcess.script_Me())
+		 		()=> new API_O2_Injector().script_Me().add_InvocationParameter("process", selectedProcess).code_Insert("//return process;"))
+		 	//.add_DropDown_Button("REPL selected Process", ()=> selectedProcess.script_Me())
 		 	;
 		 	
 toolStrip.add_DropDown("Open Demo Apps", "face_glasses".formImage())
-		 	.add_DropDown_Button("Open LinqPad (C#)   "	, 	 ()=&gt; { "LinqPad_Installer.cs".executeFirstMethod()	; refreshProcessList_in_1Second(); })
-		 	.add_DropDown_Button("Open Calc (C++)     "	, 	 ()=&gt; { "calc.exe".startProcess() 		 		    ; refreshProcessList_in_1Second(); });
-toolStrip.add_Button("Open DbgViewer.exe (SysInternals)",  "btDebugMethod_Image".formImage(),  ()=&gt; "DebugView.cs".executeFirstMethod());
+		 	.add_DropDown_Button("Open LinqPad (C#)   "	, 	 ()=> { "LinqPad_Installer.cs".executeFirstMethod()	; refreshProcessList_in_1Second(); })
+		 	.add_DropDown_Button("Open Calc (C++)     "	, 	 ()=> { "calc.exe".startProcess() 		 		    ; refreshProcessList_in_1Second(); });
+toolStrip.add_Button("Open DbgViewer.exe (SysInternals)",  "btDebugMethod_Image".formImage(),  ()=> "DebugView.cs".executeFirstMethod());
 
 toolStrip.insert_Right(160).add_ProcessFinder(selectProcess, selectProcess).append_Label("Click to select process").top(10);
 
 codeEditor.set_Text("Debug.Write(\"Testing 123...\");".line() + 
 					"System.Windows.Forms.MessageBox.Show(\"Hello\");");
-//toolStrip.insert_Left(30).add_ProcessFindings((process)=&gt;{});
-//&lt;Ctrl_ProcessFinder&gt;
+//toolStrip.insert_Left(30).add_ProcessFindings((process)=>{});
+//<Ctrl_ProcessFinder>
 //O2File:Ctrl_ProcessFinder.cs
 
 
-//x64_CheckBox =	lastLink.append_CheckBox("x64", (value)=&gt;x64= value);
-//runtime40_ChexkBox = x64_CheckBox.append_CheckBox(".Net 40 runtime", (value)=&gt; runtime40 = value);
+//x64_CheckBox =	lastLink.append_CheckBox("x64", (value)=>x64= value);
+//runtime40_ChexkBox = x64_CheckBox.append_CheckBox(".Net 40 runtime", (value)=> runtime40 = value);
 
 refreshProcessList();  
 
@@ -145,6 +143,4 @@ refreshProcessList();
 //O2File:API_O2_Injector.cs
 
 //O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
- </SourceCode>
-  <ReferencedAssemblies />
-</H2>
+ 

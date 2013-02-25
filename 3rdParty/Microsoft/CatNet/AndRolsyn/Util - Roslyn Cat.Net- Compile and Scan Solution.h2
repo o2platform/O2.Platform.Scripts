@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>O2Setup.extractEmbededConfigZips();
+O2Setup.extractEmbededConfigZips();
 var topPanel = "Util - Roslyn and Cat.Net - OnSave - Compile and Scan Solution".popupWindow(1024,576)    
 					.insert_LogViewer();
 					 
@@ -25,32 +23,32 @@ var solutionFile = "";
 IWorkspace workspace = null;
 API_CatNet catNet = null;
  
-solutionFiles.beforeExpand&lt;ISolution&gt;( 
-	(treeNode,solution)=&gt;{
-							treeNode.add_Nodes(solution.Projects, (project)=&gt;project.Name, 
-																  (project)=&gt;project, 
-																  (project)=&gt; project.HasDocuments, 
-																  (project)=&gt; Color.Blue);
+solutionFiles.beforeExpand<ISolution>( 
+	(treeNode,solution)=>{
+							treeNode.add_Nodes(solution.Projects, (project)=>project.Name, 
+																  (project)=>project, 
+																  (project)=> project.HasDocuments, 
+																  (project)=> Color.Blue);
 						 });
 
-solutionFiles.beforeExpand&lt;IProject&gt;( 
-	(treeNode,project)=&gt;{
+solutionFiles.beforeExpand<IProject>( 
+	(treeNode,project)=>{
 							var projectDirectory = project.FilePath.directoryName();
-							treeNode.add_Nodes(project.Documents, (document)=&gt;document.FilePath.remove(projectDirectory), 
-																  (document)=&gt; document, 
-																  (document)=&gt; false,  
-																  (document)=&gt; Color.DarkBlue);//.Name, (project)=&gt;project, (project)=&gt; project.HasDocuments);
+							treeNode.add_Nodes(project.Documents, (document)=>document.FilePath.remove(projectDirectory), 
+																  (document)=> document, 
+																  (document)=> false,  
+																  (document)=> Color.DarkBlue);//.Name, (project)=>project, (project)=> project.HasDocuments);
 						 });
 
-solutionFiles.afterSelect&lt;IDocument&gt;(
-	(document)=&gt;{
+solutionFiles.afterSelect<IDocument>(
+	(document)=>{
 					codeViewer.open(document.FilePath);
 					//document.details();
 				});
 
 												
-Action&lt;List&lt;Assembly&gt;&gt; scanAssemblies = 
-	(assembllies)=&gt;{
+Action<List<Assembly>> scanAssemblies = 
+	(assembllies)=>{
 					catNet = new API_CatNet().loadRules();										
 					
 					"CatNet ready for scan".debug();												 
@@ -58,30 +56,30 @@ Action&lt;List&lt;Assembly&gt;&gt; scanAssemblies =
 					catNet.scan(assembllies)
 						  .show(scanResults.parent()); 					
 					var nodes = scanResults.getResultsTreeView().nodes();
-					if (nodes.size() &gt; 0)
+					if (nodes.size() > 0)
 						nodes.first().expand().nodes().first().selected();
 				};
 				
 Action compile = 
-	()=&gt;{	
+	()=>{	
 		O2Thread.mtaThread( 
-			()=&gt;{
+			()=>{
 					var o2Timer = new O2Timer("Solution Compilation").start();
-					//IWorkspace workspace = Workspace.LoadSolution(solutionFile);
+					//IWorkspace workspace = Workspace.LoadSolution(solutionFile);
 					"Compling Solution: {0}".info(solutionFile);
-					ISolution solution = workspace.CurrentSolution;
+					ISolution solution = workspace.CurrentSolution;
 					errorsList.clear();
-					var assembliesToScan = new List&lt;Assembly&gt;();
+					var assembliesToScan = new List<Assembly>();
 					foreach(var project in solution.Projects)
 					{												
-						var assembly = project.compile_And_ReturnUniqueAssembly((errors)=&gt; errorsList.add_Nodes(errors));
+						var assembly = project.compile_And_ReturnUniqueAssembly((errors)=> errorsList.add_Nodes(errors));
 						if (assembly.notNull())						
 							assembliesToScan.add(assembly);
 					}											
-					errorsList.backColor(errorsList.nodes().size() &gt; 0 ? Color.LightPink : Color.Azure)
+					errorsList.backColor(errorsList.nodes().size() > 0 ? Color.LightPink : Color.Azure)
 							  .selectFirst()
 							  .focus()
-							  .parent&lt;GroupBox&gt;().set_Text("Compilation Errors: {0} : {1}".format(errorsList.nodes().size(), o2Timer.stop()));
+							  .parent<GroupBox>().set_Text("Compilation Errors: {0} : {1}".format(errorsList.nodes().size(), o2Timer.stop()));
 						//var assembly = compilation.create_Assembly();			
 					if (errorsList.nodes().size() == 0)
 						scanAssemblies(assembliesToScan);														
@@ -89,8 +87,8 @@ Action compile =
 				});
 	}; 
 
-EventHandler&lt;WorkspaceEventArgs&gt; workspaceChanged = 
-	(sender,e)=&gt;{
+EventHandler<WorkspaceEventArgs> workspaceChanged = 
+	(sender,e)=>{
 					// this is being triggered to many times					
 					//"e: {0}".error(e.Kind);					
 					if (compilerAvailable)
@@ -102,8 +100,8 @@ EventHandler&lt;WorkspaceEventArgs&gt; workspaceChanged =
 					//compile(); 
 				};
 
-Action&lt;string&gt; loadSolution =
-	(_solutionFile)=&gt;{ 	
+Action<string> loadSolution =
+	(_solutionFile)=>{ 	
 					"Loading File: {0}".info(_solutionFile);
 					if (_solutionFile.extension(".sln").isFalse())
 						return;																
@@ -111,8 +109,8 @@ Action&lt;string&gt; loadSolution =
 //					sourceCodeFiles.clear();
 					errorsList.clear().add_Node("Compiling solution....");
 					codeViewer.open("");
-					workspace = Workspace.LoadSolution(solutionFile, null,null, true);
-					topPanel.onClosed(()=&gt;
+					workspace = Workspace.LoadSolution(solutionFile, null,null, true);
+					topPanel.onClosed(()=>
 						{						
 							"On TopPanel closed".debug();
 							workspace.Dispose();
@@ -129,20 +127,20 @@ Action&lt;string&gt; loadSolution =
 /*					var files = (from project in workspace.CurrentSolution.Projects
 								from document in project.Documents
 								select document).toList();
-					sourceCodeFiles.add_Nodes(files, (file)=&gt;file.Name);
-					actionsPanel.control&lt;TextBox&gt;(true).set_Text(solutionFile);
+					sourceCodeFiles.add_Nodes(files, (file)=>file.Name);
+					actionsPanel.control<TextBox>(true).set_Text(solutionFile);
 					*/
 				};
 		
-errorsList.afterSelect&lt;Diagnostic&gt;(  
-	(diagnostic)=&gt;{
+errorsList.afterSelect<Diagnostic>(  
+	(diagnostic)=>{
 					var lineSpan = diagnostic.Location.GetLineSpan(true);
 					codeViewer.open(lineSpan.Path);
 					codeViewer.gotoLine(lineSpan.StartLinePosition.Line + 1);					 
 					errorsList.focus();
 			      });
 
-actionsPanel.add_Link("Re-compile loaded solution", ()=&gt; compile())
+actionsPanel.add_Link("Re-compile loaded solution", ()=> compile())
 	     .append_Label("Current Solution File (you can drop a *.sln file here to load it):").autoSize()
 	     .append_TextBox("").align_Right();
 
@@ -151,7 +149,7 @@ topPanel.onDrop(loadSolution);
 errorsList.parentForm().onDrop(loadSolution);
 			
 Action openTestSolution = 
-	()=&gt;{
+	()=>{
 			var tmpDir = "SuperSecureBankService_Solution".tempDir(false);
 			var ssbSolution = tmpDir.files(true,"*.sln").first();
 			if (ssbSolution.isNull())
@@ -175,13 +173,13 @@ return workspace;
 		
 topPanel.mainMenu()
 		.add_Menu("File")
-			.add("Open Solution", ()=&gt; loadSolution(topPanel.askUserForFileToOpen()))
+			.add("Open Solution", ()=> loadSolution(topPanel.askUserForFileToOpen()))
 			.add("Open Test Solution (SuperSecureBank WebServices" , openTestSolution)
 		.add_Menu("REPL")
-			.add("Open C# REPL Script Environment", ()=&gt; open.scriptEditor())
-			.add("REPL this GUI", ()=&gt; topPanel.parentForm().script_Me("form"))
-			.add("REPL CatNet API object", ()=&gt; catNet.script_Me()) 
-			.add("REPL IWorkspace (from Roslyn)", ()=&gt; workspace.script_Me().Code = workspaceScriptMe_Script);
+			.add("Open C# REPL Script Environment", ()=> open.scriptEditor())
+			.add("REPL this GUI", ()=> topPanel.parentForm().script_Me("form"))
+			.add("REPL CatNet API object", ()=> catNet.script_Me()) 
+			.add("REPL IWorkspace (from Roslyn)", ()=> workspace.script_Me().Code = workspaceScriptMe_Script);
 		
 openTestSolution();
 //O2File:API_CatNet.cs
@@ -210,5 +208,4 @@ openTestSolution();
 //O2Package:API_LessMsi.cs
 //O2Package:LessMsi.cs
 //O2Package:API_ConsoleOut.cs
-//O2Package:SuperSecureBankService.zip</SourceCode>
-</H2>
+//O2Package:SuperSecureBankService.zip

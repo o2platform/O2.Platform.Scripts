@@ -1,12 +1,10 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var topPanel = "PoC - IronPython REPL - Simple".popupWindow(800,400);
+var topPanel = "PoC - IronPython REPL - Simple".popupWindow(800,400);
 topPanel.insert_LogViewer();
 //var topPanel = panel.clear().add_Panel();
 
 var code = "print 2+2;";
 
-Action&lt;string&gt; executeScript = null;
+Action<string> executeScript = null;
 new API_ConsoleOut().show_ConsoleOut(topPanel.title("Console Out"));
 var codeEditor = topPanel.insert_Left("Python Code").add_SourceCodeViewer().set_Text(code,".cs");
 
@@ -14,7 +12,7 @@ var codeEditor = topPanel.insert_Left("Python Code").add_SourceCodeViewer().set_
 var cmdLine = new PythonCommandLine();
 var engine = Python.CreateEngine();
 var runtime = engine.Runtime;
-executeScript = (script) =&gt;	{
+executeScript = (script) =>	{
 								try
 								{
 									"Executing code".info();
@@ -24,12 +22,12 @@ executeScript = (script) =&gt;	{
 								}
 								catch(Exception ex)
 								{
-									ex.log();
+					 				ex.log();
 								}
 							};
 
-codeEditor.onTextChange((text)=&gt; code = text);
-codeEditor.parent().insert_Above(20).add_Link("Execute Pyhton code" , ()=&gt; executeScript(code)).click();
+codeEditor.onTextChange((text)=> code = text);
+codeEditor.parent().insert_Above(20).add_Link("Execute Pyhton code" , ()=> executeScript(code)).click();
 
 //using Microsoft.Scripting
 //using IronPython
@@ -38,6 +36,4 @@ codeEditor.parent().insert_Above(20).add_Link("Execute Pyhton code" , ()=&gt; ex
 //O2Ref:IronPython\SourceDir\GAC\IronPython.dll
 //O2Ref:IronPython\SourceDir\GAC\Microsoft.Dynamic.dll
 //O2Ref:IronPython\SourceDir\GAC\Microsoft.Scripting.dll
-//O2File:API_ConsoleOut.cs</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2File:API_ConsoleOut.cs

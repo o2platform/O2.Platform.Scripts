@@ -1,12 +1,10 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//**************** StandAlone exe package and setup ****************
+//**************** StandAlone exe package and setup ****************
 //O2Embed:LessMsi\lessmsi.exe
 //O2Package:LessMsi\wix.dll
 //O2Package:LessMsi\wixcab.dll
 //O2Package:MSI_Icon.ico
 
-O2ConfigSettings.o2Version = "LessMSI";
+O2ConfigSettings.O2Version = "LessMSI";
 O2Setup.extractEmbededConfigZips();
 if ("wixcab.dll".local().fileExists())
 {			
@@ -16,34 +14,31 @@ if ("wixcab.dll".local().fileExists())
 //*******************************************************************
 
 var mainForm = (Form)"lessmsi.exe".assembly().type("MainForm").ctor("");
-O2Thread.staThread(()=&gt; mainForm.ShowDialog());
+O2Thread.staThread(()=> mainForm.ShowDialog());
 mainForm.wait(500);
 //mainForm.resizeFormToControlSize(panel);
 //mainForm.parentForm_AlwaysOnTop();
 mainForm.parentForm().set_Form_Icon("MSI_Icon.ico".local());
-Action&lt;string&gt; loadMSI = 
-	(path)=&gt;{
+Action<string> loadMSI = 
+	(path)=>{
 				mainForm.invokeOnThread(
-					()=&gt;{
+					()=>{
 							mainForm.prop("SelectedMsiFile", new FileInfo(path));
 							mainForm.prop("Presenter").invoke("LoadCurrentFile");								
-							mainForm.field("btnUnselectAll").cast&lt;Button&gt;().click();
+							mainForm.field("btnUnselectAll").cast<Button>().click();
 						});
 			};
  
-mainForm.controls&lt;DataGridView&gt;(true)
-	    .forEach&lt;DataGridView&gt;((dataGridView)=&gt; dataGridView.onDrop(loadMSI));
+mainForm.controls<DataGridView>(true)
+	    .forEach<DataGridView>((dataGridView)=> dataGridView.onDrop(loadMSI));
 
-var menuStrip = mainForm.control&lt;MenuStrip&gt;();
+var menuStrip = mainForm.control<MenuStrip>();
 menuStrip.add_MenuItem("REPL")
-		 .add_MenuItem("C# REPL main panel", ()=&gt; mainForm.control&lt;Panel&gt;().script_Me())
-		 .add_MenuItem("C# REPL file list", ()=&gt; mainForm.field("fileGrid").script_Me("fileGrid"));
+		 .add_MenuItem("C# REPL main panel", ()=> mainForm.control<Panel>().script_Me())
+		 .add_MenuItem("C# REPL file list", ()=> mainForm.field("fileGrid").script_Me("fileGrid"));
 		 
 
 //using LessMsi.UI
 //using System.IO;
 //O2File:API_LessMsi.cs
 //O2Ref:LessMsi/lessmsi.exe
-</SourceCode>
-  <ReferencedAssemblies />
-</H2>

@@ -1,25 +1,23 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//Global Variables
+//Global Variables
 var previewSizeValue = -1;//50; 
 var addDuplicateFrames = false;
 
 //panel.clear();
 //var topPanel = panel;
 var aforgeVideo = new API_AForge_Video(); 
-var topPanel = O2Gui.open&lt;Panel&gt;("Movie Creator",1000,700);
+var topPanel = O2Gui.open<Panel>("Movie Creator",1000,700);
 var mainGui = topPanel.add_1x1("Frames","",true,150);  
 var rightPanel = mainGui[1].parent().clear().add_1x1("Image Preview","Movie Preview");
-var imageViewer = rightPanel[0].add_WpfHost().add_Control_Wpf&lt;WPF.Image&gt;();  
-var imageProperties = rightPanel[0].insert_Below&lt;Panel&gt;(200).add_PropertyGrid();
+var imageViewer = rightPanel[0].add_WpfHost().add_Control_Wpf<WPF.Image>();  
+var imageProperties = rightPanel[0].insert_Below<Panel>(200).add_PropertyGrid();
 var moviePlayer = rightPanel[1].add_MoviePlayer();
-var topControlBar = topPanel.insert_Above&lt;Panel&gt;(50);
+var topControlBar = topPanel.insert_Above<Panel>(50);
 var wpfHost = mainGui[0].add_WpfHost();
-var framesOptions = wpfHost.insert_Below&lt;Panel&gt;(100); 
-rightPanel[1].insert_Above&lt;Panel&gt;().add_GroupBox("Movie Properties").add_PropertyGrid().show(aforgeVideo);   
+var framesOptions = wpfHost.insert_Below<Panel>(100); 
+rightPanel[1].insert_Above<Panel>().add_GroupBox("Movie Properties").add_PropertyGrid().show(aforgeVideo);   
 var framesList  = wpfHost.add_ListView_Wpf();  
 var statusLabel = topPanel.parentForm().add_StatusStrip(); 
-topPanel.insert_Below&lt;Panel&gt;(100).add_LogViewer();
+topPanel.insert_Below<Panel>(100).add_LogViewer();
 
 //FramesOptions
 var previewSize = framesOptions.add_Label("preview size:")
@@ -27,7 +25,7 @@ var previewSize = framesOptions.add_Label("preview size:")
 							   .append_TextBox(previewSizeValue.str())
 							   .align_Right(framesOptions)
 							   .onEnter(
-							   		(value)=&gt;{
+							   		(value)=>{
 							   					if (value.isInt())
 							   					{
 							   						previewSizeValue = value.toInt();
@@ -39,15 +37,15 @@ var previewSize = framesOptions.add_Label("preview size:")
 							   					}
 							   				 });
 
-framesOptions.add_CheckBox("Add Duplicate Frames:",20,0, (value) =&gt; addDuplicateFrames  = value)
+framesOptions.add_CheckBox("Add Duplicate Frames:",20,0, (value) => addDuplicateFrames  = value)
              .autoSize();
 							   //.top(3)
 							   //.append_TextBox(previewSizeValue.str())
 //
 //topControlBar
 
-Action&lt;string&gt; addImageFromFile = 
-	(file)=&gt;{
+Action<string> addImageFromFile = 
+	(file)=>{
 				"loading image from File: {0}".info(file);
 				var bitmap = file.bitmap();
 				if (bitmap.notNull())
@@ -57,28 +55,28 @@ Action&lt;string&gt; addImageFromFile =
 			};
 
 topControlBar.add_Link("add image from clipboard",5,5,
-				()=&gt;{
+				()=>{
 						var bitmap = topPanel.fromClipboardGetImage();
 						if (bitmap.isNull())
 							"is null".error();
 						framesList.add_Video_Image_Wpf(bitmap,previewSizeValue,previewSizeValue);		  
 					})
 			.append_Link("add screenshot from entire desktop",
-				()=&gt;{
+				()=>{
 						var bitmap = topPanel.desktop(); 												
 						
 						framesList.add_Video_Image_Wpf(bitmap,previewSizeValue,previewSizeValue);		  
 						//framesList.add_Image_Wpf(bitmap.save(),100,100);		 
 					})
 			.append_Link("capture Desktop Capture area",
-				()=&gt;{
+				()=>{
 						var bitmap = aforgeVideo.capture(topPanel);
 						framesList.add_Video_Image_Wpf(bitmap,previewSizeValue,previewSizeValue);		 
 					})
 			.append_Link("create movie",
-				()=&gt; { 
+				()=> { 
 						statusLabel.set_Text("Converting current images into GIFs");
-						var videoImages = framesList.items&lt;API_AForge_Video_WPF_Image&gt;();
+						var videoImages = framesList.items<API_AForge_Video_WPF_Image>();
 						"There are {0} Video Images".info(videoImages.size());
 						var bitmapsForVideoCreation = videoImages.getBitmapsForVideoCreation(); 
 						"The Video images where expanded into {0} Bitmat Images".info(bitmapsForVideoCreation.size()); 
@@ -91,18 +89,18 @@ topControlBar.add_Link("add image from clipboard",5,5,
 						
 					})
 			.append_Link("play movie",		
-				()=&gt;{
+				()=>{
 						moviePlayer.play(aforgeVideo.PathToAviVideo); 	 		 
 					})
 			.append_Link("play movie in new window",
-				()=&gt;{ 
-						if (aforgeVideo.PathToAviVideo.valid() &amp;&amp; aforgeVideo.PathToAviVideo.fileExists())
-							O2Gui.open&lt;Panel&gt;("Video Player",640,480).add_VideoPlayer().play(aforgeVideo.PathToAviVideo);
+				()=>{ 
+						if (aforgeVideo.PathToAviVideo.valid() && aforgeVideo.PathToAviVideo.fileExists())
+							O2Gui.open<Panel>("Video Player",640,480).add_VideoPlayer().play(aforgeVideo.PathToAviVideo);
 					});
 
 var capturing = false;					
 topControlBar.add_Link("Start capture",30,5,
-				()=&gt;{
+				()=>{
 						capturing = true;
 						Bitmap lastBitMap = null;
 						while(capturing) 
@@ -119,16 +117,16 @@ topControlBar.add_Link("Start capture",30,5,
 						} 
 					})
 			.append_Link("Stop capture",
-				()=&gt;{
+				()=>{
 						capturing = false;
 					})
 			.append_Link("Delete all images",
-				()=&gt;{
+				()=>{
 						framesList.clear();
 					});
 					
 			/*.append_Link("Open image Editor", 
-				()=&gt;{
+				()=>{
 						var diagramDesignerScript = "Util - DiagramDesigner Editor.h2".local();
 						"Executing diagram designer script: {0}".info(diagramDesignerScript);						
 						diagramDesignerScript.executeH2Script(); 
@@ -141,17 +139,17 @@ framesList.onDeleteKey_Remove_SelectedItems();
 //var images = @"C:\O2\_tempDir\6-18-2010\For Video".files("*.jpeg"); 
 //framesList.add_Images_Wpf(images,100,100);  
 
-framesList.afterSelect&lt;API_AForge_Video_WPF_Image&gt;(
-	(videoImage)=&gt;{				
+framesList.afterSelect<API_AForge_Video_WPF_Image>(
+	(videoImage)=>{				
 				imageViewer.show(videoImage);
 				imageProperties.show(videoImage);				
 			 });
 
 wpfHost.add_ContextMenu()
-	   .add_MenuItem("Delete Selected Frames", true,()=&gt;framesList.remove_SelectedItems())
+	   .add_MenuItem("Delete Selected Frames", true,()=>framesList.remove_SelectedItems())
 	   .add_MenuItem("Copy To Clipboard", 
-	   		()=&gt;{ 
-	   				var currentItem = framesList.selected&lt;API_AForge_Video_WPF_Image&gt;();
+	   		()=>{ 
+	   				var currentItem = framesList.selected<API_AForge_Video_WPF_Image>();
 	   				if (currentItem.notNull())
 	   					wpfHost.putBitmapOnClipboard(currentItem._BitmapFile.bitmap());
 	   			});
@@ -159,9 +157,9 @@ wpfHost.add_ContextMenu()
 framesList.selectFirst(); 
 
 mainGui[0].onDrop(
-	(fileOrFolder)=&gt;{
+	(fileOrFolder)=>{
 				O2Thread.mtaThread(
-					()=&gt;{
+					()=>{
 							if (fileOrFolder.fileExists())
 								addImageFromFile(fileOrFolder);
 							if (fileOrFolder.dirExists())
@@ -183,19 +181,17 @@ return "done";
 	framesList.add_Images_Wpf(file,100,100); 
 }*/
 /*wpfHost.invokeOnThread(
-	()=&gt;{
+	()=>{
 	
-			var wrapPanel = wpfHost.add_Control_Wpf&lt;WPF.WrapPanel&gt;();			
-			var button = wrapPanel.add_Control_Wpf&lt;WPF.Button&gt;().set_Text_Wpf("aaa");
-			wrapPanel.add_Control_Wpf&lt;WPF.Button&gt;().width_Wpf(100);
+			var wrapPanel = wpfHost.add_Control_Wpf<WPF.WrapPanel>();			
+			var button = wrapPanel.add_Control_Wpf<WPF.Button>().set_Text_Wpf("aaa");
+			wrapPanel.add_Control_Wpf<WPF.Button>().width_Wpf(100);
 			propGrid.show(button); 
 		});
 */
 return null; 
  
-//O2File:WPF_Controls_ExtensionMethods.cs
 //O2File:ElementHost_ExtensionMethods.cs
-//O2File:WPF_WinFormIntegration_ExtensionMethods.cs
 //O2File:API_AForge_Video_WPF_Image.cs  
 //O2File:API_WPF_ToolKit.cs
 //O2File:API_Cropper.cs
@@ -226,5 +222,4 @@ return null;
 //O2Ref:PresentationCore.dll
 //O2Ref:PresentationFramework.dll
 //O2Ref:WindowsBase.dll
-//O2Ref:System.Xaml.dll</SourceCode>
-</H2>
+//O2Ref:System.Xaml.dll

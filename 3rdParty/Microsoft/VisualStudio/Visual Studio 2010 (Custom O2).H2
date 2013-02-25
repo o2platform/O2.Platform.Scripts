@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//panel.clear(); 
+//panel.clear(); 
     
 /*var vStudio = new API_VisualStudio_2010().attach();     
 API_GuiAutomation.Mouse_Move_SleepValue = 1;  
@@ -44,7 +42,7 @@ vStudio.close_VisualStudio();
 //vStudio.close();
 //return vStudio.VS_MainWindow.menus();
 
-//return vStudio.VS_MainWindow.find&lt;White.Core.UIItems.MenuItems.Menu&gt;("File").mouse(); 
+//return vStudio.VS_MainWindow.find<White.Core.UIItems.MenuItems.Menu>("File").mouse(); 
 //return  vStudio.VS_MainWindow.GetMenuBar(SearchCriteria.All).mouse(); 
 
 //using White.Core.UIItems.Finders;
@@ -69,8 +67,8 @@ vStudio.close_VisualStudio();
 
 API_GUI_Automation_VisualStudio_2010 vStudio = null;
 
-Action&lt;bool&gt; startOrAttach = 
-	(tryAttach)=&gt;{
+Action<bool> startOrAttach = 
+	(tryAttach)=>{
 			if (tryAttach)
 			 	vStudio = new API_GUI_Automation_VisualStudio_2010().attach();
 			 else
@@ -94,9 +92,9 @@ var ribbon = CustomO2.create(title); 		// stand alone version
   
 ribbon.add_Tab("Visual Studio") 
 	  .add_RibbonGroup("Start")
-	  .add_RibbonButton("Start Visual Studio", ()=&gt; startOrAttach(false))	 		  
-	  .add_RibbonButton("Attach Visual Studio", ()=&gt; startOrAttach(true))
-	  .add_RibbonButton("Close Visual Studio", ()=&gt; vStudio = new API_GUI_Automation_VisualStudio_2010().close()); 
+	  .add_RibbonButton("Start Visual Studio", ()=> startOrAttach(false))	 		  
+	  .add_RibbonButton("Attach Visual Studio", ()=> startOrAttach(true))
+	  .add_RibbonButton("Close Visual Studio", ()=> vStudio = new API_GUI_Automation_VisualStudio_2010().close()); 
 
 ribbon.tab("Visual Studio");
 //	  .add_Group("
@@ -125,6 +123,3 @@ return "ok";
 //O2Ref:White.Core.dll
 //O2File:API_GuiAutomation.cs
 
-</SourceCode>
-  <ReferencedAssemblies />
-</H2>

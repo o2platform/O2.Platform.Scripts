@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//var topPanel = panel.clear().add_Panel();
+//var topPanel = panel.clear().add_Panel();
 var topPanel = "Util - Test MicrosoftBuild compilation".popupWindow(1300,700).insert_LogViewer();					 
   
 var actionPanel = topPanel.insert_ActionPanel();
@@ -17,7 +15,7 @@ var pathToAssemblies = "";
 var projectFile = "";  
   
 Action compileSourceScript =  
-	()=&gt;{ 
+	()=>{ 
 			projectName = scriptFile.fileName_WithoutExtension(); 
 			var compiledScript =  scriptFile.compileScriptFile_into_SeparateFolder();	 
 			pathToAssemblies = compiledScript.directoryName();
@@ -27,14 +25,14 @@ Action compileSourceScript =
 		};
  
 Action createProjectFile =   
-	()=&gt;{ 
+	()=>{ 
 			projectFile = projectName.createProjectFile(sourceFile, pathToAssemblies, pathToAssemblies);			
 			codeViewer_projectFile.open(projectFile); 			
 			folderViewer.open(pathToAssemblies); 
 		};
 
 Action buildProject =  
-	()=&gt;{					
+	()=>{					
 			if (pathToAssemblies.notValid())
 			{				
 				topPanel.clear();
@@ -47,7 +45,7 @@ Action buildProject =
 		};
 		
 Action executeCreatedExe =  
-	()=&gt;{
+	()=>{
 			if (pathToAssemblies.notValid())
 				return;
 			var exeCreated = @"{0}/bin/{1}.exe".format(pathToAssemblies, projectName);
@@ -55,8 +53,8 @@ Action executeCreatedExe =
 		};
  
 TextBox textBox =null;		
-Action&lt;string&gt; compileScript = 
-	(file)=&gt;{
+Action<string> compileScript = 
+	(file)=>{
 				"Triggring compilation workflow for file: {0}".info(file);
 				textBox.set_Text(file);
 				scriptFile= file;
@@ -65,15 +63,15 @@ Action&lt;string&gt; compileScript =
 				buildProject();
 			};
 			  
-actionPanel.add_Label("Script to compile:").autoSize().top(2).append_TextBox("").width(300).onTextChange((text)=&gt;scriptFile = text)			
-		   .append_Link("Compile Source Script", ()=&gt; compileSourceScript()).top(2)
-		   .append_Link("Create Project File ", ()=&gt; createProjectFile())
-		   .append_Link("Build Project", ()=&gt; buildProject())
-		   .append_Link("Execute Created Exe", ()=&gt; executeCreatedExe())
-		   .append_Link("Open target Folder", ()=&gt; pathToAssemblies.startProcess())
-		   .append_Link("Open master C# file", ()=&gt; sourceFile.showInCodeEditor());
+actionPanel.add_Label("Script to compile:").autoSize().top(2).append_TextBox("").width(300).onTextChange((text)=>scriptFile = text)			
+		   .append_Link("Compile Source Script", ()=> compileSourceScript()).top(2)
+		   .append_Link("Create Project File ", ()=> createProjectFile())
+		   .append_Link("Build Project", ()=> buildProject())
+		   .append_Link("Execute Created Exe", ()=> executeCreatedExe())
+		   .append_Link("Open target Folder", ()=> pathToAssemblies.startProcess())
+		   .append_Link("Open master C# file", ()=> sourceFile.showInCodeEditor());
 		   
-textBox = actionPanel.controls&lt;TextBox&gt;()
+textBox = actionPanel.controls<TextBox>()
 					 .onDrop(compileScript)
 					 .onEnter(compileScript)
 					 .add_MenuItem_with_TestScripts(compileScript);
@@ -84,6 +82,4 @@ return "";
 
 		   
 
-//O2File:API_MicrosoftBuild.cs</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2File:API_MicrosoftBuild.cs

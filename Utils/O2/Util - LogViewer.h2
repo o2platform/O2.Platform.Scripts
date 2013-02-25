@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>
+
 var logViewer = "Util - LogViewer".popupWindow(400,140).add_LogViewer()
 													   .set_Icon("blogs-stack.ico");
  
@@ -8,6 +6,4 @@ var logViewer = "Util - LogViewer".popupWindow(400,140).add_LogViewer()
  
 
 //O2Tag_DontAddExtraO2Files
-//O2Embed:blogs-stack.ico</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Embed:blogs-stack.ico

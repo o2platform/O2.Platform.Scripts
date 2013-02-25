@@ -16,6 +16,7 @@ using O2.External.SharpDevelop.Ascx;
 using O2.External.SharpDevelop.ExtensionMethods;
 using O2.XRules.Database.Utils;
 using O2.Scanner.MsCatNet.Converter;
+using O2.FluentSharp;
 using Microsoft.ACESec.CATNet.Core.Driver; 
 using Microsoft.ACESec.CATNet.Core.Analysis;
 using Microsoft.ACESec.CATNet.Core;
@@ -25,7 +26,6 @@ using Rules = Microsoft.ACESec.CATNet.Core.Rules;
 //O2File:API_CatNet.cs
 //O2File:_Extra_methods_WinForms_Component.cs
 
-//O2Ref:_O2_Scanner_MsCatNet.exe
 //O2Ref:CatNet_1.1/SourceDir/Microsoft.ACESec.CATNet.Core.dll
 //O2Ref:CatNet_1.1/SourceDir/Microsoft.ACESec.CATNet.UI.VSAddIn.dll
 //O2Ref:EnvDTE.dll

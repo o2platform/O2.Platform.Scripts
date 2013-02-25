@@ -18,8 +18,6 @@ using O2.XRules.Database;
 using Odyssey.Controls;
 using O2.XRules.Database.Utils;
 
-//O2File:WPF_Controls_ExtensionMethods.cs
-//O2File:WPF_WinFormIntegration_ExtensionMethods.cs
 //O2File:ElementHost_ExtensionMethods.cs
 //O2File:Xaml_ExtensionMethods.cs
 //O2File:O2PlatformWikiAPI.cs

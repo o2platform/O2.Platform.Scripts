@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>try
+try
 {
 //var topPanel = panel.clear().add_Panel();
 O2Setup.extractEmbededConfigZips();
@@ -13,18 +11,18 @@ var csharpFileToScan = "Web_SQL_Injection.cs".local().fileContents().saveAs("_Ca
 
 topPanel.mainMenu().clear() 
 		.add_Menu("File")
-			.add_MenuItem("Open"	, ()=&gt; catNetGui.loadFile(topPanel.askUserForFileToOpen()))
+			.add_MenuItem("Open"	, ()=> catNetGui.loadFile(topPanel.askUserForFileToOpen()))
 			
 		.add_Menu("Sample Files") 
-			.add_MenuItem("Scan C# file with some Vulnerabilities"	, ()=&gt; catNetGui.loadFile(csharpFileToScan))
-			.add_MenuItem("Scan WebGoat.Net dll"					, ()=&gt; catNetGui.loadFile("DotNetGoat.dll".local()))
-			.add_MenuItem("Open Sample report: HacmeBank" 			, () =&gt; catNetGui.openReport("CatNet_HacmeBank.xml".local()))
-			.add_MenuItem("Open Sample report: SuperSecureBank"  	, () =&gt; catNetGui.openReport("CatNet_SuperSecureBank.xml".local()))
+			.add_MenuItem("Scan C# file with some Vulnerabilities"	, ()=> catNetGui.loadFile(csharpFileToScan))
+			.add_MenuItem("Scan WebGoat.Net dll"					, ()=> catNetGui.loadFile("DotNetGoat.dll".local()))
+			.add_MenuItem("Open Sample report: HacmeBank" 			, () => catNetGui.openReport("CatNet_HacmeBank.xml".local()))
+			.add_MenuItem("Open Sample report: SuperSecureBank"  	, () => catNetGui.openReport("CatNet_SuperSecureBank.xml".local()))
 		.add_Menu("Rules and Config")
-			.add_MenuItem("Open Cat.NET Folder (with Rules and Config)", ()=&gt; PublicDI.config.O2TempDir.pathCombine(@"..\_ToolsOrAPIs\CatNet_1.1\SourceDir").startProcess())
+			.add_MenuItem("Open Cat.NET Folder (with Rules and Config)", ()=> PublicDI.config.O2TempDir.pathCombine(@"..\_ToolsOrAPIs\CatNet_1.1\SourceDir").startProcess())
 		.add_Menu("REPL")
-			.add_MenuItem("Open REPL for CatNet GUI",()=&gt; { catNetGui.script_Me("catNetGui").Code+= "\n//O2Ref:Microsoft.ACESec.CATNet.Core\n//O2Ref:Microsoft.ACESec.CATNet.UI.VSAddIn.dll\n";})
-			.add_MenuItem("Open REPL for Form",()=&gt; topPanel.parentForm().script_Me("form"))			
+			.add_MenuItem("Open REPL for CatNet GUI",()=> { catNetGui.script_Me("catNetGui").Code+= "\n//O2Ref:Microsoft.ACESec.CATNet.Core\n//O2Ref:Microsoft.ACESec.CATNet.UI.VSAddIn.dll\n";})
+			.add_MenuItem("Open REPL for Form",()=> topPanel.parentForm().script_Me("form"))			
 		;
 
 
@@ -57,6 +55,3 @@ catch(Exception ex)
 //O2Package:CatNet_HacmeBank.xml
 //O2Package:CatNet_SuperSecureBank.xml
 //O2Embed:E:\TeamMentor\TM_UnitTests\StandAlone_Exes_Packages\CatNet_Files.zip
-</SourceCode>
-  <ReferencedAssemblies />
-</H2>

@@ -12,7 +12,6 @@ using O2.API.Visualization.Xaml;
 using O2.DotNetWrappers.ExtensionMethods;
 
 //O2File:Xaml_ExtensionMethods.cs
-//O2File:WPF_Controls_ExtensionMethods.cs
 //O2File:GraphSharp_ExtensionMethods.cs
 //O2File:WpfTextEditor.cs
 //O2Ref:FluentSharp.WPF.dll

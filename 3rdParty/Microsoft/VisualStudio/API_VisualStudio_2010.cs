@@ -16,7 +16,7 @@ using O2.FluentSharp.VisualStudio;
 
 //O2File:O2_VS_AddIn.cs
 //O2File:VisualStudio_Connect.cs
-
+ 
 //O2Ref:EnvDTE.dll
 //O2Ref:EnvDTE80.dll
 //O2Ref:Extensibility.dll 

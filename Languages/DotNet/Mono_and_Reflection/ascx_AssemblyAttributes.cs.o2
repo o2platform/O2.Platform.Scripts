@@ -22,7 +22,7 @@ namespace O2.Script
     	
     	public TreeView tvWizards;
     	private static IO2Log log = PublicDI.log;
-		private static IReflection reflection = new KReflection(); //PublicDI.reflection;
+		private static KReflection reflection = new KReflection(); //PublicDI.reflection;
 
         public static void openAscxInNewWindow()
     	{    		

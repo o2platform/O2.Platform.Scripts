@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>Bridge.CreateJVM(new BridgeSetup(){Verbose=true}); //only needs to be called once
+Bridge.CreateJVM(new BridgeSetup(){Verbose=true}); //only needs to be called once
 
 var topPanel = "PoC - Jni4Net - Classes, Methods, Fields in target".popupWindow(1000,400);
 //var topPanel = panel.add_Panel(true);
@@ -11,9 +9,9 @@ var decompileClasses = false;
 var treeView = topPanel.insert_Left().add_TreeView().sort();
 var codeViewer = topPanel.title("Decompiled Java code of selected class").add_SourceCodeEditor();
 
-actionPanel.add_Link("REPL selectedNode", ()=&gt; treeView.selected().Tag.script_Me())
-		   .append_Link("Copy selectedNode text to clipboard", ()=&gt; treeView.selected().str().clipboardText_Set())
-		   .append_CheckBox("Decompile Classes", (value)=&gt; decompileClasses = value).autoSize().tick();
+actionPanel.add_Link("REPL selectedNode", ()=> treeView.selected().Tag.script_Me())
+		   .append_Link("Copy selectedNode text to clipboard", ()=> treeView.selected().str().clipboardText_Set())
+		   .append_CheckBox("Decompile Classes", (value)=> decompileClasses = value).autoSize().tick();
  
 treeView.java_SetTreeView_To_Show_Jni4Net_Reflection_Data();
 
@@ -21,14 +19,14 @@ var jni4Net_Active = new API_Jni4Net_Active();
 
 var classes = jni4Net_Active.java_From_ClassLoader_get_Loaded_Classes();
 
-Action&lt;string&gt; showClasses = 
-	(filter)=&gt;{										
+Action<string> showClasses = 
+	(filter)=>{										
 					var classesToShow =  (filter.notValid()) 
 											? classes
-											: classes.Where((@class)=&gt;@class.getName().str().regEx(filter));
+											: classes.Where((@class)=>@class.getName().str().regEx(filter));
 					treeView.beginUpdate()
 								.clear()
-								.add_Nodes(classesToShow, (@class)=&gt;@class.getName(), true) 
+								.add_Nodes(classesToShow, (@class)=>@class.getName(), true) 
 	    					.endUpdate();
 	    
 					treeView.nodes().colorNodes(Color.DarkRed);
@@ -38,11 +36,11 @@ Action&lt;string&gt; showClasses =
 treeView.insert_Above(40,"Filter (RegEx applied on text change)")
 			.add_TextBox().fill().onTextChange(showClasses);
 
-Action&lt;Class&gt; showClassSourceCode = 
-	(@class)=&gt;{
+Action<Class> showClassSourceCode = 
+	(@class)=>{
 					codeViewer.enabled(false);
 					O2Thread.mtaThread(
-						()=&gt;{
+						()=>{
 								var jad = new API_Jad();
 								if (decompileClasses)
 								{
@@ -64,12 +62,12 @@ Action&lt;Class&gt; showClassSourceCode =
 							});
 				};
 				
-treeView.afterSelect&lt;Class&gt;( 
-	(@class) =&gt; {	 
+treeView.afterSelect<Class>( 
+	(@class) => {	 
 					showClassSourceCode	(@class);
 				});
-treeView.afterSelect&lt;Field&gt;( 
-	(field)=&gt;{	
+treeView.afterSelect<Field>( 
+	(field)=>{	
 				showClassSourceCode(field.getDeclaringClass());				
 			 });
 showClasses(""); 
@@ -83,9 +81,7 @@ return "done";
 //using net.sf.jni4net.jni
 //using java.lang.reflect
 //using net.sf.jni4net.adaptors
-//O2Ref:Jni4Net/lib/jni4net.n-0.8.7.0.dll
+//O2Ref:Jni4Net/lib/jni4net.n-0.8.6.0.dll
 
 //O2File:API_Jni4Net_Active.cs
-//O2File:API_Jad.cs</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2File:API_Jad.cs

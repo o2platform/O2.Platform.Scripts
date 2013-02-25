@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//var topPanel = O2Gui.open&lt;Panel&gt;("{name}",700,400);
+//var topPanel = O2Gui.open<Panel>("{name}",700,400);
 //var topPanel = panel.clear().add_Panel();
 var topPanel = "PoC - CatNet Scan on Local File (with Findings)".popupWindow(1000,500);
 topPanel.insert_LogViewer();
@@ -14,11 +12,11 @@ var tempDir = "_catNet_reports".tempDir(false);
 
 var reportFile = tempDir.pathCombine("tempScan.xml");
 
-Action&lt;IO2Finding&gt; showFindingGuidance = 
-	(finding)=&gt; {
+Action<IO2Finding> showFindingGuidance = 
+	(finding)=> {
 					var teamMentorUrl = "http://localhost:12110/article/{0}";
-					Action&lt;string&gt; openArticle = 
-						(article)=&gt; browser.open(teamMentorUrl.format(article));
+					Action<string> openArticle = 
+						(article)=> browser.open(teamMentorUrl.format(article));
 						
 					switch(finding.vulnType)
 					{
@@ -37,11 +35,11 @@ Action&lt;IO2Finding&gt; showFindingGuidance =
 			
 
 Action scanCodeInEditor = 
-	()=&gt;{			
+	()=>{			
 			findingsPanel.enabled(false);
 			"in eDocumentDataChanged".info();
 			O2Thread.mtaThread(
-				()=&gt;{
+				()=>{
 						var catNet = new API_CatNet().loadRules();
 						catNet.save_Report_To(reportFile);  
 						var compiledAssembly = editor.compileCSSharpFile();
@@ -61,18 +59,18 @@ Action scanCodeInEditor =
 							}
 						}
 						
-						findingsViewer._onFindingSelected += (finding) =&gt; showFindingGuidance(finding);
+						findingsViewer._onFindingSelected += (finding) => showFindingGuidance(finding);
 						
 					});
 		};
 
 var autoScan = false;
 var codeChanged = false;
-editor.eDocumentDataChanged+= (data)=&gt; codeChanged = true;
+editor.eDocumentDataChanged+= (data)=> codeChanged = true;
 Action autoScanThread = 
-	()=&gt;{
+	()=>{
 			O2Thread.mtaThread(
-				()=&gt;{
+				()=>{
 						while(autoScan)
 						{							
 							if (codeChanged)
@@ -88,14 +86,14 @@ Action autoScanThread =
 		};
 
 actionsPanel.onClosed(
-				()=&gt;{
+				()=>{
 						"In form closed".info();
 						autoScan = false;
 					});
 					
-actionsPanel.add_Link("Compile and Scan", ()=&gt;scanCodeInEditor())
-			.append_CheckBox("AutoScan file", (value)=&gt;{ autoScan = value; autoScanThread(); })
-			.append_Link("Open TeamMentor", ()=&gt; browser.open("http://localhost:12110"));
+actionsPanel.add_Link("Compile and Scan", ()=>scanCodeInEditor())
+			.append_CheckBox("AutoScan file", (value)=>{ autoScan = value; autoScanThread(); })
+			.append_Link("Open TeamMentor", ()=> browser.open("http://localhost:12110"));
 				//.tick()
 				;
 
@@ -111,6 +109,4 @@ autoScanThread();
 //O2Ref:CefSharp\CefSharp-0.11-bin\CefSharp.WinForms.dll
 //O2Ref:CefSharp\CefSharp-0.11-bin\CefSharp.dll
 
-//O2Ref:CatNet_1.1\SourceDir\Microsoft.ACESec.CATNet.Core.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Ref:CatNet_1.1\SourceDir\Microsoft.ACESec.CATNet.Core.dll

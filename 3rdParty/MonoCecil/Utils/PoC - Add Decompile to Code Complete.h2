@@ -1,7 +1,5 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>Action&lt;string&gt; decompileType  = 
-	(typeFullName)=&gt;{	
+Action<string> decompileType  = 
+	(typeFullName)=>{	
 						try
 						{
 							"decompiling :{0}".info(typeFullName);
@@ -20,13 +18,13 @@
 				
 var codeCompletion = script.commandsToExecute.editor().o2CodeCompletion;
 codeCompletion.After_CodeCompletionWindow_IsAvailable =
-	(codeCompletionWindow)=&gt;
+	(codeCompletionWindow)=>
 		{ 
 			var toolScript = codeCompletionWindow.insert_Below(30).splitContainerFixed()
 								.add_ToolStrip();
 											
 			toolScript.add("decompile type","ViewCode".formImage(),
-				()=&gt;{
+				()=>{
 						var lastDecompileData = codeCompletionWindow.lastCodeCompleteData;
 						var member = lastDecompileData.member;
 						var declaryingType = member.DeclaringTypeReference;
@@ -43,6 +41,6 @@ codeCompletion.After_CodeCompletionWindow_IsAvailable =
 //using O2.External.O2Mono.MonoCecil
 //O2Ref:ILSpy/Mono.Cecil.dll
 //O2Ref:ILSpy/ILSpy.exe
-//O2Ref:ILSpy/ICSharpCode.Decompiler.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Ref:ILSpy/ICSharpCode.Decompiler.dll
+
+//O2Tag:SkipGlobalCompilation

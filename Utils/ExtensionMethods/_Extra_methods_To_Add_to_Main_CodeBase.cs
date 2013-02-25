@@ -60,94 +60,20 @@ namespace O2.XRules.Database.APIs
 
 	public static class Extra_Assembly
 	{
-		public static object invoke_FirstMethod(this Assembly assembly)
-		{
-			return assembly.invoke_FirstMethod<object>();
-		}
 		
-		public static T invoke_FirstMethod<T>(this Assembly assembly)
-		{
-			var result = assembly.executeFirstMethod();
-			if (result is T)
-				return (T)result;
-			"in invoke_FirstMethod, returned value was not the expected type ('{0}') it was: '{1}'".error(typeof(T), result.type());
-			return default(T);
-		}
 	}
 	
 	public static class Extra_compile_Collections
 	{
-		public static List<T> remove<T>(this List<T> targetList, List<T> itemsToRemove)
-		{
-			foreach(var item in itemsToRemove)
-				targetList.remove(item);
-			return targetList;
-		}
-	
-		public static List<T> addRange<T>(this List<T> targetList, params T[] items)
-		{
-			return targetList.addRange(items.toList());
-		}
 		
-		public static List<T> addRange<T>(this List<T> targetList, List<T> items)
-		{
-			if (targetList.notNull() && items.notNull())
-				targetList.AddRange(items.ToArray());
-			return targetList;
-		}
-		public static List<T> add<T>(this List<T> targetList, T[] items)
-		{
-			targetList.addRange(items.toList());
-			return targetList;
-		}				
-		public static bool contains(this List<string> targetList, List<string> sourceList)
-		{
-			foreach(string item in sourceList)
-				if (targetList.contains(item).isFalse())
-					return false;
-			return true;
-		}
-		public static List<string> add_If_Not_There(this List<string> targetList, List<string> sourceList)
-		{
-			foreach(string item in sourceList)
-				targetList.add_If_Not_There(item);
-			return targetList;
-		}
-		
-		
-		public static Panel diff_ListWith<T, T1>(this List<T> listA, List<T1> listB)
-		{
-			var topPanel = "List compare".popupWindow();
-			topPanel.add_GroupBox("List A: {0}".format(typeof(T))).add_TreeView().add_Nodes(listA).sort().parent()
-					.insert_Right("List B: {0}".format(typeof(T1))).add_TreeView().add_Nodes(listB).sort();
-			return topPanel;
-		}
 	}
 
 	public static class Extra_compile_Control
 	{
 	
-		public static T font<T>(this T control, Font font) where T : Control
-		{
-			return control.invokeOnThread(()=>{
-												 control.Font = font;
-												 return control;
-											  });			
-		}
+		
 		 
-    	public static T foreColor<T>(this T control, string colorName) where T : Control
-    	{
-    		return control.foreColor(colorName.color());    			
-    	}
     	
-    	public static T textColor<T>(this T control, string colorName) where T : Control
-    	{
-    		return control.foreColor(colorName);
-    	}
-    	public static T color<T>(this T control, string colorName) where T : Control
-    	{
-    		return control.foreColor(colorName);
-    	}
     	
 		//not working (more work is needed to add drag and drop support to Images (and other WinForm controls)
 		/*public static T  onDrag<T, T1>(this T control, Func<T, T1> getDragData) where T : UserControl
@@ -188,63 +114,18 @@ namespace O2.XRules.Database.APIs
 	}
 	public static class Extra_WinForm_Controls_Drawing
 	{
-		public static Color color(this string colorName)
-		{
-			var color = Color.FromName(colorName);
-	    	if (color.IsKnownColor.isFalse())
-	    		"In color, provided colorName was not found: {0}".error(colorName);
-	    	return color;
-		}    	
-		public static Font font(this string fontName)
-		{
-			return fontName.font(8);
-		}
-		public static Font font(this string fontName, int size)
-		{
-			return new Font(fontName, size);
-		}
-		
-		public static Font style_Add(this Font font, FontStyle fontStyle)
-		{
-			var currentStyle = (FontStyle)font.field("fontStyle");
-			var newStyle = currentStyle | fontStyle;
-			font.field("fontStyle", newStyle);
-			return font;
-		}
-		
-		public static Font bold(this Font font)
-		{
-			return font.style_Add(FontStyle.Bold);
-		}
-		public static Font italic(this Font font)
-		{
-			return font.style_Add(FontStyle.Italic);
-		}	
+		    	
+			
 		/*public static Font regular(this Font font)			// this requires a different approach
 		{
 			return font.style_Add(FontStyle.Regular);
 		}*/
-		public static Font strikeout(this Font font)
-		{
-			return font.style_Add(FontStyle.Strikeout);
-		}
-		public static Font underline(this Font font)
-		{
-			return font.style_Add(FontStyle.Underline);
-		}
+
 	}
 	
 	public static class Extra_WinForm_Controls_ImageList
 	{
-		public static ImageList imageList(this TreeView treeView)
-		{
-			return treeView.invokeOnThread(
-				()=>{
-						if (treeView.ImageList.isNull())
-							treeView.ImageList = new ImageList();
-						return treeView.ImageList;
-					});
-		}
+		
 		/* we can't do this because of cross thread error, but I can't see how we can get the thread value from the Image list (even though it is already connected to a Treeview)
 		public static ImageList add(this ImageList imageList, params string[] keys)
 		{
@@ -259,156 +140,41 @@ namespace O2.XRules.Database.APIs
 			return imageList;
 		}*/
 		
-		public static TreeView add_ToImageList(this TreeView treeView, params string[] keys)
-		{
-			foreach(var key in keys)
-				treeView.add_ToImageList(key, key.formImage());
-			return treeView;
-		}
-		public static TreeView add_ToImageList(this TreeView treeView, string key, Image image)
-		{
-			return treeView.invokeOnThread(
-				()=>{
-						if (key.notNull() && image.notNull()) 
-							treeView.imageList().Images.Add(key, image);
-						return treeView;
-					});
-		}
 		
 		
 	}
 	
 	public static class Extra_WinForm_Controls_TreeView
 	{
-		public static TreeView checkBoxes(this TreeView treeView)
-		{
-			return treeView.checkBoxes(true);
-		}
 		
-		public static TreeView imageIndex(this TreeView treeView, int index)
-		{
-			treeView.invokeOnThread(()=> treeView.ImageIndex = index);
-			return treeView;
-		}
+		
+		
 	}
 	
 	public static class Extra_WinForm_Controls_TreeNode
     {
-    	public static TreeNode backColor(this TreeNode treeNode, string colorName)
-    	{
-    		return treeNode.backColor(colorName.color());    			
-    	}
     	
-    	public static TreeNode foreColor(this TreeNode treeNode, string colorName)
-    	{
-    		return treeNode.foreColor(colorName.color());    			
-    	}
     	
-    	public static TreeNode textColor(this TreeNode treeNode, string colorName)
-    	{
-    		return treeNode.foreColor(colorName);
-    	}
-    	public static TreeNode color(this TreeNode treeNode, string colorName)
-    	{
-    		return treeNode.foreColor(colorName);
-    	}
     	
-    	public static TreeNode font(this TreeNode treeNode, Font font)
-    	{
-			treeNode.treeView().invokeOnThread(()=> treeNode.NodeFont = font);
-			return treeNode;
-    	}
-		public static TreeNode @checked(this TreeNode treeNode)
-		{
-			return treeNode.@checked(true);
-		}
-		public static TreeNode @checked(this TreeNode treeNode, bool value)
-    	{
-    		treeNode.treeView().invokeOnThread(()=> treeNode.Checked = value);
-    		return treeNode;
-    	}
+		
     	
-    	public static TreeNode image(this TreeNode treeNode, string key)
-    	{
-    		return treeNode.treeView().invokeOnThread(
-    			()=>{
-    					treeNode.ImageKey = key;
-    					return treeNode;
-    				});
-    	}
-    	public static TreeNode image(this TreeNode treeNode, int index)
-    	{
-    		return treeNode.treeView().invokeOnThread(
-    			()=>{
-    					treeNode.ImageIndex = index; 
-    					treeNode.SelectedImageIndex = index; 
-    					return treeNode;
-    				});
-    	}
+    	
     }
 	
 	public static class Extra_WinForm_Controls_Label
 	{
-		public static Label append_Label(this Control control, string text, int top)
-		{
-			return control.append_Label(text).top(top);
-		}
 		
-		public static Label append_Label(this Control control, string text, int top, ref Label label)
-		{
-			return label = control.append_Label(text).top(top);
-		}
-		
-		public static Label bold(this Label label)
-		{
-			return label.font_bold();
-		}
 	}
 	
 	public static class Extra_ZIp
 	{
-		public static string unzip_FirstFile(this string zipFile)
-		{
-			return zipFile.unzip_FirstFile(false);
-		}
-		public static string unzip_FirstFile(this string zipFile, bool overwrite)
-		{
-			try
-			{
-				if (zipFile.fileExists().isFalse())
-				{
-					"[in unzip_FirstFile] provided zipFile was e was not found {0}".info(zipFile);
-					return null;
-				}
-				var targetDir = "_UnzippedSingleFiles".tempDir(false);	
-				var zpZipFile = new ZipFile(zipFile);
-				var zipEntry = zpZipFile.Entries.first();				
-				var targetFile = targetDir.pathCombine(zipEntry.FileName);
-				if (targetFile.fileExists())
-					if (overwrite.isFalse())
-						return targetFile;
-					else
-						"[in unzip_FirstFile] target file already exists (will be overwriten): {0}".info(targetFile);
-				zipEntry.Extract(targetDir,ExtractExistingFileAction.OverwriteSilently);			
-				if (targetFile.fileExists())
-					return targetFile;
-				"[in unzip_FirstFile] after unzip target file was not found {0}".info(targetFile);
-			}
-			catch(Exception ex)
-			{
-				ex.log("[in unzip_FirstFile");		
-			}
-			return null;
-		}
+		
 	}
 
 	public static class Extra_Misc
 	{		
 	
-		public static string pathCombine_WithTempDir(this string fileOrPath)
-		{
-			return PublicDI.config.O2TempDir.pathCombine(fileOrPath.fileName());
-		}
+		
 		
 		// do this propely when adding to main O2 code base since this will not work as expected when there are other textboxes and buttons on the same 'control' object
 		public static T add_LabelAndTextAndButton<T>(this T control, string labelText, string textBoxText, string buttonText,ref TextBox textBox, ref Button button, Action<string> onButtonClick)            where T : Control
@@ -422,32 +188,13 @@ namespace O2.XRules.Database.APIs
 
 	public static class Extra_compile_Label
 	{
-		public static Label append_Label(this Control control, ref Label label)
-		{
-			return label = control.append_Control<Label>().autoSize();
-		}
+		
 	}
 	public static class Extra_compile_PictureBox
 	{
-		public static PictureBox append_PictureBox(this Control control, ref PictureBox pictureBox)
-		{
-			pictureBox = control.append_Control<PictureBox>();
-			pictureBox.height(control.height());
-			pictureBox.width(control.width());			
-			return pictureBox;
-		}
 		
-		public static Label add_Message(this Control control, string messageToShow)
-		{
-			return control.clear().white().add_Label(messageToShow)
-						  .fill().text_Center().font_bold().size(20);
-			
-			//lastScreenShot = topPanel.handle().window_ScreenShot();
-
-			//topPanel.clear().add_PictureBox(ref pictureBox).white().layout_Zoom()
-			//.show(lastScreenShot);
-
-		}
+		
+		
 		
 	}
 		
@@ -464,15 +211,7 @@ namespace O2.XRules.Database.APIs
 	
 	public static class Extra_Misc_Icons
 	{
-		public static Bitmap asBitmap(this Image image)
-		{
-			return image as Bitmap;				
-		}
 		
-		public static Icon asIcon(this Image image)
-		{
-			return image.asBitmap().asIcon();
-		}
 	}
     
 	public static class Extra_Processes

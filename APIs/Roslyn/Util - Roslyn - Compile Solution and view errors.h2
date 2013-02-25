@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//var topPanel = panel.clear().add_Panel();
+//var topPanel = panel.clear().add_Panel();
 var topPanel = "Util - Roslyn - Compile Solution and view errors".popupWindow(1000,500)
 					.insert_LogViewer();
 var actionsPanel = topPanel.insert_Above(40,"");
@@ -10,17 +8,17 @@ var errorsList = topPanel.insert_Right("Errors").add_TreeView();
 var o2Solutions = sourceCodeFiles.parent().parent().insert_Above(100,"O2 Solutions (try others)").add_TreeView();
 
 var solutionFile = "";
-sourceCodeFiles.afterSelect&lt;IDocument&gt;(
-	(document)=&gt; codeViewer.open(document.FilePath));
+sourceCodeFiles.afterSelect<IDocument>(
+	(document)=> codeViewer.open(document.FilePath));
 
 Action compile = 
-	()=&gt;{	
+	()=>{	
 			O2Thread.mtaThread(
-				()=&gt;{
+				()=>{
 						var o2Timer = new O2Timer("Solution Compilation").start();
-						IWorkspace workspace = Workspace.LoadSolution(solutionFile);									
+						IWorkspace workspace = Workspace.LoadSolution(solutionFile);									
 						"Compling Solution: {0}".info(solutionFile);
-						ISolution solution = workspace.CurrentSolution;
+						ISolution solution = workspace.CurrentSolution;
 						var project = solution.Projects.first();
 						var cancellationToken = new CancellationToken(false);
 						var compilation = project.GetCompilation(cancellationToken);						
@@ -29,11 +27,11 @@ Action compile =
 						"There are {0} errors".info(errors.size());
 						errorsList.clear()
 								  .add_Nodes(errors)
-								  .backColor(errors.size() &gt; 0 ? Color.LightPink : Color.Azure)
+								  .backColor(errors.size() > 0 ? Color.LightPink : Color.Azure)
 								  .selectFirst()
 								  .focus()
-								  .parent&lt;GroupBox&gt;().set_Text("# of Errors: {0} : {1}".format(errors.size(), time));
-						if (errors.size() &gt; 0)
+								  .parent<GroupBox>().set_Text("# of Errors: {0} : {1}".format(errors.size(), time));
+						if (errors.size() > 0)
 						{
 							errors.asString().toClipboard();
 						}
@@ -41,8 +39,8 @@ Action compile =
 					});
 		};
 
-Action&lt;string&gt; loadSolution =
-	(_solutionFile)=&gt;{ 	
+Action<string> loadSolution =
+	(_solutionFile)=>{ 	
 						try
 						{
 							"Loading File: {0}".info(_solutionFile);
@@ -52,12 +50,12 @@ Action&lt;string&gt; loadSolution =
 							sourceCodeFiles.clear();
 							errorsList.clear().add_Node("Compiling solution....");
 							codeViewer.open("");
-							IWorkspace workspace = Workspace.LoadSolution(solutionFile);
+							IWorkspace workspace = Workspace.LoadSolution(solutionFile);
 							var files = (from project in workspace.CurrentSolution.Projects
 										 from document in project.Documents
 										 select document).toList();
-							sourceCodeFiles.add_Nodes(files, (file)=&gt;file.Name);
-							actionsPanel.control&lt;TextBox&gt;(true).set_Text(solutionFile);
+							sourceCodeFiles.add_Nodes(files, (file)=>file.Name);
+							actionsPanel.control<TextBox>(true).set_Text(solutionFile);
 							compile();
 						}
 						catch(Exception ex)
@@ -66,14 +64,14 @@ Action&lt;string&gt; loadSolution =
 						}
 					};
 		
-errorsList.afterSelect&lt;Diagnostic&gt;(  
-	(diagnostic)=&gt;{
+errorsList.afterSelect<Diagnostic>(  
+	(diagnostic)=>{
 					 var lineSpan = diagnostic.Location.GetLineSpan(true);
 					 codeViewer.open(lineSpan.Path);
 					 codeViewer.gotoLine(lineSpan.StartLinePosition.Line + 1);					  
 				  });
 
-actionsPanel.add_Link("Re-compile loaded solution", ()=&gt; compile())
+actionsPanel.add_Link("Re-compile loaded solution", ()=> compile())
 			.append_Label("Current Solution File (you can drop a *.sln file here to load it):").autoSize()
 			.append_TextBox("").align_Right();
 
@@ -81,7 +79,7 @@ actionsPanel.onDrop(loadSolution);
 sourceCodeFiles.onDrop(loadSolution);
 errorsList.onDrop(loadSolution);
 			
-o2Solutions.afterSelect&lt;string&gt;(loadSolution);
+o2Solutions.afterSelect<string>(loadSolution);
 
 var sourceFolder = PublicDI.config.CurrentExecutableDirectory.pathCombine(@"..\..\O2.FluentSharp\O2.FluentSharp.CoreLib");
 			
@@ -96,5 +94,4 @@ o2Solutions.add_Files(PublicDI.config.CurrentExecutableDirectory.pathCombine(@".
 //O2Ref:FluentSharp.Roslyn.dll
 //O2Ref:Roslyn.Services.dll
 //O2Ref:Roslyn.Compilers.dll
-//O2Ref:Roslyn.Compilers.CSharp.dll</SourceCode>
-</H2>
+//O2Ref:Roslyn.Compilers.CSharp.dll

@@ -20,7 +20,6 @@ using O2.Views.ASCX;
 using GraphSharp.Controls;
 using O2.XRules.Database.Utils;
 
-//O2File:WPF_Controls_ExtensionMethods.cs
 //O2File:GraphLayout_O2CodeStream_ExtensionMethods.cs
 //O2File:VerticesAndEdges_ExtensionMethods.cs
 //O2File:Wpf_TextEditor_ExtensionMethods.cs
@@ -190,7 +189,7 @@ namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 							//if (GraphNodes.hasKey(methodIsCalledBy).isFalse())
 								GraphViewer.add_Edge(createGraphNode(methodIsCalledBy), graphNode);
 								
-				graphNode.color("Green");
+				WPF_Controls_ExtensionMethods_Control.color(graphNode, "Green");
 			}
 		}
 		
@@ -207,11 +206,11 @@ namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 				//GraphViewer = this.GraphModeRightPanels[0].add_Graph();					
 				graphNode.set_Content(iMethod.Name);
 				//graphNode.set_Tag(iMethod);				
-				graphNode.color("Black"); 					
+				WPF_Controls_ExtensionMethods_Control.color(graphNode, "Black"); // direct call throws compile error -> graphNode.color("Black");  
 			}
 			else
 			{					
-				graphNode.color("Red"); 
+				WPF_Controls_ExtensionMethods_Control.color(graphNode,"Red"); 
 				graphNode.set_Content(methodSignature);
 			}
 			if (UseStarAsNodeText)

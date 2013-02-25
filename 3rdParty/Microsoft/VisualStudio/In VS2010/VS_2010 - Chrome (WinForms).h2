@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var visualStudio = new API_VisualStudio_2010();
+var visualStudio = new API_VisualStudio_2010();
 var panel = visualStudio.VsAddIn.add_WinForm_Panel("Native Chrome Control (WinForms)",500,400);
 var chrome = panel.add_Chrome().add_NavigationBar();
 chrome.open("http://www.whatismybrowser.com");
@@ -13,6 +11,5 @@ return "done";
 
 //O2Ref:CefSharp\CefSharp-0.11-bin\CefSharp.WinForms.dll
 //O2Ref:CefSharp\CefSharp-0.11-bin\CefSharp.dll
-</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+
+//O2Tag:SkipGlobalCompilation

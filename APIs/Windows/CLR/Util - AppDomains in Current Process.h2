@@ -1,9 +1,7 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//var topPanel = panel.add_Panel(true);
+//var topPanel = panel.add_Panel(true);
 var topPanel = "Util - AppDomains in Current Process".popupWindow(1000,500)
 													 .insert_LogViewer();
-
+ 
 O2AppDomainFactory currentAppDomain = null;
 
 var toolStrip 						= topPanel.insert_ToolStrip();
@@ -16,16 +14,16 @@ var propertyGrid_AppDomain			= topPanel.insert_Below().title("AppDomain Object")
 var propertyGrid_SetupInformation	= propertyGrid_AppDomain.parent().insert_Right().title("AppDomain SetupInformation").add_PropertyGrid(false); 
 
 
-//Func&lt;List&lt;string&gt;&gt; currentAppDomains = ()=&gt; .keys();
+//Func<List<string>> currentAppDomains = ()=> .keys();
 
-Action&lt;O2AppDomainFactory&gt; showAppDomain = 
-	(appDomainFactory)=&gt;{	
+Action<O2AppDomainFactory> showAppDomain = 
+	(appDomainFactory)=>{	
 							try
 							{
 								currentAppDomain = appDomainFactory;															
 								treeView_AppDomainAssemblies.clear();
 								
-								foreach(var assembly in currentAppDomain.appDomain.GetAssemblies())
+								foreach(var assembly in currentAppDomain.AppDomain.GetAssemblies())
 									try
 									{
 										treeView_AppDomainAssemblies.add_Node(assembly);
@@ -34,8 +32,8 @@ Action&lt;O2AppDomainFactory&gt; showAppDomain =
 									{
 										ex.log("[in showAppDomain, while adding assembly: {0}]".format(assembly));
 									}														
-								propertyGrid_SetupInformation.show(appDomainFactory.appDomain.SetupInformation);							
-								propertyGrid_AppDomain		 .show(appDomainFactory.appDomain);
+								propertyGrid_SetupInformation.show(appDomainFactory.AppDomain.SetupInformation);							
+								propertyGrid_AppDomain		 .show(appDomainFactory.AppDomain);
 								treeView_AppDomainAssemblies.white();
 							}
 							catch(Exception ex)
@@ -47,22 +45,22 @@ Action&lt;O2AppDomainFactory&gt; showAppDomain =
 						};
  
 Action showAppDomains  = 
-	()=&gt;{	
-			var liveAppDomains = new List&lt;O2AppDomainFactory&gt;();
+	()=>{	
+			var liveAppDomains = new List<O2AppDomainFactory>();
 			try
 			{
 				var o2ManagedAppDomains = O2AppDomainFactory.AppDomains_ControledByO2Kernel;
 				var processAppDomains = new API_Mscoree().get_AppDomains_in_CurrentProcess();					   			
 	   			
 	   			foreach(var o2ManagedAppDomain in o2ManagedAppDomains.toList())   			
-	   				if (processAppDomains.contains(o2ManagedAppDomain.Value.appDomain))
+	   				if (processAppDomains.contains(o2ManagedAppDomain.Value.AppDomain))
 	   				{
 	   					liveAppDomains.add(o2ManagedAppDomain.Value);
-	   					processAppDomains.remove(o2ManagedAppDomain.Value.appDomain);
+	   					processAppDomains.remove(o2ManagedAppDomain.Value.AppDomain);
 	   				}
 	   				else
 	   					O2AppDomainFactory.AppDomains_ControledByO2Kernel.Remove(o2ManagedAppDomain.Key);   					
-	   			if (processAppDomains.size() &gt; 0)
+	   			if (processAppDomains.size() > 0)
 	   				"There were {0} AppDomains that are not currently controled by the O2AppDomainFactory".error(processAppDomains.size());
    			}
 			catch(Exception ex)
@@ -70,13 +68,13 @@ Action showAppDomains  =
 				ex.log("[in showAppDomains]");
 			}
    			treeView.clear();								 			
- 			treeView.add_Nodes(liveAppDomains, (liveAppDomain)=&gt;liveAppDomain.Name);   			   		
+ 			treeView.add_Nodes(liveAppDomains, (liveAppDomain)=>liveAppDomain.Name);   			   		
 			
 			treeView.selectSecond();
 		};
 		
 Action unLoadAppDomain = 
-	()=&gt;{
+	()=>{
 			var question = (currentAppDomain.isCurrentAppDomain())
 							? "Are you sure you want to unload the AppDomain: {0}" 
 							: "Are you sure you want to unload YOUR CURRENT AppDomain!!!!: {0}";
@@ -91,25 +89,22 @@ Action unLoadAppDomain =
 		};
 
 Action newAppDomain_InO2Folder = 
-	()=&gt;{
+	()=>{
 			new O2AppDomainFactory("O2Folder".add_RandomLetters(5));
 			showAppDomains();
 		};
 
 
-toolStrip.add_Button("REPL AppDomain", "accessories_text_editor".formImage(), ()=&gt;currentAppDomain.appDomain.script_Me())	     
+toolStrip.add_Button("REPL AppDomain", "accessories_text_editor".formImage(), ()=>currentAppDomain.AppDomain.script_Me())	     
 		 .add_Button("Reload AppDomain List", "view_refresh".formImage(), showAppDomains)	     
 	     .add_Button("Create AppDomain (in O2's Folder)", "btExecuteSelectedMethod_Image".formImage(), newAppDomain_InO2Folder)
 	     .add_Button("UnLoad Selected AppDomain", "process_stop".formImage(), unLoadAppDomain);
 
-treeView.afterSelect&lt;O2AppDomainFactory&gt;(showAppDomain);		
-
+treeView.afterSelect<O2AppDomainFactory>(showAppDomain);		
+ 
 showAppDomains();
 return topPanel;
 
 //using O2.Kernel.Objects 
 
-//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
-//O2File:API_Mscoree.cs</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2File:API_Mscoree.cs

@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!-- this XSD file was created from the CTP Dec 08 version of CAT.NET and was generated using the following o2 command:
+
+DevUtils.createXSDFileFromClass C:\Program Files\Microsoft\CAT.NET\Microsoft.ACESec.CATNet.Core.dll,Microsoft.ACESec.CATNet.Core.Report,
+
+-->
+
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="Report" nillable="true" type="Report" />
+  <xs:complexType name="Report">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Analysis" type="AnalysisInformation" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Rules" type="ArrayOfRuleInformation" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AnalysisInformation">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="AnalysisEngineVersion" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="StartTimeStamp" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="StopTimeStamp" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ElapsedTime" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="User" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="DataFlowSuperGraph" type="DataFlowSuperGraphClass" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Targets" type="ArrayOfString" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="DataFlowSuperGraphClass">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="Nodes" type="xs:int" />
+      <xs:element minOccurs="1" maxOccurs="1" name="Edges" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ArrayOfString">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Target" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ArrayOfRuleInformation">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Rule" nillable="true" type="RuleInformation" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="RuleInformation">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Name" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Identifier" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="TotalResults" type="xs:int" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Results" type="ArrayOfResult" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ArrayOfResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Result" nillable="true" type="Result" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Result">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Identifier" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ResulstHash" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="Color" type="xs:int" />
+      <xs:element minOccurs="1" maxOccurs="1" name="Vector" type="DataSourceVector" />
+      <xs:element minOccurs="0" maxOccurs="1" name="EntryPoint" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="EntryVariable" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ConfidenceReason" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ConfidenceLevel" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="Suppressed" type="xs:boolean" />
+      <xs:element minOccurs="1" maxOccurs="1" name="SuppressionType" type="SuppressionType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="SuppressionJustification" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="SuppressionCategory" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Resolution" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ProblemDescription" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Transformations" type="ArrayOfChoice1" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="DataSourceVector">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="CommandLine" />
+      <xs:enumeration value="Network" />
+      <xs:enumeration value="File" />
+      <xs:enumeration value="StreamInput" />
+      <xs:enumeration value="WebRequest" />
+      <xs:enumeration value="Exception" />
+      <xs:enumeration value="Database" />
+      <xs:enumeration value="WebServiceMethod" />
+      <xs:enumeration value="WebServiceReturnValue" />
+      <xs:enumeration value="Unknown" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="SuppressionType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="None" />
+      <xs:enumeration value="MethodLevel" />
+      <xs:enumeration value="DataFlowLevel" />
+      <xs:enumeration value="CodeLevel" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="ArrayOfChoice1">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element minOccurs="1" maxOccurs="1" name="ReturnData" nillable="true" type="ReturnData" />
+      <xs:element minOccurs="1" maxOccurs="1" name="CallResult" nillable="true" type="CallResult" />
+      <xs:element minOccurs="1" maxOccurs="1" name="Taints" nillable="true" type="Taints" />
+      <xs:element minOccurs="1" maxOccurs="1" name="MethodBoundary" nillable="true" type="MethodBoundary" />
+      <xs:element minOccurs="1" maxOccurs="1" name="Index" nillable="true" type="Index" />
+      <xs:element minOccurs="1" maxOccurs="1" name="Origin" nillable="true" type="DataTransOrigin" />
+      <xs:element minOccurs="1" maxOccurs="1" name="PropertyIndirection" nillable="true" type="PropertyIndirection" />
+    </xs:choice>
+  </xs:complexType>
+  <xs:complexType name="ReturnData">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DataTransformation">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="FromMethod" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="ToMethod" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DataTransformation" abstract="true">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="StatementMethod" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Statement" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="StatementType" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="OutputVariable" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="InputVariable" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ActualInputVariable" type="xs:string" />
+    </xs:sequence>
+    <xs:attribute name="line" type="xs:int" use="required" />
+    <xs:attribute name="file" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="SymbolicTransformation" abstract="true">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DataTransformation" />
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DataTransOrigin">
+    <xs:complexContent mixed="false">
+      <xs:extension base="SymbolicTransformation" />
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="LogicalTransformation" abstract="true">
+    <xs:complexContent mixed="false">
+      <xs:extension base="DataTransformation" />
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="PropertyIndirection">
+    <xs:complexContent mixed="false">
+      <xs:extension base="LogicalTransformation" />
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Index">
+    <xs:complexContent mixed="false">
+      <xs:extension base="LogicalTransformation">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="IndexVariable" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MethodBoundary">
+    <xs:complexContent mixed="false">
+      <xs:extension base="LogicalTransformation">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="Method" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Taints">
+    <xs:complexContent mixed="false">
+      <xs:extension base="LogicalTransformation" />
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="CallResult">
+    <xs:complexContent mixed="false">
+      <xs:extension base="LogicalTransformation">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="Method" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Argument" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>

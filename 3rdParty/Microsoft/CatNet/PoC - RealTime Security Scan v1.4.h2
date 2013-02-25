@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//return "EnvDTE.dll".assembly();
+//return "EnvDTE.dll".assembly();
 //var topPanel = panel.clear().add_Panel();
 var topPanel = "TM - RealTime Security Scan v1.4.0".popupWindow(1200,700).insert_LogViewer();
 
@@ -50,41 +48,41 @@ try
 	//add codeViewer to left Panel and colapse the panel that it was under
 	var codeViewer = catNetGui.CodeViewer;	
 	topPanel.insert_Left().add_Control(codeViewer);		
-	catNetGui.HostControl.controls&lt;SplitContainer&gt;(true)[1].panel2Collapsed(true);
+	catNetGui.HostControl.controls<SplitContainer>(true)[1].panel2Collapsed(true);
 				
 	var resultText = codeViewer.insert_Below(100, "Compilation results").add_TextArea();
 	catNetGui.CompileResults = resultText;
 	
 	Action loadRulesMappings = 
-		()=&gt;{
+		()=>{
 					if (rulesMappingFile.fileExists())
 					{
-						catNetMappings = rulesMappingFile.load&lt;CatNet_Rules_Mappings&gt;();
+						catNetMappings = rulesMappingFile.load<CatNet_Rules_Mappings>();
 						"Loaded {0} rules from {1}".info(catNetMappings.size(), rulesMappingFile);
 					}
 				};			
 					
-	Action&lt;string&gt; scanCodeSnippet = 
-		(text)=&gt;{		 
+	Action<string> scanCodeSnippet = 
+		(text)=>{		 
 					if (catNetGui.SolutionLoaded.notValid())
-						O2Thread.mtaThread(()=&gt;catNetGui.handleDrop(text));
+						O2Thread.mtaThread(()=>catNetGui.handleDrop(text));
 					else
 						"Solution is loaded so auto compile is disabled, click on Scan Again to rescan (after save)".info();
 				};  
 					  
 	catNetGui.onSelectedCodeReference = 
-		(path, line)=&gt;	{						 
+		(path, line)=>	{						 
 							"onSelectedCodeReference: {0}: {1}".info(path, line);
 							if (path.valid())
 								codeViewer.open(path); 
-							if (line &gt;0)
+							if (line >0)
 							{ 
 								codeViewer.gotoLine(line);							
 								catNetGui.lvDataFlow.focus();		 
 							}
 						};					
 	catNetGui.onSelectedReportItem = 
-		(vulnType)=&gt;{						
+		(vulnType)=>{						
 						codeViewer.clearBookmarksAndMarkers();
 						foreach(var item in catNetGui.lvDataFlow.items())
 						{
@@ -97,7 +95,7 @@ try
 
 
 	catNetGui.onScanCompleted = 
-	()=&gt;{	
+	()=>{	
 			codeViewer.focus();			
 			//else
 			//		browser.showMessage("No Vulns :)");
@@ -117,8 +115,8 @@ try
 	
 	 
 	
-	Action&lt;string&gt; newFromTemplate = 
-		(file)=&gt;{	
+	Action<string> newFromTemplate = 
+		(file)=>{	
 					catNetGui.SolutionLoaded = "";
 					var csharpFileToScan = file.local().fileContents().saveAs(file.fileName().inTempDir()); 
 					codeViewer.open(csharpFileToScan);
@@ -126,29 +124,29 @@ try
 	
 	topPanel.mainMenu().clear()
 			.add_Menu("File")					
-				.add_MenuItem("Open Assembly or C# file"	, ()=&gt; catNetGui.loadFile(topPanel.askUserForFileToOpen()))
+				.add_MenuItem("Open Assembly or C# file"	, ()=> catNetGui.loadFile(topPanel.askUserForFileToOpen()))
 				
 			.add_Menu("Sample Files") 
-				.add_MenuItem("C# Snippet with some Vulnerabilities"		, ()=&gt; newFromTemplate("SAST DotNet Script - Misc Vulns.cs"))
-				.add_MenuItem("C# Snippet with only XSS"					, ()=&gt; newFromTemplate("SAST DotNet Script - XSS.cs"))
-				.add_MenuItem("C# with some Vulnerabilities"				, ()=&gt; newFromTemplate("Web_SQL_Injection.cs"))
-				.add_MenuItem("C# with an SAST BlindSpot"					, ()=&gt; newFromTemplate("SAST_DotNet_BlindSpot_Interface.cs"))
-				.add_MenuItem("C# with no vulnerabilites"					, ()=&gt; newFromTemplate("SAST_DotNet_Template.cs"))
+				.add_MenuItem("C# Snippet with some Vulnerabilities"		, ()=> newFromTemplate("SAST DotNet Script - Misc Vulns.cs"))
+				.add_MenuItem("C# Snippet with only XSS"					, ()=> newFromTemplate("SAST DotNet Script - XSS.cs"))
+				.add_MenuItem("C# with some Vulnerabilities"				, ()=> newFromTemplate("Web_SQL_Injection.cs"))
+				.add_MenuItem("C# with an SAST BlindSpot"					, ()=> newFromTemplate("SAST_DotNet_BlindSpot_Interface.cs"))
+				.add_MenuItem("C# with no vulnerabilites"					, ()=> newFromTemplate("SAST_DotNet_Template.cs"))
 				.add_Separator()
-				.add_MenuItem("Scan WebGoat.Net dll"						, ()=&gt; catNetGui.loadFile("DotNetGoat.dll".local()))
-				.add_MenuItem("Open Sample report: HacmeBank" 				, () =&gt; catNetGui.openReport("CatNet_HacmeBank.xml".local()))
-				.add_MenuItem("Open Sample report: SuperSecureBank"  		, () =&gt; catNetGui.openReport("CatNet_SuperSecureBank.xml".local()))
+				.add_MenuItem("Scan WebGoat.Net dll"						, ()=> catNetGui.loadFile("DotNetGoat.dll".local()))
+				.add_MenuItem("Open Sample report: HacmeBank" 				, () => catNetGui.openReport("CatNet_HacmeBank.xml".local()))
+				.add_MenuItem("Open Sample report: SuperSecureBank"  		, () => catNetGui.openReport("CatNet_SuperSecureBank.xml".local()))
 			.add_Menu("Rules and Config")
-				.add_MenuItem("Open Current Rules Mappings file"  			, ()=&gt; rulesMappingFile.showInCodeEditor())
-				.add_MenuItem("Reload Rules Mappings"  						, ()=&gt; loadRulesMappings())
+				.add_MenuItem("Open Current Rules Mappings file"  			, ()=> rulesMappingFile.showInCodeEditor())
+				.add_MenuItem("Reload Rules Mappings"  						, ()=> loadRulesMappings())
 				.add_Separator()
-				.add_MenuItem("Set Rules for: TM Embeded"  					, ()=&gt; { rulesMappingFile = rules_TM_Embeded; loadRulesMappings();} )
-				.add_MenuItem("Set Rules for: TM OWASP"  					, ()=&gt; { rulesMappingFile = rules_TM_OWASP ; loadRulesMappings();} )						
-				.add_MenuItem("Open Cat.NET Folder (with Rules and Config)" , ()=&gt; PublicDI.config.O2TempDir.pathCombine(@"..\_ToolsOrAPIs\CatNet_1.1\SourceDir").startProcess())
+				.add_MenuItem("Set Rules for: TM Embeded"  					, ()=> { rulesMappingFile = rules_TM_Embeded; loadRulesMappings();} )
+				.add_MenuItem("Set Rules for: TM OWASP"  					, ()=> { rulesMappingFile = rules_TM_OWASP ; loadRulesMappings();} )						
+				.add_MenuItem("Open Cat.NET Folder (with Rules and Config)" , ()=> PublicDI.config.O2TempDir.pathCombine(@"..\_ToolsOrAPIs\CatNet_1.1\SourceDir").startProcess())
 			.add_Menu("REPL")
-				.add_MenuItem("Open REPL for CatNet GUI",()=&gt; { catNetGui.script_Me("catNetGui").Code+= "\n//O2Ref:Microsoft.ACESec.CATNet.Core\n//O2Ref:Microsoft.ACESec.CATNet.UI.VSAddIn.dll\n//O2Ref:Roslyn.Compilers.dll\n//O2Ref:Roslyn.Compilers.CSharp.dll\n";})
-				.add_MenuItem("Open REPL for Form"		,	()=&gt; topPanel.parentForm().script_Me("form"))			
-				//.add_MenuItem("Open REPL for Browser"	,()=&gt; browser.script_Me("ie"))	
+				.add_MenuItem("Open REPL for CatNet GUI",()=> { catNetGui.script_Me("catNetGui").Code+= "\n//O2Ref:Microsoft.ACESec.CATNet.Core\n//O2Ref:Microsoft.ACESec.CATNet.UI.VSAddIn.dll\n//O2Ref:Roslyn.Compilers.dll\n//O2Ref:Roslyn.Compilers.CSharp.dll\n";})
+				.add_MenuItem("Open REPL for Form"		,	()=> topPanel.parentForm().script_Me("form"))			
+				//.add_MenuItem("Open REPL for Browser"	,()=> browser.script_Me("ie"))	
 			; 
 	 
 	 
@@ -174,5 +172,3 @@ return "ok";
 //O2Ref:FluentSharp.Roslyn.dll
 //O2Ref:Roslyn.Compilers.dll
 //O2Ref:Roslyn.Compilers.CSharp.dll
-</SourceCode>
-</H2>

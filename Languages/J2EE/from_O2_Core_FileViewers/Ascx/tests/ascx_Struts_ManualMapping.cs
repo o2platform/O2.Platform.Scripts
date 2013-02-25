@@ -9,6 +9,10 @@ using System.Text;
 using System.Windows.Forms;
 using O2.Core.FileViewers.JoinTraces;
 using O2.DotNetWrappers.DotNet;
+//O2File:ascx_StrutsMappings.cs
+//O2File:StrutsMappingHelpers.cs
+//O2File:ascx_Struts_ManualMapping.Designer.cs
+//O2File:ascx_Struts_ManualMapping.Controllers.cs
 
 namespace O2.Core.FileViewers.Ascx.tests
 {

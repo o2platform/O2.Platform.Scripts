@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//var topPanel = panel.add_Panel(true);
+//var topPanel = panel.add_Panel(true);
 var topPanel = "PoC - View FluentSharp_BCL Embeded Icons (in type O2.Platform.BCL.O2_Views_ASCX.FormImages)".popupWindow(620,320).add_Panel(true);
 
 var toolStrip = topPanel.title("Icons").add_ToolStrip()
@@ -12,10 +10,10 @@ TextBox filterText = null;
 topPanel.insert_Above(40, "Filter").add_Label("Filter:").top(3).append_TextBox(ref filterText)
 		 			 	 .append_Label("Selected Icon Text (also copied to clipboard on click)").top(3).append_TextBox(ref selectedIconText).align_Right();
 
-var iconsMappings = typeof(FormImages).ctor().propertyValues_MappedBy_Name&lt;Bitmap&gt;(); 
+var iconsMappings = typeof(FormImages).ctor().propertyValues_MappedBy_Name<Bitmap>(); 
 
-Action&lt;bool,ToolStrip, string&gt; show = 
-	(withDescription,target, filter) =&gt;
+Action<bool,ToolStrip, string> show = 
+	(withDescription,target, filter) =>
 		{	
 			lock(target)
 			{
@@ -27,7 +25,7 @@ Action&lt;bool,ToolStrip, string&gt; show =
 					var iconName = iconMapping.Key; 
 					var image= iconMapping.Value;
 					if(filter.notValid() || iconName.lower().contains(filter))
-						target.add_Button((withDescription) ? iconName : "" , image,()=&gt; selectedIconText.set_Text(iconName.clipboardText_Set()))
+						target.add_Button((withDescription) ? iconName : "" , image,()=> selectedIconText.set_Text(iconName.clipboardText_Set()))
 									.ToolTipText = iconName;
 				}
 				target.visible(true);
@@ -36,7 +34,7 @@ Action&lt;bool,ToolStrip, string&gt; show =
 
 show(false,toolStrip,"");
 
-filterText.onTextChange((text)=&gt;
+filterText.onTextChange((text)=>
 	{
 		show(false,toolStrip,text.lower())	;
 	});
@@ -45,6 +43,3 @@ filterText.onTextChange((text)=&gt;
 return "done";
 
 //using O2.Platform.BCL.O2_Views_ASCX
-</SourceCode>
-  <ReferencedAssemblies />
-</H2>

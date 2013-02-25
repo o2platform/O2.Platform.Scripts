@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var panel = O2Gui.open&lt;Panel&gt;("XAML Editor",800,500).insert_LogViewer();;
+var panel = O2Gui.open<Panel>("XAML Editor",800,500).insert_LogViewer();;
 
 panel.clear();
 var codeSamples ="KaxamlSnippets.xml".local(); 
@@ -9,32 +7,32 @@ var controls = panel.add_1x1("Code Sample","Xaml Preview", true, 250);
 var xamlViewer = controls[1].add_XamlViewer();  
 var xmlCodeBox = controls[1].add_GroupBox("Xaml code");
 var xamlCode = xmlCodeBox.add_SourceCodeViewer();
-xamlViewer.parent&lt;GroupBox&gt;().insert_Below(xmlCodeBox,200);
+xamlViewer.parent<GroupBox>().insert_Below(xmlCodeBox,200);
 
-xamlCode.onTextChanged((code) =&gt; this.sleep(500, ()=&gt;  xamlViewer.showXaml(code)));
+xamlCode.onTextChanged((code) => this.sleep(500, ()=>  xamlViewer.showXaml(code)));
 
 var treeView = controls[0].add_TreeView();   	  
-treeView.onDrag&lt;XElement,string&gt;((xElement)=&gt; { "drag started".debug(); return xElement.value();});     
+treeView.onDrag<XElement,string>((xElement)=> { "drag started".debug(); return xElement.value();});     
 
 var xRoot = codeSamples.xRoot();
-xRoot.elements().forEach&lt;XElement&gt;(
-	(xElement) =&gt;{
+xRoot.elements().forEach<XElement>(
+	(xElement) =>{
 					treeView.add_Node(xElement.attribute("Name").value(),xElement,true);					
 				 });
 				 
-treeView.beforeExpand&lt;XElement&gt;(
-	(category) =&gt;{
+treeView.beforeExpand<XElement>(
+	(category) =>{
 					treeView.current().clear();
-					category.elements().forEach&lt;XElement&gt;( 
-						(snippet) =&gt;  treeView.current().add_Node(snippet.attribute("Name").value(),snippet));					
+					category.elements().forEach<XElement>( 
+						(snippet) =>  treeView.current().add_Node(snippet.attribute("Name").value(),snippet));					
 				 }); 
 				 
-treeView.onDoubleClick&lt;XElement&gt;(
-	(xElement) =&gt; {
+treeView.onDoubleClick<XElement>(
+	(xElement) => {
 						xamlViewer.showXaml(xElement.value());
 						xamlCode.set_Text(xElement.value());
 				  });
-/*xamlCode.textEditor().DragDrop+= (sender,e) =&gt; 
+/*xamlCode.textEditor().DragDrop+= (sender,e) => 
 	{ 
 		var droppedValue = O2.DotNetWrappers.DotNet.Dnd.tryToGetObjectFromDroppedObject(e).str();
 		"droppped value:{0}".info(droppedValue);
@@ -45,14 +43,14 @@ treeView.onDoubleClick&lt;XElement&gt;(
 
 treeView.expandAll(true);  
 
-xamlCode.editor().set_Text("&lt;StackPanel  Background=\"#DDFFFF\"&gt;".line() + 
-				  "	  &lt;TextBlock  FontWeight=\"Bold\" FontSize=\"20pt\"  Height=\"30pt\"  			".line() + 
-				  "			      Text=\"Welcome To O2's Xaml Editor (Poc)\"/&gt;	  					".line() + 
-				  "	  &lt;TextBlock  FontWeight=\"Bold\" FontSize=\"15pt\" Height=\"25pt\"  			".line() + 
-				  "	  			  Text=\"Select a code sample from the left\"/&gt;  					".line() + 
-				  "	  &lt;TextBlock  FontSize=\"10pt\" 												".line() + 
-				  "   			  Text= \"(double click to preview , drag &amp;amp; drop to use)\"/&gt;   	".line() + 
-				  "&lt;/StackPanel&gt;");
+xamlCode.editor().set_Text("<StackPanel  Background=\"#DDFFFF\">".line() + 
+				  "	  <TextBlock  FontWeight=\"Bold\" FontSize=\"20pt\"  Height=\"30pt\"  			".line() + 
+				  "			      Text=\"Welcome To O2's Xaml Editor (Poc)\"/>	  					".line() + 
+				  "	  <TextBlock  FontWeight=\"Bold\" FontSize=\"15pt\" Height=\"25pt\"  			".line() + 
+				  "	  			  Text=\"Select a code sample from the left\"/>  					".line() + 
+				  "	  <TextBlock  FontSize=\"10pt\" 												".line() + 
+				  "   			  Text= \"(double click to preview , drag &amp; drop to use)\"/>   	".line() + 
+				  "</StackPanel>");
 				  
 xamlCode.editor().setDocumentHighlightingStrategy(".xml");
 
@@ -61,7 +59,6 @@ return "done";
 //using System.Linq
 //using System.Collections.Generic
 
-//O2File:WPF_Controls_ExtensionMethods.cs
 //O2File:Xaml_ExtensionMethods.cs
 
 //O2Ref:System.Xml.dll
@@ -75,6 +72,4 @@ return "done";
 //O2Ref:GraphSharp.dll
 //O2Ref:QuickGraph.dll
 //O2Ref:GraphSharp.Controls.dll
-//O2Ref:ICSharpCode.AvalonEdit.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Ref:ICSharpCode.AvalonEdit.dll

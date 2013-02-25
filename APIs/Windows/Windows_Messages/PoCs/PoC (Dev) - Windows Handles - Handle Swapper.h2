@@ -1,11 +1,10 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var topPanel = panel.add_Panel(true);
+//var topPanel = panel.add_Panel(true);
+var topPanel = "PoC - Nodepad Handle".popupWindow();
 
-var notepadPanel = topPanel.insert_Right("Notepad goes here"); 
+var notepadPanel = topPanel.insert_Right("Notepad goes here");
  
 var notepad = "Notepad.exe".startProcess().waitFor_MainWindowHandle()
-										 .resizeprocessToControlSize(notepadPanel)
+										 .resizeProcessToControlSize(notepadPanel)
 										 .closeInNSeconds(5);
 
 
@@ -16,8 +15,8 @@ PictureBox	 pictureBox					= null;
 Bitmap		 lastScreenShot				= null; 
 Label		 userMessage				=	null;
 
-Action&lt;IntPtr&gt; onHandleChange =  
-	(handle)=&gt;{
+Action<IntPtr> onHandleChange =  
+	(handle)=>{
 					textBox_TargetHandle.set_Text(handle.str());					
 			  }; 
 	
@@ -31,10 +30,7 @@ topPanel.insert_Above(30).white()
 		.splitContainer().splitterWidth(1);
 
  return "ok";
- 
+  
 //O2File:WindowFinder.cs
 //O2File:API_WinAPI_ExtensionMethods.cs
-
-//O2Embed:target.ico</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Embed:target.ico

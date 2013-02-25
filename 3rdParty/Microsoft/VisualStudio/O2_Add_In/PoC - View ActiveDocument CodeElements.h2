@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var visualStudio = new API_VisualStudio_2010();
+var visualStudio = new API_VisualStudio_2010();
 //var topPanel = panel.clear().add_Panel();
 var topPanel = visualStudio.VsAddIn.add_WinForm_Panel("PoC - View ActiveDocument CodeElements");
 
@@ -15,22 +13,22 @@ var elements = codeModel.CodeElements;
 
 var treeView = topPanel.add_TreeView_with_PropertyGrid(false);
 
-Action&lt;TreeNode, CodeElement&gt; add_CodeElement =
-	(treeNode, element) =&gt; {
+Action<TreeNode, CodeElement> add_CodeElement =
+	(treeNode, element) => {
 									treeNode.add_Node(element.comTypeName(),
 													  element,
-	  				  								  element.Children.size() &gt; 0);
+	  				  								  element.Children.size() > 0);
 							   };
 
-treeView.afterSelect&lt;CodeElement&gt;(
-	(element)=&gt;{									
+treeView.afterSelect<CodeElement>(
+	(element)=>{									
 					textSelection.GotoLine(element.StartPoint.Line);
 					textSelection.SelectLine();
 					var selectedNode = treeView.selected();
 			   });
 			   
-treeView.beforeExpand&lt;CodeElement&gt;(
-	(treeNode,element)=&gt;{
+treeView.beforeExpand<CodeElement>(
+	(treeNode,element)=>{
 							foreach(CodeElement childElement in element.Children)
 								add_CodeElement(treeNode,childElement);
 						});
@@ -49,6 +47,4 @@ return "ok";
 //O2File:API_VisualStudio_2010.cs
 //O2File:O2_VS_AddIn.cs
 //O2Ref:EnvDTE.dll
-//O2Ref:EnvDTE80.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Ref:EnvDTE80.dll

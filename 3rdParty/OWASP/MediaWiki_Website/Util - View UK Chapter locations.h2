@@ -1,17 +1,15 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var width = 1000;
+var width = 1000;
 var height = 9000;
 var center = "Coventry";
 var zoom = 6;
 
-Func&lt;string[],string&gt; getImageUrl = 
-	(locations)=&gt;{
-					return ("http://maps.googleapis.com/maps/api/staticmap?" + //center=-15.800513,-47.91378&amp;zoom=11&amp;size=1000x400&amp;sensor=false";
-			 				"center={0}&amp;" +
+Func<string[],string> getImageUrl = 
+	(locations)=>{
+					return ("http://maps.googleapis.com/maps/api/staticmap?" + //center=-15.800513,-47.91378&zoom=11&size=1000x400&sensor=false";
+			 				"center={0}&" +
 			 				"markers=color:blue|label:O|{1}" +				 		
-			 				"&amp;zoom={2}" + 
-			 				"&amp;size={3}x{4}&amp;sensor=false").format(center, locations.toList().add("").join(",England|"), zoom, width,height);
+			 				"&zoom={2}" + 
+			 				"&size={3}x{4}&sensor=false").format(center, locations.toList().add("").join(",England|"), zoom, width,height);
 			 	 };
 			 	 
 var owaspChapters = new []{ "Birmingham",
@@ -30,10 +28,10 @@ var owaspChapters = new []{ "Birmingham",
 							"Cardiff, South Wales"			
 							};
 var imgUrl = getImageUrl(owaspChapters);
+
+var ie = "View UK Chapters".popupWindow(800,700).add_WebBrowser();
 ie.open(imgUrl);
 
 return imgUrl;
 
-//O2Ref:System.Windows.Forms.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Ref:System.Windows.Forms.dll

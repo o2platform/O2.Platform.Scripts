@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var title = ".Net Static Analysis";  
+var title = ".Net Static Analysis";  
  
 var ribbon = CustomO2.create(title, 1000,300); 		// stand alone version 
 //var ribbon = CustomO2.create(panel.clear().add_Panel(),title); 		// use when inside 'Quick Development GUI'
@@ -16,7 +14,7 @@ staticAnalysis.add_RibbonGroup("Method Invocations")
 			  .add_Script("Util - Method Invocations Viewer (MethodStreams)","Util - Method Invocations Viewer (MethodStreams).h2")			  
 			  .add_Script("Util - Method Invocations (Findings Creator)","Util - Method Invocations (Findings Creator).h2");			  
 			  
-var ast  = ribbon.add_Tab("AST &amp; PoCs");
+var ast  = ribbon.add_Tab("AST & PoCs");
 ast.add_RibbonGroup("Ast Utils") 
    .add_Script("ascx_ViewAST","ascx_ViewAST.cs")
    .add_Script("ascx_SearchAST","ascx_SearchAST.cs")
@@ -43,7 +41,7 @@ mvcAntiXss.add_RibbonGroup("AntiXss Library")
 
 var dotNetUtils  = ribbon.add_Tab(".NET Utils");
 dotNetUtils.add_RibbonGroup("Reflection")
-	       .add_Button("ILSpy", ()=&gt; new ILSpy().start()) 
+	       .add_Button("ILSpy", ()=> new ILSpy_Installer().start()) 
 		   .add_Script("View Assembly Attributes","ascx_AssemblyAttributes.cs.o2")
 		   .add_Script("Mono Decompiler","ascx_MonoDecompiler.cs.o2")		   
 		   .add_Script("View .NET Assembly References Mappings","Tool - View .NET Assembly References Mappings.h2");
@@ -68,7 +66,7 @@ ribbon.add_Tab_MiscTools();
 return ribbon;
 
 //O2File:CustomO2.cs  
-//O2File:ILSpy.cs
+//O2File:ILSpy_Installer.cs
 
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:RibbonControlsLibrary.dll
@@ -76,6 +74,4 @@ return ribbon;
 //O2Ref:System.Xaml.dll
 //O2Ref:WindowsBase.dll
 //O2Ref:PresentationCore.dll
-//O2Ref:PresentationFramework.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Ref:PresentationFramework.dll

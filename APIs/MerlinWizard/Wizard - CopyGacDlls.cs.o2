@@ -76,7 +76,7 @@ namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 			message.AppendLine(String.Format("There are {0} assemblies to copy", getAssembliesToCopy(step).Count));	
 			message.AppendLine(" ");
 			foreach(var gacDll in getAssembliesToCopy(step))
-				message.AppendLine(String.Format("  - {0}   \t\t\t\t ->  {1}", gacDll, gacDll.fullPath));
+				message.AppendLine(String.Format("  - {0}   \t\t\t\t ->  {1}", gacDll, gacDll.FullPath));
 			step.set_Text(message.ToString());
 		}
             
@@ -101,8 +101,8 @@ namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 	        		}	
 	        	foreach(var gacDll in gacDlls)
 	        	{
-	        		step.append_Line(".. copying file: {0}", gacDll.fullPath);
-	        		Files.copy(gacDll.fullPath,targetFolder);
+	        		step.append_Line(".. copying file: {0}", gacDll.FullPath);
+	        		Files.copy(gacDll.FullPath,targetFolder);
 	        	}
 	        	step.append_Line(" ");
 	        	step.append_Line("Copy complete");

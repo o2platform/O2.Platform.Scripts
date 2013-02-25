@@ -17,7 +17,6 @@ using O2.XRules.Database.Utils;
 using WPF = System.Windows.Controls;
 
 //O2File:ElementHost_ExtensionMethods.cs
-//O2File:WPF_WinFormIntegration_ExtensionMethods.cs
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:ICSharpCode.AvalonEdit.dll
 //O2Ref:QuickGraph.dll

@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Tool - Twitter Account Creation",800,500); 
+var topPanel = O2Gui.open<Panel>("Tool - Twitter Account Creation",800,500); 
 var designerCanvas = topPanel.add_DesignerCanvas();      
 
 designerCanvas.add_Label("Twitter Account Creation",00,00).fontSize(30);
@@ -9,11 +7,11 @@ var step1_TextBox = designerCanvas.add_TextBox("",70,250,150,20).designMode(fals
 var step2_Label = designerCanvas.add_Label("step 2) enter the password",99,30);    
 var step2_TextBox = designerCanvas.add_TextBox("",100,250,150,20).designMode(false);  
 var step3_Label = designerCanvas.add_Label("step 3) confirm values",69,450);      
-var dataGridView = designerCanvas.add_WinForms_Control&lt;Panel&gt;(69,580,200,113).add_DataGridView().allowNewRows(false);								
+var dataGridView = designerCanvas.add_WinForms_Control<Panel>(69,580,200,113).add_DataGridView().allowNewRows(false);								
 var step4_Label = designerCanvas.add_Label("step 4) create account",159,450);
 var step4_Button = designerCanvas.add_Button("GO",160,250,150,20).designMode(false);       
 var step5_Label = designerCanvas.add_Label("step 5) Account Creation (say yes on all popups)",190,30);     
-var step5_IE = designerCanvas.add_WinForms_Control&lt;Panel&gt;(230,25,760,200).add_IE();    
+var step5_IE = designerCanvas.add_WinForms_Control<Panel>(230,25,760,200).add_IE();    
 
 designerCanvas.connect(step1_Label, step1_TextBox);
 designerCanvas.connect(step2_Label, step2_TextBox);
@@ -29,7 +27,7 @@ var userName = "";
 var userEmail = "";
 var password = "";
 Action updateValues = 
-	()=&gt;{
+	()=>{
 			var random5Letters = 5.randomLetters();
 			var emailFormat = step1_TextBox.get_Text_Wpf();
 			password = step2_TextBox.get_Text_Wpf();			
@@ -39,7 +37,7 @@ Action updateValues =
 		};
 		
 Action updateDataGridValues =  
-	()=&gt;{
+	()=>{
 			updateValues();
 			dataGridView.remove_Columns();
 			dataGridView.add_Columns("item", "value");									
@@ -50,11 +48,11 @@ Action updateDataGridValues =
 			dataGridView.add_Row("Password",password);			
 		};
 
-step1_TextBox.onKeyPress_Wpf((key)=&gt;updateDataGridValues());
-step2_TextBox.onKeyPress_Wpf((key)=&gt;updateDataGridValues());
+step1_TextBox.onKeyPress_Wpf((key)=>updateDataGridValues());
+step2_TextBox.onKeyPress_Wpf((key)=>updateDataGridValues());
 
 step4_Button.onClick_Wpf(
-	()=&gt;{					
+	()=>{					
 			var ie = step5_IE;
 			// ensure that there isn't an logged in session
 			ie.open("http://www.twitter.com");
@@ -78,7 +76,7 @@ step4_Button.onClick_Wpf(
 			//alert user to check his email			
 			var step6_Label = designerCanvas.add_Label("step 6) Check your email and follow the account validation link",440,25); 
 			designerCanvas.connect(step5_Label, step6_Label,"Left","Left");
-			step6_Label.color("Red");  
+			WPF_Controls_ExtensionMethods_Control.color(step6_Label, "Red");			
 		});
 
 
@@ -99,5 +97,3 @@ step5_IE.open("http://google.com");
 //O2Ref:PresentationFramework.dll
 //O2Ref:WindowsBase.dll
 //O2Ref:System.Xaml.dll
-</SourceCode>
-</H2>

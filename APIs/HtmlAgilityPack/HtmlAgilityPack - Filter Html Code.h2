@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//var topPanel = panel.clear().add_Panel();
+//var topPanel = panel.clear().add_Panel();
 var topPanel = "HtmlAgilityPack - Filter Html Code".popupWindow();
 var htmlCodeViewer = topPanel.add_SourceCodeViewer();
 var xpathQuery = topPanel.insert_Right("XPath query result");
@@ -10,7 +8,7 @@ var query = "//*";
 var htmlContent = urlToGet.uri().getHtml(); 
 htmlCodeViewer.set_Text(htmlContent.trim(), ".html");
 var textBox = xpathQuery.add_HtmlTags_Viewer_with_Filter(htmlContent);  
-var treeView = xpathQuery.control&lt;TreeView&gt;(true);
+var treeView = xpathQuery.control<TreeView>(true);
 treeView.after_TagSelect_showIn_SouceCodeViewer(htmlCodeViewer);
 
 textBox.sendKeys(query.line()); 
@@ -19,6 +17,4 @@ return "ok";
 
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
 //O2File:HtmlAgilityPack_Extra_ExtensionMethods.cs
-</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2File:HtmlAgilityPack_Extra_ExtensionMethods_SourceCodeViewer.cs

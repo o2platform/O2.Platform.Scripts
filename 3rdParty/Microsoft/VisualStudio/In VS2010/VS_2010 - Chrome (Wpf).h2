@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var visualStudio = new API_VisualStudio_2010();
+var visualStudio = new API_VisualStudio_2010();
 var panel = visualStudio.VsAddIn.add_WinForm_Panel("Native Chrome Control (Wpf)",500,400).add_Panel();
 var chrome = panel.add_Chrome_Wpf(true); 
 chrome.open("http://www.whatismybrowser.com")
@@ -22,6 +20,4 @@ return "done";
 //O2Ref:WindowsBase.dll
 //O2Ref:System.Xaml.dll
 
-//O2Tag:SkipGlobalCompilation</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Tag:SkipGlobalCompilation

@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//var topPanel = panel.clear().add_Panel();   
+//var topPanel = panel.clear().add_Panel();   
 var topPanel = "Util - Clojure REPL (Lisp)".popupWindow(550,300);
 topPanel.set_Form_Icon("Clojure-icon.png".local().bitmap().asIcon());
 
@@ -20,19 +18,19 @@ var samplesMenu = topPanel.mainMenu().clear()
 						  .add_Menu("Samples (start learning LISP here)");
 topPanel.mainMenu()
 		.add_Menu("C# REPL")
-			.add_MenuItem("REPL Clojure-clr engine", ()=&gt; "Clojure-cle engine".popupWindow().add_Script().set_Code(sampleClojureClrCode))			
-			.add_MenuItem("REPL this Form", ()=&gt; topPanel.script_Me())
-			.add_MenuItem("REPL Script that created this GUI", ()=&gt;open.scriptEditor("Launch Clojure REPL.h2".local()));
+			.add_MenuItem("REPL Clojure-clr engine", ()=> "Clojure-cle engine".popupWindow().add_Script().set_Code(sampleClojureClrCode))			
+			.add_MenuItem("REPL this Form", ()=> topPanel.script_Me())
+			.add_MenuItem("REPL Script that created this GUI", ()=>open.scriptEditor("Launch Clojure REPL.h2".local()));
 
 topPanel.mainMenu().add_Menu("Resources (WebSites)")
-						.add_MenuItem("clojure.org Home Page"								, ()=&gt; "http://clojure.org".startProcess())					
-						.add_MenuItem("tryclj - Online Clojure REPL (with tutorial)"	 	, ()=&gt; "http://tryclj.com/".startProcess())
-						.add_MenuItem("himera - Online Clojure REPL (with 'at a glance')"	, ()=&gt; "http://himera.herokuapp.com/index.html".startProcess())
-						.add_MenuItem("Clojure-Clr (github)"								, ()=&gt; "https://github.com/clojure/clojure-clr".startProcess());						
+						.add_MenuItem("clojure.org Home Page"								, ()=> "http://clojure.org".startProcess())					
+						.add_MenuItem("tryclj - Online Clojure REPL (with tutorial)"	 	, ()=> "http://tryclj.com/".startProcess())
+						.add_MenuItem("himera - Online Clojure REPL (with 'at a glance')"	, ()=> "http://himera.herokuapp.com/index.html".startProcess())
+						.add_MenuItem("Clojure-Clr (github)"								, ()=> "https://github.com/clojure/clojure-clr".startProcess());						
 
-Action&lt;string, string&gt; add_Example  =
-	(title, code)=&gt;{	
-						samplesMenu.add_MenuItem(title, ()=&gt; codeEditor.set_Text(code));
+Action<string, string> add_Example  =
+	(title, code)=>{	
+						samplesMenu.add_MenuItem(title, ()=> codeEditor.set_Text(code));
 					};
 					
 
@@ -50,7 +48,7 @@ Var.pushThreadBindings(RT.map(new object[]
 //setup REPL GUI
 
 Action execute = 
-	()=&gt;{ 
+	()=>{ 
 			var code = codeEditor.get_Text();
 			
 			try
@@ -71,7 +69,7 @@ Action execute =
 tooStrip.add_Play("Execute", execute)
 		.add_CheckBox("Auto Execute",ref autoCompile); 
 
-codeEditor.onTextChange((text)=&gt; { if (autoCompile.value()) execute();});
+codeEditor.onTextChange((text)=> { if (autoCompile.value()) execute();});
 autoCompile.check();
 
 codeEditor.set_Text("(+ 20 22)");
@@ -93,6 +91,6 @@ add_Example("a map"					, "(map inc [1 2 3 4])");
 //using clojure.lang
 
 //O2Ref:Clojure.Main.exe
-//O2Ref:Clojure.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Ref:Clojure.dll
+
+//O2Tag:SkipGlobalCompilation

@@ -18,7 +18,6 @@ using O2.XRules.Database.Utils;
 using O2.XRules.Database.APIs;
 using O2.Views.ASCX.classes.MainGUI;
 //O2File:API_WPF_ToolKit.cs
-//O2File:WPF_Controls_ExtensionMethods.cs
 //O2File:ElementHost_ExtensionMethods.cs
 //O2File:API_AForge_Video.cs
 //O2Ref:WindowsFormsIntegration.dll

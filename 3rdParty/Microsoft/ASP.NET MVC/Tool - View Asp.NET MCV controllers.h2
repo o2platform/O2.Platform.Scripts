@@ -1,25 +1,23 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var topPanel = panel.add_Panel(true); 
-//var topPanel = O2Gui.open&lt;Panel&gt;("Tool - View Asp.NET MVC Controllers", 800,600);
+//var topPanel = panel.add_Panel(true); 
+var topPanel = O2Gui.open<Panel>("Tool - View Asp.NET MVC Controllers", 800,600);
 var useCachedData = false;
-//var manualMethodStreams = topPanel.add_Control&lt;ascx_ManualMethodStreams&gt;();
+//var manualMethodStreams = topPanel.add_Control<ascx_ManualMethodStreams>();
 var menu = topPanel.insert_MenuStrip();
 var sourceCodeViewer = topPanel.add_SourceCodeViewer();
 var astData = (O2MappedAstData)O2LiveObjects.get("astData");
 
-List&lt;IClass&gt; controllers = null;
+List<IClass> controllers = null;
 
-var treeView = sourceCodeViewer.insert_Left&lt;TreeView&gt;(400) 
+var treeView = sourceCodeViewer.insert_Left<TreeView>(400) 
 							   .showSelection();
 							   
 
-menu.add_Menu("REPL").add_MenuItem("REPL parent Form" 	, ()=&gt; topPanel.parentForm().script_Me())
-					 .add_MenuItem("REPL controllers"	, ()=&gt; controllers.ToArray().script_Me("controllers"))
-					 .add_MenuItem("REPL astData"		, ()=&gt; astData.script_Me("astData"));
+menu.add_Menu("REPL").add_MenuItem("REPL parent Form" 	, ()=> topPanel.parentForm().script_Me())
+					 .add_MenuItem("REPL controllers"	, ()=> controllers.ToArray().script_Me("controllers"))
+					 .add_MenuItem("REPL astData"		, ()=> astData.script_Me("astData"));
 			
-treeView.afterSelect&lt;MethodDeclaration&gt;(
-	   		(methodDeclaration)=&gt;
+treeView.afterSelect<MethodDeclaration>(
+	   		(methodDeclaration)=>
 	   			{
 	   				//sourceCodeViewer.set_Text(methodDeclaration.csharpCode(),".cs")
 	   				var file = astData.file(methodDeclaration);
@@ -34,8 +32,8 @@ treeView.afterSelect&lt;MethodDeclaration&gt;(
 
 
 
-Action&lt;string&gt; loadFilesFromFolder = 
-	(folder) =&gt; {
+Action<string> loadFilesFromFolder = 
+	(folder) => {
 					treeView.backColor(Color.LightPink);
 					//astData = null;
 					if (useCachedData.isFalse() || astData == null)
@@ -47,10 +45,10 @@ Action&lt;string&gt; loadFilesFromFolder =
 						O2LiveObjects.set("astData",astData);
 					}	
 										
-					controllers = new List&lt;IClass&gt;();
+					controllers = new List<IClass>();
 					foreach(var iClass in astData.iClasses())
 					{	
-						if (iClass.BaseTypes.Count  &gt;0)
+						if (iClass.BaseTypes.Count  >0)
 						{	
 							foreach(var baseType in iClass.BaseTypes)		
 							{
@@ -74,7 +72,7 @@ Action&lt;string&gt; loadFilesFromFolder =
 					treeView.clear();						
 					foreach(var controller  in controllers)
 						foreach(var method in controller.Methods) 
-							if (method.IsConstructor.isFalse() &amp;&amp; method.IsPublic) 
+							if (method.IsConstructor.isFalse() && method.IsPublic) 
 							{
 								if (astData.MapAstToNRefactory.IMethodToMethodDeclaration.hasKey(method))
 								{
@@ -88,7 +86,7 @@ Action&lt;string&gt; loadFilesFromFolder =
 
 
 treeView.onDrop(
-		(folder)=&gt;{
+		(folder)=>{
 					useCachedData = false;
 					loadFilesFromFolder(folder);
 				  });
@@ -118,6 +116,4 @@ return astData;
 //O2Ref:GraphSharp.Controls.dll
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
 
-//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs

@@ -49,7 +49,7 @@ namespace O2.XRules.Database.APIs
 		public bool injectIntoProcess(Process process, bool x64, bool runtime40, string sourceCodeFile)
 		{
 		 	//fixedCourceCode.showInCodeViewer();
-		 	var compileEngine = new CompileEngine(runtime40 ? "v4.0" : "v3.5") { UseCachedAssemblyIfAvailable = false };		 	
+		 	var compileEngine = new CompileEngine(runtime40 ? "v4.0" : "v3.5") { useCachedAssemblyIfAvailable = false };		 	
 			//var compiledAssembly = compileEngine.compileSourceCode(fixedCourceCode);			
 			var compiledAssembly = compileEngine.compileSourceFile(sourceCodeFile);			
 			return injectIntoProcess(process,x64, runtime40,compiledAssembly);

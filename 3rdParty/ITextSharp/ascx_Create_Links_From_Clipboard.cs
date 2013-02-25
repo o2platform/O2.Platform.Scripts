@@ -14,7 +14,7 @@ using O2.Views.ASCX.classes.MainGUI;
 using O2.DotNetWrappers.Windows;
 
 //O2Ref:ITextSharp/itextsharp.dll
-
+//Installer:ITextSharp_Installer.cs!ITextSharp/itextsharp.dll
 
 
 namespace O2.XRules.Database.Utils

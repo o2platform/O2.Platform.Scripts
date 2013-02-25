@@ -237,7 +237,7 @@ namespace O2.XRules.Database.APIs
 			if (isInstalled())    		
     			return true;
     		DownloadedInstallerFile = download(Install_Uri);			
-			"LessMsi.cs".local().executeFirstMethod(); // this will install LessMsi
+			"LessMsi_Install.cs".local().executeFirstMethod(); // this will install LessMsi
 			 var assembly = "API_LessMsi.cs".local().compile();
 			 var extractMsi = assembly.type("API_LessMSI").ctor();
 			 return (bool)extractMsi.invoke("extractMsi",DownloadedInstallerFile,Install_Dir); 

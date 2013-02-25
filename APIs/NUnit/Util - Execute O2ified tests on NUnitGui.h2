@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - Execute O2ified tests on NUnit",650,700);
+var topPanel = O2Gui.open<Panel>("Util - Execute O2ified tests on NUnit",650,700);
 //var topPanel = panel.clear().add_Panel();
 topPanel.parentForm().top(0).left(0);
 topPanel.insert_LogViewer(); 
@@ -9,7 +7,7 @@ topPanel.insert_LogViewer();
  
 var codeEditor = topPanel.add_SourceCodeEditor();
 
-var api_NUnit_Gui = "var api_NUnit_Gui".o2Cache&lt;API_NUnit_Gui&gt;(()=&gt; new API_NUnit_Gui(false));
+var api_NUnit_Gui = "var api_NUnit_Gui".o2Cache<API_NUnit_Gui>(()=> new API_NUnit_Gui(false));
 
 /*var form = nUnitGui.form(); 
 form.visible(true)
@@ -17,8 +15,8 @@ form.visible(true)
 	.top(0)
 	.left(topPanel.parentForm().width()+50);
 */ 
-Func&lt;bool&gt; saveCompileAndOpen = 
-	()=&gt;{
+Func<bool> saveCompileAndOpen = 
+	()=>{
 			codeEditor.saveSourceCode();												
 			//there is a number of threading issues and WatiN object loosing refrences with doing this 'in process' (below)
 				//return api_NUnit_Gui.compileAndOpen(codeEditor.sPathToFileLoaded);			
@@ -27,13 +25,13 @@ Func&lt;bool&gt; saveCompileAndOpen =
 		};
 //O2File:API_NUnit.cs		
 Action saveCompileOpenAndRunAllTests = 
-	()=&gt; {
+	()=> {
 			codeEditor.saveSourceCode();
 			new API_NUnit().compileAndRun(codeEditor.sPathToFileLoaded); 
 		};
 		
 Action saveCompileAndRunOnPopup = 
-	()=&gt;{
+	()=>{
 			codeEditor.saveSourceCode();		
 			
 			//var assembly = new CompileEngine().compileSourceFile(codeEditor.sPathToFileLoaded);
@@ -42,29 +40,29 @@ Action saveCompileAndRunOnPopup =
 			codeEditor.sPathToFileLoaded.nUnit_Run_Show_Console_on_PopupWindow();
 		};
 
-Action&lt;string&gt; loadFile = 
-	(fileToLoad)=&gt; codeEditor.open(fileToLoad);
+Action<string> loadFile = 
+	(fileToLoad)=> codeEditor.open(fileToLoad);
 
 Action loadDefaultFile = 
-	()=&gt;{		
+	()=>{		
 			var defaultFile = "DefaultUnitTest.cs".local().fileContents().saveWithExtension(".cs");			
 			loadFile(defaultFile);
 		};
 		
 var actionsPanel = topPanel.insert_Above(40,"Actions");
 
-actionsPanel.add_Link("Run in NUnit Console", ()=&gt;saveCompileAndRunOnPopup())
-			.append_Link("Open in NUnit GUI", ()=&gt; saveCompileAndOpen())
-			//.append_Link("NUnitGui details", ()=&gt; api_NUnit_Gui.form().details())
-			.append_Link("Open Default Test File", ()=&gt; loadDefaultFile());
+actionsPanel.add_Link("Run in NUnit Console", ()=>saveCompileAndRunOnPopup())
+			.append_Link("Open in NUnit GUI", ()=> saveCompileAndOpen())
+			//.append_Link("NUnitGui details", ()=> api_NUnit_Gui.form().details())
+			.append_Link("Open Default Test File", ()=> loadDefaultFile());
 			
-			//.append_Link("API_Nunit_Gui details", ()=&gt; nUnitGui.details());
+			//.append_Link("API_Nunit_Gui details", ()=> nUnitGui.details());
 
-actionsPanel.parent().insert_Right(200).add_Button("RUN in NUnit GUI".line().append("(save, compile, open and run)")).fill().onClick(()=&gt;saveCompileOpenAndRunAllTests());
+actionsPanel.parent().insert_Right(200).add_Button("RUN in NUnit GUI".line().append("(save, compile, open and run)")).fill().onClick(()=>saveCompileOpenAndRunAllTests());
 
 
   
-var items = new Dictionary&lt;string,object&gt;();
+var items = new Dictionary<string,object>();
 items.add("loadFile", loadFile);
 items.add("topPanel", topPanel);
 items.add("api_NUnit_Gui", api_NUnit_Gui);
@@ -77,6 +75,4 @@ return items;
 //O2Ref:nunit-gui-runner.dll
 //O2Ref:nunit.util.dll
 //O2Ref:nunit.core.interfaces.dll
-//O2Ref:nunit.uikit.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Ref:nunit.uikit.dll

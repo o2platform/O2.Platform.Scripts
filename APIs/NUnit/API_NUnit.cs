@@ -42,7 +42,7 @@ namespace O2.XRules.Database.APIs
     		var compiledFile =  csharpFile.compileIntoDll_inFolder(targetDir);
     		var assembly = compiledFile.assembly();
     		"[compileIntoTempFolder]  assembly: {0}".debug(assembly.Location);
-			var referenceAssemblies = assembly.referencedAssemblies(true).names();
+			var referenceAssemblies = assembly.referencedAssemblies(true);
 			targetDir.copyAssembliesToFolder(referenceAssemblies.ToArray()) ;
 			
 			"[compileIntoTempFolder] Created assembly: {0}".debug(assembly.Location);

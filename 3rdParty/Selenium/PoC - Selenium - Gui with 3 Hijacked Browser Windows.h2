@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//var selectQuery = new SelectQuery("Win32_Process");
+//var selectQuery = new SelectQuery("Win32_Process");
 
 IntPtr firefoxHandle = default(IntPtr);
 IntPtr chromeHandle = default(IntPtr);
@@ -9,8 +7,8 @@ Process firefoxProcess = null;
 Process chromeDriverProcess = null;
 Process ieDriverProcess = null;
 
-Func&lt;int, Process&gt; getProcessWithParentHandle = 
-	(processId)=&gt;{						
+Func<int, Process> getProcessWithParentHandle = 
+	(processId)=>{						
 						var selectQuery = "Select ProcessId from Win32_Process Where ParentProcessId = {0}".format(processId);;
 						foreach(var proc in new ManagementObjectSearcher(selectQuery).Get())
 						{	
@@ -23,8 +21,8 @@ Func&lt;int, Process&gt; getProcessWithParentHandle =
 						return null;
 				   };
 						 
-Func&lt;IntPtr, IWebDriver&gt; setup_Firefox =
-	(targetHandle)=&gt; {
+Func<IntPtr, IWebDriver> setup_Firefox =
+	(targetHandle)=> {
 						var selenium = new API_Selenium();
 						selenium.setTarget_Firefox();	
 						firefoxProcess = "firefox".process_WithName();			
@@ -35,8 +33,8 @@ Func&lt;IntPtr, IWebDriver&gt; setup_Firefox =
 					};
 
 
-Func&lt;IntPtr, IWebDriver&gt; setup_Chrome =
-	(targetHandle)=&gt;{
+Func<IntPtr, IWebDriver> setup_Chrome =
+	(targetHandle)=>{
 						var selenium = new API_Selenium();
 						selenium.setTarget_Chrome();
 						chromeDriverProcess = "ChromeDriver".process_WithName();												
@@ -45,8 +43,8 @@ Func&lt;IntPtr, IWebDriver&gt; setup_Chrome =
 						WinAPI.ShowWindow(chromeHandle, WinAPI.ShowWindowCommands.ShowMaximized);													
 						return selenium.WebDriver; 						
 					};
-Func&lt;IntPtr, IWebDriver&gt; setup_IE =
-	(targetHandle)=&gt;{
+Func<IntPtr, IWebDriver> setup_IE =
+	(targetHandle)=>{
 						var selenium = new API_Selenium();
 						selenium.setTarget_IE();
 						ieDriverProcess = "IEDriverServer".process_WithName();												
@@ -64,7 +62,7 @@ Func&lt;IntPtr, IWebDriver&gt; setup_IE =
 var targetPanel = "hijack".popupWindow(1000,600);
 
 targetPanel.onClosed(
-	()=&gt;{			
+	()=>{			
 			firefoxProcess.stop();
 			chromeDriverProcess.stop();
 			ieDriverProcess.stop();
@@ -74,7 +72,7 @@ targetPanel.onClosed(
 		});
 		
 /*targetPanel.insert_ActionPanel()
-		   .add_Link("close",()=&gt;{
+		   .add_Link("close",()=>{
 									fireFoxHandle.setParent(IntPtr.Zero);
 									chromeHandle.setParent(IntPtr.Zero);
 									
@@ -89,7 +87,7 @@ var script 	 	 = targetPanel.insert_Script();
 
 targetPanel.parentForm().alwaysOnTop();
 
-targetPanel.Resize+=(sender,e)=&gt;{	 
+targetPanel.Resize+=(sender,e)=>{	 
 									ieHandle.resizeWindowToControlSize(iePanel,0,0);
 									chromeHandle.resizeWindowToControlSize(chromePanel,0,0);
 									firefoxHandle.resizeWindowToControlSize(fireFoxPanel,0,0);									
@@ -97,8 +95,8 @@ targetPanel.Resize+=(sender,e)=&gt;{
 	
 
 var codeSnippet = 
-@"Action&lt;string&gt; openInAllBrowsers =
-	(url)=&gt; {
+@"Action<string> openInAllBrowsers =
+	(url)=> {
 				chrome.Navigate().GoToUrl(url);
 				firefox.Navigate().GoToUrl(url);
 				ie.Navigate().GoToUrl(url);
@@ -195,6 +193,4 @@ return "done";
 //using OpenQA.Selenium
 //O2File:API_Selenium.cs 
 //O2File:SeleniumWebDrivers_Setup.cs
-//O2Ref:Selenium\net40\WebDriver.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Ref:Selenium\net40\WebDriver.dll

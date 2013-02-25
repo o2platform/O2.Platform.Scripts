@@ -5,6 +5,9 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using Mono.Cecil;
+using O2.Kernel;
+
+//O2File:O2MonoCecil.cs
 
 namespace O2.External.O2Mono.MonoCecil
 {
@@ -12,7 +15,7 @@ namespace O2.External.O2Mono.MonoCecil
     {
         public static MethodInfo getMethodInfoFromMethodDefinition(Type reflectionType, Mono.Cecil.MethodDefinition methodDefinition)
         {
-            return DI.reflection.getMethod(reflectionType, methodDefinition.Name);    
+            return PublicDI.reflection.getMethod(reflectionType, methodDefinition.Name);    
         }
 
         public static MethodDefinition getMethodDefinitionFromMethodInfo(MethodInfo methodInfo, Mono.Cecil.AssemblyDefinition assemblyDefinition)
@@ -27,7 +30,7 @@ namespace O2.External.O2Mono.MonoCecil
                 { 
                 }
             }
-            DI.log.error("in getMethodDefinitionFromMethodInfo, could not map MethodInfo: {0}", methodInfo.ToString());
+            PublicDI.log.error("in getMethodDefinitionFromMethodInfo, could not map MethodInfo: {0}", methodInfo.ToString());
             return null;
         }
     }

@@ -1,11 +1,9 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var baseDir =  @"C:\_WorkDir\TeamMentor\...\appHarbour_Copy\";
+var baseDir =  @"C:\_WorkDir\TeamMentor\...\appHarbour_Copy\";
 var csproj = baseDir.pathCombine("TM_Website.csproj");
 
 var project = Project.Load(csproj);
-IList&lt;Project.ItemGroupLocalType.ContentLocalType&gt; targetNone =null;
-var currentContentFiles = new List&lt;string&gt;();
+IList<Project.ItemGroupLocalType.ContentLocalType> targetNone =null;
+var currentContentFiles = new List<string>();
 foreach(var itemGroup in project.ItemGroup)
 {	
 	var contentFiles = (from none in itemGroup.Content select none).toList();	
@@ -16,7 +14,7 @@ foreach(var itemGroup in project.ItemGroup)
 		var filePath = baseDir.pathCombine(contentFile.Include);
 		if (filePath.fileExists().isFalse())
 		{
-			"file not found: {0} -&gt; {1}" .error(contentFile.Include, filePath);					
+			"file not found: {0} -> {1}" .error(contentFile.Include, filePath);					
 			itemGroup.Content.Remove(contentFile);							
 		}
 		currentContentFiles.Add(filePath);
@@ -47,6 +45,4 @@ project.Save(csproj);
 return "ok";
 //using schemas.microsoft.com.developer.msbuild.Item2003
 //O2File:VisualStudio_2010.xsd.cs
-//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll

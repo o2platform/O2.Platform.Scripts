@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var targetfile = @"E:\O2_V4\O2.FluentSharp\O2.FluentSharp.REPL\Ascx\ascx_Simple_Script_Editor.cs";
+var targetfile = @"E:\O2_V4\O2.FluentSharp\O2.FluentSharp.REPL\Ascx\ascx_Simple_Script_Editor.cs";
 var type = "ascx_Simple_Script_Editor";
 var visualStudio = new VisualStudio_2010();
 
@@ -10,7 +8,7 @@ var hostPanel = visualStudio.open_Panel("for type:" + type);
 hostPanel.toolWindowPane().as_Dock();
 
 Action compileAndShow = 
-	()=&gt;{ 
+	()=>{ 
 			hostPanel.clear();
 			hostPanel.add_Label("Compiling file:\n\n {0}".format(targetfile.fileName()))
 					 .textSize(20).fill(true).text_Center()
@@ -24,12 +22,11 @@ compileAndShow();
 		
 VisualStudio_2010.on_DocumentSaved.clear().add(
 //VisualStudio_2010.on_DocumentSaved.add(
-	(document)=&gt;{
+	(document)=>{
 					var savedFile = document.FullName;
 					"Save detected for file: {0}".info(savedFile);
 					if (targetfile == savedFile)
 						compileAndShow();
 				});
-				</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+
+//O2Tag:SkipGlobalCompilation				

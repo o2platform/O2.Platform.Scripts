@@ -1,9 +1,8 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//_O2Include:Util - Windows Handles Viewer (with Child Windows).h2
+//_O2Include:Util - Windows Handles Viewer (with Child Windows).h2
 //O2Include:Util - Windows Handles Viewer (Simple Gui).h2
+
 var parentForm = (Form)topPanel.parentForm();  
-parentForm.resizeFormToControlSize(panel);//.closeForm_InNSeconds(10).alwaysOnTop();
+parentForm.resizeFormToControlSize(topPanel);//.closeForm_InNSeconds(10).alwaysOnTop();
 /*parentForm.set_Text("Util - Windows Handles Viewer (with Simple Hijack")
 		  .width(1000).height(500);
 */
@@ -12,13 +11,13 @@ topPanel.splitterDistance(35);
  
 
 var toolStrip 	   = selectedWindow.insert_Above_ToolStrip();
-toolStrip.insert_Left(120).add_Label("On Selected Handle --&gt;").top(5);
+toolStrip.insert_Left(120).add_Label("On Selected Handle -->").top(5);
 //selectedWindow.insert_Below(25).add_Label("Parent Handle").top(2).append_TextBox(ref parentValue);
 var screenshot = selectedWindow.insert_Right("ScreenShot").add_PictureBox().layout_Zoom();;
 var hijackPanel = selectedWindow.add_GroupBox("Hijacked Window");
 
 windowFinder.Window_Changed =
-	(handle)=&gt;{
+	(handle)=>{
 					screenshot.show(handle.window_ScreenShot());
 			  };
 
@@ -27,7 +26,7 @@ IntPtr hijackedHandle = IntPtr.Zero;
 IntPtr hijackedHandleParent = IntPtr.Zero; 
 
 Action restoreHijact = 
-	()=&gt;{
+	()=>{
 					if (hijackedHandle != IntPtr.Zero)
 					{
 						"restoring {0} to have parent {1}".info(hijackedHandle, hijackedHandleParent);
@@ -36,8 +35,8 @@ Action restoreHijact =
 			  };			  
 
 
-Action&lt;IntPtr,IntPtr&gt; hijackHandle = 
-	(handle,newParent)=&gt;{
+Action<IntPtr,IntPtr> hijackHandle = 
+	(handle,newParent)=>{
 					//var hostPanel = "Hijacked Window".popupWindow();
 					restoreHijact(); 
 					hijackedHandle = handle;
@@ -46,28 +45,26 @@ Action&lt;IntPtr,IntPtr&gt; hijackHandle =
 					handle.setParent(newParent);
 			  };
 			  
-Action&lt;IntPtr&gt; hijackHandle_Below = 
-	(handle)=&gt;hijackHandle(handle, hijackPanel.handle());
+Action<IntPtr> hijackHandle_Below = 
+	(handle)=>hijackHandle(handle, hijackPanel.handle());
 
-Action&lt;IntPtr&gt; hijackHandle_NewWindow = 
-	(handle)=&gt;{
+Action<IntPtr> hijackHandle_NewWindow = 
+	(handle)=>{
 				var window = "Handle Hijacked Window".popupWindow();
 				hijackHandle(handle, window.handle());
 			  };
 
 toolStrip			
-			.add("Hide"					, ()=&gt; windowFinder.Last_Handle.window_Hide())
-			.add("Show"					, ()=&gt; windowFinder.Last_Handle.window_Show())
-			.add("Hijack below"			, ()=&gt; hijackHandle_Below(windowFinder.Last_Handle))
-			.add("Hijack in new Window"	, ()=&gt; hijackHandle_NewWindow(windowFinder.Last_Handle))
-			.add("Restore Hijack"		, ()=&gt; restoreHijact())
-			.add("Repl Handle"			, ()=&gt; windowFinder.Last_Handle.script_Me("handle"))
-			.add("Open Notepad"			, ()=&gt; "notepad.exe".startProcess());
+			.add("Hide"					, ()=> windowFinder.Last_Handle.window_Hide())
+			.add("Show"					, ()=> windowFinder.Last_Handle.window_Show())
+			.add("Hijack below"			, ()=> hijackHandle_Below(windowFinder.Last_Handle))
+			.add("Hijack in new Window"	, ()=> hijackHandle_NewWindow(windowFinder.Last_Handle))
+			.add("Restore Hijack"		, ()=> restoreHijact())
+			.add("Repl Handle"			, ()=> windowFinder.Last_Handle.script_Me("handle"))
+			.add("Open Notepad"			, ()=> "notepad.exe".startProcess());
 
 
 
 //onHandleChange(handleTree.handle());
  
- //O2File:WindowFinder.cs</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+ //O2File:WindowFinder.cs

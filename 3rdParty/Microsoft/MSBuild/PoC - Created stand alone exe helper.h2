@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>
+
 //var topPanel = panel.clear().add_Panel();
 
 //var topPanel = "{name}".popupWindow(700,400);
@@ -22,14 +20,14 @@ var sourceFile = "Program_UseWith_O2_CreatedExes.cs".local();
 codeEditor.open(sourceFile);
 
 Action createStandAloneExe = 
-	()=&gt;{
+	()=>{
 			
 			folderViewer.open(targetDir);
 			var assembly =  scriptFile.compileScriptFile(true);			
 			var targetFile = assembly.Location.file_Copy(targetDir);
 			"[compiledIntoTempFolder]  assembly: {0}".debug(assembly.Location);
 			 
-			var referenceAssemblies = assembly.referencedAssemblies(true).names();
+			var referenceAssemblies = assembly.referencedAssemblies(true);
 			targetDir.copyAssembliesToFolder(referenceAssemblies.ToArray()) ;
 						
 			 
@@ -37,12 +35,12 @@ Action createStandAloneExe =
 			
 			var pathToAssemblies = targetFile.directoryName();
 			var buildFilesDir = pathToAssemblies.pathCombine("_BuildFiles").createDir();
-			var extraEmbebbedResources = new List&lt;string&gt;();
+			var extraEmbebbedResources = new List<string>();
 			var createdExe = projectName.createProjectFile_and_Build(sourceFile, pathToAssemblies, buildFilesDir, extraEmbebbedResources, topPanel);
 			folderViewer.refresh();
 		};
 
-actionsPanel.add_Link("Create Stand Alone Exe", ()=&gt;createStandAloneExe());
+actionsPanel.add_Link("Create Stand Alone Exe", ()=>createStandAloneExe());
 
 createStandAloneExe();
 return "done";
@@ -50,6 +48,3 @@ return "done";
 //O2File:API_MicrosoftBuild.cs
 
 
-</SourceCode>
-  <ReferencedAssemblies />
-</H2>

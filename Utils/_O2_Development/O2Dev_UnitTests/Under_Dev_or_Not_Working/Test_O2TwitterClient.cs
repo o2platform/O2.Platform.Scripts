@@ -19,7 +19,6 @@ using WindowsInput;
 
 //O2Ref:nunit.framework.dll
 //O2File:API_InputSimulator.cs
-//O2File:WPF_Controls_ExtensionMethods.cs
 
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:PresentationFramework.dll

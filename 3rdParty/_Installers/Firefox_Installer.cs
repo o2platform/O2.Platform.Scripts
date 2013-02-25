@@ -13,12 +13,12 @@ namespace O2.XRules.Database.APIs
 	{
 		public void install()
 		{
-			new Install_Firefox().start();
+			new Firefox_Installer().start();
 		}
 	}
-	public class Install_Firefox : Tool_API
+	public class Firefox_Installer : Tool_API
 	{				 
-		public Install_Firefox()
+		public Firefox_Installer()
 		{
 /*			ToolName = "Firefox";
     		Version = "Firefox 17.0.1"; 

@@ -3,7 +3,7 @@ using System.Text;
 using System.Drawing;
 using System.Diagnostics;
 using System.Windows.Forms;
-using System.Collections.Generic;
+using System.Collections.Generic; 
 using O2.Views.ASCX.ExtensionMethods;
 using O2.DotNetWrappers.DotNet;
 using O2.DotNetWrappers.Windows;
@@ -11,7 +11,7 @@ using O2.DotNetWrappers.ExtensionMethods;
 using O2.External.SharpDevelop.ExtensionMethods;
 using Microsoft.Build.Logging;
 using Microsoft.Build.Evaluation;
-
+using O2.Kernel;
 //O2Ref:Microsoft.Build.Framework.dll
 //O2Ref:Microsoft.Build.dll
 

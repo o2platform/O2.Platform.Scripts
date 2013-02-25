@@ -15,7 +15,7 @@ using O2.XRules.Database.Utils;
 //O2File:Watin_IE_ExtensionMethods.cs
 //O2File:CustomO2.cs  
 //O2File:API_GitHub.cs
-//O2File:MsysGit.cs
+//O2File:Git_Installer.cs
 //O2File:ascx_AskUserForLoginDetails.cs
 //O2File:API_GitHub_Issues.cs
 //O2Ref:WindowsFormsIntegration.dll
@@ -96,7 +96,7 @@ namespace O2.XRules.Database.APIs
     	{			
     		var gitHubSetup = Ribbon.add_Tab("GitHub Setup");
 			gitHubSetup.add_Group("Putty")
-					   .add_Button("Install MsysGit", ()=> new MsysGit())
+					   .add_Button("Install Git", ()=> new Git_Installer())
 					   .add_Button("Install TortoiseGit", ()=>GitHub.install_TortoiseGit())
 					   .add_Button("Run PuttyGen", ()=> GitHub.putty_generateKeys());
 			gitHubSetup.add_Group("TortoiseSVN")

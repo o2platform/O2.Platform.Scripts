@@ -7,6 +7,8 @@ using OpenQA.Selenium;
 
 //O2Ref:Selenium\net40\WebDriver.dll
 
+//O2File:API_Selenium.cs
+
 namespace O2.XRules.Database.APIs
 {
     public class SeleniumWebDrivers_Setup
