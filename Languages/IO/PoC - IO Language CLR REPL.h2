@@ -1,0 +1,32 @@
+var topPanel = "PoC - IO Language CLR REPL".popupWindow(800,400).insert_LogViewer();  
+//var topPanel = panel.clear().add_Panel();   
+
+var replGui = topPanel.add_REPL_Gui();   
+var codeText = replGui.Code_Panel.add_TextArea().allowTabs(); 
+
+var state = new IoState();
+
+var bootStrapDir = PublicDI.config.ToolsOrApis.pathCombine(@"IOLanguage\ioclr\io\bootstrap");
+var ioFiles= bootStrapDir.files();
+foreach(var ioFile in ioFiles)
+	state.loadFile(ioFile.info()); 
+ 
+Action execute = 
+	()=>{ 			
+			var code = codeText.get_Text();
+			var result = state.onDoCStringWithLabel(state.lobby, code, "prompt:");
+			result.details();
+			replGui.showOutput(result); 			
+		}; 
+		
+replGui.On_ExecuteCode = execute;  
+
+codeText.set_Text("a = 12");
+//codeText.multiLine(false);
+replGui.Execute_Button.click();
+
+
+return "done";
+//using io
+//O2Ref:\IOLanguage\ioclr\bin\IoCLI.exe
+//O2Ref:\IOLanguage\ioclr\bin\IoVM.dll

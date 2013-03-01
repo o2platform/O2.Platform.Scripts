@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//Package - Roslyn Cat.Net- Compile and Scan Solution.h2
+//Package - Roslyn Cat.Net- Compile and Scan Solution.h2
  
 //var topPanel = "{name}".popupWindow(700,400);
 var scriptFile = "Util - Roslyn Cat.Net- Compile and Scan Solution.h2"; 
@@ -9,8 +7,8 @@ var pathToAssemblies = "";
 var projectFile = "";
 var compiledScript = ""; 
 
-Action&lt;List&lt;string&gt;&gt; beforeAddingReferences =  
-	(referencesToAdd)=&gt; {   
+Action<List<string>> beforeAddingReferences =  
+	(referencesToAdd)=> {   
 							foreach(var file in referencesToAdd.toList())
 								if(file.fileName_Is("O2_External_SharpDevelop.dll","Ionic.Zip.dll", "Mono.Cecil.dll","QuickGraph.dll",
 													"Microsoft.ACESec.CATNet.Core.dll","WeifenLuo.WinFormsUI.Docking.dll"
@@ -24,8 +22,8 @@ Action&lt;List&lt;string&gt;&gt; beforeAddingReferences =
 							referencesToAdd.add("Roslyn.Services.CSharp.dll".assembly_Location());
 							"[in beforeAddingReferences] assembly references: {0}".debug(referencesToAdd.asString());
 					 	};
-Action&lt;List&lt;string&gt;&gt; beforeEmbedingFiles = 
-	(filesToEmbed)=&gt;{ 						
+Action<List<string>> beforeEmbedingFiles = 
+	(filesToEmbed)=>{ 						
 						"[in beforeEmbedingFiles] assembly references: {0}".debug(filesToEmbed.asString());								
 					};					
 
@@ -41,6 +39,4 @@ createdExe.file_Copy(testFolder);
 testFolder.startProcess(); 
 
 //O2File:API_MicrosoftBuild.cs
-//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs

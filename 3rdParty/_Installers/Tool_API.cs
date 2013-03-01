@@ -123,9 +123,9 @@ namespace O2.XRules.Database.APIs
     	
     	public virtual bool isInstalled(bool showLogMessage)
     	{    	
-    		if (Install_Dir.dirExists() || Executable.fileExists())
+    		if (Install_Dir.dirExists() && Executable.fileExists()) // we need both or some install sequences will fail
     		{    		    			
-    				"{0} tool is installed because installation or main executable dir was found: {1} : {2}".debug(ToolName, Install_Dir, Executable);
+    				"{0} tool is installed because installation and main executable dir was found: {1} : {2}".debug(ToolName, Install_Dir, Executable);
     				return true;    			
     		}
     		if (showLogMessage)
@@ -189,7 +189,7 @@ namespace O2.XRules.Database.APIs
     			(zipFile)=>{    							
     							if (zipFile.fileExists())  
     							{
-    								if (zipFile.extension(".7z"))
+    								if (zipFile.extension(".7z") || zipFile.extension(".rar"))
     									new _7_Zip().unzip(zipFile,Install_Dir);
     								else
     									new zipUtils().unzipFile(zipFile,Install_Dir);                               

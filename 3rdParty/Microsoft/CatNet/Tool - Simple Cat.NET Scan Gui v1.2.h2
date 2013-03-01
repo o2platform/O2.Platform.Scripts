@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>try
+try
 {
 
 O2Setup.extractEmbededConfigZips();
@@ -12,11 +10,11 @@ var codeViewer = topPanel.insert_Below("Scan results").add_SourceCodeViewer();
 
 API_CatNet_Deployment.ensure_CatNet_Instalation();
 
-Action&lt;string&gt; scanFile = 
-	(target)=&gt;{
+Action<string> scanFile = 
+	(target)=>{
 				if (target.extension(".cs"))
 					target = target.compileScriptFile(true).location();					
-				if (target.valid() &amp;&amp; target.fileExists())
+				if (target.valid() && target.fileExists())
 				{
 					"Scanning with Cat.NET: {0}".debug(target);
 					var catNet = new API_CatNet().loadRules();
@@ -29,20 +27,20 @@ Action&lt;string&gt; scanFile =
 		
 
 Action askUserForAssemblyToScan = 
-	()=&gt;{
+	()=>{
 			scanFile(topPanel.askUserForFileToOpen());						
 		};
 Action scanTestFile = 
-	()=&gt; scanFile("Web_SQL_Injection.cs".local());		
+	()=> scanFile("Web_SQL_Injection.cs".local());		
 logViewer.onDrop(scanFile);		
 
 topPanel.mainMenu().clear()
 		.add_Menu("File")
 			.add_MenuItem("Open Assembly to Scan", askUserForAssemblyToScan)
 		.add_Menu("Debug")
-			.add_MenuItem("Scan Test File "		, ()=&gt;scanTestFile())
-			.add_MenuItem("Scan HacmeBank .NET"	, ()=&gt;scanFile("DotNetGoat.dll".local()))
-			.add_MenuItem("Open REPL Script"	, ()=&gt;topPanel.parentForm().script_Me());
+			.add_MenuItem("Scan Test File "		, ()=>scanTestFile())
+			.add_MenuItem("Scan HacmeBank .NET"	, ()=>scanFile("DotNetGoat.dll".local()))
+			.add_MenuItem("Open REPL Script"	, ()=>topPanel.parentForm().script_Me());
 
 scanTestFile();
 }
@@ -55,6 +53,4 @@ catch(Exception ex)
 //O2Package:Web_SQL_Injection.cs
 //O2Package:DotNetGoat.dll
 //O2Package:cheshire_cat.ico
-//O2Embed:E:\TeamMentor\TM_UnitTests\StandAlone_Exes_Packages\CatNet_Files.zip</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Embed:E:\TeamMentor\TM_UnitTests\StandAlone_Exes_Packages\CatNet_Files.zip

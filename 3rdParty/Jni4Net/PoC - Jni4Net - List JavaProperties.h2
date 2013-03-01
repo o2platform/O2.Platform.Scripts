@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//Environment.setEnvironmentVariable("JAVA_HOME", @"C:\Program Files\Java\jre7");
+//Environment.setEnvironmentVariable("JAVA_HOME", @"C:\Program Files\Java\jre7");
 O2Setup.extractEmbededConfigZips();
 var topPanel = "PoC - Jni4Net - List JavaProperties: {0}".format(clr.details()).popupWindow().insert_LogViewer();
 var tableList = topPanel.clear().add_TableList("Java Properties").add_Columns("Key", "Value");
@@ -33,6 +31,3 @@ return "ok";
 //_O2Ref:E:\_Code_Tests\Jni4Net\jni4net-read-only\target\jni4net-0.8.7.0-bin\lib\jni4net.n-0.8.7.0.dll
 //O2File:API_ConsoleOut.cs
 //O2EmbedTool:Jni4Net
-</SourceCode>
-  <ReferencedAssemblies />
-</H2>

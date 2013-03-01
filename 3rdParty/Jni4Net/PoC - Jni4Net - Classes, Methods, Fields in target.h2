@@ -2,7 +2,7 @@ Bridge.CreateJVM(new BridgeSetup(){Verbose=true}); //only needs to be called onc
 
 var topPanel = "PoC - Jni4Net - Classes, Methods, Fields in target".popupWindow(1000,400);
 //var topPanel = panel.add_Panel(true);
- 
+  
 var actionPanel = topPanel.insert_ActionPanel();
 var decompileClasses = false;
 //var treeView = topPanel.insert_Left().add_TreeView_with_PropertyGrid().sort();
@@ -15,9 +15,9 @@ actionPanel.add_Link("REPL selectedNode", ()=> treeView.selected().Tag.script_Me
  
 treeView.java_SetTreeView_To_Show_Jni4Net_Reflection_Data();
 
-var jni4Net_Active = new API_Jni4Net_Active();
+var jni4Net = new API_Jni4Net();
 
-var classes = jni4Net_Active.java_From_ClassLoader_get_Loaded_Classes();
+var classes = jni4Net.java_From_ClassLoader_get_Loaded_Classes();
 
 Action<string> showClasses = 
 	(filter)=>{										
@@ -83,5 +83,5 @@ return "done";
 //using net.sf.jni4net.adaptors
 //O2Ref:Jni4Net/lib/jni4net.n-0.8.6.0.dll
 
-//O2File:API_Jni4Net_Active.cs
+//O2File:API_Jni4Net.cs
 //O2File:API_Jad.cs

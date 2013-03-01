@@ -1,0 +1,23 @@
+//var topPanel = "{name}".popupWindow(700,400);
+var state = new IoState();
+
+var bootStrapDir = PublicDI.config.ToolsOrApis.pathCombine(@"IOLanguage\ioclr\io\bootstrap");
+var ioFiles= bootStrapDir.files();
+foreach(var ioFile in ioFiles)
+	state.loadFile(ioFile.info());
+
+var code = "a := 2";
+var result = state.onDoCStringWithLabel(state.lobby, code, "prompt:");
+
+code = "a+1 print";
+
+result = state.onDoCStringWithLabel(state.lobby, code, "prompt:");
+return result.str();	
+//return state.details();;	
+
+
+
+//using io
+//O2Ref:\IOLanguage\ioclr\bin\IoCLI.exe
+//O2Ref:\IOLanguage\ioclr\bin\IoVM.dll
+//O2Installer:IOLanguage_CLR_Installer.cs!IOLanguage\ioclr\bin\IoCLI.exe

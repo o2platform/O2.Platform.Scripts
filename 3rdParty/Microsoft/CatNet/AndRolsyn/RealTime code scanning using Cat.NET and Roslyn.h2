@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode> //var topPanel = panel.clear().add_Panel();
+ //var topPanel = panel.clear().add_Panel();
 var topPanel = "PoC - RealTime code scanning using Cat.NET and Roslyn".popupWindow(1000,500).insert_LogViewer();
 
 API_CatNet_Deployment.ensure_CatNet_Instalation();
@@ -11,7 +9,7 @@ var resultText = codeEditor.insert_Right("Errors and CatNet report file").add_Te
 var findingsViewer = resultText.parent().parent().insert_Above("CatNet Vulnerabilities").add_FindingsViewer(false);		 					    
 
 codeEditor.onTextChange(
-	(text)=&gt;{ 
+	(text)=>{ 
 				var compilation = text.tree()
 				   					  .compiler("test_Assembly_".add_RandomLetters())
 				   					  .add_Reference("mscorlib")
@@ -28,7 +26,7 @@ codeEditor.onTextChange(
 				{							 			
 					resultText.set_Text("");	 
 					O2Thread.mtaThread(
-						()=&gt;{								 								
+						()=>{								 								
 								var reportFile = "_catNet_reports__".tempDir(false)
 															      .pathCombine("report.xml");
 									       
@@ -89,5 +87,3 @@ codeEditor.set_Text(code, ".cs");
 //O2Ref:Roslyn.Compilers.CSharp.dll
 
 //O2Tag_DontAddExtraO2Files
-</SourceCode>
-</H2>
