@@ -42,8 +42,7 @@ namespace O2.XRules.Database.APIs
 		{	
 			jni4Net.bridgeSetup = _bridgeSetup;
 			try
-			{				
-				
+			{								
 				Bridge.CreateJVM(jni4Net.bridgeSetup);
 				jni4Net.jniEnv = JNIEnv.ThreadEnv;
 				return jni4Net;
