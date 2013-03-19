@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>O2ConfigSettings.O2Version = "Closure_v2.0"; 
+O2ConfigSettings.O2Version = "Closure_v2.0"; 
 O2Setup.extractEmbededConfigZips();
 
   
@@ -10,6 +8,4 @@ new API_Clojure().openO2ReplInClojureFolder();
 //O2File:API_Clojure.cs
 
 //O2EmbedTool:Clojure
-//O2Package:Clojure-icon.png,Launch Clojure REPL.h2,API_Clojure.cs</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Package:Clojure-icon.png,Launch Clojure REPL.h2,API_Clojure.cs

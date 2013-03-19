@@ -1,5 +1,1 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>open.scriptEditor();</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+open.scriptEditor();

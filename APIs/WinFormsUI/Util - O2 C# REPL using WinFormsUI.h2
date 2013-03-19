@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var winFormsUI = "O2 REPL Editor using winFormUI".winFormsUI(800,600);
+var winFormsUI = "O2 REPL Editor using winFormUI".winFormsUI(800,600);
 
 var _panel = winFormsUI.dock_Top("Scriptable Panel");
 var script = winFormsUI.add_DockContent("The Script").add_Script();
@@ -9,7 +7,7 @@ winFormsUI.dock_Bottom("Log Viewer").add_LogViewer();
 
 winFormsUI.mainMenu()
 		  .add_Menu("File")
-		  .add_MenuItem("Open",()=&gt; script.commandsToExecute.open(winFormsUI.askUserForFileToOpen()));
+		  .add_MenuItem("Open",()=> script.commandsToExecute.open(winFormsUI.askUserForFileToOpen()));
 
 
 winFormsUI.set_Icon("scripts.ico");
@@ -21,5 +19,4 @@ script.Code =
      .set_Text(""hello"");";
 
 //O2Embed:scripts.ico
-//O2Ref:WeifenLuo.WinFormsUI.Docking.dll</SourceCode>
-</H2>
+//O2Ref:WeifenLuo.WinFormsUI.Docking.dll

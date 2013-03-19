@@ -1,19 +1,17 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//panel.clear();
+//panel.clear();
 //var topPanel = panel.clear().add_Panel();
-var topPanel = O2Gui.open&lt;Panel&gt;("Attendees Funding Mappings",1000,500);
+var topPanel = O2Gui.open<Panel>("Attendees Funding Mappings",1000,500);
 
 var summitApi = new API_OWASP_Summit_2011();
 var useCache = true;
 
-var actionPanel = topPanel.insert_Above&lt;GroupBox&gt;(50)
+var actionPanel = topPanel.insert_Above<GroupBox>(50)
 						  .set_Text("Actions (Select type of Attendee to see)")
 						  .add_Panel() ;
 var tablePanel = topPanel.add_TableList();//.show(attendees);
 
-Action&lt;string, List&lt;string&gt;&gt; showAttendees = 
-	(title, pages)=&gt;{
+Action<string, List<string>> showAttendees = 
+	(title, pages)=>{
 					var attendees = summitApi.getAttendees(pages);
 					tablePanel.clearTable();
 					tablePanel.title(title);
@@ -21,16 +19,16 @@ Action&lt;string, List&lt;string&gt;&gt; showAttendees =
 				 };
 
 actionPanel.add_Link("Confirmed, Need Funding",5,0,
-				()=&gt; showAttendees("Confirmed, Need Funding", summitApi.attendees_SeekingFunds(useCache)))
+				()=> showAttendees("Confirmed, Need Funding", summitApi.attendees_SeekingFunds(useCache)))
 		   .append_Link("Confirmed", 
-				()=&gt; showAttendees("Confirmed", summitApi.attendees_Confirmed(useCache)))
+				()=> showAttendees("Confirmed", summitApi.attendees_Confirmed(useCache)))
 		   .append_Link("UnConfirmed",  
-				()=&gt; showAttendees("UnConfirmed",summitApi.attendees_UnConfirmed(useCache)))
+				()=> showAttendees("UnConfirmed",summitApi.attendees_UnConfirmed(useCache)))
 		   .append_Link("All Attendees", 
-				()=&gt; showAttendees("All Attendees", summitApi.attendees(useCache)));
+				()=> showAttendees("All Attendees", summitApi.attendees(useCache)));
 
 
-actionPanel.controls&lt;LinkLabel&gt;().click();  
+actionPanel.controls<LinkLabel>().click();  
 
 return "ok";
 //return summitApi.getAttendeesMappings();
@@ -79,6 +77,3 @@ foreach(var testPage in attendeesPages)
 }*/
 //using Irony.Parsing; 
 //O2File:API_OWASP_Summit_2011.cs  
-//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>

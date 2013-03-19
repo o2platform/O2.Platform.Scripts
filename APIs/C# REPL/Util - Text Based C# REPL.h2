@@ -1,11 +1,11 @@
-var topPanel = "Util - Text Based C# REPL".popupWindow(800,400).insert_LogViewer();  
+var topPanel = "Util - Text Based C# REPL".popupWindow(800,400)						
+						.insert_LogViewer();  
 //var topPanel = panel.clear().add_Panel();   
 
 var replGui = topPanel.add_REPL_Gui();   
  
 var codeText = replGui.Code_Panel.add_TextArea().allowTabs(); 
- 
- 
+  
 Action execute = 
 	()=>{ 
 			var compilationOk = false;   
@@ -24,5 +24,6 @@ codeText.set_Text("return \"Hello World\";");
 
 replGui.Execute_Button.click();
 
-
 return "done";
+
+//O2Package:scripts.ico

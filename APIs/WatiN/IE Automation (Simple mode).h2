@@ -1,21 +1,19 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("IE Script Execution", 955,542);
+O2Setup.extractEmbededConfigZips();
+var topPanel = O2Gui.open<Panel>("IE Script Execution", 955,542);
 									
 						//.top(2).left(0);
 						
 var helpPanel = topPanel.insert_Above(20);
 helpPanel.add_Label("Need Help?", 3,3) 
-		 .append_Link("Learn how to use this tool",()=&gt;"http://o2platform.wordpress.com/2011/07/13/writing-an-o2-ie-automation-script-for-jpetstore-account-creation/".startProcess())
-		 .append_Link("Read Code Samples (o2 blog)",()=&gt; "http://o2platform.wordpress.com/category/ie-automation/".startProcess())
-		 .append_Link("Ask a question (o2 mailing list)",()=&gt; "https://lists.owasp.org/mailman/listinfo/owasp-o2-platform".startProcess());
+		 .append_Link("Learn how to use this tool",()=>"http://o2platform.wordpress.com/2011/07/13/writing-an-o2-ie-automation-script-for-jpetstore-account-creation/".startProcess())
+		 .append_Link("Read Code Samples (o2 blog)",()=> "http://o2platform.wordpress.com/category/ie-automation/".startProcess())
+		 .append_Link("Ask a question (o2 mailing list)",()=> "https://lists.owasp.org/mailman/listinfo/owasp-o2-platform".startProcess());
 topPanel.insert_Below(80).add_LogViewer();
  
-topPanel.add_Control&lt;ascx_IE_ScriptExecution&gt;().buildGui();
+topPanel.add_Control<ascx_IE_ScriptExecution>().buildGui();
 
 //O2File:WatiN_IE_ExtensionMethods.cs
 //O2File:ascx_IE_ScriptExecution.cs
 //O2Ref:WatiN.Core.1x.dll
-//O2Tag_DontAddExtraO2Files</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Tag_DontAddExtraO2Files
+//O2Package:WatiN_IE_ExtensionMethods.cs,WatiN_IE.cs,DotNet_Viewstate.cs

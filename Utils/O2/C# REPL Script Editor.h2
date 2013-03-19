@@ -1,9 +1,5 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>"C# REPL Script Editor".popupWindow(600,200)
+"C# REPL Script Editor".popupWindow(600,200)
 					   .add_Script()
 					   .set_Code("return \"Hello O2 World\";");
 
-//O2Embed:scripts.ico</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Embed:scripts.ico

@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//var topPanel = panel.clear().add_Panel(); 
+//var topPanel = panel.clear().add_Panel(); 
 var topPanel = "Util - FVDL viewer (drop *.fvdl on the left-hand-side PropertyGrid)".popupWindow(1000,500);
 topPanel.insert_LogViewer(); 
 //var actionsPanel = topPanel.insert_Above(40,"actions");   
@@ -23,14 +21,14 @@ var propertyGrid = topPanel.insert_Left().add_PropertyGrid();
 Fortify_Scan fortifyScan = null;
 var apiFortify = new API_Fortify();
 
-Action&lt;string&gt; showUserMessage =
-	(message)=&gt; {
+Action<string> showUserMessage =
+	(message)=> {
 //					userMessages_Label.set_Text(message);  					
 					message.info();
 				}; 
 				
-Action&lt;Fortify_Scan&gt; showFvdl =  
-	(scan) =&gt;   
+Action<Fortify_Scan> showFvdl =  
+	(scan) =>   
 		{   
  			    vulnerabilities_Table.title("Showing {0} Vulnerabilties".format(scan.Vulnerabilities.size()))    
 						 			 .show(scan.Vulnerabilities);         
@@ -43,13 +41,13 @@ Action&lt;Fortify_Scan&gt; showFvdl =
 				vulnerabilities_Table.show(scan.Vulnerabilities);
 				snippets_Table.show(scan.Snippets);
 //				traceNodes_Table.show((from vulnerability in scan.Vulnerabilities	 
-//									   select vulnerability.Traces).SelectMany(p=&gt;p).toList());  
+//									   select vulnerability.Traces).SelectMany(p=>p).toList());  
 		};
   
-Action&lt;string&gt; loadAndShowFile = 
-	(file)=&gt;{  
+Action<string> loadAndShowFile = 
+	(file)=>{  
 				showUserMessage("... loading file: {0}".format(file.fileName()));  
-				O2Thread.mtaThread(()=&gt;{															 		 	 				
+				O2Thread.mtaThread(()=>{															 		 	 				
 											fortifyScan = apiFortify.convertToFortifyScan(file); 
 											showFvdl(fortifyScan);		  
 											propertyGrid.show(fortifyScan); 
@@ -68,12 +66,9 @@ propertyGrid.onDrop(loadAndShowFile);
 //var _fortifyScan = apiFortify.convertToFortifyScan(testFile);   
 // return _fortifyScan._fvdl.ProgramData.CalledWithNoDef.str();
  
-//actionsPanel.add_Link("show Fvdl details" ,0 ,0 , ()=&gt; fortifyScan._fvdl.details()); 
+//actionsPanel.add_Link("show Fvdl details" ,0 ,0 , ()=> fortifyScan._fvdl.details()); 
 //tabControl.selectedIndex(7);    
    
 return "done";        
        
 //O2File:API_Fortify_1_6.cs
-//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll  </SourceCode>
-  <ReferencedAssemblies />
-</H2>

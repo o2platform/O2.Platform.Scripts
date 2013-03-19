@@ -1,9 +1,7 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>ascx_Panel_With_Inspector PanelWithInspector = null;
+ascx_Panel_With_Inspector PanelWithInspector = null;
 		
 Action showAstErrorsUsingRoslyn = 
-	()=&gt;{   
+	()=>{   
      		var parserOptions =  ParseOptions.Default.WithKind(SourceCodeKind.Script);
      		var astTree = SyntaxTree.ParseCompilationUnit(PanelWithInspector.inspector.Code, "",parserOptions);
      		
@@ -21,7 +19,7 @@ Action showAstErrorsUsingRoslyn =
 		};
 		
 Action start = 
-	()=&gt;{
+	()=>{
 			O2Setup.extractEmbededConfigZips();
 			PanelWithInspector = ascx_Panel_With_Inspector.runControl();
 			PanelWithInspector.inspector.OnAstFail = showAstErrorsUsingRoslyn;						
@@ -40,5 +38,4 @@ start();
 
 //O2Package:scripts.ico
 //_O2Package:_Extra_methods_To_Add_to_Main_CodeBase.cs,_Extra_methods_Browser.cs
-//_O2Package:ALL_SCRIPTS</SourceCode>
-</H2>
+//_O2Package:ALL_SCRIPTS

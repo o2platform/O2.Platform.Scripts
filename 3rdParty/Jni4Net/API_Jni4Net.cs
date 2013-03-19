@@ -36,9 +36,14 @@ namespace O2.XRules.Database.APIs
 	
 		public static API_Jni4Net setUpBride(this API_Jni4Net jni4Net)
 		{
-			jni4Net.bridgeSetup = new BridgeSetup(){ Verbose=true };
+			return jni4Net.setUpBride(new BridgeSetup(){ Verbose=true });
+		}
+		public static API_Jni4Net setUpBride(this API_Jni4Net jni4Net, BridgeSetup _bridgeSetup)
+		{	
+			jni4Net.bridgeSetup = _bridgeSetup;
 			try
-			{
+			{				
+				
 				Bridge.CreateJVM(jni4Net.bridgeSetup);
 				jni4Net.jniEnv = JNIEnv.ThreadEnv;
 				return jni4Net;

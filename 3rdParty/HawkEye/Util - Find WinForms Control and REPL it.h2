@@ -1,7 +1,3 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>new API_HawkEye().openControlFinder();
+new API_HawkEye().openControlFinder();
 
-//O2File:API_HawkEye.cs</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2File:API_HawkEye.cs

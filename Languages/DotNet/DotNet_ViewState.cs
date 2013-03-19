@@ -21,7 +21,6 @@ using O2.Views.ASCX.ExtensionMethods;
 using O2.External.SharpDevelop.ExtensionMethods;
 
 //O2Ref:System.Web.dll
-//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
 
 namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 {

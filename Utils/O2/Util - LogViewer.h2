@@ -1,9 +1,7 @@
-
-var logViewer = "Util - LogViewer".popupWindow(400,140).add_LogViewer()
-													   .set_Icon("blogs-stack.ico");
+var logViewer = "Util - LogViewer".popupWindow(400,140).add_LogViewer();
+													   //.set_Icon("blogs-stack.ico");
  
 "Welcome to O2's LogViewer poc".info();
  
 
-//O2Tag_DontAddExtraO2Files
 //O2Embed:blogs-stack.ico

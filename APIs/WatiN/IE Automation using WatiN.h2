@@ -1,19 +1,17 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Web/IE Automation using WatiN API", 800,500);
+var topPanel = O2Gui.open<Panel>("Web/IE Automation using WatiN API", 800,500);
 
 //var ie = topPanel.add_IE();
-var script = topPanel.insert_Below&lt;Panel&gt;().add_Script(false);
+var script = topPanel.insert_Below<Panel>().add_Script(false);
 script.InvocationParameters.Add("panel",topPanel); 
 script.onCompileExecuteOnce();
 var defaultScript = "// persist the ie objects accross multiple executions".line() +
-					"var ie = panel.tag&lt;WatiN_IE&gt;();".line() +
+					"var ie = panel.tag<WatiN_IE>();".line() +
 					"if (ie == null)".line() +
 					"{".line() +
 					"	ie = panel.add_IE();".line() +
 					"	panel.tag(ie);".line() +
 					"}".line() +
-					"// *********** &lt;start of IE automation script&gt;  ***********".line() +
+					"// *********** <start of IE automation script>  ***********".line() +
 					"".line() +
 					"".line() +					
 					"ie.open(\"http://www.google.com\");".line() +
@@ -32,12 +30,12 @@ var defaultScript = "// persist the ie objects accross multiple executions".line
 					"return ie.images().urls();  ".line() +
 					"".line() +
 					"".line() +
-					"// *********** &lt;end of IE automation script&gt;  ***********".line() +
+					"// *********** <end of IE automation script>  ***********".line() +
 					"".line() +
 					"//using O2.XRules.Database.APIs".line() +					
 					"//using mshtml".line() +
 					"".line() +
-					"//O2File:Ref:WatiN_IE_ExtensionMethods.cs ".line() +
+					"//O2File:WatiN_IE_ExtensionMethods.cs ".line() +
 					"//O2Ref:WatiN.Core.1x.dll".line() + 
 					"//O2Ref:Microsoft.mshtml.dll";
 					
@@ -50,6 +48,4 @@ script.set_Command(defaultScript);
 //O2Ref:WatiN.Core.1x.dll
 //O2Ref:Interop.SHDocVw.dll
 //O2Ref:Microsoft.mshtml.dll
-//O2Ref:O2_External_IE.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Ref:O2_External_IE.dll
