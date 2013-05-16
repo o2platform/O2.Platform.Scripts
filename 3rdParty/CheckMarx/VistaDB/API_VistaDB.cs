@@ -20,7 +20,7 @@ using O2.XRules.Database.Utils;
 
 
 using VistaDB.Provider;
-//O2Ref:C:\Program Files\Checkmarx\Checkmarx Engine Server\VistaDB.NET20.dll
+//O2Ref:C:\Program Files (x86)\Checkmarx\Checkmarx Engine Server\VistaDB.NET20.dll
 
 namespace O2.XRules.Database.APIs
 {
@@ -39,7 +39,7 @@ namespace O2.XRules.Database.APIs
     	
     	public API_VistaDB()
 		{
-			ConnectionString = @"data source='C:\Program Files\Checkmarx\Checkmarx Application Server\CxDB.vdb3'";	 //default to this one			
+			ConnectionString = @"data source='C:\Program Files (x86)\Checkmarx\Checkmarx Application Server\CxDB.vdb3'";	 //default to this one			
 		}		
 		
 		public API_VistaDB(string connectionString)
@@ -462,7 +462,7 @@ namespace O2.XRules.Database.APIs
 			//connectionString.set_Text(@"Data Source=.\SQLExpress;Trusted_Connection=True"); 
 			var sampleConnectionStrings = new List<string>();
 			//from http://www.connectionstrings.com/sql-server-2005
-			sampleConnectionStrings.add(@"data source='C:\Program Files\Checkmarx\Checkmarx Application Server\CxDB.vdb3'")
+			sampleConnectionStrings.add(@"data source='C:\Program Files (x86)\Checkmarx\Checkmarx Application Server\CxDB.vdb3'")
 								   .add(@"Data Source=.\SQLExpress;Trusted_Connection=True")
 								   .add(@"Data Source=myServerAddress;Initial Catalog=myDataBase;Integrated Security=SSPI")												   
 								   .add(@"Data Source=myServerAddress;Initial Catalog=myDataBase;User Id=myUsername;Password=myPassword;")

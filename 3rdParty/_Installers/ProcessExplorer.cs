@@ -4,6 +4,7 @@ using O2.Kernel;
 using O2.Kernel.ExtensionMethods;
 using O2.DotNetWrappers.ExtensionMethods; 
 using O2.XRules.Database.Utils;
+using O2.XRules.Database.APIs;
 
 //O2File:Tool_API.cs
 
@@ -11,38 +12,29 @@ public class DynamicType
 {
 	public void dynamicMethod()
 	{
-		new O2.XRules.Database.APIs.ProcessExplorer().start();
+		new ProcessExplorer_Installer().start(); 
 	}
 }
 	
 namespace O2.XRules.Database.APIs
-{
-	
-	public class ProcessExplorer : Tool_API 
-	{	
-		public ProcessExplorer() : this(true)
+{	
+	public class ProcessExplorer_Installer : Tool_API 
+	{				
+		public ProcessExplorer_Installer()
 		{
+			config("ProcessExplorer", 
+				   "http://download.sysinternals.com/files/ProcessExplorer.zip".uri(),
+				   "procexp.exe");
+			//config("ProcessExplorer", "ProcessExplorer v14.1", "ProcessExplorer.zip");			
+    		//Install_Uri = "http://download.sysinternals.com/files/ProcessExplorer.zip".uri();
+    		installFromZip_Web();    		    		
 		}
-		
-		public ProcessExplorer(bool installNow)
-		{
-			config("ProcessExplorer", "ProcessExplorer v14.1", "ProcessExplorer.zip");			
-    		Install_Uri = "http://download.sysinternals.com/files/ProcessExplorer.zip".uri();
-    		if (installNow)
-    			install();		
-		}
-		
-		
-		public bool install()
-		{
-			"Installing {0}".info(ToolName);
-			return installFromZip_Web(); 						
-		}
-		
+				
 		public Process start()
 		{
-			if (install())
-				return Install_Dir.pathCombine("procexp.exe").startProcess();
+			if (isInstalled())
+				this.Executable.startProcess();
+				//return Install_Dir.pathCombine("procexp.exe").startProcess();
 			return null;
 		}		
 	}

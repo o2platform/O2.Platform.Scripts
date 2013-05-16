@@ -13,34 +13,24 @@ namespace O2.XRules.Database.APIs
 	{
 		public void test()
 		{
-			new DebugView().start();
+			new DebugView_Installer().start();
 		}
 	}
-	public class DebugView : Tool_API 
-	{	
-		public DebugView() : this(true)
+
+	public class DebugView_Installer : Tool_API 
+	{				
+		public DebugView_Installer()
 		{
+			config("DebugView", 
+				   "http://download.sysinternals.com/files/DebugView.zip".uri(),
+				   "Dbgview.exe");			
+    		installFromZip_Web();    		    		
 		}
-		
-		public DebugView(bool installNow)
-		{
-			config("DebugView", "DebugView v4.7.8", "DebugView.zip");			
-    		Install_Uri = "http://download.sysinternals.com/files/DebugView.zip".uri();
-    		if (installNow)
-    			install();		
-		}
-		
-		
-		public bool install()
-		{
-			"Installing {0}".info(ToolName);
-			return installFromZip_Web(); 						
-		}
-		
+				
 		public Process start()
 		{
-			if (install())
-				return Install_Dir.pathCombine("Dbgview.exe").startProcess();
+			if (isInstalled())
+				this.Executable.startProcess();				
 			return null;
 		}		
 	}

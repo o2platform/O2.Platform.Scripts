@@ -1,0 +1,15 @@
+//var topPanel = panel.clear().add_Panel();
+var topPanel = "Util - REPL Script a Code Editor".popupWindow(1200,500);
+var codeEditor = topPanel.add_SourceCodeEditor().csharp_Colors();
+
+var firstScript = "codeEditor.set_Code(\"Created by Scripted Code\");".line() +
+				  "return codeEditor;";
+
+topPanel.insert_Left()
+		.add_Script_Me(codeEditor,"codeEditor")
+		.executeOnCompile()
+		.set_Code(firstScript);;
+		
+return "ok";
+
+//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs

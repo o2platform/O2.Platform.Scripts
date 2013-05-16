@@ -1,0 +1,25 @@
+//var topPanel = "{name}".popupWindow(700,400);
+var targetDir = "_rawNuGetFiles".tempDir(false);
+var urlTemplate = "https://nuget.org/api/v2/Search()?$filter=IsLatestVersion&$orderby=Id&$skip={0}&$top={1}" + 
+				  "&searchTerm=''&targetFramework=''&includePrerelease=false";
+var start = DateTime.Now;
+var top = 30;
+var skip = 0;
+while(skip < 20000)
+{
+	var url = urlTemplate.format(skip, top);
+	var response = url.GET();
+	var file = targetDir.pathCombine("_NuGetData_{0}_to_{1}.txt".format(skip, skip+top));
+	response.saveAs(file);
+	"Data saved to: {0}".info(file.fileName());
+	if(response.size() < 500)
+	{
+		"Found the end of the line".debug();	
+		break;
+	}
+	skip+= top;	
+}
+return start.duration_to_Now();
+
+
+
