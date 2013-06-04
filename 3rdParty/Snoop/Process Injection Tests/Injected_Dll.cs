@@ -29,12 +29,20 @@ namespace O2.Script
 		
     	public static void info(string message)
     	{
-    		Debug.Write("[Info] " + message);
-    		var type = assembly.GetType("O2.Kernel.PublicDI");
-			var method = type.GetMethod("get_log");
-			var kConfig = method.Invoke(null, new object[] { });
-			var info = kConfig.GetType().GetMethod("i");
-			info.Invoke(kConfig, new object[] { message});
+    		//Debug.Write("[Info] " + message);
+    		try
+    		{
+	    		var type = assembly.GetType("O2.Kernel.PublicDI");
+				var method = type.GetMethod("get_log");
+				var kConfig = method.Invoke(null, new object[] { });
+				var info = kConfig.GetType().GetMethod("info");				
+				info.Invoke(kConfig, new object[] {message, new object[] { }});
+			}
+			catch(Exception ex)
+			{
+				Debug.Write("[Error in Info] " + ex.Message);
+				Debug.Write("[Error in Info] " + ex.StackTrace);
+			}
     	}    	
     	
     	public static void startProcess(string exe)
@@ -90,8 +98,8 @@ namespace O2.Script
 			
 			var errorMessageProperty = compileEngineType.GetField("sbErrorMessage");
 			
-			info("errorMessageProperty: " + errorMessageProperty);
-			info("errorMessageProperty: " + errorMessageProperty.GetValue(compileEngine));
+			//info("errorMessageProperty: " + errorMessageProperty);
+			//info("errorMessageProperty: " + errorMessageProperty.GetValue(compileEngine));
 			
 			if (compiledAssembly != null)
 				info("Compiled file ok to: " + compiledAssembly.Location);
@@ -119,6 +127,7 @@ namespace O2.Script
 			{
 				info("compiling Default O2 Script: " + file);
 				var compiledAssembly = compileFile(file);
+				info("after compilation");
 				if (compiledAssembly == null)
 					info("Error: in injectO2Script, failed to compile: " +  file);
 				else
