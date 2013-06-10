@@ -24,23 +24,21 @@ namespace O2.XRules.Database.APIs
 		
 		public TcpView(bool installNow)
 		{
-			config("TcpView", "TcpView v3.05", "TCPView.zip");
+			config("TcpView", 			
+				   "http://download.sysinternals.com/files/TCPView.zip".uri(),
+				   @"tcpview.exe");
+    		installFromZip_Web(); 		
+    		
+			/*config("TcpView", "TcpView v3.05", "TCPView.zip");
     		Install_Uri = "http://download.sysinternals.com/files/TCPView.zip".uri();
     		if (installNow)
-    			install();		
+    			install();		*/
 		}
-		
-		
-		public bool install()
-		{
-			"Installing {0}".info(ToolName);
-			return installFromZip_Web(); 						
-		}
-		
+				
 		public Process start()
 		{
-			if (install())
-				return Install_Dir.pathCombine("tcpview.exe").startProcess();
+			if (isInstalled())				
+				return this.Executable.startProcess();
 			return null;
 		}		
 	}
