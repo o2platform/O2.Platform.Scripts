@@ -1,0 +1,51 @@
+var topPanel = "PoC - Karma and Angular run".popupWindow(1200,700);
+//var topPanel = panel.clear().add_Panel();
+//var textBox = topPanel.clear().add_RichTextBox();
+var codeDir  = @"E:\_Code_Tests\AngularJS\angular-scenario";
+var karma 	 = @"C:\Users\o2\AppData\Roaming\npm\node_modules\karma\bin\karma";
+
+var testPage = "http://localhost:8000/index.html";			
+var testRunner = "http://localhost:9876/__karma/";
+
+var karmaConfig = codeDir.pathCombine("karma.conf.js");
+var serverConfig = codeDir.pathCombine("server.js");
+var unitTestFile = codeDir.pathCombine("e2eSpec.js");
+
+Process karmaProcess = null;
+
+Action startWebServer = 
+	()=>{
+			Processes.startProcessAndRedirectIO("node", serverConfig,codeDir,(line)=>line.info());			
+		};
+		
+Action runKarma = 
+	()=>{
+			Action<string> consoleOut = 
+				(consoleLine)=>  consoleLine.info(); //textBox.append_Line(consoleLine);
+			
+			var command = "start \"{0}\" ".format(karmaConfig);
+			karmaProcess = "node".startProcess("\"" + karma + "\" " + command, consoleOut);			
+		};
+
+if (testPage.GET().notValid())
+{
+	"Staring WebServer".info();
+	startWebServer();
+	1000.wait();
+}
+var toolStrip 		  = topPanel.insert_Above_ToolStrip();
+var codeEditor_Test   = topPanel.add_SourceCodeEditor();
+var ie_UnitTestRunner = codeEditor_Test.insert_Right().add_WebBrowser_with_NavigationBar();
+var ie_Site    		  = ie_UnitTestRunner.insert_Below().add_WebBrowser_with_NavigationBar();
+var codeEditor_Config  = codeEditor_Test.insert_Below().add_SourceCodeEditor();
+
+codeEditor_Test.open(unitTestFile);
+codeEditor_Config.open(karmaConfig);
+ie_Site.open(testPage);
+ie_UnitTestRunner.open(testRunner);
+toolStrip.add_Button("Run","btExecuteSelectedMethod_Image".formImage(),()=>runKarma());
+
+
+runKarma();
+
+//using System.Diagnostics

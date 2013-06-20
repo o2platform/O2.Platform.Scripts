@@ -15,6 +15,7 @@ namespace O2.XRules.Database.APIs
 		
 		[DllImport("user32.dll")]		public static extern IntPtr 	ChildWindowFromPoint		(IntPtr hWndParent, POINT Point);				
 		[DllImport("user32.dll")]		public static extern bool 		CloseWindow					(IntPtr hWnd);
+		[DllImport("user32.dll")]       public static extern bool 		ClientToScreen				(IntPtr hWnd, ref POINT lpPoint);
 
 		[DllImport("user32.dll")]		public static extern bool 		DestroyWindow				(IntPtr hwnd);
 

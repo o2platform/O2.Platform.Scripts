@@ -12,6 +12,7 @@ namespace O2.XRules.Database.APIs
 			public int Top;
 			public int Right;
 			public int Bottom;
+			
 			public int Height
 			{
 				get

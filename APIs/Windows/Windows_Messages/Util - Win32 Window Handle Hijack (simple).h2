@@ -1,12 +1,6 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode> 
-//var topPanel = panel.add_Panel(true);
-  
+//var topPanel = panel.add_Panel(true);  
 var topPanel = "Util - Win32 Window Handle Hijack (simple)".popupWindow();
+var hijackGui = topPanel.add_Handle_HijackGui();
+return hijackGui;
 
-return topPanel.add_Handle_HijackGui();
-
-//O2File:API_Win32_Handle_Hijack.cs</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2File:API_Win32_Handle_Hijack.cs 

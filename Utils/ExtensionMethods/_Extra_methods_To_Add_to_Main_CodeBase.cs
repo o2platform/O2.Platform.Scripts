@@ -71,8 +71,28 @@ namespace O2.XRules.Database.APIs
 		}
 	}
 
+	public static class Extra_WinForm_Controls_ToolStrip
+	{
+		public static ToolStripDropDown add_DropDown_Menu(this ToolStrip toolStrip, string menuTitle)
+		{
+			return toolStrip.add_DropDown(menuTitle);
+
+//  check if existing on looks like this (below)
+			/*return toolStrip.invokeOnThread(
+				()=>{
+						var dropDownButton = new ToolStripDropDownButton(menuTitle);			
+						var toolStripDropDown = new ToolStripDropDown();												
+						dropDownButton.DropDown = toolStripDropDown;	
+						toolStrip.Items.Add(dropDownButton);
+						return toolStripDropDown;
+					});*/
+		}
+		
+	}
+	
 	public static class Extra_WinForm_Controls_TreeView
-	{		
+	{	
+		
 	}
 	
 	public static class Extra_WinForm_Controls_Control
