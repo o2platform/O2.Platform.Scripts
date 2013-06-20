@@ -38,46 +38,53 @@ namespace O2.XRules.Database.APIs
 		public Panel 			TopPanel 		{ get; set; }		
 		public ToolStripTextBox TargetHandle	{ get; set; }
 		public ToolStripTextBox ParentHandle	{ get; set; }
-		public Panel 			HijackedWindow	{ get; set; }	
+		public Panel 			HijackedWindow	{ get; set; }					
+		public String			GroupBoxText	{ get; set; }
 		public CheckBox			AutoResize		;//{ get; set; }
+		
 		
 		public IntPtr			HijackedHandle	{ get; set; }
 		public IntPtr			HijackedParent	{ get; set; }		
+		public Process 			HijackedProcess	{ get; set; }	
 		
 		public WinAPI.RECT		HijackedHandleRECT;	
 		
 		//public PictureBox 		PictureBox		;//{ get; set; }
 		//public Label 			ClassName		;//{ get; set; }
-		
+				
 		public Win32_Handle_Hijack()
 		{
+			GroupBoxText = "(click here to hide tool bar)";
 			this.width(400);
 			this.height(400);
-			buildGui();
+			buildGui();			
 		}
 		
-		public void setTarget(IntPtr handle)
+		public Win32_Handle_Hijack setTarget(IntPtr handle)
 		{
 		 	TargetHandle.set_Text(handle.str());
+		 	return this;
 		 	//ClassName.set_Text(handle.className());
 		 	//PictureBox.show(handle.window_ScreenShot());			
 		}
 		
-		public void updateParentValue()
+		public Win32_Handle_Hijack updateParentValue()
 		{
 			var target = TargetHandle.get_Text().toInt().intPtr();
 			var targetParent = target.parent().str();
 			ParentHandle.set_Text(targetParent);			
+			return this;
 		}
 		
-		public void setTargetValueToItsParent()
+		public Win32_Handle_Hijack setTargetValueToItsParent()
 		{
 			if(ParentHandle.get_Text().isInt())
 				if (ParentHandle.get_Text().toInt() > 0)
 					TargetHandle.set_Text(ParentHandle.get_Text());
+			return this;
 		}
 		
-		public void restore()
+		public Win32_Handle_Hijack restore()
 		{
 			if (HijackedHandle != IntPtr.Zero)
 			{
@@ -90,11 +97,12 @@ namespace O2.XRules.Database.APIs
 				}
 				HijackedParent.window_Redraw();
 				HijackedHandle.window_Redraw();
-				HijackedHandle = IntPtr.Zero;
+				HijackedHandle = IntPtr.Zero;				
 			}
+			return this;
 		}
 					
-		public void hijack()
+		public Win32_Handle_Hijack hijack()
 		{
 			restore();
 			var handle = TargetHandle.get_Text().toInt().intPtr();						
@@ -107,8 +115,9 @@ namespace O2.XRules.Database.APIs
 			handle.setParent(newParent);						
 			
 			adjustHandleSizeToTargetWindow();
+			return this;
 		}			
-		public void screenShot()
+		public Win32_Handle_Hijack screenShot()
 		{
 			restore();
 			try
@@ -121,6 +130,7 @@ namespace O2.XRules.Database.APIs
 			{
 				ex.log();
 			}
+			return this;
 		}
 		
 		public void adjustHandleSizeToTargetWindow()
@@ -128,11 +138,11 @@ namespace O2.XRules.Database.APIs
 			if (AutoResize.@checked())
 				HijackedHandle.window_Move(0,0, HijackedWindow.width(), HijackedWindow.height());
 		}
-		public Process startProcessAndHijackMainWindow(string processToStart, string processParams)
+		public Win32_Handle_Hijack startProcessAndHijackMainWindow(string processToStart, string processParams)
 		{
 			return hijackProcessMainWindow(processToStart.startProcess(processParams));
 		}
-		public Process hijackProcessMainWindow(Process process)
+		public Win32_Handle_Hijack hijackProcessMainWindow(Process process)
 		{	
 		    var mainHandle = process.waitFor_MainWindowHandle().MainWindowHandle;
 		    O2Thread.mtaThread(
@@ -140,8 +150,9 @@ namespace O2.XRules.Database.APIs
 					    setTarget(mainHandle);
 					    hijack();	
 					    adjustHandleSizeToTargetWindow();
+					    HijackedProcess = process;
 					});
-		    return process;
+		    return this;
 		}
 		
 		public Win32_Handle_Hijack buildGui()
@@ -163,7 +174,7 @@ namespace O2.XRules.Database.APIs
 						.append_Label(ref ClassName).topAdd(2);
 
 			*/							
-			HijackedWindow = TopPanel.add_GroupBox("(click here to hide tool bar)").add_Panel();		
+			HijackedWindow = TopPanel.add_GroupBox(GroupBoxText).add_Panel();		
 					
 			//TargetHandle.onTextChange((value)=> ParentHandle.set_Text(value.toInt().intPtr().parent().str())); 
 			//TargetHandle.TextChanged+= (sender,e)=> updateParentValue();
@@ -177,39 +188,44 @@ namespace O2.XRules.Database.APIs
 						"On Closed".info();
 						restore();
 					});
+					
 			var groupBox = HijackedWindow.parent();;
-			var originalText = groupBox.get_Text();
-			var splitcontainer = groupBox.splitContainer();
+			GroupBoxText = groupBox.get_Text();
 			
-			groupBox.DoubleClick+=(sender,e)=>
-				{		
-					var collapsed = splitcontainer.Panel1Collapsed;
-					if (collapsed)
-					{
-						splitcontainer.panel1Collapsed(false);					
-						groupBox.set_Text(originalText);		
-					}
-					else
-					{
-						splitcontainer.panel1Collapsed(true);		
-						groupBox.set_Text(".");			
-					}
-				};	
+			groupBox.DoubleClick+=(sender,e)=> toolStrip_HideShow();				
 				
 			return this;	
 		}
 		
+		public Win32_Handle_Hijack toolStrip_HideShow()
+		{			
+			var groupBox = HijackedWindow.parent();;
+			var splitcontainer = groupBox.splitContainer();
+			
+			var collapsed = splitcontainer.Panel1Collapsed;
+			if (collapsed)
+			{
+				splitcontainer.panel1Collapsed(false);					
+				groupBox.set_Text(GroupBoxText);		
+			}
+			else
+			{
+				splitcontainer.panel1Collapsed(true);		
+				groupBox.set_Text(".");			
+			}
+			return this;
+		}
 		public void createToolStrip()
 		{
 			ToolStrip = TopPanel.insert_Above_ToolStrip();
 	 
 			WindowFinder  = ToolStrip.insert_Left(30).add_WindowFinder(); 			
 			
-			WindowFinder.Window_Changed = setTarget; 
+			WindowFinder.Window_Changed = (intPtr)=>setTarget(intPtr); 
 			 
-			ToolStrip.add_Button("Hijack","btExecuteOnExternalEngine_Image".formImage(), hijack) 
-					 .add_Button("Restore","edit_undo".formImage(),restore)
-					 .add_Button("Screenshot","camera_photo".formImage(),screenShot)				 
+			ToolStrip.add_Button("Hijack","btExecuteOnExternalEngine_Image".formImage(), ()=> hijack()) 
+					 .add_Button("Restore","edit_undo".formImage(),()=> restore())
+					 .add_Button("Screenshot","camera_photo".formImage(),()=> screenShot())
 					 .toolStrip()
 			 		 .add_CheckBox("Size", ref AutoResize);
 			  
@@ -254,11 +270,17 @@ namespace O2.XRules.Database.APIs
 	}
 	
 	public static class API_Win32_Handle_Hijack_ExtensionMethods
-	{	
-					
+	{						
 		public static Win32_Handle_Hijack add_Handle_HijackGui(this Control hostPanel)
-		{											
-			return hostPanel.add_Control<Win32_Handle_Hijack>();;
+		{
+			return hostPanel.add_Handle_HijackGui(false);
+		}
+		public static Win32_Handle_Hijack add_Handle_HijackGui(this Control hostPanel, bool showToolStrip)		
+		{						
+			var handleHijack = hostPanel.add_Control<Win32_Handle_Hijack>();;
+			if (!showToolStrip)
+				handleHijack.toolStrip_HideShow();
+			return handleHijack;			
 		}
 	}
 }

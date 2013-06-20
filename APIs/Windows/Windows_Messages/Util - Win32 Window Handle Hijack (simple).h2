@@ -3,4 +3,4 @@ var topPanel = "Util - Win32 Window Handle Hijack (simple)".popupWindow();
 var hijackGui = topPanel.add_Handle_HijackGui();
 return hijackGui;
 
-//O2File:API_Win32_Handle_Hijack.cs 
+//O2File:API_Win32_Handle_Hijack.cs

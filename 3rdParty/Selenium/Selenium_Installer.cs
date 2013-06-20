@@ -21,8 +21,8 @@ namespace O2.XRules.Database.APIs
 		public Selenium_Installer()
 		{
 			config("Selenium", 			
-				   "http://selenium.googlecode.com/files/selenium-dotnet-2.28.0.zip".uri(),
-				   @"Selenium\Clojure.Main.exe");    		    		
+				   "http://selenium.googlecode.com/files/selenium-dotnet-2.33.0.zip".uri(),
+				   @"Selenium\WebDriver.dll");
     		installFromZip_Web(); 		
 		}
 		
@@ -31,7 +31,7 @@ namespace O2.XRules.Database.APIs
 		public Process start()
 		{			
 			if (isInstalled())				
-				return this.Executable.startProcess();
+				return this.Executable.parentFolder().startProcess();
 			return null;
 		}		
 	}
