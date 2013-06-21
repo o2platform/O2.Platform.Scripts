@@ -1,14 +1,16 @@
 //var topPanel 	 = panel.clear().add_Panel(); 
-var topPanel = "Util - Chrome with REPL".popupWindow(2000,600);
+var topPanel = "Util - Chrome with REPL".popupWindow(1200,600);
  
 var replPanel 	 = topPanel.add_GroupBox("C# Repl").add_Panel();
-var chromePanel	 = topPanel.insert_Right(replPanel.width() /3 , "Chrome");
-var chromeDriver = chromePanel.parent().insert_Below("Chrome WebDriver");
+var chromePanel	 = topPanel.insert_Right(replPanel.width() / 2 , "Chrome");
+var chromeDriver = chromePanel.parent().insert_Below(150,"Chrome WebDriver");
 
 var firstScript = 
 @"chromeDriver.open(""http://www.google.com"");
-var field = chromeDriver.FindElement(By.Name(""q""));
-field.SendKeys(""O2 Platform"");
+chromeDriver.FindElement(By.Name(""q""))
+		    .SendKeys(""O2 Platform"");
+chromeDriver.FindElement(By.Name(""btnG""))
+	        .Click();
 return ""done"";
 
 //using OpenQA.Selenium;

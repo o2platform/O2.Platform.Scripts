@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>open.logViewer();
+open.logViewer();
 O2ConfigSettings.CheckForTempDirMaxSizeCheck = false;
 O2Setup.extractEmbededConfigZips();
  
@@ -15,7 +13,7 @@ assembly.type("ascx_GraphWithInspector").invokeStatic("runControl");
 //O2Embed:O2_External_IE.dll
 //O2Embed:GraphSharp.Controls.dll
 //O2Embed:WPFExtensions.dll
-//O2Emded:GraphSharp.dll
+//O2Embed:GraphSharp.dll
 //O2Package:PoC - View Graph.h2,GraphLayout_WPF_ExtensionMethods.cs,GraphSharp_ExtensionMethods.cs,GraphFactory.cs,ElementHost_ExtensionMethods.cs
 //O2Package:VerticesAndEdges_ExtensionMethods.cs,ascx_GraphWithInspector.cs.o2
 
@@ -23,5 +21,3 @@ assembly.type("ascx_GraphWithInspector").invokeStatic("runControl");
 //O2Ref:PresentationFramework.dll
 //O2Ref:WindowsBase.dll
 //O2Ref:System.Xaml.dll
-</SourceCode>
-</H2>

@@ -104,14 +104,7 @@ namespace O2.XRules.Database.APIs
 				"Failed to find process with id: {0}  name: {0}".error(process.Id, process.ProcessName);
 			}
 			return null;
-		 }
-		 
-		 
-		 public static API_Chrome_Hijack createTestGui(this API_Chrome_Hijack chromeHijack)
-		 {
-		 	var winFormsUI = "Util - O2 REPL Editor using winFormUI .. ".winFormsUI(800,600);
-		 	return chromeHijack;
-		 }
+		 }		 		 		 
 	}
 }
 	
