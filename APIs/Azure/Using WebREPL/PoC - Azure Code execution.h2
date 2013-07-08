@@ -1,0 +1,33 @@
+var topPanel = "PoC - Azure Code execution".popupWindow(700,400).insert_LogViewer();
+//var topPanel = panel.clear().add_Panel();
+var script = topPanel.add_Script();
+script.set_Code("return Environment.CurrentDirectory;");
+
+var webService = new WebService();
+var replResponse = topPanel.insert_Right().add_Script_Me(webService);
+replResponse.add_InvocationParameter("response","");
+replResponse.set_Code(
+@"return response;
+
+return webService;
+
+//O2Ref:System.Web.Services.dll
+//O2Ref:{0}".format(webService.type().assemblyLocation().fileName()));
+
+
+
+Action executeOnAzure = 	
+	()=>{
+			"Executing Code on Azure".info();
+			var code = script.Code;
+			var response = webService.ExecuteCSharpCode(code );			
+			"Got response with size {0}".info(response.size());
+			replResponse.InvocationParameters.add("response", response);
+			script.showResult(response);			
+		};
+
+script.executeButton.set_Text("Execute Locally");
+script.executeButton.insert_Left().add_Button("Execute on Azure").onClick(()=> executeOnAzure()).fill();
+
+//O2File:E:\O2\O2.Temp\7_5_2013\wsdl_tmp5F5B\WebService.cs
+//O2Ref:System.Web.Services.dll
