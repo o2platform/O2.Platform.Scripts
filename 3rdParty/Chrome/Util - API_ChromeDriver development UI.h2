@@ -2,7 +2,7 @@
 var topPanel  = "Util - Chrome with REPL".popupWindow(1200,600);
 
 var replPanel = topPanel.add_GroupBox("C# Repl").add_Panel();
-
+var codeEditor  = replPanel.insert_Below().add_SourceCodeEditor();
 var chromeHijack = new API_Chrome_Hijack().open_ChromeDriver()
 									      .add_Chrome_To_Panel(topPanel.insert_Right())
 					   					  .add_WebDriver_ScriptMe_To(replPanel);
@@ -20,7 +20,7 @@ return ""done"";
 //O2File:API_ChromeDriver.cs";
 
 chromeHijack.WebDriver_Script_Me.set_Code(firstScript);
-			 				     
+codeEditor.open("API_ChromeDriver.cs".local());			 				     
 //O2File:API_Chrome_Hijack.cs
 
 

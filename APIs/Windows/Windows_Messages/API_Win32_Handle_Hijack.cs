@@ -142,12 +142,19 @@ namespace O2.XRules.Database.APIs
 		{
 			return hijackProcessMainWindow(processToStart.startProcess(processParams));
 		}
+		
 		public Win32_Handle_Hijack hijackProcessMainWindow(Process process)
+		{	
+		    return hijackProcessWindow(process, (mainWindowHandle)=>mainWindowHandle);
+		}
+		
+		public Win32_Handle_Hijack hijackProcessWindow(Process process, Func<IntPtr,IntPtr> windowToHijack)
 		{	
 		    var mainHandle = process.waitFor_MainWindowHandle().MainWindowHandle;
 		    O2Thread.mtaThread(
 		    	()=>{
-					    setTarget(mainHandle);
+		    			var targetWindow = windowToHijack(mainHandle);
+					    setTarget(targetWindow);
 					    hijack();	
 					    adjustHandleSizeToTargetWindow();
 					    HijackedProcess = process;
@@ -159,41 +166,23 @@ namespace O2.XRules.Database.APIs
 		{									
 			TopPanel = this.add_Panel();	
 			createToolStrip();
-			/*			
-			TopPanel.insert_Above(35).splitContainerFixed()
-//						.add_WindowFinder(ref WindowFinder) 
-//.add_WindowFinder()
-						//.add_Label("Handle:").top(10).append_TextBox(ref TargetHandle).width(60)
-						//.append_Label("Parent:").top(10).append_TextBox(ref ParentHandle).width(60)
-						.append_Link("Hijack", ()=> hijack()).top(10)
-						.append_Link("Restore", ()=> restore()) 
-						.append_Link("Screenshot", ()=> screenShot()) 
-						.append_CheckBox("Auto Size", (value)=> AutoResize = value) 
-						.append_PictureBox(ref PictureBox)
-						.append_TextBox(ref Test).set_Text("Hijack me").top(10) 
-						.append_Label(ref ClassName).topAdd(2);
-
-			*/							
-			HijackedWindow = TopPanel.add_GroupBox(GroupBoxText).add_Panel();		
-					
-			//TargetHandle.onTextChange((value)=> ParentHandle.set_Text(value.toInt().intPtr().parent().str())); 
-			//TargetHandle.TextChanged+= (sender,e)=> updateParentValue();
-			//WindowFinder.Window_Changed = setTarget; 
-				
-//			setTarget(test.handle()); 
 			
-			//PictureBox.layout_Zoom();					  
-			this.onClosed(
-				()=>{
-						"On Closed".info();
-						restore();
-					});
-					
+			HijackedWindow = TopPanel.add_GroupBox(GroupBoxText).add_Panel();		
+											
 			var groupBox = HijackedWindow.parent();;
 			GroupBoxText = groupBox.get_Text();
 			
 			groupBox.DoubleClick+=(sender,e)=> toolStrip_HideShow();				
-				
+			
+			//do this on a seprate thread because the parentForm will be null at this stage (since this is a Control)
+			O2Thread.mtaThread(
+				()=>{
+						1000.sleep();
+						this.parentForm().onClosed(
+							()=>{									
+									restore();
+								});
+					});
 			return this;	
 		}
 		
@@ -262,7 +251,7 @@ namespace O2.XRules.Database.APIs
 			//     .add_Button("Chrome (Web Browser)",()=> startProcessAndHijackMainWindow("chrome","--chrome-frame"));			     			
 			var targetProcesses = Processes.getProcesses().where((process)=>process.MainWindowHandle != IntPtr.Zero);
 			foreach(var targetProcess in targetProcesses)
-			{
+			{ 
 				var process = targetProcess;		// need to pin it
 				examples.add_Button(targetProcess.MainWindowTitle, ()=> hijackProcessMainWindow(process));
 			}
@@ -273,7 +262,7 @@ namespace O2.XRules.Database.APIs
 	{						
 		public static Win32_Handle_Hijack add_Handle_HijackGui(this Control hostPanel)
 		{
-			return hostPanel.add_Handle_HijackGui(false);
+			return hostPanel.add_Handle_HijackGui(true);
 		}
 		public static Win32_Handle_Hijack add_Handle_HijackGui(this Control hostPanel, bool showToolStrip)		
 		{						
