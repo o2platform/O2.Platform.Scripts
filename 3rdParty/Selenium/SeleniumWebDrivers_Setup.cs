@@ -21,9 +21,9 @@ namespace O2.XRules.Database.APIs
 
 	    static SeleniumWebDrivers_Setup()
 	    {
-			ChromeDriverDownloadLink	= @"http://chromedriver.googlecode.com/files/chromedriver_win_23.0.1240.0.zip";
-			IEDriverDownloadLinkx32		= @"http://selenium.googlecode.com/files/IEDriverServer_Win32_2.28.0.zip";
-			IEDriverDownloadLinkx64		= @"https://selenium.googlecode.com/files/IEDriverServer_x64_2.28.0.zip";
+			ChromeDriverDownloadLink	= @"http://chromedriver.googlecode.com/files/chromedriver_win_26.0.1383.0.zip";
+			IEDriverDownloadLinkx32		= @"http://selenium.googlecode.com/files/IEDriverServer_Win32_2.33.0.zip";
+			IEDriverDownloadLinkx64		= @"https://selenium.googlecode.com/files/IEDriverServer_x64_2.33.0.zip";
 			// we need to think a bit more on where we put this temp folder
 			// will create folder in the root of the O2 Temp (which is inside the user's temp folder)
 			DriversFolder = @"..\_TM_UnitTests".tempDir(false); 

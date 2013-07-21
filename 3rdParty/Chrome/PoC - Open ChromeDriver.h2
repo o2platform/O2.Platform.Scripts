@@ -1,0 +1,5 @@
+var chromeHijack = new API_Chrome_Hijack();
+chromeHijack.script_Me("chromeHijack").insert_LogViewer();
+chromeHijack.open_ChromeDriver();
+
+//O2File:API_Chrome_Hijack.cs

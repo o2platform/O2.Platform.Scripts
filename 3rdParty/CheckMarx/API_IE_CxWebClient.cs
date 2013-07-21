@@ -16,20 +16,25 @@ namespace O2.XRules.Database.APIs
 	
     public class API_IE_CxWebClient : API_IE_ExecutionGUI
     {   
+    	public string DEFAULT_SERVER = 	"https://www.cxprivatecloud.com";   
     	
     	public API_IE_CxWebClient(WatiN_IE ie) : base(ie)
     	{    		
-    	 	config();
+    	 	config(DEFAULT_SERVER);
+    	}
+    	public API_IE_CxWebClient(WatiN_IE ie, string targetServer) : base(ie)
+    	{
+    		config(targetServer);
     	}
     	
     	public API_IE_CxWebClient(Control hostControl)	: base(hostControl) 
     	{    		
-    		config();
+    		config(DEFAULT_SERVER);
     	}  
     	
-    	public void config()
+    	public void config(string targetServer)
     	{
-    		this.TargetServer = "https://www.cxprivatecloud.com";    		
+    		this.TargetServer = targetServer;
     		API_IE_CxWebClient_HelperMethods.ie = this.ie;
     	}
     }
@@ -41,8 +46,7 @@ namespace O2.XRules.Database.APIs
 		public static API_IE_ExecutionGUI homepage(this API_IE_CxWebClient cxWeb)
 		{
 			return cxWeb.open(""); 
-		}
-		
+		}		
 		
 		
 		/*[ShowInGui(Folder ="links")]
@@ -70,13 +74,28 @@ namespace O2.XRules.Database.APIs
     {    					
     	public static WatiN_IE ie;
     	
+    	public static API_IE_CxWebClient login(this API_IE_CxWebClient cxClient, ICredential credential)
+    	{
+			return cxClient.login(credential.UserName, credential.Password);
+    	}
+    	
     	public static API_IE_CxWebClient login(this API_IE_CxWebClient cxClient, string username, string password)
     	{    	
-			cxClient.open("/CxWebClient/login.aspx");	     			
-			ie.field("txtUserName").value(username);
-			ie.field("txtPassword").value(password);
-			ie.button("Login").click();
+    		if (cxClient.loggedIn())
+    			"[API_IE_CxWebClient][login] user already logged in, skipping login".info();
+    		else
+    		{
+				cxClient.open("/CxWebClient/login.aspx");	     			
+				ie.field("txtUserName").value(username);
+				ie.field("txtPassword").value(password);
+				ie.button("Login").click();				
+			}
 			return cxClient;
 		}
+		
+		public static bool loggedIn(this API_IE_CxWebClient cxClient)		
+    	{    	
+    		return ie.hasLink("Logout"); // better detection modes will be needed
+    	}
 	}
 }   

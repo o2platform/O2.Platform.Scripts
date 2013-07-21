@@ -1,0 +1,64 @@
+//var topPanel = panel.add_Panel(true);
+var topPanel = "Tool - remove Azure file browser".popupWindow(1200,500);
+var baseFolder = topPanel.insert_Above(20).add_Label("Base Folder").top(2).append_TextBox("").align_Right(topPanel);;
+var codeViewer = topPanel.add_SourceCodeViewer();
+var treeView_Folders = topPanel.insert_Left(250, "Folders").add_TreeView();
+var treeView_Files = treeView_Folders.parent().insert_Below("Files").add_TreeView();
+
+
+
+var apiAzure = new API_Azure_via_WebREPL("owasp-ansa.azurewebsites.net"); 
+
+Action<TreeNode, string> add_Node = 
+	(treeNode, path)=>{								
+						treeNode.add_Node(path.fileName(), path, true);
+					  };
+	
+treeView_Folders.beforeExpand<string>(
+	(treeNode,path)=>{
+						treeView_Folders.azure();						
+						var folders = apiAzure.folders(path);						
+						foreach(var folder in folders)
+							add_Node(treeNode, folder);
+						treeView_Folders.white();	 
+						
+						
+					 });
+treeView_Folders.afterSelect<string>(
+	(path)=>{
+				treeView_Files.azure();
+				O2Thread.mtaThread(
+							()=>{
+									treeView_Files.clear();	
+									var files = apiAzure.files(path);
+									foreach(var file in files)
+										treeView_Files.add_Node(file.fileName(), file);
+									treeView_Files.white();	
+									//treeView_Files.selectFirst();
+								});
+			});
+treeView_Files.afterSelect<string>(
+	(filePath)=>{
+					codeViewer.set_Text("... fetching file: {0}".format(filePath));
+					var fileContents = apiAzure.fileContents(filePath);
+					codeViewer.set_Text(fileContents, filePath.fileName());
+				});
+Action<string> startOnFolder = 
+	(path)=>{
+				if (path.lastChar() == @"\") 
+					path = path.removeLastChar();
+				treeView_Folders.clear();
+				add_Node(treeView_Folders.rootNode(),path);
+				treeView_Folders.nodes().first().expand();
+			 };
+
+baseFolder.onEnter(startOnFolder);
+
+var startFolder = apiAzure.applicationPath().removeLastChar();
+baseFolder.set_Text(startFolder);
+startOnFolder(startFolder);
+
+
+return "done";
+
+//O2File:API_Azure_via_WebREPL.cs

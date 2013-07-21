@@ -1,0 +1,87 @@
+//var credentialsFile = @"..\_UserData\TestAccounts.xml".inTempDir();
+//var account = credentialsFile.credential("OpenFileClient");
+var userName = "o2_user"; 
+var password = "aaaaa"; 
+
+var firstMessage 	= "Hello room";
+var serverName  	= "win-fgnq5aarj8o";
+var roomName 		= "hubot";
+
+var jabberClient = new JabberClient()
+	{
+		Server = "localhost",
+		Port = 5222,
+		User = userName,
+		Password = password,
+		AutoStartTLS = false
+	};
+	
+var conferenceManager = new ConferenceManager
+		{
+			Stream = jabberClient
+		};
+
+var jid 	= new JID(roomName, "conference."+serverName,userName);
+var room 	= conferenceManager.GetRoom(jid);			   
+
+
+//var topPanel = panel.add_Panel(true);
+var topPanel = "Jabber Test".popupWindow()
+						    .insert_LogViewer();
+var treeView = topPanel.add_TreeView();
+
+Action<string,string> showMessage = 
+	(from,text) =>{
+					 var nodeText = "{0}: {1}: {2}".format(DateTime.Now.ToShortTimeString(), from,text);
+					 treeView.add_Node(nodeText).selected();					 
+				  };
+				 
+Action<string> sendPublicMessage =
+	(text)=>{
+				room.PublicMessage(text);	
+				showMessage(userName, text);
+			};	
+	
+room.OnJoin += (r)=>
+		{							
+			treeView.white();
+			sendPublicMessage(firstMessage);
+		};
+room.OnRoomMessage+= (sender,message)=>
+		{
+			"[OnRoomMessage] {0}".info(message);			
+			showMessage(message.From.User, message.Body);					
+		};
+						
+Action onAuthenticate = 
+	()=>{	
+			"[OnAuthenticate]".info(); 						
+			room.Join();
+		};
+Action onConnect = 
+	()=>{
+			"[OnConnect]".info(); 			
+			//O2Thread.mtaThread(()=>jabberClient.Login());  // this wasn't working all the time			
+		};
+		
+jabberClient.OnConnect 		+= (sender,stream)=> onConnect(); 
+jabberClient.OnAuthenticate += (sender)=> onAuthenticate(); 
+
+topPanel.insert_Above(20).add_LabelAndComboBoxAndButton("Message","","Send",sendPublicMessage);
+
+treeView.pink();
+
+jabberClient.Connect();
+
+200.wait();
+jabberClient.Login(); 									// have to trigger this from here
+
+
+//var state =  (BaseState)jabberClient.property("State");
+return "done";
+
+//using jabber;
+//using jabber.client
+//using jabber.connection
+//Installer:JabberNet_Installer.cs!JabberNet/jabber-net.dll
+//O2Ref:JabberNet/jabber-net.dll

@@ -9,7 +9,7 @@ using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.IE;
 using OpenQA.Selenium;
-//Installer:Selenium_Installer.cs!Selenium\Selenium\Clojure.Main.exe
+//Installer:Selenium_Installer.cs!Selenium\net40\WebDriver.dll
 //O2File:SeleniumWebDrivers_Setup.cs
 
 namespace O2.XRules.Database.APIs
