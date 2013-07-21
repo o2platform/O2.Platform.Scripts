@@ -1,11 +1,9 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//var topPanel = panel.clear().add_Panel();
+//var topPanel = panel.clear().add_Panel();
 var topPanel = "Util - Armorize Findings Viewer (Beta)".popupWindow(1400,600); 
 //add local path to hacmebank 
-Action&lt;string,string,string&gt; addFileMapping =
+Action<string,string,string> addFileMapping =
  (fileToMap, virtualPath, fullPath) 
- 	=&gt;  {
+ 	=>  {
 			if (SourceCodeMappingsUtils.mapFile(fileToMap).fileExists().isFalse()) 
 				new SourceCodeMappingsUtils.resolvedFileMapping("")
 										   .addMappingToCurrentListAndSaveIt(virtualPath, fullPath) ;
@@ -23,9 +21,9 @@ findingsViewer.setTraceTreeViewVisibleStatus(true);
 //var traceViewer = topPanel.insert_Below().add_TraceViewer();
 
 
-Action&lt;string&gt; loadFile = 
+Action<string> loadFile = 
 	(fileToLoad)
-		 =&gt; {
+		 => {
 		 		treeView.backColor(Color.LightPink);
 		 		"Processing File: {0}".info(fileToLoad);
 		 		if (fileToLoad.fileExists().isFalse())
@@ -34,7 +32,7 @@ Action&lt;string&gt; loadFile =
 		 			return;
 		 		}
 		 		treeView.clear();
-		 		O2Thread.mtaThread(()=&gt;treeView.view_XmlFile_in_TreeView(fileToLoad));
+		 		O2Thread.mtaThread(()=>treeView.view_XmlFile_in_TreeView(fileToLoad));
 		 		
 		 		
 		 		
@@ -43,7 +41,7 @@ Action&lt;string&gt; loadFile =
 				var armorize = new API_Armorize(fileToLoad); 
 	         	
 	 			var o2Timer = new O2Timer("Armorize Findings Conversion").start(); 
-				var o2Findings = new List&lt;IO2Finding&gt;();
+				var o2Findings = new List<IO2Finding>();
 
 				foreach(var vulnerability in armorize.vulnerabilities())  
 				{									   
@@ -77,7 +75,7 @@ Action&lt;string&gt; loadFile =
 										signature = element._name();
 									if (signature.inValid())
 										signature = element.str();
-									if (currentTrace.notNull() &amp;&amp; indent &gt; currentTrace.ordinal)
+									if (currentTrace.notNull() && indent > currentTrace.ordinal)
 										addTracesTo = currentTrace.childTraces;
 										
 									var newTrace = addTracesTo.add_Trace(signature); 
@@ -120,7 +118,7 @@ Action&lt;string&gt; loadFile =
 			}; 
 			
 treeView.onDrop(
-	(file)=&gt;{
+	(file)=>{
 				switch(file.extension())
 				{
 					case ".xml":
@@ -163,7 +161,7 @@ return "ok";
 
 /*var traces = (from vulnerability in armorize.vulnerabilities()
 	          from traceBack in vulnerability.traceBacks()
-	          select traceBack.elements()).SelectMany((x)=&gt;x).toList();
+	          select traceBack.elements()).SelectMany((x)=>x).toList();
 
 return (from trace in traces
 	 	select trace.Name.str()).Distinct().toList() ;   
@@ -175,11 +173,7 @@ return (from trace in traces
 
 //findingEditor.details();
 
-
-//using O2.DotNetWrappers.O2Misc
 //using O2.XRules.Database.Findings
+//using O2.XRules.Database.APIs
 //O2File:Findings_ExtensionMethods.cs
-//using O2.Interfaces.O2Findings 
-//O2File:API_Armorize.cs</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2File:API_Armorize.cs

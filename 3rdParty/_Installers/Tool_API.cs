@@ -6,17 +6,12 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using System.Reflection;
 using System.Text;
-using O2.Interfaces.O2Core;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.DotNetWrappers.Network;
-using O2.DotNetWrappers.Windows;
-using O2.DotNetWrappers.Zip;
-using O2.Views.ASCX.classes.MainGUI;
-using O2.Views.ASCX.ExtensionMethods;
-using O2.External.SharpDevelop.ExtensionMethods;
-using O2.XRules.Database.Utils;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.CoreLib.Interfaces;
+using FluentSharp.REPL;
+using FluentSharp.REPL.Utils;
+using FluentSharp.WinForms;
 //O2File:_7_Zip.cs
 
 namespace O2.XRules.Database.APIs
@@ -279,7 +274,7 @@ namespace O2.XRules.Database.APIs
     		}    		
     		
     		var s3Path = "{0}{1}".format(s3DownloadFolder, file);    		
-    		if (new Web().httpFileExists(s3Path))
+    		if (s3Path.httpFileExists())
     		{
     			"found file at S3: {0}".info(s3Path);
     			var downloadedFile =  download(s3Path.uri());

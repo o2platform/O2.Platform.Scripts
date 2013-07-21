@@ -5,22 +5,21 @@ using System.Linq;
 using System.Threading;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.O2Findings;
-using O2.DotNetWrappers.Windows;
-using O2.DotNetWrappers.ExtensionMethods;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.CoreLib.Interfaces;
+using FluentSharp.WinForms;
+using FluentSharp.WinForms.O2Findings; 
+using FluentSharp.WinForms.Controls;
+using FluentSharp.WinForms.Utils;
+using FluentSharp.REPL;
+using FluentSharp.REPL.Controls;
+
+using O2.XRules.ThirdPary.IBM; //for O2.ImportExport.OunceLabs.Ozasmt_OunceV7_0;
 using O2.ImportExport.OunceLabs.Ozasmt_OunceV6;
 using O2.ImportExport.OunceLabs.Ozasmt_OunceV6_1;
-using O2.XRules.ThirdPary.IBM; //for O2.ImportExport.OunceLabs.Ozasmt_OunceV7_0;
-using O2.Interfaces.O2Core;
-using O2.Interfaces.O2Findings;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.ImportExport.OunceLabs;
-using O2.External.SharpDevelop.ExtensionMethods;
-using O2.External.SharpDevelop.Ascx;
-using O2.Views.ASCX.O2Findings;
- 
+using O2.ImportExport.OunceLabs; 
+
 //O2File:Findings_ExtensionMethods_Gui_Viewers.cs
 //O2File:OunceAvailableEngines.cs
 
@@ -181,7 +180,7 @@ namespace O2.XRules.Database.Findings
         	return findingsViewer.set_CodeEditor(codeViewer.editor());        	
         }
          
-        public static ascx_FindingsViewer set_CodeEditor(this ascx_FindingsViewer findingsViewer, ascx_SourceCodeEditor codeEditor)
+        public static ascx_FindingsViewer set_CodeEditor(this ascx_FindingsViewer findingsViewer, SourceCodeEditor codeEditor)
         {
         	findingsViewer._onTraceSelected += 
 					(trace)=>{
@@ -503,7 +502,7 @@ namespace O2.XRules.Database.Findings
 			codeViewer.editor().show(o2Finding);
 			return codeViewer;
 		}
-		public static ascx_SourceCodeEditor show(this ascx_SourceCodeEditor codeEditor, IO2Finding o2Finding)
+		public static SourceCodeEditor show(this SourceCodeEditor codeEditor, IO2Finding o2Finding)
 		{								
 			"in show".info();
 			codeEditor.open(o2Finding.file);
@@ -522,7 +521,7 @@ namespace O2.XRules.Database.Findings
 			return codeViewer;
 		}
 		
-		public static ascx_SourceCodeEditor show(this ascx_SourceCodeEditor codeEditor, IO2Trace o2Trace)
+		public static SourceCodeEditor show(this SourceCodeEditor codeEditor, IO2Trace o2Trace)
 		{											
 			codeEditor.open(o2Trace.file);
 			if (o2Trace.lineNumber > 0)
@@ -558,7 +557,7 @@ namespace O2.XRules.Database.Findings
 			return traceViewer.afterSelect_ShowTraceInCodeEditor(codeViewer.editor());
 		}
 		
-		public static ascx_TraceTreeView afterSelect_ShowTraceInCodeEditor(this ascx_TraceTreeView traceViewer , ascx_SourceCodeEditor codeEditor)
+		public static ascx_TraceTreeView afterSelect_ShowTraceInCodeEditor(this ascx_TraceTreeView traceViewer , SourceCodeEditor codeEditor)
 		{
 			traceViewer._onTraceSelected += 
 				(o2Trace)=>{

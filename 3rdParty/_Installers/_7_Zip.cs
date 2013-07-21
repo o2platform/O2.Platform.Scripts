@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods; 
-using O2.XRules.Database.Utils;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.Interfaces;
 //O2File:Tool_API.cs
  
-
+ 
 namespace O2.XRules.Database.APIs 
 {
 	public class SZip_Test

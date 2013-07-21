@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.O2Findings;
-using O2.DotNetWrappers.Windows;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.ImportExport.OunceLabs;
-using O2.ImportExport.OunceLabs.Ozasmt_OunceV6;
-using O2.Interfaces.O2Findings;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.CoreLib.Interfaces;
+using FluentSharp.WinForms;
+using FluentSharp.WinForms.O2Findings;
+using FluentSharp.WinForms.Utils;
+
 //O2File:O2AssessmentData_OunceV6.cs
 
 namespace O2.ImportExport.OunceLabs.Ozasmt_OunceV6

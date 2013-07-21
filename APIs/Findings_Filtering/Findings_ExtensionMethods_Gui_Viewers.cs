@@ -5,19 +5,10 @@ using System.Linq;
 using System.Threading;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.O2Findings;
-using O2.DotNetWrappers.Windows;
-using O2.DotNetWrappers.ExtensionMethods;
-//using O2.ImportExport.OunceLabs.Ozasmt_OunceV6;
-using O2.Interfaces.O2Core;
-using O2.Interfaces.O2Findings;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.External.SharpDevelop.ExtensionMethods;
-using O2.External.SharpDevelop.Ascx;
-using O2.Views.ASCX.O2Findings;
-
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.Interfaces;
+using FluentSharp.REPL;
+using FluentSharp.WinForms;
 //O2File:Findings_ExtensionMethods.cs
 
 namespace O2.XRules.Database.Findings
