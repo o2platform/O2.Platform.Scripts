@@ -1,0 +1,6 @@
+var apiAzure = new API_Azure_via_WebREPL("owasp-ansa.azurewebsites.net"); 
+var scriptMe = apiAzure.script_Me("replAzuze");   
+//var scriptMe = panel.add_Panel(true).add_Script_Me(apiAzure); 
+scriptMe.parentForm().set_Text("PoC - REPL in Azure"); 
+
+//O2File:API_Azure_via_WebREPL.cs

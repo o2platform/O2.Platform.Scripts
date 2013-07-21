@@ -1,0 +1,48 @@
+//var topPanel = panel.add_Panel(true);
+var topPanel = "PoC - Remote Azure Process execute".popupWindow()
+						.insert_LogViewer();
+
+var textArea = topPanel.add_TextArea();
+//TextBox arguments_TextBox  = null;;
+//TextBox exe_TextBox  = null;;
+var cmdToolStrip = topPanel.insert_Above_ToolStrip();
+		 
+var toolStrip = topPanel.insert_Above_ToolStrip();
+
+var exe_TextBox = toolStrip.add_Label("Executable Path").add_TextBox("cmd.exe");//, ref exeChange);
+var arguments_TextBox = toolStrip.add_Label("Arguments Path").add_TextBox("/c dir .");
+var server_TextBox = toolStrip.add_Label("Server").add_TextBox("localhost");//, ref exeChange);
+
+textArea.backColor("Black")
+		.foreColor("White");
+
+API_Azure_via_WebREPL apiAzure = null;
+
+Action executeCommand = 
+	()=>{		
+			textArea.set_Text("...executing...");
+			var server = server_TextBox.Text;
+			var exeToExecute = exe_TextBox.Text;
+			var arguments = arguments_TextBox.Text;				
+			apiAzure = new API_Azure_via_WebREPL(server); 
+		 	var result = apiAzure.cmd_Execute(exeToExecute, arguments);
+		 	
+		 	textArea.set_Text(result.fixCRLF());
+	   };
+
+cmdToolStrip.add_Button("Execute","btExecuteSelectedMethod_Image".formImage(),executeCommand)
+			.add_Button("REPL apiAzure","accessories_text_editor".formImage(), ()=> apiAzure.script_Me());
+;
+
+executeCommand();
+
+return "ok";
+//topPanel.insert_Above(40)
+//		.add_Label("Exe to Execute:").append_TextBox(ref exe_TextBox).align_Right(topPanel)
+//	    .append_Below_Label("Arguments:").left(0).append_TextBox(ref arguments_TextBox).align_Right(topPanel);
+//arguments_TextBox.left(exe_TextBox.left());	    
+
+
+//arguments_TextBox.set_Text(".");
+
+//O2File:API_Azure_via_WebREPL.cs
