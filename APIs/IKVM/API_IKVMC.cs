@@ -52,7 +52,8 @@ namespace O2.XRules.Database.APIs.IKVM
     	
     	public void setup()
     	{    		
-    		IkvmcAssembly = "ikvmc.exe".assembly();
+    		//IkvmcAssembly = "ikvmc.exe".assembly();
+    		IkvmcAssembly = @"IKVM\ikvm-7.1.4532.2\bin\ikvmc.exe".assembly();
     		StaticCompiler = IkvmcAssembly.type("StaticCompiler");
 			//IkvmRuntime = StaticCompiler.invokeStatic("LoadFile",Environment.CurrentDirectory.pathCombine("IKVM.Runtime.dll")); 
 			IkvmRuntime = StaticCompiler.invokeStatic("LoadFile","IKVM.Runtime.dll".assembly().Location); 			 			

@@ -1350,34 +1350,34 @@ namespace O2.XRules.Database.APIs
   
     	public static string tagName(this Element element)
     	{
-    		return element.TagName;
+    		return element.TagName.trim();
     	}
     	
     	public static string id(this Element element)
     	{
     		return (element != null)
-    					? element.Id
+    					? element.Id.trim()
     					: "";
     	}
     	
     	public static string className(this Element element)
     	{
     		return (element != null)
-    					? element.ClassName
+    					? element.ClassName.trim()
     					: "";
     	}
  
     	public static string text(this Element element)
     	{
     		return (element != null)
-    					? element.Text
+    					? element.Text.trim()
     					: "";
     	}
  
     	public static string title(this Element element)
     	{
     		return (element != null)
-    					? element.Title
+    					? element.Title.trim()
     					: "";
     	}
  

@@ -1,0 +1,27 @@
+//var topPanel 	 = panel.clear().add_Panel(); 
+var topPanel  = "Util - Chrome with REPL".popupWindow(1200,600);
+
+var replPanel = topPanel.add_GroupBox("C# Repl").add_Panel();
+
+var chromeHijack = new API_Chrome_Hijack().open_ChromeDriver()
+									      .add_Chrome_To_Panel(topPanel.insert_Right())
+					   					  .add_WebDriver_ScriptMe_To(replPanel);
+ 
+var firstScript = 
+@"chromeDriver.open(""http://www.google.com"");
+chromeDriver.FindElement(By.Name(""q""))
+		    .SendKeys(""O2 Platform"");
+chromeDriver.FindElement(By.Name(""btnG""))
+	        .Click();
+return ""done"";
+
+//using OpenQA.Selenium;
+//O2Ref:WebDriver.dll
+//O2File:API_ChromeDriver.cs";
+
+chromeHijack.WebDriver_Script_Me.set_Code(firstScript);
+			 				     
+//O2File:API_Chrome_Hijack.cs
+
+
+//O2Ref:WebDriver.dll

@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var topPanel = "Util - CheckMarx Rule and Guidance Viewer".popupWindow(1000, 600).insert_LogViewer();
+var topPanel = "Util - CheckMarx Rule and Guidance Viewer".popupWindow(1000, 600).insert_LogViewer();
 //var topPanel = panel.add_Panel(true);
 var settingsPanel = topPanel.insert_Above(40,"Settings");
 var treeView = topPanel.add_TreeView_with_PropertyGrid().sort();
@@ -11,11 +9,11 @@ var cxPortal = new CxPortalWebService();
 
 settingsPanel.add_Label("Server:",2).append_TextBox(cxPortal.Url).align_Right();
 			 //.widthAdd(-100)
-			 //.append_Link("Connect", ()=&gt;{});
+			 //.append_Link("Connect", ()=>{});
 
 "cxSessionId".o2Cache(null);
 var sessionId = "cxSessionId".o2Cache(
-	()=&gt;{
+	()=>{
 			var user = "What user do you want to use".askUser();
 			var pwd  = "What is the pwd for user {0}".format(user).askUser();
 			
@@ -42,19 +40,19 @@ var checkMark_Data = "_CheckMark_Data".tempDir(false);
 
 		
 var queryQueryCollection = (CxQueryCollectionResponse)"CxQueryCollectionResponse".o2Cache(
-	()=&gt;{			
+	()=>{			
 			"Loading data from GetQueryCollection (its about 2.5Mb".debug();
 			var queryCollectionFile = checkMark_Data.pathCombine("WS_GetQueryCollection.xml");
 			var response = cxPortal.GetQueryCollection(sessionId);
 			response.saveAs(queryCollectionFile);
-			return queryCollectionFile.load&lt;CxQueryCollectionResponse&gt;();
+			return queryCollectionFile.load<CxQueryCollectionResponse>();
 		});
 
 
-Action&lt;long&gt; showCweData = 
-	(cweId)=&gt;{
+Action<long> showCweData = 
+	(cweId)=>{
 				O2Thread.mtaThread(
-					()=&gt;{
+					()=>{
 							browser.showMessage("Loading CweId: {0}".format(cweId));
 							var cweHtml = cxPortal.GetQueryDescription(sessionId, (int)cweId)
 												  .QueryDescription.saveWithExtension(".html");
@@ -64,15 +62,15 @@ Action&lt;long&gt; showCweData =
 			 };
 	
 
-treeView.afterSelect&lt;CxWSQuery&gt;(
-	(query)=&gt;{
+treeView.afterSelect<CxWSQuery>(
+	(query)=>{
 				
 				codeViewer.set_Text(query.Source, ".cs");
 				showCweData(query.Cwe);
 			 });
 
 treeView.beginUpdate();
-var queryGroupMappings = new Dictionary&lt;string, List&lt;CxWSQueryGroup&gt;&gt;();
+var queryGroupMappings = new Dictionary<string, List<CxWSQueryGroup>>();
 foreach(var queryGroup in queryQueryCollection.QueryGroups)
 	queryGroupMappings.add(queryGroup.LanguageName, queryGroup);
 
@@ -125,6 +123,3 @@ return response;
 */
 //O2File:CxPortalWebService.cs
 //O2Ref:System.Web.Services.dll 
-</SourceCode>
-  <ReferencedAssemblies />
-</H2>

@@ -1,0 +1,32 @@
+//var topPanel = panel.add_Panel(true); 
+var topPanel = "Util - REPL IE (native) and Chrome (hijacked window)".popupWindow(1200,600);
+var browsersPanel = topPanel.insert_Above();   
+var ie 	   = browsersPanel.title("IE").add_IE();   
+var chrome = browsersPanel.insert_Right().add_Chrome();  	
+ 
+var repl = topPanel.add_Script();
+repl.add_InvocationParameter("ie", ie);
+repl.add_InvocationParameter("chrome", chrome); 
+
+var firstScript = 
+@"chrome.open(""http://o2platform.com"");
+ie.open(""http://o2platform.com"");
+
+//return ie;
+return chrome;
+
+//O2Ref:" + @"WatiN.Core.1x.dll
+//O2Ref:" + @"WebDriver.dll
+//O2File:" + @"WatiN_IE_ExtensionMethods.cs
+//O2File:" + @"API_Chrome_Hijack.cs
+//O2File:" + @"API_ChromeDriver.cs
+"; 
+repl.onCompileExecuteOnce()
+	.set_Code(firstScript); 
+//chrome.open("http://o2platform.com"); 
+
+//O2Ref:WatiN.Core.1x.dll
+//O2Ref:WebDriver.dll
+//O2File:WatiN_IE_ExtensionMethods.cs
+//O2File:API_Chrome_Hijack.cs
+//O2File:API_ChromeDriver.cs

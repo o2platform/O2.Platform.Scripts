@@ -20,13 +20,13 @@ namespace O2.XRules.Database.APIs
 	{				
 		public Python_Install()
 		{						
-			Install_Uri = "http://www.python.org/ftp/python/2.7.3/python-2.7.3.msi".uri();
-			Install_File = "python-2.7.3.msi";
-			Install_Dir = @"C:\Python27\";
-			Executable = Install_Dir.pathCombine("python.exe");	   
-			startInstaller_FromMsi_Web();	       		
-		}	
-		//
+			config("Python-2.7", 
+				   "http://www.python.org/ftp/python/2.7.5/python-2.7.5.msi".uri(),
+				   @"C:\Python27\python.exe");
+			
+    		startInstaller_FromMsi_Web();   
+			
+		}			
 		
 		public Process start()
 		{
