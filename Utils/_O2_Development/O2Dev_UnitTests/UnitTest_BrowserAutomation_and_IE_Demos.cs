@@ -4,12 +4,8 @@ using System.IO;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;
 using NUnit.Framework;
 using White.Core;
-using O2.XRules.Database.APIs;
 
 //O2Ref:nunit.framework.dll
 //O2File:API_GuiAutomation.cs

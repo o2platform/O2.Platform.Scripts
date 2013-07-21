@@ -3,14 +3,13 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using System.Text;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.External.SharpDevelop.ExtensionMethods;
-using O2.XRules.Database.APIs;
+using System.Windows.Forms;
+using FluentSharp.CoreLib;
+using FluentSharp.REPL;
+using FluentSharp.WinForms;
 using NUnit.Framework;
+
 
 //O2Ref:nunit.framework.dll
 //O2File:API_InputSimulator.cs

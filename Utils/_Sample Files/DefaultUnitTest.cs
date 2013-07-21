@@ -4,9 +4,6 @@ using System.IO;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;
 
 //O2Ref:nunit.framework.dll
 using NUnit.Framework;

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Diagnostics;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.DotNetWrappers.Windows;
+﻿using System.Diagnostics;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
 
 //O2File:Tool_API.cs
 
