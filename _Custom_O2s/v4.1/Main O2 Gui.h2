@@ -139,8 +139,6 @@ logViewerPanel.add_LogViewer().white();
  
 return "done";		 
 
-//using O2.Views.ASCX.Forms
-//using O2.Kernel.CodeUtils
 //O2Embed:FluentSharp.Roslyn.dll
 //O2Embed:WatiN.Core.1x.dll
 //O2DontEmbed:Ionic.Zip.dll

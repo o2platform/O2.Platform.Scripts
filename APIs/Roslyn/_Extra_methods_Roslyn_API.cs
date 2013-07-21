@@ -3,17 +3,15 @@ using System;
 using System.Linq; 
 using System.Reflection;
 using System.Collections.Generic;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.External.SharpDevelop.ExtensionMethods;
-using O2.XRules.Database.Utils;
 using Roslyn.Compilers.Common;
 using Roslyn.Compilers.CSharp;
 using Roslyn.Compilers;
 using Roslyn.Services;
-using O2.FluentSharp;
+using FluentSharp.CoreLib;
+using FluentSharp.WinForms;
+using FluentSharp.CoreLib.API;
+using FluentSharp.FluentRoslyn;
+using FluentSharp.REPL;
 //O2Ref:FluentSharp.Roslyn.dll
 
 //O2File:_Extra_methods_Roslyn_API_GuiHelpers.cs

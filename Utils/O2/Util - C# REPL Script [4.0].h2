@@ -29,6 +29,7 @@ start();
 		
 //using Roslyn.Compilers;
 //using Roslyn.Compilers.CSharp;				
+//using FluentSharp.FluentRoslyn;
 
 //O2Ref:FluentSharp.Roslyn.dll
 //O2Ref:Roslyn.Compilers.CSharp.dll
