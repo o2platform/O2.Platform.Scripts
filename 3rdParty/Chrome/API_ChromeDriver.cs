@@ -1,10 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Collections.Generic;
-using O2.DotNetWrappers.ExtensionMethods;
-using OpenQA.Selenium.Remote;
+using FluentSharp.CoreLib;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.IE;
 using OpenQA.Selenium;
 //Installer:Selenium_Installer.cs!Selenium\net40\WebDriver.dll
 //O2File:SeleniumWebDrivers_Setup.cs

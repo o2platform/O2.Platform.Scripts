@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Diagnostics;
-
-using O2.Kernel					 .ExtensionMethods;
+﻿using FluentSharp.CoreLib;
+using FluentSharp.WinForms;
 using O2.FluentSharp.VisualStudio.ExtensionMethods;
-using O2.DotNetWrappers			 .ExtensionMethods;
-using O2.Views.ASCX				 .ExtensionMethods;
 
 //O2File:O2_VS_AddIn.cs
 

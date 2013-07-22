@@ -1,13 +1,10 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
-using System;
-using System.IO;
+
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.Interfaces;
+using FluentSharp.REPL;
 using NUnit.Framework;
-using O2.Interfaces.O2Findings;
-using O2.DotNetWrappers.O2Findings;
-using O2.DotNetWrappers.ExtensionMethods;
 using O2.ImportExport.OunceLabs.Ozasmt_OunceV6;
 using O2.ImportExport.OunceLabs.Ozasmt_OunceV6_1;
 using O2.XRules.ThirdPary.IBM;
@@ -20,7 +17,6 @@ using O2.XRules.Database.Findings;
 //O2Ref:nunit.framework.dll
 
 //O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
-using O2.XRules.Database.APIs;
 
 namespace O2.XRules.Database.UnitTests
 {		

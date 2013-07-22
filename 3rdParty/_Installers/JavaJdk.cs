@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods; 
-using O2.Views.ASCX.ExtensionMethods;
-using O2.Views.ASCX.classes.MainGUI;
-using O2.XRules.Database.Utils;
+using FluentSharp.CoreLib;
+using FluentSharp.Watin;
+//using FluentSharp.WinForms;
+using FluentSharp.WinForms;
+using FluentSharp.WinForms.Controls;
+
 //O2File:WatiN_IE_ExtensionMethods.cs
 //O2Ref:WatiN.Core.1x.dll
 //O2File:Tool_API.cs

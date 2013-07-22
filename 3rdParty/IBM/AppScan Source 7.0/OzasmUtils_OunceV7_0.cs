@@ -5,6 +5,7 @@ using FluentSharp.CoreLib;
 using FluentSharp.CoreLib.API;
 using FluentSharp.CoreLib.Interfaces;
 using FluentSharp.WinForms.O2Findings;
+using O2.ImportExport.OunceLabs.Ozasmt_OunceV6_1;
 
 //O2File:xsd_Ozasmt_OunceV7_0.cs
 

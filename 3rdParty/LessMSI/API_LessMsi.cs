@@ -1,10 +1,7 @@
 using System;
 using System.Threading;
 using System.Diagnostics;
-using O2.Kernel; 
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods; 
-using O2.XRules.Database.Utils;
+using FluentSharp.CoreLib;
 using LessMsi.Msi;
 //Installer:LessMsi_Install.cs!LessMsi/lessmsi.exe
 //O2Ref:LessMsi/lessmsi.exe

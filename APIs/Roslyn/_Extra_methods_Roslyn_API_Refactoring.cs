@@ -1,17 +1,8 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
 using System;
-using System.Linq; 
-using System.Reflection;
-using System.Collections.Generic;
-using Roslyn.Compilers.Common;
 using Roslyn.Compilers.CSharp;
 using Roslyn.Compilers;
-using Roslyn.Services;
 using FluentSharp.CoreLib;
-using FluentSharp.CoreLib.API;
-using FluentSharp.FluentRoslyn;
-using FluentSharp.WinForms;
-using FluentSharp.REPL;
 
 //O2File:_Extra_methods_Roslyn_API.cs
 
@@ -23,7 +14,7 @@ using FluentSharp.REPL;
 //O2Ref:Roslyn.Compilers.CSharp.dll
 //O2Ref:Roslyn.Utilities.dll
 
-namespace O2.XRules.Database.APIs
+namespace FluentSharp.FluentRoslyn
 {	
 	
 	public static class _Extra_methods_Roslyn_API_Refactoring

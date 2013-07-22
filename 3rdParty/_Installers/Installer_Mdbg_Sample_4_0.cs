@@ -1,16 +1,14 @@
-﻿using System;
-using System.Diagnostics; 
-using O2.Kernel; 
-using O2.Kernel.ExtensionMethods; 
-using O2.DotNetWrappers.ExtensionMethods;  
-using O2.DotNetWrappers.Windows;  
-using O2.XRules.Database.Utils;
+﻿using System.Diagnostics;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.REPL;
+
 //O2File:API_MsBuild.cs 
 //O2File:Tool_API.cs 
  
 namespace O2.XRules.Database.APIs 
 {
-	public class testInstall
+	public class Installer_MDbg_Sample_4_0_Test
 	{
 		public static void test()  
 		{

@@ -2,11 +2,9 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
-using O2.Interfaces.O2Findings;
-using O2.Interfaces.XRules;
-using O2.DotNetWrappers.O2Findings;
-using O2.DotNetWrappers.O2CmdShell;
-using O2.DotNetWrappers.Windows;
+using FluentSharp.CoreLib.API;
+using FluentSharp.CoreLib.Interfaces;
+using FluentSharp.WinForms.O2Findings;
 using O2.XRules.Database.Interfaces;
 using NUnit.Framework;
 

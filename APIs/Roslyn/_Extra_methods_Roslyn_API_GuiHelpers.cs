@@ -10,7 +10,6 @@ using Roslyn.Compilers;
 using Roslyn.Services;
 using FluentSharp.CoreLib;
 using FluentSharp.CoreLib.API;
-using FluentSharp.FluentRoslyn;
 using FluentSharp.WinForms;
 using FluentSharp.REPL;
 //O2File:_Extra_methods_Roslyn_API.cs
@@ -26,7 +25,7 @@ using FluentSharp.REPL;
 //_O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
 //O2Ref:WeifenLuo.WinFormsUI.Docking.dll
 
-namespace O2.XRules.Database.APIs
+namespace FluentSharp.FluentRoslyn
 {	
 					
 	public static class _Extra_methods_Roslyn_API_GuiHelpers

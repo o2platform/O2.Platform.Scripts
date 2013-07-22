@@ -1,14 +1,11 @@
-﻿using System;
-using System.Diagnostics; 
-using O2.Kernel; 
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;  
-using O2.XRules.Database.Utils;
+﻿using System.Diagnostics;
+using FluentSharp.CoreLib;
+
 //O2File:Tool_API.cs 
  
 namespace O2.XRules.Database.APIs 
 {
-	public class testInstall
+	public class NetSparkerCommunity_Install_Test
 	{
 		public static void test()  
 		{

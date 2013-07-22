@@ -2,20 +2,13 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading;
-using System.Linq;
-using System.Windows.Forms;
-using O2.Interfaces.FrameworkSupport.J2EE;
-using O2.Interfaces.O2Core;
-using O2.Interfaces.Views;
-using O2.Interfaces.XRules;
-using O2.Kernel;
+using FluentSharp.CoreLib.API;
+using FluentSharp.CoreLib.Interfaces;
+using FluentSharp.CoreLib.Interfaces.J2EE;
+using FluentSharp.WinFormUI.Utils;
 using O2.Core.FileViewers.Ascx;
 using O2.Core.FileViewers.Struts_1_5;
-using O2.DotNetWrappers.O2Findings;
-using O2.DotNetWrappers.DotNet;
-using O2.External.WinFormsUI.Forms;
+
 //O2File:ascx_Validation_xml.cs
 //O2File:ascx_J2EE_web_xml.cs
 //O2File:ascx_Struts_config_xml.cs

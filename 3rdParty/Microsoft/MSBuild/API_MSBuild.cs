@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Text;
 using System.Drawing;
+using System.Text;
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Collections.Generic;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.Views.ASCX.DataViewers;
-using O2.Views.ASCX.ExtensionMethods;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.XRules.Database.Utils;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.WinForms;
+using FluentSharp.WinForms.Controls;
 
 namespace O2.XRules.Database.APIs
 {	
@@ -149,7 +146,7 @@ namespace O2.XRules.Database.APIs
 		//public TextBox			 currentTarget_TextBox;
 		public Label				 status_Label;
 		public CheckBox				 buildEnabled_CheckBox;
-		public ascx_TableList		 tableList;
+		public ctrl_TableList		 tableList;
 		public Action<string> 		 startBuild;
 		public Action<string,Action> buildProjects;
 		

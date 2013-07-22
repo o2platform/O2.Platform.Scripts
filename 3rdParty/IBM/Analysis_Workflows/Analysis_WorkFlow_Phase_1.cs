@@ -2,11 +2,8 @@
 //O2Tag_OnlyAddReferencedAssemblies
 using System.IO;
 using System.Collections.Generic;
-using O2.Interfaces.O2Core;
-using O2.Interfaces.XRules;
-using O2.Kernel;
-using O2.DotNetWrappers.Windows;
-using O2.DotNetWrappers.O2CmdShell;
+using FluentSharp.CoreLib.API;
+using FluentSharp.CoreLib.Interfaces;
 using O2.XRules.Database.Interfaces;
 using NUnit.Framework;
 

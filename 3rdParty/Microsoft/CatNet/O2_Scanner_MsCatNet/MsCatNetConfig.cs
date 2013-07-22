@@ -2,8 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Windows.Forms;
-using O2.Kernel;
+using FluentSharp.CoreLib.API;
 
 namespace O2.Scanner.MsCatNet.Scan
 {

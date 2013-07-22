@@ -1,10 +1,4 @@
-﻿using System;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.DotNetWrappers.Windows;
-
-//O2File:Tool_API.cs
+﻿//O2File:Tool_API.cs
 
 namespace O2.XRules.Database.APIs
 {

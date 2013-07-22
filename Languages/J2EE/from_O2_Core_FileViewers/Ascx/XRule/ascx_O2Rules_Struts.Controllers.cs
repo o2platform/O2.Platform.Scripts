@@ -1,16 +1,9 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
-using System;
+
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
-using System.Windows.Forms;
+using FluentSharp.CoreLib.Interfaces;
 //using O2.Core.FileViewers.JoinTraces;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.O2Findings;
-using O2.Interfaces.O2Findings;
-using O2.Views.ASCX.O2Findings;
 
 //O2File:ascx_O2Rules_Struts.cs
 

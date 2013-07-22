@@ -5,7 +5,7 @@ using FluentSharp.CoreLib;
 
 namespace O2.XRules.Database.APIs
 {
-	public class Installer_Test
+	public class Git_Installer_Test
 	{
 		public void test() 
 		{

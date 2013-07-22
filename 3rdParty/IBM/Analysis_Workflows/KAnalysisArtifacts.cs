@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml.Serialization;
-using O2.DotNetWrappers.DotNet;
-using O2.Kernel;
+using FluentSharp.CoreLib.API;
+
 //O2File:IAnalysisArtifacts.cs
 
 

@@ -2,12 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Windows.Forms;
-using O2.Kernel;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.O2Misc;
-using O2.DotNetWrappers.Xsd;
-using O2.ImportExport.OunceLabs;
+using FluentSharp.CoreLib.API;
+using FluentSharp.WinForms.Utils;
 using O2.ImportExport.OunceLabs.Ozasmt_OunceV6;
 
 //O2File:O2AssessmentData_OunceV6.cs

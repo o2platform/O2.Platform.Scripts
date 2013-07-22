@@ -1,11 +1,10 @@
-﻿using System;
-using System.Diagnostics; 
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.Windows; 
-using O2.DotNetWrappers.ExtensionMethods; 
-using O2.XRules.Database.Utils;
-using O2.FluentSharp;
+﻿using System.Diagnostics;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.FluentRoslyn;
+using FluentSharp.Git;
+using FluentSharp.REPL;
+using FluentSharp.WinForms;
 
 //O2File:Tool_API.cs
 //O2File:_Extra_methods_Roslyn_API.cs

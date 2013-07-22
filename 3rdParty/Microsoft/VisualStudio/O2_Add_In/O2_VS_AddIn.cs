@@ -1,21 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using EnvDTE;
-using EnvDTE80;
-using System.Diagnostics;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.FluentSharp.VisualStudio.ExtensionMethods;
-using O2.Views.ASCX.ExtensionMethods;
-using O2.Views.ASCX.Ascx.MainGUI;
-using O2.Views.ASCX.classes.MainGUI;
-using O2.DotNetWrappers.DotNet;
-using Microsoft.VisualStudio.CommandBars;
-using O2.Platform;
-using O2.Kernel;
 using System.Windows.Forms;
+using EnvDTE80;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.WinForms;
+using FluentSharp.WinForms.Controls;
+using Microsoft.VisualStudio.CommandBars;
+using O2.FluentSharp.VisualStudio.ExtensionMethods;
 
 //O2File:Microsoft_VisualStudio_ExtensionMethods.cs
 //O2File:CommandBase.cs

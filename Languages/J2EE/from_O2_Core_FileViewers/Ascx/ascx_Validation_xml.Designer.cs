@@ -2,6 +2,9 @@
 
 //O2File:ascx_Validation_xml.cs
 
+using System;
+using FluentSharp.WinForms.Controls;
+
 namespace O2.Core.FileViewers.Ascx
 {
     partial class ascx_Validation_xml
@@ -36,7 +39,7 @@ namespace O2.Core.FileViewers.Ascx
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.lbValidatatorForms = new System.Windows.Forms.ListBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.tableList_FormFields = new O2.Views.ASCX.DataViewers.ascx_TableList();
+            this.tableList_FormFields = new ctrl_TableList();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -107,7 +110,7 @@ namespace O2.Core.FileViewers.Ascx
             this.tableList_FormFields.Name = "tableList_FormFields";
             this.tableList_FormFields.Size = new System.Drawing.Size(296, 397);
             this.tableList_FormFields.TabIndex = 8;
-            this.tableList_FormFields._onTableListDrop += new O2.DotNetWrappers.DotNet.O2Thread.FuncVoidT1<System.Windows.Forms.DragEventArgs>(this._onTableListDrop);
+            this.tableList_FormFields._onTableListDrop += new Action<System.Windows.Forms.DragEventArgs>(this._onTableListDrop);
             // 
             // label3
             // 
@@ -152,7 +155,7 @@ namespace O2.Core.FileViewers.Ascx
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private O2.Views.ASCX.DataViewers.ascx_TableList tableList_FormFields;
+        private ctrl_TableList tableList_FormFields;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ListBox lbValidatatorForms;

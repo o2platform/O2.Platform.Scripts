@@ -2,6 +2,8 @@
 
 //O2File:ascx_O2Rules_Struts.cs
 
+using FluentSharp.WinForms.Controls;
+
 namespace O2.Core.FileViewers.Ascx.O2Rules
 {
     partial class ascx_O2Rules_Struts
@@ -37,17 +39,17 @@ namespace O2.Core.FileViewers.Ascx.O2Rules
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.strutsMappingsControl = new O2.Core.FileViewers.Ascx.ascx_StrutsMappings();
             this.label2 = new System.Windows.Forms.Label();
-            this.findingsViewer_BaseFindings = new O2.Views.ASCX.O2Findings.ascx_FindingsViewer();
+            this.findingsViewer_BaseFindings = new ascx_FindingsViewer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.filteredFindings_TaintSources = new O2.Core.FileViewers.Ascx.O2Rules.ascx_FilteredFindings();
             this.splitContainer7 = new System.Windows.Forms.SplitContainer();
             this.filteredFindings_FinalSinks = new O2.Core.FileViewers.Ascx.O2Rules.ascx_FilteredFindings();
             this.llCreateFindingsFromStrutsMappings = new System.Windows.Forms.LinkLabel();
-            this.findingsViewer_FromStrutsMappings = new O2.Views.ASCX.O2Findings.ascx_FindingsViewer();
+            this.findingsViewer_FromStrutsMappings = new ascx_FindingsViewer();
             this.label9 = new System.Windows.Forms.Label();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
-            this.findingsViewer_FinalFindings = new O2.Views.ASCX.O2Findings.ascx_FindingsViewer();
+            this.findingsViewer_FinalFindings = new ascx_FindingsViewer();
             this.label6 = new System.Windows.Forms.Label();
             this.llReCalculateResults = new System.Windows.Forms.LinkLabel();
             this.splitContainer6 = new System.Windows.Forms.SplitContainer();
@@ -418,16 +420,16 @@ namespace O2.Core.FileViewers.Ascx.O2Rules
         private System.Windows.Forms.SplitContainer splitContainer1;
         public ascx_StrutsMappings strutsMappingsControl;
         private System.Windows.Forms.SplitContainer splitContainer2;
-        public O2.Views.ASCX.O2Findings.ascx_FindingsViewer findingsViewer_BaseFindings;
+        public ascx_FindingsViewer findingsViewer_BaseFindings;
         private System.Windows.Forms.SplitContainer splitContainer3;
         private System.Windows.Forms.SplitContainer splitContainer4;
         private System.Windows.Forms.SplitContainer splitContainer5;
-        public O2.Views.ASCX.O2Findings.ascx_FindingsViewer findingsViewer_FinalFindings;
+        public ascx_FindingsViewer findingsViewer_FinalFindings;
         private System.Windows.Forms.LinkLabel llReCalculateResults;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.SplitContainer splitContainer6;
         private System.Windows.Forms.LinkLabel llCreateFindingsFromStrutsMappings;
-        public O2.Views.ASCX.O2Findings.ascx_FindingsViewer findingsViewer_FromStrutsMappings;
+        public ascx_FindingsViewer findingsViewer_FromStrutsMappings;
         private System.Windows.Forms.Label label9;
         public ascx_FilteredFindings filteredFindings_TaintSources;
         public ascx_FilteredFindings filteredFindings_FinalSinks;

@@ -7,17 +7,16 @@ using System.Reflection;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Xml.Serialization;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.Windows;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.External.SharpDevelop.Ascx;
-using O2.XRules.Database.Findings;
-using O2.Views.ASCX.O2Findings;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.CoreLib.Interfaces;
+using FluentSharp.REPL;
+using FluentSharp.REPL.Controls;
+using FluentSharp.WinForms;
+using FluentSharp.WinForms.Controls;
+using Microsoft.ACESec.CATNet.Core.Driver;
 using O2.Scanner.MsCatNet.Converter;
-using O2.Interfaces.O2Findings;
-using Microsoft.ACESec.CATNet.Core.Driver; 
+using O2.XRules.Database.Findings;
 using Rules = Microsoft.ACESec.CATNet.Core.Rules;
 //Installer:CatNet_Installer.cs!CatNet_1.1/SourceDir/Microsoft.ACESec.CATNet.Core.dll
 //O2File:Findings_ExtensionMethods.cs
@@ -213,7 +212,7 @@ namespace O2.XRules.Database.APIs
 			return new List<IO2Finding>();	
 		}
 		
-		public static ascx_FindingsViewer add_CatNet_FindingsViewer(this Control control, string reportFile, ascx_SourceCodeEditor codeEditor = null)
+		public static ascx_FindingsViewer add_CatNet_FindingsViewer(this Control control, string reportFile, SourceCodeEditor codeEditor = null)
 		{
 			var findingsViewer = control.control<ascx_FindingsViewer>();						
 			if (findingsViewer.notNull())
@@ -229,7 +228,7 @@ namespace O2.XRules.Database.APIs
 			return findingsViewer;
 		}
 		
-		public static ascx_FindingsViewer show(this API_CatNet catNet, Control control, ascx_SourceCodeEditor codeEditor = null)
+		public static ascx_FindingsViewer show(this API_CatNet catNet, Control control, SourceCodeEditor codeEditor = null)
 		{			
 			var reportFile = catNet.Engine.Configuration.ReportFile;
 			if (reportFile.valid())

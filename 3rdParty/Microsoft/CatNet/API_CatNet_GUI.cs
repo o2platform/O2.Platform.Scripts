@@ -2,26 +2,17 @@
 using System;
 using System.IO;
 using System.Collections;
-using System.Text;
-using System.Linq;
-using System.Reflection;
-using System.Collections.Generic;
 using System.Windows.Forms;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.Windows;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.External.SharpDevelop.Ascx;
-using O2.External.SharpDevelop.ExtensionMethods;
-using O2.XRules.Database.Utils;
-using O2.Scanner.MsCatNet.Converter;
-using O2.FluentSharp;
-using Microsoft.ACESec.CATNet.Core.Driver; 
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.FluentRoslyn;
+using FluentSharp.REPL;
+using FluentSharp.REPL.Controls;
+using FluentSharp.WinForms;
 using Microsoft.ACESec.CATNet.Core.Analysis;
 using Microsoft.ACESec.CATNet.Core;
 using Microsoft.ACESec.CATNet.UI;
-using Rules = Microsoft.ACESec.CATNet.Core.Rules;
+using O2.XRules.Database.Utils;
 
 //O2File:API_CatNet.cs
 //O2File:_Extra_methods_WinForms_Component.cs
@@ -57,7 +48,7 @@ namespace O2.XRules.Database.APIs
 				
 		public Report report					{ get; set; }
 		
-		public ascx_SourceCodeEditor 	CodeViewer					{ get; set; }
+		public SourceCodeEditor 	CodeViewer					{ get; set; }
 		public string 				 	DroppedFile					{ get; set; }
 		//public bool  					IgnoreCodeViewOpenRequests 	{ get; set; }
 		public bool  					TriggerOnSelectedEvent 		{ get; set; }

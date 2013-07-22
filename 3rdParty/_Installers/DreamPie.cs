@@ -4,7 +4,7 @@ using FluentSharp.CoreLib;
  
 namespace O2.XRules.Database.APIs 
 {
-	public class testInstall
+	public class DreamPie_Install_Test
 	{
 		public static void test()  
 		{

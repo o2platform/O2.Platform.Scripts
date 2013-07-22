@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using FluentSharp.CoreLib;
 using O2.FluentSharp.VisualStudio.ExtensionMethods;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.FluentSharp.VisualStudio;
 using EnvDTE;
  
 //O2File:O2_VS_AddIn.cs 

@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Extensibility;
 using EnvDTE80;
+using FluentSharp.CoreLib;
 using Microsoft.VisualStudio.CommandBars;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;
 using EnvDTE;
 using System.Windows.Forms;
 

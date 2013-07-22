@@ -1,16 +1,12 @@
-﻿using System;
-using System.Diagnostics;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods; 
-using O2.XRules.Database.Utils;
-using O2.XRules.Database.APIs;
+﻿using System.Diagnostics;
+using FluentSharp.CoreLib;
+using FluentSharp.WinForms;
 
 //O2File:Tool_API.cs
 	
 namespace O2.XRules.Database.APIs 
 {	
-	public class Launcher
+	public class Gource_Installer_Test
 	{
 		public static void launch()
 		{

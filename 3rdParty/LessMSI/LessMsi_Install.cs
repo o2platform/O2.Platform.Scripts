@@ -1,18 +1,7 @@
-﻿using System;
-using System.Diagnostics;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods; 
-using O2.XRules.Database.Utils;
-//O2File:Tool_API.cs
+﻿using System.Diagnostics;
+using FluentSharp.CoreLib;
 
-public class DynamicType
-{
-	public void dynamicMethod()
-	{
-		new O2.XRules.Database.APIs.LessMsi_Install();
-	}
-}
+//O2File:Tool_API.cs
 
 namespace O2.XRules.Database.APIs 
 {	
@@ -44,7 +33,6 @@ namespace O2.XRules.Database.APIs
 		{
 			"Installing {0}".info(ToolName);
 			return installFromZip_Web(); 						
-			return false;
 		}
 		
 		public Process start()

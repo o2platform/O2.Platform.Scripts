@@ -10,12 +10,10 @@
 using System;
 using System.Diagnostics;
 using System.Xml;
-using O2.DotNetWrappers.O2Findings;
-using O2.DotNetWrappers.Windows;
+using FluentSharp.CoreLib.API;
+using FluentSharp.CoreLib.Interfaces;
+using FluentSharp.WinForms.O2Findings;
 using O2.ImportExport.OunceLabs.Ozasmt_OunceV6;
-using O2.Interfaces.Controllers;
-using O2.Interfaces.O2Findings;
-using O2.Kernel;
 
 //O2File:O2AssessmentData_OunceV6.cs
 //O2File:O2AssessmentSave_OunceV6.cs

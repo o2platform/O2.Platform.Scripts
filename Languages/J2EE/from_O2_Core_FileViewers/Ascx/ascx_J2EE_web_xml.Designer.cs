@@ -1,6 +1,9 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
 //O2File:ascx_J2EE_web_xml.cs
 
+using System;
+using FluentSharp.WinForms.Controls;
+
 namespace O2.Core.FileViewers.Ascx
 {
     partial class ascx_J2EE_web_xml
@@ -42,11 +45,11 @@ namespace O2.Core.FileViewers.Ascx
             this.lbDescription = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.tableList_Filter = new O2.Views.ASCX.DataViewers.ascx_TableList();
-            this.tableList_FilterMappings = new O2.Views.ASCX.DataViewers.ascx_TableList();
+            this.tableList_Filter = new ctrl_TableList();
+            this.tableList_FilterMappings = new ctrl_TableList();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this.tableList_Servlets = new O2.Views.ASCX.DataViewers.ascx_TableList();
-            this.tableList_ServletMappings = new O2.Views.ASCX.DataViewers.ascx_TableList();
+            this.tableList_Servlets = new ctrl_TableList();
+            this.tableList_ServletMappings = new ctrl_TableList();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -196,7 +199,7 @@ namespace O2.Core.FileViewers.Ascx
             this.tableList_Filter.Name = "tableList_Filter";
             this.tableList_Filter.Size = new System.Drawing.Size(243, 189);
             this.tableList_Filter.TabIndex = 5;
-            this.tableList_Filter._onTableListDrop += new O2.DotNetWrappers.DotNet.O2Thread.FuncVoidT1<System.Windows.Forms.DragEventArgs>(this._onTableListDrop);
+            this.tableList_Filter._onTableListDrop += new Action<System.Windows.Forms.DragEventArgs>(this._onTableListDrop);
             // 
             // tableList_FilterMappings
             // 
@@ -206,7 +209,7 @@ namespace O2.Core.FileViewers.Ascx
             this.tableList_FilterMappings.Name = "tableList_FilterMappings";
             this.tableList_FilterMappings.Size = new System.Drawing.Size(243, 118);
             this.tableList_FilterMappings.TabIndex = 6;
-            this.tableList_FilterMappings._onTableListDrop += new O2.DotNetWrappers.DotNet.O2Thread.FuncVoidT1<System.Windows.Forms.DragEventArgs>(this._onTableListDrop);
+            this.tableList_FilterMappings._onTableListDrop += new Action<System.Windows.Forms.DragEventArgs>(this._onTableListDrop);
             // 
             // splitContainer3
             // 
@@ -235,7 +238,7 @@ namespace O2.Core.FileViewers.Ascx
             this.tableList_Servlets.Name = "tableList_Servlets";
             this.tableList_Servlets.Size = new System.Drawing.Size(296, 187);
             this.tableList_Servlets.TabIndex = 8;
-            this.tableList_Servlets._onTableListDrop += new O2.DotNetWrappers.DotNet.O2Thread.FuncVoidT1<System.Windows.Forms.DragEventArgs>(this._onTableListDrop);
+            this.tableList_Servlets._onTableListDrop += new Action<System.Windows.Forms.DragEventArgs>(this._onTableListDrop);
             // 
             // tableList_ServletMappings
             // 
@@ -245,7 +248,7 @@ namespace O2.Core.FileViewers.Ascx
             this.tableList_ServletMappings.Name = "tableList_ServletMappings";
             this.tableList_ServletMappings.Size = new System.Drawing.Size(296, 120);
             this.tableList_ServletMappings.TabIndex = 9;
-            this.tableList_ServletMappings._onTableListDrop += new O2.DotNetWrappers.DotNet.O2Thread.FuncVoidT1<System.Windows.Forms.DragEventArgs>(this._onTableListDrop);
+            this.tableList_ServletMappings._onTableListDrop += new Action<System.Windows.Forms.DragEventArgs>(this._onTableListDrop);
             // 
             // label3
             // 
@@ -293,10 +296,10 @@ namespace O2.Core.FileViewers.Ascx
         private System.Windows.Forms.Label lbDescription;
         private System.Windows.Forms.Label lbDisplayName;
         private System.Windows.Forms.Label label4;
-        private O2.Views.ASCX.DataViewers.ascx_TableList tableList_Filter;
-        private O2.Views.ASCX.DataViewers.ascx_TableList tableList_FilterMappings;
-        private O2.Views.ASCX.DataViewers.ascx_TableList tableList_Servlets;
-        private O2.Views.ASCX.DataViewers.ascx_TableList tableList_ServletMappings;
+        private ctrl_TableList tableList_Filter;
+        private ctrl_TableList tableList_FilterMappings;
+        private ctrl_TableList tableList_Servlets;
+        private ctrl_TableList tableList_ServletMappings;
         private System.Windows.Forms.Label lbListenerClass;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.SplitContainer splitContainer1;

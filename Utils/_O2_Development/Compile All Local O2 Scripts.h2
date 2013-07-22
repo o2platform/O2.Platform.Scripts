@@ -1,9 +1,6 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//return @"E:\O2_V4\O2.Platform.Scripts\3rdParty_Tools\CheckMarx\VistaDB\API_VistaDB.cs".fileContents();
 var topPanel = "Compiling all local O2 Scripts".popupWindow(800,500);
 //var topPanel = panel.clear().add_Panel();
-//var panel = O2Gui.open&lt;Panel&gt;("Compiling all local O2 Scripts",500,500);
+//var panel = O2Gui.open<Panel>("Compiling all local O2 Scripts",500,500);
 
 topPanel.insert_LogViewer();
 var statusStrip = topPanel.parentForm().add_StatusStrip();
@@ -22,9 +19,9 @@ dataGridView.allowNewRows(false)
 		  	.allowRowsDeletion(false)
 		  	.AllowUserToResizeRows=false;
 		  	
-dataGridView.CellMouseDown += (sender,e)=&gt;
+dataGridView.CellMouseDown += (sender,e)=>
 	{		
-		if (e.RowIndex &gt;= 0 &amp;&amp; e.ColumnIndex &gt;= 0 &amp;&amp; e.Button == MouseButtons.Right)
+		if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && e.Button == MouseButtons.Right)
 		{
 			dataGridView.ClearSelection();
 			dataGridView.Rows[e.RowIndex].Selected = true;			
@@ -33,10 +30,11 @@ dataGridView.CellMouseDown += (sender,e)=&gt;
 	
 var currentFile = "";
 var showSkippedFiles = false;
-var showOKFiles = false;
-			
+var showOKFiles      = false;
+var okFiles          = 0;			
+
 dataGridView.afterSelect(
-	(row)=&gt;{				
+	(row)=>{				
 				var values = row.values();
 				var fileName = 	values.first();			
 				currentFile = fileName.info();;				
@@ -46,8 +44,8 @@ var cancelExecution = false;
 var localScriptFolder = PublicDI.config.LocalScriptsFolder;
 var skipCompilationTag = "//O2Tag:SkipGlobal"+"Compilation";
 
-Action&lt;string&gt; compileTargetFile = 
-	(file)=&gt;{		
+Action<string> compileTargetFile = 
+	(file)=>{		
 				if (file.fileContents().contains(skipCompilationTag))
 				{
 					"Skipping file since it contained the skipCompilationTag: {0}".info(file);
@@ -59,6 +57,10 @@ Action&lt;string&gt; compileTargetFile =
 				var compiler2Result = true;
 				var rowId = 0;
 				
+				if (file.extension(".h2"))  // skip for now
+					return;
+				
+				
 				if (file.extension(".h2"))
 					compiler1Result = file.compile_H2Script() != null;
 				else
@@ -66,9 +68,9 @@ Action&lt;string&gt; compileTargetFile =
 						compiler1Result = (file.compile() != null);
 					
 				if (file.extension(".h2").isFalse())
-					compiler2Result = (new O2.DotNetWrappers.DotNet.CompileEngine().compileSourceFile(file) != null); 
+					compiler2Result = (new CompileEngine().compileSourceFile(file) != null); 
 				
-				if (compiler1Result &amp;&amp; compiler2Result &amp;&amp; showOKFiles.isFalse())
+				if (compiler1Result && compiler2Result && showOKFiles.isFalse())
 					return;
 					
 				if (file.extension(".h2"))
@@ -79,14 +81,16 @@ Action&lt;string&gt; compileTargetFile =
 					else
 						rowId = dataGridView.add_Row(file,compiler2Result, compiler2Result);
 				
-				dataGridView.get_Row(rowId).Cells[0].Style.ForeColor = (compiler1Result &amp;&amp; compiler2Result) ? Color.Green : Color.Red;
+				dataGridView.get_Row(rowId).Cells[0].Style.ForeColor = (compiler1Result && compiler2Result) ? Color.Green : Color.Red;
 				dataGridView.get_Row(rowId).Cells[1].Style.ForeColor = (compiler1Result) ? Color.Green : Color.Red;
 				dataGridView.get_Row(rowId).Cells[2].Style.ForeColor = (compiler2Result) ? Color.Green : Color.Red;
+				if (compiler1Result && compiler2Result)
+					okFiles++;
 			};
 Action startCompilation = 
-	()=&gt;{
+	()=>{
 			O2Thread.mtaThread(
-				()=&gt;{		
+				()=>{		
 						progressBar.value(0);
 						var targetFiles = localScriptFolder.files(true, "*.cs","*.o2", "*.h2");			
 						var filesToCompile = targetFiles.size(); 			
@@ -108,25 +112,23 @@ Action startCompilation =
 							compileTargetFile(file);
 							progressBar.increment(1); 					
 						} 
+						"-----------COMPILE FINISHed-------".info().debug().error();
+						"AFTER COMPLETION: there were {0} files ok, out of {1} ({2} to go)".debug(okFiles, filesToCompile, filesToCompile - okFiles);
 					});
 	};
 
 actionPanel.add_Link("Start Compilation", startCompilation).top(5)
-		   .append_Link("Stop", ()=&gt; cancelExecution = true)
-		   .append_CheckBox("Show Skipped", (value)=&gt; showSkippedFiles = value)
-		   .append_CheckBox("Show Ok", (value)=&gt; showOKFiles = value);   
+		   .append_Link("Stop", ()=> cancelExecution = true)
+		   .append_CheckBox("Show Skipped", (value)=> showSkippedFiles = value)
+		   .append_CheckBox("Show Ok", (value)=> showOKFiles = value);   
 		   
 dataGridView.add_ContextMenu()
-			.add_MenuItem("Edit Script"			,true, ()=&gt; currentFile.showInCodeEditor())
-			.add_MenuItem("Execute Script"		,true,()=&gt; currentFile.compileScriptFile().executeFirstMethod())
-			.add_MenuItem("Re-Compile Script"	,true, ()=&gt; compileTargetFile(currentFile))
-			.add_MenuItem("Clear Results"		,true, ()=&gt; dataGridView.remove_Rows());
-topPanel.onClosed(()=&gt; cancelExecution=true );
+			.add_MenuItem("Edit Script"			,true, ()=> currentFile.showInCodeEditor())
+			.add_MenuItem("Execute Script"		,true,()=> currentFile.compileScriptFile().executeFirstMethod())
+			.add_MenuItem("Re-Compile Script"	,true, ()=> compileTargetFile(currentFile))
+			.add_MenuItem("Clear Results"		,true, ()=> dataGridView.remove_Rows());
+topPanel.onClosed(()=> cancelExecution=true );
 startCompilation();		   
-//this.sleep(2000);
-//cancelExecution=true;
+
 //O2Ref:System.Data.dll
 //O2Ref:System.Xml.dll
-//using O2.Views.ASCX.Ascx.MainGUI</SourceCode>
-  <ReferencedAssemblies />
-</H2>

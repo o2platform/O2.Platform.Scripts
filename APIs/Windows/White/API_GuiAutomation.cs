@@ -1,16 +1,15 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
 using System;
 using System.Drawing;
-using System.Threading;
 using System.Linq;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using O2.Interfaces.O2Core;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.ExtensionMethods;
+using System.Windows.Automation;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.WinForms;
+using O2.XRules.Database.APIs;
 using White.Core;
 using White.Core.UIA;
 using White.Core.UIItems;
@@ -26,7 +25,6 @@ using White.Core.UIItems.ListBoxItems;
 using White.Core.UIItems.PropertyGridItems;
 using White.Core.UIItems.WindowStripControls;
 using White.Core.AutomationElementSearch;
-using System.Windows.Automation;
 
 //O2Ref:WindowsBase.dll
 //O2Ref:White.Core.dll
@@ -40,7 +38,7 @@ using System.Windows.Automation;
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
 //O2File:Api_Cropper.cs
 
-namespace O2.XRules.Database.APIs
+namespace FluentSharp.GuiAutomation
 {
     public class API_GuiAutomation
     {        	
@@ -73,7 +71,7 @@ namespace O2.XRules.Database.APIs
 		
 		public static API_GuiAutomation currentProcess()
 		{
-			return new API_GuiAutomation(O2.DotNetWrappers.Windows.Processes.getCurrentProcessID());
+			return new API_GuiAutomation(FluentSharp.CoreLib.API.Processes.getCurrentProcessID());
 		}
     }
     

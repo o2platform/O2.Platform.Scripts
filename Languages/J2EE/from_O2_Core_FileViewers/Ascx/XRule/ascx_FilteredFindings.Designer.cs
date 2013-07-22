@@ -2,6 +2,9 @@
 
 //O2File:ascx_FilteredFindings.cs 
 
+using System;
+using FluentSharp.WinForms.Controls;
+
 namespace O2.Core.FileViewers.Ascx.O2Rules
 {
     partial class ascx_FilteredFindings
@@ -39,8 +42,8 @@ namespace O2.Core.FileViewers.Ascx.O2Rules
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tbSinkSignatures = new System.Windows.Forms.TextBox();
             this.llCalculateFindings = new System.Windows.Forms.LinkLabel();
-            this.findingsViewer_Results = new O2.Views.ASCX.O2Findings.ascx_FindingsViewer();
-            this.tableList_LoadedFindingsDetails = new O2.Views.ASCX.DataViewers.ascx_TableList();
+            this.findingsViewer_Results = new ascx_FindingsViewer();
+            this.tableList_LoadedFindingsDetails = new ctrl_TableList();
             this.tcFilteredFindings = new System.Windows.Forms.TabControl();
             this.tpResults = new System.Windows.Forms.TabPage();
             this.tpSignatureFilters = new System.Windows.Forms.TabPage();
@@ -156,7 +159,7 @@ namespace O2.Core.FileViewers.Ascx.O2Rules
             this.tableList_LoadedFindingsDetails.Name = "tableList_LoadedFindingsDetails";
             this.tableList_LoadedFindingsDetails.Size = new System.Drawing.Size(354, 135);
             this.tableList_LoadedFindingsDetails.TabIndex = 5;
-            this.tableList_LoadedFindingsDetails._onTableListDrop += new O2.DotNetWrappers.DotNet.O2Thread.FuncVoidT1<System.Windows.Forms.DragEventArgs>(this.tableList_LoadedFindingsDetails__onTableListDrop);
+            this.tableList_LoadedFindingsDetails._onTableListDrop += new Action<System.Windows.Forms.DragEventArgs>(this.tableList_LoadedFindingsDetails__onTableListDrop);
             // 
             // tcFilteredFindings
             // 
@@ -239,8 +242,8 @@ namespace O2.Core.FileViewers.Ascx.O2Rules
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.TextBox tbSinkSignatures;
         private System.Windows.Forms.LinkLabel llCalculateFindings;
-        private O2.Views.ASCX.O2Findings.ascx_FindingsViewer findingsViewer_Results;
-        private O2.Views.ASCX.DataViewers.ascx_TableList tableList_LoadedFindingsDetails;
+        private ascx_FindingsViewer findingsViewer_Results;
+        private ctrl_TableList tableList_LoadedFindingsDetails;
         private System.Windows.Forms.TabControl tcFilteredFindings;
         private System.Windows.Forms.TabPage tpSignatureFilters;
         private System.Windows.Forms.TabPage tpLoadedFindingsDetails;

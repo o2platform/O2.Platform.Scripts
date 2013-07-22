@@ -1,15 +1,12 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
 using System;
 using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
-using System.Windows;
 using System.Windows.Controls;
+using EnvDTE;
+using FluentSharp.CoreLib;
+using FluentSharp.WPF;
 using Microsoft.VisualStudio.PlatformUI.Shell;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.XRules.Database.Utils;
-using O2.FluentSharp.VisualStudio;
 
 //O2Ref:FluentSharp.WPF.dll
 //O2File:API_VisualStudio_2010.cs
@@ -40,7 +37,7 @@ namespace O2.XRules.Database.APIs
       
     public static class API_VisualStudio_2010_WPF_ExtensionMethods
     {
-    	public static Window mainWindow(this API_VisualStudio_2010_WPF visualStudio)
+    	public static System.Windows.Window mainWindow(this API_VisualStudio_2010_WPF visualStudio)
     	{
     		var vsAddin = visualStudio.VsAddIn;
 			var impl = vsAddin.VS_Dte.MainWindow.field("_impl");

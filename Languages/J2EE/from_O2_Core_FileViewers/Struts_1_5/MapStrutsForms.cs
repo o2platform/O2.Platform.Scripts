@@ -1,11 +1,11 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
+
+using FluentSharp.CoreLib.API;
+using FluentSharp.CoreLib.Interfaces;
+using FluentSharp.WinFormUI.Utils;
+using FluentSharp.WinForms.Controls;
 using O2.Core.FileViewers.XSD;
 using System.Collections.Generic;
-using O2.Interfaces.O2Core;
-using O2.DotNetWrappers.DotNet;
-using O2.External.WinFormsUI.Forms;
-using O2.Interfaces.Views;
-using O2.Views.ASCX.DataViewers;
 using System.Data;
 //O2File:struts-config.cs
 //O2File:validation.cs
@@ -15,7 +15,7 @@ namespace O2.Core.FileViewers.Struts_1_5
     public class MapStrutsForms
     {
     	
-        public static IO2Log log = O2.Kernel.PublicDI.log;
+        public static IO2Log log = PublicDI.log;
 
 
 
@@ -34,7 +34,7 @@ namespace O2.Core.FileViewers.Struts_1_5
 		
         public static void showInGuiMappedFormFields(List<mappedFormField>  mappedFormFields)
         {
-            var tableList = (ascx_TableList)O2AscxGUI.openAscx(typeof (ascx_TableList), O2DockState.Float, "Table List");
+            var tableList = (ctrl_TableList)O2AscxGUI.openAscx(typeof (ctrl_TableList), O2DockState.Float, "Table List");
             var dataTable = new DataTable();		
             dataTable.Columns.Add("beanName");
             dataTable.Columns.Add("bean form field");

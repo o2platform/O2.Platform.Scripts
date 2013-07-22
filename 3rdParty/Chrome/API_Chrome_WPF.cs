@@ -1,14 +1,10 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
-using System;
-using System.Linq;
+
 using System.Threading;
-using System.Collections.Generic;  
-using System.Text;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.XRules.Database.Utils;
-using CefSharp;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.WPF;
+using FluentSharp.WinForms;
 using CefSharp.Wpf;
 
 //O2Ref:FluentSharp.WPF.dll
@@ -26,7 +22,7 @@ using CefSharp.Wpf;
 
 namespace O2.XRules.Database.APIs
 {
-	public class API_Chrome_Test
+	public class API_Chrome_WPF_Test
 	{
 		public void launchChrome()
 		{
@@ -43,7 +39,7 @@ namespace O2.XRules.Database.APIs
     	}
     }
     
-    public static class API_Chrome_WinForms
+    public static class API_Chrome_WPF_Extension_Methods
    	{   		
    		public static WebView add_Chrome_Wpf(this System.Windows.Forms.Control control, bool addNavigationBar = false)
    		{

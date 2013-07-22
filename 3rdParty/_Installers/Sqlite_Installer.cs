@@ -1,24 +1,21 @@
-﻿using System;
-using System.Diagnostics;
-using O2.Kernel; 
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;  
-using O2.XRules.Database.Utils;
+﻿using System.Diagnostics;
+using FluentSharp.CoreLib;
+
 //O2File:Tool_API.cs 
  
 namespace O2.XRules.Database.APIs 
 {
-	public class testInstall
+	public class Sqlite_Install_Test
 	{
 		public static void test()  
 		{
-			new MySql_Install().start(); 
+			new Sqlite_Install().start(); 
 		}
 	}
 	 
-	public class MySql_Install : Tool_API    
+	public class Sqlite_Install : Tool_API    
 	{				
-		public MySql_Install() 
+		public Sqlite_Install() 
 		{			
 			config("sqlite",
 				   "http://www.sqlite.org/2013/sqlite-shell-win32-x86-3071700.zip".uri(),

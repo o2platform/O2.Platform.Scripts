@@ -3,14 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 //O2Ref:nunit.framework.dll
+using FluentSharp.CoreLib.API;
+using FluentSharp.CoreLib.Interfaces;
+using FluentSharp.WinForms.O2Findings;
 using NUnit.Framework;
-using O2.DotNetWrappers.O2CmdShell;
-using O2.DotNetWrappers.O2Findings;
-using O2.DotNetWrappers.Windows;
-using O2.Interfaces.O2Findings;
-using O2.Interfaces.XRules;
+
 //O2File:XRule_Findings_Filter.cs
 //O2File:XUtils_Struts_v0_1.cs
 //O2File:XUtils_Findings_v0_1.cs

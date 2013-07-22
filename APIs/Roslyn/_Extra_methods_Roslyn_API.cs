@@ -10,7 +10,6 @@ using Roslyn.Services;
 using FluentSharp.CoreLib;
 using FluentSharp.WinForms;
 using FluentSharp.CoreLib.API;
-using FluentSharp.FluentRoslyn;
 using FluentSharp.REPL;
 //O2Ref:FluentSharp.Roslyn.dll
 
@@ -24,7 +23,7 @@ using FluentSharp.REPL;
 //O2Ref:Roslyn.Compilers.CSharp.dll
 //O2Ref:Roslyn.Utilities.dll
 
-namespace O2.XRules.Database.APIs
+namespace FluentSharp.FluentRoslyn
 {	
 	
 	public static class _Extra_methods_Roslyn_API_StatementSyntax

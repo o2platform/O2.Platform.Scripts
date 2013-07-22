@@ -4,24 +4,19 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.DotNetWrappers.Windows;
-using O2.Interfaces.Controllers;
-using O2.Kernel.CodeUtils;
+using FluentSharp.CoreLib.API;
+using FluentSharp.CoreLib.Interfaces;
+using FluentSharp.WinForms;
+using FluentSharp.WinForms.Controls;
+using FluentSharp.WinForms.Utils;
 using O2.Scanner.MsCatNet.Converter;
 using O2.Scanner.MsCatNet.Scan;
-using O2.Views.ASCX.classes;
-using O2.Views.ASCX.classes.Tasks;
-using O2.Views.ASCX.O2Findings;
-using O2.Kernel;
 //O2File:Convert.cs
 //O2File:CatNetConverter.cs
 //O2File:MsCatNetScanner.cs
 //O2File:ascx_MsCatNet.Designer.cs
 //O2File:ScanTarget_CatNet.cs
 //O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
-using O2.XRules.Database.APIs;
 
 namespace O2.Scanner.MsCatNet.Ascx
 {

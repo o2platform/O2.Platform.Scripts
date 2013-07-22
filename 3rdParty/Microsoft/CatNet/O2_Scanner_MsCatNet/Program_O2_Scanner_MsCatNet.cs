@@ -1,13 +1,10 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
 using System;
-using O2.External.WinFormsUI.Forms;
-using O2.External.WinFormsUI.O2Environment;
+using FluentSharp.CoreLib.Interfaces;
+using FluentSharp.WinFormUI.Utils;
+using FluentSharp.WinForms.Controls;
 using O2.ImportExport.OunceLabs.Ozasmt_OunceV6;
-using O2.Interfaces.Views;
 using O2.Scanner.MsCatNet.Ascx;
-using O2.Views.ASCX.O2Findings;
-using O2.External.SharpDevelop;
-using O2.Core.XRules.Ascx;
 
 //O2File:ascx_MsCatNet.cs
 //O2File:O2AssessmentLoad_OunceV6.cs

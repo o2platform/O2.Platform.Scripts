@@ -1,24 +1,21 @@
-﻿using System;
-using System.Diagnostics;
-using O2.Kernel; 
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;  
-using O2.XRules.Database.Utils;
+﻿using System.Diagnostics;
+using FluentSharp.CoreLib;
+
 //O2File:Tool_API.cs 
  
 namespace O2.XRules.Database.APIs 
 {
-	public class testInstall
+	public class Python_Install_3_3_Test
 	{
 		public static void test()  
 		{
-			new Python_Install().start(); 
+			new Python_Install_3_3().start(); 
 		}
 	}
 	 
-	public class Python_Install : Tool_API    
+	public class Python_Install_3_3 : Tool_API    
 	{				
-		public Python_Install()
+		public Python_Install_3_3()
 		{	
 			config("Python", 
 				   "http://www.python.org/ftp/python/3.3.2/python-3.3.2.msi".uri(),

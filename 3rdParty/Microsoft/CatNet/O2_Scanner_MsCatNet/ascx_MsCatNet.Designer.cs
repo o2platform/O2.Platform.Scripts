@@ -1,9 +1,7 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
-using O2.DotNetWrappers.Windows;
-//using O2.External.Firefox.Ascx.WebAutomation;
-using O2.Kernel.CodeUtils;
-using O2.Views.ASCX.CoreControls;
 
+using FluentSharp.CoreLib.API;
+using FluentSharp.WinForms.Controls;
 //O2File:ascx_MsCatNet.cs
 
 namespace O2.Scanner.MsCatNet.Ascx
@@ -69,17 +67,17 @@ namespace O2.Scanner.MsCatNet.Ascx
             this.label10 = new System.Windows.Forms.Label();
             this.rtbLogFileForCurrentScan = new System.Windows.Forms.RichTextBox();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this.directoryWithScanCatNetResults = new O2.Views.ASCX.CoreControls.ascx_Directory();
+            this.directoryWithScanCatNetResults = new  DirectoryViewer();
             this.label2 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.directoryWithCreatedOzasmtFiles = new O2.Views.ASCX.CoreControls.ascx_Directory();
+            this.directoryWithCreatedOzasmtFiles = new DirectoryViewer();
             this.label3 = new System.Windows.Forms.Label();
             this.tpConvertCatNetOzasmt = new System.Windows.Forms.TabPage();
             this.label18 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
-            this.directoryToDropCatNetFilesForConversion = new O2.Views.ASCX.CoreControls.ascx_Directory();
+            this.directoryToDropCatNetFilesForConversion = new DirectoryViewer();
             this.tpCatNetInstall = new System.Windows.Forms.TabPage();
             this.label16 = new System.Windows.Forms.Label();
             this.supportLinks = new System.Windows.Forms.FlowLayoutPanel();
@@ -90,10 +88,10 @@ namespace O2.Scanner.MsCatNet.Ascx
             this.tpConfig = new System.Windows.Forms.TabPage();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
             this.label11 = new System.Windows.Forms.Label();
-            this.ascx_Directory3 = new O2.Views.ASCX.CoreControls.ascx_Directory();
+            this.ascx_Directory3 = new DirectoryViewer();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
-            this.ascx_Directory4 = new O2.Views.ASCX.CoreControls.ascx_Directory();
+            this.ascx_Directory4 = new DirectoryViewer();
             this.label14 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.tbDllToScan = new System.Windows.Forms.TextBox();
@@ -535,7 +533,7 @@ namespace O2.Scanner.MsCatNet.Ascx
             this.directoryWithScanCatNetResults._ShowFileContentsOnTopTip = false;
             this.directoryWithScanCatNetResults._ShowFileSize = true;
             this.directoryWithScanCatNetResults._ShowLinkToUpperFolder = false;
-            this.directoryWithScanCatNetResults._ViewMode = O2.Views.ASCX.CoreControls.ascx_Directory.ViewMode.Simple_With_LocationBar;
+            this.directoryWithScanCatNetResults._ViewMode = DirectoryViewer.ViewMode.Simple_With_LocationBar;
             this.directoryWithScanCatNetResults._WatchFolder = true;
             this.directoryWithScanCatNetResults.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
@@ -546,7 +544,7 @@ namespace O2.Scanner.MsCatNet.Ascx
             this.directoryWithScanCatNetResults.Name = "directoryWithScanCatNetResults";
             this.directoryWithScanCatNetResults.Size = new System.Drawing.Size(279, 250);
             this.directoryWithScanCatNetResults.TabIndex = 22;
-            this.directoryWithScanCatNetResults._onFileWatchEvent += new O2.DotNetWrappers.Windows.FolderWatcher.CallbackOnFolderWatchEvent(this.directoryWithScanCatNetResults__onFileWatchEvent);
+            this.directoryWithScanCatNetResults._onFileWatchEvent += new FolderWatcher.CallbackOnFolderWatchEvent(this.directoryWithScanCatNetResults__onFileWatchEvent);
             // 
             // label2
             // 
@@ -586,7 +584,7 @@ namespace O2.Scanner.MsCatNet.Ascx
             this.directoryWithCreatedOzasmtFiles._ShowFileContentsOnTopTip = false;
             this.directoryWithCreatedOzasmtFiles._ShowFileSize = true;
             this.directoryWithCreatedOzasmtFiles._ShowLinkToUpperFolder = false;
-            this.directoryWithCreatedOzasmtFiles._ViewMode = O2.Views.ASCX.CoreControls.ascx_Directory.ViewMode.Simple_With_LocationBar;
+            this.directoryWithCreatedOzasmtFiles._ViewMode = DirectoryViewer.ViewMode.Simple_With_LocationBar;
             this.directoryWithCreatedOzasmtFiles._WatchFolder = true;
             this.directoryWithCreatedOzasmtFiles.AllowDrop = true;
             this.directoryWithCreatedOzasmtFiles.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
@@ -598,8 +596,8 @@ namespace O2.Scanner.MsCatNet.Ascx
             this.directoryWithCreatedOzasmtFiles.Name = "directoryWithCreatedOzasmtFiles";
             this.directoryWithCreatedOzasmtFiles.Size = new System.Drawing.Size(272, 199);
             this.directoryWithCreatedOzasmtFiles.TabIndex = 24;
-            this.directoryWithCreatedOzasmtFiles._onTreeViewDrop += new O2.Kernel.CodeUtils.Callbacks.dMethod_String(this.directoryWithCreatedOzasmtFiles__onTreeViewDrop);
-            this.directoryWithCreatedOzasmtFiles.eDirectoryEvent_DoubleClick += new O2.Views.ASCX.CoreControls.ascx_Directory.dDirectoryEvent(this.directoryWithCreatedOzasmtFiles_eDirectoryEvent_DoubleClick);
+            this.directoryWithCreatedOzasmtFiles._onTreeViewDrop += new Callbacks.dMethod_String(this.directoryWithCreatedOzasmtFiles__onTreeViewDrop);
+            this.directoryWithCreatedOzasmtFiles.eDirectoryEvent_DoubleClick += new DirectoryViewer.dDirectoryEvent(this.directoryWithCreatedOzasmtFiles_eDirectoryEvent_DoubleClick);
             // 
             // label3
             // 
@@ -661,7 +659,7 @@ namespace O2.Scanner.MsCatNet.Ascx
             this.directoryToDropCatNetFilesForConversion._ShowFileContentsOnTopTip = false;
             this.directoryToDropCatNetFilesForConversion._ShowFileSize = true;
             this.directoryToDropCatNetFilesForConversion._ShowLinkToUpperFolder = false;
-            this.directoryToDropCatNetFilesForConversion._ViewMode = O2.Views.ASCX.CoreControls.ascx_Directory.ViewMode.Advanced;
+            this.directoryToDropCatNetFilesForConversion._ViewMode = DirectoryViewer.ViewMode.Advanced;
             this.directoryToDropCatNetFilesForConversion._WatchFolder = true;
             this.directoryToDropCatNetFilesForConversion.AllowDrop = true;
             this.directoryToDropCatNetFilesForConversion.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
@@ -673,7 +671,7 @@ namespace O2.Scanner.MsCatNet.Ascx
             this.directoryToDropCatNetFilesForConversion.Name = "directoryToDropCatNetFilesForConversion";
             this.directoryToDropCatNetFilesForConversion.Size = new System.Drawing.Size(879, 432);
             this.directoryToDropCatNetFilesForConversion.TabIndex = 28;
-            this.directoryToDropCatNetFilesForConversion._onTreeViewDrop += new O2.Kernel.CodeUtils.Callbacks.dMethod_String(this.directoryToDropCatNetFilesForConversion__onTreeViewDrop);
+            this.directoryToDropCatNetFilesForConversion._onTreeViewDrop += new Callbacks.dMethod_String(this.directoryToDropCatNetFilesForConversion__onTreeViewDrop);
             // 
             // tpCatNetInstall
             // 
@@ -801,7 +799,7 @@ namespace O2.Scanner.MsCatNet.Ascx
             this.ascx_Directory3._ShowFileContentsOnTopTip = false;
             this.ascx_Directory3._ShowFileSize = false;
             this.ascx_Directory3._ShowLinkToUpperFolder = true;
-            this.ascx_Directory3._ViewMode = O2.Views.ASCX.CoreControls.ascx_Directory.ViewMode.Simple_With_LocationBar;
+            this.ascx_Directory3._ViewMode = DirectoryViewer.ViewMode.Simple_With_LocationBar;
             this.ascx_Directory3._WatchFolder = false;
             this.ascx_Directory3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
@@ -842,7 +840,7 @@ namespace O2.Scanner.MsCatNet.Ascx
             this.ascx_Directory4._ShowFileContentsOnTopTip = false;
             this.ascx_Directory4._ShowFileSize = false;
             this.ascx_Directory4._ShowLinkToUpperFolder = true;
-            this.ascx_Directory4._ViewMode = O2.Views.ASCX.CoreControls.ascx_Directory.ViewMode.Simple_With_LocationBar;
+            this.ascx_Directory4._ViewMode = DirectoryViewer.ViewMode.Simple_With_LocationBar;
             this.ascx_Directory4._WatchFolder = false;
             this.ascx_Directory4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
@@ -1008,8 +1006,8 @@ namespace O2.Scanner.MsCatNet.Ascx
         private System.Windows.Forms.RichTextBox rtbLogFileForCurrentScan;
         private System.Windows.Forms.SplitContainer splitContainer3;
         private System.Windows.Forms.Label label2;
-        private ascx_Directory directoryWithScanCatNetResults;
-        private ascx_Directory directoryWithCreatedOzasmtFiles;
+        private DirectoryViewer directoryWithScanCatNetResults;
+        private DirectoryViewer directoryWithCreatedOzasmtFiles;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
@@ -1043,7 +1041,7 @@ namespace O2.Scanner.MsCatNet.Ascx
         private System.Windows.Forms.Button btScanAllLoadedTargets;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label19;
-        private ascx_Directory directoryToDropCatNetFilesForConversion;
+        private DirectoryViewer directoryToDropCatNetFilesForConversion;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.CheckBox cbAfterScanRemoveFromScanTargets;
         private System.Windows.Forms.CheckBox cbOnFolderDropSearchRecursively;
@@ -1054,10 +1052,10 @@ namespace O2.Scanner.MsCatNet.Ascx
         private System.Windows.Forms.Label llNumberOfAssembliesLoaded;
         private System.Windows.Forms.SplitContainer splitContainer5;
         private System.Windows.Forms.Label label11;
-        private ascx_Directory ascx_Directory3;
+        private DirectoryViewer ascx_Directory3;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
-        private ascx_Directory ascx_Directory4;
+        private DirectoryViewer ascx_Directory4;
         private System.Windows.Forms.Label label14;
     }
 }

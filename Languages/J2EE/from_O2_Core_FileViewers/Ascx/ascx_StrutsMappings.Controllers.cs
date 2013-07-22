@@ -2,16 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
+using FluentSharp.CoreLib.API;
+using FluentSharp.CoreLib.Interfaces.J2EE;
+using FluentSharp.WinForms;
+using FluentSharp.WinForms.Utils;
 using O2.Core.FileViewers.JoinTraces;
 using O2.Core.FileViewers.Struts_1_5;
-using O2.Kernel;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.DotNetWrappers.Windows;
-using O2.Interfaces.FrameworkSupport.J2EE;
 
 //O2File:ascx_StrutsMappings.cs
 //O2File:StrutsMappingsViewHelpers.cs

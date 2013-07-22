@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;  
+using FluentSharp.CoreLib;
 //O2File:Tool_API.cs 
  
 namespace O2.XRules.Database.APIs 

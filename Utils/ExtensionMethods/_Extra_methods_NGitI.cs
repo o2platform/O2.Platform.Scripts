@@ -1,14 +1,9 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
-using System;
-using System.IO;
-using System.Linq;
-using System.Drawing;
-using System.Threading;
-using System.Windows.Forms; 
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.FluentSharp;
+
+// ReSharper disable RedundantUsingDirective
+// ReSharper restore RedundantUsingDirective
+using FluentSharp.Git;
+using FluentSharp.Git.APIs;
 
 //O2Ref:FluentSharp.NGit.dll
 
@@ -21,7 +16,8 @@ namespace O2.XRules.Database.Utils
 			if(localFolder.isGitRepository())
 			{
 				var nGit = localFolder.git_Open();				
-				return nGit.pull();
+				nGit.pull();
+                return nGit;
 			}
 			return targetRepo.git_Clone(localFolder);			
 		}

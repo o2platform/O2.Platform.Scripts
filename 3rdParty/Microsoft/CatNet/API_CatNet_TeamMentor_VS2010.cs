@@ -2,17 +2,12 @@
 //O2Tag:SkipGlobalCompilation
 
 using System;
-using System.Linq;
 using System.Windows.Forms;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.External.SharpDevelop.ExtensionMethods;
+using CefSharp.WinForms;
+using FluentSharp.CoreLib;
+using FluentSharp.WinForms;
 using Microsoft.ACESec.CATNet.UI;
 using O2.FluentSharp.VisualStudio;
-using O2.XRules.Database.Utils;
-using CefSharp.WinForms;
-using EnvDTE; 
 
 //O2File:API_CatNet_VS2010.cs
 //O2File:API_VisualStudio_2010.cs

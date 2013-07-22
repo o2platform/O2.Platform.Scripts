@@ -2,10 +2,9 @@ using System;
 using Extensibility;
 using EnvDTE;
 using EnvDTE80;
-using O2.DotNetWrappers.ExtensionMethods;
 //using O2.FluentSharp.VisualStudio.ExtensionMethods;
-using System.Diagnostics;
 using System.Windows.Forms;
+using FluentSharp.CoreLib;
 
 //O2File:O2_VS_AddIn.cs 
 
