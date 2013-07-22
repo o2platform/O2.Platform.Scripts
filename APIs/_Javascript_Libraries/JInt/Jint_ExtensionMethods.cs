@@ -7,16 +7,12 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Windows.Forms;
 using System.Text;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.Windows;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.Views.ASCX.classes.MainGUI;
-using O2.Views.ASCX.DataViewers;
-using O2.Views.ASCX.ExtensionMethods;
-using O2.External.SharpDevelop.ExtensionMethods;
-using O2.External.SharpDevelop.Ascx;
+using FluentSharp.CoreLib;
+using FluentSharp.For_HtmlAgilityPack;
+using FluentSharp.REPL;
+using FluentSharp.REPL.Controls;
+using FluentSharp.WinForms;
+using FluentSharp.WinForms.Controls;
 using Jint;
 using Jint.Native;
 using Jint.Debugger;
@@ -25,7 +21,6 @@ using O2.External.IE.ExtensionMethods;
 using O2.External.IE.Interfaces;
 using O2.External.IE.Wrapper;
 using O2.External.IE.WebObjects;
-using O2.XRules.Database.Utils;
 
 //Installer:JInt_Installer.cs!Jint/Jint.dll
 //Installer:Antlr_Installer.cs!Antlr/Antlr3.Runtime.dll
@@ -609,7 +604,7 @@ namespace O2.XRules.Database.Languages_and_Frameworks.Javascript
 	//Jint Stats
 	public static class Jint_ExtensionMethods_Stats_View
 	{
-		public static ascx_TableList add_Jint_Stats_Columns(this ascx_TableList tableList)
+		public static ctrl_TableList add_Jint_Stats_Columns(this ctrl_TableList tableList)
 		{
 			var columnsNames = new string[] { "pos","url","# links", "# images", "# forms", "# js" ,"# all js ok" , "# js functions", "# js values","analyzed js size",  "original js size", "html size"};
 			tableList.add_Columns(columnsNames)		 
@@ -617,7 +612,7 @@ namespace O2.XRules.Database.Languages_and_Frameworks.Javascript
 			return tableList;
 		}
 		
-		public static ascx_TableList add_Jint_Stats_Row(this ascx_TableList tableList, int index, string url, string html, HtmlAgilityPack.HtmlDocument htmlDocument,  List<KeyValuePair<string,string>> javaScripts)
+		public static ctrl_TableList add_Jint_Stats_Row(this ctrl_TableList tableList, int index, string url, string html, HtmlAgilityPack.HtmlDocument htmlDocument,  List<KeyValuePair<string,string>> javaScripts)
 		{
 			var links =  htmlDocument.select("//a");
 			var images =  htmlDocument.select("//img");

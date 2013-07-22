@@ -2,14 +2,12 @@
 using System.Drawing;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using System.Linq;
-using System.Text;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.WinForms;
+using FluentSharp.WinForms.Controls;
+using FluentSharp.WinForms.Utils;
 using Merlin;
-using O2.Views.ASCX.CoreControls;
-using O2.Kernel;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.Windows;
 
 //O2Ref:Merlin.dll
 
@@ -23,9 +21,9 @@ namespace O2.Views.ASCX.MerlinWizard.O2Wizard_ExtensionMethods
             if (step.Controller.steps.Count > stepId)
             {
                 var firstControl = step.Controller.steps[stepId].FirstControl;
-                if (firstControl != null && firstControl is ascx_Directory)
+                if (firstControl != null && firstControl is DirectoryViewer)
                 {
-                    var directory = (ascx_Directory)firstControl;
+                    var directory = (DirectoryViewer)firstControl;
                     return directory.getCurrentDirectory();
                 }
             }
@@ -44,17 +42,17 @@ namespace O2.Views.ASCX.MerlinWizard.O2Wizard_ExtensionMethods
     
     public static class EX_O2_Ascx
     {
-        public static ascx_Directory add_Directory(this IStep step)
+        public static DirectoryViewer add_Directory(this IStep step)
         {
             return step.add_Directory(PublicDI.config.O2TempDir);
         }
 
-        public static ascx_Directory add_Directory(this IStep step, string startDirectory)
+        public static DirectoryViewer add_Directory(this IStep step, string startDirectory)
         {
-           	var directory = new ascx_Directory();
+           	var directory = new DirectoryViewer();
 			directory.Dock = DockStyle.Fill;
 			directory._HideFiles = true;
-			directory._ViewMode = ascx_Directory.ViewMode.Simple_With_LocationBar;
+			directory._ViewMode = DirectoryViewer.ViewMode.Simple_With_LocationBar;
 			directory.AllowDrop = false;
 			
             directory.openDirectory(startDirectory);

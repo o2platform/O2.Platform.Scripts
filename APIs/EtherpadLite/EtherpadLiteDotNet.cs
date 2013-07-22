@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Net;
 using System.Web.Script.Serialization;
-using O2.DotNetWrappers.ExtensionMethods;
+using FluentSharp.CoreLib;
 //O2Ref:System.Web.Extensions.dll
 
 namespace Etherpad

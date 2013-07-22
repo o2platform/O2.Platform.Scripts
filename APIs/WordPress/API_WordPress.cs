@@ -2,15 +2,9 @@
 using System;
 using System.Xml.Serialization;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.Interfaces.O2Core;
-using O2.XRules.Database.Utils;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.DotNetWrappers.Windows;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.Utils;
+using FluentSharp.WinForms;
 using JoeBlogs;
 using JoeBlogs.Structs;
 
@@ -74,7 +68,7 @@ namespace O2.XRules.Database.APIs
     public static class API_WordPress_ExtensionMethods
     {
     
-    	public static API_WordPress login(this API_WordPress wpApi, ICredential credential)
+    	public static API_WordPress login(this API_WordPress wpApi, Credential credential)
     	{
     		return wpApi.login(credential.UserName,credential.Password);
     	}
@@ -205,7 +199,7 @@ namespace O2.XRules.Database.APIs
     		if (clipboardText.contains(startText))
     			return clipboardText;
     		"Current Clipboard Text:{0}".info(clipboardText);
-    		clipboardText = clipboardText.Replace("\t","    ").fixCRLF();    		
+    		clipboardText = clipboardText.Replace("\t","    ").fix_CRLF();    		
     		var wrapedText = startText + 
 							 clipboardText + "".line() + 
  							 endText;

@@ -1,16 +1,15 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
 using System;
 using System.IO;
+using FluentSharp.CoreLib;
+using FluentSharp.WinForms;
+using SharpCompress.Archive;
+using SharpCompress.Archive.Zip;
 using SharpCompress.Common;
 using SharpCompress.Reader;
 using SharpCompress.Reader.Rar;
 using SharpCompress.Reader.Zip;
-using SharpCompress.Archive;
-using SharpCompress.Archive.Zip;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.XRules.Database.Utils;
+
 //O2Ref:SharpCompress.3.5.dll
 
 

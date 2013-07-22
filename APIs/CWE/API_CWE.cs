@@ -7,11 +7,6 @@ using System.Reflection;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Text;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods; 
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.XRules.Database.Utils;
-using O2.XRules.Database.APIs; 
 
 namespace O2.XRules.Database.APIs
 {

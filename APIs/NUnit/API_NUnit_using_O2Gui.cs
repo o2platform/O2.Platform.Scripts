@@ -2,21 +2,10 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.Windows;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.Views.ASCX.classes.MainGUI;
-using O2.Views.ASCX.Ascx.MainGUI;
-using O2.Views.ASCX.ExtensionMethods;
-using O2.External.SharpDevelop.ExtensionMethods;
-using O2.XRules.Database.Utils;
-using O2.Core.XRules.Ascx;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.WinForms;
+using FluentSharp.WinForms.Controls;
 
 //O2Ref:O2_Core_XRules.dll
 //O2Ref:O2_External_O2Mono.dll

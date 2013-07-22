@@ -5,17 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
-using System.Text;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods; 
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.Views.ASCX.ExtensionMethods;
-using O2.Views.ASCX.classes.MainGUI;
-using O2.XRules.Database.Utils;
-using O2.External.SharpDevelop.ExtensionMethods;
 using Amazon.EC2;
 using Amazon.EC2.Model;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.Utils;
+using FluentSharp.REPL;
+using FluentSharp.WinForms;
+using FluentSharp.WinForms.Controls;
 
 //O2Ref:AWSSDK.dll
 //O2File:ascx_AskUserForLoginDetails.cs	
@@ -25,7 +21,7 @@ namespace O2.XRules.Database.APIs
 {	
 	public class API_AmazonEC2
 	{			
-		public ICredential ApiKey { get; set; }
+		public Credential ApiKey { get; set; }
 		public string DefaultRegion { get; set; }
 //		public API_RSA ApiRsa { get; set; }
 		
@@ -38,7 +34,7 @@ namespace O2.XRules.Database.APIs
 			
 		}		
 		
-		public API_AmazonEC2(ICredential apiKey) 
+		public API_AmazonEC2(Credential apiKey) 
 		{
 			DefaultRegion = "us-west-1";//"eu-west-1";
 			if (apiKey.isNull())

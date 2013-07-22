@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Linq;
-using System.Text; 
-using System.Collections.Generic;
-using O2.DotNetWrappers.ExtensionMethods;
+using FluentSharp.CoreLib;
 
 namespace O2.XRules.Database.APIs
 {

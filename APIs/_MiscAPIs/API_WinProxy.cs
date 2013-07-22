@@ -2,11 +2,7 @@
 using System;
 using System.Runtime.InteropServices;
 using System.ComponentModel;
-
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.DotNetWrappers.Windows;
+using FluentSharp.CoreLib;
 
 
 //based on code from http://huddledmasses.org/setting-windows-internet-connection-proxy-from-c/

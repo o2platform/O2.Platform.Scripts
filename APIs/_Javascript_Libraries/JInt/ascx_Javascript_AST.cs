@@ -6,20 +6,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Text;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.Windows;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.Views.ASCX.classes.MainGUI;
-using O2.Views.ASCX.ExtensionMethods;
-using O2.External.SharpDevelop.Ascx;
-using O2.External.SharpDevelop.ExtensionMethods;
-using O2.External.IE.ExtensionMethods;
-using O2.External.IE.Wrapper;
-using O2.External.IE.WebObjects;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.REPL.Controls;
+using FluentSharp.WinForms;
+using FluentSharp.WinForms.Controls;
+using FluentSharp.REPL;
 using Jint;
 using Jint.Expressions;
+using O2.External.IE.WebObjects;
+
 //O2File:Jint_ExtensionMethods.cs
 //O2Ref:Jint/Jint.dll
 //O2Ref:Antlr/Antlr3.Runtime.dll

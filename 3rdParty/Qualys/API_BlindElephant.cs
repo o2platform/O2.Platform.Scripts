@@ -1,25 +1,14 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
 
-
 //Todo:add svn download support to O2 and use it to checkout the source code of Blind Elephant
 //O2Tag:SkipGlobalCompilation
 
-
-
 using System;
-using System.Linq;
 using System.Diagnostics;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Text;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.Windows;
-using O2.DotNetWrappers.Network;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.Views.ASCX.classes.MainGUI;
-using O2.Views.ASCX.ExtensionMethods;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.WinForms.Utils;
+
 //using O2.Core.XRules.Classes;
 //O2File:Tool_API.cs
 

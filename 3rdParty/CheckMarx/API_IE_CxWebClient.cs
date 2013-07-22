@@ -1,13 +1,9 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
-
 using System.Windows.Forms;
 using FluentSharp.CoreLib;
 using FluentSharp.CoreLib.Utils;
 using FluentSharp.Watin;
-
 //O2File:API_IE_ExecutionGUI.cs
-//O2File:WatiN_IE_ExtensionMethods.cs
-//O2Ref:WatiN.Core.1x.dll
 
 namespace O2.XRules.Database.APIs
 {	

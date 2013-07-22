@@ -2,16 +2,13 @@
 using System.IO;
 using System.Drawing;
 using System.Windows.Forms;
-using O2.Kernel;
-using O2.Interfaces.O2Core;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.Windows;
-using O2.DotNetWrappers.Network;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.Interfaces.Views;
-using O2.Kernel.InterfacesBaseImpl;
-using O2.Kernel.ExtensionMethods;
-using O2.Views.ASCX.classes.MainGUI;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.CoreLib.Interfaces;
+using FluentSharp.WinForms;
+using FluentSharp.WinForms.Controls;
+using FluentSharp.WinForms.Utils;
+
 //O2Ref:merlin.dll
 //O2Ref:nunit.framework.dll
 

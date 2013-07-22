@@ -5,12 +5,13 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using System.Collections.Generic;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.WinForms;
 using O2.XRules.Database.Utils;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.ExtensionMethods;
-using www.springframework.org.schema.beans;
 using O2.XRules.Database.APIs.IKVM;
+using www.springframework.org.schema.beans;
+
 //O2File:spring-servlet.xsd.cs
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
 

@@ -1,6 +1,2 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>O2Gui.open&lt;ascx_FileMappings&gt;();
-//using O2.Views.ASCX.CoreControls</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+O2Gui.open<ascx_FileMappings>();
+//using O2.Views.ASCX.CoreControls

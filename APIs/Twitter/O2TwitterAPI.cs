@@ -1,20 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.DotNetWrappers.DotNet;
-using O2.Views.ASCX.ExtensionMethods;
-using TweetSharp.Twitter.Fluent;
-using TweetSharp.Twitter.Model;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.CoreLib.Utils;
+using FluentSharp.Watin;
+using FluentSharp.WinForms;
+using FluentSharp.WinForms.Controls;
 using TweetSharp.Model;
 using TweetSharp.Twitter.Extensions;
-using O2.XRules.Database.Utils;
-using O2.Views.ASCX.DataViewers;
+using TweetSharp.Twitter.Fluent;
+using TweetSharp.Twitter.Model;
 
 //O2File:ISecretData.cs
 //O2File:Watin_IE.cs
@@ -161,7 +159,7 @@ namespace O2.XRules.Database.APIs
 			return oauthToken;
 		}
 					
-		public OAuthToken getAuthToken(string autorizationUrl, ICredential credential) 	
+		public OAuthToken getAuthToken(string autorizationUrl, Credential credential) 	
 		{					
 			if (credential.isNull())
 				credential = ascx_AskUserForLoginDetails.ask();
@@ -174,7 +172,7 @@ namespace O2.XRules.Database.APIs
 		}
 
         
-        public bool login(ICredential credential)
+        public bool login(Credential credential)
 		{
 			return login(credential.UserName, credential.Password);
 		}
@@ -515,7 +513,7 @@ namespace O2.XRules.Database.APIs
         	return control;
         }
         
-        public static ascx_TableList add_TableList_With_Tweets<T>(this T control, string description, List<TwitterStatus> twitterStatuses)
+        public static ctrl_TableList add_TableList_With_Tweets<T>(this T control, string description, List<TwitterStatus> twitterStatuses)
         	where T : Control
         {
         	"[O2TwitterAPI]: In add_TableList_With_Tweets: {0}".info(description);			
@@ -532,7 +530,7 @@ namespace O2.XRules.Database.APIs
             return tableList;
         }
         
-        public static ascx_TableList add_TableList_With_TwitterSearchStatus<T>(this T control, string description, List<TwitterSearchStatus> twitterSearchStatuses)
+        public static ctrl_TableList add_TableList_With_TwitterSearchStatus<T>(this T control, string description, List<TwitterSearchStatus> twitterSearchStatuses)
         	where T : Control
         {
         	"[O2TwitterAPI]: In add_TableList_With_TwitterSearchStatus: {0}".info(description);			

@@ -1,22 +1,15 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
 using System;
-using System.Text;
-using System.Linq;
 using System.Drawing;
-using System.Reflection;
 using System.Windows.Forms;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.WPF;
+using FluentSharp.WinForms;
+using FluentSharp.WinForms.Controls;
 using WPF = System.Windows.Controls;
-using O2.Interfaces.O2Core;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.Windows;
-using O2.XRules.Database.Utils;
-using O2.XRules.Database.APIs;
-using O2.Views.ASCX.classes.MainGUI;
+
 //O2File:API_WPF_ToolKit.cs
 //O2File:ElementHost_ExtensionMethods.cs
 //O2File:API_AForge_Video.cs

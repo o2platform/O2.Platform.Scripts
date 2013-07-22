@@ -1,23 +1,16 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
-using System;
-using System.Threading;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+
 using System.Windows.Forms;
-using System.Text;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods; 
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.Views.ASCX.ExtensionMethods;
-using O2.Views.ASCX.classes.MainGUI;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.CoreLib.Utils;
+using FluentSharp.For_HtmlAgilityPack;
+using FluentSharp.Watin;
+using FluentSharp.WinForms;
+using FluentSharp.WinForms.Controls;
 using O2.External.IE.ExtensionMethods;
-using O2.External.IE.Interfaces;
 using O2.External.IE.Wrapper;
-using SHDocVw;
 using WatiN.Core;
-using O2.XRules.Database.Utils;
 
 //O2File:WatiN_IE_ExtensionMethods.cs    
 //O2File:WatiN_IE.cs
@@ -36,7 +29,7 @@ namespace O2.XRules.Database.APIs
     {     
     	public WatiN_IE IE { get; set; }
     	public bool LoggedIn{ get; set; }
-    	public ICredential Credential { get; set; }
+    	public Credential Credential { get; set; }
     	public string UserBlogMainPage { get; set; }
  
  
@@ -92,7 +85,7 @@ namespace O2.XRules.Database.APIs
     		return login(new Credential(username, password));
     	}
  
-    	public API_Blogger login(ICredential credential)
+    	public API_Blogger login(Credential credential)
     	{    	
     		if (credential == null)
     			credential = IE.askUserForUsernameAndPassword();      	
@@ -248,6 +241,7 @@ namespace O2.XRules.Database.APIs
 			var postBody = "body";
 			newPostTitle.set_Text(postTitle);
 			newPostBody.open(postBody.saveWithExtension(".html")); 
+            
 			newPostBody.editMode(); 
 			newPostTitle.onTextChange((text)=>	postTitle = text);		
 			newPostBody.onTextChange((html) =>	postBody = html.htmlDocument().select("//body").innerHtml().str().trim());

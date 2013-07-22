@@ -31,7 +31,8 @@ dataGridView.CellMouseDown += (sender,e)=>
 var currentFile = "";
 var showSkippedFiles = false;
 var showOKFiles      = false;
-var okFiles          = 0;			
+var okFiles          = 0;	
+var skipped			 = 0;
 
 dataGridView.afterSelect(
 	(row)=>{				
@@ -48,6 +49,7 @@ Action<string> compileTargetFile =
 	(file)=>{		
 				if (file.fileContents().contains(skipCompilationTag))
 				{
+					skipped++;
 					"Skipping file since it contained the skipCompilationTag: {0}".info(file);
 					if (showSkippedFiles)
 						dataGridView.add_Row(file,false,false);
@@ -115,7 +117,7 @@ Action startCompilation =
 							progressBar.increment(1); 					
 						} 
 						"-----------COMPILE FINISHed-------".info().debug().error();
-						"AFTER COMPLETION: there were {0} files ok, out of {1} ({2} to go)".debug(okFiles, filesToCompile, filesToCompile - okFiles);
+						"AFTER COMPLETION: there were {0} files ok, out of {1} with {2} skipped  ({3} to go)".debug(okFiles, filesToCompile,skipped,  filesToCompile - okFiles - skipped);
 					});
 	};
 

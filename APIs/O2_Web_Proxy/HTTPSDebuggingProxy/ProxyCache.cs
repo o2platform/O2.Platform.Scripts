@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Net;
-using System.Linq;
-using System.Text;
 using System.Drawing;
-using System.Threading;
-using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;
+using FluentSharp.CoreLib;
+using FluentSharp.WinForms;
 using O2.XRules.Database.APIs;
-using O2.XRules.Database.Utils;
+
 //O2File:HttpData.cs
 
 

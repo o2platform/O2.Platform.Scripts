@@ -4,7 +4,7 @@ using O2.XRules.Database.APIs;
 
 //O2File:Tool_API.cs
 
-public class DynamicType
+public class ProcessExplorer_Installer_Test
 {
 	public void dynamicMethod()
 	{

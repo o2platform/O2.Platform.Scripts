@@ -3,20 +3,13 @@ using System;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using O2.Interfaces.O2Core;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.Views.ASCX;
-using O2.Views.ASCX.ExtensionMethods;
-using O2.XRules.Database.Utils;
 
 using AForge.Video.VFW;
 using AForge.Controls;
 using AForge.Video.DirectShow;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.WinForms;
 
 //O2File:API_Cropper.cs
 

@@ -2,6 +2,9 @@
 //O2File:ascx_JavaExecution.cs
 //O2File:ascx_JavaExecution.Controllers.cs
 
+using FluentSharp.CoreLib.API;
+using FluentSharp.WinForms.Controls;
+
 namespace O2.XRules.Database.APIs.IKVM
 {
     partial class ascx_JavaExecution
@@ -35,18 +38,18 @@ namespace O2.XRules.Database.APIs.IKVM
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.dotNetAssembliesToConvert = new O2.Views.ASCX.CoreControls.ascx_FileMappings();
+            this.dotNetAssembliesToConvert = new FileMappings();
             this.label2 = new System.Windows.Forms.Label();
             this.llDeleteEmptyJarStubs = new System.Windows.Forms.LinkLabel();
             this.llDeleteJarStubs = new System.Windows.Forms.LinkLabel();
             this.progressBarForJarStubCreation = new System.Windows.Forms.ProgressBar();
             this.btCreateJarStubFiles = new System.Windows.Forms.Button();
-            this.directoryWithJarStubFiles = new O2.Views.ASCX.CoreControls.ascx_Directory();
+            this.directoryWithJarStubFiles = new DirectoryViewer();
             this.label3 = new System.Windows.Forms.Label();
             this.llLoadDefaultSetOfFilesToConvert = new System.Windows.Forms.LinkLabel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.directoryToDropJarsToConvertIntoDotNetAssemblies = new O2.Views.ASCX.CoreControls.ascx_Directory();
+            this.directoryToDropJarsToConvertIntoDotNetAssemblies = new DirectoryViewer();
             this.groupBox1.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -167,7 +170,7 @@ namespace O2.XRules.Database.APIs.IKVM
             this.directoryWithJarStubFiles._ProcessDroppedObjects = true;
             this.directoryWithJarStubFiles._ShowFileSize = true;
             this.directoryWithJarStubFiles._ShowLinkToUpperFolder = true;
-            this.directoryWithJarStubFiles._ViewMode = O2.Views.ASCX.CoreControls.ascx_Directory.ViewMode.Simple_With_LocationBar;
+            this.directoryWithJarStubFiles._ViewMode = DirectoryViewer.ViewMode.Simple_With_LocationBar;
             this.directoryWithJarStubFiles._WatchFolder = true;
             this.directoryWithJarStubFiles.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
@@ -227,7 +230,7 @@ namespace O2.XRules.Database.APIs.IKVM
             this.directoryToDropJarsToConvertIntoDotNetAssemblies._ProcessDroppedObjects = false;
             this.directoryToDropJarsToConvertIntoDotNetAssemblies._ShowFileSize = true;
             this.directoryToDropJarsToConvertIntoDotNetAssemblies._ShowLinkToUpperFolder = true;
-            this.directoryToDropJarsToConvertIntoDotNetAssemblies._ViewMode = O2.Views.ASCX.CoreControls.ascx_Directory.ViewMode.Simple_With_LocationBar;
+            this.directoryToDropJarsToConvertIntoDotNetAssemblies._ViewMode = DirectoryViewer.ViewMode.Simple_With_LocationBar;
             this.directoryToDropJarsToConvertIntoDotNetAssemblies._WatchFolder = true;
             this.directoryToDropJarsToConvertIntoDotNetAssemblies.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
@@ -238,7 +241,7 @@ namespace O2.XRules.Database.APIs.IKVM
             this.directoryToDropJarsToConvertIntoDotNetAssemblies.Name = "directoryToDropJarsToConvertIntoDotNetAssemblies";
             this.directoryToDropJarsToConvertIntoDotNetAssemblies.Size = new System.Drawing.Size(219, 339);
             this.directoryToDropJarsToConvertIntoDotNetAssemblies.TabIndex = 5;
-            this.directoryToDropJarsToConvertIntoDotNetAssemblies._onTreeViewDrop += new O2.Kernel.CodeUtils.Callbacks.dMethod_String(this.directoryToDropJarsToConvertIntoDotNetAssemblies__onTreeViewDrop);
+            this.directoryToDropJarsToConvertIntoDotNetAssemblies._onTreeViewDrop += new Callbacks.dMethod_String(this.directoryToDropJarsToConvertIntoDotNetAssemblies__onTreeViewDrop);
             // 
             // ascx_JavaExecution
             // 
@@ -270,16 +273,16 @@ namespace O2.XRules.Database.APIs.IKVM
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Label label2;
-        private O2.Views.ASCX.CoreControls.ascx_FileMappings dotNetAssembliesToConvert;
+        private FileMappings dotNetAssembliesToConvert;
         private System.Windows.Forms.LinkLabel llLoadDefaultSetOfFilesToConvert;
         private System.Windows.Forms.Button btCreateJarStubFiles;
-        private O2.Views.ASCX.CoreControls.ascx_Directory directoryWithJarStubFiles;
+        private DirectoryViewer directoryWithJarStubFiles;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ProgressBar progressBarForJarStubCreation;
         private System.Windows.Forms.LinkLabel llDeleteJarStubs;
         private System.Windows.Forms.LinkLabel llDeleteEmptyJarStubs;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label4;
-        private O2.Views.ASCX.CoreControls.ascx_Directory directoryToDropJarsToConvertIntoDotNetAssemblies;
+        private DirectoryViewer directoryToDropJarsToConvertIntoDotNetAssemblies;
     }
 }

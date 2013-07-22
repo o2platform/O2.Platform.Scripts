@@ -2,10 +2,8 @@
 using System;
 using System.IO;
 using System.Text;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.DotNetWrappers.Windows;
+using FluentSharp.CoreLib;
+using FluentSharp.WinForms;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Encodings;
 using Org.BouncyCastle.OpenSsl;

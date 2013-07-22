@@ -2,19 +2,9 @@
 using System;
 using System.IO;
 using System.Web;
-using System.Web.Caching;
 using System.Security.Principal;
-using System.Windows.Forms;
-using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.Windows;
-using O2.DotNetWrappers.ExtensionMethods;
+using FluentSharp.CoreLib;
 using Moq;
 
 

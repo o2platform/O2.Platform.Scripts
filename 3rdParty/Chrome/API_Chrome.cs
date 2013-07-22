@@ -1,4 +1,9 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
+
+//O2Tag:SkipGlobalCompilation
+
+// the CefSharp.dll can not being used to compiled on 4.0 CLR
+
 using System;
 using System.Threading;
 using System.Windows.Forms;
@@ -6,7 +11,7 @@ using FluentSharp.CoreLib;
 using FluentSharp.CoreLib.API;
 using FluentSharp.WinForms;
 using CefSharp;
-using CefSharp.WinForms;  
+using CefSharp.WinForms;  			
 
 //Installer:CefSharp_Installer.cs!CefSharp\CefSharp-1.19.0\CefSharp.WinForms.dll
 //O2Ref:CefSharp\CefSharp-1.19.0\CefSharp.WinForms.dll

@@ -7,7 +7,6 @@
 
 //O2Ref:System.Configuration.dll 
 using System;
-using System.Configuration;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,11 +18,9 @@ using System.Net.Sockets;
 using System.Net.Security;
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
-
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.ExtensionMethods;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
 using O2.XRules.Database.APIs;
-using O2.XRules.Database.Utils;
 
 //O2File:HttpData.cs
 //O2File:ProxyCache.cs

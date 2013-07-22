@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>"Poc - Compile C#, execute under debugger and invoke method from debugger".popupWindow(400,200).add_LogViewer();
+"Poc - Compile C#, execute under debugger and invoke method from debugger".popupWindow(400,200).add_LogViewer();
 var code = @"using System;
 using System.Diagnostics;
 public class Program 
@@ -27,7 +25,7 @@ MDbgEngine debugger = new MDbgEngine();
 		      
 debugger.CreateProcess(exeToDebug, "", DebugModeFlag.Debug, null);
       
-  while (debugger.Processes.Count &gt; 0 &amp;&amp; debugger.Processes.Active.IsAlive)      
+  while (debugger.Processes.Count > 0 && debugger.Processes.Active.IsAlive)      
   {      	
     debugger.Processes.Active.Go().WaitOne();
     if (debugger.Processes.Count ==0)
@@ -72,6 +70,4 @@ return "all done";
 //O2Ref:MDbg_Sample\MDbg Sample\bin\debug\mdbgeng.dll  
 //O2Ref:MDbg_Sample\MDbg Sample\bin\debug\mdbg.exe
 //O2Ref:MDbg_Sample\MDbg Sample\bin\debug\mdbgext.dll
-//O2Tag_DontAddExtraO2Files</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Tag_DontAddExtraO2Files

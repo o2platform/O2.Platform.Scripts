@@ -2,14 +2,9 @@
 using System.Reflection;
 using System.Diagnostics;
 using System.Windows.Forms;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods; 
-using O2.DotNetWrappers.DotNet; 
-using O2.DotNetWrappers.Windows; 
-using O2.XRules.Database.Utils;
-using O2.External.SharpDevelop.ExtensionMethods;
-using System.Runtime.InteropServices;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.WinForms;
 
 //O2File:API_CLR.cs
 //O2Ref:Snoop\Snoop\Snoop.exe

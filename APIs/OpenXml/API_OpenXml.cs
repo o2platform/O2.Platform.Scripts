@@ -3,18 +3,13 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using System.Text;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.Windows;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.Views.ASCX.classes.MainGUI;
-using O2.Views.ASCX.ExtensionMethods;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.WinForms;
+using FluentSharp.WinForms.Controls;
 using DocumentFormat.OpenXml; 
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
-using O2.XRules.Database.Utils;
 
 //O2Ref:DocumentFormat.OpenXml.dll
 //O2Ref:WindowsBase.dll

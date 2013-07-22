@@ -1,36 +1,34 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>O2ConfigSettings.O2Version = "WriteUnitTest"; 
+O2ConfigSettings.O2Version = "WriteUnitTest"; 
 O2Setup.extractEmbededConfigZips(); 
 //var topPanel = panel.add_Panel(true);	
-var topPanel = O2Gui.open&lt;Panel&gt;("Write and Execute Unit Tests", 1000,600);
+var topPanel = O2Gui.open<Panel>("Write and Execute Unit Tests", 1000,600);
 var codeEditor = topPanel.add_SourceCodeEditor();
-var unitTest = codeEditor.insert_Right&lt;ascx_XRules_UnitTests&gt;(350);  
-unitTest.control&lt;CheckBox&gt;(true).@check();
-unitTest.insert_Below&lt;Panel&gt;(130).add_LogViewer();
+var unitTest = codeEditor.insert_Right<ascx_XRules_UnitTests>(350);  
+unitTest.control<CheckBox>(true).@check();
+unitTest.insert_Below<Panel>(130).add_LogViewer();
 
-Action&lt;string&gt; loadFileAndCompile = 
-	(file)=&gt;{
+Action<string> loadFileAndCompile = 
+	(file)=>{
 				codeEditor.open(file);
 				codeEditor.compileSourceCode();
 			};
 
 TextBox textBox_LoadFile = null;
 Button  button_LoadFile  = null;
-topPanel.insert_Above&lt;Panel&gt;(25).add_LabelAndTextAndButton("Unit Test file","","load", ref textBox_LoadFile, ref button_LoadFile,  loadFileAndCompile);
+topPanel.insert_Above<Panel>(25).add_LabelAndTextAndButton("Unit Test file","","load", ref textBox_LoadFile, ref button_LoadFile,  loadFileAndCompile);
 					  
-Action&lt;string&gt; loadFile = 
-	(file)=&gt;{
+Action<string> loadFile = 
+	(file)=>{
 				textBox_LoadFile.set_Text(file); 
 				loadFileAndCompile(file);				
 			};
 			
-textBox_LoadFile.onDrop((text)=&gt; loadFile(text));
+textBox_LoadFile.onDrop((text)=> loadFile(text));
 			
 codeEditor.onCompile(
-	(assembly)=&gt;{	
+	(assembly)=>{	
 					unitTest.loadFile(assembly.Location,true); 
-					if(unitTest.control&lt;CheckBox&gt;(true).@checked())
+					if(unitTest.control<CheckBox>(true).@checked())
 						unitTest.invoke("executeAllLoadedTests"); 			
 					unitTest.XRulesTreeView_ExpandAll();
 				});
@@ -49,6 +47,4 @@ return loadFile;
 //O2Ref:O2_External_O2Mono.dll
 //O2Ref:nunit.framework.dll
 //O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
-//O2Package:DefaultUnitTest.cs</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Package:DefaultUnitTest.cs

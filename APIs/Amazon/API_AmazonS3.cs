@@ -3,15 +3,12 @@ using System;
 using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Windows.Forms;
-using System.Text;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods; 
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.Views.ASCX.ExtensionMethods;
-using O2.Views.ASCX.classes.MainGUI;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.CoreLib.Utils;
+using FluentSharp.WinForms;
+using FluentSharp.WinForms.Controls;
 using O2.XRules.Database.Utils;
 
 using Amazon.S3.Model;
@@ -28,7 +25,7 @@ namespace O2.XRules.Database.APIs
 {	
 	public class API_AmazonS3
 	{			
-		public ICredential Credential { get; set; }
+		public Credential Credential { get; set; }
 		public AmazonS3 S3Client { get; set; }
 		public bool LoggedIn { get; set; }
 		public string OwnerName { get; set; }
@@ -61,7 +58,7 @@ namespace O2.XRules.Database.APIs
     		return login(new Credential(username, password));
     	}
  
-    	public API_AmazonS3 login(ICredential credential)
+    	public API_AmazonS3 login(Credential credential)
     	{
     		try
     		{

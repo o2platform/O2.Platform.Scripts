@@ -1,26 +1,26 @@
-﻿using System;
-using System.Diagnostics;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;  
+﻿using System.Diagnostics;
+using FluentSharp.CoreLib;
+
 //O2File:Tool_API.cs 
  
 namespace O2.XRules.Database.APIs 
 {
-	public class testInstall
+	public class JInt_Installer_Test
 	{
 		public static void test()  
 		{
-			new Jint_Installer().start(); 
+			new JInt_Installer().start(); 
 		}
 	}
 	 
-	public class Jint_Installer : Tool_API    
+	public class JInt_Installer : Tool_API    
 	{				
-		public Jint_Installer()
+		public JInt_Installer()
 		{			
 			config("Jint", 
 				   "Jint - Binaries.zip", 
-				   "http://download-codeplex.sec.s-msft.com/Download/Release?ProjectName=jint&DownloadId=270401&FileTime=129578982310270000&Build=20091".uri(),
+				   "http://download-codeplex.sec.s-msft.com/Download/Release?ProjectName=jint&DownloadId=270401&FileTime=129578982310270000&Build=20626".uri(),
+//				   "http://download-codeplex.sec.s-msft.com/Download/Release?ProjectName=jint&DownloadId=270401&FileTime=129578982310270000&Build=20091".uri(),
 				   "jint.dll");
 			installFromZip_Web();	       		
 		}			

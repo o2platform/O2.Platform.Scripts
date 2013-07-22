@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 //O2Ref:Merlin.dll
+using FluentSharp.CoreLib.API;
 using Merlin;
-using MerlinStepLibrary;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.Windows;
 using System.Threading;
 
 namespace O2.Views.ASCX.MerlinWizard

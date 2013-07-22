@@ -8,15 +8,12 @@ using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.DotNetWrappers.Windows;
-using O2.DotNetWrappers.Zip;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.REPL;
+using FluentSharp.REPL.Controls;
+using FluentSharp.WinForms;
 using O2.XRules.Database.Utils;
-using O2.External.SharpDevelop.Ascx;
-using O2.External.SharpDevelop.ExtensionMethods;
 
 //O2File:API_IKVMC_JavaMetadata.cs
 //O2Ref:IKVM\ikvm-7.1.4532.2\bin\IKVM.Runtime.dll
@@ -554,7 +551,7 @@ namespace O2.XRules.Database.APIs.IKVM
 			return codeViewer;
 		}
 		
-		public static ascx_SourceCodeEditor showInCodeEditor(this ascx_SourceCodeEditor codeEditor ,Java_Class _class, Java_Method method)
+		public static SourceCodeEditor showInCodeEditor(this SourceCodeEditor codeEditor ,Java_Class _class, Java_Method method)
 		{										
 			//var _class = classes_bySignature[classSignature];
 			var file = _class.file();

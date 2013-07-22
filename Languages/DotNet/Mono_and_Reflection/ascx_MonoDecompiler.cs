@@ -2,25 +2,21 @@
 using System;
 using System.Windows.Forms;
 using System.Reflection;
-using O2.Kernel;
-using O2.Interfaces.O2Core;
-using O2.Interfaces.Views;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.Windows;
 //O2Ref:Mono.Cecil.dll
+using FluentSharp.CoreLib.API;
+using FluentSharp.CoreLib.Interfaces;
+using FluentSharp.REPL;
+using FluentSharp.REPL.Controls;
+using FluentSharp.WinForms;
+using FluentSharp.WinForms.Controls;
+using FluentSharp.WinForms.Utils;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
-using Cecil.Decompiler.ControlFlow;
 //O2Ref:Cecil.Decompiler.dll
 //O2Ref:O2_External_O2Mono.dll
-using O2.External.O2Mono.CecilDecompiler;
+using O2.External.O2Mono;
 using O2.External.O2Mono.MonoCecil;
 
-using O2.External.SharpDevelop.ExtensionMethods;
-using O2.External.SharpDevelop.Ascx;
-using O2.DotNetWrappers.Filters;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.Views.ASCX.classes.MainGUI;
 //O2Ref:System.Xml.dll
 //O2Ref:System.Xml.Linq.dll
 //O2Ref:Cecil.Decompiler.dll
@@ -54,7 +50,7 @@ namespace O2.Script
 	
 		public TreeView tvDirectoriesAndFiles;
 		public TreeView tvControlFlowGraph;
-		public ascx_SourceCodeEditor sourceCodeEditor;
+		public SourceCodeEditor sourceCodeEditor;
 		
 		public ascx_MonoDecompiler()
         {

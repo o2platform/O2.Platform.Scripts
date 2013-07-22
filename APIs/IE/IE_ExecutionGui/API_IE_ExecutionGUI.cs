@@ -9,6 +9,9 @@ using FluentSharp.REPL;
 using FluentSharp.Watin;
 using FluentSharp.WinForms;
 
+//O2Ref:FluentSharp.Watin.dll
+//O2Ref:Watin.Core.dll
+//O2Ref:Interop.SHDocVw.dll
 
 namespace O2.XRules.Database.APIs
 {	

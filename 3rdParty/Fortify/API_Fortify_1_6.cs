@@ -9,6 +9,7 @@ using FluentSharp.WinForms;
 using xmlns.www.fortifysoftware.com.schema.fvdl;
 using FluentSharp.For_XmlSchemaLinq;
 //O2File:Fortify.fvdl.1.6.xsd.cs
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
 
 namespace O2.XRules.Database.APIs
 {
