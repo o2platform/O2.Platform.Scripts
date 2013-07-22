@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;
+using FluentSharp.CSharpAST;
+using FluentSharp.CSharpAST.Utils;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.Utils;
 using ICSharpCode.SharpDevelop.Dom;
-using O2.API.AST.CSharp;
 using ICSharpCode.NRefactory.Ast;
-using O2.API.AST.ExtensionMethods.CSharp;
-using O2.XRules.Database.Utils;
 
 //O2File:Ast_Engine_ExtensionMethods.cs
 

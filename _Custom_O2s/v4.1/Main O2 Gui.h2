@@ -52,7 +52,7 @@ var o2tools_Mappings = 	 new Items().add("Package O2 Script", "Util - Package O2
 							 		.add("Windows Handles Viewer", "Util - Windows Handles Viewer (Simple GUI with REPL).h2")
 									.add("Search O2 Scripts", "Util - Quick File Search.h2")
 									.add("Execute Unit Tests", "Execute Unit Tests.h2")
-									.add("WSDL (Web Services)", "ascx_WSDL_Creation_and_Execution.cs.o2")																		
+									.add("WSDL (Web Services)", "ascx_WSDL_Creation_and_Execution.cs")																		
 					 				//.add("O2 Web Proxy", "Util - O2 Web Proxy (simple view).h2")
 									//.add("O2 Web Cache", "Tool - Cache from O2 Web Proxy.h2")
 									//.add("O2 WAF Simulator", "Util - O2 WAF Simulator (simple Gui).h2")

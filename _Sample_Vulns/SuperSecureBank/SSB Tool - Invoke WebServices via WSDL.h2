@@ -1,11 +1,7 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>
-var wsdlCreation = "SuperSecureBank WebServices Invocation (via WSDL)".showAsForm&lt;ascx_WSDL_Creation_and_Execution&gt;(1000,700 );			
+
+var wsdlCreation = "SuperSecureBank WebServices Invocation (via WSDL)".showAsForm<ascx_WSDL_Creation_and_Execution>(1000,700 );			
 
 var svcUrl = "http://localhost.:6879/SSBService.svc";
 wsdlCreation.open(svcUrl); 
-//O2File:ascx_WSDL_Creation_and_Execution.cs.o2
-//using O2.XRules.Database.Languages_and_Frameworks.AspNet</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2File:ascx_WSDL_Creation_and_Execution.cs
+//using O2.XRules.Database.Languages_and_Frameworks.AspNet

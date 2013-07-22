@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using O2.API.AST.CSharp;
-using O2.External.SharpDevelop.Ascx;
-using O2.External.SharpDevelop.ExtensionMethods;
-using O2.API.AST.ExtensionMethods;
-using O2.API.AST.ExtensionMethods.CSharp;
+﻿using FluentSharp.CSharpAST.Utils;
+using FluentSharp.REPL;
+using FluentSharp.REPL.Controls;
 
 //O2File:Ast_Engine_ExtensionMethods.cs
 
@@ -15,7 +9,7 @@ namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 {
     public static class TextEditor_O2CodeStream_ExtensionMethods
     {
-        public static O2CodeStream show(this O2CodeStream o2CodeStream, ascx_SourceCodeEditor codeEditor)
+        public static O2CodeStream show(this O2CodeStream o2CodeStream, SourceCodeEditor codeEditor)
         {
             if (o2CodeStream != null)
             {

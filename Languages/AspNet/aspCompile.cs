@@ -2,23 +2,13 @@
 using System;
 using System.IO;
 using System.Web;
-using System.Web.UI;
 using System.Web.Hosting;
-using System.Web.Compilation;
-using System.Linq;
-using System.Collections.Generic;
-using System.Text;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.Windows;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.Views.ASCX.classes.MainGUI;
-using O2.Views.ASCX.ExtensionMethods;
-
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.REPL;
+using FluentSharp.WinForms;
+using FluentSharp.WinForms.Controls;
 //O2Ref:System.Web.dll
-
-using O2.XRules.Database.Utils;
 
 namespace O2.Script
 {

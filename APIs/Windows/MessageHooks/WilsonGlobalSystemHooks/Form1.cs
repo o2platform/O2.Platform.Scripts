@@ -1,12 +1,10 @@
 //File based on the VS project from http://www.codeproject.com/KB/system/WilsonSystemGlobalHooks.aspx
 
 using System;
-using System.Drawing;
 using System.Collections;
-using System.ComponentModel;
 using System.Windows.Forms;
-using System.Data;
-using O2.DotNetWrappers.ExtensionMethods;
+using FluentSharp.CoreLib;
+
 //O2Ref:System.Windows.Forms.dll
 //O2File:GlobalHooks.cs
 //O2File:Window.cs

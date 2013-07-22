@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Windows.Forms;
+using FluentSharp.CSharpAST;
+using FluentSharp.CSharpAST.Utils;
+using FluentSharp.CoreLib;
+using FluentSharp.REPL;
+using FluentSharp.REPL.Controls;
+using FluentSharp.WinForms;
+using FluentSharp.WinForms.Controls;
 using ICSharpCode.SharpDevelop.Dom;
 using ICSharpCode.NRefactory.Ast;
-using O2.API.AST.CSharp;
-using O2.API.AST.ExtensionMethods;
-using O2.API.AST.ExtensionMethods.CSharp;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.External.SharpDevelop.ExtensionMethods;
-using O2.External.SharpDevelop.AST;
-using O2.External.SharpDevelop.Ascx;
-using O2.Views.ASCX.classes.MainGUI; 
 using System.CodeDom;
 using ICSharpCode.NRefactory;
 using System.Drawing;
@@ -92,7 +87,7 @@ namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 
         public static O2MappedAstData showInTreeView(this O2MappedAstData o2MappedAstData,
                                                System.Windows.Forms.TreeView treeView,
-                                               ascx_SourceCodeEditor codeEditor)
+                                               SourceCodeEditor codeEditor)
         {
             o2MappedAstData.afterSelect_ShowInSourceCodeEditor(treeView, codeEditor);
             return o2MappedAstData.showInTreeView(treeView);
@@ -126,7 +121,7 @@ namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 
         #region afterSelect events
 
-        public static TreeView afterSelect_ShowInSourceCodeEditor(this O2MappedAstData o2MappedAstData, TreeView treeView, ascx_SourceCodeEditor codeEditor)
+        public static TreeView afterSelect_ShowInSourceCodeEditor(this O2MappedAstData o2MappedAstData, TreeView treeView, SourceCodeEditor codeEditor)
         {
             return (TreeView)codeEditor.invokeOnThread(() =>
             {

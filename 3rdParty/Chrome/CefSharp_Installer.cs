@@ -30,8 +30,7 @@ namespace O2.XRules.Database.APIs
 		public bool install()
 		{
 			"Installing {0}".info(ToolName);
-			return installFromZip_Web(); 						
-			return false;
+			return installFromZip_Web(); 									
 		}
 		
 		public Process start()

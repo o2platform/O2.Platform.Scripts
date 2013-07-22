@@ -1,14 +1,9 @@
 ﻿// This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Text;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.XRules.Database.Utils;
+
+using FluentSharp.CSharpAST;
+using FluentSharp.CoreLib;
 using ICSharpCode.NRefactory;
 using ICSharpCode.NRefactory.Ast;
-using O2.API.AST.ExtensionMethods.CSharp;
 
 //O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
 

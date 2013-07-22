@@ -1,12 +1,6 @@
-﻿using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.Windows;
-using O2.DotNetWrappers.ExtensionMethods;
+﻿using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+
 //O2Ref:MS_SDK_SvcUtil.exe
 
 namespace O2.XRules.Database.Languages_and_Frameworks.DotNet

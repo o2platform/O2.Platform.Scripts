@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Linq;
-using System.Text;
-using System.Drawing;  
 using System.Windows.Forms;
-using System.Drawing.Imaging; 
 using System.Diagnostics;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using O2.DotNetWrappers.Windows;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.ExtensionMethods;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.REPL;
+using FluentSharp.WinForms;
 
 
 //O2File:WindowFinder.cs

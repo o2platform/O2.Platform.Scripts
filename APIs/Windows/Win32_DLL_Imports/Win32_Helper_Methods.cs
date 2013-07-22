@@ -5,7 +5,8 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Runtime.InteropServices;
-using O2.DotNetWrappers.ExtensionMethods;
+using FluentSharp.CoreLib;
+
 //O2File:API_WinAPI.cs
 
 namespace O2.XRules.Database.APIs

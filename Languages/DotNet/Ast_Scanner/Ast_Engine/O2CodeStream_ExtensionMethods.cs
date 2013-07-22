@@ -3,16 +3,12 @@ using System;
 using System.Linq;
 using System.Windows.Forms;
 using System.Collections.Generic;
-
-using O2.Interfaces.O2Findings;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.API.AST.ExtensionMethods.CSharp;
-using O2.API.AST.CSharp;
-
+using FluentSharp.CSharpAST;
+using FluentSharp.CSharpAST.Utils;
+using FluentSharp.CoreLib;
+using FluentSharp.WinForms;
 using ICSharpCode.NRefactory.Ast;
 using ICSharpCode.SharpDevelop.Dom;
-using O2.DotNetWrappers.O2Findings;
 
 //O2File:Ast_Engine_ExtensionMethods.cs
 

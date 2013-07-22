@@ -1,15 +1,12 @@
 //based on the code from HawkEye
 using System;
-using System.IO;
-using System.Text;
 using System.Drawing;   
 using System.Diagnostics;
 using System.Windows.Forms;
-using System.ComponentModel; 
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices; 
-using O2.XRules.Database.Utils;
-using O2.DotNetWrappers.ExtensionMethods; 
+using System.ComponentModel;
+using FluentSharp.CoreLib;
+using FluentSharp.WinForms;
+using FluentSharp.WinForms.Utils;
 
 
 //O2File:API_WinAPI.cs
@@ -90,7 +87,7 @@ namespace O2.XRules.Database.APIs
 				this.pink();*/
 			base.Name = "WindowFinder";
 			base.Size = new Size(32, 32);
-			this.BackgroundImage = O2.Platform.BCL.O2_Views_ASCX.FormImages.target.ToBitmap();
+			this.BackgroundImage = FormImages.target.ToBitmap();
 			this.BackgroundImageLayout = ImageLayout.Stretch;
 			
 		}
@@ -108,7 +105,7 @@ namespace O2.XRules.Database.APIs
 			//	Cursor.Current = new Cursor("Eye.cur".local());
 			//else
 			//	Cursor.Current	= Cursors.Cross;
-			Cursor.Current = new Cursor(new System.IO.MemoryStream(O2.Platform.BCL.O2_Views_ASCX.FormImages.Eye));
+			Cursor.Current = new Cursor(new System.IO.MemoryStream(FormImages.Eye));
 			base.Capture = true;
 			base.MouseMove += new MouseEventHandler(this.WindowFinder_MouseMove);
 			base.MouseUp += new MouseEventHandler(this.WindowFinder_MouseUp);

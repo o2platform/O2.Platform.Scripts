@@ -1,19 +1,11 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
 using System;
-using System.Linq;
-using System.Text;
 using System.Drawing;
-using System.Reflection;
-using System.Threading;
 using System.Diagnostics;
 using System.Windows.Forms;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using O2.Interfaces.O2Core;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.Views.ASCX;
+using FluentSharp.CoreLib;
+using FluentSharp.WinForms;
 using WindowsInput.Native;
 using WindowsInput;
 
@@ -272,7 +264,7 @@ namespace O2.XRules.Database.APIs
     	public static API_InputSimulator mouse_MoveTo_Wpf<T>(this API_InputSimulator inputSimulator, T uiElement)
     		where T : System.Windows.UIElement
     	{
-    		return (API_InputSimulator)O2.DotNetWrappers.ExtensionMethods.WPF_Threading_ExtensionMethods.wpfInvoke(
+    		return (API_InputSimulator)WPF_Threading_ExtensionMethods.wpfInvoke(
     			uiElement, 
     				()=>{
     						try

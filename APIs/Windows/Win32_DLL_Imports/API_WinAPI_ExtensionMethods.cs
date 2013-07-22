@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Linq;
-using System.Text;
 using System.Drawing;  
 using System.Windows.Forms;
 using System.Drawing.Imaging; 
 using System.Diagnostics;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using O2.DotNetWrappers.ExtensionMethods;
+using FluentSharp.CoreLib;
+using FluentSharp.WinForms;
+
 //O2File:API_WinAPI.cs
 
 namespace O2.XRules.Database.APIs

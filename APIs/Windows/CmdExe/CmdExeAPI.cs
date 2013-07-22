@@ -2,18 +2,9 @@
 using System;
 using System.Windows.Forms;
 using System.Diagnostics;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using O2.Interfaces.O2Core;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.Windows;
-using O2.Views.ASCX;
-using O2.Views.ASCX.classes.MainGUI;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.WinForms;
 using WindowsInput;
 using WindowsInput.Native;
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll

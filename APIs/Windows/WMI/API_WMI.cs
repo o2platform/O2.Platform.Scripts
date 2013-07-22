@@ -1,24 +1,13 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
 using System;
-using System.Windows.Forms;
-using System.Diagnostics;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using O2.Interfaces.O2Core;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.Windows;
-using O2.Views.ASCX;
-using O2.Views.ASCX.DataViewers;
-using O2.Views.ASCX.classes.MainGUI;
-using O2.Views.ASCX.ExtensionMethods;
 using System.Management;
-using O2.XRules.Database.Utils;
+using System.Windows.Forms;
+using System.Collections.Generic;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.WinForms;
+using FluentSharp.WinForms.Controls;
 
 //O2Ref:System.Management.dll
 //using O2.XRules.Database.Utils
@@ -93,19 +82,19 @@ namespace O2.XRules.Database.APIs
 			return wmiQueryItems;
     	}
     	
-    	public static ascx_TableList show(this List<ManagementBaseObject> searchResults)
+    	public static ctrl_TableList show(this List<ManagementBaseObject> searchResults)
     	{
     		var panel = O2Gui.open<Panel>("WMI Query Results Viewer",700,400);
     		return searchResults.show_in_TableList(panel);
     	}
     	
-    	public static ascx_TableList show<T>(this List<ManagementBaseObject> searchResults, T control)
+    	public static ctrl_TableList show<T>(this List<ManagementBaseObject> searchResults, T control)
     		where T : Control
     	{
     		return searchResults.show_in_TableList(control);
     	}
     	
-    	public static ascx_TableList show_in_TableList<T>(this List<ManagementBaseObject> searchResults, T control)
+    	public static ctrl_TableList show_in_TableList<T>(this List<ManagementBaseObject> searchResults, T control)
     		where T : Control
     	{    		
     		var tableList =  control.clear().add_TableList();
@@ -113,7 +102,7 @@ namespace O2.XRules.Database.APIs
     		return tableList;
     	}
     	
-    	public static ascx_TableList show_in_TableList(this List<ManagementBaseObject> searchResults, ascx_TableList tableList)
+    	public static ctrl_TableList show_in_TableList(this List<ManagementBaseObject> searchResults, ctrl_TableList tableList)
     	{
     		if (searchResults.isNull() || tableList.isNull())
     			return tableList;
@@ -169,15 +158,15 @@ namespace O2.XRules.Database.APIs
 			return dataGridView;	
     	}
     	
-    	public static ascx_ShowInfo show_in_PropertyGrid<T>(this List<ManagementBaseObject> searchResults, T control)
+    	public static ctrl_ShowInfo show_in_PropertyGrid<T>(this List<ManagementBaseObject> searchResults, T control)
     		where T : Control
     	{    		
-    		var showInfo =  control.clear().add_Control<ascx_ShowInfo>();
+    		var showInfo =  control.clear().add_Control<ctrl_ShowInfo>();
     		searchResults.show_in_PropertyGrid(showInfo);    		
     		return showInfo;
     	}
     	
-    	public static ascx_ShowInfo show_in_PropertyGrid(this List<ManagementBaseObject> searchResults, ascx_ShowInfo showInfo)
+    	public static ctrl_ShowInfo show_in_PropertyGrid(this List<ManagementBaseObject> searchResults, ctrl_ShowInfo showInfo)
     	{    		
     		showInfo.show(searchResults.createObjectWithSearchResults()); 
     		return showInfo;

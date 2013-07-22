@@ -1,37 +1,16 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
 using System;
-using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using O2.Interfaces.O2Core;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.Interfaces.O2Findings;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.DotNetWrappers.Windows;
-using O2.Views.ASCX;
-using O2.Views.ASCX.Ascx.MainGUI;
-using O2.Views.ASCX.O2Findings;
-using O2.API.AST.CSharp;
-using O2.API.AST.ExtensionMethods;
-using O2.API.AST.ExtensionMethods.CSharp;
-using O2.External.SharpDevelop.Ascx; 
-using O2.External.SharpDevelop.AST;
-using O2.External.SharpDevelop.ExtensionMethods;
-using O2.External.IE.ExtensionMethods;
-using O2.Views.ASCX.ExtensionMethods;
-using O2.Views.ASCX.classes.MainGUI; 
+using FluentSharp.CSharpAST.Utils;
+using FluentSharp.WinForms;
+using FluentSharp.WinForms.Controls;
 using ICSharpCode.NRefactory;
 using ICSharpCode.NRefactory.Ast;
 using ICSharpCode.SharpDevelop.Dom;
-using GraphSharp.Controls;
-using O2.XRules.Database.Utils;
 using O2.XRules.Database.Findings;
-using O2.XRules.Database.APIs;
 
 //O2File:WPF_GUI.cs
 //O2File:GraphLayout_O2CodeStream_ExtensionMethods.cs

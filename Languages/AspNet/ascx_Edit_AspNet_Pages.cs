@@ -1,25 +1,12 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
 using System;
-using System.IO;
 using System.Windows.Forms;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Xml.Serialization;
-using System.Linq;
-using System.Text;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.External.SharpDevelop.Ascx;
-using O2.External.SharpDevelop.ExtensionMethods;
-using O2.XRules.Database.Utils;
-using O2.XRules.Database.APIs;
+using FluentSharp.CoreLib;
+using FluentSharp.REPL;
+using FluentSharp.REPL.Controls;
+using FluentSharp.WinForms;
+using FluentSharp.Watin;
 
-//O2File:WatiN_IE_ExtensionMethods.cs
-
-//O2Ref:WatiN.Core.1x.dll
 //O2Ref:Interop.SHDocVw.dll
 
 namespace O2.XRules.Database.Languages_and_Frameworks.AspNet
@@ -49,7 +36,7 @@ namespace O2.XRules.Database.Languages_and_Frameworks.AspNet
 		public Panel ActionsPanel { get; set; }
 		public TreeView AspNetFiles { get; set; }
 		public ascx_SourceCodeViewer Aspx_CodeViewer { get; set; }
-		public ascx_SourceCodeEditor CSharp_CodeViewer { get; set; }
+		public SourceCodeEditor CSharp_CodeViewer { get; set; }
 		
 		public WatiN_IE ie { get; set; }
 		

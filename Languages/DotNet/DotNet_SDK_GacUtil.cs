@@ -1,16 +1,8 @@
 ﻿using System;
-using System.Xml;
-using System.IO;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Reflection;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.Windows;
-using O2.DotNetWrappers.ExtensionMethods;
+using FluentSharp.CoreLib;
 //using O2.External.SharpDevelop.ExtensionMethods;
-using O2.XRules.Database.Utils;
 
 namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 {

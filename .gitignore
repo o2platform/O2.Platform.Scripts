@@ -5,3 +5,7 @@ bin
 *.csproj
 *.user
 _VisualStudio_Projects
+
+*.suo
+
+*.ncrunchsolution

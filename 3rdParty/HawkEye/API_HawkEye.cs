@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Windows.Forms;
-using O2.Kernel;
-using O2.DotNetWrappers.ExtensionMethods; 
+using FluentSharp.CoreLib;
+using FluentSharp.REPL;
+using FluentSharp.WinForms;
+
 //O2File:WindowFinder.cs
 
 namespace O2.XRules.Database.APIs

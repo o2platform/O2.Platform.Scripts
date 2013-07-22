@@ -1,18 +1,12 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
 using System;
-using System.IO;
 using System.Windows.Forms;
-using O2.Kernel;
-using O2.DotNetWrappers.Windows;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.DotNetWrappers.Network;
-using O2.Views.ASCX.classes.MainGUI;
-using O2.External.SharpDevelop.Ascx;
-using O2.External.SharpDevelop.AST;
-using O2.External.SharpDevelop.ExtensionMethods;
-using ICSharpCode.NRefactory;
-using ICSharpCode.NRefactory.Ast;
-using ICSharpCode.NRefactory.Visitors;
+using FluentSharp.CSharpAST.Utils;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.REPL;
+using FluentSharp.REPL.Controls;
+using FluentSharp.WinForms;
 
 namespace O2.XRules.Database.Utils
 {		
@@ -43,7 +37,7 @@ namespace O2.XRules.Database.Utils
 		public Ast_CSharp 			 	AstCSharp							{ get; set; }
 		public AstDetails 			 	AstDetails							{ get; set; }
 		
-		public ascx_SourceCodeEditor 	sourceCodeEditor 					{ get; set; }
+		public SourceCodeEditor 	    sourceCodeEditor 					{ get; set; }
         public TabControl 			 	tabControl				  			{ get; set; }
         public TreeView 				ast_TreeView 				  		{ get; set; }
         public TreeView 				usingDeclarations_TreeView			{ get; set; }
@@ -52,8 +46,8 @@ namespace O2.XRules.Database.Utils
         public TreeView 				fields_TreeView						{ get; set; }
         public TreeView 				properties_TreeView					{ get; set; }
         public TreeView 				comments_TreeView					{ get; set; }
-        public ascx_SourceCodeEditor 	rewritenCSharpCode_SourceCodeEditor	{ get; set; }
-        public ascx_SourceCodeEditor 	rewritenVBNet_SourceCodeEditor		{ get; set; }
+        public SourceCodeEditor 	    rewritenCSharpCode_SourceCodeEditor	{ get; set; }
+        public SourceCodeEditor 	    rewritenVBNet_SourceCodeEditor		{ get; set; }
 		public RichTextBox 				errors_RichTextBox					{ get; set; }
 		public bool						AutoExpand_AstTreeView				{ get; set; }
 		
@@ -130,15 +124,15 @@ namespace O2.XRules.Database.Utils
 
 
 
-        //NOTE: these two methods need to be moved to the ascx_SourceCodeEditor control
+        //NOTE: these two methods need to be moved to the SourceCodeEditor control
         public void showInSourceCode(Object sender, TreeViewEventArgs e)
         {
             var treeNoteTag = e.Node.Tag;
             // temp Hack to handle the fact that AstValue<obTject> is current using  AstValue<object>           
-            var endLocation = (ICSharpCode.NRefactory.Location)O2.Kernel.PublicDI.reflection.getProperty("EndLocation",treeNoteTag);
-            var startLocation = (ICSharpCode.NRefactory.Location)O2.Kernel.PublicDI.reflection.getProperty("StartLocation", treeNoteTag);
-            var originalObject = O2.Kernel.PublicDI.reflection.getProperty("OriginalObject", treeNoteTag);
-            var text = (string)O2.Kernel.PublicDI.reflection.getProperty("Text", treeNoteTag);
+            var endLocation = (ICSharpCode.NRefactory.Location)PublicDI.reflection.getProperty("EndLocation",treeNoteTag);
+            var startLocation = (ICSharpCode.NRefactory.Location)PublicDI.reflection.getProperty("StartLocation", treeNoteTag);
+            var originalObject = PublicDI.reflection.getProperty("OriginalObject", treeNoteTag);
+            var text = (string)PublicDI.reflection.getProperty("Text", treeNoteTag);
             var astValue = new AstValue<object>(text,originalObject,startLocation,endLocation);
 
             //if (treeNoteTag is AstValue<object>)

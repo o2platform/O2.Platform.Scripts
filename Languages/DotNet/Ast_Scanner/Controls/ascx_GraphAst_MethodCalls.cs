@@ -2,23 +2,14 @@
 using System;
 using System.Drawing;
 using System.Collections.Generic;
+using FluentSharp.CSharpAST.Utils;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.REPL.Controls;
+using FluentSharp.WinForms;
 using Forms = System.Windows.Forms; 
 using WPF = System.Windows.Controls; 
 using Media = System.Windows.Media;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using O2.Interfaces.O2Core;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.DotNetWrappers.DotNet;
-using O2.API.AST.CSharp;
-using O2.API.AST.ExtensionMethods;
-using O2.API.AST.ExtensionMethods.CSharp;
-using O2.Views.ASCX;
-using GraphSharp.Controls;
-using O2.XRules.Database.Utils;
 
 //O2File:GraphLayout_O2CodeStream_ExtensionMethods.cs
 //O2File:VerticesAndEdges_ExtensionMethods.cs

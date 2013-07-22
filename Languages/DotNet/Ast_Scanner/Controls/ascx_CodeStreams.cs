@@ -1,17 +1,13 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
 using System;
 using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.Views.ASCX.ExtensionMethods;
-using O2.External.SharpDevelop.ExtensionMethods;
-using O2.External.SharpDevelop.Ascx;
-using O2.XRules.Database.Utils;
-using O2.XRules.Database.Languages_and_Frameworks.DotNet;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.REPL;
+using FluentSharp.REPL.Controls;
+using FluentSharp.WinForms;
 
 //O2File:Saved_MethodStream.cs
 
@@ -33,7 +29,7 @@ namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 	
 		public Saved_MethodStream savedMethodStream;
 		//public ascx_SourceCodeViewer codeViewer;
-		public ascx_SourceCodeEditor _codeEditor;
+		public SourceCodeEditor _codeEditor;
 		public TreeView codeStreams;
 		public TreeView codeStreamViewer;
 		
@@ -72,7 +68,7 @@ namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 												treeView.selectFirst();
 											};
 			
-			Action<ascx_SourceCodeEditor, CodeStreamPath, bool> colorCodePath = 
+			Action<SourceCodeEditor, CodeStreamPath, bool> colorCodePath = 
 				(codeEditor, codeStreamPath, clearMarkers)=>
 					{												
 						if (codeEditor.getSourceCode().inValid() || codeStreamPath.Line == 0 && codeStreamPath.Column ==0)
@@ -96,13 +92,13 @@ namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 						}					
 				  	};
 			
-			Action<ascx_SourceCodeEditor, List<CodeStreamPath>> colorCodePaths = 
+			Action<SourceCodeEditor, List<CodeStreamPath>> colorCodePaths = 
 				(codeEditor, codeStreamPaths)=> {
 													foreach(var codeStreamPath in codeStreamPaths)
 														colorCodePath(codeEditor, codeStreamPath,false); 
 											    };
 				
-			Action<TreeView,ascx_SourceCodeEditor> set_AfterSelect_SyncWithCodeEditor = 
+			Action<TreeView,SourceCodeEditor> set_AfterSelect_SyncWithCodeEditor = 
 				(treeView, codeEditor)=>{
 								treeView.afterSelect<CodeStreamPath>(
 										(codeStreamPath)=> colorCodePath(codeEditor, codeStreamPath,true ) );
@@ -164,7 +160,7 @@ namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 			codeStreams.clear();
 			codeStreams.add_Nodes(savedMethodStream.CodeStreams, (codeStream) => codeStream.CodeStreamPaths.size() > 0 );  
 			_codeEditor.editor().clearMarkers(); 	
-			O2.DotNetWrappers.DotNet.O2Thread.mtaThread(
+			O2Thread.mtaThread(
 				()=>{						
 						codeStreams.selectFirst(); 						
 					});

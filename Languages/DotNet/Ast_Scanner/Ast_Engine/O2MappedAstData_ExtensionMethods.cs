@@ -1,23 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Xml.Serialization;
 using System.Windows.Forms;
+using FluentSharp.CSharpAST;
+using FluentSharp.CSharpAST.Utils;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.CoreLib.Interfaces;
+using FluentSharp.REPL;
+using FluentSharp.WinForms.O2Findings;
 using ICSharpCode.TextEditor;
-using O2.API.AST.CSharp;
 using ICSharpCode.NRefactory.Ast;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.DotNetWrappers.DotNet;
 using ICSharpCode.SharpDevelop.Dom;
-using O2.API.AST.Visitors;
-using O2.API.AST.ExtensionMethods;
-using O2.API.AST.ExtensionMethods.CSharp;
-using O2.Interfaces.O2Findings;
 using ICSharpCode.NRefactory;
-using O2.DotNetWrappers.O2Findings;
+
 //O2File:Ast_Engine_ExtensionMethods.cs
 //O2Ref:QuickGraph.dll
 

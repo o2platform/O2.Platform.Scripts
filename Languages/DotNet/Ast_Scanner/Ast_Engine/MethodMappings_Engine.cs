@@ -1,27 +1,12 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using System.Text;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.Windows;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.Views.ASCX.classes.MainGUI;
-using O2.Views.ASCX.ExtensionMethods; 
-using O2.API.AST.CSharp;
-using O2.API.AST.ExtensionMethods;
-using O2.API.AST.ExtensionMethods.CSharp;
-using O2.External.SharpDevelop.ExtensionMethods;
-using O2.External.SharpDevelop.AST;
-using O2.External.SharpDevelop.Ascx;
-using O2.XRules.Database.Languages_and_Frameworks.DotNet;
-using ICSharpCode.SharpDevelop.Dom;
-using ICSharpCode.NRefactory;
-using ICSharpCode.NRefactory.Ast;
-using O2.Kernel.Objects;
+using FluentSharp.CSharpAST.Utils;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.WinForms;
+using FluentSharp.WinForms.Controls;
 
 //O2File:ascx_ManualMethodStreams.cs 
 //O2File:Ast_Engine_ExtensionMethods.cs
@@ -116,14 +101,14 @@ namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
         	var script = "MethodMappings_Engine.cs".local();
         	"Creating new AppDomain".info();
  			var appDomainName = 4.randomString();
-			var o2AppDomain =  new O2.Kernel.Objects.O2AppDomainFactory(appDomainName);			
+			var o2AppDomain =  new O2AppDomainFactory(appDomainName);			
 			//o2AppDomain.load("O2_XRules_Database"); 	
 			//o2AppDomain.load("O2_Kernel");
 			//o2AppDomain.load("O2_DotNetWrappers");
 			o2AppDomain.load("FluentSharp.CoreLib");
-			o2AppDomain.load("FluentSharp.BCL");
+			o2AppDomain.load("FluentSharp.WinForms");
 			o2AppDomain.load("FluentSharp.REPL");
-			o2AppDomain.load("O2_Platform_External_SharpDevelop.dll");
+			o2AppDomain.load("FluentSharp.SharpDevelopEditor.dll");
 			var o2Proxy =  (O2Proxy)o2AppDomain.getProxyObject("O2Proxy");
 			var parameters = new object[]
 					{ 
