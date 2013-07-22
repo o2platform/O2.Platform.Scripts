@@ -1,13 +1,13 @@
 ﻿using System;
 using FluentSharp.CoreLib;
-using O2.FluentSharp.VisualStudio.ExtensionMethods;
+using FluentSharp.VisualStudio;
 using EnvDTE;
  
 //O2File:O2_VS_AddIn.cs 
 //O2File:Microsoft_VisualStudio_ExtensionMethods.cs
 //O2Ref:EnvDTE.dll
 
-namespace O2.FluentSharp.VisualStudio
+namespace FluentSharp.VisualStudio.Utils
 {
 	public class CommandBase
 	{		

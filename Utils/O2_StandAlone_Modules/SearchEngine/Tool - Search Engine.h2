@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//open.logViewer();
+//open.logViewer();
 
 new SearchEngineGui().buildGui();
 
@@ -10,6 +8,4 @@ new SearchEngineGui().buildGui();
 	
 //using O2.Tool.SearchEngine.Ascx;
 //using O2.Tool.SearchEngine
-//O2File:SearchEngineGui.cs</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2File:SearchEngineGui.cs

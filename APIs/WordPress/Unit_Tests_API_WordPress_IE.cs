@@ -1,17 +1,14 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
-using System;
-using System.IO;
-using System.Linq;
-using System.Collections.Generic;
-using NUnit.Framework; 
-using O2.Kernel;
+
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.CoreLib.Utils;
+using FluentSharp.GuiAutomation;
+using FluentSharp.Watin;
+using NUnit.Framework;
 using O2.XRules.Database.APIs;
-using O2.XRules.Database.Utils;
-using O2.DotNetWrappers.Network;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.Kernel.ExtensionMethods;
 using WatiN.Core.DialogHandlers;
+
 //O2File:Unit_Tests_using_IE.cs
 //O2File:API_WordPress_IE.cs
 //O2File:API_GuiAutomation.cs
@@ -22,11 +19,13 @@ namespace O2.UnitTests
     public class Unit_Tests_API_WordPress_IE : Unit_Tests_using_IE
     {	
     	public API_WordPress_IE apiWordPressIE;
-    	public AlertAndConfirmDialogHandler alertsHander;
+    	
+        //public AlertAndConfirmDialogHandler alertsHander;
+
     	public Unit_Tests_API_WordPress_IE() 
     	{    		
     		base.set_IE_Object("Unit_Tests_API_WordPress_IE");
-    		alertsHander = ie.getAlertsHandler();
+    		//alertsHander = ie.getAlertsHandler();
     		var serverUrl = "https://o2platform.wordpress.com".uri();
 			apiWordPressIE = new API_WordPress_IE(ie, serverUrl);		
 			

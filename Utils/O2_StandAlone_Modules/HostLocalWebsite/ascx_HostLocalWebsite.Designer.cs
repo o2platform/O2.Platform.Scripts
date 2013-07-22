@@ -1,8 +1,9 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
-using O2.Kernel.CodeUtils;
-using O2.Views.ASCX.CoreControls;
 
 //O2File:ascx_HostLocalWebsite.cs
+
+using FluentSharp.CoreLib.API;
+using FluentSharp.WinForms.Controls;
 
 namespace O2.Tool.HostLocalWebsite.ascx
 {
@@ -49,7 +50,7 @@ namespace O2.Tool.HostLocalWebsite.ascx
             this.btSetTestEnvironment = new System.Windows.Forms.Button();
             this.tbUrlToLoad = new System.Windows.Forms.TextBox();
             this.btReloadUrl = new System.Windows.Forms.Button();
-            this.ascx_DropObject1 = new O2.Views.ASCX.CoreControls.ascx_DropObject();
+            this.ascx_DropObject1 = new DropObject();
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -206,7 +207,7 @@ namespace O2.Tool.HostLocalWebsite.ascx
             this.ascx_DropObject1.Size = new System.Drawing.Size(177, 78);
             this.ascx_DropObject1.TabIndex = 7;
             this.ascx_DropObject1.Text = "Step 1: Drop Here Folder With Website to Host ";
-            this.ascx_DropObject1.eDnDAction_ObjectDataReceived_Event += new O2.Kernel.CodeUtils.Callbacks.dMethod_Object(this.ascx_DropObject1_eDnDAction_ObjectDataReceived_Event);
+            this.ascx_DropObject1.eDnDAction_ObjectDataReceived_Event += new Callbacks.dMethod_Object(this.ascx_DropObject1_eDnDAction_ObjectDataReceived_Event);
             // 
             // label5
             // 
@@ -255,7 +256,7 @@ namespace O2.Tool.HostLocalWebsite.ascx
         private System.Windows.Forms.Button btSetTestEnvironment;
         private System.Windows.Forms.TextBox tbUrlToLoad;
         private System.Windows.Forms.Button btReloadUrl;
-        private ascx_DropObject ascx_DropObject1;
+        private DropObject ascx_DropObject1;
         private System.Windows.Forms.Label label5;
     }
 }

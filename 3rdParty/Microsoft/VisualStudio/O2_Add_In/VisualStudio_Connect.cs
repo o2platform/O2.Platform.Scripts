@@ -13,7 +13,7 @@ using FluentSharp.CoreLib;
 //O2Ref:Extensibility.dll
 //O2Ref:Microsoft.VisualStudio.CommandBars.dll
   
-namespace O2.FluentSharp.VisualStudio
+namespace FluentSharp.VisualStudio.Utils
 {
 	/// <summary>The object for implementing an Add-in.</summary>
 	/// <seealso class='IDTExtensibility2' />

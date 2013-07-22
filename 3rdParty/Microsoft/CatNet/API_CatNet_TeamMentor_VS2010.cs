@@ -5,9 +5,9 @@ using System;
 using System.Windows.Forms;
 using CefSharp.WinForms;
 using FluentSharp.CoreLib;
+using FluentSharp.VisualStudio.Utils;
 using FluentSharp.WinForms;
 using Microsoft.ACESec.CATNet.UI;
-using O2.FluentSharp.VisualStudio;
 
 //O2File:API_CatNet_VS2010.cs
 //O2File:API_VisualStudio_2010.cs

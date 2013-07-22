@@ -1,0 +1,130 @@
+// This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
+//O2Ref:System.dll
+
+using System.Collections.Generic;
+//O2Ref:System.Core.dll
+//O2Ref:System.Windows.Forms.dll
+using System.Windows.Forms;
+//O2Ref:O2_External_IE.dll
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.CoreLib.Interfaces;
+using FluentSharp.WinForms;
+using FluentSharp.WinForms.Controls;
+using O2.External.IE.ExtensionMethods;
+using O2.External.IE.Interfaces;
+using O2.External.IE.Wrapper;
+
+//O2Ref:System.Drawing.dll
+
+
+namespace O2.XRules.Database.Utils
+{
+    public class ascx_View_WebPage_Details: UserControl
+    {    
+    	private static IO2Log log = PublicDI.log;
+		public IO2Browser webBrowser;
+		public List<Control> groupBoxes;
+		public TreeView htmlPages_TreeView;
+		
+        public static void startControl()
+    	{       		 
+    		
+    		/*var ascx = new ascx_Edit_Wiki_Page();
+    		ascx.Dock = DockStyle.Fill;
+    		var form = new Form();
+    		form.Controls.Add(ascx);
+    		form.ShowDialog();*/
+    		
+    		WinForms_Show.showAscxInForm(
+				typeof(ascx_View_WebPage_Details), 
+				"View WebPage Details", 
+				700, 
+				600);		    	
+    	}    	
+    			
+    	public ascx_View_WebPage_Details()
+    	{   
+    		var startUrl = "http://www.google.com";    		
+    		buildGui(startUrl);	                	    		
+        }    	    	        
+        
+        private void buildGui(string startUrl)
+        {
+        	// test values  make these links on top of the location bar
+//            var startUrl = @"http://www.google.co.uk";
+        	//var startUrl = @"http://www.owasp.org/index.php/o2";        	
+			
+        	groupBoxes = this.add_SplitContainer_1x2("Browser","Pages Loaded","WebPage Info", true, 100,100);        	        	        	
+        	webBrowser = groupBoxes[0].add_WebBrowserWithLocationBar(startUrl);        	        	
+        	((O2BrowserIE)webBrowser).silent(true);
+        	htmlPages_TreeView = groupBoxes[1].add_TreeView();
+        	htmlPages_TreeView.HideSelection = false;
+
+        	webBrowser.onDocumentCompleted += pageLoaded;
+        	        	
+        	htmlPages_TreeView.afterSelect<IO2HtmlPage>(showPageDetails);
+        	
+        	        	
+        	        	
+     	}        	     	     
+    	    	      	
+    	public void pageLoaded(IO2HtmlPage htmlPage)
+    	{
+    		 htmlPages_TreeView.add_Node(htmlPage);
+    		 if (htmlPages_TreeView.Nodes.Count == 1)
+    		 	htmlPages_TreeView.SelectedNode = htmlPages_TreeView.Nodes[0];
+    	}
+    	    	  
+    	public void showPageDetails(IO2HtmlPage htmlPage)
+    	{    		
+			var url = htmlPage.PageUri;
+			"copying page url to the clipboard: {0}".info(url.str());
+			url.str().toClipboard();
+    		groupBoxes[2].clear();
+    		var tabControl = groupBoxes[2].add_TabControl();
+    		
+    		if (htmlPage.Forms != null)
+    			foreach(var form in htmlPage.Forms)    		
+    				tabControl.add_Tab_IfListHasData("Form '"+ form.ToString() +"' Fields", form.FormFields);    		
+    		
+    		tabControl.add_Tab_IfListHasData("Anchors", htmlPage.Anchors);
+    		tabControl.add_Tab_IfListHasData("Images", htmlPage.Images);
+    		tabControl.add_Tab_IfListHasData("Links", htmlPage.Links);
+    		tabControl.add_Tab_IfListHasData("Forms", htmlPage.Forms);
+    		tabControl.add_Tab_IfListHasData("Scripts", htmlPage.Scripts);    
+    			
+    		add_Config_Tab(tabControl, webBrowser);
+    		//var htmlCode = tabControl.add_Tab("Html Code").add_RichTextBox();
+    		
+    		/*if (htmlPage.Links.Count >0)
+    			tabControl.add_Tab("Links").add_TableList(htmlPage.Links);
+    		if (htmlPage.Forms.Count >0)	
+    			tabControl.add_Tab("Forms").add_TableList(htmlPage.Forms);
+    		if (htmlPage.Scripts.Count >0)	
+    			tabControl.add_Tab("Scripts").add_TableList(htmlPage.Scripts);
+    		*/    		    		
+    		/*var sourceCodeViewer = tabControl.add_Tab("Html Code").add_SourceCodeViewer();
+    		var sourceCodeEditor = sourceCodeViewer.getSourceCodeEditor();
+    		sourceCodeEditor.setDocumentContents(htmlPage.PageSource,"aaa.html");
+    		tabControl.add_Tab("Links").add_RichTextBox();
+    		tabControl.add_Tab("Forms").add_RichTextBox();
+    		tabControl.add_Tab("Scripts").add_RichTextBox();*/
+    		//tabControl.add_Tab("Links").add_RichTextBox();
+    		//htmlCode.set_Text(htmlPage.PageSource);
+    	}
+    	    	
+    	public static void add_Config_Tab(TabControl tabControl, IO2Browser webBrowser)
+    	{
+    		if (webBrowser == null)
+    			PublicDI.log.error("webBrowser was null");
+    	
+    		var config_TabPage = tabControl.add_Tab("--config--");
+    		config_TabPage.add_CheckBox("Html Edit Mode", 20,10,
+        		(value)=> webBrowser.HtmlEditMode = value);
+        		
+    			/*groupBoxes[1].add_CheckBox("Html Edit Mode", 20,10,
+        		(value)=>{webBrowser.HtmlEditMode = value;});*/
+    	}
+    }        
+}

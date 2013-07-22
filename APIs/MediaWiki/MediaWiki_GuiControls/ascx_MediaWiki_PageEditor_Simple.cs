@@ -6,7 +6,6 @@ using FluentSharp.CoreLib;
 using FluentSharp.CoreLib.API;
 using FluentSharp.WinForms;
 using FluentSharp.WinForms.Controls;
-using O2.XRules.Database.Utils;
 //O2File:O2PlatformWikiAPI.cs
 //O2File:O2MediaWikiApi.cs
 //O2File:ascx_AskUserForLoginDetails.cs

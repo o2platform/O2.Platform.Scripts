@@ -3,7 +3,6 @@
 using FluentSharp.CoreLib;
 using NUnit.Framework;
 using Etherpad;
-using O2.XRules.Database.Utils;
 
 //O2File:EtherpadLiteDotNet.cs
 //O2Ref:nunit.framework.dll

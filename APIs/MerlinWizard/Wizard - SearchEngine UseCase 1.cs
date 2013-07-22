@@ -3,6 +3,8 @@
 using System.Text;
 using FluentSharp.CoreLib.API;
 using FluentSharp.CoreLib.Interfaces;
+using FluentSharp.WinForms.Controls;
+using O2.Tool.SearchEngine.Ascx;
 using O2.Views.ASCX.MerlinWizard;
 using O2.Views.ASCX.MerlinWizard.O2Wizard_ExtensionMethods;
 //O2Ref:_SearchEngine (O2 Tool).exe
@@ -45,7 +47,7 @@ namespace O2.Script
         {                                     	
         	var o2Wizard = new O2Wizard("Search Engine - Use Case 1"); 
 
-        	o2Wizard.Steps.add_Control(new ascx_FileMappings(),
+        	o2Wizard.Steps.add_Control(new FileMappings(),
         							  "Search Targets", 
         							  "Drag and Drop target folder with source files and Select files to index", step0_loadDefaultValues);        	
 			o2Wizard.Steps.add_Action("Confirm files to index", confirmFilesToIndex);
@@ -62,7 +64,7 @@ namespace O2.Script
         		() => 	{		
         					PublicDI.log.error("in step0_loadDefaultValues");
         					PublicDI.log.error(step.Controller.steps[0].FirstControl.GetType().FullName);
-				        	var fileMappings = (ascx_FileMappings)step.Controller.steps[0].FirstControl;
+				        	var fileMappings = (FileMappings)step.Controller.steps[0].FirstControl;
 				        	PublicDI.reflection.invoke(fileMappings,"hideDropHelpInfo", new object[]{});
 				        	var fileFilter = ".cs";
 				        	fileMappings.setExtensionsToShow(fileFilter);
@@ -89,7 +91,7 @@ namespace O2.Script
         
         public void confirmFilesToIndex(IStep step)
         {
-        	var fileMappings = (ascx_FileMappings)step.Controller.steps[0].FirstControl;        	
+        	var fileMappings = (FileMappings)step.Controller.steps[0].FirstControl;        	
         	var filesToIndex = fileMappings.getFilesThatMatchCurrentExtensionFilter();
         	
         	step.set_Text(string.Format("There are {0} files to index", filesToIndex.Count));

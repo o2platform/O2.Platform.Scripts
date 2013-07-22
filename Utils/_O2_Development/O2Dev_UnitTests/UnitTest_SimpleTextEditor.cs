@@ -9,6 +9,7 @@ using FluentSharp.CoreLib;
 using FluentSharp.REPL;
 using FluentSharp.WinForms;
 using NUnit.Framework;
+using O2.XRules.Database.APIs;
 
 
 //O2Ref:nunit.framework.dll

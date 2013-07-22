@@ -10,7 +10,6 @@ using FluentSharp.REPL;
 using FluentSharp.WinForms;
 using FluentSharp.WinForms.Controls;
 using FluentSharp.XObjects;
-using O2.XRules.Database.Utils;
 using https.www.veracode.com.schema.reports.export.Item1.Item0;
 //O2File:detailedreport.cs
 

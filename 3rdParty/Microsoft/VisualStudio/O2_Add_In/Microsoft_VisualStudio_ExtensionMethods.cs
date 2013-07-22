@@ -12,7 +12,7 @@ using System.Windows.Forms;
 //O2Ref:Microsoft.VisualStudio.CommandBars.dll
 
 
-namespace O2.FluentSharp.VisualStudio.ExtensionMethods
+namespace FluentSharp.VisualStudio
 {
     /// <summary>
     /// 

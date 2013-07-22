@@ -1,6 +1,6 @@
 ﻿//O2File:O2_VS_AddIn.cs
 
-namespace O2.FluentSharp.VisualStudio
+namespace FluentSharp.VisualStudio.Utils
 {
 	public class O2_ScriptWithPanel : CommandBase
 	{

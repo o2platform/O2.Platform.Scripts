@@ -1,19 +1,21 @@
 ﻿// This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
 using System;
 using System.Windows.Forms;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods; 
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.Views.ASCX.classes.MainGUI;
+using FluentSharp.CoreLib.API;
+using FluentSharp.Git.APIs;
+using FluentSharp.WinForms.Controls;
 using O2.XRules.Database.APIs; 
-using O2.FluentSharp;
+using FluentSharp.CoreLib;
+using FluentSharp.WinForms;
+using FluentSharp.WinForms.Utils;
+using FluentSharp.Git;
 //O2File:API_MSBuild.cs
 //O2Ref:FluentSharp.NGit.dll
 //O2Tag_DontAddExtraO2Files
 
-public class DynamicType
+public class Util_Sync_and_Compile_O2_Repositories_Test
 	{
-		public void dynamicMethod()
+		public void launch()
 		{
 			O2.XRules.Database.Utils.Util_Sync_and_Compile_O2_Repositories.Main();
 		}

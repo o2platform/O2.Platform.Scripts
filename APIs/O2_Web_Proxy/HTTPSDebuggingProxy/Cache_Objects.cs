@@ -53,7 +53,7 @@ namespace HTTPProxyServer
     
     
     //added to this code since the original version was compiled in .Net 4.0 which has equivalent classes
-    public class Tuple<T>
+/*    public class Tuple<T>
     {
         public Tuple(T first)
         {
@@ -73,5 +73,5 @@ namespace HTTPProxyServer
 
         public T2 Item2 { get; set; }
         
-    }
+    }*/
 }

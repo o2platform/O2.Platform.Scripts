@@ -3,24 +3,12 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection; 
-using System.Text;
-using O2.Interfaces.O2Core;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.DotNetWrappers.Windows;
-using O2.DotNetWrappers.DotNet;
-using O2.Views.ASCX;
-using O2.Views.ASCX.ExtensionMethods;
-using O2.Views.ASCX.classes.MainGUI;
-using O2.Views.ASCX.Ascx.MainGUI;
-using O2.External.IE.ExtensionMethods;
-
-using O2.XRules.Database.APIs; 
-using O2.XRules.Database.Utils;
 using AvalonDock;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.WPF;
+using FluentSharp.WinForms;
+using FluentSharp.WinForms.Controls;
 
 //O2File:OwaspWikiAPI.cs
 //O2File:O2PlatformWikiAPI.cs

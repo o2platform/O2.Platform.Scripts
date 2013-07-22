@@ -74,9 +74,9 @@ var ie = topPanel.add_IE().silent(true);
 
 ie.open(""http://www.google.com"");  
 
-//O2File:WatiN_IE_ExtensionMethods.cs 
-//using O2.XRules.Database.Utils
-//O2Ref:WatiN.Core.1x.dll
+//using FluentSharp.Watin;
+//O2Ref:FluentSharp.Watin.dll
+//O2Ref:WatiN.Core.dll
 
 //O2Tag_DontAddExtraO2Files;";
 */
@@ -106,7 +106,7 @@ ie.if_NoPageLoaded(
 		()=>{ 
 				ie.open(""http://www.google.com"");    
 				ie.link(""Images"").click();  
-				ie.waitForField(""Search Images"").value(""O2 Platform""); 				
+				ie.waitForField(""q"").value(""O2 Platform""); 				
 //				ie.inject_FirebugLite();
 				ie.inject_jQuery();
 				//ie.invokeEval(""alert(jQuery)"");
@@ -117,11 +117,11 @@ ie.if_NoPageLoaded(
 ""Page is open, so returning all image's links"".info();			
 return ie.links()	      
 	     .uris()
-	     .queryParameters_Values(""imgurl"");
+	     .queryParameters_Values(""imgrefurl"");
 	     	 
-//O2File:WatiN_IE_ExtensionMethods.cs 
-//O2Ref:WatiN.Core.1x.dll
-//O2Tag_DontAddExtraO2Files;			
+//using FluentSharp.Watin;
+//O2Ref:FluentSharp.Watin.dll
+//O2Ref:WatiN.Core.dll		
 ";
 			return scriptWrapper;
 		}

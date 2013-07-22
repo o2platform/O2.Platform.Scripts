@@ -6,8 +6,8 @@ using System.Collections.Generic;
 using EnvDTE;
 using EnvDTE80;
 using FluentSharp.CoreLib;
+using FluentSharp.VisualStudio.Utils;
 using Microsoft.VisualStudio.CommandBars;
-using O2.FluentSharp.VisualStudio;
 
 //O2File:O2_VS_AddIn.cs
 //O2File:VisualStudio_Connect.cs

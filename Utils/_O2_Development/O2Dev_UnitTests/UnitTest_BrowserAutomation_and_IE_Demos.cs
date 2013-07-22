@@ -4,6 +4,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using FluentSharp.GuiAutomation;
 using NUnit.Framework;
 using White.Core;
 

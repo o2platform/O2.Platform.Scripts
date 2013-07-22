@@ -15,9 +15,9 @@ using TweetSharp.Twitter.Fluent;
 using TweetSharp.Twitter.Model;
 
 //O2File:ISecretData.cs
-//O2File:Watin_IE.cs
-//O2File:Watin_IE_ExtensionMethods.cs
 
+//O2Ref:FluentSharp.Watin.dll
+//O2Ref:Watin.Core.dll
 //O2Ref:Hammock.dll
 //O2Ref:Newtonsoft.Json.dll
 //O2Ref:TweetSharp.dll

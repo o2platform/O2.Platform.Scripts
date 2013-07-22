@@ -1,38 +1,26 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
-using System;
-using System.Threading;
+
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using System.Windows.Forms;
-using System.Text;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods; 
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.Views.ASCX.ExtensionMethods;
-using O2.Views.ASCX.classes.MainGUI;
-using SHDocVw;
-using WatiN.Core;
-using O2.XRules.Database.Utils;
-using O2.XRules.Database.APIs;
-using O2.External.SharpDevelop.ExtensionMethods;
-using O2.Interfaces.O2Findings;
-using O2.Views.ASCX.O2Findings;
+using FluentSharp.CSharpAST;
+using FluentSharp.CSharpAST.Utils;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.Interfaces;
+using FluentSharp.Watin;
+using FluentSharp.WinForms;
+using FluentSharp.WinForms.O2Findings;
 using O2.XRules.Database.Findings;
-using O2.DotNetWrappers.O2Findings;
-using O2.XRules.Database.Languages_and_Frameworks.DotNet; 
-using O2.API.AST.CSharp;
-using O2.API.AST.ExtensionMethods;
-using O2.API.AST.ExtensionMethods.CSharp;
+using O2.XRules.Database.Languages_and_Frameworks.DotNet;
 
 //O2File:Findings_ExtensionMethods.cs
 //O2File:Ast_Engine_ExtensionMethods.cs
 
-//O2File:WatiN_IE_ExtensionMethods.cs    
-//O2File:WatiN_IE.cs
 //O2File:DotNet_ViewState.cs
+
 //O2Ref:Interop.SHDocVw.dll
-//O2Ref:WatiN.Core.1x.dll
+//O2Ref:FluentSharp.Watin.dll
+//O2Ref:Watin.Core.dll
+//O2Ref:FluentSharp.Watin.dll
  
  
 namespace O2.XRules.Database.HacmeBank

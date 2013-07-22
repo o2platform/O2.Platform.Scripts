@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("IE Google - Scripting",1200,700);
+var topPanel = O2Gui.open<Panel>("IE Google - Scripting",1200,700);
 //var topPanel = panel.clear().add_Panel();
 
 var ie =topPanel.add_IE();
@@ -16,6 +14,7 @@ return ie.links();
 //new IE_Google("popup".popupWindow());  // 
 
 //O2File:IE_Google.cs 
-//O2Ref:WatiN.Core.1x.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//using O2.XRules.Database.APIs
+//O2Ref:FluentSharp.Watin
+//using FluentSharp.Watin
+//O2Ref:Watin.Core.dll

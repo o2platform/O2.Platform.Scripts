@@ -4,8 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Script.Serialization;
 using System.Windows.Forms;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;
+using FluentSharp.CoreLib;
+using FluentSharp.WinForms;
 
 //O2Ref:System.Web.Extensions.dll
 

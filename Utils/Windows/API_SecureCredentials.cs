@@ -2,12 +2,9 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
-using System.Reflection;
 using System.Text;
 using System.Threading;
-
-using O2.Kernel;
-using O2.DotNetWrappers.ExtensionMethods;
+using FluentSharp.CoreLib;
 
 namespace test
 {

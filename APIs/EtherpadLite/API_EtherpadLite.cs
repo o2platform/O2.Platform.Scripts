@@ -4,9 +4,9 @@ using FluentSharp.CoreLib;
 using FluentSharp.Watin;
 using Etherpad;
 
-//O2File:WatiN_IE_ExtensionMethods.cs 
 //O2File:EtherpadLiteDotNet.cs
-//O2Ref:WatiN.Core.1x.dll
+//O2Ref:FluentSharp.Watin.dll
+//O2Ref:Watin.Core.dll
 
 
 namespace O2.XRules.Database.APIs

@@ -2,12 +2,10 @@
 using System;
 using System.IO;
 using System.Windows.Forms;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods ; 
-using O2.Kernel;
-using O2.Tool.HostLocalWebsite;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.WinForms;
 using O2.Tool.HostLocalWebsite.classes;
-using O2.XRules.Database.Utils;
 
 //O2File:webservices.cs
 //O2File:ascx_HostLocalWebsite.designer.cs

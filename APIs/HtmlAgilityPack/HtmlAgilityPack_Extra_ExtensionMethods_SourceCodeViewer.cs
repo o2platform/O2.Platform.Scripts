@@ -1,14 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Drawing;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.External.SharpDevelop.Ascx;
-using O2.External.SharpDevelop.ExtensionMethods;
-using System.Xml;
-using System.IO;
+using FluentSharp.CoreLib;
+using FluentSharp.For_HtmlAgilityPack;
+using FluentSharp.REPL;
+using FluentSharp.REPL.Controls;
 using System.Windows.Forms;
+using FluentSharp.WinForms;
 
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
 
@@ -23,7 +19,7 @@ namespace O2.XRules.Database.Utils
             return codeViewer;
         }
 
-        public static ascx_SourceCodeEditor showHtmlNodeLocation(this ascx_SourceCodeEditor codeEditor, HtmlAgilityPack.HtmlNode htmlNode)
+        public static SourceCodeEditor showHtmlNodeLocation(this SourceCodeEditor codeEditor, HtmlAgilityPack.HtmlNode htmlNode)
         {
 
             var startLine = htmlNode.Line;

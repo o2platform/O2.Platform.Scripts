@@ -15,6 +15,7 @@ using Gong = GongSolutions.Wpf.DragDrop	;
 //O2Ref:PresentationCore.dll
 //O2Ref:WindowsBase.dll
 //O2Ref:PresentationFramework.dll
+//O2Ref:System.Xaml.dll
  
 
 namespace O2.XRules.Database.APIs

@@ -31,21 +31,21 @@ var defaultScript = "// persist the ie objects accross multiple executions".line
 					"".line() +
 					"".line() +
 					"// *********** <end of IE automation script>  ***********".line() +
-					"".line() +
-					"//using O2.XRules.Database.APIs".line() +					
+					"".line() +					
 					"//using mshtml".line() +
 					"".line() +
-					"//O2File:WatiN_IE_ExtensionMethods.cs ".line() +
-					"//O2Ref:WatiN.Core.1x.dll".line() + 
+					"//using FluentSharp.Watin".line() + 
+					"//O2Ref:FluentSharp.WatiN.dll ".line() +
+					"//O2Ref:WatiN.Core.dll".line() + 
 					"//O2Ref:Microsoft.mshtml.dll";
 					
 script.set_Command(defaultScript);
-
-//O2File:Ref:WatiN_IE_ExtensionMethods.cs
-//using WatiN.Core
+var watin = typeof(WatiN_IE);
+//using FluentSharp.Watin
+//O2Ref:FluentSharp.WatiN.dll
+//O2Ref:WatiN.Core.dll
 //using WatiN.Core.Interfaces
 
-//O2Ref:WatiN.Core.1x.dll
 //O2Ref:Interop.SHDocVw.dll
 //O2Ref:Microsoft.mshtml.dll
 //O2Ref:O2_External_IE.dll

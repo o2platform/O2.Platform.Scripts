@@ -7,7 +7,6 @@ using FluentSharp.Watin;
 using FluentSharp.WinForms;
 using FluentSharp.WinForms.Controls;
 using O2.XRules.Database.Utils;
-//O2File:Watin_IE_ExtensionMethods.cs
 //O2File:CustomO2.cs  
 //O2File:API_GitHub.cs
 //O2File:Git_Installer.cs
@@ -15,7 +14,8 @@ using O2.XRules.Database.Utils;
 //O2File:API_GitHub_Issues.cs
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:RibbonControlsLibrary.dll
-//O2Ref:WatiN.Core.1x.dll
+//O2Ref:FluentSharp.Watin.dll
+//O2Ref:Watin.Core.dll
 //O2Ref:White.Core.dll
 
 namespace O2.XRules.Database.APIs

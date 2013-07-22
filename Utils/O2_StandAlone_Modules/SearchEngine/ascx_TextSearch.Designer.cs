@@ -1,8 +1,6 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
-using O2.External.SharpDevelop.Ascx;
-using O2.Kernel.CodeUtils;
-using O2.Views.ASCX.CoreControls;
-using O2.Views.ASCX.SourceCodeEdit;
+
+using FluentSharp.REPL.Controls;
 
 //O2File:ascx_TextSearch.cs
 
@@ -44,7 +42,7 @@ namespace O2.Tool.SearchEngine.Ascx
             this.label1 = new System.Windows.Forms.Label();
             this.tbTextToSearch1 = new System.Windows.Forms.TextBox();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this.asceSourceCodeEditor = new ascx_SourceCodeEditor();
+            this.asceSourceCodeEditor = new SourceCodeEditor();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -204,6 +202,6 @@ namespace O2.Tool.SearchEngine.Ascx
         private System.Windows.Forms.TextBox tbTextToSearch1;
         private System.Windows.Forms.SplitContainer splitContainer3;
         private System.Windows.Forms.Label label3;
-        private ascx_SourceCodeEditor asceSourceCodeEditor;
+        private SourceCodeEditor asceSourceCodeEditor;
     }
 }

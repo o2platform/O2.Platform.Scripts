@@ -3,6 +3,7 @@ using System;
 using System.Windows.Forms;
 using System.Reflection;
 //O2Ref:Mono.Cecil.dll
+using Cecil.Decompiler.ControlFlow;
 using FluentSharp.CoreLib.API;
 using FluentSharp.CoreLib.Interfaces;
 using FluentSharp.REPL;
@@ -17,6 +18,7 @@ using Mono.Cecil.Cil;
 using O2.External.O2Mono;
 using O2.External.O2Mono.MonoCecil;
 
+//O2File:CecilDecompiler.cs
 //O2Ref:System.Xml.dll
 //O2Ref:System.Xml.Linq.dll
 //O2Ref:Cecil.Decompiler.dll

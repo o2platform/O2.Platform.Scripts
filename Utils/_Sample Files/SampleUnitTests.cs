@@ -3,12 +3,8 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
-using O2.Interfaces.O2Core;
-using O2.Kernel;
-using O2.Kernel.Interfaces.XRules;
-using O2.DotNetWrappers.Windows;
-
+using FluentSharp.CoreLib.API;
+using FluentSharp.CoreLib.Interfaces;
 //O2Ref:nunit.framework.dll
 using NUnit.Framework;
 

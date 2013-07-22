@@ -2,10 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using O2.DotNetWrappers.DotNet;
+using FluentSharp.CoreLib.API;
 using System.IO;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.Kernel;
+using FluentSharp.WinForms;
+using FluentSharp.WinForms.Utils;
 
 //O2File:ascx_SearchTargets.cs
 //O2File:ascx_SearchTargets.Designer.cs 

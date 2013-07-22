@@ -60,8 +60,10 @@ Action<string> compileTargetFile =
 				var rowId = 0;
 				
 				if (file.extension(".h2"))  // skip for now
+				{
+					skipped++;
 					return;
-				
+				}
 				
 				if (file.extension(".h2"))
 					compiler1Result = file.compile_H2Script() != null;

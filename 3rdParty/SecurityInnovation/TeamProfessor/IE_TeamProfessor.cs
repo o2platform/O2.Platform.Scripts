@@ -6,8 +6,6 @@ using FluentSharp.Watin;
 using FluentSharp.WinForms;
 
 //O2File:API_IE_ExecutionGUI.cs
-//O2File:WatiN_IE_ExtensionMethods.cs    
-//O2Ref:WatiN.Core.1x.dll
 
 namespace O2.XRules.Database.APIs 
 {	

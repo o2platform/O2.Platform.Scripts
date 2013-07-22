@@ -1,10 +1,7 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
 using System;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using O2.DotNetWrappers.DotNet;
-using O2.Tool.SearchEngine;
+using FluentSharp.WinForms.Utils;
 
 //O2File:ascx_TextSearch.Designer.cs
 

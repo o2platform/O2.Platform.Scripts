@@ -1,10 +1,10 @@
 ﻿using FluentSharp.CoreLib;
+using FluentSharp.VisualStudio;
 using FluentSharp.WinForms;
-using O2.FluentSharp.VisualStudio.ExtensionMethods;
 
 //O2File:O2_VS_AddIn.cs
 
-namespace O2.FluentSharp.VisualStudio
+namespace FluentSharp.VisualStudio.Utils
 {
 	public class VS2010_TeamMentor_Menu : CommandBase
 	{

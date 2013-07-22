@@ -7,8 +7,8 @@ using FluentSharp.Watin;
 using FluentSharp.WinForms;
 using FluentSharp.WinForms.Controls;
 
-//O2File:WatiN_IE_ExtensionMethods.cs
-//O2Ref:WatiN.Core.1x.dll
+//O2Ref:FluentSharp.Watin.dll
+//O2Ref:Watin.Core.dll
 //O2File:Tool_API.cs
 
 namespace O2.XRules.Database.APIs

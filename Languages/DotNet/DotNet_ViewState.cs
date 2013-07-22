@@ -11,8 +11,11 @@ using System.Collections.Specialized;
 using FluentSharp.CoreLib;
 using FluentSharp.CoreLib.API;
 using FluentSharp.REPL;
+using FluentSharp.Watin;
 using FluentSharp.WinForms;
 
+//O2Ref:FluentSharp.WatiN.dll
+//O2Ref:WatiN.Core.dll
 //O2Ref:System.Web.dll
 
 namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
@@ -267,5 +270,41 @@ namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 	        string str = obj.GetType().ToString();
 	        return str.Substring(str.LastIndexOf(".") + 1);
 	    }		
-	}	            	
+	}	  
+    
+    
+  	public static class WatiN_ASPNET_ExtensionMethods
+    {            
+    	public static DotNet_ViewState viewState(this WatiN_IE ie)
+    	{
+    		return new DotNet_ViewState(ie.viewStateRaw());
+    	}
+    	public static string viewStateRaw(this WatiN_IE ie)
+    	{
+    		return ie.field("__VIEWSTATE").value();
+    	}
+    	
+    	public static T showViewState<T>(this T control, WatiN_IE ie, bool showDetailedView)
+    		where T : System.Windows.Forms.Control
+    	{
+    		if (showDetailedView)
+    			control.showViewState(ie);
+    		else
+    			control.showViewStateValues(ie);
+    		return control;
+    	}
+    	
+    	public static T showViewState<T>(this T control, WatiN_IE ie)
+    		where T : System.Windows.Forms.Control
+    	{    		    		    		
+    		return ie.viewState().show(control);    		
+    	}
+
+
+		public static T showViewStateValues<T>(this T control, WatiN_IE ie)
+    		where T : System.Windows.Forms.Control
+    	{    		    		    		
+    		return ie.viewState().showValues(control);    		
+    	}  	    	   	
+    }
 }

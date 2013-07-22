@@ -13,7 +13,6 @@ using FluentSharp.CoreLib.API;
 using FluentSharp.REPL;
 using FluentSharp.REPL.Controls;
 using FluentSharp.WinForms;
-using O2.XRules.Database.Utils;
 
 //O2File:API_IKVMC_JavaMetadata.cs
 //O2Ref:IKVM\ikvm-7.1.4532.2\bin\IKVM.Runtime.dll

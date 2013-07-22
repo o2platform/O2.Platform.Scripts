@@ -4,9 +4,10 @@ using System.Drawing;
 using System.Windows.Forms;
 using FluentSharp.CoreLib;
 using FluentSharp.CoreLib.API;
+using FluentSharp.REPL;
 using FluentSharp.WinForms;
 using FluentSharp.WinForms.Controls;
-
+using O2.Core.XRules.Ascx;
 //O2Ref:O2_Core_XRules.dll
 //O2Ref:O2_External_O2Mono.dll
 
@@ -20,7 +21,7 @@ namespace O2.XRules.Database.APIs
         	return executeScript(PublicDI.CurrentScript);
         }
         public static Panel executeScript(string script)
-        {        	
+        {        	            
 			var topPanel = O2Gui.open<Panel>("Unit Test Execution", 400,500);
 			topPanel.insert_Below<ascx_LogViewer>(120).fill();
 			var unitTest = topPanel.add_Control<ascx_XRules_UnitTests>();  

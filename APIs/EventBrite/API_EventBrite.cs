@@ -8,10 +8,9 @@ using FluentSharp.WinForms;
 using FluentSharp.WinForms.Controls;
 using SHDocVw;
 using WatiN.Core;
-using O2.XRules.Database.Utils;
 
-//O2File:WatiN_IE_ExtensionMethods.cs    
-//O2File:WatiN_IE.cs
+//O2Ref:FluentSharp.Watin.dll
+//O2Ref:Watin.Core.dll
 
 //O2Ref:Interop.SHDocVw.dll
 //O2Ref:WatiN.Core.1x.dll

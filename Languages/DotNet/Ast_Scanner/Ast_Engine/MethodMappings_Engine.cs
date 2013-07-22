@@ -12,7 +12,7 @@ using FluentSharp.WinForms.Controls;
 //O2File:Ast_Engine_ExtensionMethods.cs
 //O2File:MethodMappings_ExtensionMethods.cs
 //O2File:ascx_ManualMethodStreams.cs
-//O2Ref:O2_Platform_External_SharpDevelop.dll
+
 //O2Ref:Quickgraph.dll
 //O2Ref:GraphSharp.dll 
 //O2Ref:GraphSharp.Controls.dll

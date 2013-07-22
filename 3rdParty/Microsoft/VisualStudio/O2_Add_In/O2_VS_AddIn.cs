@@ -8,7 +8,6 @@ using FluentSharp.CoreLib.API;
 using FluentSharp.WinForms;
 using FluentSharp.WinForms.Controls;
 using Microsoft.VisualStudio.CommandBars;
-using O2.FluentSharp.VisualStudio.ExtensionMethods;
 
 //O2File:Microsoft_VisualStudio_ExtensionMethods.cs
 //O2File:CommandBase.cs
@@ -23,7 +22,7 @@ using O2.FluentSharp.VisualStudio.ExtensionMethods;
 //O2Ref:Microsoft.VisualStudio.CommandBars.dll
 
 
-namespace O2.FluentSharp.VisualStudio
+namespace FluentSharp.VisualStudio.Utils
 {
 	public class O2_VS_AddIn
 	{

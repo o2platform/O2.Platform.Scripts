@@ -80,7 +80,7 @@ namespace O2.XRules.Database.Utils
     		}
     		return (GraphLayout)graphLayout.wpfInvoke(
     			()=>{
-    					graph.add_Node(vertexToAdd);
+    					graph.add_Node_To_Graph(vertexToAdd);
     					return graphLayout;
     				});
     	}
@@ -353,7 +353,7 @@ namespace O2.XRules.Database.Utils
         public static object addFromTreeNode(this BidirectionalGraph<object, IEdge<object>> graph, System.Windows.Forms.TreeNode treeNode, bool recursive)
         {
             var vertex = treeNode.Text;
-            graph.add_Node(vertex);
+            graph.add_Node_To_Graph(vertex);
             if (recursive)
                 treeNode.Nodes.forEach<System.Windows.Forms.TreeNode>(
                     (childNode) =>

@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>O2ConfigSettings.O2Version = "Package_O2_Script_v1";
+O2ConfigSettings.O2Version = "Package_O2_Script_v1";
 O2Setup.extractEmbededConfigZips(); 
 
 //var topPanel = panel.clear().add_Panel(); 
@@ -16,13 +14,13 @@ var dropZone = topPanel.insert_Left(200)
 var lastScriptFile = "";					  
 var compiledScript = "";
 	
-Action&lt;string&gt; packageScript =  
-	(scriptFile)=&gt;{		   
+Action<string> packageScript =  
+	(scriptFile)=>{		   
 					lastScriptFile = scriptFile;
 					dropZone.green(); 
 					
 					O2Thread.mtaThread(   
-						()=&gt;{
+						()=>{
 								var pathToAssemblies = "";
 								var projectFile = "";
 								if (scriptFile.package_Script(ref compiledScript, ref pathToAssemblies, ref projectFile).valid())
@@ -34,25 +32,23 @@ Action&lt;string&gt; packageScript =
 								{
 								 	var logFile = projectFile + ".log";
 									"LogFile: {0}".error(logFile); 
-									browser.set_Text(logFile.fileContents().replace("".line(), "&lt;br&gt;"));
+									browser.set_Text(logFile.fileContents().replace("".line(), "<br>"));
 									dropZone.pink();
 								}
 							});  
 				};  
-dropZone.parent().insert_Below(20).add_Link("Execute", ()=&gt; compiledScript.startProcess())
-								  .append_Link("Open Folder", ()=&gt; compiledScript.directoryName().startProcess())
-								  .append_Link("Edit Target", ()=&gt; lastScriptFile.local().showInCodeEditor());
-//								  .append_Link("Clear Cache", ()=&gt; { CompileEngine.CachedCompiledAssemblies.Clear(); "Compilation Cache Cleared".info();});
+dropZone.parent().insert_Below(20).add_Link("Execute", ()=> compiledScript.startProcess())
+								  .append_Link("Open Folder", ()=> compiledScript.directoryName().startProcess())
+								  .append_Link("Edit Target", ()=> lastScriptFile.local().showInCodeEditor());
+//								  .append_Link("Clear Cache", ()=> { CompileEngine.CachedCompiledAssemblies.Clear(); "Compilation Cache Cleared".info();});
 dropZone.onDrop(packageScript);
-dropZone.onClick(()=&gt;packageScript(lastScriptFile));
+dropZone.onClick(()=>packageScript(lastScriptFile));
 
 dropZone.add_MenuItem_with_TestScripts(packageScript);
 
 return packageScript;
- 
+
+//using O2.XRules.Database.APIs 
 //O2File:API_MicrosoftBuild.cs
 
 //O2Package:ALL_SCRIPTS
-</SourceCode>
-  <ReferencedAssemblies />
-</H2>

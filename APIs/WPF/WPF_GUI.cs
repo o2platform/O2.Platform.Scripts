@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Collections.Generic;
 using FluentSharp.CoreLib;
 using FluentSharp.CoreLib.API;
+using FluentSharp.O2Platform.Controls;
 using FluentSharp.REPL.Controls;
 using FluentSharp.WPF;
 using FluentSharp.WinForms;
@@ -23,6 +24,7 @@ using O2.XRules.Database.Utils;
 //O2Ref:QuickGraph.dll 
 //O2Ref:GraphSharp.Controls.dll
 //O2Ref:ICSharpCode.AvalonEdit.dll
+//O2Ref:FluentSharp.O2Platform.dll
 
 namespace O2.XRules.Database.APIs
 {

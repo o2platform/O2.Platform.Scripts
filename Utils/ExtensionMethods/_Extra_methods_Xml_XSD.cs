@@ -5,7 +5,7 @@ using FluentSharp.CoreLib;
 using FluentSharp.XObjects;
 
 //O2Ref:Ionic.Zip.dll
-//O2Ref:O2_External_SharpDevelop.dll
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
 
 namespace O2.XRules.Database.Utils
 {	

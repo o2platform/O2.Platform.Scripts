@@ -15,7 +15,7 @@ using O2.Views.ASCX.classes.MainGUI;
 using O2.Views.ASCX.ExtensionMethods;
 using O2.External.SharpDevelop.ExtensionMethods;
 */
-namespace O2
+namespace O2.XRules
 {
     public class InjectedClass
     {        				

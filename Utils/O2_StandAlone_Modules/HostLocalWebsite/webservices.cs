@@ -2,11 +2,8 @@
 using System; 
 using System.Diagnostics;
 using System.IO;
-using O2.Kernel;
-using O2.XRules.Database.Utils;
-using O2.DotNetWrappers.Windows;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
 
 //O2Ref:CassiniDev_4.0.exe
 

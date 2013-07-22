@@ -7,6 +7,8 @@ using FluentSharp.REPL.Controls;
 using FluentSharp.WinForms;
 using FluentSharp.Watin;
 
+//O2Ref:FluentSharp.Watin.dll
+//O2Ref:WatiN.Core.dll
 //O2Ref:Interop.SHDocVw.dll
 
 namespace O2.XRules.Database.Languages_and_Frameworks.AspNet

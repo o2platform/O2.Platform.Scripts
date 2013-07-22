@@ -11,9 +11,8 @@ helpPanel.add_Label("Need Help?", 3,3)
 topPanel.insert_Below(80).add_LogViewer();
  
 topPanel.add_Control<ascx_IE_ScriptExecution>().buildGui();
-
-//O2File:WatiN_IE_ExtensionMethods.cs
+  
+//using  O2.XRules.Database.Utils
 //O2File:ascx_IE_ScriptExecution.cs
-//O2Ref:WatiN.Core.1x.dll
-//O2Tag_DontAddExtraO2Files
-//O2Package:WatiN_IE_ExtensionMethods.cs,WatiN_IE.cs,DotNet_Viewstate.cs
+
+//O2Package:DotNet_Viewstate.cs

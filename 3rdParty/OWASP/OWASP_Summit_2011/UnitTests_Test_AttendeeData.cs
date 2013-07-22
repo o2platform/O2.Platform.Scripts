@@ -4,10 +4,8 @@ using System.IO;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;
 using O2.XRules.Database.APIs;
+using FluentSharp.CoreLib;
 using NUnit.Framework;
 //O2File:API_OWASP_Summit_2011.cs  
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
