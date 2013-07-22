@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using FluentSharp.WPF;
+using FluentSharp.WPF.Controls;
 using ICSharpCode.AvalonEdit;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms.Integration;
-using O2.API.Visualization.Ascx;
 using GraphSharp.Controls;
 using O2.API.Visualization.Xaml;
-using O2.DotNetWrappers.ExtensionMethods;
 
 //O2File:Xaml_ExtensionMethods.cs
 //O2File:GraphSharp_ExtensionMethods.cs

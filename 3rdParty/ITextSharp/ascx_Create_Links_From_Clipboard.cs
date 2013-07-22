@@ -2,16 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using iTextSharp;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.CoreLib.Interfaces;
+using FluentSharp.WinForms;
+using FluentSharp.WinForms.Controls;
 using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.parser;
-using O2.Interfaces.O2Core;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.DotNetWrappers.DotNet;
-using O2.Views.ASCX.classes.MainGUI;
-using O2.DotNetWrappers.Windows;
 
 //O2Ref:ITextSharp/itextsharp.dll
 //Installer:ITextSharp_Installer.cs!ITextSharp/itextsharp.dll

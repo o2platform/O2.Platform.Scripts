@@ -4,13 +4,21 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Reflection;
+using FluentSharp.CSharpAST;
 using FluentSharp.CSharpAST.Utils;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.REPL;
+using FluentSharp.REPL.Controls;
 using FluentSharp.WinForms;
 using FluentSharp.WinForms.Controls;
+using GraphSharp.Controls;
 using ICSharpCode.NRefactory;
 using ICSharpCode.NRefactory.Ast;
 using ICSharpCode.SharpDevelop.Dom;
+using O2.XRules.Database.APIs;
 using O2.XRules.Database.Findings;
+using O2.XRules.Database.Utils;
 
 //O2File:WPF_GUI.cs
 //O2File:GraphLayout_O2CodeStream_ExtensionMethods.cs

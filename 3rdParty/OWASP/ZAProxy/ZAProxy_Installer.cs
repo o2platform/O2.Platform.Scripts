@@ -1,24 +1,21 @@
-﻿using System;
-using System.Diagnostics;
-using O2.Kernel; 
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;  
-using O2.XRules.Database.Utils;
+﻿using System.Diagnostics;
+using FluentSharp.CoreLib;
+
 //O2File:Tool_API.cs 
  
 namespace O2.XRules.Database.APIs 
 {
-	public class testInstall
+	public class ZAProxy_Install_Test
 	{
 		public static void test()  
 		{
-			new MySql_Install().start(); 
+			new ZAProxy_Install().start(); 
 		}
 	}
 	 
-	public class MySql_Install : Tool_API    
+	public class ZAProxy_Install : Tool_API    
 	{				
-		public MySql_Install() 
+		public ZAProxy_Install() 
 		{			
 			config("ZAProxy",
 				   "https://zaproxy.googlecode.com/files/ZAP_WEEKLY_D-2013-05-20.zip".uri(),

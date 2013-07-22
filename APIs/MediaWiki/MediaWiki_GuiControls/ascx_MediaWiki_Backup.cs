@@ -1,18 +1,11 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
-using System;
-using System.Linq;
+
 using System.Collections.Generic;
 using System.Windows.Forms;
-using System.Text;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.Network;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.Windows;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.Views.ASCX.classes.MainGUI;
-using O2.Views.ASCX.ExtensionMethods;
-using O2.Views.ASCX.CoreControls;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.WinForms;
+using FluentSharp.WinForms.Controls;
 
 //O2File:O2MediaWikiApi.cs
 
@@ -24,7 +17,7 @@ namespace O2.XRules.Database.APIs
 	  	public O2MediaWikiAPI WikiApi {get ; set;}
 	    
 	    public TextBox BackupFolder_TextBox { get; set; }
-	    public ascx_Directory Backup_Directory { get; set; }
+	    public DirectoryViewer Backup_Directory { get; set; }
 	    public Button StartBackup_Button { get; set; }
 	    public Button CancelBackup_Button { get; set; }	    
 		public CheckBox BackupPages_CheckBox { get; set; }

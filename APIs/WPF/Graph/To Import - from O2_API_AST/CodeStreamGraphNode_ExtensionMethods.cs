@@ -1,14 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ICSharpCode.NRefactory.Ast;
-using O2.API.AST.Graph;
-using ICSharpCode.SharpDevelop.Dom;
-
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.API.AST.CSharp;
-
 namespace O2.API.AST.ExtensionMethods
 {
     public static class CodeStreamGraphNode_ExtensionMethods

@@ -1,12 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using O2.DotNetWrappers.ExtensionMethods;
+using FluentSharp.CSharpAST.Utils;
 using System.Windows.Controls;
 using System.Windows.Media;
-using ICSharpCode.NRefactory.Ast;
-using O2.API.AST.CSharp;
+using FluentSharp.CoreLib;
+
 //O2Ref:System.Core.dll
 //O2Ref:PresentationCore.dll
 //O2Ref:PresentationFramework.dll

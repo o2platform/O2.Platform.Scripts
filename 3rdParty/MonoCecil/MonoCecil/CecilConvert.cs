@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using FluentSharp.CoreLib.API;
 using Mono.Cecil;
-using O2.Kernel;
 
 //O2File:O2MonoCecil.cs
 
@@ -22,8 +22,8 @@ namespace O2.External.O2Mono.MonoCecil
         {
             foreach (var methodDefinition in CecilUtils.getMethods(assemblyDefinition))
             {
-                var functionSignature1 = new O2.DotNetWrappers.Filters.FilteredSignature(methodInfo);
-                var functionSignature2 = new O2.DotNetWrappers.Filters.FilteredSignature(methodDefinition.ToString());
+                var functionSignature1 = new FilteredSignature(methodInfo);
+                var functionSignature2 = new FilteredSignature(methodDefinition.ToString());
                 if (functionSignature1.sSignature == functionSignature2.sSignature)                
                     return methodDefinition;
                 if (functionSignature1.sFunctionName == functionSignature2.sFunctionName)

@@ -14,12 +14,8 @@ namespace O2.XRules.Database.Utils
     {    
         public static void openAscx()
 		{
-			var sourceCodeAST = (ascx_View_SourceCode_AST)WinForms.showAscxInForm(
-				typeof(ascx_View_SourceCode_AST), 
-				"View SourceCode AST", 
-				700, 
-				500);		
-							
+			var sourceCodeAST =  "View SourceCode AST".popupWindow<ascx_View_SourceCode_AST>(700,500);
+            				
 			sourceCodeAST.loadFile(testFileToUse());		
 		}
 		

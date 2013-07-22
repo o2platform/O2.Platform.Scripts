@@ -5,8 +5,12 @@ using System.Collections.Generic;
 using FluentSharp.CSharpAST.Utils;
 using FluentSharp.CoreLib;
 using FluentSharp.CoreLib.API;
+using FluentSharp.REPL;
 using FluentSharp.REPL.Controls;
+using FluentSharp.WPF;
 using FluentSharp.WinForms;
+using GraphSharp.Controls;
+using O2.XRules.Database.Utils;
 using Forms = System.Windows.Forms; 
 using WPF = System.Windows.Controls; 
 using Media = System.Windows.Media;
@@ -180,7 +184,7 @@ namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 							//if (GraphNodes.hasKey(methodIsCalledBy).isFalse())
 								GraphViewer.add_Edge(createGraphNode(methodIsCalledBy), graphNode);
 								
-				WPF_Controls_ExtensionMethods_Control.color(graphNode, "Green");
+				Control_ExtensionMethods.color(graphNode, "Green");
 			}
 		}
 		
@@ -197,11 +201,11 @@ namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 				//GraphViewer = this.GraphModeRightPanels[0].add_Graph();					
 				graphNode.set_Content(iMethod.Name);
 				//graphNode.set_Tag(iMethod);				
-				WPF_Controls_ExtensionMethods_Control.color(graphNode, "Black"); // direct call throws compile error -> graphNode.color("Black");  
+				Control_ExtensionMethods.color(graphNode, "Black"); // direct call throws compile error -> graphNode.color("Black");  
 			}
 			else
 			{					
-				WPF_Controls_ExtensionMethods_Control.color(graphNode,"Red"); 
+				Control_ExtensionMethods.color(graphNode,"Red"); 
 				graphNode.set_Content(methodSignature);
 			}
 			if (UseStarAsNodeText)

@@ -2,10 +2,9 @@
 using System.Linq;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Collections;
 using System.Collections.Generic;
-using O2.Kernel; 
-using O2.DotNetWrappers.ExtensionMethods;
+using FluentSharp.CoreLib;
+using FluentSharp.WinForms;
 using java.lang;
 using java.io;
 using java.net;

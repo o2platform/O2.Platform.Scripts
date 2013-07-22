@@ -4,16 +4,10 @@ using System.Diagnostics;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Forms;
-using System.Reflection;
-using System.Text;
-using O2.Interfaces.O2Core;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.DotNetWrappers.Network;
-using O2.DotNetWrappers.Windows;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.WinForms;
 //using O2.Views.ASCX.classes.MainGUI;
 //using O2.Views.ASCX.ExtensionMethods;
 //O2File:WebscarabConversation.cs
@@ -26,8 +20,6 @@ using O2.DotNetWrappers.Windows;
 //O2Ref:PresentationCore.dll
 //O2Ref:WindowsBase.dll
 //O2Ref:System.Xaml.dll
-
-using O2.XRules.Database.Utils;
 
 namespace O2.XRules.Database.APIs
 {	

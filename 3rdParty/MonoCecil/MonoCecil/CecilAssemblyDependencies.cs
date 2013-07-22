@@ -2,11 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
 using Mono.Cecil;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.DotNetWrappers.Windows;
-using O2.Kernel.Objects;
-using O2.Kernel;
 
 //O2File:CecilUtils.cs
 

@@ -8,6 +8,7 @@ using FluentSharp.CoreLib;
 using FluentSharp.CoreLib.API;
 using FluentSharp.CoreLib.Interfaces;
 using FluentSharp.REPL;
+using FluentSharp.WinForms;
 using FluentSharp.WinForms.O2Findings;
 using ICSharpCode.TextEditor;
 using ICSharpCode.NRefactory.Ast;

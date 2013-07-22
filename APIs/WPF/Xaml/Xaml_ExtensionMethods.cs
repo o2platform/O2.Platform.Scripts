@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Xml;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms.Integration;
 using System.Windows;
-using O2.DotNetWrappers.ExtensionMethods;
 using System.Windows.Markup;
 using System.Windows.Controls;
 using System.IO;
+using FluentSharp.CoreLib;
+using FluentSharp.WPF;
+using FluentSharp.WinForms;
 using O2.XRules.Database.APIs;
 
 //O2Ref:FluentSharp.WPF.dll

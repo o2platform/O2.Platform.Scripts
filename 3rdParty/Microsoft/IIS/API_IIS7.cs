@@ -4,22 +4,16 @@
 //O2Tag:SkipGlobalCompilation
 
 using System;
-using System.Xml.Serialization;
 using System.Linq;
-using System.Data;
 using System.Drawing;
-using System.Data.SqlClient;
 using System.Windows.Forms;
 using System.Collections.Generic;
-using O2.Interfaces.O2Core;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.External.SharpDevelop.ExtensionMethods;
-using O2.Views.ASCX.ExtensionMethods;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.REPL;
+using FluentSharp.WinForms;
 using Microsoft.Web.Administration;
-using O2.XRules.Database.Utils;
+
 //O2Ref:C:\Windows\System32\InetSrv\Microsoft.Web.Administration.dll 
 //O2File:ascx_FolderViewer.cs
 

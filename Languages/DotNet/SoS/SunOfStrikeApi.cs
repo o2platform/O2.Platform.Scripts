@@ -5,7 +5,9 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Text;
 using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
 using FluentSharp.WinForms;
+using FluentSharp.WinForms.Controls;
 
 //O2File:CmdExeAPI.cs
 

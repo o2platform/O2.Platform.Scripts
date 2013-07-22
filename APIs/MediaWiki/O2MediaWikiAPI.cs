@@ -3,26 +3,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq; 
 using System.Xml.Linq;
-using System.Reflection;
-using System.Text;
-using O2.Interfaces.O2Core;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.Windows;
-using O2.DotNetWrappers.Network;
-using O2.DotNetWrappers.ExtensionMethods;
 //using O2.External.SharpDevelop.ExtensionMethods;
-using O2.Views.ASCX;
-using O2.Views.ASCX.DataViewers;
-using O2.Views.ASCX.ExtensionMethods;
 using System.Windows.Forms;
 using System.Drawing;
 using System.IO;
 using System.Drawing.Imaging;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.CoreLib.Utils;
+using FluentSharp.For_HtmlAgilityPack;
+using FluentSharp.WinForms;
+using FluentSharp.WinForms.Controls;
+
 //using O2.External.IE.Wrapper;
 //using O2.External.IE.ExtensionMethods;
-using O2.XRules.Database.Utils;
 
 //_O2Ref:O2_External_IE.dll
 //O2Ref:System.Xml.Linq.dll
@@ -138,7 +132,7 @@ namespace O2.XRules.Database.APIs
             {
                 var data = parsePage_Raw(page);
 				var value = data.xRoot().element("parse").element("text").value();
-				return value.fixCRLF();				
+				return value.fix_CRLF();				
 			}
 			catch(Exception ex)
 			{
@@ -172,7 +166,7 @@ namespace O2.XRules.Database.APIs
                 if (data != null)
                 {
                     var value = data.xRoot().element("parse").element("text").value();
-                    return value.fixCRLF();
+                    return value.fix_CRLF();
                 }
 			}
 			catch(Exception ex)
@@ -198,7 +192,7 @@ namespace O2.XRules.Database.APIs
 		{					 	
 			var getData = "action=raw&title={0}".format(page.urlEncode());
 			"getData: {0}".debug(getData);
-			return getIndexPhp(getData).fixCRLF();
+			return getIndexPhp(getData).fix_CRLF();
 			//var getData = "action=raw&title={0}&format=xml".format(page);			
 			//var data = get(getData);
 			//return data.xRoot();//.element("parse").element("text").value();			
@@ -1321,12 +1315,12 @@ namespace O2.XRules.Database.APIs
     
     public static class O2MediaWikiAPI_ExtensionMethods_GuiHelpers
     {
-    	public static ascx_TableList add_Table_with_RecentChanges(this O2MediaWikiAPI wikiApi, Control control)
+    	public static ctrl_TableList add_Table_with_RecentChanges(this O2MediaWikiAPI wikiApi, Control control)
     	{    		
     		return wikiApi.add_Table_with_XElements(control, wikiApi.recentChangesRaw(20));
     	}
     	
-    	public static ascx_TableList add_Table_with_XElements(this O2MediaWikiAPI wikiApi, Control control, List<XElement> xElements)
+    	public static ctrl_TableList add_Table_with_XElements(this O2MediaWikiAPI wikiApi, Control control, List<XElement> xElements)
     	{
     		var tableList = control.add_TableList();
 			tableList.add_Column("#");

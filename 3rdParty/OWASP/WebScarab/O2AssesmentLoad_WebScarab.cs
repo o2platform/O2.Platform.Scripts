@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.CompilerServices;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.DotNetWrappers.O2Findings;
-using O2.DotNetWrappers.Windows;
-using O2.ImportExport.Misc;
-using O2.Interfaces.O2Findings;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.Interfaces;
+using FluentSharp.WinForms.O2Findings;
 using O2.XRules.Database.APIs;
 //O2File:API_WebScarab.cs
 

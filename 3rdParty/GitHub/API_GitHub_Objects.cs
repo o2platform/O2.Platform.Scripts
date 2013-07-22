@@ -1,27 +1,17 @@
 ﻿// This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
 using System;
 using System.Linq;
-using System.Text;
 using System.Drawing;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.Windows;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.External.SharpDevelop.ExtensionMethods;
-using O2.Views.ASCX.classes.MainGUI;
-using O2.Views.ASCX.ExtensionMethods;
-using O2.XRules.Database.Utils;
-
-using GithubSharp;
-using GithubSharp.Core;
-using GithubSharp.Core.Base;
-using GitModel = GithubSharp.Core.Models; 
-using GithubSharp.Core.Models.Internal;
-using GitAPI = GithubSharp.Core.API;  
-using GithubSharp.Core.Services; 
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.CoreLib.Utils;
+using FluentSharp.REPL;
+using FluentSharp.WinForms;
+using FluentSharp.WinForms.Controls;
+using GitModel = GithubSharp.Core.Models;
+using GitAPI = GithubSharp.Core.API;
 using GithubSharp.Plugins.LogProviders.SimpleLogProvider; 
 //O2Ref:GithubSharp.Core.dll
 //O2Ref:BasicCacher.dll

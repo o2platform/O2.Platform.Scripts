@@ -3,12 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
-using O2.DotNetWrappers.DotNet; 
-using O2.DotNetWrappers.Windows;
-using O2.Kernel.CodeUtils;
-using O2.Kernel.InterfacesBaseImpl;
-using O2.Kernel;
-using O2.DotNetWrappers.ExtensionMethods;
+using FluentSharp.CoreLib.API;
+using FluentSharp.WinForms;
+using FluentSharp.WinForms.Utils;
 
 //O2File:Ascx_O2Reflector.Designer.cs
 //O2File:../AssemblyAnalysisImpl.cs

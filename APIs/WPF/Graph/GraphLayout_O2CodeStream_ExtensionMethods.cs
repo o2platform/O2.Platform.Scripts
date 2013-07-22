@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using O2.API.AST.CSharp;
+using FluentSharp.CSharpAST.Utils;
+using FluentSharp.CoreLib;
+using FluentSharp.WPF;
 using GraphSharp.Controls;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;
 using O2.API.AST.Graph;
 
 //O2File:GraphLayout_WPF_ExtensionMethods.cs

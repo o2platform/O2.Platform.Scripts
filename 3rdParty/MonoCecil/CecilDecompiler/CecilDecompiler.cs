@@ -2,14 +2,13 @@
 using System;
 using System.IO;
 using System.Text;
-using  ICSharpCode.Decompiler.FlowAnalysis;
+using FluentSharp.CoreLib.API;
 using ICSharpCode.Decompiler;
+using ICSharpCode.Decompiler.FlowAnalysis;
+using ICSharpCode.ILSpy;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
-using O2.DotNetWrappers.Windows;
-using O2.Kernel;
 using O2.External.O2Mono.MonoCecil;
-using ICSharpCode.ILSpy;
 
 //O2File:API_ILSpy.cs
 //O2File:..\MonoCecil\CecilUtils.cs

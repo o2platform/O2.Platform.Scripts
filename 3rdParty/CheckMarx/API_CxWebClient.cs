@@ -5,7 +5,6 @@ using System.Threading;
 using System.Collections.Generic;
 using System.Windows.Forms; 
 using System.Text; 
-using O2.Kernel.ExtensionMethods;
 
 //O2File:CxPortalWebService.cs
 

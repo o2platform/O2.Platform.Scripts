@@ -1,23 +1,18 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
 using System;
-using System.Text;
-using System.Linq;
 using System.Windows.Controls;
 using System.Windows;
+using DiagramDesigner;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.REPL.Controls;
+using FluentSharp.WPF;
+using FluentSharp.WinForms;
+using FluentSharp.WinForms.Controls;
+using FluentSharp.WinForms.Utils;
 using WinForms = System.Windows.Forms;
 using System.Collections.Generic;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.Windows;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.Views.ASCX.classes.MainGUI;
-using O2.Views.ASCX.Ascx.MainGUI;
-using O2.Views.ASCX.ExtensionMethods;
-using O2.API.Visualization.Xaml;
-using O2.External.SharpDevelop.Ascx;
 using  O2.XRules.Database.Utils;
-using DiagramDesigner;
 
 //O2File:ElementHost_ExtensionMethods.cs
 //O2File:Xaml_ExtensionMethods.cs

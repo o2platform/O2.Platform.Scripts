@@ -1,30 +1,19 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
 using System.Windows;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.REPL;
+using FluentSharp.WPF;
+using FluentSharp.WinForms;
+using FluentSharp.WinForms.Controls;
+using FluentSharp.WinForms.Utils;
 using WinForms = System.Windows.Forms;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System;
-using System.Windows.Markup;
-using System.Windows.Media.Animation;
-using System.IO;
 using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
-using System.Windows.Threading;
-using O2.Kernel;
-using O2.DotNetWrappers.H2Scripts;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.Windows;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.Views.ASCX.classes.MainGUI;
-using O2.Views.ASCX.ExtensionMethods;
-using O2.Kernel.ExtensionMethods;
 using Microsoft.Windows.Controls.Ribbon;
 using O2.XRules.Database.APIs;
-using O2.External.SharpDevelop.ExtensionMethods;
 
 //O2File:WPF_Ribbon.cs
 
@@ -845,7 +834,7 @@ namespace O2.XRules.Database.Utils
 						  				scriptToExecute.executeFirstMethod();
 						  		}
 					  		});
-			searchTextBox.set_Text(".*h2");
+			searchTextBox.set_Text_Wpf(".*h2");
 			return ribbonTab;					  		
 		}
 	}

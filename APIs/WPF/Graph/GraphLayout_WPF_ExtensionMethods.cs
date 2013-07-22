@@ -1,8 +1,9 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
 using System;
-using System.Collections.Generic;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;
+using FluentSharp.CoreLib;
+using FluentSharp.WPF;
+using FluentSharp.WPF.Controls;
+using FluentSharp.WinForms;
 using GraphSharp.Controls;
 using QuickGraph;
 using System.Windows;
@@ -11,8 +12,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Controls;
 using System.Windows.Forms.Integration;
 using WPFExtensions.Controls;
-using O2.API.Visualization.Ascx;
-using O2.External.IE.Wrapper;
 
 //O2File:GraphSharp_ExtensionMethods.cs
 //O2File:ElementHost_ExtensionMethods.cs
@@ -69,11 +68,11 @@ namespace O2.XRules.Database.Utils
 
         #endregion
 
-		#region O2BrowserIE
+		#region WebBrowser
 		
-		public static O2BrowserIE add_O2_Browser_IE(this GraphLayout graphLayout)
+		public static System.Windows.Forms.WebBrowser add_O2_Browser_IE(this GraphLayout graphLayout)
 		{
-			return (O2BrowserIE)graphLayout.add_WinForm<O2BrowserIE>(800,400);
+			return graphLayout.add_WinForm<System.Windows.Forms.WebBrowser>(800,400);
 		}
 		#endregion
 

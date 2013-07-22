@@ -70,6 +70,9 @@ Action<string> compileTargetFile =
 				if (file.extension(".h2").isFalse())
 					compiler2Result = (new CompileEngine().compileSourceFile(file) != null); 
 				
+				if (compiler1Result && compiler2Result)  
+					okFiles++;					
+				
 				if (compiler1Result && compiler2Result && showOKFiles.isFalse())
 					return;
 					
@@ -84,8 +87,7 @@ Action<string> compileTargetFile =
 				dataGridView.get_Row(rowId).Cells[0].Style.ForeColor = (compiler1Result && compiler2Result) ? Color.Green : Color.Red;
 				dataGridView.get_Row(rowId).Cells[1].Style.ForeColor = (compiler1Result) ? Color.Green : Color.Red;
 				dataGridView.get_Row(rowId).Cells[2].Style.ForeColor = (compiler2Result) ? Color.Green : Color.Red;
-				if (compiler1Result && compiler2Result)
-					okFiles++;
+				
 			};
 Action startCompilation = 
 	()=>{

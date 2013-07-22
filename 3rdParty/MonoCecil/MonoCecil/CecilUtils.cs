@@ -4,11 +4,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using FluentSharp.CoreLib.API;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
 using ICSharpCode.NRefactory.TypeSystem;
-using O2.DotNetWrappers.Windows;
-using O2.Kernel;
 
 //O2File:API_ILSpy.cs
 //O2Ref:ILSpy\Mono.Cecil.dll

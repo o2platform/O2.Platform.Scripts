@@ -2,10 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using FluentSharp.CoreLib.API;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
-using O2.External.O2Mono.MonoCecil;
-using O2.Kernel;
+
 //O2File:CecilUtils.cs
 //O2File:CecilAssemblyDependencies.cs
 namespace O2.External.O2Mono.MonoCecil

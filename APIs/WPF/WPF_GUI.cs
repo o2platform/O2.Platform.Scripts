@@ -1,21 +1,16 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
 using System;
-using System.Linq;
 using System.Drawing;
-using System.Reflection;
 using System.Collections.Generic;
-using WinForms = System.Windows.Forms;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.DotNetWrappers.Windows;
-using O2.Views.ASCX;
-using O2.Views.ASCX.classes.MainGUI;
-using System.Windows;
-using System.Windows.Controls;
-using O2.XRules.Database;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.REPL.Controls;
+using FluentSharp.WPF;
+using FluentSharp.WinForms;
+using FluentSharp.WinForms.Controls;
 using Odyssey.Controls;
+using WinForms = System.Windows.Forms;
+using System.Windows.Controls;
 using O2.XRules.Database.Utils;
 
 //O2File:ElementHost_ExtensionMethods.cs
@@ -59,9 +54,9 @@ namespace O2.XRules.Database.APIs
 				  		})
 				  .add_Link_Web("BBC news","http://news.bbc.co.uk")
 				  .add_Upgrade_Link("aaa", "http://code.google.com/p/o2platform/downloads/list")
-				  .add_Link("Source Code Viewer", (panel)=>{ panel.add_Control<O2.External.SharpDevelop.Ascx.ascx_SourceCodeViewer>();
+				  .add_Link("Source Code Viewer", (panel)=>{ panel.add_Control<ascx_SourceCodeViewer>();
 				  										 })
-				  .add_Link("Source Code Editor", (panel)=>{ panel.add_Control<O2.External.SharpDevelop.Ascx.ascx_SourceCodeEditor>();
+				  .add_Link("Source Code Editor", (panel)=>{ panel.add_Control<SourceCodeEditor>();
 				  										 });				  										 
 				  										 
 				  

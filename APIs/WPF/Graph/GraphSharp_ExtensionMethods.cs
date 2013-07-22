@@ -3,15 +3,15 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Controls;
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using FluentSharp.CoreLib;
+using FluentSharp.REPL;
+using FluentSharp.WPF;
+using FluentSharp.WinForms;
 using GraphSharp.Controls;
 using QuickGraph;
 using GraphSharp.Algorithms.Layout.Simple.Tree;
 using GraphSharp.Algorithms.Layout;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.API.AST.ExtensionMethods;
 using O2.API.Visualization;
 
 //O2File:GraphLayout_WPF_ExtensionMethods.cs

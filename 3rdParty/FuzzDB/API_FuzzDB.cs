@@ -1,18 +1,12 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Forms;
-using System.Reflection;
-using System.Text;
-using O2.Interfaces.O2Core;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.DotNetWrappers.Network;
-using O2.DotNetWrappers.Zip;
-using O2.Views.ASCX.classes.MainGUI;
-using O2.Views.ASCX.ExtensionMethods;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.REPL.Utils;
+using FluentSharp.WinForms;
+using FluentSharp.WinForms.Controls;
 
 namespace O2.XRules.Database.APIs
 {
@@ -60,7 +54,7 @@ namespace O2.XRules.Database.APIs
     		//var webLocation = "{0}{1}".format(PublicDI.config.O2SVN_FilesWithNoCode, currentVersionZipFile);
     		var webLocation = "http://o2platform.googlecode.com/svn/trunk/O2%20-%20All%20Active%20Projects/_3rdPartyDlls/FilesWithNoCode/fuzzdb-1.08.zip";
     		"downloading file {0} from {1} to {2}".info(currentVersionZipFile, webLocation,localFilePath);
-            if (new Web().httpFileExists(webLocation))
+            if (webLocation.httpFileExists())
             {
                 new Web().downloadBinaryFile(webLocation, localFilePath);
                 if (localFilePath.fileExists())                                	
@@ -83,7 +77,7 @@ namespace O2.XRules.Database.APIs
     			var targetFile = PathToFuzzDB.pathCombine(virtualFilePath);
     			if (targetFile.fileExists())    		
     				payloads.AddRange(targetFile.fileContents()
-								  				.fixCRLF()
+								  				.fix_CRLF()
 							      				.lines()
 							 	  				.remove(0));
 				else

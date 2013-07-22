@@ -1,14 +1,10 @@
-﻿using System;
-using System.Diagnostics;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods; 
-using O2.XRules.Database.Utils;
+﻿using FluentSharp.CoreLib;
 
 //O2File:API_NuGet.cs
 
 namespace O2.XRules.Database.APIs 
 {	
+    //NOT FULLLY IMPLEMENTED
 	public class MarkdownSharp_Installer
 	{	
 		public MarkdownSharp_Installer()
@@ -18,7 +14,7 @@ namespace O2.XRules.Database.APIs
 			if (expectedDll.assembly().isNull())
 			{
 				var nuGet = new API_NuGet();
-				nuGet.install(nugetPackage);
+				//nuGet.install(nugetPackage);
 			}			
 		}
 						

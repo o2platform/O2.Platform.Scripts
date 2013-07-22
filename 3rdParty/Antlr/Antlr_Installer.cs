@@ -6,7 +6,7 @@ using FluentSharp.CoreLib;
 
 namespace O2.XRules.Database.APIs
 {
-	public class Install_Test
+	public class Antlr_Installer_Test
 	{
 		public void test()
 		{

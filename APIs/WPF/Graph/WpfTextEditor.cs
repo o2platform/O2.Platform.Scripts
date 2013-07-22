@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using FluentSharp.WPF;
 using ICSharpCode.AvalonEdit;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;
 using ICSharpCode.AvalonEdit.Highlighting;
 
 //O2Ref:FluentSharp.WPF.dll

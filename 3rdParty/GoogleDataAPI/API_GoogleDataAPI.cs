@@ -1,10 +1,3 @@
-using System;
-using System.Threading;
-using System.Diagnostics;
-using O2.Kernel; 
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods; 
-using O2.XRules.Database.Utils;
 //Installer:GoogleDataAPI_Installer.cs!GoogleDataAPI\SourceDir\Redist\Google.GData.Apps.dll
 
 //O2Ref:GoogleDataAPI\SourceDir\Redist\Google.GData.Apps.dll

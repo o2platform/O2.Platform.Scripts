@@ -7,12 +7,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using FluentSharp.CoreLib.API;
+using FluentSharp.WinForms.Utils;
 using Mono.Cecil;
-using O2.DotNetWrappers.Windows;
 using O2.External.O2Mono;
 using O2.External.O2Mono.MonoCecil;
 using O2.Interfaces.ExternalDlls;
-using O2.Kernel;
 //Installer:ILSpy_Installer.cs!ILSpy/ILSpy.exe
 //O2File:CecilFilteredSignature.cs
 //O2File:MonoCecil/CecilUtils.cs

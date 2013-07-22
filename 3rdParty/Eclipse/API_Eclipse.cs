@@ -1,17 +1,10 @@
-﻿using System;
-using System.Diagnostics;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.DotNetWrappers.Windows;
-using O2.DotNetWrappers.DotNet;
-
+﻿using System.Diagnostics;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.GuiAutomation;
 using White.Core.UIItems.WindowItems;
 using White.Core.UIItems.Finders;
-using White.Core.Factory;
 using White.Core.UIItems;
-using System.Windows.Automation;
-using White.Core.AutomationElementSearch;
 
 //O2File:API_GuiAutomation.cs
 //O2File:Tool_API.cs

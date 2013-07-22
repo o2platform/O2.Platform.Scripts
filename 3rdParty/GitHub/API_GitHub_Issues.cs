@@ -1,27 +1,17 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
 using System;
-using System.Linq;
-using System.Text;
 using System.Drawing;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.Windows;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.Views.ASCX.classes.MainGUI;
-using O2.Views.ASCX.ExtensionMethods;
-using O2.XRules.Database.Utils;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.CoreLib.Utils;
+using FluentSharp.WinForms;
+using FluentSharp.WinForms.Controls;
+using GithubSharp.Core.API;
+using GithubSharp.Core.Models;
+using GithubSharp.Plugins.LogProviders.SimpleLogProvider;
 
-using GithubSharp;
-using GithubSharp.Core;
-using GithubSharp.Core.Base;
-using GithubSharp.Core.Models; 
-using GithubSharp.Core.Models.Internal;
-using GithubSharp.Core.API;  
-using GithubSharp.Core.Services; 
-using GithubSharp.Plugins.LogProviders.SimpleLogProvider; 
 //O2Ref:GithubSharp.Core.dll
 //O2Ref:BasicCacher.dll
 //O2Ref:GithubSharp.Plugins.LogProviders.SimpleLogProvider.dll
@@ -317,12 +307,12 @@ namespace O2.XRules.Database.APIs
 						foreach(var label in Labels)
 							if (label.Value.@checked())
 							{
-								if(CurrentIssue.Labels.Contains(label.Key).isFalse())
+								if(CurrentIssue.Labels.toList().Contains(label.Key).isFalse())
 									gitHubIssues.add_Label(CurrentIssue.Number, label.Key);																	
 								updatedLabels.Add(label.Key);	 
 							}
 							else 
-								if(CurrentIssue.Labels.Contains(label.Key))
+								if(CurrentIssue.Labels.toList().Contains(label.Key))
 									gitHubIssues.remove_Label(CurrentIssue.Number, label.Key);	
 						CurrentIssue.Labels = updatedLabels.ToArray();		
 						
@@ -409,9 +399,9 @@ namespace O2.XRules.Database.APIs
 							Id.set_Text("{0}    ({1})".format(issue.Number, issue.State)); 
 							Title.set_Text(issue.Title);
 							User.set_Text(issue.User);
-							Body.set_Text(issue.Body.fixCRLF());  
+							Body.set_Text(issue.Body.fix_CRLF());  
 							foreach(var label in Labels)
-								label.Value.@checked(issue.Labels.Contains(label.Key));				
+								label.Value.@checked(issue.Labels.toList().Contains(label.Key));				
 							Comments.clear();
 							Comments.enabled(false);
 							if (issue.Comments > 0)				

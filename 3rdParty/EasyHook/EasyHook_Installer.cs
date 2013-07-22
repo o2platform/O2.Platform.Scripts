@@ -1,12 +1,11 @@
-﻿using System;
-using System.Diagnostics;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;  
+﻿using System.Diagnostics;
+using FluentSharp.CoreLib;
+
 //O2File:Tool_API.cs 
  
 namespace O2.XRules.Database.APIs 
 {
-	public class testInstall
+	public class EasyHook_Installer_Test
 	{
 		public static void test()  
 		{

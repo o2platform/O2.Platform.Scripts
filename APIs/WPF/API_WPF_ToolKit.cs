@@ -1,15 +1,7 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
-using System;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Collections.Generic;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.Views.ASCX.ExtensionMethods;
 
+using System.Windows;
+using FluentSharp.WPF;
 using Gong = GongSolutions.Wpf.DragDrop	;
 
 //O2Ref:FluentSharp.WPF.dll
@@ -27,7 +19,7 @@ using Gong = GongSolutions.Wpf.DragDrop	;
 
 namespace O2.XRules.Database.APIs
 {
-    public static class API_AvalonDock
+    public static class API_AvalonDock_DnD
     {    
 		public static T enableDrag<T>(this T uiElement)
 			where T : UIElement

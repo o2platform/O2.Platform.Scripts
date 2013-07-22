@@ -3,10 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using FluentSharp.CoreLib.API;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
-using O2.External.O2Mono;
-using O2.Kernel;
+
 using MethodAttributes=Mono.Cecil.MethodAttributes;
 using TypeAttributes=Mono.Cecil.TypeAttributes;
 

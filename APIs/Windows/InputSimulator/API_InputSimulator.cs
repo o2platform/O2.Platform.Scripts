@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using FluentSharp.CoreLib;
+using FluentSharp.WPF;
 using FluentSharp.WinForms;
 using WindowsInput.Native;
 using WindowsInput;
@@ -264,7 +265,7 @@ namespace O2.XRules.Database.APIs
     	public static API_InputSimulator mouse_MoveTo_Wpf<T>(this API_InputSimulator inputSimulator, T uiElement)
     		where T : System.Windows.UIElement
     	{
-    		return (API_InputSimulator)WPF_Threading_ExtensionMethods.wpfInvoke(
+    		return (API_InputSimulator)Threading_ExtensionMethods.wpfInvoke(
     			uiElement, 
     				()=>{
     						try

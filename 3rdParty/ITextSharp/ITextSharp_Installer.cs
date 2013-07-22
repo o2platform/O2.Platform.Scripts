@@ -1,14 +1,14 @@
-﻿using System;
-using System.Diagnostics;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;  
+﻿using System.Diagnostics;
+using FluentSharp.CoreLib;
+using FluentSharp.REPL;
+
 //O2File:Tool_API.cs 
  
 namespace O2.XRules.Database.APIs 
 {
-	public class testInstall
+	public class ITextSharp_Installer_Test
 	{
-		public static void ITextSharp_Installer_Test()  
+		public static void Test()  
 		{
 			new ITextSharp_Installer().start(); 
 		}

@@ -1,17 +1,12 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
 using System;
 using System.Drawing;
-using System.Linq;
-using System.Collections.Generic;
 using System.Windows.Forms;
-using System.Text;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.Windows;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.Views.ASCX.classes.MainGUI;
-using O2.Views.ASCX.ExtensionMethods;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.CoreLib.Utils;
+using FluentSharp.WinForms;
+using FluentSharp.WinForms.Controls;
 using O2.XRules.Database.Utils;
 
 //O2File:O2MediaWikiAPI.cs
@@ -99,7 +94,7 @@ namespace O2.XRules.Database.APIs
 			
 			Credential_ComboBox = loginDetails_Panel.add_ComboBox(60,102).width(220).sorted();			
 			
-			Credential_ComboBox.onSelection<ICredential>(loadCredentialDetails);
+			Credential_ComboBox.onSelection<Credential>(loadCredentialDetails);
 			loginDetails_Panel.add_Label("B) Login using username & password: ",100,10);
 			UserName_TextBox = loginDetails_Panel.add_Label("Username:",125,35)
 											   	 .append_TextBox("");
@@ -147,7 +142,7 @@ namespace O2.XRules.Database.APIs
 			Credential_ComboBox.selectFirst();
 		}
 		
-		public void loadCredentialDetails(ICredential credential)
+		public void loadCredentialDetails(Credential credential)
 		{
 			UserName_TextBox.set_Text(credential.username());
 			Password_TextBox.set_Text(credential.password());

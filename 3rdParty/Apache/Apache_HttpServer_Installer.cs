@@ -8,7 +8,7 @@ using FluentSharp.REPL.Utils;
 
 namespace O2.XRules.Database.APIs
 {
-	public class Installer_Test
+	public class Apache_HttpServer_Installer_Test
 	{
 		public void test()
 		{				

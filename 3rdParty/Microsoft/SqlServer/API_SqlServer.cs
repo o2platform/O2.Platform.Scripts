@@ -7,15 +7,11 @@ using System.Drawing;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 using System.Collections.Generic;
-using O2.Interfaces.O2Core;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.External.SharpDevelop.ExtensionMethods;
-using O2.Views.ASCX.ExtensionMethods;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.REPL;
+using FluentSharp.WinForms;
 //O2Ref:System.Data.dll
-using O2.XRules.Database.Utils;
 
 namespace O2.XRules.Database.APIs
 {
@@ -539,7 +535,7 @@ namespace O2.XRules.Database.APIs
 			rowDataField.afterSelect<DataGridViewCell>( 
 				(cell)=>{
 							selectedField = rowDataField.selected().get_Text();
-							var fieldContent = cell.Value.str().fixCRLF();
+							var fieldContent = cell.Value.str().fix_CRLF();
 							if (fieldContent.starts("<?xml"))
 							{	
 								"mapping xml".info(); 

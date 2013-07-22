@@ -79,7 +79,7 @@ namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 					codeStreams.Add(astData.createO2CodeStream(TaintRules, targetFile,property));				
 				
 				//create traces for methods parameters properties
-				foreach (var parameter in firstMethod.parameters())			
+				foreach (var parameter in firstMethod.Parameters)			
 					codeStreams.Add(astData.createO2CodeStream(TaintRules, targetFile,parameter));
 			}
 				

@@ -3,12 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.DotNetWrappers.DotNet;
-using O2.XRules.Database.Utils;
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.WinForms;
 using xmlns.www.fortifysoftware.com.schema.fvdl;
+using FluentSharp.For_XmlSchemaLinq;
 //O2File:Fortify.fvdl.1.6.xsd.cs
 
 namespace O2.XRules.Database.APIs

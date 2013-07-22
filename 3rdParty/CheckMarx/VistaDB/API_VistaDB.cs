@@ -9,20 +9,15 @@ using System.Linq;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
-using O2.Interfaces.O2Core;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.DotNet;
-using O2.DotNetWrappers.ExtensionMethods;
-using O2.External.SharpDevelop.ExtensionMethods;
-using O2.Views.ASCX.ExtensionMethods;
-using O2.XRules.Database.Utils;
-
-
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
+using FluentSharp.REPL;
+using FluentSharp.WinForms;
 using VistaDB.Provider;
+
 //O2Ref:C:\Program Files (x86)\Checkmarx\Checkmarx Engine Server\VistaDB.NET20.dll
 
-namespace O2.XRules.Database.APIs
+namespace O2.XRules.Database.APIs.For_VistaDB
 {
 	public class API_VistaDB_Test
 	{
@@ -616,7 +611,7 @@ namespace O2.XRules.Database.APIs
 			rowDataField.afterSelect<DataGridViewCell>( 
 				(cell)=>{
 							selectedField = rowDataField.selected().get_Text();
-							var fieldContent = cell.Value.str().fixCRLF();
+							var fieldContent = cell.Value.str().fix_CRLF();
 							if (fieldContent.starts("<?xml"))
 							{	
 								"mapping xml".info(); 

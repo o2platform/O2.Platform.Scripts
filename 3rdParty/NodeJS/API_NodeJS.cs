@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
-using O2.Kernel;
-using O2.Kernel.ExtensionMethods;
-using O2.DotNetWrappers.ExtensionMethods; 
-using O2.XRules.Database.Utils; 
+using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
 
 //Installer:NodeJS_Exe_Installer.cs!NodeJS\node.exe
   
