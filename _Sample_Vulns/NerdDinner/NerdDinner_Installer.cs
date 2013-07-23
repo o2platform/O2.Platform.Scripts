@@ -19,7 +19,8 @@ namespace O2.XRules.Database.APIs
 		{			
 			config("NerdDinner", 
 				   "NerdDinner.zip", 
-				   "http://download-codeplex.sec.s-msft.com/Download/Release?ProjectName=nerddinner&DownloadId=123725&FileTime=129192971514370000&Build=19692".uri(),
+				   "http://download-codeplex.sec.s-msft.com/Download/Release?ProjectName=nerddinner&DownloadId=123725&FileTime=129192971514370000&Build=20626".uri(),
+//				   "http://download-codeplex.sec.s-msft.com/Download/Release?ProjectName=nerddinner&DownloadId=123725&FileTime=129192971514370000&Build=19692".uri(),
 				   "NerdDinner_2.0\\NerdDinner.sln");
 			installFromZip_Web();
 		}	

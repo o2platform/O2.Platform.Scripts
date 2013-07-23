@@ -91,8 +91,6 @@ ie.open(""http://www.google.com"");
 
 return ie.links();
 
-//O2File:WatiN_IE_ExtensionMethods.cs 
-//O2Ref:WatiN.Core.1x.dll
 //O2Tag_DontAddExtraO2Files;
 ";*/
 

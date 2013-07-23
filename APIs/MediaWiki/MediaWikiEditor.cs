@@ -32,7 +32,6 @@ using FluentSharp.WinForms.Controls;
 //O2Ref:QuickGraph.dll
 //O2Ref:GraphSharp.dll
 //O2Ref:GraphSharp.Controls.dll
-//O2Ref:WatiN.Core.1x.dll
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
 	
 namespace O2.XRules.Database.APIs

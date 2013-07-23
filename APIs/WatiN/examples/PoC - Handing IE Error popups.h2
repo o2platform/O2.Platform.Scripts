@@ -27,7 +27,6 @@ runPoC();
 //O2Ref:Watin.Core.dll
 
 //O2File:API_GuiAutomation.cs
-//O2Ref:WatiN.Core.1x.dll
 //O2Ref:White.Core.dll
 
 //_O2Tag_DontAddExtraO2Files;

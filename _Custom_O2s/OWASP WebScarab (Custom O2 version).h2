@@ -61,8 +61,9 @@ webScarabTab.add_RibbonGroup("O2 Panel")
 											"ie.field(\"q\",\"O2 and WebScarab\");".line()+
 											"ie.button(\"Google Search\").click();".line()+
 											"ie.closeInNSeconds(4); ".line()+
-											"//O2File:WatiN_IE_ExtensionMethods.cs".line()+
-											"//O2Ref:WatiN.Core.1x.dll".line()+
+											"//using FluentSharp.Watin".line()+
+											"//O2Ref:WatiN.Core.dll".line()+
+											"//O2Ref:FluentSharp.WatiN.dll".line()+
 											"//O2Ref:O2_External_IE.dll".line();
 						script.onCompileExecuteOnce();
 						script.set_Command(initialScript);			

@@ -13,7 +13,6 @@ using WatiN.Core;
 //O2Ref:Watin.Core.dll
 
 //O2Ref:Interop.SHDocVw.dll
-//O2Ref:WatiN.Core.1x.dll
 //O2Ref:O2_External_IE.dll
 //O2Ref:System.Xml.Linq.dll
 //O2Ref:System.Xml.dll

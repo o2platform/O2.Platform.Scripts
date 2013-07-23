@@ -6,7 +6,6 @@ using FluentSharp.GuiAutomation;
 
 //O2File:API_GuiAutomation.cs
 //O2Ref:White.Core.dll
-//O2Ref:WatiN.Core.1x.dll
 
 namespace O2.XRules.Database.APIs
 {

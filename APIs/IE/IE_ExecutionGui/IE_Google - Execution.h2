@@ -3,4 +3,3 @@ popupWindow.add_IE_ExecutionGui("IE_Google.cs");
  
 //using O2.XRules.Database.APIs
 //O2File:API_IE_ExecutionGUI.cs
-//O2Ref:WatiN.Core.1x.dll

@@ -143,7 +143,7 @@ Action<string> loadFilesFromFolder =
 						if (iClass.BaseTypes.Count  >0)
 						{	
 							foreach(var baseType in iClass.BaseTypes)								
-								if(baseType.FullyQualifiedName == "System.Web.Mvc.Controller" || baseType.FullyQualifiedName == "ContentController")   
+								if(baseType.FullyQualifiedName == "System.Web.Mvc.Controller" || baseType.FullyQualifiedName == "Controller")   
 									controllers.Add(iClass);								
 						}	
 					}

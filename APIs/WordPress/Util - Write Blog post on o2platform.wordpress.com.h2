@@ -184,7 +184,6 @@ return "ok";
 
 //O2Ref:WordPress_XmlRpc_JoeBlogs.dll
 //O2Ref:Interop.SHDocVw.dll
-//O2Ref:WatiN.Core.1x.dll
 //O2Ref:Microsoft.mshtml.dll
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
 //O2Ref:Jint/Jint.dll

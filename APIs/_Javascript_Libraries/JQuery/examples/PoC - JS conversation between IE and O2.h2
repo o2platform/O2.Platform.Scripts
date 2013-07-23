@@ -1,8 +1,6 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//"ie_Object".o2Cache&lt;string&gt;("");
-var ie = "ie_Object".o2Cache&lt;WatiN_IE&gt;( 
-			()=&gt; panel.clear().add_IE().silent(true));
+//"ie_Object".o2Cache<string>("");
+var ie = "ie_Object".o2Cache<WatiN_IE>( 
+			()=> panel.clear().add_IE().silent(true));
  
 ie.open("about:blank");
 ie.eval("document.write('this is some text')"); 
@@ -14,10 +12,8 @@ ie.eval("$o2.write('hello again')");
 
 //ie.inject_FirebugLite(); 
 
-//O2File:WatiN_IE_ExtensionMethods.cs 
-//O2Ref:WatiN.Core.1x.dll
+//using FluentSharp.Watin
+//O2Ref:FluentSharp.Watin.dll
+//O2Ref:Watin.Core.dll
 
 //O2Tag:SkipGlobalCompilation
-</SourceCode>
-  <ReferencedAssemblies />
-</H2>

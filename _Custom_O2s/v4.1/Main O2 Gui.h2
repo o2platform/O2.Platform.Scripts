@@ -140,6 +140,12 @@ logViewerPanel.add_LogViewer().white();
 return "done";		 
 
 //O2Embed:FluentSharp.Roslyn.dll
-//O2Embed:WatiN.Core.1x.dll
+//O2Embed:FluentSharp.WatiN.dll
+//O2Embed:WatiN.Core.dll
+//O2Embed:FluentSharp.O2Platform.exe
+//O2Embed:FluentSharp.NGit.dll
+//O2Embed:FluentSharp.NUnit.dll
+//O2Embed:nunit.framework.dll
+//O2Embed:FluentSharp.WPF.dll
 //O2DontEmbed:Ionic.Zip.dll
 //O2Package:ALL_SCRIPTS

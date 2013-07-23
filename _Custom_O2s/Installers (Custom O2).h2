@@ -48,7 +48,6 @@ ribbon.add_Tab("Development")
 //O2Ref:RibbonControlsLibrary.dll
 //O2Ref:White.Core.dll 
 //O2Ref:UIAutomationClient.dll 
-//O2Ref:WatiN.Core.1x.dll
 
 //O2Ref:PresentationCore.dll
 //O2Ref:PresentationFramework.dll
