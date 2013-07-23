@@ -1,0 +1,1090 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{154E3330-8535-40D1-9C8D-E447462115F2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>O2.Platform.Scritps___Misc</RootNamespace>
+    <AssemblyName>O2.Platform.Scritps - Misc</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ActiveUp.Net.Common">
+      <HintPath>..\_ReferencesDownloaded\ActiveUp.Net.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiveUp.Net.Dns">
+      <HintPath>..\_ReferencesDownloaded\ActiveUp.Net.Dns.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiveUp.Net.Smtp">
+      <HintPath>..\_ReferencesDownloaded\ActiveUp.Net.Smtp.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Controls">
+      <HintPath>..\_ReferencesDownloaded\AForge.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Video">
+      <HintPath>..\_ReferencesDownloaded\AForge.Video.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Video.DirectShow">
+      <HintPath>..\_ReferencesDownloaded\AForge.Video.DirectShow.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Video.VFW">
+      <HintPath>..\_ReferencesDownloaded\AForge.Video.VFW.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonDock">
+      <HintPath>..\_ReferencesDownloaded\AvalonDock.dll</HintPath>
+    </Reference>
+    <Reference Include="AWSSDK">
+      <HintPath>..\_ReferencesDownloaded\AWSSDK.dll</HintPath>
+    </Reference>
+    <Reference Include="BasicCacher">
+      <HintPath>..\_ReferencesDownloaded\BasicCacher.dll</HintPath>
+    </Reference>
+    <Reference Include="Bricks.RuntimeFramework">
+      <HintPath>..\_ReferencesDownloaded\Bricks.RuntimeFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Cecil.Decompiler">
+      <HintPath>..\_ReferencesDownloaded\Cecil.Decompiler.dll</HintPath>
+    </Reference>
+    <Reference Include="CefSharp">
+      <HintPath>..\_ToolsOrApis\CefSharp\CefSharp-1.19.0\CefSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="CefSharp.WinForms">
+      <HintPath>..\_ToolsOrApis\CefSharp\CefSharp-1.19.0\CefSharp.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Cropper">
+      <HintPath>..\_ReferencesDownloaded\Cropper.exe</HintPath>
+    </Reference>
+    <Reference Include="DiagramDesigner">
+      <HintPath>..\_ReferencesDownloaded\DiagramDesigner.exe</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.0.3302.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\_ReferencesDownloaded\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="EnvDTE80, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Extensibility, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="FluentSharp.CoreLib, Version=5.3.0.0, Culture=neutral, PublicKeyToken=55a0f9bf4256d533, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\O2\_Source_Code\FluentSharp\FluentSharp.O2Platform\bin\Debug\FluentSharp.CoreLib.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentSharp.NGit, Version=5.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\O2\_Source_Code\FluentSharp\FluentSharp.O2Platform\bin\Debug\FluentSharp.NGit.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentSharp.NUnit">
+      <HintPath>E:\O2\_Source_Code\FluentSharp\FluentSharp.O2Platform\bin\Debug\FluentSharp.NUnit.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentSharp.O2Platform">
+      <HintPath>E:\O2\_Source_Code\FluentSharp\FluentSharp.O2Platform\bin\Debug\FluentSharp.O2Platform.exe</HintPath>
+    </Reference>
+    <Reference Include="FluentSharp.REPL, Version=5.3.0.0, Culture=neutral, PublicKeyToken=55a0f9bf4256d533, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <ExecutableExtension>.exe</ExecutableExtension>
+      <HintPath>E:\O2\_Source_Code\FluentSharp\FluentSharp.O2Platform\bin\Debug\FluentSharp.REPL.exe</HintPath>
+    </Reference>
+    <Reference Include="FluentSharp.Roslyn, Version=5.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\O2\_Source_Code\FluentSharp\FluentSharp.O2Platform\bin\Debug\FluentSharp.Roslyn.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentSharp.SharpDevelopEditor, Version=5.3.0.0, Culture=neutral, PublicKeyToken=55a0f9bf4256d533, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\O2\_Source_Code\FluentSharp\FluentSharp.O2Platform\bin\Debug\FluentSharp.SharpDevelopEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentSharp.WatiN, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\O2\_Source_Code\FluentSharp\FluentSharp.O2Platform\bin\Debug\FluentSharp.WatiN.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentSharp.WinForms, Version=5.3.0.0, Culture=neutral, PublicKeyToken=55a0f9bf4256d533, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\O2\_Source_Code\FluentSharp\FluentSharp.O2Platform\bin\Debug\FluentSharp.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentSharp.WPF, Version=5.3.0.0, Culture=neutral, PublicKeyToken=55a0f9bf4256d533, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\O2\_Source_Code\FluentSharp\FluentSharp.O2Platform\bin\Debug\FluentSharp.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="GithubSharp.Core">
+      <HintPath>..\_ReferencesDownloaded\GithubSharp.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="GithubSharp.Plugins.LogProviders.SimpleLogProvider">
+      <HintPath>..\_ReferencesDownloaded\GithubSharp.Plugins.LogProviders.SimpleLogProvider.dll</HintPath>
+    </Reference>
+    <Reference Include="GraphSharp">
+      <HintPath>..\_ReferencesDownloaded\GraphSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="GraphSharp.Controls">
+      <HintPath>..\_ReferencesDownloaded\GraphSharp.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Hammock">
+      <HintPath>..\_ReferencesDownloaded\Hammock.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.AvalonEdit, Version=0.0.0.0, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\_ToolsOrApis\ILSpy\ICSharpCode.AvalonEdit.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.Decompiler">
+      <HintPath>..\_ToolsOrApis\ILSpy\ICSharpCode.Decompiler.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.NRefactory">
+      <HintPath>..\_ToolsOrApis\ILSpy\ICSharpCode.NRefactory.dll</HintPath>
+    </Reference>
+    <Reference Include="ILSpy">
+      <HintPath>..\_ToolsOrApis\ILSpy\ILSpy.exe</HintPath>
+    </Reference>
+    <Reference Include="Interop.SHDocVw, Version=1.1.0.0, Culture=neutral, PublicKeyToken=db7cfd3acb5ad44e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\_ReferencesDownloaded\Interop.SHDocVw.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp">
+      <HintPath>..\_ToolsOrApis\ITextSharp\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Jayrock.Json">
+      <HintPath>..\_ReferencesDownloaded\Jayrock.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Jint">
+      <HintPath>..\_ToolsOrApis\Jint\Jint.dll</HintPath>
+    </Reference>
+    <Reference Include="jni4net.n-0.8.6.0">
+      <HintPath>..\_ToolsOrApis\Jni4Net\lib\jni4net.n-0.8.6.0.dll</HintPath>
+    </Reference>
+    <Reference Include="lessmsi">
+      <HintPath>..\_ToolsOrApis\LessMsi\lessmsi.exe</HintPath>
+    </Reference>
+    <Reference Include="MarkdownSharp">
+      <HintPath>..\_ReferencesDownloaded\MarkdownSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Merlin">
+      <HintPath>..\_ReferencesDownloaded\Merlin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ACESec.CATNet.Core">
+      <HintPath>..\_ToolsOrApis\CatNet_1.1\SourceDir\Microsoft.ACESec.CATNet.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ACESec.CATNet.UI.VSAddIn">
+      <HintPath>..\_ToolsOrApis\CatNet_1.1\SourceDir\Microsoft.ACESec.CATNet.UI.VSAddIn.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Build" />
+    <Reference Include="Microsoft.Build.Framework" />
+    <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.CommandBars, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.ViewManager, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Windows\Microsoft.NET\assembly\GAC_MSIL\Microsoft.VisualStudio.Shell.ViewManager\v4.0_10.0.0.0__b03f5f7f11d50a3a\Microsoft.VisualStudio.Shell.ViewManager.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Administration, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Windows\System32\inetsrv\Microsoft.Web.Administration.dll</HintPath>
+    </Reference>
+    <Reference Include="MiniFramework.Core">
+      <HintPath>..\_ReferencesDownloaded\MiniFramework.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="MiniFramework.Resources">
+      <HintPath>..\_ReferencesDownloaded\MiniFramework.Resources.dll</HintPath>
+    </Reference>
+    <Reference Include="MiniFramework.Windows">
+      <HintPath>..\_ReferencesDownloaded\MiniFramework.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil">
+      <HintPath>..\_ToolsOrApis\ILSpy\Mono.Cecil.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\_ReferencesDownloaded\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\_ReferencesDownloaded\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="nuget">
+      <HintPath>..\_ToolsOrApis\NuGet\nuget.exe</HintPath>
+    </Reference>
+    <Reference Include="nunit-gui-runner">
+      <HintPath>..\_ToolsOrApis\NUnit\NUnit-2.5.10.11092\bin\net-2.0\lib\nunit-gui-runner.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.core">
+      <HintPath>..\_ToolsOrApis\NUnit\NUnit-2.5.10.11092\bin\net-2.0\lib\nunit.core.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.core.interfaces">
+      <HintPath>..\_ToolsOrApis\NUnit\NUnit-2.5.10.11092\bin\net-2.0\lib\nunit.core.interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>Utils\_VisualStudio_Projects\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.uikit">
+      <HintPath>..\_ToolsOrApis\NUnit\NUnit-2.5.10.11092\bin\net-2.0\lib\nunit.uikit.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.util">
+      <HintPath>..\_ToolsOrApis\NUnit\NUnit-2.5.10.11092\bin\net-2.0\lib\nunit.util.dll</HintPath>
+    </Reference>
+    <Reference Include="O2_Core_XRules">
+      <HintPath>..\_ReferencesDownloaded\O2_Core_XRules.dll</HintPath>
+    </Reference>
+    <Reference Include="O2_External_IE">
+      <HintPath>..\_ReferencesDownloaded\O2_External_IE.dll</HintPath>
+    </Reference>
+    <Reference Include="O2_External_O2Mono">
+      <HintPath>..\_ReferencesDownloaded\O2_External_O2Mono.dll</HintPath>
+    </Reference>
+    <Reference Include="O2_Misc_Microsoft_MPL_Libs">
+      <HintPath>E:\O2\_Source_Code\O2_Platform_ReferencedAssemblies\O2_Assemblies\O2_Misc_Microsoft_MPL_Libs.dll</HintPath>
+    </Reference>
+    <Reference Include="Odyssey">
+      <HintPath>..\_ReferencesDownloaded\Odyssey.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="QuickGraph">
+      <HintPath>E:\O2\_Source_Code\O2_Platform_ReferencedAssemblies\O2_Assemblies\QuickGraph.dll</HintPath>
+    </Reference>
+    <Reference Include="RibbonControlsLibrary">
+      <HintPath>..\_ReferencesDownloaded\RibbonControlsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Roslyn.Compilers">
+      <HintPath>E:\O2\_Source_Code\FluentSharp\FluentSharp.Roslyn\_EmbededDlls\Roslyn.Compilers.dll</HintPath>
+    </Reference>
+    <Reference Include="Roslyn.Compilers.CSharp">
+      <HintPath>E:\O2\_Source_Code\FluentSharp\FluentSharp.Roslyn\_EmbededDlls\Roslyn.Compilers.CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Roslyn.Services">
+      <HintPath>E:\O2\_Source_Code\FluentSharp\FluentSharp.Roslyn\_EmbededDlls\Roslyn.Services.dll</HintPath>
+    </Reference>
+    <Reference Include="Roslyn.Services.CSharp">
+      <HintPath>E:\O2\_Source_Code\FluentSharp\FluentSharp.Roslyn\_EmbededDlls\Roslyn.Services.CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Roslyn.Utilities">
+      <HintPath>E:\O2\_Source_Code\FluentSharp\FluentSharp.Roslyn\_EmbededDlls\Roslyn.Utilities.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpCompress.3.5">
+      <HintPath>..\_ReferencesDownloaded\SharpCompress.3.5.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="TheWorldsWorst.ApiWrapper">
+      <HintPath>..\_ReferencesDownloaded\TheWorldsWorst.ApiWrapper.dll</HintPath>
+    </Reference>
+    <Reference Include="TweetSharp">
+      <HintPath>..\_ReferencesDownloaded\TweetSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="TweetSharp.Twitter">
+      <HintPath>..\_ReferencesDownloaded\TweetSharp.Twitter.dll</HintPath>
+    </Reference>
+    <Reference Include="TypeConfusion">
+      <HintPath>..\_ReferencesDownloaded\TypeConfusion.dll</HintPath>
+    </Reference>
+    <Reference Include="UIAutomationClient" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="VistaDB.NET20">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Checkmarx\Checkmarx Engine Server\VistaDB.NET20.DLL</HintPath>
+    </Reference>
+    <Reference Include="WatiN.Core">
+      <HintPath>E:\O2\_Source_Code\FluentSharp_Fork.WatiN\FluentSharp.WatiN\bin\Debug\WatiN.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="WebDriver">
+      <HintPath>..\_ToolsOrApis\Selenium\net35\WebDriver.dll</HintPath>
+    </Reference>
+    <Reference Include="WeifenLuo.WinFormsUI.Docking">
+      <HintPath>E:\O2\_Source_Code\O2_Platform_ReferencedAssemblies\O2_Assemblies\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+    </Reference>
+    <Reference Include="White.Core">
+      <HintPath>..\_ReferencesDownloaded\White.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="WordPress_XmlRpc_JoeBlogs">
+      <HintPath>..\_ReferencesDownloaded\WordPress_XmlRpc_JoeBlogs.dll</HintPath>
+    </Reference>
+    <Reference Include="WPFExtensions">
+      <HintPath>..\_ReferencesDownloaded\WPFExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="WPFToolkit">
+      <HintPath>..\_ReferencesDownloaded\WPFToolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="_SearchEngine %28O2 Tool%29">
+      <HintPath>..\_ReferencesDownloaded\_SearchEngine (O2 Tool).exe</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="3rdParty\CheckMarx\2.6.3_WSDL_files\" />
+    <Folder Include="3rdParty\CheckMarx\2.6.7_WSDL_files\" />
+    <Folder Include="3rdParty\OWASP\OpenSAMM\" />
+    <Folder Include="3rdParty\Qualys\" />
+    <Folder Include="3rdParty\SoSNet\" />
+    <Folder Include="APIs\MDbg\" />
+    <Folder Include="APIs\Windows\CmdExe\" />
+    <Folder Include="Languages\DotNet\SoS\" />
+    <Folder Include="Languages\J2EE\SpringMVC\v2.0\" />
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="3rdParty\Antlr\Antlr_Installer.cs" />
+    <Compile Include="3rdParty\Apache\Apache_HttpServer_Installer.cs" />
+    <Compile Include="3rdParty\Armorize\API_Armorize.cs" />
+    <Compile Include="3rdParty\CheckMarx\API_CxWebClient.cs" />
+    <Compile Include="3rdParty\CheckMarx\API_IE_CxWebClient.cs" />
+    <Compile Include="3rdParty\CheckMarx\VistaDB\API_VistaDB.cs" />
+    <Compile Include="3rdParty\Chrome\API_Chrome.cs" />
+    <Compile Include="3rdParty\Chrome\API_ChromeDriver.cs" />
+    <Compile Include="3rdParty\Chrome\API_Chrome_Hijack.cs" />
+    <Compile Include="3rdParty\Chrome\CefSharp_Installer.cs" />
+    <Compile Include="3rdParty\Clojure\API_Clojure.cs" />
+    <Compile Include="3rdParty\Clojure\Clojure_Installer.cs" />
+    <Compile Include="3rdParty\cURL\API_cURL.cs" />
+    <Compile Include="3rdParty\cURL\cUrl_Installer.cs" />
+    <Compile Include="3rdParty\EasyHook\API_EasyHook.cs" />
+    <Compile Include="3rdParty\EasyHook\EasyHook_Installer.cs" />
+    <Compile Include="3rdParty\Eclipse\API_Eclipse.cs" />
+    <Compile Include="3rdParty\Eclipse\UnitTests_Gui_API_Eclipse.cs" />
+    <Compile Include="3rdParty\Fiddler\API_Fiddler.cs" />
+    <Compile Include="3rdParty\Fiddler\UnitTests_API_Fiddler.cs" />
+    <Compile Include="3rdParty\Flash\SWFScan_Installer.cs" />
+    <Compile Include="3rdParty\Fortify\API_Fortify_1_6.cs" />
+    <Compile Include="3rdParty\Fortify\Fortify.fvdl.1.6.xsd.cs" />
+    <Compile Include="3rdParty\Fortify\VulnCat\API_VulnCat.cs" />
+    <Compile Include="3rdParty\FuzzDB\API_FuzzDB.cs" />
+    <Compile Include="3rdParty\GitHub\API_GitHub.cs" />
+    <Compile Include="3rdParty\GitHub\API_GitHub_Issues.cs" />
+    <Compile Include="3rdParty\GitHub\API_GitHub_Objects.cs" />
+    <Compile Include="3rdParty\GitHub\GitHub - CustomO2.cs" />
+    <Compile Include="3rdParty\GnuCitizen\BadAssProxy_Installer.cs" />
+    <Compile Include="3rdParty\GnuCitizen\Proxify_Installer.cs" />
+    <Compile Include="3rdParty\GNU\GnuWin32_Make_Installer.cs" />
+    <Compile Include="3rdParty\GoogleDataAPI\API_GoogleDataAPI.cs" />
+    <Compile Include="3rdParty\GoogleDataAPI\GoogleDataAPI_Installer.cs" />
+    <Compile Include="3rdParty\HawkEye\API_HawkEye.cs" />
+    <Compile Include="3rdParty\HawkEye\Ctrl_ProcessFinder.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="3rdParty\HawkEye\WindowFinder.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="3rdParty\IBM\Analysis_Workflows\Analysis_WorkFlow.cs" />
+    <Compile Include="3rdParty\IBM\Analysis_Workflows\Analysis_WorkFlow_Phase_1.cs" />
+    <Compile Include="3rdParty\IBM\Analysis_Workflows\Analysis_WorkFlow_Phase_2.cs" />
+    <Compile Include="3rdParty\IBM\Analysis_Workflows\Analysis_WorkFlow_Phase_3.cs" />
+    <Compile Include="3rdParty\IBM\Analysis_Workflows\Analysis_WorkFlow_Phase_4.cs" />
+    <Compile Include="3rdParty\IBM\Analysis_Workflows\Analysis_WorkFlow_Phase_5.cs" />
+    <Compile Include="3rdParty\IBM\Analysis_Workflows\IAnalysisArtifacts.cs" />
+    <Compile Include="3rdParty\IBM\Analysis_Workflows\KAnalysisArtifacts.cs" />
+    <Compile Include="3rdParty\IBM\Analysis_Workflows\Sample_Analysis_Workflow_WebGoat.cs" />
+    <Compile Include="3rdParty\IBM\Analysis_Workflows\XUtils_Analysis.cs" />
+    <Compile Include="3rdParty\IBM\Analysis_Workflows\XUtils_AnalysisWorkflow.cs" />
+    <Compile Include="3rdParty\IBM\AppScan Source 7.0\O2AssessmentLoad_OunceV7_0.cs" />
+    <Compile Include="3rdParty\IBM\AppScan Source 7.0\O2AssessmentSave_OunceV7_0.cs" />
+    <Compile Include="3rdParty\IBM\AppScan Source 7.0\OunceAvailableEngines.cs" />
+    <Compile Include="3rdParty\IBM\AppScan Source 7.0\Ozasmt_OunceV6\O2AssessmentData_OunceV6.cs" />
+    <Compile Include="3rdParty\IBM\AppScan Source 7.0\Ozasmt_OunceV6\O2AssessmentLoad_OunceV6.cs" />
+    <Compile Include="3rdParty\IBM\AppScan Source 7.0\Ozasmt_OunceV6\O2AssessmentSave_OunceV6.cs" />
+    <Compile Include="3rdParty\IBM\AppScan Source 7.0\Ozasmt_OunceV6\O2TraceBlock_OunceV6.cs" />
+    <Compile Include="3rdParty\IBM\AppScan Source 7.0\Ozasmt_OunceV6\OzasmtUtils_OunceV6.cs" />
+    <Compile Include="3rdParty\IBM\AppScan Source 7.0\Ozasmt_OunceV6\SourceCodeFiles.cs" />
+    <Compile Include="3rdParty\IBM\AppScan Source 7.0\Ozasmt_OunceV6\xsd_Ozasmt_OunceV6.cs">
+      <DependentUpon>xsd_Ozasmt_OunceV6.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="3rdParty\IBM\AppScan Source 7.0\Ozasmt_OunceV6_1\O2AssessmentLoad_OunceV6_1.cs" />
+    <Compile Include="3rdParty\IBM\AppScan Source 7.0\Ozasmt_OunceV6_1\OzasmUtils_OunceV6_1.cs" />
+    <Compile Include="3rdParty\IBM\AppScan Source 7.0\Ozasmt_OunceV6_1\xsd_Ozasmt_OunceV6_1.cs">
+      <DependentUpon>xsd_Ozasmt_OunceV6_1.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="3rdParty\IBM\AppScan Source 7.0\OzasmUtils_OunceV7_0.cs" />
+    <Compile Include="3rdParty\IBM\AppScan Source 7.0\UnitTest_LoadAndSave_7x_Ozasmt.cs" />
+    <Compile Include="3rdParty\IBM\AppScan Wafl\wafl.cs">
+      <DependentUpon>wafl.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="3rdParty\ILSpy\API_ILSpy.cs" />
+    <Compile Include="3rdParty\ILSpy\ILSpy_Installer.cs" />
+    <Compile Include="3rdParty\ITextSharp\ascx_Create_Links_From_Clipboard.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="3rdParty\ITextSharp\ITextSharp_Installer.cs" />
+    <Compile Include="3rdParty\JabberNet\JabberNet_Installer.cs" />
+    <Compile Include="3rdParty\JAD\API_Jad.cs" />
+    <Compile Include="3rdParty\JAD\Jad_Installer.cs" />
+    <Compile Include="3rdParty\Jni4Net\API_Jni4Net.cs" />
+    <Compile Include="3rdParty\Jni4Net\Jni4Net_Installer.cs" />
+    <Compile Include="3rdParty\LessMSI\API_LessMsi.cs" />
+    <Compile Include="3rdParty\LessMSI\LessMsi_Install.cs" />
+    <Compile Include="3rdParty\LinqPad\LinqPad_Installer.cs" />
+    <Compile Include="3rdParty\MarkdownSharp\API_MarkdownSharp.cs" />
+    <Compile Include="3rdParty\MarkdownSharp\MarkdownSharp_Installer.cs" />
+    <Compile Include="3rdParty\Microsoft\CatNet\API_CatNet.cs" />
+    <Compile Include="3rdParty\Microsoft\CatNet\API_CatNet_GUI.cs" />
+    <Compile Include="3rdParty\Microsoft\CatNet\API_CatNet_TeamMentor_VS2010.cs" />
+    <Compile Include="3rdParty\Microsoft\CatNet\API_CatNet_VS2010.cs" />
+    <Compile Include="3rdParty\Microsoft\CatNet\CatNet_Installer.cs" />
+    <Compile Include="3rdParty\Microsoft\CatNet\O2_Scanner_MsCatNet\ascx_MsCatNet.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="3rdParty\Microsoft\CatNet\O2_Scanner_MsCatNet\ascx_MsCatNet.Designer.cs">
+      <DependentUpon>ascx_MsCatNet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="3rdParty\Microsoft\CatNet\O2_Scanner_MsCatNet\CatNetConverter.cs" />
+    <Compile Include="3rdParty\Microsoft\CatNet\O2_Scanner_MsCatNet\Convert.cs" />
+    <Compile Include="3rdParty\Microsoft\CatNet\O2_Scanner_MsCatNet\MsCatNetConfig.cs" />
+    <Compile Include="3rdParty\Microsoft\CatNet\O2_Scanner_MsCatNet\MsCatNetScanner.cs" />
+    <Compile Include="3rdParty\Microsoft\CatNet\O2_Scanner_MsCatNet\MSCatNet_Report.cs" />
+    <Compile Include="3rdParty\Microsoft\CatNet\O2_Scanner_MsCatNet\Program_O2_Scanner_MsCatNet.cs" />
+    <Compile Include="3rdParty\Microsoft\CatNet\O2_Scanner_MsCatNet\ScanTarget_CatNet.cs" />
+    <Compile Include="3rdParty\Microsoft\IIS\API_IIS7.cs" />
+    <Compile Include="3rdParty\Microsoft\IIS\API_IIS_Logs.cs" />
+    <Compile Include="3rdParty\Microsoft\IIS\API_IIS_Request.cs" />
+    <Compile Include="3rdParty\Microsoft\MSBuild\API_MicrosoftBuild.cs" />
+    <Compile Include="3rdParty\Microsoft\MSBuild\API_MSBuild.cs" />
+    <Compile Include="3rdParty\Microsoft\MSBuild\Program_UseWith_O2_CreatedExes.cs" />
+    <Compile Include="3rdParty\Microsoft\SqlServer\API_SqlServer.cs" />
+    <Compile Include="3rdParty\Microsoft\VisualStudio\API_GUI_Automation_VisualStudio_2010.cs" />
+    <Compile Include="3rdParty\Microsoft\VisualStudio\API_VisualStudio_2010.cs" />
+    <Compile Include="3rdParty\Microsoft\VisualStudio\O2_Add_In\Commands\CommandBase.cs" />
+    <Compile Include="3rdParty\Microsoft\VisualStudio\O2_Add_In\Commands\O2_LogViewer.cs" />
+    <Compile Include="3rdParty\Microsoft\VisualStudio\O2_Add_In\Commands\O2_ScriptGui.cs" />
+    <Compile Include="3rdParty\Microsoft\VisualStudio\O2_Add_In\Commands\O2_ScriptWithPanel.cs" />
+    <Compile Include="3rdParty\Microsoft\VisualStudio\O2_Add_In\Commands\VS2010_TeamMentor_Menu.cs" />
+    <Compile Include="3rdParty\Microsoft\VisualStudio\O2_Add_In\Microsoft_VisualStudio_ExtensionMethods.cs" />
+    <Compile Include="3rdParty\Microsoft\VisualStudio\O2_Add_In\O2_VS_AddIn.cs" />
+    <Compile Include="3rdParty\Microsoft\VisualStudio\O2_Add_In\VisualStudio_Connect.cs" />
+    <Compile Include="3rdParty\MonoCecil\Ascx\ascx_O2Reflector.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="3rdParty\MonoCecil\Ascx\ascx_O2Reflector.Designer.cs">
+      <DependentUpon>ascx_O2Reflector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="3rdParty\MonoCecil\AssemblyAnalysisImpl.cs" />
+    <Compile Include="3rdParty\MonoCecil\CecilDecompiler\CecilDecompiler.cs" />
+    <Compile Include="3rdParty\MonoCecil\CecilFilteredSignature.cs" />
+    <Compile Include="3rdParty\MonoCecil\IO2MonoCecil.cs" />
+    <Compile Include="3rdParty\MonoCecil\MonoCecil\CecilAssemblyBuilder.cs" />
+    <Compile Include="3rdParty\MonoCecil\MonoCecil\CecilAssemblyDependencies.cs" />
+    <Compile Include="3rdParty\MonoCecil\MonoCecil\CecilCodeSearch.cs" />
+    <Compile Include="3rdParty\MonoCecil\MonoCecil\CecilConvert.cs" />
+    <Compile Include="3rdParty\MonoCecil\MonoCecil\CecilOpCodeUtils.cs" />
+    <Compile Include="3rdParty\MonoCecil\MonoCecil\CecilUtils.cs" />
+    <Compile Include="3rdParty\MonoCecil\MonoCecil\CreateTestExe.cs" />
+    <Compile Include="3rdParty\MonoCecil\MonoCecil\MethodCalled.cs" />
+    <Compile Include="3rdParty\MonoCecil\MonoCecil\StandAloneExe.cs" />
+    <Compile Include="3rdParty\MonoCecil\O2MonoCecil.cs" />
+    <Compile Include="3rdParty\Nikto\API_Nikto.cs" />
+    <Compile Include="3rdParty\NMap\NMap_CmdLine_Installer.cs" />
+    <Compile Include="3rdParty\NMap\NMap_Installer.cs" />
+    <Compile Include="3rdParty\NodeJS\API_NodeJS.cs" />
+    <Compile Include="3rdParty\NodeJS\NodeJS_Exe_Installer.cs" />
+    <Compile Include="3rdParty\NodeJS\NodeJS_Installer.cs" />
+    <Compile Include="3rdParty\NodeJS\NodeJS_MSI_Installer.cs" />
+    <Compile Include="3rdParty\NuGet\API_NuGet.cs" />
+    <Compile Include="3rdParty\NuGet\NuGet_Installer.cs" />
+    <Compile Include="3rdParty\OWASP\OWASP_Summit_2011\API_OWASP_Summit_2011.cs" />
+    <Compile Include="3rdParty\OWASP\WebScarab\API_WebScarab.cs" />
+    <Compile Include="3rdParty\OWASP\WebScarab\O2AssesmentLoad_WebScarab.cs" />
+    <Compile Include="3rdParty\OWASP\WebScarab\UnitTests_GUI_API_WebScarab.cs" />
+    <Compile Include="3rdParty\OWASP\WebScarab\WebscarabConversation.cs" />
+    <Compile Include="3rdParty\OWASP\ZAProxy\ZAProxy_Installer.cs" />
+    <Compile Include="3rdParty\PaintNet\PaintNet_Installer.cs" />
+    <Compile Include="3rdParty\SecurityInnovation\Exams\API_SI_Exams.cs" />
+    <Compile Include="3rdParty\SecurityInnovation\TeamProfessor\IE_TeamProfessor.cs" />
+    <Compile Include="3rdParty\Selenium\API_Selenium.cs" />
+    <Compile Include="3rdParty\Selenium\SeleniumWebDrivers_Setup.cs" />
+    <Compile Include="3rdParty\Selenium\Selenium_Installer.cs" />
+    <Compile Include="3rdParty\Snoop\Process Injection Tests\API_O2_Injector.cs" />
+    <Compile Include="3rdParty\Snoop\Process Injection Tests\Injected_Dll.cs" />
+    <Compile Include="3rdParty\Snoop\Process Injection Tests\Injected_Dll_WithCodeSnippet.cs" />
+    <Compile Include="3rdParty\Snoop\Snoop_Installer.cs" />
+    <Compile Include="3rdParty\TightVNC\TightVNC_Installer.cs" />
+    <Compile Include="3rdParty\Veracode\detailedreport.cs" />
+    <Compile Include="3rdParty\_Installers\Cassini_Installer.cs" />
+    <Compile Include="3rdParty\_Installers\Chrome_Installer.cs" />
+    <Compile Include="3rdParty\_Installers\DebugView.cs" />
+    <Compile Include="3rdParty\_Installers\DreamPie.cs" />
+    <Compile Include="3rdParty\_Installers\Firefox_Installer.cs" />
+    <Compile Include="3rdParty\_Installers\Git_Installer.cs" />
+    <Compile Include="3rdParty\_Installers\Gource_Installer.cs" />
+    <Compile Include="3rdParty\_Installers\HacmeBank.cs" />
+    <Compile Include="3rdParty\_Installers\IIS_Express_Installer.cs" />
+    <Compile Include="3rdParty\_Installers\Installer_AppScan_SDK.cs" />
+    <Compile Include="3rdParty\_Installers\Installer_DebugAnalyzer.cs" />
+    <Compile Include="3rdParty\_Installers\Installer_Debug_Diagnostic_Tool.cs" />
+    <Compile Include="3rdParty\_Installers\Installer_dotPeek.cs" />
+    <Compile Include="3rdParty\_Installers\Installer_HawkEye.cs" />
+    <Compile Include="3rdParty\_Installers\Installer_InteropSignatureToolkit.cs" />
+    <Compile Include="3rdParty\_Installers\Installer_Mdbg_Sample_4_0.cs" />
+    <Compile Include="3rdParty\_Installers\Installer_SlimTune.cs" />
+    <Compile Include="3rdParty\_Installers\Installer_SosNet.cs" />
+    <Compile Include="3rdParty\_Installers\Install_Perl.cs" />
+    <Compile Include="3rdParty\_Installers\JavaJdk.cs" />
+    <Compile Include="3rdParty\_Installers\MS_CLR_Profiler_4.cs" />
+    <Compile Include="3rdParty\_Installers\MS_SqlServer.cs" />
+    <Compile Include="3rdParty\_Installers\MySql_Installer.cs" />
+    <Compile Include="3rdParty\_Installers\NetSparker_Community.cs" />
+    <Compile Include="3rdParty\_Installers\OpenFire.cs" />
+    <Compile Include="3rdParty\_Installers\PdfCreator.cs" />
+    <Compile Include="3rdParty\_Installers\ProcessExplorer.cs" />
+    <Compile Include="3rdParty\_Installers\ProcessMonitor.cs" />
+    <Compile Include="3rdParty\_Installers\Putty.cs" />
+    <Compile Include="3rdParty\_Installers\PyScripter.cs" />
+    <Compile Include="3rdParty\_Installers\Python_2.7.cs" />
+    <Compile Include="3rdParty\_Installers\Python_3.2.cs" />
+    <Compile Include="3rdParty\_Installers\Python_3.3.cs" />
+    <Compile Include="3rdParty\_Installers\Scratch.cs" />
+    <Compile Include="3rdParty\_Installers\Spark.cs" />
+    <Compile Include="3rdParty\_Installers\Sqlite_Installer.cs" />
+    <Compile Include="3rdParty\_Installers\SublimeText.cs" />
+    <Compile Include="3rdParty\_Installers\Sumatra_PDF.cs" />
+    <Compile Include="3rdParty\_Installers\TCPView.cs" />
+    <Compile Include="3rdParty\_Installers\ThreatModeler.cs" />
+    <Compile Include="3rdParty\_Installers\Tool_API.cs" />
+    <Compile Include="3rdParty\_Installers\TortoiseSVN.cs" />
+    <Compile Include="3rdParty\_Installers\Vim.cs" />
+    <Compile Include="3rdParty\_Installers\WinMerge.cs" />
+    <Compile Include="3rdParty\_Installers\WireShark.cs" />
+    <Compile Include="3rdParty\_Installers\yEd.cs" />
+    <Compile Include="3rdParty\_Installers\_7_Zip.cs" />
+    <Compile Include="APIs\ActiveUp_SMTP\API_ActiveUp_SendEmail.cs" />
+    <Compile Include="APIs\Amazon\API_AmazonEC2.cs" />
+    <Compile Include="APIs\Amazon\API_AmazonS3.cs" />
+    <Compile Include="APIs\Azure\Using WebREPL\API_Azure_via_WebREPL.cs" />
+    <Compile Include="APIs\Azure\Using WebREPL\WebService.cs" />
+    <Compile Include="APIs\BTOpenZone\API_BTOpenZone.cs" />
+    <Compile Include="APIs\CWE\API_CWE.cs" />
+    <Compile Include="APIs\CWE\CWE_Data.cs" />
+    <Compile Include="APIs\EtherpadLite\API_EtherpadLite.cs" />
+    <Compile Include="APIs\EtherpadLite\EtherpadLiteDotNet.cs" />
+    <Compile Include="APIs\EtherpadLite\UnitTests_EtherpadLiteDotNet.cs" />
+    <Compile Include="APIs\EventBrite\API_EventBrite.cs" />
+    <Compile Include="APIs\Findings_Filtering\Findings_DemoData.cs" />
+    <Compile Include="APIs\Findings_Filtering\Findings_ExtensionMethods.cs" />
+    <Compile Include="APIs\Findings_Filtering\Findings_ExtensionMethods_Gui_Viewers.cs" />
+    <Compile Include="APIs\Findings_Filtering\XRule_Findings_Filter.cs" />
+    <Compile Include="APIs\Findings_Filtering\xUtils_Findings_v0_1.cs" />
+    <Compile Include="APIs\Google\Blogger\API_Blogger.cs" />
+    <Compile Include="APIs\Google\GMail\API_GMail.cs" />
+    <Compile Include="APIs\HtmlAgilityPack\HtmlAgilityPack_Extra_ExtensionMethods.cs" />
+    <Compile Include="APIs\HtmlAgilityPack\HtmlAgilityPack_Extra_ExtensionMethods_SourceCodeViewer.cs" />
+    <Compile Include="APIs\IE\IE_ExecutionGui\API_IE_ExecutionGUI.cs" />
+    <Compile Include="APIs\IE\IE_ExecutionGui\IE_Google.cs" />
+    <Compile Include="APIs\IKVM\API_IKVM.cs" />
+    <Compile Include="APIs\IKVM\API_IKVMC.cs" />
+    <Compile Include="APIs\IKVM\API_IKVMC_CallMapping.cs" />
+    <Compile Include="APIs\IKVM\API_IKVMC_JavaMetadata.cs" />
+    <Compile Include="APIs\IKVM\ascx_JavaExecution.Controllers.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="APIs\IKVM\ascx_JavaExecution.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="APIs\IKVM\ascx_JavaExecution.Designer.cs">
+      <DependentUpon>ascx_JavaExecution.cs</DependentUpon>
+    </Compile>
+    <Compile Include="APIs\IKVM\IKVM_Installer.cs" />
+    <Compile Include="APIs\IKVM\JavaCompile.cs" />
+    <Compile Include="APIs\IKVM\JavaExec.cs" />
+    <Compile Include="APIs\IKVM\JavaShell.cs" />
+    <Compile Include="APIs\IronPython\IronPython_Install.cs" />
+    <Compile Include="APIs\Mailman\API_Mailman.cs" />
+    <Compile Include="APIs\Mailman\API_OWASP_Mailman.cs" />
+    <Compile Include="APIs\MediaWiki\MediaWiki_GuiControls\ascx_MediaWiki_Backup.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="APIs\MediaWiki\MediaWiki_GuiControls\ascx_MediaWiki_ConfigAndLogin.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="APIs\MediaWiki\MediaWiki_GuiControls\ascx_MediaWiki_PageEditor_Simple.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="APIs\MediaWiki\O2MediaWikiAPI.cs" />
+    <Compile Include="APIs\MediaWiki\O2PlatformWikiAPI.cs" />
+    <Compile Include="APIs\MediaWiki\OwaspWikiAPI.cs" />
+    <Compile Include="APIs\MediaWiki\WikiText.cs" />
+    <Compile Include="APIs\MerlinWizard\MerlinUtils.cs" />
+    <Compile Include="APIs\MerlinWizard\Merlin_ExtensionMethods.cs" />
+    <Compile Include="APIs\MerlinWizard\O2Wizard.cs" />
+    <Compile Include="APIs\Moq\API_Moq_HttpContext.cs" />
+    <Compile Include="APIs\NUnit\API_NUnit.cs" />
+    <Compile Include="APIs\NUnit\API_NUnit_Gui.cs" />
+    <Compile Include="APIs\NUnit\API_NUnit_using_O2Gui.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="APIs\NUnit\NUnit_Installer.cs" />
+    <Compile Include="APIs\O2_WAF_Simulator\WAF_Rule.cs" />
+    <Compile Include="APIs\O2_WAF_Simulator\WAF_Rule_NoGoogle.cs" />
+    <Compile Include="APIs\O2_WAF_Simulator\WAF_Rule_NoPorto.cs" />
+    <Compile Include="APIs\O2_Web_Proxy\API_WebProxy.cs" />
+    <Compile Include="APIs\O2_Web_Proxy\HttpData.cs" />
+    <Compile Include="APIs\O2_Web_Proxy\HTTPSDebuggingProxy\Cache_Objects.cs" />
+    <Compile Include="APIs\O2_Web_Proxy\HTTPSDebuggingProxy\ProxyCache.cs" />
+    <Compile Include="APIs\O2_Web_Proxy\HTTPSDebuggingProxy\ProxyServer.cs" />
+    <Compile Include="APIs\O2_Web_Proxy\O2_Web_Proxy.cs" />
+    <Compile Include="APIs\O2_Web_Proxy\O2_Web_Proxy_ExtensionMethods_GUI_Helpers.cs" />
+    <Compile Include="APIs\O2_Web_Proxy\O2_Web_Proxy_ExtensionMethods_Waf_Rules.cs" />
+    <Compile Include="APIs\OpenPgp\API_OpenPgp.cs" />
+    <Compile Include="APIs\OpenPgp\API_RSA.cs" />
+    <Compile Include="APIs\OpenPgp\UnitTests_API_Open_Pgp.cs" />
+    <Compile Include="APIs\OpenXml\API_OpenXml.cs" />
+    <Compile Include="APIs\Roslyn\Roslyn.cs" />
+    <Compile Include="APIs\Roslyn\_Extra_methods_Roslyn_API.cs" />
+    <Compile Include="APIs\Roslyn\_Extra_methods_Roslyn_API_GuiHelpers.cs" />
+    <Compile Include="APIs\Roslyn\_Extra_methods_Roslyn_API_Refactoring.cs" />
+    <Compile Include="APIs\StackOverflow\API_StackOverflow.cs" />
+    <Compile Include="APIs\Twitter\O2TwitterAPI.cs" />
+    <Compile Include="APIs\WatiN\ascx_IE_ScriptExecution.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="APIs\WatiN\Unit_Tests_using_IE.cs" />
+    <Compile Include="APIs\Web\API_HttpRequests.cs" />
+    <Compile Include="APIs\Windows\AForge\API_AForge_Video.cs" />
+    <Compile Include="APIs\Windows\AForge\API_AForge_Video_Image.cs" />
+    <Compile Include="APIs\Windows\AForge\API_AForge_Video_WPF_Image.cs" />
+    <Compile Include="APIs\Windows\AForge\ascx_MovieEditor.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="APIs\Windows\API_RDP.cs" />
+    <Compile Include="APIs\Windows\CLR\API_CLR.cs" />
+    <Compile Include="APIs\Windows\Cropper\API_Cropper.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="APIs\Windows\InputSimulator\API_InputSimulator.cs" />
+    <Compile Include="APIs\Windows\MessageHooks\API_InjectMenu_AnotherProcess.cs" />
+    <Compile Include="APIs\Windows\MessageHooks\GenericWindow.cs" />
+    <Compile Include="APIs\Windows\MessageHooks\WilsonGlobalSystemHooks\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="APIs\Windows\MessageHooks\WilsonGlobalSystemHooks\GlobalHooks.cs" />
+    <Compile Include="APIs\Windows\MessageHooks\WilsonGlobalSystemHooks\Win32.cs" />
+    <Compile Include="APIs\Windows\MessageHooks\WilsonGlobalSystemHooks\Window.cs" />
+    <Compile Include="APIs\Windows\White\API_GuiAutomation.cs" />
+    <Compile Include="APIs\Windows\White\UIAutomationVerify_Installer.cs" />
+    <Compile Include="APIs\Windows\Win32\API_ProcessHandles.cs" />
+    <Compile Include="APIs\Windows\Win32\API_Win32Processes_Handles.cs" />
+    <Compile Include="APIs\Windows\Win32_DLL_Imports\API_WinAPI.cs" />
+    <Compile Include="APIs\Windows\Win32_DLL_Imports\API_WinAPI_ExtensionMethods.cs" />
+    <Compile Include="APIs\Windows\Win32_DLL_Imports\Dll_Gdi32.cs" />
+    <Compile Include="APIs\Windows\Win32_DLL_Imports\Dll_Kernel32.cs" />
+    <Compile Include="APIs\Windows\Win32_DLL_Imports\Dll_User32.cs" />
+    <Compile Include="APIs\Windows\Win32_DLL_Imports\Win32_Classes.cs" />
+    <Compile Include="APIs\Windows\Win32_DLL_Imports\Win32_Consts.cs" />
+    <Compile Include="APIs\Windows\Win32_DLL_Imports\Win32_Helper_Methods.cs" />
+    <Compile Include="APIs\Windows\Win32_DLL_Imports\Win32_Structs.cs" />
+    <Compile Include="APIs\Windows\Windows_Messages\API_Win32_Handle_Hijack.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="APIs\Windows\WMI\API_WMI.cs" />
+    <Compile Include="APIs\WolframAlpha\Main.cs" />
+    <Compile Include="APIs\WolframAlpha\WolframAlphaEngine.cs" />
+    <Compile Include="APIs\WordPress\API_WordPress.cs" />
+    <Compile Include="APIs\WordPress\API_WordPress_IE.cs" />
+    <Compile Include="APIs\WordPress\Unit_Tests_API_WordPress_IE.cs" />
+    <Compile Include="APIs\WPF\API_AvalonDock.cs" />
+    <Compile Include="APIs\WPF\API_WPF_ToolKit.cs" />
+    <Compile Include="APIs\WPF\DiagramDesigner\DiagramDesigner_ExtensionMethods.cs" />
+    <Compile Include="APIs\WPF\DiagramDesigner\DiagramDesigner_NewAppDomain.cs" />
+    <Compile Include="APIs\WPF\ElementHost_ExtensionMethods.cs" />
+    <Compile Include="APIs\WPF\Graph\GraphFactory.cs" />
+    <Compile Include="APIs\WPF\Graph\GraphLayout_O2CodeStream_ExtensionMethods.cs" />
+    <Compile Include="APIs\WPF\Graph\GraphLayout_WPF_ExtensionMethods.cs" />
+    <Compile Include="APIs\WPF\Graph\GraphSharp_ExtensionMethods.cs" />
+    <Compile Include="APIs\WPF\Graph\To Import - from O2_API_AST\CodeStreamGraphNode.cs" />
+    <Compile Include="APIs\WPF\Graph\To Import - from O2_API_AST\CodeStreamGraphNode_ExtensionMethods.cs" />
+    <Compile Include="APIs\WPF\Graph\VerticesAndEdges_ExtensionMethods.cs" />
+    <Compile Include="APIs\WPF\Graph\WpfTextEditor.cs" />
+    <Compile Include="APIs\WPF\MiniFramework\API_MiniFramework.cs" />
+    <Compile Include="APIs\WPF\WPF_GUI.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="APIs\WPF\WPF_Ribbon\CustomO2.cs" />
+    <Compile Include="APIs\WPF\WPF_Ribbon\WPF_Ribbon.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="APIs\WPF\WPF_Ribbon\WPF_Ribbon_ExtensionMethods.cs" />
+    <Compile Include="APIs\WPF\Wpf_TextEditor_ExtensionMethods.cs" />
+    <Compile Include="APIs\WPF\Xaml\XamlCode.cs" />
+    <Compile Include="APIs\WPF\Xaml\Xaml_ExtensionMethods.cs" />
+    <Compile Include="APIs\_Javascript_Libraries\JInt\ascx_Javascript_AST.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="APIs\_Javascript_Libraries\JInt\Jint_ExtensionMethods.cs" />
+    <Compile Include="APIs\_Javascript_Libraries\JInt\JInt_Installer.cs" />
+    <Compile Include="APIs\_Javascript_Libraries\JInt\Jint_Objects.cs" />
+    <Compile Include="APIs\_Javascript_Libraries\JInt\Jint_Visitors.cs" />
+    <Compile Include="APIs\_Javascript_Libraries\JQuery\IE_JQuery.cs" />
+    <Compile Include="APIs\_MiscAPIs\API_SharpCompress.cs" />
+    <Compile Include="APIs\_MiscAPIs\API_WinProxy.cs" />
+    <Compile Include="Languages\AspNet\ascx_Edit_AspNet_Pages.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Languages\AspNet\aspCompile.cs" />
+    <Compile Include="Languages\AspNet\AspNet_Page.cs" />
+    <Compile Include="Languages\AspNet\ControlEncodings\AspNetControlEncodings.cs" />
+    <Compile Include="Languages\AspNet\WSDL\API_ASMX_Proxy.cs" />
+    <Compile Include="Languages\DotNet\Ast_Scanner\Ast_Engine\Ast_Engine_Cache.cs" />
+    <Compile Include="Languages\DotNet\Ast_Scanner\Ast_Engine\Ast_Engine_ExtensionMethods.cs" />
+    <Compile Include="Languages\DotNet\Ast_Scanner\Ast_Engine\MethodMappings_Engine.cs" />
+    <Compile Include="Languages\DotNet\Ast_Scanner\Ast_Engine\MethodMappings_ExtensionMethods.cs" />
+    <Compile Include="Languages\DotNet\Ast_Scanner\Ast_Engine\O2CodeStreamTaintRules_ExtensionMethods.cs" />
+    <Compile Include="Languages\DotNet\Ast_Scanner\Ast_Engine\O2CodeStream_ExtensionMethods.cs" />
+    <Compile Include="Languages\DotNet\Ast_Scanner\Ast_Engine\O2MappedAstData_ExtensionMethods.cs" />
+    <Compile Include="Languages\DotNet\Ast_Scanner\Ast_Engine\O2MethodStream_ExtensionMethods.cs" />
+    <Compile Include="Languages\DotNet\Ast_Scanner\Ast_Engine\Saved_MethodStream.cs" />
+    <Compile Include="Languages\DotNet\Ast_Scanner\Ast_Engine\SharpDevelop_O2MappedAstData_ExtensionMethods.cs" />
+    <Compile Include="Languages\DotNet\Ast_Scanner\Ast_Engine\TextEditor_O2CodeStream_ExtensionMethods.cs" />
+    <Compile Include="Languages\DotNet\Ast_Scanner\Controls\ascx_CodeStreams.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Languages\DotNet\Ast_Scanner\Controls\ascx_GraphAst_MethodCalls.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Languages\DotNet\Ast_Scanner\Controls\ascx_Interactive_MethodCalls.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Languages\DotNet\Ast_Scanner\Controls\ascx_ManualMethodStreams.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Languages\DotNet\Ast_Scanner\Controls\ascx_SearchAST.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Languages\DotNet\Ast_Scanner\Controls\ascx_ViewAST.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Languages\DotNet\Ast_Scanner\Controls\ascx_View_SourceCode_AST.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Languages\DotNet\Ast_Scanner\Controls\ascx_WriteRule.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Languages\DotNet\Ast_Scanner\O2_DotNet_Ast_Engine.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Languages\DotNet\Ast_Scanner\SecurityRules_AST_DotNet\IAST_Rules.cs" />
+    <Compile Include="Languages\DotNet\Ast_Scanner\SecurityRules_AST_DotNet\Rule_DotNet_FindSinks.cs" />
+    <Compile Include="Languages\DotNet\Ast_Scanner\SecurityRules_AST_DotNet\Rule_DotNet_FindSources.cs" />
+    <Compile Include="Languages\DotNet\Ast_Scanner\SecurityRules_AST_DotNet\Rule_DotNet_ScanFiles.cs" />
+    <Compile Include="Languages\DotNet\DotNet_AspNet_Compiler.cs" />
+    <Compile Include="Languages\DotNet\DotNet_SDK_GacUtil.cs" />
+    <Compile Include="Languages\DotNet\DotNet_SDK_WCF.cs" />
+    <Compile Include="Languages\DotNet\DotNet_SDK_WSDL.cs" />
+    <Compile Include="Languages\DotNet\DotNet_ViewState.cs" />
+    <Compile Include="Languages\DotNet\Mono_and_Reflection\ascx_AssemblyAttributes.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Languages\DotNet\Mono_and_Reflection\ascx_MonoDecompiler.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Languages\DotNet\MS_VS_WebServer.cs" />
+    <Compile Include="Languages\IO\IOLanguage_CLR_Installer.cs" />
+    <Compile Include="Languages\IO\IOLanguage_Installer.cs" />
+    <Compile Include="Languages\J2EE\from_O2_Core_FileViewers\Ascx\ascx_J2EE_web_xml.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Languages\J2EE\from_O2_Core_FileViewers\Ascx\ascx_J2EE_web_xml.Designer.cs">
+      <DependentUpon>ascx_J2EE_web_xml.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Languages\J2EE\from_O2_Core_FileViewers\Ascx\ascx_ShowStrutsConfigFiles.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Languages\J2EE\from_O2_Core_FileViewers\Ascx\ascx_ShowStrutsConfigFiles.Designer.cs">
+      <DependentUpon>ascx_ShowStrutsConfigFiles.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Languages\J2EE\from_O2_Core_FileViewers\Ascx\ascx_StrutsMappings.Controllers.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Languages\J2EE\from_O2_Core_FileViewers\Ascx\ascx_StrutsMappings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Languages\J2EE\from_O2_Core_FileViewers\Ascx\ascx_StrutsMappings.Designer.cs">
+      <DependentUpon>ascx_StrutsMappings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Languages\J2EE\from_O2_Core_FileViewers\Ascx\ascx_Struts_config_xml.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Languages\J2EE\from_O2_Core_FileViewers\Ascx\ascx_Struts_config_xml.Designer.cs">
+      <DependentUpon>ascx_Struts_config_xml.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Languages\J2EE\from_O2_Core_FileViewers\Ascx\ascx_TilesDefinition_xml.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Languages\J2EE\from_O2_Core_FileViewers\Ascx\ascx_TilesDefinition_xml.Designer.cs">
+      <DependentUpon>ascx_TilesDefinition_xml.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Languages\J2EE\from_O2_Core_FileViewers\Ascx\ascx_Validation_xml.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Languages\J2EE\from_O2_Core_FileViewers\Ascx\ascx_Validation_xml.Designer.cs">
+      <DependentUpon>ascx_Validation_xml.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Languages\J2EE\from_O2_Core_FileViewers\Ascx\tests\ascx_Struts_ManualMapping.Controllers.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Languages\J2EE\from_O2_Core_FileViewers\Ascx\tests\ascx_Struts_ManualMapping.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Languages\J2EE\from_O2_Core_FileViewers\Ascx\tests\ascx_Struts_ManualMapping.Designer.cs">
+      <DependentUpon>ascx_Struts_ManualMapping.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Languages\J2EE\from_O2_Core_FileViewers\Ascx\XRule\ascx_FilteredFindings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Languages\J2EE\from_O2_Core_FileViewers\Ascx\XRule\ascx_FilteredFindings.Designer.cs">
+      <DependentUpon>ascx_FilteredFindings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Languages\J2EE\from_O2_Core_FileViewers\Ascx\XRule\ascx_O2Rules_Struts.Controllers.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Languages\J2EE\from_O2_Core_FileViewers\Ascx\XRule\ascx_O2Rules_Struts.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Languages\J2EE\from_O2_Core_FileViewers\Ascx\XRule\ascx_O2Rules_Struts.Designer.cs">
+      <DependentUpon>ascx_O2Rules_Struts.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Languages\J2EE\from_O2_Core_FileViewers\J2EE\J2eeConfigFiles.cs" />
+    <Compile Include="Languages\J2EE\from_O2_Core_FileViewers\J2EE\KTilesDefinition.cs" />
+    <Compile Include="Languages\J2EE\from_O2_Core_FileViewers\J2EE\KValidationXml.cs" />
+    <Compile Include="Languages\J2EE\from_O2_Core_FileViewers\J2EE\KWebXml.cs" />
+    <Compile Include="Languages\J2EE\from_O2_Core_FileViewers\JoinTraces\JoinOnAttributes.cs" />
+    <Compile Include="Languages\J2EE\from_O2_Core_FileViewers\JoinTraces\O2FindingsHelpers.cs" />
+    <Compile Include="Languages\J2EE\from_O2_Core_FileViewers\JoinTraces\StrutsMappingHelpers.cs" />
+    <Compile Include="Languages\J2EE\from_O2_Core_FileViewers\Struts_1_5\KStrutsConfigXml.cs" />
+    <Compile Include="Languages\J2EE\from_O2_Core_FileViewers\Struts_1_5\MapStrutsForms.cs" />
+    <Compile Include="Languages\J2EE\from_O2_Core_FileViewers\Struts_1_5\StrutsMappingsHelpers.cs" />
+    <Compile Include="Languages\J2EE\from_O2_Core_FileViewers\Struts_1_5\StrutsMappingsViewHelpers.cs" />
+    <Compile Include="Languages\J2EE\from_O2_Core_FileViewers\ViewHelpers\CreateDataTable.cs" />
+    <Compile Include="Languages\J2EE\from_O2_Core_FileViewers\XSD\struts-config.cs">
+      <DependentUpon>struts-config.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Languages\J2EE\from_O2_Core_FileViewers\XSD\tiles-definition.cs">
+      <DependentUpon>tiles-definition.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Languages\J2EE\from_O2_Core_FileViewers\XSD\validation.cs">
+      <DependentUpon>validation.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Languages\J2EE\from_O2_Core_FileViewers\XSD\web-app_2_4.cs">
+      <DependentUpon>web-app_2_4.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Languages\J2EE\SpringMVC\O2CmdSpringMVC_Installer.cs" />
+    <Compile Include="Languages\J2EE\SpringMVC\spring-servlet.xsd.cs">
+      <DependentUpon>spring-servlet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Languages\J2EE\SpringMVC\SpringMvcMappings.cs" />
+    <Compile Include="Languages\J2EE\Struts\XRule_Struts.cs" />
+    <Compile Include="Languages\J2EE\Struts\XUtils_Struts_Joins_V0_1.cs" />
+    <Compile Include="Languages\J2EE\Struts\xUtils_Struts_v0_1.cs" />
+    <Compile Include="Languages\Javascript\DWR\API_DWR.cs" />
+    <Compile Include="Utils\ExtensionMethods\_Extra_methods_Browser.cs" />
+    <Compile Include="Utils\ExtensionMethods\_Extra_methods_NGitI.cs" />
+    <Compile Include="Utils\ExtensionMethods\_Extra_methods_To_Add_to_Main_CodeBase.cs" />
+    <Compile Include="Utils\ExtensionMethods\_Extra_methods_TypeConfusion.cs" />
+    <Compile Include="Utils\ExtensionMethods\_Extra_methods_WinForms_Component.cs" />
+    <Compile Include="Utils\ExtensionMethods\_Extra_methods_Xml_XSD.cs" />
+    <Compile Include="Utils\O2\UnitTests\UnitTest_Gui_Tests.cs" />
+    <Compile Include="Utils\O2_StandAlone_Modules\HostLocalWebsite\ascx_HostLocalWebsite.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Utils\O2_StandAlone_Modules\HostLocalWebsite\ascx_HostLocalWebsite.Designer.cs">
+      <DependentUpon>ascx_HostLocalWebsite.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\O2_StandAlone_Modules\HostLocalWebsite\main.cs" />
+    <Compile Include="Utils\O2_StandAlone_Modules\HostLocalWebsite\webservices.cs" />
+    <Compile Include="Utils\O2_StandAlone_Modules\SearchEngine\ascx_SearchResults.Controllers.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Utils\O2_StandAlone_Modules\SearchEngine\ascx_SearchResults.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Utils\O2_StandAlone_Modules\SearchEngine\ascx_SearchResults.Designer.cs">
+      <DependentUpon>ascx_SearchResults.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\O2_StandAlone_Modules\SearchEngine\ascx_SearchTargets.Controllers.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Utils\O2_StandAlone_Modules\SearchEngine\ascx_SearchTargets.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Utils\O2_StandAlone_Modules\SearchEngine\ascx_SearchTargets.Designer.cs">
+      <DependentUpon>ascx_SearchTargets.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\O2_StandAlone_Modules\SearchEngine\ascx_TextSearch.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Utils\O2_StandAlone_Modules\SearchEngine\ascx_TextSearch.Designer.cs">
+      <DependentUpon>ascx_TextSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\O2_StandAlone_Modules\SearchEngine\SearchEngineGui.cs" />
+    <Compile Include="Utils\Web\ascx_HtmlTagViewer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Utils\Web\SimpleCSharpREPL.cs" />
+    <Compile Include="Utils\Web\SimpleTextEditor.cs" />
+    <Compile Include="Utils\Windows\API_SecureCredentials.cs" />
+    <Compile Include="Utils\_O2_Development\O2Dev_UnitTests\UnitTest_BrowserAutomation_and_IE_Demos.cs" />
+    <Compile Include="Utils\_O2_Development\O2Dev_UnitTests\UnitTest_SimpleTextEditor.cs" />
+    <Compile Include="Utils\_Sample Files\DefaultUnitTest.cs" />
+    <Compile Include="Utils\_Sample Files\Example of Ascx Control Injection.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Utils\_Sample Files\Hello_O2_World.cs" />
+    <Compile Include="Utils\_Sample Files\SampleUnitTests.cs" />
+    <Compile Include="Utils\_Sample Files\Support files For Unit Tests\1_helloWorld.cs" />
+    <Compile Include="Utils\_Sample Files\Support files For Unit Tests\2_For_UnitTest_HotMethodPatch.cs" />
+    <Compile Include="Utils\_Sample Files\Support files For Unit Tests\4_For_UnitTest_SimpleCalls.cs" />
+    <Compile Include="Utils\_Sample Files\Support files For Unit Tests\_Sample_UnitTests.cs" />
+    <Compile Include="_Custom_O2s\v2.0\Util - Clone_or_Open and compile O2 Repositories.cs" />
+    <Compile Include="_Custom_O2s\_Templates\Empty_Class.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="_Custom_O2s\_Templates\Empty_XRule.cs" />
+    <Compile Include="_DataFiles\SampleFiles\Request.Write.cs" />
+    <Compile Include="_DataFiles\_UnitTests\CheckBehaviourOfSecurityActionDemands.cs" />
+    <Compile Include="_Sample_Vulns\HacmeBank\API_HacmeBank.cs" />
+    <Compile Include="_Sample_Vulns\JPetClinic\Spring_PetClinic_BlackBox_Exploits.cs" />
+    <Compile Include="_Sample_Vulns\jPetStore\API_JPetStore.cs" />
+    <Compile Include="_Sample_Vulns\NerdDinner\NerdDinner_Installer.cs" />
+    <Compile Include="_Sample_Vulns\SAST_DotNET\SAST_DotNet_BlindSpot_Interface.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="_Sample_Vulns\SAST_DotNET\SAST_DotNet_Template.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="_Sample_Vulns\SuperSecureBank\API_SuperSecureBank.cs" />
+    <Compile Include="_Sample_Vulns\WebGoat\API_WebGoat.cs" />
+    <Compile Include="_Sample_Vulns\_MockClasses\Aspx_Vuln_Page.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="_Sample_Vulns\_MockClasses\HttpContext.cs" />
+    <Compile Include="_Sample_Vulns\_MockClasses\HttpRequest.cs" />
+    <Compile Include="_Sample_Vulns\_MockClasses\SqlCommand.cs" />
+    <Compile Include="_Sample_Vulns\_MockClasses\Taint_Tests.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="_Templates\Empty_Class.cs" />
+    <Compile Include="_Templates\Empty_XRule.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="3rdParty\IBM\AppScan Source 7.0\Ozasmt_OunceV6\xsd_Ozasmt_OunceV6.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="3rdParty\IBM\AppScan Source 7.0\Ozasmt_OunceV6_1\xsd_Ozasmt_OunceV6_1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="3rdParty\IBM\AppScan Wafl\wafl.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="3rdParty\Microsoft\CatNet\O2_Scanner_MsCatNet\MSCatNet.Report.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <Compile Include="3rdParty\Veracode\API_Veracode_DetailedXmlFindings.cs" />
+    <Compile Include="APIs\MediaWiki\MediaWikiEditor.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="APIs\MerlinWizard\Wizard - BackupFolder.cs" />
+    <Compile Include="APIs\MerlinWizard\Wizard - Enable or Disable Network Interfaces.cs" />
+    <Compile Include="APIs\MerlinWizard\Wizard - SearchEngine UseCase 1.cs" />
+    <Compile Include="APIs\MerlinWizard\Wizard - XRule Exec Simple.cs" />
+    <None Include="APIs\Windows\Win32\Tool - View Open Handles for all Processes.h2" />
+    <Compile Include="Languages\AspNet\ascx_WSDL_Creation_and_Execution.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="APIs\WPF\Graph\ascx_GraphWithInspector.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <None Include="Languages\J2EE\from_O2_Core_FileViewers\XSD\struts-config.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Languages\J2EE\from_O2_Core_FileViewers\XSD\tiles-definition.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Languages\J2EE\from_O2_Core_FileViewers\XSD\validation.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Languages\J2EE\from_O2_Core_FileViewers\XSD\web-app_2_4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Languages\J2EE\SpringMVC\spring-servlet.xsd" />
+    <Compile Include="Utils\_Sample Files\SampleScripts.cs" />
+    <Compile Include="Utils\Web\ascx_Html_Editor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Utils\Web\ascx_Translate_Text.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Utils\Web\ascx_View_WebPage_Details.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Utils\Windows\ascx_Processes_Stop.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Utils\Windows\ascx_Running_Processes_Details.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Utils\Windows\ascx_Services_Stop.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Utils\Windows\ascx_Start_Tools.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Utils\O2\ascx_O2_Command_Prompt.cs" />
+    <Compile Include="_Sample_Vulns\HacmeBank\HacmeBank_BlackBox_Exploits.cs" />
+    <Compile Include="_Sample_Vulns\WebGoat\WebGoat_BlackBox_Exploits.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="3rdParty\MonoCecil\Ascx\ascx_O2Reflector.resx">
+      <DependentUpon>ascx_O2Reflector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="APIs\IKVM\ascx_JavaExecution.resx">
+      <DependentUpon>ascx_JavaExecution.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Languages\J2EE\from_O2_Core_FileViewers\Ascx\tests\ascx_Struts_ManualMapping.resx">
+      <DependentUpon>ascx_Struts_ManualMapping.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="3rdParty\MonoCecil\MonoCecil\CecilViewUtils_WindowsForms.cs.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

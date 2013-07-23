@@ -2,10 +2,11 @@
 /3rdParty_Tools/TeamMentor/TM_Data
 obj
 bin
-*.csproj
+
 *.user
-_VisualStudio_Projects
 
 *.suo
 
 *.ncrunchsolution
+
+#*.csproj
