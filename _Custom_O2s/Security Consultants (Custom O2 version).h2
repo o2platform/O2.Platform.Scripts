@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var title = "Security Consultants"; 
+var title = "Security Consultants"; 
 var currentScript = PublicDI.CurrentScript; 
  
 var ribbon = CustomO2.create(title, 1000, 400); 		// stand alone version
@@ -85,7 +83,7 @@ apiScriptDevelopment.add_RibbonGroup("Development GUIs")
 					.add_RibbonButton_H2Script("Dev Gui and 2 Scripts Editors","Util - Development Gui and Two Script Editors.h2")
 
 					.add_RibbonButton_H2Script("Source Code Editor","Util - SourceCodeEditor.h2")
-					.add_RibbonButton("O2 Object Model", () =&gt; open.o2ObjectModel());
+					.add_RibbonButton("O2 Object Model", () => open.o2ObjectModel());
 					
 apiScriptDevelopment.add_RibbonGroup("Unit Tests")	
 					.add_RibbonButton_H2Script("Execute Unit Tests","Execute Unit Tests.h2")			
@@ -100,11 +98,11 @@ apiScriptDevelopment.add_RibbonGroup("Development Utils")
 
 apiScriptDevelopment.add_RibbonGroup("Custom O2")			
 					.add_RibbonButton("Edit this Custom O2 Script", 
-						() =&gt; O2Gui.open&lt;Panel&gt;("Custom O2",800,400)
+						() => O2Gui.open<Panel>("Custom O2",800,400)
 								   .add_SourceCodeEditor()
 								   .open(currentScript))
 				    /*.add_RibbonButton("Relaunch GUI", 
-				    	()=&gt;{	
+				    	()=>{	
 								topPanel.parentForm().close();
 								currentScript.executeH2Script();
 							})*/
@@ -112,9 +110,9 @@ apiScriptDevelopment.add_RibbonGroup("Custom O2")
 					.add_Script("SecretData Editor", "SecretDataEditor.cs.o2")
 					.add_RibbonButton_H2Script("Check for ClickOnce Updates","AutoUpdate - Using Reflection.h2")	  					
 					.add_RibbonButton_H2Script("Compile ALL Scripts","Compile All Local O2 Scripts.h2")
-					.add_RibbonButton("Exit O2 (and close all windows)", () =&gt; PublicDI.config.closeO2Process())
+					.add_RibbonButton("Exit O2 (and close all windows)", () => PublicDI.config.closeO2Process())
 					.add_Button("Lanch O2 instance as Admin (without UAC)",
-						()=&gt;{				
+						()=>{				
 								var process = new System.Diagnostics.Process();
 								process.StartInfo.FileName = PublicDI.config.CurrentExecutableDirectory.pathCombine("O2_XRules_Database.exe");
 								process.StartInfo.Verb = "runas";
@@ -150,6 +148,8 @@ localFolders.add_RibbonGroup("O2 Source Code (Solutions)")
 
 return ribbon;	     
 
+//using O2.XRules.Database.Utils
+
 //using Microsoft.Windows.Controls.Ribbon; 
 //using WPF= System.Windows.Controls
 //using DiagramDesigner
@@ -168,6 +168,3 @@ return ribbon;
 
 
 //O2Tag_DontAddExtraO2Files
-</SourceCode>
-  <ReferencedAssemblies />
-</H2>

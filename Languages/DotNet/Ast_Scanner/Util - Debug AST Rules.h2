@@ -1,8 +1,6 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//panel.clear();
+//panel.clear();
 //var topPanel = panel.add_Panel();
-var topPanel = O2Gui.open&lt;Panel&gt;("Util - Debug AST Rules",1000,600);
+var topPanel = O2Gui.open<Panel>("Util - Debug AST Rules",1000,600);
 var mainGui = topPanel.add_1x1("", "");
 var leftPanel = mainGui[0].parent().clear().add_1x1("Source MethodStreams","Script",false);
 var rightPanel = mainGui[1].parent().clear().add_1x1("Code Streams","Findings",false);
@@ -10,23 +8,23 @@ var rightPanel = mainGui[1].parent().clear().add_1x1("Code Streams","Findings",f
 var methodStreamsTreeView = leftPanel[0].add_TreeView();
 var scriptEditor = leftPanel[1].add_Script(false);
 
-var sourceCodeViewer = rightPanel[0].add_Control&lt;ascx_SourceCodeViewer&gt;(); 
-var codeStreamTreeView = sourceCodeViewer.insert_Left&lt;TreeView&gt;().showSelection();
+var sourceCodeViewer = rightPanel[0].add_Control<ascx_SourceCodeViewer>(); 
+var codeStreamTreeView = sourceCodeViewer.insert_Left<TreeView>().showSelection();
 OunceAvailableEngines.addAvailableEnginesToControl(typeof(ascx_FindingsViewer));
-var findingsViewer = rightPanel[1].add_Control&lt;ascx_FindingsViewer&gt;();  
+var findingsViewer = rightPanel[1].add_Control<ascx_FindingsViewer>();  
 
 
-//findingsViewer.invokeOnThread(()=&gt;findingsViewer._ShowNoEnginesLoadedAlert = false);
+//findingsViewer.invokeOnThread(()=>findingsViewer._ShowNoEnginesLoadedAlert = false);
 
-topPanel.insert_Below&lt;Panel&gt;(100).add_LogViewer();
-codeStreamTreeView.afterSelect&lt;O2CodeStreamNode&gt;
-			 	((streamNode)=&gt; sourceCodeViewer.editor().setSelectionText(streamNode.INode.StartLocation, streamNode.INode.EndLocation));				
+topPanel.insert_Below<Panel>(100).add_LogViewer();
+codeStreamTreeView.afterSelect<O2CodeStreamNode>
+			 	((streamNode)=> sourceCodeViewer.editor().setSelectionText(streamNode.INode.StartLocation, streamNode.INode.EndLocation));				
 
-methodStreamsTreeView.afterSelect&lt;string&gt;((file)=&gt; sourceCodeViewer.open(file));
+methodStreamsTreeView.afterSelect<string>((file)=> sourceCodeViewer.open(file));
 
-var loadedMethodStreams = new List&lt;string&gt;();
-Action&lt;string&gt; loadMethodStreams = 
-	(fileOrFolder)=&gt;{
+var loadedMethodStreams = new List<string>();
+Action<string> loadMethodStreams = 
+	(fileOrFolder)=>{
 						if (fileOrFolder.dirExists())
 						{
 							loadedMethodStreams.Clear();
@@ -43,7 +41,7 @@ Action&lt;string&gt; loadMethodStreams =
 methodStreamsTreeView.onDrop(loadMethodStreams)
 					 .add_ContextMenu()
 					 .add_MenuItem("Clear list",
-					 	()=&gt;{
+					 	()=>{
 					 			methodStreamsTreeView.clear();
 					 			loadedMethodStreams.Clear(); 
 					 		});
@@ -76,16 +74,10 @@ scriptEditor.Code =
 
 scriptEditor.onCompileExecuteOnce();	 	
 
-
-//using O2.External.SharpDevelop.ExtensionMethods;
-//using O2.DotNetWrappers.ExtensionMethods
-//using O2.API.AST.CSharp
+//using FluentSharp.CSharpAST.Utils
 //using O2.XRules.Database.Languages_and_Frameworks.DotNet
 //using O2.ImportExport.OunceLabs
-//using O2.Views.ASCX.O2Findings
 //O2File:ascx_WriteRule.cs
 //O2File:ascx_ManualMethodStreams.cs
 //O2File:OunceAvailableEngines.cs
-//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll

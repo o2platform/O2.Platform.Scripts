@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var topPanel = "Graph".popupWindow();
+var topPanel = "Graph".popupWindow();
 var graph = topPanel.add_Graph().testGraph();
 var script = topPanel.insert_Script();
 script.InvocationParameters.Add("graph", graph);
@@ -19,6 +17,8 @@ script.Code =
 //O2File:GraphSharp_ExtensionMethods.cs
 ";
  
+//using O2.XRules.Database.Utils
+
 //O2File:GraphSharp_ExtensionMethods.cs
 //O2Ref:FluentSharp.WPF.dll
 //O2Ref:GraphSharp.Controls.dll
@@ -29,5 +29,4 @@ script.Code =
 //O2Ref:PresentationFramework.dll
 //O2Ref:WindowsBase.dll
 //O2Ref:System.Xaml.dll
-//O2Ref:WindowsFormsIntegration.dll</SourceCode>
-</H2>
+//O2Ref:WindowsFormsIntegration.dll

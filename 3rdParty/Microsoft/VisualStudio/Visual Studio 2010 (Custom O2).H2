@@ -111,6 +111,9 @@ ribbon.add_Tab_MiscTools();
 
 return "ok";
 
+//using O2.XRules.Database.APIs
+//using O2.XRules.Database.Utils
+
 //O2File:CustomO2.cs  
 //O2File:API_GUI_Automation_VisualStudio_2010.cs
 
@@ -122,4 +125,3 @@ return "ok";
 //O2Ref:RibbonControlsLibrary.dll 
 //O2Ref:White.Core.dll
 //O2File:API_GuiAutomation.cs
-

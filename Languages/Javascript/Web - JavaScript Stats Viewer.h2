@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode> var topPanel = O2Gui.open&lt;Panel&gt;("JavaScript Stats viewer",1002,502);
+ var topPanel = O2Gui.open<Panel>("JavaScript Stats viewer",1002,502);
 
 var openUsingWebBrowser = false;
 
@@ -8,19 +6,19 @@ var statusStrip = topPanel.parentForm().add_StatusStrip(false);
  
 var mainGui = topPanel.add_1x1("Target Websites", "Stats", true, topPanel.width() / 3);
 var targets = mainGui[0].add_TreeView().showSelection();
-targets.insert_Above&lt;TextBox&gt;(20)
-	   .onEnter((text)=&gt;{  
+targets.insert_Above<TextBox>(20)
+	   .onEnter((text)=>{  
 	   						var newNode = targets.add_Node(text);
 	   						targets.selectNode(newNode);
 	   					}); 
 	   					
-var siteDownloadTabControl = targets.insert_Below&lt;Panel&gt;(200).add_TabControl(); 
+var siteDownloadTabControl = targets.insert_Below<Panel>(200).add_TabControl(); 
 
-var actionsPanel = siteDownloadTabControl.insert_Above&lt;Panel&gt;(50);  
+var actionsPanel = siteDownloadTabControl.insert_Above<Panel>(50);  
 
 var showStatsButton = actionsPanel.add_Button("download pages and show stats");
 var openPageModeCheckBox = actionsPanel.add_CheckBox("Open Page using WebBrowser (vs making HTTP request)", 30, 0, 
-											(value)=&gt;{
+											(value)=>{
 														openUsingWebBrowser = value;
 														targets.selectedNode(null); 
 													 })
@@ -29,8 +27,8 @@ var openPageModeCheckBox = actionsPanel.add_CheckBox("Open Page using WebBrowser
 
 
 showStatsButton.append_Link("popular websites", 
-	()=&gt;{
-			List&lt;String&gt; top50List;
+	()=>{
+			List<String> top50List;
 			"dowloading list from http://mostpopularwebsites.net".info();
 			// This gets a list of the 50 most populate websites (according to mostpopularwebsites.net)
 			var uri = "http://mostpopularwebsites.net".uri();
@@ -38,11 +36,11 @@ showStatsButton.append_Link("popular websites",
 			var htmlDocument = html.htmlDocument();  
 			var rawlinks =  htmlDocument.select("//table")[4]
 										.SelectNodes(".//a")
-										.toList&lt;HtmlAgilityPack.HtmlNode&gt;()
+										.toList<HtmlAgilityPack.HtmlNode>()
 										.values();
 			// getting normalized list (without porn references, and other international websites)
 			top50List = (from link in rawlinks
-						 where link.starts("www") &amp;&amp; link.contains("porn",".cn", "163",".jp").isFalse() &amp;&amp; link.contains(".com").isTrue()
+						 where link.starts("www") && link.contains("porn",".cn", "163",".jp").isFalse() && link.contains(".com").isTrue()
 					 	 select link).toList();
 			top50List.size().info();						 	 
 			
@@ -56,27 +54,27 @@ tableList.add_Jint_Stats_Columns();
 //ContextMenu
 
 targets.add_ContextMenu()
-	   .add_MenuItem("Clear Target list", true,()=&gt; targets.clear())
-	   .add_MenuItem("Clear Browser tabs", true,()=&gt; siteDownloadTabControl.clear())
+	   .add_MenuItem("Clear Target list", true,()=> targets.clear())
+	   .add_MenuItem("Clear Browser tabs", true,()=> siteDownloadTabControl.clear())
 	   .add_MenuItem("Clear Stats", 
-	   		()=&gt;{
+	   		()=>{
 	   				tableList.clearTable();
 	   				tableList.add_Jint_Stats_Columns();	   				
 	   			});
 	   
 //action
 showStatsButton.onClick(
-	()=&gt;{			
+	()=>{			
 			foreach(var node in targets.nodes())
 				targets.selectNode(node);						
 		});	
 		
 targets.afterSelect(
-	(treeNode)=&gt;{					
+	(treeNode)=>{					
 				try
 				{
 					O2Thread.mtaThread( 
-						()=&gt;{ 
+						()=>{ 
 								lock(targets)
 								{
 									var index = treeNode.index() +1 ; 
@@ -84,7 +82,7 @@ targets.afterSelect(
 									statusStrip.set_Text("Starting analysis of: {0}".info(url));
 									var uri = url.uri();																	
 									string html = "";
-									List&lt;KeyValuePair&lt;string,string&gt;&gt; javascripts;
+									List<KeyValuePair<string,string>> javascripts;
 									HtmlAgilityPack.HtmlDocument htmlDocument;
 									if (openUsingWebBrowser)
 									{										
@@ -94,12 +92,12 @@ targets.afterSelect(
 										siteDownloadTabControl.select_Tab(newTab);
 																				 											
 										browser.onDocumentCompleted +=  
-											(htmlPage) =&gt; {
+											(htmlPage) => {
 															"Page load complete:{0}".info(htmlPage.PageUri);
 															html = htmlPage.PageSource;										 	 				
 															htmlDocument = html.htmlDocument();  
 															javascripts	= htmlPage.javaScripts(); 
-															var fetchedUrl = "{0} -&gt; {1}".format(url, htmlPage.PageUri.str());
+															var fetchedUrl = "{0} -> {1}".format(url, htmlPage.PageUri.str());
 															tableList.add_Jint_Stats_Row(index, fetchedUrl, html, htmlDocument, javascripts);																	 
 															statusStrip.set_Text("Completed analysis of: {0}".info(fetchedUrl));
 															};										
@@ -137,7 +135,7 @@ targets.selectFirst();
 
 
 
-
+//using FluentSharp.For_HtmlAgilityPack
 //using O2.XRules.Database.Languages_and_Frameworks.Javascript
 //using O2.External.IE.ExtensionMethods
 //using O2.External.IE.Wrapper
@@ -152,6 +150,3 @@ targets.selectFirst();
 //O2Ref:System.Data.dll
 //O2Ref:Jint/Jint.dll
 
-</SourceCode>
-  <ReferencedAssemblies />
-</H2>

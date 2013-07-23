@@ -1,9 +1,7 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var topPanel = "Util - View O2.Platform.Scripts file length".popupWindow(1000,500).insert_LogViewer();
+var topPanel = "Util - View O2.Platform.Scripts file length".popupWindow(1000,500).insert_LogViewer();
 //var topPanel = panel.add_Panel(true);
 var targetFolder = PublicDI.config.LocalScriptsFolder;;
-List&lt;string&gt; allFiles = null; 
+List<string> allFiles = null; 
 
 var treeView = topPanel.add_TreeView();
 var slider = treeView.insert_Above(20)
@@ -13,26 +11,26 @@ var textBox = topPanel.insert_Above(20).add_Label("Target Folder",3).append_Text
 
 
 
-Action&lt;int&gt; showFiles = 
-	(depth)=&gt; 
+Action<int> showFiles = 
+	(depth)=> 
 		{		
 			"Showing files with size bigger than {0}".info(depth);
-			var files = allFiles.where((file)=&gt;file.size() &gt; depth);		
+			var files = allFiles.where((file)=>file.size() > depth);		
 			treeView.beginUpdate();
-			treeView.clear().add_Nodes(files, (file)=&gt;file.remove(targetFolder));
+			treeView.clear().add_Nodes(files, (file)=>file.remove(targetFolder));
 			treeView.endUpdate();
 			label.set_Text("of {0},  {1} files bigger than {2}".format(allFiles.size(),files.size(), depth));
 		};
 
 Action mapFiles = 
-	()=&gt;{
+	()=>{
 			"finding all files from base folder: {0}".debug(targetFolder);
 			allFiles = targetFolder.files(true).remove_Containing(".git");
 			"loaded {0} files from disk (not including .git files)".debug(allFiles.size());
 		};
 
-Action&lt;string&gt; mapFolder = 	
-	(item)=&gt;{
+Action<string> mapFolder = 	
+	(item)=>{
 				if (item.isFile())
 					item = item.parentFolder();
 				if(item.isFolder())
@@ -48,15 +46,15 @@ Action&lt;string&gt; mapFolder =
 
 //topPanel.mainMenu().add_Menu("Actions")
 treeView.add_ContextMenu()	
-		.add_MenuItem("For selected file, Open parent folder in Windows Explorer", true,()=&gt; treeView.selected().tag&lt;string&gt;().parentFolder().startProcess())
-		.add_MenuItem("Reload file list from disk", ()=&gt; mapFiles());
-		//.add_MenuItem("Download O2.Platform.Scritps", ()=&gt;O2Scripts.downloadO2Scripts());;
+		.add_MenuItem("For selected file, Open parent folder in Windows Explorer", true,()=> treeView.selected().tag<string>().parentFolder().startProcess())
+		.add_MenuItem("Reload file list from disk", ()=> mapFiles());
+		//.add_MenuItem("Download O2.Platform.Scritps", ()=>O2Scripts.downloadO2Scripts());;
 
-treeView.afterSelect&lt;string&gt;((file)=&gt; "File {0} size = {1}".info(file, file.size()));
+treeView.afterSelect<string>((file)=> "File {0} size = {1}".info(file, file.size()));
 topPanel.onDrop(mapFolder);
 textBox.onDrop(mapFolder);
 textBox.onTextChange(mapFolder);
-treeView.onDrag&lt;string&gt;();
+treeView.onDrag<string>();
 
 mapFiles(); 
 
@@ -64,7 +62,5 @@ slider.maximum(240)
 	  .onValueChanged(showFiles)
 	  .value(120);
 
-//using O2.FluentSharp.REPL
-//O2Embed:Utility.ico</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//using FluentSharp.REPL
+//O2Embed:Utility.ico

@@ -65,6 +65,8 @@ dotNetUtils.add_RibbonGroup("Other")
 ribbon.add_Tab_MiscTools();
 return ribbon;
 
+//using O2.XRules.Database.Utils
+//using O2.XRules.Database.APIs
 //O2File:CustomO2.cs  
 //O2File:ILSpy_Installer.cs
 

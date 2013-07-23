@@ -1,19 +1,14 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>if (O2AscxGUI.launch("Util - Cir Viewer (with C# DLL converter)"))
+if (O2AscxGUI.launch("Util - Cir Viewer (with C# DLL converter)"))
 {
 	HandleO2MessageOnSD.setO2MessageFileEventListener();			 
 	O2AscxGUI.addControlToMenu(typeof(ascx_Scripts));
 	O2AscxGUI.openAscx(typeof(ascx_CirDataViewer), O2DockState.Document, "Cir Viewer");									
 }
 
-//using O2.External.WinFormsUI.Forms
-//using O2.External.SharpDevelop
-//using O2.Interfaces.Views
 
+
+//using FluentSharp.WinFormUI.Utils
 //using O2.Core.CIR.Ascx
 //O2Ref:O2_Core_CIR.dll
 //O2Ref:O2_External_O2Mono.dll
-//O2Ref:Mono.Cecil.Pdb.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Ref:Mono.Cecil.Pdb.dll

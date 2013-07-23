@@ -1,8 +1,6 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var defaultPage = "http://www.google.com";
+var defaultPage = "http://www.google.com";
 
-var sampleXPathQueries = new List&lt;string&gt; 
+var sampleXPathQueries = new List<string> 
 									{
 										"//a",  
 										"//img",
@@ -12,27 +10,27 @@ var sampleXPathQueries = new List&lt;string&gt;
 									};
  
 // create GUI 
-var topPanel = O2Gui.open&lt;Panel&gt;("Quick HtmlCode Viewer",800,500).insert_LogViewer();  
+var topPanel = O2Gui.open<Panel>("Quick HtmlCode Viewer",800,500).insert_LogViewer();  
 var groupBoxes = topPanel.add_1x1("Html Code", "TreeView", true, topPanel.width() /2 );
 var htmlCodeViewer = groupBoxes[0].add_SourceCodeViewer(); 
-var optionsPanel = htmlCodeViewer.insert_Below&lt;Panel&gt;(30);
+var optionsPanel = htmlCodeViewer.insert_Below<Panel>(30);
 var treeView =  groupBoxes[1].add_TreeView();
 treeView.showSelection();
-var pageToOpen = treeView.parent&lt;SplitContainer&gt;().insert_Above&lt;Panel&gt;(20).add_TextBox().fill();
-var htmlNodeFilter = treeView.insert_Below&lt;TextBox&gt;(25).fill();
+var pageToOpen = treeView.parent<SplitContainer>().insert_Above<Panel>(20).add_TextBox().fill();
+var htmlNodeFilter = treeView.insert_Below<TextBox>(25).fill();
 var sampleQueries_MenuItem = htmlNodeFilter.add_ContextMenu().add_MenuItem("Sample queries");
 
 var treeView_ContextMenu = treeView.add_ContextMenu();
 
-treeView_ContextMenu.add_MenuItem("Sort Nodes", ()=&gt; treeView.sort());
-treeView_ContextMenu.add_MenuItem("Don't Sort Nodes", ()=&gt; treeView.sort(false));
-treeView_ContextMenu.add_MenuItem("Show all nodes",()=&gt; htmlNodeFilter.sendKeys("//*".line()));   
+treeView_ContextMenu.add_MenuItem("Sort Nodes", ()=> treeView.sort());
+treeView_ContextMenu.add_MenuItem("Don't Sort Nodes", ()=> treeView.sort(false));
+treeView_ContextMenu.add_MenuItem("Show all nodes",()=> htmlNodeFilter.sendKeys("//*".line()));   
 
 //optionsPanel
 var viewAsXml = false;
-optionsPanel.add_CheckBox("View as Xml",0,5, (value) =&gt; viewAsXml = value);
+optionsPanel.add_CheckBox("View as Xml",0,5, (value) => viewAsXml = value);
 optionsPanel.add_Link("view in browser", 5,100,
-						()=&gt; O2Gui.open&lt;Panel&gt;("Browser view of HtmlCode",400,400)
+						()=> O2Gui.open<Panel>("Browser view of HtmlCode",400,400)
 								  .add_WebBrowser()	
 								  .silent(true)
 								  .open(htmlCodeViewer.get_Text().save()))
@@ -40,8 +38,8 @@ optionsPanel.add_Link("view in browser", 5,100,
 
  
 // setup Events 
-treeView.beforeExpand&lt;HtmlAgilityPack.HtmlNode&gt;(
-		(treeNode, htmlNode)=&gt;{																
+treeView.beforeExpand<HtmlAgilityPack.HtmlNode>(
+		(treeNode, htmlNode)=>{																
 								  if (htmlNode.Attributes != null)
 								  	  foreach(var attribute in htmlNode.Attributes)
 								 	  	  treeNode.add_Node("a: {0}={1}".format(attribute.Name, attribute.Value)); 
@@ -52,15 +50,15 @@ treeView.beforeExpand&lt;HtmlAgilityPack.HtmlNode&gt;(
 										  	  treeNode.add_Node("n: {0}".format(childNode.Name), childNode, true);  
 							  });
 							  
-treeView.afterSelect&lt;HtmlAgilityPack.HtmlNode&gt;(
-				  (htmlNode)=&gt;{ htmlCodeViewer.showHtmlNodeLocation(htmlNode);});
+treeView.afterSelect<HtmlAgilityPack.HtmlNode>(
+				  (htmlNode)=>{ htmlCodeViewer.showHtmlNodeLocation(htmlNode);});
 
-pageToOpen.onDrop((file)=&gt;pageToOpen.set_Text(file));
+pageToOpen.onDrop((file)=>pageToOpen.set_Text(file));
 
 pageToOpen.onEnter(
-		(text)=&gt;{
+		(text)=>{
 					pageToOpen.backColor(Color.LightBlue);	 				
-					O2Thread.mtaThread(()=&gt; 
+					O2Thread.mtaThread(()=> 
 					{ 
 						treeView.clear();													
 						var htmlCode = text.fileExists() 
@@ -69,7 +67,7 @@ pageToOpen.onEnter(
 						if (viewAsXml)
 							htmlCodeViewer.set_Text(htmlCode.htmlToXml(),".xml");									
 						else
-							htmlCodeViewer.set_Text(htmlCode,".xml"); //could use ".html". but I don't like the use of green for &lt;script&gt; tags
+							htmlCodeViewer.set_Text(htmlCode,".xml"); //could use ".html". but I don't like the use of green for <script> tags
 						pageToOpen.backColor(Color.White); 					
 						htmlNodeFilter.sendEnter();
 					});
@@ -77,7 +75,7 @@ pageToOpen.onEnter(
 				});;
  
 htmlNodeFilter.onEnter(
-		(text)=&gt;{
+		(text)=>{
 					treeView.clear();
 					try
 					{
@@ -102,14 +100,16 @@ htmlNodeFilter.onEnter(
 // load default data			  
 
 foreach(var xPathQuery in sampleXPathQueries)
-	sampleQueries_MenuItem.add_MenuItem(xPathQuery , (text) =&gt; htmlNodeFilter.set_Text(text.str()));
+	sampleQueries_MenuItem.add_MenuItem(xPathQuery , (text) => htmlNodeFilter.set_Text(text.str()));
 
 pageToOpen.sendKeys(defaultPage.line());
+
+//using FluentSharp.For_HtmlAgilityPack 
+//using O2.XRules.Database.Utils
  
 //O2File:HtmlAgilityPack_Extra_ExtensionMethods.cs
 //O2File:HtmlAgilityPack_Extra_ExtensionMethods_SourceCodeViewer.cs
+
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
 //O2Ref:System.Xml.dll
-//O2Ref:System.Xml.Linq.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Ref:System.Xml.Linq.dll

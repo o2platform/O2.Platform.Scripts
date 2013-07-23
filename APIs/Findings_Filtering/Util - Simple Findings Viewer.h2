@@ -1,14 +1,11 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>O2.Views.ASCX.O2Findings.ascx_FindingsViewer.o2AssessmentLoadEngines.clear();
+ascx_FindingsViewer.o2AssessmentLoadEngines.clear();
  
-var topPanel = O2Gui.open&lt;Panel&gt;("Simple Findings Viewer",400,400);
+var topPanel = O2Gui.open<Panel>("Simple Findings Viewer",400,400);
 var findingsViewer = topPanel.add_FindingsViewer();
  
 topPanel.mainMenu().add_Menu("REPL")
-				   .add_MenuItem("REPL findingsViewer", ()=&gt;findingsViewer.script_Me("findingsView").set_Code("return findingsView.currentO2Findings;"))
-				   .add_MenuItem("REPL Form", ()=&gt;findingsViewer.parentForm().script_Me("form"));
+				   .add_MenuItem("REPL findingsViewer", ()=>findingsViewer.script_Me("findingsView").set_Code("return findingsView.currentO2Findings;"))
+				   .add_MenuItem("REPL Form", ()=>findingsViewer.parentForm().script_Me("form"));
+
 //using O2.XRules.Database.Findings 
-//O2File:Findings_ExtensionMethods.cs</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2File:Findings_ExtensionMethods.cs

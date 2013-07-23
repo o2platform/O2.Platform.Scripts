@@ -1,8 +1,6 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//var topPanel = O2Gui.open&lt;Panel&gt;("{name}",700,400);
+//var topPanel = O2Gui.open<Panel>("{name}",700,400);
 "exeToDebug".o2Cache(null);
-var exeToDebug = "exeToDebug".o2Cache&lt;string&gt;(()=&gt;{
+var exeToDebug = "exeToDebug".o2Cache<string>(()=>{
 													"Creating temp exe".info();
 													var code = @"using System;													
 													using System.Diagnostics;
@@ -56,7 +54,7 @@ var settings = new CdbSettings()
 controller.field("settings",settings);
 					
 Action attach = 
-	()=&gt;{							
+	()=>{							
 			controller.AttachToProcess(process.Id.str()); 
 			controller.setDefaultController();
 			controller.loadSoS();				
@@ -89,7 +87,7 @@ return result;
 ";
 //controller.Detach();
 script.onClosed(
-	()=&gt;{
+	()=>{
 			"Parent Form closed, so detaching".info();
 			controller.detach();			
 			process.closeInNSeconds(2);
@@ -98,22 +96,22 @@ o2Timer.stop();
 
 script.insert_Right(40).add_LogViewer()   
 	  .insert_Above(45,"Execute SoS Command")
-	  .add_TextBox().fill().set_Text("!help").onEnter((text)=&gt;"{0}".info(text.sosExec()));
+	  .add_TextBox().fill().set_Text("!help").onEnter((text)=>"{0}".info(text.sosExec()));
 return controller;
 
 //O2File:API_ConsoleOut.cs
 //O2File:_Extra_methods_Roslyn_API.cs
+//O2File:SoSNet_ExtensionMethods.cs
 
-//O2Ref:Roslyn.Compilers.dll
-//O2Ref:Roslyn.Compilers.CSharp.dll
-
-
+//using FluentSharp.FluentRoslyn
+//using O2.XRules.Database.Utils
 //using SOS.Net
 //using SOS.Net.Core.Cdb
 //using SOS.Net.Core.Cdb.Commands
-//O2File:SoSNet_ExtensionMethods.cs
+
+
+//O2Ref:Roslyn.Compilers.dll
+//O2Ref:Roslyn.Compilers.CSharp.dll
 //O2Ref:SosNet\Debug\SOS.Net.Core.dll
 //O2Ref:SosNet\Debug\SOS.Net.exe
-//O2Tag_DontAddExtraO2Files</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Tag_DontAddExtraO2Files

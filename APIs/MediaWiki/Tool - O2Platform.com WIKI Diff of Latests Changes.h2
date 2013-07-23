@@ -2,6 +2,8 @@ var topPanel = O2Gui.open<Panel>("Tool - OWASP WIKI Diff of Latests Changes", 80
 var wikiApi = new O2PlatformWikiAPI(); 
 topPanel.show_Diff_LatestPagesChanges(wikiApi,10);  
 return wikiApi;  
+
+//using O2.XRules.Database.APIs
 //O2File:O2MediaWikiAPI.cs 
 //O2File:O2PlatformWikiAPI.cs
 //O2Ref:O2_External_IE.dll

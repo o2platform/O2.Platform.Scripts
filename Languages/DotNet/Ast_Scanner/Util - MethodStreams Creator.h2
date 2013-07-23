@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//panel.clear();
+//panel.clear();
 //globalvars
 var fileCache = new FileCache("".tempDir().pathCombine("_fileCache"));
 
@@ -9,26 +7,26 @@ String selectedFile = null;
 
 //build gui
 //var topPanel = panel;
-var topPanel = O2Gui.open&lt;Panel&gt;("Util - MethodStreams Creator",1000,500);
+var topPanel = O2Gui.open<Panel>("Util - MethodStreams Creator",1000,500);
 var topPanels = topPanel.add_1x1x1("Source Files and References", "Selected File", "Method Stream Details");  
 var sourceFiles = topPanels[0].add_TreeView().showSelection().sort(); 
-var sourceFileFilter = sourceFiles.insert_Above&lt;TextBox&gt;(20);
-var references = sourceFiles.insert_Below&lt;TextBox&gt;(100).multiLine();
+var sourceFileFilter = sourceFiles.insert_Above<TextBox>(20);
+var references = sourceFiles.insert_Below<TextBox>(100).multiLine();
 var selectedFileContents = topPanels[1].add_SourceCodeViewer(); 
-var selectedFileMethods = selectedFileContents.insert_Below&lt;GroupBox&gt;(100).set_Text("Methods in File").add_TreeView().showSelection().sort(); 
+var selectedFileMethods = selectedFileContents.insert_Below<GroupBox>(100).set_Text("Methods in File").add_TreeView().showSelection().sort(); 
 //var methodStreamDetails = topPanels[2].add_PropertyGrid();
-//var methodStreamCode = methodStreamDetails.insert_Below&lt;Panel&gt;().add_SourceCodeViewer();
+//var methodStreamCode = methodStreamDetails.insert_Below<Panel>().add_SourceCodeViewer();
 //var methodStreamCode = topPanels[2].add_SourceCodeViewer();
-var methodStreamCode = topPanels[2].add_Control&lt;ascx_ManualMethodStreams&gt;();
+var methodStreamCode = topPanels[2].add_Control<ascx_ManualMethodStreams>();
 methodStreamCode.buildGui();
 
-var selectedFilePanel = selectedFileContents.insert_Below&lt;Panel&gt;(20);
+var selectedFilePanel = selectedFileContents.insert_Below<Panel>(20);
 
 var currentINodeLabel = selectedFilePanel.add_Label("Current INode");
 
 //methods
-Func&lt;O2MappedAstData, string, ICSharpCode.TextEditor.Caret,INode&gt; findINodeAtCaretLocation = 
-	(astData, file, caret)=&gt;
+Func<O2MappedAstData, string, ICSharpCode.TextEditor.Caret,INode> findINodeAtCaretLocation = 
+	(astData, file, caret)=>
 		{			
 			if (astData!=null)
 			{
@@ -51,31 +49,31 @@ Func&lt;O2MappedAstData, string, ICSharpCode.TextEditor.Caret,INode&gt; findINod
 		};
 
 Action loadReferences = 		
-	()=&gt;{
+	()=>{
 			var referencesToLoad = references.get_Text().lines();
 			"Loading {0} References".info(referencesToLoad.size());
 			foreach(var reference in referencesToLoad)
 				astData_LoadedFiles.O2AstResolver.addReference(reference);			
 		};
 						
-Action&lt;List&lt;string&gt;,string&gt; showSourceFiles = 
-	(filesToLoad, filter)=&gt; {								
+Action<List<string>,string> showSourceFiles = 
+	(filesToLoad, filter)=> {								
 								sourceFiles.clear();
 								foreach(var file in astData_LoadedFiles.files())
 									if (filter.valid().isFalse() || file.regEx(filter))
 									sourceFiles.add_Node(file.fileName(),file);	
 							};
-Action refreshSourceFiles = ()=&gt; showSourceFiles(astData_LoadedFiles.files(),sourceFileFilter.get_Text());																
+Action refreshSourceFiles = ()=> showSourceFiles(astData_LoadedFiles.files(),sourceFileFilter.get_Text());																
 
-Action clearO2MethodStreamCache = ()=&gt; O2MethodStream_ExtensionMethods.O2MethodStreamCache.Clear();
+Action clearO2MethodStreamCache = ()=> O2MethodStream_ExtensionMethods.O2MethodStreamCache.Clear();
 
-Func&lt;IMethod,string&gt; createMethodStream =
-	(iMethod)=&gt; {							
+Func<IMethod,string> createMethodStream =
+	(iMethod)=> {							
 					return astData_LoadedFiles.createO2MethodStream_UseCache_ReturnFile(iMethod, fileCache, ".cs");										
 				};
 
-Action&lt;string&gt; createMethodStreamForFile = 
-	(file)=&gt;{
+Action<string> createMethodStreamForFile = 
+	(file)=>{
 				"Creating all method streams for file: {0}".debug(file); 
 				var allINodes = astData_LoadedFiles.FileToINodes[file];
 				if (allINodes.NodesByType.hasKey("MethodDeclaration"))
@@ -91,13 +89,13 @@ Action&lt;string&gt; createMethodStreamForFile =
 			};
 
 Action createMethodStreamForSelectedFile = 
-	()=&gt;{
+	()=>{
 			var targetFile = sourceFiles.selected().Tag.str();			
 			createMethodStreamForFile(targetFile);			
 		};
 Action createMethodStreamForSelectedAllFileterdFiles = 		
-	()=&gt;{
-			var filesToProcess = new List&lt;string&gt;();
+	()=>{
+			var filesToProcess = new List<string>();
 			foreach(var node in sourceFiles.nodes())
 				filesToProcess.Add(node.Tag.str());
 		
@@ -111,10 +109,10 @@ Action createMethodStreamForSelectedAllFileterdFiles =
 		};
 // events
 
-sourceFileFilter.onEnter((text)=&gt;refreshSourceFiles());
+sourceFileFilter.onEnter((text)=>refreshSourceFiles());
 
-sourceFiles.afterSelect&lt;string&gt;(
-	(file)=&gt;{
+sourceFiles.afterSelect<string>(
+	(file)=>{
 				selectedFile = file;
 				selectedFileContents.open(file);				
 				selectedFileMethods.clear();
@@ -137,10 +135,10 @@ sourceFiles.afterSelect&lt;string&gt;(
 			});
 
 selectedFileContents.onCaretMove(
-	(caret)=&gt;{				
+	(caret)=>{				
 				methodStreamCode.set_Text("");
 				O2Thread.mtaThread(
-					()=&gt;{
+					()=>{
 							try
 							{
 								IMethod iMethod = null;
@@ -178,10 +176,10 @@ selectedFileContents.onCaretMove(
 
 			 
 sourceFiles.onDrop(
-	(fileOrFolder)=&gt;{
+	(fileOrFolder)=>{
 						sourceFiles.backColor(Color.Azure);						
 						O2Thread.mtaThread(
-							()=&gt;{
+							()=>{
 									"Loading file(s) from {0}".info(fileOrFolder);
 									if(fileOrFolder.fileExists()) 
 										astData_LoadedFiles.loadFile(fileOrFolder);
@@ -201,8 +199,8 @@ sourceFiles.onDrop(
 					
 					});
 
-selectedFileMethods.afterSelect&lt;MethodDeclaration&gt;(
-	(methodDeclaration)=&gt;{						
+selectedFileMethods.afterSelect<MethodDeclaration>(
+	(methodDeclaration)=>{						
 							selectedFileContents.editor().setSelectedLineNumber(methodDeclaration.StartLocation.Line);
 							selectedFileMethods.focus();
 							//selectedFileContents.editor().caret(methodDeclaration.StartLocation.Line, methodDeclaration.StartLocation.Column);
@@ -213,12 +211,12 @@ selectedFileMethods.afterSelect&lt;MethodDeclaration&gt;(
 			
 //Menu items
 references.add_ContextMenu()
-		  .add_MenuItem("Reload References", true, ()=&gt; loadReferences())
-		  .add_MenuItem("Clear O2MethodStreamCache", ()=&gt; clearO2MethodStreamCache());
+		  .add_MenuItem("Reload References", true, ()=> loadReferences())
+		  .add_MenuItem("Clear O2MethodStreamCache", ()=> clearO2MethodStreamCache());
 
 sourceFiles.add_ContextMenu()
-		   .add_MenuItem("Create All MethodStreams for Selected File", true, ()=&gt; createMethodStreamForSelectedFile())
-		   .add_MenuItem("Create All MethodStreams for ALL files (currently shown in TreeView)", ()=&gt;createMethodStreamForSelectedAllFileterdFiles()); 
+		   .add_MenuItem("Create All MethodStreams for Selected File", true, ()=> createMethodStreamForSelectedFile())
+		   .add_MenuItem("Create All MethodStreams for ALL files (currently shown in TreeView)", ()=>createMethodStreamForSelectedAllFileterdFiles()); 
 		   
 // load test data
 references.append_Line("System.Web");
@@ -244,7 +242,7 @@ if (astData_LoadedFiles.isNull())
 	O2LiveObjects.set("astData", astData_LoadedFiles);
 }*/
 
-references.insert_Right&lt;Panel&gt;(100).add_PropertyGrid().show(astData_LoadedFiles);
+references.insert_Right<Panel>(100).add_PropertyGrid().show(astData_LoadedFiles);
 
 /*foreach(var file in testFiles.files("*.cs",true))
 	sourceFiles.add_Node(file.fileName(),file);
@@ -259,15 +257,14 @@ selectedFileContents.editor().caret(49,20).focus();
 */
 
 return "ok";
+
+//using FluentSharp.CSharpAST
+//using FluentSharp.CSharpAST.Utils
 //using ICSharpCode.SharpDevelop.Dom;
 //using ICSharpCode.NRefactory;
 //using ICSharpCode.NRefactory.Ast;
-//using O2.External.SharpDevelop.ExtensionMethods;
-//using O2.DotNetWrappers.ExtensionMethods
-//using O2.API.AST.CSharp
-//using O2.API.AST.ExtensionMethods.CSharp
+//using FluentSharp.CoreLib.Utils
 //using O2.XRules.Database.Languages_and_Frameworks.DotNet				
-//using O2.Views.ASCX.O2Findings
 
 //O2File:ascx_ManualMethodStreams.cs
 //O2File:SharpDevelop_O2MappedAstData_ExtensionMethods.cs
@@ -276,5 +273,4 @@ return "ok";
 
 //generateDebugSymbols
 
-//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll</SourceCode>
-</H2>
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll

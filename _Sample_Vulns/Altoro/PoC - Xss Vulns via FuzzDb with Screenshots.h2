@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var topPanel = "Altoro XSS Fuzz PoC with Screenshots".popupWindow(1000,600);
+var topPanel = "Altoro XSS Fuzz PoC with Screenshots".popupWindow(1000,600);
 
 //var topPanel = panel.clear().add_Panel();
 
@@ -10,14 +8,14 @@ var treeView = topPanel.insert_Left(200,"Payloads Executed").add_TreeView();
 var pictureBox = topPanel.insert_Below(100, "Recorded Screenshots of Payloads sent").add_PictureBox(); 
 
 
-treeView.afterSelect&lt;Bitmap&gt;(
-	(bitmap)=&gt;{
+treeView.afterSelect<Bitmap>(
+	(bitmap)=>{
 					pictureBox.load(bitmap);
 			  });
 			  
 
-Action&lt;string&gt; search = 
-	(text)=&gt;{
+Action<string> search = 
+	(text)=>{
 				ie.open(targetAddress.get_Text());
 				ie.field("txtSearch").value(text);
 				ie.button("Go").click(); 
@@ -25,9 +23,10 @@ Action&lt;string&gt; search =
 			
 
 
-var alerts = ie.getAlertsHandler();
+//var alerts = ie.getAlertsHandler();
+"ALERTS ARE NOT BEING HANDLED".error();
 Action startFuzz = 
-	()=&gt;{
+	()=>{
 			treeView.clear();
 			var fuzzDb = new API_FuzzDB();
 			var previousCount = 0;
@@ -35,25 +34,27 @@ Action startFuzz =
 			{ 	
 				search(payload); 
 				var picture = topPanel.screenshot();	
-				treeView.add_Node(payload, picture)
-						.color( (previousCount!= alerts.Count) ? Color.DarkRed : Color.DarkGreen);
-				previousCount = alerts.Count;		 
-			//	if ( alerts.Count &gt; maxFind) 
+				treeView.add_Node(payload, picture);
+//						.color( (previousCount!= alerts.Count) ? Color.DarkRed : Color.DarkGreen);
+//				previousCount = alerts.Count;		 
+
+			//	if ( alerts.Count > maxFind) 
 //					break;  	
 			}
 		};
  
-topPanel.insert_Above(20).add_Button("Start Fuzz").onClick(()=&gt;startFuzz()).fill().font_bold();   
+topPanel.insert_Above(20).add_Button("Start Fuzz").onClick(()=>startFuzz()).fill().font_bold();   
 
 targetAddress.set_Text("http://demo.testfire.net/");		
 
-return alerts;
+//return alerts;
  
-//search("asd&lt;h1&gt;asdas&lt;/h1&gt;");
+//search("asd<h1>asdas</h1>");
 return "ok";
-//O2File:WatiN_IE_ExtensionMethods.cs
-//O2Ref:WatiN.Core.1x.dll
+
+//using O2.XRules.Database.APIs
+//using FluentSharp.Watin
+//O2Ref:FluentSharp.Watin.dll
+//O2Ref:Watin.Core.dll
 //O2File:API_FuzzDB.cs
-//O2File:API_Cropper.cs</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2File:API_Cropper.cs

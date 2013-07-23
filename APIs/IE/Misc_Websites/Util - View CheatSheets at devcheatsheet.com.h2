@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var baseUrl = "http://devcheatsheet.com";   
+var baseUrl = "http://devcheatsheet.com";   
 
 //var topPanel = panel.clear().add_Panel().insert_LogViewer();
 var topPanel = "Util - View CheatSheets at devcheatsheet.com".popupWindow(1000,500)
@@ -11,8 +9,8 @@ var ie = topPanel.add_WebBrowser();
 
 var parsedData = topPanel.insert_Left(200, "Available CheatSheets").add_TreeView_for_HtmlTags();
 "Opening: {0}".info(baseUrl);
-parsedData.afterSelect&lt;string&gt;(	
-	(location)=&gt;{
+parsedData.afterSelect<string>(	
+	(location)=>{
 					var cheatSheet_Location = "{0}{1}".format(baseUrl, location);
 					ie.open_ASync(cheatSheet_Location);					
 				});
@@ -35,8 +33,9 @@ foreach(var tr in htmlDocument.filter("//tr"))
 
 parsedData.white();
 
+//using O2.XRules.Database.Utils
+//using FluentSharp.For_HtmlAgilityPack
+
 //O2File:HtmlAgilityPack_Extra_ExtensionMethods.cs
+
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
-</SourceCode>
-  <ReferencedAssemblies />
-</H2>

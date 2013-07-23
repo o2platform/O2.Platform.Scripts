@@ -1,13 +1,11 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var mainPanel = O2Gui.open&lt;WinForms.Panel&gt;("DiagramDesigner inside O2",1000,700);						
+var mainPanel = O2Gui.open<WinForms.Panel>("DiagramDesigner inside O2",1000,700);						
 
 var pasteImageWithOriginalSize = false;
 var alsoSaveDiagramAsGif = false;
 var lastSavedGif = "";
 
-var optionsPanel = mainPanel.insert_Above&lt;WinForms.Panel&gt;(40); 
-var stencilsPanel = mainPanel.insert_Right&lt;WinForms.Panel&gt;(240); 
+var optionsPanel = mainPanel.insert_Above<WinForms.Panel>(40); 
+var stencilsPanel = mainPanel.insert_Right<WinForms.Panel>(240); 
 var designerCanvas = mainPanel.add_DesignerCanvas();
 
 //return designerCanvas.PointToScreen(Point.Empty);
@@ -19,8 +17,8 @@ var fileName = optionsPanel.add_Label("Current Diagram File").top(5)
 					       .width(200);
 
 WinForms.MethodInvoker copyCanvasToClipboard = 
-	()=&gt;{
-			var xamlHost = mainPanel.control&lt;O2.API.Visualization.Ascx.ascx_Xaml_Host&gt;(); 
+	()=>{
+			var xamlHost = mainPanel.control<ascx_Xaml_Host>(); 
 			var xamlHostPosition = xamlHost.PointToScreen(xamlHost.Location);;//[0].typeFullName(); 
 			int width = (int)designerCanvas.width_Wpf(); //(int)designerCanvas.ActualWidth;
 			int height = (int)designerCanvas.height_Wpf();  //(int)designerCanvas.ActualHeight;
@@ -30,12 +28,12 @@ WinForms.MethodInvoker copyCanvasToClipboard =
 			int left = xamlHostPosition.X + ((xamlHost.width() - width) /2);    
 			   
 			mainPanel.capture(left, top, width, height);  
-			//"Current canvas copied to the clipboard,,,( {0}x{1} -&gt; {2}x{3} ".info(top,xamlHostPosition.Y, xamlHost.height(), height); 
-			"Current canvas copied to the clipboard( {0}x{1} -&gt; {2}x{3} ".info(left,top,width,height);
+			//"Current canvas copied to the clipboard,,,( {0}x{1} -> {2}x{3} ".info(top,xamlHostPosition.Y, xamlHost.height(), height); 
+			"Current canvas copied to the clipboard( {0}x{1} -> {2}x{3} ".info(left,top,width,height);
 		};
 
 WinForms.MethodInvoker saveDiagramAsGif = 
-	()=&gt;{
+	()=>{
 			try
 			{
 				var currentFileName = fileName.get_Text();
@@ -47,10 +45,10 @@ WinForms.MethodInvoker saveDiagramAsGif =
 				var tempJpg = bitmap.jpeg();
 				Files.moveFile(tempJpg,gifLocation);
 				"Gif saved with {0}x{1} size at location: {2} ".format(bitmap.Width, bitmap.Height,gifLocation);
-				O2Gui.open&lt;Panel&gt;("Saved JPG",bitmap.Width, bitmap.Height)
+				O2Gui.open<Panel>("Saved JPG",bitmap.Width, bitmap.Height)
 					.add_PictureBox()
 						.open(gifLocation).
-					insert_Above&lt;TextBox&gt;(20)
+					insert_Above<TextBox>(20)
 						.set_Text(gifLocation);
 			}			
 			catch(Exception ex)
@@ -60,7 +58,7 @@ WinForms.MethodInvoker saveDiagramAsGif =
 		};
 
 WinForms.MethodInvoker saveDiagram = 
-	()=&gt;{
+	()=>{
 			if (fileName.get_Text().valid().isFalse())
 			{
 				var newFileExtension = "_{0}x{1}.xml".format((int)designerCanvas.width_Wpf(),(int)designerCanvas.height_Wpf());
@@ -74,7 +72,7 @@ WinForms.MethodInvoker saveDiagram =
 		};
 		
 WinForms.MethodInvoker loadDiagram = 
-	()=&gt;{
+	()=>{
 			statusLabel.set_Text("asking user for filename");
 			var fileLoaded = designerCanvas.load();
 			if (fileLoaded.valid())
@@ -85,13 +83,13 @@ WinForms.MethodInvoker loadDiagram =
 		};
 
 WinForms.MethodInvoker newDiagram =  
-	()=&gt;{
+	()=>{
 			designerCanvas.open("emptyDiagram.xml".local()); 	 	
 		};
 
 
 fileName.onDrop(
-	(fileOrFolder)=&gt;{
+	(fileOrFolder)=>{
 						if (fileOrFolder.fileExists())
 						{
 							statusLabel.set_Text("Loading droppped diagram file: {0}".format(fileOrFolder));
@@ -100,7 +98,7 @@ fileName.onDrop(
 						} 
 					});
 fileName.onEnter(
-	(fileOrFolder)=&gt;{
+	(fileOrFolder)=>{
 						if (fileOrFolder.fileExists())									
 						{	
 							statusLabel.set_Text("Loading file: {0}".format(fileOrFolder));
@@ -124,9 +122,9 @@ fileName.append_Link("Open",loadDiagram).top(5)
 			.leftAdd(-20)
 			.bringToFront() 
 			.onTextChange(
-				(text)=&gt;{
+				(text)=>{
 							var newWidth = text.toInt();
-							if (newWidth &gt; 0)
+							if (newWidth > 0)
 							{
 								designerCanvas.width_Wpf(newWidth);
 								designerCanvas.prop("MaxWidth",newWidth);
@@ -139,7 +137,7 @@ fileName.append_Link("Open",loadDiagram).top(5)
 			.leftAdd(-20)
 			.bringToFront() 
 			.onTextChange(
-				(text)=&gt;{
+				(text)=>{
 							var newHeight = text.toInt();
 							designerCanvas.height_Wpf(newHeight);
 							designerCanvas.prop("MaxHeight",newHeight);
@@ -147,17 +145,17 @@ fileName.append_Link("Open",loadDiagram).top(5)
 		.append_Link("Copy Canvas to Clipboard", copyCanvasToClipboard)
 		.top(5);
 
-optionsPanel.add_CheckBox("Also save diagram as Jpg", 25,114,(value)=&gt; alsoSaveDiagramAsGif = value) 
+optionsPanel.add_CheckBox("Also save diagram as Jpg", 25,114,(value)=> alsoSaveDiagramAsGif = value) 
 		    .autoSize()
 		    .append_Link("Save diagram as Jpg (and show in new window)",saveDiagramAsGif)
 		    .topAdd(2);
 			
 // stencilsPanel			 	
 
-var imageDropArea = stencilsPanel.add_Control&lt;WinForms.Panel&gt;(0,0,230,40).backColor(System.Drawing.Color.LightBlue); 
+var imageDropArea = stencilsPanel.add_Control<WinForms.Panel>(0,0,230,40).backColor(System.Drawing.Color.LightBlue); 
 imageDropArea.add_Label("drop local Image file here").fill();  
 imageDropArea.onDrop(
-(fileOrFolder)=&gt;{
+(fileOrFolder)=>{
 					if (fileOrFolder.fileExists())
 					{
 						var droppedImage = fileOrFolder.bitmap();
@@ -173,7 +171,7 @@ imageDropArea.onDrop(
  					}); 				
 
 stencilsPanel.add_Link("paste image from clipboard", 50,0,
-	()=&gt;{		
+	()=>{		
 			var bitmap = stencilsPanel.fromClipboardGetImage();
 			if (bitmap.notNull())
 			{
@@ -188,7 +186,7 @@ stencilsPanel.add_Link("paste image from clipboard", 50,0,
 				statusLabel.set_Text("Note: the Clipboard did not contain an image");
 		});
 		
-stencilsPanel.add_CheckBox("original size", 50,140,(value) =&gt; pasteImageWithOriginalSize = value);			
+stencilsPanel.add_CheckBox("original size", 50,140,(value) => pasteImageWithOriginalSize = value);			
 stencilsPanel.add_Label("(with image saved locally)",65,0); 
 
 
@@ -197,14 +195,14 @@ stencilsPanel.add_Label("(with image saved locally)",65,0);
 var xamlControls = stencilsPanel.add_ComboBox(120,0); 
 var xamlCode = stencilsPanel.add_SourceCodeViewer(); 
 xamlCode.top(150).height(200); 
-Dictionary&lt;string,string&gt; xamls = null;
+Dictionary<string,string> xamls = null;
 var xmlCodeFile = "XamlCode.cs".local();
-xamlControls.onSelection(()=&gt; xamlCode.set_Text(xamls[xamlControls.selected().str()],"a.xml")); 
+xamlControls.onSelection(()=> xamlCode.set_Text(xamls[xamlControls.selected().str()],"a.xml")); 
 
 MethodInvoker loadXmlControls = 
-	()=&gt;{
+	()=>{
 			xamlControls.clear();//.Clear();
-			xamls = new Dictionary&lt;string,string&gt;();
+			xamls = new Dictionary<string,string>();
 			foreach(var method in xmlCodeFile.compile().methods()) 
 				if (method.parameters().size() == 0) 
 					xamls.add(method.Name,method.invoke().str());   
@@ -220,13 +218,13 @@ loadXmlControls();
 stencilsPanel.add_Label("Template XAML Controls",100,0)
 			 .append_Link("refresh",loadXmlControls)
 			 .append_Link("edit",
-			 	()=&gt; O2Gui.open&lt;Panel&gt;("Editing XmlCode.cs file",400,400)
+			 	()=> O2Gui.open<Panel>("Editing XmlCode.cs file",400,400)
 			 			  .add_SourceCodeEditor()
 			 			  .open(xmlCodeFile));
 
  
 stencilsPanel.add_Link("Create WPF from XAML and add to canvas",  350,0,
-	()=&gt;{
+	()=>{
 			var uiElement = designerCanvas.add_XamlElement(xamlCode.get_Text());			
 		});
 
@@ -235,7 +233,7 @@ stencilsPanel.add_Link("Create WPF from XAML and add to canvas",  350,0,
 var wpfControls = stencilsPanel.add_ComboBox(400,0); 
 
 WinForms.MethodInvoker refreshComboBoxWithWpfControls =
-	()=&gt;{
+	()=>{
 			wpfControls.clear();
 			foreach(var wpfControl in designerCanvas.controls_Wpf())
 				if ((wpfControl is DiagramDesigner.DesignerItem).isFalse())
@@ -246,7 +244,7 @@ WinForms.MethodInvoker refreshComboBoxWithWpfControls =
 stencilsPanel.add_Label("Wpf Controls",380,0)
 			 .append_Link("refresh", refreshComboBoxWithWpfControls)
 			 .append_Link("show XAML", 
-			 	()=&gt;{
+			 	()=>{
 			 			var selected = wpfControls.selected();
 			 			if (selected is System.Windows.UIElement) 
 			 			{
@@ -259,16 +257,16 @@ stencilsPanel.add_Label("Wpf Controls",380,0)
 var selectedControlContent = stencilsPanel.add_Label("Content:",430,0)
 										  .append_TextBox("")
 										  .onTextChange(
-										  	((text)=&gt;{
+										  	((text)=>{
 										  				var selected = wpfControls.selected();
 														if (selected is WPF.ContentControl) 
 															(selected as WPF.ContentControl).set_Text_Wpf(text); 
 										  			 }));
 			  
-var propertyGrid = stencilsPanel.add_Control&lt;PropertyGrid&gt;(450,0);
+var propertyGrid = stencilsPanel.add_Control<PropertyGrid>(450,0);
 			
 wpfControls.onSelection(
-	()=&gt;{
+	()=>{
 			var selected = wpfControls.selected();
 			if (selected is WPF.ContentControl) 
 				selectedControlContent.set_Text((selected as WPF.ContentControl).get_Text_Wpf());
@@ -295,12 +293,19 @@ refreshComboBoxWithWpfControls();
 
 return null;
 
-//using O2.XRules.Database.APIs
+//using FluentSharp.WPF.Controls
 //using WinForms = System.Windows.Forms
 //using WPF = System.Windows.Controls
+//using FluentSharp.WPF
+//using O2.XRules.Database.APIs
+//using O2.XRules.Database.Utils
+
+//O2File:DiagramDesigner.cs
 //O2File:DiagramDesigner_ExtensionMethods.cs
+//O2File:Xaml_ExtensionMethods.cs
 //O2File:XamlCode.cs
 //O2File:API_Cropper.cs
+
 
 //O2Ref:FluentSharp.WPF.dll
 //O2Ref:WindowsFormsIntegration.dll
@@ -315,5 +320,4 @@ return null;
 //O2Ref:PresentationFramework.dll
 //O2Ref:DiagramDesigner.exe
 //O2Ref:Cropper.exe 
-//O2Ref:System.Xaml.dll</SourceCode>
-</H2>
+//O2Ref:System.Xaml.dll

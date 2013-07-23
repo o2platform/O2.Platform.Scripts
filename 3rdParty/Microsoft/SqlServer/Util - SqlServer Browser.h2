@@ -1,15 +1,13 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>
+
 //var topPanel = panel.clear().add_Panel();
-var topPanel = O2Gui.open&lt;Panel&gt;("Sql Info",900,500);
+var topPanel = O2Gui.open<Panel>("Sql Info",900,500);
 topPanel.insert_Below(100).add_LogViewer();
 var sqlServer = new API_SqlServer(); 
 var show= false;
 show = true;
 TabControl tabControl = null;
 Action loadDataFromCurrentConnection = 
-	()=&gt;{
+	()=>{
 			tabControl.remove_Tab("Database details viewer");
 			tabControl.remove_Tab("Table's Schema");
 			tabControl.remove_Tab("Table's Data");
@@ -28,8 +26,6 @@ if(show)
 } 
 
   
-
+//using O2.XRules.Database.APIs
 //O2Ref:System.Data.dll
-//O2File:API_SqlServer.cs</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2File:API_SqlServer.cs

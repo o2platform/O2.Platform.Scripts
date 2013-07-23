@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>Web.Https.ignoreServerSslErrors();
+Web.Https.ignoreServerSslErrors();
 var hideTableDuringLoad = true;
 var topPanel = "OWASP Mailing Lists - List admin mappings/emails".popupWindow(1200,500);
 topPanel.insert_LogViewer();
@@ -9,7 +7,7 @@ var tableList = topPanel.add_GroupBox("OWASP Mailing list mappings").add_TableLi
 var browser = topPanel.insert_Right("List Admin WebPage").add_WebBrowser_Control();
 
 tableList.afterSelect_get_Cell(3,
-	(href)=&gt;{ 
+	(href)=>{ 
 				browser.open(href);
 			});
 
@@ -21,13 +19,13 @@ var stop = false;
 var savedMappings = tempDir.pathCombine("Owasp-leaders-mailingList-mappings.xml");
 
 Action loadData = 
-	()=&gt;{
-			var mappings = new List&lt;string&gt;();
+	()=>{
+			var mappings = new List<string>();
 			stop = false;
 			var baseUrl = "https://lists.owasp.org/mailman/";
 			
-			Func&lt;string, string&gt; getHtml_UsingCache =
-				(virtualPath)=&gt; {	
+			Func<string, string> getHtml_UsingCache =
+				(virtualPath)=> {	
 									var urlToGet = baseUrl + virtualPath;
 									var cacheFilePath = tempDir.pathCombine(urlToGet.safeFileName() + ".html");													
 									"processing: {0} using cache file: {1}".info(urlToGet,cacheFilePath);
@@ -39,8 +37,8 @@ Action loadData =
 														  .fileContents();							
 								};
 			
-			Func&lt;string,string, List&lt;HtmlNode&gt;&gt; getNodesFromHtmlPage = 	
-				(urlToGet, filter)=&gt; { 							
+			Func<string,string, List<HtmlNode>> getNodesFromHtmlPage = 	
+				(urlToGet, filter)=> { 							
 										var htmlDocument = getHtml_UsingCache(urlToGet).htmlDocument();
 										return htmlDocument.select(filter);
 									 };
@@ -91,11 +89,10 @@ Action loadData =
 
 topPanel.insert_Above(40,"actions")
 		.add_Link("load data", loadData) 
-		.append_Link("stop", ()=&gt;stop = true)
-		.append_Link("view saved mappings", ()=&gt; savedMappings.showInCodeEditor());
+		.append_Link("stop", ()=>stop = true)
+		.append_Link("view saved mappings", ()=> savedMappings.showInCodeEditor());
 loadData();		
 return "done";
+//using FluentSharp.For_HtmlAgilityPack
 //using HtmlAgilityPack
-//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll

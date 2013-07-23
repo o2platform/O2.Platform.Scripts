@@ -1,21 +1,19 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//panel.clear();
+//panel.clear();
 //var topPanel = panel.add_Panel();
-var topPanel = O2Gui.open&lt;Panel&gt;("Tool - Map method streams interfaces.h2", 1000,600);   
+var topPanel = O2Gui.open<Panel>("Tool - Map method streams interfaces.h2", 1000,600);   
 var astDataCacheKey = "astData ASP.NET MVC";  
 var baseFolder = ""; 
 var useCachedData = true; //false;//true ;
-var referencesToLoad = new List&lt;string&gt;();  
+var referencesToLoad = new List<string>();  
 var astData = (O2MappedAstData)O2LiveObjects.get(astDataCacheKey);
 
  
-//var treeView = codeViewer.insert_Left&lt;TreeView&gt;(400) 
+//var treeView = codeViewer.insert_Left<TreeView>(400) 
 //							     .showSelection();
 
 
-Action&lt;string&gt; loadAstData = 
-	(folder) =&gt; {
+Action<string> loadAstData = 
+	(folder) => {
 					//treeView.backColor(Color.Azure);
 					baseFolder = folder;
 					if (useCachedData.isFalse() || astData == null)
@@ -65,7 +63,7 @@ codeViewer.gotoLine(24+10);
 
 //foreach(var iMethod in astData.inheritedIClasses(type)[0].iMethods())  
 //	"iMethod: {0}".info(iMethod);  
-//var mappedByRootClass = new Dictionary&lt;IClass, List&lt;IClass&gt;&gt;();		 
+//var mappedByRootClass = new Dictionary<IClass, List<IClass>>();		 
 //return mappedByInheritClass[type];
 
 /*foreach(var iClass in astData.iClasses())
@@ -91,13 +89,7 @@ return null;
 //type.ClassInheritanceTree
 //return interfaceMethod.DeclaringType.ClassInheritanceTree;
 
-
-//using O2.API.AST.CSharp
-//using O2.API.AST.ExtensionMethods;
-//using O2.API.AST.ExtensionMethods.CSharp;
-//using O2.External.SharpDevelop.ExtensionMethods;
-//using O2.External.SharpDevelop.AST;
-//using O2.External.SharpDevelop.Ascx;
+//using FluentSharp.CSharpAST.Utils
 //using O2.XRules.Database.Languages_and_Frameworks.DotNet	
 //using ICSharpCode.SharpDevelop.Dom;
 //using ICSharpCode.NRefactory;
@@ -106,6 +98,4 @@ return null;
 //O2File:Ast_Engine_ExtensionMethods.cs
 //O2File:ascx_ManualMethodStreams.cs
 //O2Ref:O2_External_SharpDevelop.dll
-//O2Ref:QuickGraph.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Ref:QuickGraph.dll

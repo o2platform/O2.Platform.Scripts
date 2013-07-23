@@ -5,6 +5,7 @@ O2Setup.extractEmbededConfigZips();
 //open.logViewer();
 new API_Clojure().openO2ReplInClojureFolder();
  
+//using O2.XRules.Database.APIs 
 //O2File:API_Clojure.cs
 
 //O2EmbedTool:Clojure

@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var title = "Custom O2";  
+var title = "Custom O2";  
  
 var ribbon = CustomO2.create(title); 		// stand alone version
 //var ribbon = CustomO2.create(panel.clear().add_Panel(),title); 		// use when inside 'Quick Development GUI'
@@ -13,6 +11,8 @@ customO2.add_RibbonGroup("Group")
 //ribbon.add_Tab_BrowserAutomation();
 ribbon.add_Tab_MiscTools();
 
+//using O2.XRules.Database.Utils
+
 //O2File:CustomO2.cs  
 
 //O2Ref:WindowsFormsIntegration.dll
@@ -21,6 +21,4 @@ ribbon.add_Tab_MiscTools();
 //O2Ref:PresentationFramework.dll
 //O2Ref:PresentationCore.dll
 //O2Ref:WindowsBase.dll
-//O2Ref:System.Xaml.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Ref:System.Xaml.dll

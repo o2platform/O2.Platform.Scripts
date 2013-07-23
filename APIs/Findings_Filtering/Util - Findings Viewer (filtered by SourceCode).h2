@@ -1,14 +1,12 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Findings Viewer (Filtered by Source Code)",1000,400);
+var topPanel = O2Gui.open<Panel>("Findings Viewer (Filtered by Source Code)",1000,400);
 
 var firstScreen = topPanel.add_1x1("Demo Data", "View Finding's File");
 
-Action&lt;List&lt;IO2Finding&gt;&gt; loadFindings = 
-	(o2Findings)=&gt; topPanel.buildGUI_FilterBy_SourceCode(o2Findings);
+Action<List<IO2Finding>> loadFindings = 
+	(o2Findings)=> topPanel.buildGUI_FilterBy_SourceCode(o2Findings);
 
-Action&lt;string&gt; loadFile = 
-	(file)=&gt;{
+Action<string> loadFile = 
+	(file)=>{
 				var o2Findings = file.loadFindingsFile();
 				loadFindings(o2Findings);
 			};
@@ -17,21 +15,18 @@ Action&lt;string&gt; loadFile =
 firstScreen[0].add_Button("Load demo data (HacmeBank Findings File")
 			  .fill()
 			  .onClick(
-			  	()=&gt;{
+			  	()=>{
 			  			topPanel.clear();
 			  			loadFindings(Findings_DemoData.hacmeBank_AllFindings());
 			  		});
 firstScreen[1].add_Button("Drop here finding file to load")
 			  .fill()
 			  .onDrop(
-			  	(fileOrFolder)=&gt;{
+			  	(fileOrFolder)=>{
 			  						topPanel.clear();
 			  						loadFile(fileOrFolder);						
 			  					});
 
-//using O2.Interfaces.O2Findings;
 //using O2.XRules.Database.Findings
 //O2File:Findings_ExtensionMethods_Gui_Viewers.cs
-//O2File:Findings_DemoData.cs</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2File:Findings_DemoData.cs

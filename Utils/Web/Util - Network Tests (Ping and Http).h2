@@ -1,32 +1,27 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var flow = O2Gui.open&lt;FlowLayoutPanel&gt;("Network Tests", 265,460); 
+var flow = O2Gui.open<FlowLayoutPanel>("Network Tests", 265,460); 
 
-var linkPanel = flow.insert_Above&lt;Panel&gt;(35);
+var linkPanel = flow.insert_Above<Panel>(35);
  
-var tasks = new List&lt;ascx_SimpleTaskGui&gt;(); 
+var tasks = new List<ascx_SimpleTaskGui>(); 
  
-linkPanel.add_Link("start all", 5, 0, ()=&gt; tasks.start());	 
-linkPanel.add_Link("stop all", 5, 85, ()=&gt; tasks.stop());     
+linkPanel.add_Link("start all", 5, 0, ()=> tasks.start());	 
+linkPanel.add_Link("stop all", 5, 85, ()=> tasks.stop());     
 
-linkPanel.add_Link("execute once", 5, 183, ()=&gt; tasks.executeOnce()); 
-linkPanel.add_Link("loop execution", 20, 180, ()=&gt; tasks.loopExecution()); 
+linkPanel.add_Link("execute once", 5, 183, ()=> tasks.executeOnce()); 
+linkPanel.add_Link("loop execution", 20, 180, ()=> tasks.loopExecution()); 
 
-tasks.add(flow.newInThread&lt;ascx_Task_Ping&gt;().start("127.0.0.1"));
-tasks.add(flow.newInThread&lt;ascx_Task_Ping&gt;().start("www.google.com")); 
-tasks.add(flow.newInThread&lt;ascx_Task_WebGet&gt;().start("www.google.com"));
-tasks.add(flow.newInThread&lt;ascx_Task_WebGet&gt;().start("o2platform.wordpress.com"));
-tasks.add(flow.newInThread&lt;ascx_Task_WebPost&gt;().once().start("www.google_A.com"));
-tasks.add(flow.newInThread&lt;ascx_Task_WebPost&gt;().once().start("www.google.com"));
+tasks.add(flow.newInThread<ascx_Task_Ping>().start("127.0.0.1"));
+tasks.add(flow.newInThread<ascx_Task_Ping>().start("www.google.com")); 
+tasks.add(flow.newInThread<ascx_Task_WebGet>().start("www.google.com"));
+tasks.add(flow.newInThread<ascx_Task_WebGet>().start("o2platform.wordpress.com"));
+tasks.add(flow.newInThread<ascx_Task_WebPost>().once().start("www.google_A.com"));
+tasks.add(flow.newInThread<ascx_Task_WebPost>().once().start("www.google.com"));
 
 tasks.sleepPeriod(5000);
-flow.onClosed(()=&gt; tasks.stop()); 
+flow.onClosed(()=> tasks.stop()); 
 //tasks.executeOnce();
 flow.add_Controls(tasks);
 return "done";  
 
-//using O2.XRules.Database._Rules.APIs.Tasks
+
 //using System.Collections.Generic 
-</SourceCode>
-  <ReferencedAssemblies />
-</H2>

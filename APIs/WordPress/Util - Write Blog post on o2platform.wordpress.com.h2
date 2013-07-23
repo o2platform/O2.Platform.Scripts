@@ -1,8 +1,6 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>Web.Https.ignoreServerSslErrors();
+Web.Https.ignoreServerSslErrors();
 
-var topPanel = O2Gui.open&lt;Panel&gt;("Util - Write Blog post on o2platform.wordpress.com",1200,600); 
+var topPanel = O2Gui.open<Panel>("Util - Write Blog post on o2platform.wordpress.com",1200,600); 
 //var topPanel = panel.clear().add_Panel(); 
 
 topPanel.insert_LogViewer();
@@ -15,8 +13,8 @@ var postId = "";
 var serverUrl = "";
 var homepage = "";
 
-Func&lt;string,string&gt; uploadFile = 
-	(fileToUpload)=&gt;{
+Func<string,string> uploadFile = 
+	(fileToUpload)=>{
 				var httpMultiPartForm = new HttpMultiPartForm();
 				
 				string postUrl = serverUrl + "/wp-admin/async-upload.php";
@@ -31,7 +29,7 @@ Func&lt;string,string&gt; uploadFile =
 				fs.Read(data, 0, data.Length);
 				fs.Close();
 				
-				var postParameters = new Dictionary&lt;string, object&gt;();
+				var postParameters = new Dictionary<string, object>();
 				postParameters.Add("Filename", fileName);
 				postParameters.Add("_wpnonce", wpnonce);
 				postParameters.Add("post_id",postId);
@@ -63,9 +61,9 @@ var ie = topPanel.add_IE();
 var ie2 = topPanel.insert_Right(150).add_IE(); 
 
 Action uploadImagefromClipboard = 
-	()=&gt;{
+	()=>{
 			O2Thread.mtaThread(
-				()=&gt;{
+				()=>{
 						"uploading image".info();
 						var imageFromClipboard = 0.saveImageFromClipboard().info();
 						if (imageFromClipboard.fileExists())
@@ -73,7 +71,7 @@ Action uploadImagefromClipboard =
 							"[in Wordpress.uploadImage_fromClipboard]: uploading file: {0}".info(imageFromClipboard);
 							var imageNumber = uploadFile(imageFromClipboard);
 							"[in Wordpress.uploadImage_fromClipboard]: got image reference {0}".info(imageNumber);
-							ie2.open(serverUrl + "/wp-admin/async-upload.php?attachment_id={0}&amp;fetch=1".format(imageNumber));
+							ie2.open(serverUrl + "/wp-admin/async-upload.php?attachment_id={0}&fetch=1".format(imageNumber));
 							var pageHtml  = ie2.IE.Html.htmlDecode(); 
 							"got html with size: {0}".info(pageHtml.size());
 							var imageUrl = pageHtml.htmlDocument()
@@ -90,22 +88,22 @@ Action uploadImagefromClipboard =
 		};
 
 Action mapCookies =
-	()=&gt;{
-			ie2.open(serverUrl + "/wp-admin/media-upload.php?post_id={0}&amp;type=image".format(postId));			
+	()=>{
+			ie2.open(serverUrl + "/wp-admin/media-upload.php?post_id={0}&type=image".format(postId));			
 			var scriptElement =  ie2.IE.Html.htmlDocument()
 											.select(@"//script[contains(text(),'logged_in_cookie')]"); 
 			var jint = scriptElement.innerHtml().str().jint_Compile();   
-			var postParams = jint.statements&lt;JsonExpression&gt;(true)[0].Values["post_params"];
+			var postParams = jint.statements<JsonExpression>(true)[0].Values["post_params"];
 			
-			authCookie =  postParams.statements&lt;JsonExpression&gt;(true)[0].Values["auth_cookie"]
-							  	    .statements&lt;ValueExpression&gt;()[0].Value.str(); 
+			authCookie =  postParams.statements<JsonExpression>(true)[0].Values["auth_cookie"]
+							  	    .statements<ValueExpression>()[0].Value.str(); 
 			
-			loggedInCookie =  postParams.statements&lt;JsonExpression&gt;(true)[0].Values["logged_in_cookie"]
-							  		    .statements&lt;ValueExpression&gt;()[0].Value.str();
-			cookies = ie2.cookiesRaw();
+			loggedInCookie =  postParams.statements<JsonExpression>(true)[0].Values["logged_in_cookie"]
+							  		    .statements<ValueExpression>()[0].Value.str();
+//			cookies = ie2.cookiesRaw();
 			wpnonce = ie2.field("_wpnonce").value();  
 			
-			"cookies are: {0}".info(cookies); 
+//			"cookies are: {0}".info(cookies); 
 			"auth_Cookie is: {0}".info(authCookie);
 			"logged_in_cookie is: {0}".info(loggedInCookie); 
 		};
@@ -118,7 +116,7 @@ if (credential.isNull())
 	credential = ascx_AskUserForLoginDetails.ask();
 
 Action login = 
-	()=&gt;{
+	()=>{
 			ie.open(serverUrl + "/wp-login.php");
   			ie.field("log", credential.UserName);
   			ie.field("pwd", credential.Password);
@@ -126,9 +124,9 @@ Action login =
 		};
 
 Action newPost = 
-	()=&gt;{
+	()=>{
 			ie.open(serverUrl + "/wp-admin/post-new.php");
-			var browser = topPanel.control&lt;WebBrowser&gt;(true); 			 
+			var browser = topPanel.control<WebBrowser>(true); 			 
 			browser.focus(); 
 			ie.link("Toggle fullscreen mode (Alt+Shift+G)").click();
 			
@@ -139,8 +137,8 @@ Action newPost =
 			//browser.sendKeys("{TAB}%+g"); 
 		};
 
-Action&lt;string&gt; setTargetServer =
-	(server)=&gt;{
+Action<string> setTargetServer =
+	(server)=>{
 				new API_WordPress(server); 	  
 				serverUrl = "https://{0}".format(server);
 				homepage = serverUrl;
@@ -150,15 +148,15 @@ Action&lt;string&gt; setTargetServer =
 			  };
 
 
-actionPanel.add_Link("login", 0,0,()=&gt; login()) 		  
-		   .append_Link("stats", ()=&gt; ie.open(serverUrl + "/wp-admin/index.php?page=stats")) 
-		   .append_Link("new post", ()=&gt; newPost())		   
- 		   .append_Link("Wrap clipboard data with Source Code tags", ()=&gt; wordPress.wrapClipboardTextInSourceCodeTags())
- 		   .append_Link("open screenshot tool", ()=&gt; "Util - Show ScreenShot Tool.h2".local().executeH2Script())
- 		   .append_Link("upload image (from clipboard)", ()=&gt; uploadImagefromClipboard())
- 		   .append_Link("exit full screen", ()=&gt;{ ie.link("Exit fullscreen").click();} )
- 		   .append_Link("o2platform.wordpress.com", ()=&gt; setTargetServer("o2platform.wordpress.com"))
- 		   .append_Link("teammentordevelopment.wordpress.com", ()=&gt; setTargetServer("teammentordevelopment.wordpress.com"));
+actionPanel.add_Link("login", 0,0,()=> login()) 		  
+		   .append_Link("stats", ()=> ie.open(serverUrl + "/wp-admin/index.php?page=stats")) 
+		   .append_Link("new post", ()=> newPost())		   
+ 		   .append_Link("Wrap clipboard data with Source Code tags", ()=> wordPress.wrapClipboardTextInSourceCodeTags())
+ 		   .append_Link("open screenshot tool", ()=> "Util - Show ScreenShot Tool.h2".local().executeH2Script())
+ 		   .append_Link("upload image (from clipboard)", ()=> uploadImagefromClipboard())
+ 		   .append_Link("exit full screen", ()=>{ ie.link("Exit fullscreen").click();} )
+ 		   .append_Link("o2platform.wordpress.com", ()=> setTargetServer("o2platform.wordpress.com"))
+ 		   .append_Link("teammentordevelopment.wordpress.com", ()=> setTargetServer("teammentordevelopment.wordpress.com"));
 ;
 
  		  
@@ -166,17 +164,27 @@ setTargetServer("o2platform.wordpress.com");
 
 return "ok";
  
+
 //using System.IO
 //using System.Drawing.Imaging
+//using FluentSharp.Watin
+//using O2.XRules.Database.APIs
+//using Jint.Expressions
+//using O2.XRules.Database.Languages_and_Frameworks.Javascript
+//using FluentSharp.For_HtmlAgilityPack
+//using FluentSharp.CoreLib.Utils
+
 //O2File:API_WordPress.cs
 //O2File:WatiN_IE_ExtensionMethods.cs
+//O2File:Jint_ExtensionMethods.cs 
+
+//O2Ref:FluentSharp.Watin.dll
+//O2Ref:Watin.Core.dll
+
+
 //O2Ref:WordPress_XmlRpc_JoeBlogs.dll
 //O2Ref:Interop.SHDocVw.dll
 //O2Ref:WatiN.Core.1x.dll
-//using Jint.Expressions
-//using O2.XRules.Database.Languages_and_Frameworks.Javascript
-//O2File:Jint_ExtensionMethods.cs 
+//O2Ref:Microsoft.mshtml.dll
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
-//O2Ref:Jint/Jint.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Ref:Jint/Jint.dll

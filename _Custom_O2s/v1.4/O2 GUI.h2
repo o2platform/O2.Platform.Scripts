@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode> 
+ 
 
 /*panel.clear();
 var topPanel = panel.add_Panel();
@@ -8,20 +6,20 @@ topPanel.fill(false)
 		.width(800) 
 		.height(170);  
 */
-var topPanel = O2Gui.open&lt;Panel&gt;("OWASP O2 Platform - v1.4 beta (Sep 2010)", 800,163);     
+var topPanel = O2Gui.open<Panel>("OWASP O2 Platform - v1.4 beta (Sep 2010)", 800,163);     
 topPanel.parentForm().top(30).left(30);  
  
 var logoNoShadow = "O2_Logo_no_Shadow.jpg".local(); 
 var smallLogo = "O2Logo_Small.gif".local();
 var designerCanvas = topPanel.add_DesignerCanvas();          
 
-Action&lt;string, int,int, string&gt; add_Button = 
-	(title, left, top, script)=&gt;
+Action<string, int,int, string> add_Button = 
+	(title, left, top, script)=>
 		{
-			designerCanvas.add_Xaml_Button(title, left,top, ()=&gt;script.local().executeH2Script() );
+			designerCanvas.add_Xaml_Button(title, left,top, ()=>script.local().executeH2Script() );
 		};
 
-designerCanvas.add_Item&lt;WPF.Image&gt;(0,0,90,90).open(logoNoShadow);
+designerCanvas.add_Item<WPF.Image>(0,0,90,90).open(logoNoShadow);
 			
 
 var label1 = designerCanvas.add_Label("Welcome to the OWASP O2 Platform",5,100).fontSize(30).designMode(false);    
@@ -33,21 +31,24 @@ add_Button(" Use Other tools or APIs  ", 460,100,"O2 GUI - Use Other Tools or AP
 add_Button(" Create Scripts / APIs ", 590 ,100,"O2 GUI - Create Scripts or APIs.h2");
 add_Button(" Help! ", 755 ,100 ,"O2 GUI - Help.h2");
  
-designerCanvas.add_Xaml_Link("Try new 1.5 Beta version!", ()=&gt;"v1.5_MainGui.h2".local().executeH2Script())
+designerCanvas.add_Xaml_Link("Try new 1.5 Beta version!", ()=>"v1.5_MainGui.h2".local().executeH2Script())
 			  .left_Wpf(660);
 //add_Button("Try new 1.5 Beta version!", 690 ,0 , "v1.5_MainGui.h2").height_Wpf(20);
 
 return designerCanvas.connect(label1,label2,"Right","Top");			 
 
+//using O2.XRules.Database.Utils
+//using O2.XRules.Database.APIs
 //using WPF= System.Windows.Controls
 //using DiagramDesigner
+//using FluentSharp.WPF
+
 //O2File:DiagramDesigner_ExtensionMethods.cs
+
 //O2Ref:FluentSharp.WPF.dll
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:DiagramDesigner.exe
-
 //O2Ref:PresentationCore.dll
 //O2Ref:PresentationFramework.dll
 //O2Ref:WindowsBase.dll
-//O2Ref:System.Xaml.dll</SourceCode>
-</H2>
+//O2Ref:System.Xaml.dll

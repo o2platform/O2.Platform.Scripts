@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//var topPanel = panel.add_Panel(true);
+//var topPanel = panel.add_Panel(true);
 var topPanel = "Util - Windows Handles - View Handle Screenshot".popupWindow(450,350);
 
 WindowFinder windowFinder 			= null;
@@ -9,8 +7,8 @@ PictureBox	 pictureBox				= null;
 Bitmap		 lastScreenShot			= null; 
 Label		 userMessage			= null;
 
-Action&lt;IntPtr&gt; onHandleChange =  
-	(handle)=&gt;{
+Action<IntPtr> onHandleChange =  
+	(handle)=>{
 					textBox_CurrentHandle.set_Text(handle.str());
 					lastScreenShot = handle.window_ScreenShot();
 					if (lastScreenShot.notNull())
@@ -23,12 +21,12 @@ Action&lt;IntPtr&gt; onHandleChange =
 					
 			  }; 
 Action copyToClipboard = 
-	()=&gt;{
+	()=>{
 			topPanel.putBitmapOnClipboard(lastScreenShot); 
 			userMessage.set_Text("Image is in your Clipboard").foreColor(Color.DarkOrange);
 		};
 Action saveToDisk = 
-	()=&gt;{ 
+	()=>{ 
 			lastScreenShot.save().clipboardText_Set(); 
 			userMessage.set_Text("File saved Path is on your clipboard").foreColor(Color.DarkOrange);
 		};
@@ -43,12 +41,12 @@ topPanel.insert_Above(30).white()
 			.insert_Below_ToolStrip() 
 				.add_Copy(copyToClipboard) 
 				.add_Save("Save as temp file)",saveToDisk)
-				.add("Text Editor", "font_x_generic".formImage(), ()=&gt; "Simple Text Editor".popupWindow().add_RichTextBox())
+				.add("Text Editor", "font_x_generic".formImage(), ()=> "Simple Text Editor".popupWindow().add_RichTextBox())
 				.add_DropDown("Layout")
-					.add("None", ()=&gt; pictureBox.layout_None())
-					.add("Center", ()=&gt; pictureBox.layout_Center())
-					.add("Stretch", ()=&gt; pictureBox.layout_Stretch())
-					.add("Zoom", ()=&gt; pictureBox.layout_Zoom());
+					.add("None", ()=> pictureBox.layout_None())
+					.add("Center", ()=> pictureBox.layout_Center())
+					.add("Stretch", ()=> pictureBox.layout_Stretch())
+					.add("Zoom", ()=> pictureBox.layout_Zoom());
 
 topPanel.white().add_Label("Drag the target (top-left) into another Window or Control to see its screenshot").fill().text_Center().font_bold().size(20);	
 lastScreenShot = topPanel.handle().window_ScreenShot();
@@ -56,10 +54,10 @@ lastScreenShot = topPanel.handle().window_ScreenShot();
 topPanel.clear().add_PictureBox(ref pictureBox).white().layout_Zoom()
 			.show(lastScreenShot);
 			
-pictureBox.DoubleClick += (sender,e)=&gt; copyToClipboard();
+pictureBox.DoubleClick += (sender,e)=> copyToClipboard();
 
  return "ok";
+ 
+ //using O2.XRules.Database.APIs
 //O2File:WindowFinder.cs
-//O2Embed:target.ico</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Embed:target.ico

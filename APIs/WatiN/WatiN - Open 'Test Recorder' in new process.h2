@@ -1,17 +1,14 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var ie = new WatiN_IE();
+var ie = new WatiN_IE();
 ie.testRecorder();
 return ie;
 
 
-//O2File:WatiN_IE_ExtensionMethods.cs 
+//using FluentSharp.Watin
+//O2Ref:FluentSharp.Watin.dll
+//O2Ref:Watin.Core.dll
 
-//O2Ref:WatiN.Core.1x.dll
 //O2Ref:Microsoft.mshtml.dll
 //O2Ref:Test Recorder.exe
 //O2Ref:csExWB.dll
 //O2Ref:Microsoft.mshtml.dll
-//O2Ref:Microsoft.Win32.Hooks.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Ref:Microsoft.Win32.Hooks.dll

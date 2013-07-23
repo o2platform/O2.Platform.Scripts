@@ -19,6 +19,7 @@ folderViewer.refresh();
 webBrowser.open(baseUrl);
 
 return "done";  
-//O2File:API_ASMX_Proxy.cs 
+//using O2.XRules.Database.APIs
+//O2File:API_ASMX_Proxy.cs
 //O2File:DotNet_SDK_WSDL.cs
 //using O2.XRules.Database.Languages_and_Frameworks.DotNet

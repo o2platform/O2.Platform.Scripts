@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var userAccount = @"accounts.xml".credential("owasp.dinis");      
+var userAccount = @"accounts.xml".credential("owasp.dinis");      
 var permitedFileTypes = "vsd, odp, gif, png, jpg, jpeg, doc, ppt, mp3, pdf, psd, zip, tar, tar.gz, tar.bz2, jar, docx, pptx, xls, xlsx";
 
 //var topPanel = panel.clear().add_Panel();
@@ -16,11 +14,11 @@ Label messageLabel = null;
 var wikiApi = new OwaspWikiAPI(false); 
 
 Action showRecentChanges = 
-	()=&gt;{
+	()=>{
 			wikiApi.add_Table_with_RecentChanges(recentChanges.clear());
 		};
 Action login = 
-	()=&gt;{
+	()=>{
 			if (userAccount.isNull())
 				userAccount = ascx_AskUserForLoginDetails.ask();
 			
@@ -41,16 +39,16 @@ Action login =
 			} 
 			userAccount = null;			
 		};
-Action&lt;string&gt; uploadFile = 
-	(fileToUpload)=&gt;{		
+Action<string> uploadFile = 
+	(fileToUpload)=>{		
 						filesToUpload.add_Node(fileToUpload);
 						filesToUpload.pink();
 						O2Thread.mtaThread(
-							()=&gt;{
+							()=>{
 									var fileUrl = wikiApi.uploadImage(fileToUpload);
 									if (fileUrl.valid())
 									{
-										filesUploaded.append_Line("Uploaded OK: {0} -&gt;".line() + 
+										filesUploaded.append_Line("Uploaded OK: {0} ->".line() + 
 																  "\t{1}", fileToUpload , fileUrl);
 										messageLabel.set_Text("Uploaded file: {0}".format(fileToUpload)).textColor(Color.Black);
 										showRecentChanges();
@@ -61,8 +59,8 @@ Action&lt;string&gt; uploadFile =
 								});						
 					};
 					
-messageLabel = actionsPanel.add_Link("refresh recent changes table", ()=&gt;showRecentChanges())
-							.append_Link("Login", ()=&gt; login())
+messageLabel = actionsPanel.add_Link("refresh recent changes table", ()=>showRecentChanges())
+							.append_Link("Login", ()=> login())
 							.append_Label("").autoSize();
 
  
@@ -73,7 +71,7 @@ messageLabel.set_Text("To Upload files, please login");
 
 filesToUpload.add_Node("After login, drop file here to upload");
 filesToUpload.onDrop(
-	(fileOrDir)=&gt;
+	(fileOrDir)=>
 		{
 			if(fileOrDir.dirExists())
 			 	foreach(var file in fileOrDir.files())
@@ -86,9 +84,7 @@ login();
 
 showRecentChanges();
 
+//using FluentSharp.CoreLib.Utils
+//using O2.XRules.Database.APIs
 //O2File:OwaspWikiAPI.cs 
-//O2File:ISecretData.cs
-//O2File:ascx_AskUserForLoginDetails
-//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll

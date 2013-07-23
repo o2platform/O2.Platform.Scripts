@@ -1,9 +1,7 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var testCode = @"
+var testCode = @"
 {	
 	//comment this to see 2nd refactoring example
-   var stream =  new List&lt;object&gt;()  { file, ""aaa"", 123}; 
+   var stream =  new List<object>()  { file, ""aaa"", 123}; 
    
     
    
@@ -26,13 +24,13 @@ var originalCode = topPanel.title("Original Code").add_SourceCodeViewer().set_Co
 var refactoredCode = topPanel.insert_Right("Refactored Code").add_SourceCodeViewer().set_ColorsForCSharp();
 
 originalCode.onTextChange(
-	(text)=&gt;{ 
+	(text)=>{ 
 				var newText = "{{\n{0}\n}}".format(text).refactor_InitializerExpressions();
 				refactoredCode.set_Text(newText);
 				//newText.clipboardText_Set();
 			});  
 
-actionsPanel.add_Link("Refactor from Clipboard",()=&gt; originalCode.set_Text(topPanel.clipboardText_Get())).top(5);
+actionsPanel.add_Link("Refactor from Clipboard",()=> originalCode.set_Text(topPanel.clipboardText_Get())).top(5);
 
 originalCode.set_Text(testCode);
 
@@ -48,6 +46,7 @@ return ast.compilationUnit().add_Class(@class).str();
 //return ast.str();
 //using System.Linq;
 
+//using FluentSharp.FluentRoslyn
 
 //O2File:_Extra_methods_Roslyn_API.cs
 //O2File:_Extra_methods_Roslyn_API_GuiHelpers.cs
@@ -56,6 +55,4 @@ return ast.compilationUnit().add_Class(@class).str();
 //using Roslyn.Compilers;
 //O2Ref:Roslyn.Compilers.dll
 //O2Ref:Roslyn.Compilers.CSharp.dll
-//O2Ref:Roslyn.Services.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Ref:Roslyn.Services.dll

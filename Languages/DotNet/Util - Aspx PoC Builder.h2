@@ -1,9 +1,7 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//return PublicDI.config.CurrentExecutableDirectory.pathCombine("MS_VS_WebDev.WebServer.exe");  
+//return PublicDI.config.CurrentExecutableDirectory.pathCombine("MS_VS_WebDev.WebServer.exe");  
 //panel.clear();
 //var topPanel = panel.add_Panel();
-var topPanel = O2Gui.open&lt;Panel&gt;("Aspx PoC Builder",800,400);  
+var topPanel = O2Gui.open<Panel>("Aspx PoC Builder",800,400);  
 topPanel.width(1000); 
  
  
@@ -13,23 +11,23 @@ topPanel.width(1000);
 var localPoCFolder = PublicDI.config.LocallyDevelopedScriptsFolder.pathCombine("_localAspPoCs_2").createDir();
 var webServer = localPoCFolder.startWebServer();  
 
-  
+   
  
 var topControls = topPanel.add_1x1("Work Directory", "Test Page", true, 200); 
 var rightPanel = topControls[1].fill();  
 var directory = topControls[0].add_Directory(webServer.LocalPath);
-directory._ViewMode = ascx_Directory.ViewMode.Advanced; 
+directory._ViewMode = DirectoryViewer.ViewMode.Advanced; 
 directory.open(webServer.LocalPath);
 
-var codeViewer = rightPanel.insert_Left&lt;Panel&gt;(500).add_SourceCodeEditor(); 
+var codeViewer = rightPanel.insert_Left<Panel>(500).add_SourceCodeEditor(); 
 
-var optionsPanel = codeViewer.insert_Above&lt;Panel&gt;(40).add_GroupBox("Options").add_Panel();
+var optionsPanel = codeViewer.insert_Above<Panel>(40).add_GroupBox("Options").add_Panel();
 
-var urlTextBox = rightPanel.insert_Above&lt;Panel&gt;(60).add_TextArea();
+var urlTextBox = rightPanel.insert_Above<Panel>(60).add_TextArea();
 var ie = rightPanel.add_IE().silent(true);
-var pageHtml = rightPanel.insert_Below&lt;Panel&gt;(100).add_GroupBox("loaded page html").add_SourceCodeViewer();  //.add_TextArea();
+var pageHtml = rightPanel.insert_Below<Panel>(100).add_GroupBox("loaded page html").add_SourceCodeViewer();  //.add_TextArea();
 ie.onNavigate(
-	(url)=&gt; {
+	(url)=> {
 				urlTextBox.set_Text(url);
 				var htmlCode = ie.html();				
 				pageHtml.set_Text(htmlCode,"aa.aspx");
@@ -37,19 +35,19 @@ ie.onNavigate(
 				//ie.showElementsInTreeView();
 			});
 
-Action&lt;string&gt; openUrl = 
-	(url)=&gt;{
+Action<string> openUrl = 
+	(url)=>{
 				O2Thread.mtaThread(
-						()=&gt;{
+						()=>{
 								urlTextBox.set_Text(url);
 								ie.open(url);
 							}); 
 		   };
-Action&lt;string&gt; openPage = 
-	(pageToOpen)=&gt;{
+Action<string> openPage = 
+	(pageToOpen)=>{
 					"Page to open: {0}".info(pageToOpen); 
 					pageToOpen = pageToOpen.remove(webServer.LocalPath);
-					if (pageToOpen.valid() &amp;&amp; (pageToOpen[0] == '/' || pageToOpen[0] == '\\'))
+					if (pageToOpen.valid() && (pageToOpen[0] == '/' || pageToOpen[0] == '\\'))
 						pageToOpen = pageToOpen.removeFirstChar();
 					"Page to open: {0}".debug(pageToOpen);
 					var aspxPage_localPath = webServer.LocalPath.pathCombine(pageToOpen);
@@ -57,12 +55,12 @@ Action&lt;string&gt; openPage =
 											   
 					if (aspxPage_localPath.fileExists().isFalse())
 					{
-						var defaultAspxContent ="&lt;%@ Page Language=\"C#\"%&gt;".line() + 
-											    "&lt;html&gt;".line() + 
-											    "	&lt;body&gt;".line() + 
-											    "   ....&lt;%=\"Hello \"%&gt;World".line() + 
-											    " 	&lt;/body&gt;".line() +  
-											    "&lt;/html&gt;".line();
+						var defaultAspxContent ="<%@ Page Language=\"C#\"%>".line() + 
+											    "<html>".line() + 
+											    "	<body>".line() + 
+											    "   ....<%=\"Hello \"%>World".line() + 
+											    " 	</body>".line() +  
+											    "</html>".line();
 						defaultAspxContent.saveAs(aspxPage_localPath);
 								    
 					}	
@@ -70,9 +68,9 @@ Action&lt;string&gt; openPage =
 					openUrl(aspxPage_url);
 		   };	
 //urlTextBox.onEnter(openPage);
-urlTextBox.insert_Right&lt;Panel&gt;(100).add_Button("Open")
+urlTextBox.insert_Right<Panel>(100).add_Button("Open")
 		  .fill().onClick(
-		  			()=&gt;{
+		  			()=>{
 		  					"opening page".info();
 		  					openUrl(urlTextBox.get_Text());
 		  					
@@ -81,30 +79,29 @@ urlTextBox.insert_Right&lt;Panel&gt;(100).add_Button("Open")
 
 
 optionsPanel.add_Link("Save and refresh",0,0,
-	()=&gt;{ 
+	()=>{ 
 			codeViewer.saveSourceCode(); 
 			this.sleep(1000);  
 			ie.IE.Refresh();//open(aspxPage_url);		 	
 		})		
 		.append_Link("Start Web Server on current folder", 
-			()=&gt;{
+			()=>{
 					webServer = directory.getCurrentDirectory().startWebServer();
 				})
-		.append_Link("Stop all Web Servers", ()=&gt; MS_VS_WebServer.stopCurrentWebServerProcesses());
+		.append_Link("Stop all Web Servers", ()=> MS_VS_WebServer.stopCurrentWebServerProcesses());
 		
 
-directory.afterFileSelect((selectedFile)=&gt;openPage(selectedFile));  
+directory.afterFileSelect((selectedFile)=>openPage(selectedFile));  
 
 var aspxPage = "Hello_World.aspx"; 
 openPage(aspxPage);
 
 return "ok";
-//using O2.Views.ASCX.CoreControls
-//O2File:WatiN_IE_ExtensionMethods.cs
-//O2Ref:WatiN.Core.1x.dll
+//using FluentSharp.Watin
+//O2Ref:FluentSharp.Watin.dll
+//O2Ref:Watin.Core.dll
+
 //O2Ref:MS_VS_WebDev.WebServer.exe
 //O2Ref:Interop.SHDocVw.dll
 //using O2.XRules.Database.Languages_and_Frameworks.DotNet
-//O2File:MS_VS_WebServer.cs</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2File:MS_VS_WebServer.cs

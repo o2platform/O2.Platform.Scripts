@@ -1,41 +1,39 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var fileWithCredentials = @"C:\O2\_USERDATA\TwitterAccounts.xml";
-var mainPanel = O2Gui.open&lt;Panel&gt;("O2 Twitter Client", 900,400);
+var fileWithCredentials = @"C:\O2\_USERDATA\TwitterAccounts.xml";
+var mainPanel = O2Gui.open<Panel>("O2 Twitter Client", 900,400);
 
-var wpfGui = mainPanel.add_Control&lt;WPF_GUI&gt;();
+var wpfGui = mainPanel.add_Control<WPF_GUI>();
 var tweetsToFetch = 40;
 wpfGui.buildGui();			 
 
-wpfGui.insert_Below&lt;Panel&gt;(130).add_LogViewer();
-//var credentials = fileWithCredentials.deserialize&lt;SecretData&gt;();
-ISecretData secretData = null; // = fileWithCredentials.deserialize&lt;SecretData&gt;(); 
+wpfGui.insert_Below<Panel>(130).add_LogViewer();
+//var credentials = fileWithCredentials.deserialize<SecretData>();
+SecretData secretData = null; // = fileWithCredentials.deserialize<SecretData>(); 
 var twitterAPI = new O2TwitterAPI(); 
 wpfGui.Tag = twitterAPI;			//for the UnitTest
 // TOP Panel
 
-//var topPanel = wpfGui.insert_Above&lt;Panel&gt;(20); 
+//var topPanel = wpfGui.insert_Above<Panel>(20); 
 	         
 
 var mainSection = wpfGui.add_Section("Main", "Welcome to O2's twitter client")
 	.add_Link("User details",
-		(panel)=&gt;{
+		(panel)=>{
 					panel.add_Label("Current selected User",5,0);
 					
 					var usersComboBox = panel.add_ComboBox(0,120)
-											 .onSelection&lt;ICredential&gt;( 
-												   (credential)=&gt;{
-												   					O2Thread.mtaThread(()=&gt; twitterAPI.login(credential));
+											 .onSelection<Credential>( 
+												   (credential)=>{
+												   					O2Thread.mtaThread(()=> twitterAPI.login(credential));
 																 });
 					usersComboBox.append_Label("File with credentials")
 							     .width(120)
 							     .top(3)
 						         .append_TextBox("")
 						         .align_Right(panel)
-						         .onTextChange((text)=&gt;{
+						         .onTextChange((text)=>{
 						          							"onTextChange".debug();
 						          							fileWithCredentials = text;
-						          							secretData = fileWithCredentials.deserialize&lt;SecretData&gt;();
+						          							secretData = fileWithCredentials.deserialize<SecretData>();
 						          							usersComboBox.clear();           	 						
 						          							if (secretData.notNull())
 						          							{
@@ -50,10 +48,10 @@ var mainSection = wpfGui.add_Section("Main", "Welcome to O2's twitter client")
 				    var password = panel.add_Label("Password: ", 60,0)
 				    					.append_TextBox("",100);
 				    //password.Password = true;
-				    var loginButton = password.append_Control&lt;Button&gt;()
+				    var loginButton = password.append_Control<Button>()
 				    					      .set_Text("Login")
 				    					      .onClick(
-				    					      	()=&gt;{
+				    					      	()=>{
 				    					      			var newCredential = new Credential(userName.get_Text(), password.get_Text());
 				    					      			usersComboBox.add_Item(newCredential);
 						          						usersComboBox.select_Item(0);
@@ -62,7 +60,7 @@ var mainSection = wpfGui.add_Section("Main", "Welcome to O2's twitter client")
 				    
 		         	panel.add_Label("# Tweets to fetch", 100,00)
 				       	 .append_TextBox(tweetsToFetch.str())
-				         .onTextChange((text)=&gt;{
+				         .onTextChange((text)=>{
 				         							if(text.isInt())
 				         								tweetsToFetch = text.toInt();
 			         							});
@@ -83,33 +81,33 @@ var mainSection = wpfGui.add_Section("Main", "Welcome to O2's twitter client")
 
 	// timelineTab   
 	.add_Link("User's TimeLine",
-		(panel)=&gt;{
-					panel.add_TableList_With_Tweets("User Timeline",()=&gt; { return twitterAPI.home(tweetsToFetch);});				
+		(panel)=>{
+					panel.add_TableList_With_Tweets("User Timeline",()=> { return twitterAPI.home(tweetsToFetch);});				
 				 })
 	
 	//userTweetsTab 
 	.add_Link("User Tweets",
-		(panel)=&gt;{
-					panel.add_TableList_With_Tweets("User Tweets",()=&gt; { return twitterAPI.tweets(tweetsToFetch);});
+		(panel)=>{
+					panel.add_TableList_With_Tweets("User Tweets",()=> { return twitterAPI.tweets(tweetsToFetch);});
 				 })
 			
 	//writeTweetTab
 	.add_Link("Write tweet",
-		(panel)=&gt;{		
+		(panel)=>{		
 					var maxTweetSize = 140; 
 					var tweetText = panel.add_TextArea(); 
-					var bottomPanel = tweetText.insert_Below&lt;Panel&gt;(20);  
+					var bottomPanel = tweetText.insert_Below<Panel>(20);  
 					var textSize = bottomPanel.add_Label("Tweet TextSize: 0",0,0);
 	
 								
-					tweetText.onTextChange((text)=&gt;
+					tweetText.onTextChange((text)=>
 						{		
 							var size = text.size(); 
 							textSize.set_Text("Tweet TextSize: {0}".format(size)); 
-							tweetText.backColor( size &gt; maxTweetSize ? Color.Red : Color.White);
+							tweetText.backColor( size > maxTweetSize ? Color.Red : Color.White);
 						});
 					textSize.append_Link("post tweet",	
-						()=&gt;
+						()=>
 								{
 									"in post tweet".debug();
 									var response = twitterAPI.newTweet(tweetText.get_Text()); 
@@ -122,13 +120,13 @@ var mainSection = wpfGui.add_Section("Main", "Welcome to O2's twitter client")
 	
 //followersTab
 	.add_Link("Followers",
-		(panel)=&gt;{
+		(panel)=>{
 					panel.add_TableList_With_Users(twitterAPI.followers());
 				 })
 		
 //followingTab
 	.add_Link("Following",
-		(panel)=&gt;{
+		(panel)=>{
 					panel.add_TableList_With_Users(twitterAPI.following());
 				 });
 
@@ -136,7 +134,7 @@ var mainSection = wpfGui.add_Section("Main", "Welcome to O2's twitter client")
 
 //Options Tab
 /*	  .add_Link("Options",
-			  	()=&gt;{
+			  	()=>{
 			  		   wpfGui.WinFormPanel.clear();
 					   wpfGui.WinFormPanel.						
 			  		});*/
@@ -157,17 +155,17 @@ var tabControl = panel2.add_TabControl();
 var writeTweetTab = tabControl.add_Tab("Write Tweet");
 var timelineTab = tabControl.add_Tab("Public Timeline");
 var userTweetsTab = tabControl.add_Tab("User Tweets");
-var followersTab = tabControl.add_Tab("Followers").onSelected(()=&gt;{"followers".debug();});  
-var followingTab = tabControl.add_Tab("Following").onSelected(()=&gt;{"following".debug();});
+var followersTab = tabControl.add_Tab("Followers").onSelected(()=>{"followers".debug();});  
+var followingTab = tabControl.add_Tab("Following").onSelected(()=>{"following".debug();});
 var optionsTab = tabControl.add_Tab("Options"); 
    
 // optionsTab
 optionsTab.add_Label("File with credentials",20,0)
           .append_TextBox(200)
-          .onTextChange((text)=&gt;{
+          .onTextChange((text)=>{
           							"onTextChange".debug();
           							fileWithCredentials = text;
-          							secretData = fileWithCredentials.deserialize&lt;SecretData&gt;();
+          							secretData = fileWithCredentials.deserialize<SecretData>();
           							usersComboBox.clear();           	 						
           							usersComboBox.add_Items(secretData.usernames("Twitter"));
           							usersComboBox.select_Item(0);
@@ -185,23 +183,23 @@ optionsTab.add_Label("File with credentials",20,0)
  
 // timelineTab   
 timelineTab.onSelected(
-	()=&gt;{
+	()=>{
 			timelineTab.add_TableList_With_Tweets(twitterAPI.home(500));
 		});
 
 //userTweetsTab 
 userTweetsTab.onSelected(
-	()=&gt;{
+	()=>{
 			userTweetsTab.add_TableList_With_Tweets(twitterAPI.tweets(500));
 		}); 
 		
 //writeTweetTab
 var maxTweetSize = 140; 
 var tweetText = writeTweetTab.add_TextArea(); 
-var bottomPanel = tweetText.insert_Below&lt;Panel&gt;(20);  
+var bottomPanel = tweetText.insert_Below<Panel>(20);  
 var textSize = bottomPanel.add_Label("Tweet TextSize: 0",0,0);
 textSize.append_Link("post tweet",
-	()=&gt;{
+	()=>{
 			"in post tweet".debug();
 			var response = twitterAPI.newTweet(tweetText.get_Text()); 
 			if (response)
@@ -209,27 +207,29 @@ textSize.append_Link("post tweet",
 			"after post tweet".debug();			
 		});
 		
-tweetText.onTextChange((text)=&gt;
+tweetText.onTextChange((text)=>
 	{		
 		var size = text.size(); 
 		textSize.set_Text("Tweet TextSize: {0}".format(size)); 
-		tweetText.backColor( size &gt; maxTweetSize ? Color.Red : Color.White);
+		tweetText.backColor( size > maxTweetSize ? Color.Red : Color.White);
 	});
 
 //followersTab
 followersTab.onSelected( 
-	()=&gt;{
+	()=>{
 			followersTab.add_TableList_With_Users(twitterAPI.followers());
 		});
 		
 //followingTab
 followingTab.onSelected( 
-	()=&gt;{
+	()=>{
 			followingTab.add_TableList_With_Users(twitterAPI.following());
 		});
 return "done";
 */ 
 
+//using O2.XRules.Database.APIs
+//using FluentSharp.CoreLib.Utils
 //O2File:O2TwitterAPI.cs
 //O2File:WPF_GUI.cs
 
@@ -246,6 +246,4 @@ return "done";
 //O2Ref:PresentationFramework.dll
 //O2Ref:System.Xaml.dll
 //O2Ref:WindowsBase.dll
-//O2Ref:WindowsFormsIntegration.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Ref:WindowsFormsIntegration.dll

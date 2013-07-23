@@ -66,5 +66,6 @@ toolStrip
 
 
 //onHandleChange(handleTree.handle());
- 
- //O2File:WindowFinder.cs
+
+//using O2.XRules.Database.APIs 
+//O2File:WindowFinder.cs

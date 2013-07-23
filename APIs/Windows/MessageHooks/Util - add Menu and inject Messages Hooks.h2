@@ -1,16 +1,14 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//var topPanel = panel.clear().add_Panel();
+//var topPanel = panel.clear().add_Panel();
 TextBox currentFilter_TextBox = null;
 Action showProcessToHook = null;
 //return 0x4740;
 var count = 0; 
  
-Action&lt;IntPtr,IntPtr , IntPtr, IntPtr&gt; GetMsg_GetMsg = 
-	( Handle,  Message,  wParam,  lParam) =&gt;   
+Action<IntPtr,IntPtr , IntPtr, IntPtr> GetMsg_GetMsg = 
+	( Handle,  Message,  wParam,  lParam) =>   
 		{		  
 			int menuCommand = 0;
-			//if (count ++ &lt; 10) 
+			//if (count ++ < 10) 
 			//	"in GetMsg_GetMsg".info();
 			switch(Message.ToInt32())  
 			{ 
@@ -32,14 +30,14 @@ Action&lt;IntPtr,IntPtr , IntPtr, IntPtr&gt; GetMsg_GetMsg =
 				case win32.WM_COMMAND:
 					"(GetMsg_GetMsg) WM_COMMAND".info();
 					"(GetMsg_GetMsg) WM_SYSCOMMAND".info();
-					menuCommand = (wParam.ToInt32() &amp; 0x0000FFFF);
+					menuCommand = (wParam.ToInt32() & 0x0000FFFF);
 					//int HighOrder = wParam.ToInt32() - LowOrder;
 					"handle: {0}".debug(Handle);
 					"menuCommand: {0}".debug(menuCommand);					
 					break;	
 				case win32.WM_SYSCOMMAND:
 					"(GetMsg_GetMsg) WM_SYSCOMMAND".info();
-					menuCommand = (wParam.ToInt32() &amp; 0x0000FFFF);					
+					menuCommand = (wParam.ToInt32() & 0x0000FFFF);					
 					"handle: {0}".debug(Handle);
 					"LowOrder: {0}".debug(menuCommand);										
 					break;
@@ -78,8 +76,8 @@ genericWindow.WindowsMessage = _GlobalHooks.ProcessWindowMessage;
 //StringBuilder Title = new StringBuilder(256); 
 //win32.SetWindowText(mainHandle, "this is a test");
 //win32.GetWindowText(mainHandle, Title, 256); 	
-Action&lt;Process&gt; addMenuItem =  
-	(process)=&gt;{						
+Action<Process> addMenuItem =  
+	(process)=>{						
 			var _Handle = process.MainWindowHandle;//Processes.getProcessCalled("notepad").MainWindowHandle;
 		
 			"Main Window HANDLE: {0}".info(_Handle);
@@ -116,7 +114,7 @@ Action&lt;Process&gt; addMenuItem =
 Process selectedProcess = null;
 
 Action hookSelectedProcess =
-	()=&gt;{
+	()=>{
 			GlobalHooks.HookIndex = selectedProcess.Threads[0].Id; 
 			if (GlobalHooks.HookIndex ==1)
 			{
@@ -124,58 +122,60 @@ Action hookSelectedProcess =
 				return;
 			}
 			"Process Thread id: {0}".info(GlobalHooks.HookIndex);
-			popupWindow.invokeOnThread(()=&gt; _GlobalHooks.GetMsg.Start() );
+			popupWindow.invokeOnThread(()=> _GlobalHooks.GetMsg.Start() );
 		};
 
 Action unHookSelectedProcess =
-	()=&gt;{
+	()=>{
 			"unHookSelectedProcess".info();
 			 _GlobalHooks.GetMsg.Stop();
 		};	
 		
 
 
-popupWindow.insert_Above(40,"Actions").add_Link("Add Menu item", 0,0,()=&gt; addMenuItem(selectedProcess))
+popupWindow.insert_Above(40,"Actions").add_Link("Add Menu item", 0,0,()=> addMenuItem(selectedProcess))
 			.append_Link("hook selected Process", 
-				()=&gt; {	
+				()=> {	
 						hookSelectedProcess();
 					  })					  
-			.append_Link("Stop Hooks", ()=&gt; unHookSelectedProcess())
-			.append_Link("start notepad", ()=&gt; { 
+			.append_Link("Stop Hooks", ()=> unHookSelectedProcess())
+			.append_Link("start notepad", ()=> { 
 													"notepad.exe".startProcess();
 													currentFilter_TextBox.set_Text("notepad");
 													showProcessToHook();
 											    });
-			//.append_TextBox("0").onTextChange((text)=&gt;  = text.toInt());
+			//.append_TextBox("0").onTextChange((text)=>  = text.toInt());
 
 var treeView =  popupWindow.add_TreeView_with_PropertyGrid(false)
-						   .afterSelect&lt;Process&gt;((process)=&gt;selectedProcess = process)
+						   .afterSelect<Process>((process)=>selectedProcess = process)
 						   .sort();
 
-Func&lt;Process, string&gt; processDescription = 
-	(process)=&gt; {
+Func<Process, string> processDescription = 
+	(process)=> {
 					return "{0}  [id: {1}]".format(process.ProcessName, process.Id);
 				};
 var currentFilter = "";
 
 showProcessToHook = 
-	()=&gt;{	
+	()=>{	
 			treeView.clear();
 			if(currentFilter.valid())
-				treeView.add_Nodes(Processes.getProcesses().where((process)=&gt; process.ProcessName.contains(currentFilter)), processDescription);
+				treeView.add_Nodes(Processes.getProcesses().where((process)=> process.ProcessName.contains(currentFilter)), processDescription);
 			else
 				treeView.add_Nodes(Processes.getProcesses(),processDescription);  
 		};		 
 
 currentFilter_TextBox = treeView.insert_Above(20)
 								.add_TextBox("filter","")
-								.onTextChange((text)=&gt; { currentFilter = text; showProcessToHook();});
+								.onTextChange((text)=> { currentFilter = text; showProcessToHook();});
 		
-treeView.add_ContextMenu().add_MenuItem("refresh", ()=&gt; showProcessToHook());		
+treeView.add_ContextMenu().add_MenuItem("refresh", ()=> showProcessToHook());		
 
 showProcessToHook();			
 			 
 return "done"; 
+
+//using O2.XRules.Database.APIs
 
 //using TransparencyMenu
 //using System.Text
@@ -185,6 +185,4 @@ return "done";
 //O2File:GlobalHooks.cs
 //O2File:Form1.cs
 //O2File:Window.cs
-//O2File:Win32.cs</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2File:Win32.cs

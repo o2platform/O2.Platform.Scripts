@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var process = "Notepad".startProcess();
+var process = "Notepad".startProcess();
 API_GuiAutomation guiAutomation = new API_GuiAutomation("Notepad");
 
 var notepad = guiAutomation.window("Untitled - Notepad");
@@ -16,10 +14,10 @@ notepad.textBoxes()[0]
 	   .mouse_MoveBy(-100,-100)    
 	   .set_Text("This is a fully automated script, with no user interaction".line()  + " ...".line() + "going to sleep for 3 sec")
 	   .waitNSeconds(3)  
-	   .set_Text("Ok, now going to close notepad by moving the mouse to click on the menu options: File-&gt;Exit")
+	   .set_Text("Ok, now going to close notepad by moving the mouse to click on the menu options: File->Exit")
 	   .sleep(2000); 
 	   
-//Clicking on the File-&gt;Exit menu item
+//Clicking on the File->Exit menu item
 notepad.menu("File").mouse().click()
 	   .menu("Exit").mouse().click();
 
@@ -29,7 +27,6 @@ guiAutomation.window("Notepad").button("Don't Save").mouse().click();
 
 return "all done";
 
+//using FluentSharp.GuiAutomation
 //O2File:API_GuiAutomation.cs
-//O2Ref:White.Core.dll </SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Ref:White.Core.dll 

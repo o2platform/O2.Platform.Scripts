@@ -1,22 +1,20 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>O2ConfigSettings.O2Version = "SoSNet_v1";
+O2ConfigSettings.O2Version = "SoSNet_v1";
 
 O2Setup.extractEmbededConfigZips();
 if ("mainForm".o2Cache().isNull())
 {
 	O2Thread.staThread(
-		()=&gt;{
+		()=>{
 				"Opening form".info();
 				var mainForm= new FormMain();
 				mainForm.Text += " (O2 Platform version)";
 				mainForm.add_Menu().add_MenuItem("O2 Platform") 
-					    .add_MenuItem("O2 C# REPL Script Editor", ()=&gt; mainForm.script_Me())
-					    .add_MenuItem("O2 Log Viewer", ()=&gt; "Util - LogViewer.h2".local().executeH2Script())
+					    .add_MenuItem("O2 C# REPL Script Editor", ()=> mainForm.script_Me())
+					    .add_MenuItem("O2 Log Viewer", ()=> "Util - LogViewer.h2".local().executeH2Script())
 					    .add_MenuItem("O2 Scripts", false)
-					    .add_MenuItem("Download O2 Scripts (from GitHub)", ()=&gt; O2Scripts.downloadO2Scripts())
-					    .add_MenuItem("Open Find Scripts GUI", ()=&gt; "Util - O2 Available scripts.h2".local().executeH2Script())
-					    .add_MenuItem("Open Main O2 GUI", ()=&gt; "Main O2 Gui.h2".local().executeH2Script());
+					    //.add_MenuItem("Download O2 Scripts (from GitHub)", ()=> O2Scripts.downloadO2Scripts())
+					    .add_MenuItem("Open Find Scripts GUI", ()=> "Util - O2 Available scripts.h2".local().executeH2Script())
+					    .add_MenuItem("Open Main O2 GUI", ()=> "Main O2 Gui.h2".local().executeH2Script());
 
 				"mainForm".o2Cache(mainForm);
 				mainForm.ShowDialog();				
@@ -30,7 +28,7 @@ else
 
 var sos = (FormMain)"mainForm".o2Cache();
 
-//sos.controls&lt;TabControl&gt;().add_Tab("C# REPL Script").add_Script_Object(sos);
+//sos.controls<TabControl>().add_Tab("C# REPL Script").add_Script_Object(sos);
 		 
 //set the value of CdbPath
 var controller = (SosController)sos.field("controller");
@@ -46,13 +44,9 @@ sos.insert_Below(200,"REPL SoS").add_Script_Me(controller);
 return sos;
 
 
-
 //using SOS.Net
 //using SOS.Net.Core.Cdb
-//using O2.FluentSharp.REPL
 
 //O2Ref:SosNet\Debug\SOS.Net.Core.dll
 //O2Ref:SosNet\Debug\SOS.Net.exe
-//O2EmbedTool:SosNet</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2EmbedTool:SosNet

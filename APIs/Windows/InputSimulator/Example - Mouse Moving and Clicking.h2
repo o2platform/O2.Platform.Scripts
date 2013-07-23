@@ -1,11 +1,9 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//panel.clear(); 
+//panel.clear(); 
 //var topPanel = panel;
-var topPanel = O2Gui.open&lt;Panel&gt;("Mouse move PoC",300,150); 
+var topPanel = O2Gui.open<Panel>("Mouse move PoC",300,150); 
 var button1 = topPanel.add_Button("This is a button ",30,30);
 var textBox = button1.append_TextBox("");
-button1.onClick(()=&gt;{"I was clicked".info();});
+button1.onClick(()=>{"I was clicked".info();});
 	
 var inputSimulator = new API_InputSimulator();	
 inputSimulator.Move_SkipValue= 3;			// makes it faster
@@ -21,6 +19,8 @@ inputSimulator.mouse_MoveTo(button1,false).mouse_Click()
 return inputSimulator.mouse_CurrentPosition();
 
 //O2File:API_InputSimulator.cs
+
+//using O2.XRules.Database.APIs
 //using WindowsInput.Native
 //using System.Threading
 //using WindowsInput
@@ -29,6 +29,4 @@ return inputSimulator.mouse_CurrentPosition();
 //O2Ref:PresentationCore.dll
 //O2Ref:PresentationFramework.dll
 //O2Ref:WindowsBase.dll
-//O2Ref:System.Xaml.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Ref:System.Xaml.dll

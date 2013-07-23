@@ -1,14 +1,12 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - Submit file to Veracode Trial",700,180);    
+var topPanel = O2Gui.open<Panel>("Util - Submit file to Veracode Trial",700,180);    
 //var topPanel = panel.clear().add_Panel(); 
 topPanel.insert_LogViewer(); 
 var _email = "o2@o2platform.com"; 
 var _fileToUpload = @"C:\O2\Demos\jPetStore - O2 Demo Pack\apache-tomcat-7.0.16\webapps\jpetstore.war"; 
 
  
-Action&lt;string,string&gt; submitFileToVeracode = 
-	(email, fileToUpload)=&gt;
+Action<string,string> submitFileToVeracode = 
+	(email, fileToUpload)=>
 		{
 			var windowName= "Veracode File Upload - {0}".format(10.randomLetters());
 			var ie = windowName.popupWindow(1000,500)
@@ -34,22 +32,25 @@ Action&lt;string,string&gt; submitFileToVeracode =
 
 topPanel.add_TextBox("Email",_email).top(0)
 			.width(100) 
-			.onTextChange((text)=&gt;_email=text)
+			.onTextChange((text)=>_email=text)
 		.append_Label("File to upload")
 			.autoSize()
 			.top(3)
 		.append_TextBox(_fileToUpload)
-			.onTextChange((text)=&gt;_fileToUpload=text)
+			.onTextChange((text)=>_fileToUpload=text)
 			.width(300)
 			.align_Right(topPanel);
 topPanel.add_Button(24,"Create Account and Upload File")
 		.font_bold()
 		.align_Right(topPanel)
-		.onClick(()=&gt; submitFileToVeracode(_email, _fileToUpload) );
+		.onClick(()=> submitFileToVeracode(_email, _fileToUpload) );
 
-//O2File:WatiN_IE_ExtensionMethods.cs
-//O2Ref:WatiN.Core.1x.dll
+//using O2.XRules.Database.APIs
+//using FluentSharp.GuiAutomation
+//using FluentSharp.Watin
+
 //O2File:API_GuiAutomation.cs
-//O2Ref:White.Core.dll </SourceCode>
-  <ReferencedAssemblies />
-</H2>
+
+//O2Ref:FluentSharp.Watin.dll
+//O2Ref:Watin.Core.dll
+//O2Ref:White.Core.dll 

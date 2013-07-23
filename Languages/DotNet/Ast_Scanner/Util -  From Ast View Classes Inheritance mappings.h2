@@ -1,27 +1,25 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//panel.clear();
+//panel.clear();
 //var topPanel = panel.add_Panel();
-var topPanel = O2Gui.open&lt;Panel&gt;("Util - From AST View .NET interfaces Mappings",800,600); 
+var topPanel = O2Gui.open<Panel>("Util - From AST View .NET interfaces Mappings",800,600); 
 var astDataCacheKey = "astData"; 
 var baseFolder = ""; 
 var useCachedData = true ;
-var referencesToLoad = new List&lt;string&gt;(); 
+var referencesToLoad = new List<string>(); 
 var astData = (O2MappedAstData)O2LiveObjects.get(astDataCacheKey);
 //var codeViewer = topPanel.add_SourceCodeEditor();   
 
-//var treeView = codeViewer.insert_Left&lt;TreeView&gt;(400) 
+//var treeView = codeViewer.insert_Left<TreeView>(400) 
 //							     .showSelection();
 var sourceCodeViewer = topPanel.add_SourceCodeViewer();
-var leftPanel = sourceCodeViewer.insert_Left&lt;Panel&gt;(200).add_1x1("Mapped by Root Class", "Mapped by Inherited Class",false);
+var leftPanel = sourceCodeViewer.insert_Left<Panel>(200).add_1x1("Mapped by Root Class", "Mapped by Inherited Class",false);
 var treeView_byRootClass = leftPanel[0].add_TreeView().sort();
 var treeView_byInheritedClass = leftPanel[1].add_TreeView().sort();
 
 
-Action&lt;TreeView&gt; setupTreeView = 
-	(treeView)=&gt;{
-					treeView.afterSelect&lt;TypeDeclaration&gt;(
-						(typeDeclaration) =&gt; { 					 										
+Action<TreeView> setupTreeView = 
+	(treeView)=>{
+					treeView.afterSelect<TypeDeclaration>(
+						(typeDeclaration) => { 					 										
 											var file = astData.file(typeDeclaration);
 											sourceCodeViewer.open(file);  
 											sourceCodeViewer.editor().caret(typeDeclaration.StartLocation.Line, typeDeclaration.StartLocation.Column); 
@@ -31,8 +29,8 @@ Action&lt;TreeView&gt; setupTreeView =
 							};
 
 
-Action&lt;Dictionary&lt;IClass, List&lt;IClass&gt;&gt;,TreeView&gt; loadDataInTreeView = 
-	(classData, treeView) =&gt; {
+Action<Dictionary<IClass, List<IClass>>,TreeView> loadDataInTreeView = 
+	(classData, treeView) => {
 								treeView.clear();
 								foreach(var iClass in classData) 
 								{
@@ -51,11 +49,11 @@ Action&lt;Dictionary&lt;IClass, List&lt;IClass&gt;&gt;,TreeView&gt; loadDataInTr
 
 
 
-Action&lt;string&gt; loadAstData = 
-	(folder) =&gt; {
+Action<string> loadAstData = 
+	(folder) => {
 					treeView_byRootClass.backColor(Color.LightPink);
 					O2Thread.mtaThread(
-						()=&gt;{
+						()=>{
 						baseFolder = folder;
 						if (useCachedData.isFalse() || astData == null)
 						{
@@ -67,12 +65,12 @@ Action&lt;string&gt; loadAstData =
 							O2LiveObjects.set(astDataCacheKey,astData);											
 						}
 						treeView_byRootClass.backColor(Color.Azure ); 
-						var mappedByRootClass = new Dictionary&lt;IClass, List&lt;IClass&gt;&gt;();
-						var mappedByInheritClass = new Dictionary&lt;IClass, List&lt;IClass&gt;&gt;();
+						var mappedByRootClass = new Dictionary<IClass, List<IClass>>();
+						var mappedByInheritClass = new Dictionary<IClass, List<IClass>>();
 												
 						foreach(var iClass in astData.iClasses())
 							foreach(var inheritClass in iClass.ClassInheritanceTree)	
-								if (iClass != inheritClass &amp;&amp; inheritClass.Name.neq("Object"))
+								if (iClass != inheritClass && inheritClass.Name.neq("Object"))
 								{											
 									mappedByRootClass.add(iClass, inheritClass); 
 									mappedByInheritClass.add(inheritClass,iClass); 
@@ -84,8 +82,8 @@ Action&lt;string&gt; loadAstData =
 				};
 
 
-treeView_byRootClass.onDrop((folder)=&gt; { useCachedData = false; loadAstData(folder);});
-treeView_byInheritedClass.onDrop((folder)=&gt;{ useCachedData = false; loadAstData(folder);}); 
+treeView_byRootClass.onDrop((folder)=> { useCachedData = false; loadAstData(folder);});
+treeView_byInheritedClass.onDrop((folder)=>{ useCachedData = false; loadAstData(folder);}); 
 
 
 setupTreeView(treeView_byRootClass);
@@ -100,12 +98,7 @@ referencesToLoad.Add("System.Web.Services");
 //loadAstData(sourceFolder); 	
 return null;
 
-//using O2.API.AST.CSharp
-//using O2.API.AST.ExtensionMethods;
-//using O2.API.AST.ExtensionMethods.CSharp;
-//using O2.External.SharpDevelop.ExtensionMethods;
-//using O2.External.SharpDevelop.AST;
-//using O2.External.SharpDevelop.Ascx;
+//using FluentSharp.CSharpAST.Utils
 //using O2.XRules.Database.Languages_and_Frameworks.DotNet	
 //using ICSharpCode.SharpDevelop.Dom;
 //using ICSharpCode.NRefactory;
@@ -115,5 +108,4 @@ return null;
 //O2File:ascx_ManualMethodStreams.cs
 //O2Ref:O2_External_SharpDevelop.dll
 //O2Ref:QuickGraph.dll
-//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll</SourceCode>
-</H2>
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll

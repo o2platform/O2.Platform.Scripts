@@ -1,16 +1,14 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>
-var topPanel = O2Gui.open&lt;Panel&gt;("Map HacmeBank Ascx entry points",600,400);
-topPanel.insert_Below&lt;Panel&gt;(100).add_LogViewer();
+
+var topPanel = O2Gui.open<Panel>("Map HacmeBank Ascx entry points",600,400);
+topPanel.insert_Below<Panel>(100).add_LogViewer();
 //var pathToRemove = "http://localhost:{0}/Hacmebank_v2/main.aspx?TargetPage={1}";
 var originalPath = @"C:\O2\Demos\HacmeBank\HacmeBank_v2.0 (7 Dec 08)\HacmeBank_v2_Website\ascx";
 
 O2.ImportExport.OunceLabs.OunceAvailableEngines.addAvailableEnginesToControl(typeof(ascx_FindingsViewer));
 
-var findingsViewer = topPanel.add_Control&lt;ascx_FindingsViewer&gt;();
+var findingsViewer = topPanel.add_Control<ascx_FindingsViewer>();
 
-var o2Findings = new List&lt;IO2Finding&gt;();
+var o2Findings = new List<IO2Finding>();
 
 var urlBase = "http://localhost:{0}/Hacmebank_v2/main.aspx?TargetPage={1}";
 
@@ -45,26 +43,17 @@ findingsViewer.show(o2Findings);
 		
 return null;
 
-
+//using FluentSharp.CSharpAST
+//using FluentSharp.CSharpAST.Utils
+//using FluentSharp.WinForms.O2Findings; 
 //using O2.XRules.Database.Languages_and_Frameworks.DotNet; 
-//using O2.API.AST.CSharp;
-//using O2.API.AST.ExtensionMethods;
-//using O2.API.AST.ExtensionMethods.CSharp;
 //using ICSharpCode.NRefactory.Ast;
+//using O2.XRules.Database.Findings
 //O2File:IAST_Rules.cs
 //O2File:TextEditor_O2CodeStream_ExtensionMethods.cs
 //O2File:Findings_ExtensionMethods.cs
 //O2File:Ast_Engine_ExtensionMethods.cs
 
 //O2Ref:QuickGraph.dll
-
-
-//using O2.Interfaces.O2Findings;
-//using O2.Views.ASCX.O2Findings;
-//using O2.XRules.Database.Findings;
-//using O2.DotNetWrappers.O2Findings;
-
 //O2File:Findings_ExtensionMethods.cs
-//O2File:OunceAvailableEngines.cs</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2File:OunceAvailableEngines.cs

@@ -87,7 +87,7 @@ loadSolution(sourceFolder.pathCombine(@"O2.FluentSharp.CoreLib.sln"));
 
 o2Solutions.add_Files(PublicDI.config.CurrentExecutableDirectory.pathCombine(@"..\..\"), "*.sln");
 
-
+//using FluentSharp.FluentRoslyn
 //using System.Threading
 //using Roslyn.Services
 //using Roslyn.Compilers.CSharp

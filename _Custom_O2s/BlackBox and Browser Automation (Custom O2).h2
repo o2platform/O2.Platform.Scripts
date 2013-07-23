@@ -1,11 +1,9 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//panel.clear();
+//panel.clear();
 //var topPanel = panel.add_Panel();
 
-var topPanel = O2Gui.open&lt;Panel&gt;("BlackBox and Browser Automation (Custom O2)", 800,163);      
+var topPanel = O2Gui.open<Panel>("BlackBox and Browser Automation (Custom O2)", 800,163);      
 var currentScript = "BlackBox and Browser Automation (Custom O2).h2".local();
-var ribbon = topPanel.add_Control&lt;WPF_Ribbon&gt;();
+var ribbon = topPanel.add_Control<WPF_Ribbon>();
 ribbon.title("BlackBox (plus IE Automation, Javascript, Html)");
  
 var browserAutomation = ribbon.Ribbon.add_RibbonTab("Browser Automation");   
@@ -19,11 +17,11 @@ html.add_RibbonGroup("Html")
 	.add_Script("Html Tag Viewer","ascx_HtmlTagViewer.cs")
 	.add_RibbonButton_Script("View WebPage details","ascx_View_WebPage_Details.cs.o2")
 	.add_RibbonButton_H2Script("Quick Html Viewer","Quick HtmlCode Viewer.h2")
-	.add_RibbonButton_H2Script("Simple Html Editor -&gt; Viewer","Util - Simple Html Viewer.h2")
+	.add_RibbonButton_H2Script("Simple Html Editor -> Viewer","Util - Simple Html Viewer.h2")
 	.add_RibbonButton_Script("Html Editor","ascx_Html_Editor.cs.o2")    
 	.add_RibbonButton_H2Script("View and Search Web Page","Util - View and search WebPage code.h2");
 html.add_RibbonGroup("Html Transformations") 	
-	.add_Script("Util - Web Encoder &amp; Decoder","Util - Web Encoder (with AntiXss Support).h2");
+	.add_Script("Util - Web Encoder & Decoder","Util - Web Encoder (with AntiXss Support).h2");
 	
 
 var javascript = ribbon.Ribbon.add_RibbonTab("Javascript"); 
@@ -54,11 +52,11 @@ frameworks.add_RibbonGroup("DWR")
 ribbon.Ribbon.add_RibbonTab("Misc")   
 		     .add_RibbonGroup("This Custom O2")			
 					.add_RibbonButton("Edit this Custom O2 Script", 
-						() =&gt; O2Gui.open&lt;Panel&gt;("Custom O2",800,400)
+						() => O2Gui.open<Panel>("Custom O2",800,400)
 								   .add_SourceCodeEditor()
 								   .open(currentScript))
 				    .add_RibbonButton("Relaunch", 
-				    	()=&gt;{	
+				    	()=>{	
 								topPanel.parentForm().close();
 								currentScript.executeH2Script();
 							})
@@ -78,6 +76,7 @@ demoVulnerableApplications.add_RibbonGroup("HacmeBank")
 				 		  
 */				 		  
  
+ //using O2.XRules.Database.Utils
 //O2File:WPF_Ribbon.cs  
 //using Microsoft.Windows.Controls.Ribbon;
 
@@ -87,6 +86,4 @@ demoVulnerableApplications.add_RibbonGroup("HacmeBank")
 //O2Ref:PresentationFramework.dll
 //O2Ref:PresentationCore.dll
 //O2Ref:WindowsBase.dll
-//O2Ref:System.Xaml.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Ref:System.Xaml.dll

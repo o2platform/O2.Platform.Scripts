@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - GitHub Browser",1000,400);  
+var topPanel = O2Gui.open<Panel>("Util - GitHub Browser",1000,400);  
 //var topPanel = panel.clear().add_Panel(); 
  
 var folderToSaveSelectedFiles = "";		
@@ -19,31 +17,31 @@ var actionsPanel = folders_TreeView.insert_Above(70);
 var repository_TextBox = actionsPanel.add_TextBox(0, "repository", "").left(100);
 var rootSha_TextBox = actionsPanel.add_TextBox(20,"root tree (Sha)", "").left(100);
 			
-Action&lt;TreeNode, List&lt;GitModel.Object&gt;&gt; add_Objects =
-	(treeNode, objects)=&gt;{
-							treeNode.add_Nodes(objects, (_object)=&gt; _object.Name);
+Action<TreeNode, List<GitModel.Object>> add_Objects =
+	(treeNode, objects)=>{
+							treeNode.add_Nodes(objects, (_object)=> _object.Name);
 						 };
 						 
-Action&lt;TreeNode, GitModel.Object&gt; add_Folders =
-	(treeNode, _object)=&gt;{
+Action<TreeNode, GitModel.Object> add_Folders =
+	(treeNode, _object)=>{
 							add_Objects(treeNode,gitObjects.tree(_object.Sha).folders());  
 						 };						 
 						   
-/*folders_TreeView.beforeExpand&lt;GitModel.Object&gt;(
-	(treeNode, _object)=&gt; {
+/*folders_TreeView.beforeExpand<GitModel.Object>(
+	(treeNode, _object)=> {
 							treeNode.add_Node(_object);
 						  });
 */
-folders_TreeView.afterSelect&lt;GitModel.Object&gt;(
-	( _object)=&gt; {
+folders_TreeView.afterSelect<GitModel.Object>(
+	( _object)=> {
 					propertyGrid.show(_object);
 					if (folders_TreeView.selected().nodes().size()==0)
 						add_Folders(folders_TreeView.selected(), _object);
 				 });  
-Action&lt;string, string, string&gt; downloadTreeFromGit = null;
+Action<string, string, string> downloadTreeFromGit = null;
 downloadTreeFromGit = 
 	(name, sha,rootFolder)
-		=&gt;{
+		=>{
 				if (stopDownload)
 						return;
 				"Downloading {0} tree from Git to folder: {0} ".info(name, rootFolder); 
@@ -65,7 +63,7 @@ downloadTreeFromGit =
 		   };
 		   
 Action downloadSelected = 
-	()=&gt;{
+	()=>{
 			var treeNode = folders_TreeView.selected();
 			var selectedObject = (GitModel.Object)treeNode.get_Tag();
 			if (selectedObject.notNull())			
@@ -82,35 +80,35 @@ Action downloadSelected =
 				  
 folderViewer.insert_Above(20).add_TextBox("Folder to save","")
 					   .onTextChange(
-					   		(text)=&gt;{
+					   		(text)=>{
 					   					folderToSaveSelectedFiles = text;
 					   					folderViewer.open(text);
 					   				})  
 					   .set_Text("_SavedGitFiles".tempDir(false));
 					   
 var downloadLink = actionsPanel.add_Link("download (files as ascii) from tree from Git", 50,0,
-				  				   		()=&gt;downloadSelected());
+				  				   		()=>downloadSelected());
   
-actionsPanel.add_CheckBox("Recursive folder download", 50,250, (value)=&gt; recursiveDownload  = value)
+actionsPanel.add_CheckBox("Recursive folder download", 50,250, (value)=> recursiveDownload  = value)
 		    .autoSize();
 		    
 var stopDownloadLink = actionsPanel.add_Link("Stop download", 52 ,440,
-							()=&gt;{ 
+							()=>{ 
 									"Stop download link was clicked".error();
 									stopDownload = true; 
 								});
 						
 
 Action loadTree = 
-	()=&gt;{
+	()=>{
 			var rootTree = rootSha_TextBox.get_Text();
 			gitObjects.setupRepository(repository_TextBox.get_Text());	
 			folders_TreeView.clear();
 			add_Objects(folders_TreeView.rootNode(), gitObjects.tree(rootTree).folders());  
 		};
 
-rootSha_TextBox.onEnter((text)=&gt;loadTree());
-repository_TextBox.onEnter((text)=&gt;loadTree()); 
+rootSha_TextBox.onEnter((text)=>loadTree());
+repository_TextBox.onEnter((text)=>loadTree()); 
   
 rootSha_TextBox.set_Text("71419d1c49f6d9c5a6c1");//"dc03519a8e0d766f224f");
 repository_TextBox.set_Text("SecurityInnovation/TeamMentor");//"DinisCruz/TeamMentor");
@@ -134,7 +132,6 @@ return "ok";
 //using GitAPI = GithubSharp.Core.API;  
 //using GithubSharp.Core.Services; 
 //using GithubSharp.Plugins.LogProviders.SimpleLogProvider; 
+//using O2.XRules.Database.APIs
 
-//O2File:API_GitHub_Objects.cs</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2File:API_GitHub_Objects.cs

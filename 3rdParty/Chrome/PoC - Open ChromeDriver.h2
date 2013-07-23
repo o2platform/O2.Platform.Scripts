@@ -1,3 +1,7 @@
+//O2Tag:SkipGlobalCompilation
+
+// the CefSharp.dll can not being used to compiled on 4.0 CLR
+
 var chromeHijack = new API_Chrome_Hijack();
 chromeHijack.script_Me("chromeHijack").insert_LogViewer();
 chromeHijack.open_ChromeDriver();

@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var title = "Sarah Baso";  
+var title = "Sarah Baso";  
 var currentScript = PublicDI.CurrentScript;   
    
 var ribbon = CustomO2.create(title, 1024,300); 		// stand alone version    
@@ -31,7 +29,7 @@ var o2Scripting = ribbon.add_Tab("O2 Scripting");
 o2Scripting.add_Group_developmentGuis();
 o2Scripting.add_RibbonGroup("Custom O2")
 	 		  .add_RibbonButton("Edit this Custom O2 Script", 
-						() =&gt; O2Gui.open&lt;Panel&gt;("Custom O2",800,400)
+						() => O2Gui.open<Panel>("Custom O2",800,400)
 								   .add_SourceCodeEditor()
 								   .open(currentScript));			
 
@@ -39,6 +37,8 @@ ribbon.add_Tab_BrowserAutomation();
 ribbon.add_Tab_MiscTools();
 
 return "done";
+
+//using O2.XRules.Database.Utils
 
 //O2File:WPF_Ribbon_ExtensionMethods.cs
 //O2File:CustomO2.cs  
@@ -49,6 +49,4 @@ return "done";
 //O2Ref:PresentationCore.dll
 //O2Ref:PresentationFramework.dll
 //O2Ref:WindowsBase.dll
-//O2Ref:System.Xaml.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Ref:System.Xaml.dll

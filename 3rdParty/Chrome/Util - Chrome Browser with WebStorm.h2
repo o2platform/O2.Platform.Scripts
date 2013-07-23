@@ -24,6 +24,6 @@ chromeHijack.hijack_Process_Into_Panel(webStormPanel,webStorm);
 
 chromeHijack.ChromeDriver.Navigate().GoToUrl("http://127.0.0.1:9876/__karma/debug.html");
 
-
+//using O2.XRules.Database.APIs
 //O2File:API_Chrome_Hijack.cs
 //O2Ref:WebDriver.dll

@@ -138,9 +138,11 @@ codeEditor.set_Text("Debug.Write(\"Testing 123...\");".line() +
 
 refreshProcessList();  
 
-//injectO2IntoProcess();  
-//using System.Diagnostics
-//O2File:API_O2_Injector.cs
 
+//injectO2IntoProcess();  
+
+//using O2.XRules.Database.APIs
+//using System.Diagnostics
+
+//O2File:API_O2_Injector.cs
 //O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
- 

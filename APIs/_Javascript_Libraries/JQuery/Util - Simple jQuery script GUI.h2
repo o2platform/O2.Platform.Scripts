@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//var topPanel = panel.clear().add_Panel();
+//var topPanel = panel.clear().add_Panel();
 var topPanel = "Util - Simple jQuery script GUI".popupWindow(700,400);   
 
 var ie = topPanel.add_IE_with_NavigationBar().   
@@ -11,13 +9,13 @@ var jQueryText = topPanel.insert_Right(400,"jQuery").add_SourceCodeViewer();
 var executeJQuery = jQueryText.parent().parent().insert_Above(30).add_Button("Execute Javascript").fill().font_bold(); 
 
 executeJQuery.onClick(
-	()=&gt;{ 
+	()=>{ 
 			var scriptToExecute = jQueryText.editor().getSourceCode();
 			"executing script with size: {0}".info(scriptToExecute.size());
 			ie.eval(scriptToExecute);
 		});
 		
-Action&lt;string&gt; openWebPage = (url) =&gt; ie.open(url);
+Action<string> openWebPage = (url) => ie.open(url);
  
 ie.showMessage("this is some text"); 
  
@@ -30,7 +28,10 @@ executeJQuery.click();
 return openWebPage;
 
 //O2File:IE_JQuery.cs
-//O2Ref:WatiN.Core.1x.dll
-//O2Ref:Microsoft.mshtml.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+
+//using O2.XRules.Database.APIs
+//using FluentSharp.Watin
+
+//O2Ref:FluentSharp.Watin.dll
+//O2Ref:Watin.Core.dll
+//O2Ref:Microsoft.mshtml.dll

@@ -27,7 +27,7 @@ Action executeCommand =
 			apiAzure = new API_Azure_via_WebREPL(server); 
 		 	var result = apiAzure.cmd_Execute(exeToExecute, arguments);
 		 	
-		 	textArea.set_Text(result.fixCRLF());
+		 	textArea.set_Text(result.fix_CRLF());
 	   };
 
 cmdToolStrip.add_Button("Execute","btExecuteSelectedMethod_Image".formImage(),executeCommand)
@@ -44,5 +44,7 @@ return "ok";
 
 
 //arguments_TextBox.set_Text(".");
+
+//using O2.XRules.Database.APIs
 
 //O2File:API_Azure_via_WebREPL.cs

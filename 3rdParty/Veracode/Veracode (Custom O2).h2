@@ -24,12 +24,15 @@ customO2.add_RibbonGroup("Raw Views")
 //ribbon.add_Tab_BrowserAutomation();
 //ribbon.add_Tab_MiscTools();
 
-//O2File:CustomO2.cs  
+//using O2.XRules.Database.APIs
+//using O2.XRules.Database.Utils
+
+//O2File:CustomO2.cs
 
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:RibbonControlsLibrary.dll
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
-//O2File:API_Veracode_DetailedXmlFindings.cs.o2 
+//O2File:API_Veracode_DetailedXmlFindings.cs 
 
 //O2Ref:PresentationCore.dll
 //O2Ref:PresentationFramework.dll

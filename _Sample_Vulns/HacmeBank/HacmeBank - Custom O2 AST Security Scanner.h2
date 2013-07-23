@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("HacmeBank - Custom O2 .NET AST Security Scanner",1100,580);
+var topPanel = O2Gui.open<Panel>("HacmeBank - Custom O2 .NET AST Security Scanner",1100,580);
 
 //HardCoded variables
 var hacmeBankWebSitePort = "12345";
@@ -9,7 +7,7 @@ var hacmeBankWebSitePort = "12345";
 //global objects
 var taintRules = new O2CodeStreamTaintRules();
 taintRules.add_TaintPropagator("System.Web.HttpServerUtility.HtmlDecode");  
-var o2Findings = new List&lt;IO2Finding&gt;();
+var o2Findings = new List<IO2Finding>();
 var cancelScan = false;
 OunceAvailableEngines.addAvailableEnginesToControl(typeof(ascx_FindingsViewer));
 //Canvas
@@ -50,17 +48,17 @@ designerCanvas.add_Connection(step4_Label.designerItem(), step4_WinForms.designe
 
 //Actons
 
-Action&lt;string&gt; loadRawFindings = 
-	(path)=&gt;{
+Action<string> loadRawFindings = 
+	(path)=>{
 				//step3_statusLabel.set_Text_Wpf("Loading findings file");
 				step1_RawFindings.show(path.loadFindingsFile());
 				//step3_statusLabel.set_Text_Wpf("Loading findings file completed");
 			};
 
 Action runCustomAnalysis = 
-	()=&gt;{
+	()=>{
 			O2Thread.mtaThread(
-				()=&gt;{
+				()=>{
 						var pathToWebLayerAscxControls = step2_TextBox.get_Text_Wpf();	
 						if (pathToWebLayerAscxControls.dirExists().isFalse())
 						{
@@ -96,10 +94,10 @@ Action runCustomAnalysis =
 					});
 		};
 
-step3_Button.onClick_Wpf(()=&gt; runCustomAnalysis());
+step3_Button.onClick_Wpf(()=> runCustomAnalysis());
 step4_FindingsCreated.add_ContextMenu()
 					 .add_MenuItem("Save findings",
-					 	()=&gt;{
+					 	()=>{
 								var targetFile = O2Forms.askUserForFileToSave(Environment.CurrentDirectory,"_o2Findings.xml");
 								if (targetFile.valid())
 									o2Findings.saveFindings(targetFile);
@@ -109,14 +107,11 @@ step4_FindingsCreated.add_ContextMenu()
 //using O2.XRules.Database.Languages_and_Frameworks.DotNet;
 
 //using DiagramDesigner
+//using FluentSharp.CSharpAST
+//using FluentSharp.CSharpAST.Utils
+//using O2.XRules.Database.Utils
+//using O2.XRules.Database.APIs
 
-//using O2.Interfaces.O2Findings; 
-//using O2.Views.ASCX.O2Findings;
-//using O2.Views.ASCX.ExtensionMethods;
-//using O2.External.SharpDevelop.ExtensionMethods;
-//using O2.API.AST.CSharp;
-//using O2.API.AST.ExtensionMethods;
-//using O2.API.AST.ExtensionMethods.CSharp;
 //using WPF = System.Windows.Controls
 //using System.Windows.Media
 //using System.Windows.Media.Imaging
@@ -124,6 +119,7 @@ step4_FindingsCreated.add_ContextMenu()
 //using O2.XRules.Database.Findings
 //using O2.XRules.Database.HacmeBank
 //using O2.ImportExport.OunceLabs
+//using FluentSharp.WPF
 
 //O2File:DiagramDesigner_ExtensionMethods.cs
 //O2File:Ast_Engine_ExtensionMethods.cs
@@ -148,5 +144,3 @@ step4_FindingsCreated.add_ContextMenu()
 //O2Ref:PresentationFramework.dll
 //O2Ref:WindowsBase.dll
 //O2Ref:System.Xaml.dll
-</SourceCode>
-</H2>

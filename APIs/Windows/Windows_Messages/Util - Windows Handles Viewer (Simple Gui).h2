@@ -1,9 +1,7 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//var topPanel = panel.add_Panel(true); 
+//var topPanel = panel.add_Panel(true); 
 var topPanel = "Util - Windows Messages Handle Viewer (Simple GUI)".popupWindow(600,30);
 
-var windowFinder = topPanel.newInThread&lt;WindowFinder&gt;().width(30).fill(false);
+var windowFinder = topPanel.newInThread<WindowFinder>().width(30).fill(false);
 topPanel.add_Control(windowFinder);
 
 var textBox_CurrentHandle 	  = windowFinder		 .append_Label("Handle")			   .top(10).append_TextBox("").width(75);
@@ -11,24 +9,24 @@ var textBox_CurrentWindow 	  = textBox_CurrentHandle.append_Label("Window")			  
 var textBox_CurrentHandleText = textBox_CurrentWindow.append_Label("HandleText (Editable)").top(10).append_TextBox("").align_Right();
 
 windowFinder.Handle_Changed =  
-	(handle)=&gt;{
+	(handle)=>{
 					textBox_CurrentHandle.set_Text(handle.str());
 					textBox_CurrentHandleText.set_Text(handle.get_ControlText());
 			  };
 windowFinder.Window_Changed = 
-	(handle)=&gt;{
+	(handle)=>{
 					textBox_CurrentWindow.set_Text(handle.str());					
 			  };
 textBox_CurrentHandleText.onTextChange(
-	(text)=&gt;{
+	(text)=>{
 				windowFinder.Last_Handle.set_ControlText(text);
 				windowFinder.Last_Handle.window_Redraw();
 				windowFinder.Last_Handle.window_Highlight();
 			});
 
 topPanel.parentForm().handle();//.window_BringToFront();
+
+//using O2.XRules.Database.APIs
 //O2File:WindowFinder.cs
 //O2Embed:target.ico
- </SourceCode>
-  <ReferencedAssemblies />
-</H2>
+ 

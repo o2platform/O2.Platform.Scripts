@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var topPanel = "Tool - C# Quick Decompiler".popupWindow(700,400)
+var topPanel = "Tool - C# Quick Decompiler".popupWindow(700,400)
 				.insert_LogViewer();
 //var topPanel = panel.clear().add_Panel();
 
@@ -11,8 +9,8 @@ var codeViewer = topPanel.add_SourceCodeEditor();
 types_TreeView.add_ToImageList("Class","Method");
 types_TreeView.imageIndex(0);
 
-types_TreeView.beforeExpand&lt;TypeDefinition&gt;( 
-	(treeNode,typeDefinition)=&gt;{ 
+types_TreeView.beforeExpand<TypeDefinition>( 
+	(treeNode,typeDefinition)=>{ 
 								//treeNode.add_Node(typeDefinition.Methods);
 								foreach(var method in typeDefinition.Methods)
 								{
@@ -22,25 +20,25 @@ types_TreeView.beforeExpand&lt;TypeDefinition&gt;(
 								//method_TreeView.clear();
 	//							method_TreeView.add_Node(typeDefinition.Methods);
 					  			});
-types_TreeView.afterSelect&lt;TypeDefinition&gt;(
-	(typeDefinition)=&gt;{
+types_TreeView.afterSelect<TypeDefinition>(
+	(typeDefinition)=>{
 							var sourceCode = new CecilDecompiler().getSourceCode(typeDefinition);
 							codeViewer.set_Text(sourceCode, ".cs");
 					  });
-types_TreeView.afterSelect&lt;MethodDefinition&gt;(
-	(methodDefinition)=&gt;{
+types_TreeView.afterSelect<MethodDefinition>(
+	(methodDefinition)=>{
 							var sourceCode = new CecilDecompiler().getSourceCode(methodDefinition);
 							codeViewer.set_Text(sourceCode, ".cs");
 					  });					  
-Action&lt;string&gt; loadAssembly = 
-	(pathToAssembly) =&gt; {
+Action<string> loadAssembly = 
+	(pathToAssembly) => {
 							if(pathToAssembly.fileExists())
 							{
 								"Loading File: {0}".info(pathToAssembly);
 								var types = CecilUtils.getTypes(pathToAssembly);
 								types_TreeView.beginUpdate()
 												.clear()
-												.add_Nodes(types,(type)=&gt;type.Name,(type)=&gt;type, (type)=&gt;true)
+												.add_Nodes(types,(type)=>type.Name,(type)=>type, (type)=>true)
 											  .endUpdate()
 											  .selectFirst();
 											
@@ -51,10 +49,10 @@ Action&lt;string&gt; loadAssembly =
 
 types_TreeView.onDrop(loadAssembly);	
 
-toolStrip.add_Open(()=&gt;loadAssembly(topPanel.askUserForFileToOpen()))
-		 .add_Open(()=&gt;loadAssembly("Assembly to load".askUser()));
+toolStrip.add_Open(()=>loadAssembly(topPanel.askUserForFileToOpen()))
+		 .add_Open(()=>loadAssembly("Assembly to load".askUser()));
  
-loadAssembly(PublicDI.config.type().assemblyLocation());
+loadAssembly(PublicDI.config.type().assembly_Location());
 
 
 
@@ -69,6 +67,4 @@ loadAssembly(PublicDI.config.type().assemblyLocation());
 //O2Ref:ILSpy/ILSpy.exe
 //O2Ref:ILSpy/ICSharpCode.Decompiler.dll
 
-//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs

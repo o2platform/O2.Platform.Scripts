@@ -1,6 +1,7 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>
+//O2Tag:SkipGlobalCompilation
+
+// the CefSharp.dll can not being used to compiled on 4.0 CLR
+
 var topPanel = "PoC - Chrome Browser (WinForms)".popupWindow();
 //var topPanel = panel.clear().add_Panel();
 
@@ -13,10 +14,9 @@ return webView;
 
 //CLR_3.5		
 
-
+//using O2.XRules.Database.APIs
 //O2File:API_Chrome.cs
 //O2Ref:CefSharp\CefSharp-1.19.0\CefSharp.WinForms.dll
 //O2Ref:CefSharp\CefSharp-1.19.0\CefSharp.dll
-//O2Package:API_Chrome.cs
-//O2EmbedTool:CefSharp</SourceCode>
-</H2>
+//O2Package:	
+//O2EmbedTool:CefSharp

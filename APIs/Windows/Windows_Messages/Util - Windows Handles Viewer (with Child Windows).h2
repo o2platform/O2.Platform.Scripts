@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//var topPanel = panel.add_Panel(true);
+//var topPanel = panel.add_Panel(true);
 var topPanel = "Util - Windows Handles Viewer (with Child Windows)".popupWindow(400,300);
 
 WindowFinder windowFinder 		= null;
@@ -9,14 +7,14 @@ Label		 userMessage		= null;
 TreeView 	 handleTree			= null;
 IntPtr		 selectedHandle 	= IntPtr.Zero;
 
-Action&lt;IntPtr&gt; selectHandle = 	
-	(handle)=&gt;{
+Action<IntPtr> selectHandle = 	
+	(handle)=>{
 					selectedHandle.window_Redraw();
 					selectedHandle = handle.window_Highlight();
 			  };
 			  
-Action&lt;IntPtr,TreeNode&gt; addHandleToNode = 
-	(handle, treeNode) =&gt;{
+Action<IntPtr,TreeNode> addHandleToNode = 
+	(handle, treeNode) =>{
 							    handleValue.set_Text(handle.str());		
 								var handleClass = handle.className(); 
 								var handleText  = handle.get_ControlText();
@@ -24,8 +22,8 @@ Action&lt;IntPtr,TreeNode&gt; addHandleToNode =
 								treeNode.add_Node(nodeText, handle, handle.hasChilds());
 						 };
 	
-Action&lt;IntPtr&gt; onHandleChange =  
-	(handle)=&gt;{
+Action<IntPtr> onHandleChange =  
+	(handle)=>{
 					handleTree.clear();
 					addHandleToNode(handle, handleTree.rootNode());					
 					handleTree.expand();
@@ -41,17 +39,15 @@ topPanel.insert_Above(30).splitContainerFixed().white()
 			 	
 topPanel.add_TreeView(ref handleTree);
 
-handleTree.beforeExpand&lt;IntPtr&gt;(
-				(treeNode,handle)=&gt; {
+handleTree.beforeExpand<IntPtr>(
+				(treeNode,handle)=> {
 										foreach(var childHandle in handle.child_Windows_with_CurrentParent())
 											addHandleToNode(childHandle, treeNode);							
 						  			})
-		  .afterSelect&lt;IntPtr&gt;(selectHandle);
+		  .afterSelect<IntPtr>(selectHandle);
 			
 //onHandleChange(topPanel.handle());
 
-
+//using O2.XRules.Database.APIs
 //O2File:WindowFinder.cs
-//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs

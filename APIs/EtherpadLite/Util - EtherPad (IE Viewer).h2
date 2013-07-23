@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - EtherPad (IE viewer)",700,400); 
+var topPanel = O2Gui.open<Panel>("Util - EtherPad (IE viewer)",700,400); 
 //var topPanel = panel.clear().add_Panel();
 
 var etherPad = new API_EtherpadLite();
@@ -11,7 +9,7 @@ var ie = topPanel.add_IE().silent(false);
 
 
 Action open = 
-	()=&gt;{			
+	()=>{			
 			if (ie.url().isNull() || ie.url() != etherPad.pad_Url())
 				ie.open_ASync(etherPad.pad_Url());
 		};
@@ -19,14 +17,17 @@ Action open =
 etherPad.open_Pad("O2_Test_Pad");
 
 actionsPanel.add_Label("Current Pad").top(2)
-		    .append_TextBox(etherPad.CurrentPad).onTextChange((text)=&gt; etherPad.CurrentPad = text).width(300)
-		    .append_Link("open or create", ()=&gt; open())
-		    .append_Link("open existing Etherpad in a separate browser", ()=&gt; etherPad.pad_Url().startProcess()) ;
+		    .append_TextBox(etherPad.CurrentPad).onTextChange((text)=> etherPad.CurrentPad = text).width(300)
+		    .append_Link("open or create", ()=> open())
+		    .append_Link("open existing Etherpad in a separate browser", ()=> etherPad.pad_Url().startProcess()) ;
 
 open();
 
+//using O2.XRules.Database.APIs
 //using using Etherpad;
+
 //O2File:API_EtherpadLite.cs 
-//O2Ref:WatiN.Core.1x.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+
+//using FluentSharp.Watin
+//O2Ref:FluentSharp.Watin.dll
+//O2Ref:Watin.Core.dll

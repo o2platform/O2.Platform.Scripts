@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//var topPanel = panel.clear().add_Panel();
+//var topPanel = panel.clear().add_Panel();
 var topPanel = "Altoro - SQLi using FuzzDB (with screenshots)".popupWindow(1000,600); 
 topPanel.insert_LogViewer();
  
@@ -10,13 +8,13 @@ var treeView = topPanel.insert_Left(300).add_TreeView();
 
 bool stopFuzz = false;
 
-treeView.afterSelect&lt;string&gt;(
-	(file)=&gt;{
+treeView.afterSelect<string>(
+	(file)=>{
 				ie.open_ASync(file); 
 			});
 
-Func&lt;string,string,bool&gt; login = 
-    (username, password)=&gt;{
+Func<string,string,bool> login = 
+    (username, password)=>{
                 var loginUrl = "http://demo.testfire.net/bank/login.aspx";
                 ie.open(loginUrl);
                 ie.field("uid").value(username);
@@ -26,7 +24,7 @@ Func&lt;string,string,bool&gt; login =
               };
 
 Action startFuzz =
-	()=&gt;{				
+	()=>{				
 			stopFuzz = false;
 			var fuzzDb = new API_FuzzDB();
 			foreach(var payload in fuzzDb.payloads_SQLi_Generic())
@@ -47,7 +45,7 @@ Action startFuzz =
 		};
 
 Action saveResults = 
-	()=&gt;{
+	()=>{
 			var results = new Items();
 			foreach(var node in treeView.nodes())
 				results.add(node.get_Text(), node.get_Tag().str()); 
@@ -56,22 +54,23 @@ Action saveResults =
 			savedResultsFile.showInCodeViewer();
 		};
 
-actionPanel.add_Link("Start SQLi Fuzz", 4,0, ()=&gt; startFuzz())
-		   .append_Link("Stop Fuzz", ()=&gt; stopFuzz = true)
-		   .append_Link("Save results" , ()=&gt; saveResults());
+actionPanel.add_Link("Start SQLi Fuzz", 4,0, ()=> startFuzz())
+		   .append_Link("Stop Fuzz", ()=> stopFuzz = true)
+		   .append_Link("Save results" , ()=> saveResults());
 
 ie.open( "http://demo.testfire.net");
 		
 return "done";
 
-//O2File:WatiN_IE_ExtensionMethods.cs
+//using O2.XRules.Database.APIs
+
 //O2File:API_FuzzDB.cs
 //O2File:API_Cropper.cs
-//O2Ref:WatiN.Core.1x.dll
+//using FluentSharp.Watin
+
+//O2Ref:FluentSharp.Watin.dll
+//O2Ref:Watin.Core.dll
 //O2Ref:Microsoft.mshtml.dll
 
 
 
-</SourceCode>
-  <ReferencedAssemblies />
-</H2>

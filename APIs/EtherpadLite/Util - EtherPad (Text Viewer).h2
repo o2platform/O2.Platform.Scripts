@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - EtherPad (Text Viewer)",800,400); 
+var topPanel = O2Gui.open<Panel>("Util - EtherPad (Text Viewer)",800,400); 
 //var topPanel = panel.clear().add_Panel();
 
 var etherPad = new API_EtherpadLite();
@@ -11,15 +9,15 @@ var lastTextReceived = "";
 var padText = topPanel.add_GroupBox("Text view")
 				      .add_TextArea()
 					  .onTextChange( 
-					  		(text)=&gt;{
+					  		(text)=>{
 					  					if (lastTextReceived!= text)
-						  					O2Thread.mtaThread(()=&gt; etherPad.set_Text(text));
+						  					O2Thread.mtaThread(()=> etherPad.set_Text(text));
 					  				});
 
 
 Action openOrRefresh = 
-	()=&gt;{  
-			lastTextReceived = etherPad.contents().fixCRLF();			
+	()=>{  
+			lastTextReceived = etherPad.contents().fix_CRLF();			
 			if (lastTextReceived != padText.get_Text())
 			{
 				"got new text".info();
@@ -30,18 +28,18 @@ Action openOrRefresh =
 var sleepValue = 2000;
 var autoRefresh = false;
 topPanel.onClosed(
-	()=&gt; {			
+	()=> {			
 			autoRefresh = false;
 		 });
 
-Action&lt;bool&gt; setAutoRefresh	=
-	(value)=&gt;{
+Action<bool> setAutoRefresh	=
+	(value)=>{
 				autoRefresh = value;
 				if (autoRefresh)
 				{
 					"Starting AutoRefresh".info();
 					O2Thread.mtaThread(
-						()=&gt;{
+						()=>{
 								while(autoRefresh)
 								{
 									openOrRefresh();
@@ -56,17 +54,20 @@ Action&lt;bool&gt; setAutoRefresh	=
 etherPad.open_Pad("O2_Test_Pad");
 
 actionsPanel.add_Label("Current Pad").top(2)
-		    .append_TextBox(etherPad.CurrentPad).onTextChange((text)=&gt; etherPad.CurrentPad = text)
-		    .append_Link("open or refresh", ()=&gt; openOrRefresh())
-		    .append_CheckBox("Auto refresh every second", (value)=&gt; setAutoRefresh(value)).check()
-		    .append_Link("open O2 IE Etherpad GUI", ()=&gt; "Util - EtherPad (IE Viewer)".executeH2Script())
-		    .append_Link("open this Pad in a separate browser", ()=&gt; etherPad.pad_Url().startProcess());
+		    .append_TextBox(etherPad.CurrentPad).onTextChange((text)=> etherPad.CurrentPad = text)
+		    .append_Link("open or refresh", ()=> openOrRefresh())
+		    .append_CheckBox("Auto refresh every second", (value)=> setAutoRefresh(value)).check()
+		    .append_Link("open O2 IE Etherpad GUI", ()=> "Util - EtherPad (IE Viewer)".executeH2Script())
+		    .append_Link("open this Pad in a separate browser", ()=> etherPad.pad_Url().startProcess());
 openOrRefresh();
 
 return "ok";
 
 //using using Etherpad;
+//using O2.XRules.Database.APIs
+//using FluentSharp.Watin
+
 //O2File:API_EtherpadLite.cs 
-//O2Ref:WatiN.Core.1x.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+
+//O2Ref:FluentSharp.Watin.dll
+//O2Ref:Watin.Core.dll

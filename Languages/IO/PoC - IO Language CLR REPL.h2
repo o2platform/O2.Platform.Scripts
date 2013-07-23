@@ -15,18 +15,19 @@ Action execute =
 	()=>{ 			
 			var code = codeText.get_Text();
 			var result = state.onDoCStringWithLabel(state.lobby, code, "prompt:");
-			result.details();
+			//result.details();
 			replGui.showOutput(result); 			
 		}; 
 		
 replGui.On_ExecuteCode = execute;  
 
-codeText.set_Text("a = 12");
+codeText.set_Text("a = 12"); 
 //codeText.multiLine(false);
 replGui.Execute_Button.click();
-
+ 
 
 return "done";
 //using io
 //O2Ref:\IOLanguage\ioclr\bin\IoCLI.exe
 //O2Ref:\IOLanguage\ioclr\bin\IoVM.dll
+//Installer:IOLanguage_CLR_Installer!IOLanguage\ioclr\bin\IoCLI.exe

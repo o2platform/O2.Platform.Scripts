@@ -1,20 +1,18 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>/*panel.clear();
+/*panel.clear();
 var topPanel = panel.add_Panel();
 topPanel.fill(false)
 		.width(800)
 		.height(170); 
 */
 var title = "Use other Tools or APIs";
-var topPanel = O2Gui.open&lt;Panel&gt;("O2 GUI - " + title, 800,570);    
+var topPanel = O2Gui.open<Panel>("O2 GUI - " + title, 800,570);    
 
 topPanel.parentForm().top(60).left(60); 
 
 var logoNoShadow = "O2_Logo_no_Shadow.jpg".local(); 
 var smallLogo = "O2Logo_Small.gif".local();
 
-var ribbon = topPanel.insert_Above&lt;WPF_Ribbon&gt;(135); 
+var ribbon = topPanel.insert_Above<WPF_Ribbon>(135); 
 
 var o2Findings = ribbon.Ribbon.add_RibbonTab("O2Findings");   
 
@@ -71,15 +69,18 @@ o2StandAloneTools.add_RibbonGroup("Using previous MDI-Based GUI")		  	  // "Here
 				 .add_RibbonButton_H2Script(topPanel,"CIR Viewer","CIR Viewer.h2");
 
 topPanel.backColor("Control"); 
-topPanel.parent&lt;SplitContainer&gt;().backColor(Color.White); 
+topPanel.parent<SplitContainer>().backColor(Color.White); 
 var designerCanvas = topPanel.add_DesignerCanvas(); 
 designerCanvas.add_Label(title ,160,140).fontSize(30);     
  
 return "ok";
  
+//using O2.XRules.Database.Utils
+//using O2.XRules.Database.APIs
 //using Microsoft.Windows.Controls.Ribbon;
 //using WPF= System.Windows.Controls
 //using DiagramDesigner
+//using FluentSharp.WPF
 //O2File:WPF_Ribbon.cs 
 //O2File:WPF_Ribbon_ExtensionMethods.cs
 //O2File:DiagramDesigner_ExtensionMethods.cs
@@ -92,5 +93,3 @@ return "ok";
 //O2Ref:PresentationFramework.dll
 //O2Ref:WindowsBase.dll
 //O2Ref:System.Xaml.dll
-</SourceCode>
-</H2>

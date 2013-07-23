@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//return "Util - DiagramDesigner Editor.h2".local().startProcess();
+//return "Util - DiagramDesigner Editor.h2".local().startProcess();
 
 var process = "O2 Xaml Editor (PoC).h2".local().startProcess();
 this.sleep(2000);
@@ -28,6 +26,4 @@ return fileName.startProcess(arguments);
 
 //Installer:Snoop_Installer.cs!Snoop\Snoop\Snoop.exe
 //using Snoop;
-//O2Ref:Snoop\Snoop\Snoop.exe</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Ref:Snoop\Snoop\Snoop.exe

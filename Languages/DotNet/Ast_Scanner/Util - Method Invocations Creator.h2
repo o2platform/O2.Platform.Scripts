@@ -1,8 +1,6 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//panel.clear();
+//panel.clear();
 //var topPanel = panel;  
-var topPanel = O2Gui.open&lt;Panel&gt;("Tool - Method Invocations Creator", 1000,600)
+var topPanel = O2Gui.open<Panel>("Tool - Method Invocations Creator", 1000,600)
 					.insert_LogViewer();; 
 
 
@@ -13,22 +11,22 @@ O2MappedAstData astData = null;
 var useCachedData = true; //false;//true ;
 var showLogViewer = true;   
 var sourceCodeViewer = topPanel.add_SourceCodeViewer();
-var treeViewPanel = sourceCodeViewer.insert_Left&lt;Panel&gt;();		  	 				     
-treeViewPanel.parent&lt;SplitContainer&gt;().splitterDistance(400);							     
-var referencesToLoad = treeViewPanel.insert_Below&lt;GroupBox&gt;(100).set_Text("References").add_TextArea();
-var optionsPanel = referencesToLoad.insert_Below&lt;Panel&gt;(40);
-var methodMappingsFilter = treeViewPanel.insert_Above&lt;Panel&gt;(20).add_TextBox().fill();
+var treeViewPanel = sourceCodeViewer.insert_Left<Panel>();		  	 				     
+treeViewPanel.parent<SplitContainer>().splitterDistance(400);							     
+var referencesToLoad = treeViewPanel.insert_Below<GroupBox>(100).set_Text("References").add_TextArea();
+var optionsPanel = referencesToLoad.insert_Below<Panel>(40);
+var methodMappingsFilter = treeViewPanel.insert_Above<Panel>(20).add_TextBox().fill();
 TreeView methodsMappings_TreeView = null;
 MethodMappings loadedMethodMappings = null;  
 var resultsFolder = "_AstEngine_ExternalMappings".tempDir(); 
 optionsPanel.add_Label("Results Folder")
 			.append_TextBox(resultsFolder)
-			.onTextChange((text)=&gt; resultsFolder=text)
+			.onTextChange((text)=> resultsFolder=text)
 			.align_Right(optionsPanel);							
 
 Action showMethodMappings =	
-	()=&gt;{ 
-			if (methodsMappings_TreeView.notNull() &amp;&amp; loadedMethodMappings.notNull())
+	()=>{ 
+			if (methodsMappings_TreeView.notNull() && loadedMethodMappings.notNull())
 			{
 				loadedMethodMappings.showInTreeView(methodsMappings_TreeView,methodMappingsFilter.get_Text());
 				methodsMappings_TreeView.selectFirst();				 	        
@@ -36,23 +34,23 @@ Action showMethodMappings =
 		};
  
 optionsPanel.add_Link("Clear loaded Data", 20,0, 
-	()=&gt;{
+	()=>{
 			loadedMethodMappings = new MethodMappings();
 			showMethodMappings();
 		});
 		
-optionsPanel.add_CheckBox("Run on separate AppDomain", 20,100, (value)=&gt; runOnSeparateAppDomain= value)
+optionsPanel.add_CheckBox("Run on separate AppDomain", 20,100, (value)=> runOnSeparateAppDomain= value)
 			.check()
 			.autoSize(); 
 	
-methodMappingsFilter.onEnter((text)=&gt; showMethodMappings()); 
+methodMappingsFilter.onEnter((text)=> showMethodMappings()); 
 
-Action&lt;string&gt; loadFilesFromFolder = null; 
+Action<string> loadFilesFromFolder = null; 
 
 loadFilesFromFolder= 
-	(sourceFolder)=&gt;{
+	(sourceFolder)=>{
 		O2Thread.mtaThread(
-			()=&gt;{
+			()=>{
 					if (sourceFolder.valid().isFalse())
 						return;
 					"loading files from: {0}".info(sourceFolder); 	 									
@@ -78,13 +76,8 @@ referencesToLoad.set_Text("System.Web".line() +
 
 return astData; 
 
-
-//using O2.API.AST.CSharp
-//using O2.API.AST.ExtensionMethods;
-//using O2.API.AST.ExtensionMethods.CSharp;
-//using O2.External.SharpDevelop.ExtensionMethods;
-//using O2.External.SharpDevelop.AST;
-//using O2.External.SharpDevelop.Ascx;
+//using FluentSharp.CSharpAST
+//using FluentSharp.CSharpAST.Utils
 //using O2.XRules.Database.Languages_and_Frameworks.DotNet	
 //using ICSharpCode.SharpDevelop.Dom;
 //using ICSharpCode.NRefactory;
@@ -96,5 +89,4 @@ return astData;
 //O2Ref:O2_Platform_External_SharpDevelop.dll
 //O2Ref:Quickgraph.dll
 //O2Ref:GraphSharp.dll 
-//O2Ref:GraphSharp.Controls.dll</SourceCode>
-</H2>
+//O2Ref:GraphSharp.Controls.dll

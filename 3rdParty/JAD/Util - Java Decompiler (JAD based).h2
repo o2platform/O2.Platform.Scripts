@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>O2Setup.extractEmbededConfigZips();
+O2Setup.extractEmbededConfigZips();
 //var topPanel = panel.add_Panel(true);
 var topPanel = "Util - Java Decompiler (JAD based)".popupWindow(900,400);
 var files = topPanel.insert_Left(300,"Drop *.jar files here (to decompile them)").add_TreeView();
@@ -9,8 +7,8 @@ var codeViewer = topPanel.title("Decompiled selected *. Class file").add_SourceC
 var targetFolder = "_JadDecompilations".tempDir(false);
 var jad = new API_Jad();
 
-Action&lt;string&gt; extractClassesFromJar = 
-	(jarFile)=&gt;	{
+Action<string> extractClassesFromJar = 
+	(jarFile)=>	{
 					"Extracting Classes from Jar: {0}".info(jarFile);
 					if (jarFile.extension(".jar"))
 					{
@@ -22,22 +20,22 @@ Action&lt;string&gt; extractClassesFromJar =
 						"found {0} *.class files in folder: {1}".info(classFiles.size(),extractFolder);
 						var jarNode = files.add_Node(jarFile.fileName()).color(Color.DarkRed);
 						files.collapse();						
-						jarNode.add_Nodes(classFiles, (file)=&gt; file.remove(extractFolder));						
+						jarNode.add_Nodes(classFiles, (file)=> file.remove(extractFolder));						
 						jarNode.selected().expand();
 						jarNode.nodes().first().selected();
 						files.white();						
 					}
 				};
 
-files.afterSelect&lt;string&gt;(
-	(file)=&gt;{									
+files.afterSelect<string>(
+	(file)=>{									
 				var javaCode = jad.decompile(file);				
 				codeViewer.set_Text(javaCode,".java");
 			});
 files.onDrop(extractClassesFromJar);
 
+//using O2.XRules.Database.APIs
+
 //O2File:API_Jad.cs
 //O2EmbedTool:Jad
-//O2Embed:java.ico</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Embed:java.ico

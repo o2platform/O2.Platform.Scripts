@@ -1,10 +1,9 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var executeScripts =  O2Gui.open&lt;ascx_Execute_Scripts&gt;("Execute O2 Scripts", 250,200);
+var executeScripts =  O2Gui.open<ascx_Execute_Scripts>("Execute O2 Scripts", 250,200);
 executeScripts.parentForm().top(0).left(0);
 executeScripts.invoke("buildGui");  
 executeScripts.status("Drop O2 Script on LOGO to execute it");
 return executeScripts;
-//using O2.XRules.Database
- </SourceCode>
-</H2>
+
+//using FluentSharp.WinForms.Controls
+//using FluentSharp.O2Platform.Controls
+//O2Ref:FluentSharp.O2Platform.exe

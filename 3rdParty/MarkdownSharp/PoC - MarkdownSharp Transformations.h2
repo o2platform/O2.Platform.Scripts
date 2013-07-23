@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//O2ConfigSettings.O2Version = "MarkdownTest";
+//O2ConfigSettings.O2Version = "MarkdownTest";
 //var topPanel = panel.add_Panel(true);
 var topPanel = "PoC - MarkdownSharp Transformations".popupWindow()
 													.insert_LogViewer();
@@ -16,7 +14,7 @@ var	markdown = 	new API_MarkdownSharp();
 markdown.syncWith_Browser(browser)
 		.syncWith_TextArea(textArea_Transformed);
  
-textArea_Source.onTextChange((text)=&gt;markdown.transform(text))
+textArea_Source.onTextChange((text)=>markdown.transform(text))
 	           .set_Text("#Hello World".line().add(
 	           			 "* an item"));
 
@@ -24,6 +22,7 @@ textArea_Source.onTextChange((text)=&gt;markdown.transform(text))
 //browser.script_Me();
            
 return markdown;
-//O2File:API_MarkdownSharp.cs</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+
+//using O2.XRules.Database.APIs
+
+//O2File:API_MarkdownSharp.cs

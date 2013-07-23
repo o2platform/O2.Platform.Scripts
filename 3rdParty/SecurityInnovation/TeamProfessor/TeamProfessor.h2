@@ -1,9 +1,13 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var popupWindow = "IE Execution GUI - IE TeamProfessor".popupWindow(700,500); 
+var popupWindow = "IE Execution GUI - IE TeamProfessor".popupWindow(700,500); 
 popupWindow.add_IE_ExecutionGui("IE_TeamProfessor.cs");
 
+//using O2.XRules.Database.APIs
+
 //O2File:API_IE_ExecutionGUI.cs
-//O2Ref:WatiN.Core.1x.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+
+//using FluentSharp.Watin
+//O2Ref:FluentSharp.Watin.dll
+//O2Ref:Watin.Core.dll
+
+
+

@@ -1,11 +1,9 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("O2 .NET AST Security Scanner",1200,600);
+var topPanel = O2Gui.open<Panel>("O2 .NET AST Security Scanner",1200,600);
 
 //global objects
 var taintRules = new O2CodeStreamTaintRules();
 taintRules.add_TaintPropagator("System.Web.HttpServerUtility.HtmlDecode");  
-var o2Findings = new List&lt;IO2Finding&gt;();
+var o2Findings = new List<IO2Finding>();
 var cancelScan = false;
 //Canvas
 var designerCanvas = topPanel.add_DesignerCanvas();   
@@ -41,8 +39,8 @@ var step4_FindingsViewer = step4_WinForms3.add_FindingsViewer();
 
 var step5_Button = designerCanvas.add_Button("step 5) Save created Findings",530,750,430,30).designMode(false);  
 
-step4_MethodStreams.afterSelect&lt;string&gt;(
-	(file)=&gt; step4_SourceCode.open(file));
+step4_MethodStreams.afterSelect<string>(
+	(file)=> step4_SourceCode.open(file));
 
 // Connections 
 //designerCanvas.connect(step1_Label, step2_Label);
@@ -56,11 +54,11 @@ designerCanvas.add_Connection(step4_WinForms3.designerItem(), step5_Button.desig
 //action
 
 Action createMethodStreamsAndRawFiles = 
-	()=&gt; {			
+	()=> {			
 			System.Threading.Thread scanThread = null;		 	
 			statusLabel.set_Text_Wpf("Starting Scan Workflow");			
 			scanThread = O2Thread.mtaThread(
-				()=&gt;{
+				()=>{
 						cancelScan = false;
 						var astData = new O2MappedAstData();
 						statusLabel.set_Text_Wpf("Adding References");		
@@ -90,7 +88,7 @@ Action createMethodStreamsAndRawFiles =
 						statusLabel.set_Text_Wpf("Creating MethodStreams");	
 						Ast_Engine_Cache.CacheEnabled = false;
 						astData.createAllMethodsStreams(targetFolderPath, progressBar,
-														(message)=&gt;{
+														(message)=>{
 																		"[Scan message]: {0}".info(message);
 																		statusLabel.set_Text_Wpf("Creating Raw Findings/Traces: {0} MethodStreams created so far".format(targetFolderPath.files().size()));	
 																		if (cancelScan)
@@ -107,7 +105,7 @@ Action createMethodStreamsAndRawFiles =
 						statusLabel.set_Text_Wpf("Creating Raw Findings");							
 						progressBar.value(0);
 						progressBar.maximum(step4_MethodStreams.nodes().size());
-						o2Findings = new List&lt;IO2Finding&gt;();  
+						o2Findings = new List<IO2Finding>();  
 						try
 						{
 							var numberOfFiles = step4_MethodStreams.nodes().size(); 
@@ -140,20 +138,20 @@ Action createMethodStreamsAndRawFiles =
 		 };
 
 //actions		 
-step3_Button.onClick_Wpf(()=&gt;createMethodStreamsAndRawFiles());	
+step3_Button.onClick_Wpf(()=>createMethodStreamsAndRawFiles());	
 step5_Button.onClick_Wpf(
-	()=&gt;{
+	()=>{
 			var targetFile = O2Forms.askUserForFileToSave(targetFolder.get_Text_Wpf(),"_o2Findings.xml");
 			if (targetFile.valid())
 				o2Findings.saveFindings(targetFile);
 		});
 	 
-step1_SourceCodeFiles.add_ContextMenu().add_MenuItem("Clear files list", ()=&gt;step1_SourceCodeFiles.clear());
-step4_FindingsViewer.add_ContextMenu().add_MenuItem("Show calculated findings", ()=&gt;step4_FindingsViewer.show(o2Findings));
-progressBar.add_ContextMenu().add_MenuItem("Cancel/Stop scan ", ()=&gt; cancelScan = true); 
+step1_SourceCodeFiles.add_ContextMenu().add_MenuItem("Clear files list", ()=>step1_SourceCodeFiles.clear());
+step4_FindingsViewer.add_ContextMenu().add_MenuItem("Show calculated findings", ()=>step4_FindingsViewer.show(o2Findings));
+progressBar.add_ContextMenu().add_MenuItem("Cancel/Stop scan ", ()=> cancelScan = true); 
 
 step1_SourceCodeFiles.onDrop(
-	(fileOrFolder)=&gt;{						
+	(fileOrFolder)=>{						
 						if (fileOrFolder.fileExists())
 							step1_SourceCodeFiles.add_Node(fileOrFolder.fileName(),fileOrFolder);	
 						else
@@ -177,22 +175,18 @@ return "ok";
 
 //createMethodStreamsAndRawFiles();
 
+//using FluentSharp.CSharpAST
+//using FluentSharp.CSharpAST.Utils
 //using O2.XRules.Database.Languages_and_Frameworks.DotNet;
-
 //using DiagramDesigner
-
-//using O2.Interfaces.O2Findings; 
-//using O2.Views.ASCX.O2Findings;
-//using O2.Views.ASCX.ExtensionMethods;
-//using O2.External.SharpDevelop.ExtensionMethods;
-//using O2.API.AST.CSharp;
-//using O2.API.AST.ExtensionMethods;
-//using O2.API.AST.ExtensionMethods.CSharp;
+//using O2.XRules.Database.Utils
+//using O2.XRules.Database.APIs
 //using WPF = System.Windows.Controls
 //using System.Windows.Media
 //using System.Windows.Media.Imaging
 //using System.Windows.Markup
 //using O2.XRules.Database.Findings
+//using FluentSharp.WPF
 
 //O2File:DiagramDesigner_ExtensionMethods.cs
 //O2File:Ast_Engine_ExtensionMethods.cs
@@ -214,5 +208,3 @@ return "ok";
 //O2Ref:DiagramDesigner.exe
 
 //O2Ref:System.Xaml.dll
-</SourceCode>
-</H2>

@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - Jint jsbeautify.js (doesn't scale very well)",700,400);
+var topPanel = O2Gui.open<Panel>("Util - Jint jsbeautify.js (doesn't scale very well)",700,400);
 //var topPanel = panel.clear().add_Panel();
 var textBox = topPanel.add_TextArea();
 
@@ -17,12 +15,12 @@ var resultObject = jintEngine.Run(jsBeautify.fileContents());
 var decodeButton = javascriptToDecode .insert_Below(30)
 									  .add_Button("Decode").fill()
 									  .onClick(
-									  	()=&gt;{
+									  	()=>{
 									  			textBox.pink();
 									  			try
 									  			{									  				
 									  				var rawResult = jintEngine.Run("return js_beautify(sourceCode, {opt_indent_size:1});");  									  				
-													var result = rawResult.str().fixCRLF();
+													var result = rawResult.str().fix_CRLF();
 													textBox.set_Text(result); 
 												}
 												catch(Exception ex)
@@ -33,7 +31,7 @@ var decodeButton = javascriptToDecode .insert_Below(30)
 									  		});
 
 javascriptToDecode.onTextChange(
-	(text)=&gt;{
+	(text)=>{
 				jintEngine.SetParameter("sourceCode", text);
 				decodeButton.click();
 			});
@@ -43,6 +41,4 @@ javascriptToDecode.set_Text("if ('this_is' == /an_example/) { of_beautifer();} e
 //using Jint
 //O2Ref:Jint/Jint.dll
 //O2File:Jint_ExtensionMethods.cs
-//using O2.XRules.Database.Languages_and_Frameworks.Javascript</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//using O2.XRules.Database.Languages_and_Frameworks.Javascript

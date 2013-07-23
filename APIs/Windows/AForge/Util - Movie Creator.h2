@@ -197,8 +197,9 @@ return null;
 //O2File:API_Cropper.cs
 //O2File:API_AForge_Video.cs
  
+ //using FluentSharp.WPF
+//using O2.XRules.Database.Utils
 //using O2.XRules.Database.APIs
-//using O2.Views.ASCX.ExtensionMethods
 //using AForge.Video.VFW
 //using AForge.Controls
 //using AForge.Video.DirectShow

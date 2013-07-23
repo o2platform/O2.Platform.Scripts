@@ -19,7 +19,4 @@ while(skip < 20000)
 	}
 	skip+= top;	
 }
-return start.duration_to_Now();
-
-
-
+return start.duration_To_Now();

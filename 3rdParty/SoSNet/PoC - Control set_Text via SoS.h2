@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//var topPanel = panel.clear().add_Panel();
+//var topPanel = panel.clear().add_Panel();
 var topPanel = "PoC - Control set_Text via SoS".popupWindow(400,150).insert_LogViewer();
 var code = @"var prependText = ""[O2]"";
 
@@ -16,7 +14,7 @@ while(sosController.Attached)
 	{		
 		var currentValue = formTitle.value();
 		var newValue = ""[O2] "" + currentValue; 
-		""Appying patch: {0} -&gt; {1}"".debug(currentValue,newValue);
+		""Appying patch: {0} -> {1}"".debug(currentValue,newValue);
 		formTitle.set_String_Value_DangerousWay(newValue);
 	}
 	
@@ -31,16 +29,16 @@ return ""Detached"";
 //O2Ref:SosNet\Debug\SOS.Net.Core.dll
 ";
 
-Func&lt;Process&gt; startTestProcess = 
-	()=&gt;{
+Func<Process> startTestProcess = 
+	()=>{
 			//var exe = @"file:///E:/O2_V4/_O2_V4_TempDir/7_3_2012/Util - LogViewer [35630]/Util - LogViewer.exe";
 			var exe =@"E:\O2_V4\_O2_V4_TempDir\7_3_2012\Util - O2 Available scripts [66663]\Util - O2 Available scripts.exe";
 			var process = exe.startProcess();
 			return process;
 		};
 		
-Action&lt;int&gt; attachToProcess =
-	(processId)=&gt;{		
+Action<int> attachToProcess =
+	(processId)=>{		
 					var sosController = new SosController();
 					
 					sosController.attach(processId);
@@ -57,14 +55,14 @@ Action&lt;int&gt; attachToProcess =
 var processToAttach = 0;
 				
 topPanel.add_Link("Start Test Process"  , 
-			()=&gt;{
+			()=>{
 					var process = startTestProcess();
 					attachToProcess(process.Id);
 				}).top(20).left(10)
-		.append_Label("Attach to process").append_TextBox("").width(50).onTextChange((value)=&gt; processToAttach = value.toInt())
+		.append_Label("Attach to process").append_TextBox("").width(50).onTextChange((value)=> processToAttach = value.toInt())
 		.append_Link("Attach", 
-			()=&gt;{
-					if (processToAttach &gt; 0)
+			()=>{
+					if (processToAttach > 0)
 						attachToProcess(processToAttach);
 					else
 						"You must provide a processId to attach".info();
@@ -74,10 +72,9 @@ return "done";
 //using SOS.Net
 //using SOS.Net.Core.Cdb
 //using System.Diagnostics
+//using O2.XRules.Database.Utils
 
 //O2File:SoSNet_ExtensionMethods.cs
 //O2Ref:SosNet\Debug\SOS.Net.exe
 //O2Tag_DontAddExtraO2Files
-//O2Ref:SOS.Net.Core.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Ref:SOS.Net.Core.dll

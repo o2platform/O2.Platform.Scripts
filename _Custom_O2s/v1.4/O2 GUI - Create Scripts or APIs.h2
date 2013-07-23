@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>/*panel.clear();
+/*panel.clear();
 var topPanel = panel.add_Panel();
 topPanel.fill(false)
 		.width(800)
@@ -8,15 +6,15 @@ topPanel.fill(false)
 */ 
 
 var title = "O2 GUI - Create Scripts or APIs";
-var topPanel = O2Gui.open&lt;Panel&gt;(title, 800,570);    
-topPanel.insert_Below&lt;Panel&gt;(110).add_LogViewer();
+var topPanel = O2Gui.open<Panel>(title, 800,570);    
+topPanel.insert_Below<Panel>(110).add_LogViewer();
 
 topPanel.parentForm().top(60).left(60); 
 
 var logoNoShadow = "O2_Logo_no_Shadow.jpg".local();  
 var smallLogo = "O2Logo_Small.gif".local();
 
-var ribbon = topPanel.insert_Above&lt;WPF_Ribbon&gt;(135); 
+var ribbon = topPanel.insert_Above<WPF_Ribbon>(135); 
 
 var apiScriptDevelopment = ribbon.Ribbon.add_RibbonTab("API / Script Development");   // "There are a number of development environments in O2, each is designed for a particular talk/workflow")
 
@@ -33,23 +31,28 @@ apiScriptDevelopment.add_RibbonGroup("Unit Tests")
 					.add_RibbonButton_H2Script(topPanel,"Write and Execute Unit Tests","Write and Execute Unit Tests.h2");
 	
 apiScriptDevelopment.add_RibbonGroup("Development Utils")			
-					.add_RibbonButton("O2 Object Model", () =&gt; open.o2ObjectModel())
-					.add_RibbonButton("O2 Executable Directory", () =&gt; open.directory(PublicDI.config.CurrentExecutableDirectory, true))
+					.add_RibbonButton("O2 Object Model", () => open.o2ObjectModel())
+					.add_RibbonButton("O2 Executable Directory", () => open.directory(PublicDI.config.CurrentExecutableDirectory, true))
 //					.add_RibbonButton_H2Script(topPanel,"View Loaded Script Source",wpfGui.ExecuteScripts.showLoadedScriptSourceCode)
 					.add_RibbonButton_Script(topPanel,"SVN Download (via HTTP)","Wizard - SVN Download (via HTTP).cs.o2");
 
 
 topPanel.backColor("Control"); 
 
-topPanel.parent&lt;SplitContainer&gt;().backColor(Color.White); 
+topPanel.parent<SplitContainer>().backColor(Color.White); 
 var designerCanvas = topPanel.add_DesignerCanvas(); 
 designerCanvas.add_Label(title ,160,140).fontSize(30);     
  
 return "ok";
- 
+  
+//using O2.XRules.Database.Utils
+//using O2.XRules.Database.APIs
+//using FluentSharp.CSharpAST
+//using FluentSharp.CSharpAST.Utils
 //using Microsoft.Windows.Controls.Ribbon;   
 //using WPF= System.Windows.Controls
 //using DiagramDesigner
+//using FluentSharp.WPF
 //O2File:WPF_Ribbon.cs 
 //O2File:WPF_Ribbon_ExtensionMethods.cs
 //O2File:DiagramDesigner_ExtensionMethods.cs
@@ -61,5 +64,4 @@ return "ok";
 //O2Ref:PresentationCore.dll
 //O2Ref:PresentationFramework.dll
 //O2Ref:WindowsBase.dll
-//O2Ref:System.Xaml.dll</SourceCode>
-</H2>
+//O2Ref:System.Xaml.dll

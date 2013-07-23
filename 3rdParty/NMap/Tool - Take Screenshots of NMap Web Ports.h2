@@ -28,7 +28,8 @@ var urls = new List<string>();
 var urls_TreeView = topPanel.insert_Left(400,"Urls (click to take screenshot)").add_TreeView();
 var screenshots_TreeView = topPanel.insert_Left(400, "Screenshots").add_TreeView();
 var ie = topPanel.add_IE_with_NavigationBar();//.silent(true);
-var alertsHandler = ie.getAlertsHandler();	 // auto closes popup-windows
+
+//var alertsHandler = ie.getAlertsHandler();	 // auto closes popup-windows
 var stopExecution = false;
 
 Action<string> takeScreenshotOfWebPage = 
@@ -88,6 +89,9 @@ return "ok";
 //using tempuri.org.nmap
 //O2File:nmap.cs
 //O2File:API_Cropper.cs
-//O2File:WatiN_IE_ExtensionMethods.cs
+
+//using O2.XRules.Database.APIs
+//using FluentSharp.Watin
+//O2Ref:FluentSharp.Watin.dll
+//O2Ref:Watin.Core.dll
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
-//O2Ref:WatiN.Core.1x.dll

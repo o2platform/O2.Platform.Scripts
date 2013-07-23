@@ -1,8 +1,6 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//panel.clear();
+//panel.clear();
 //var topPanel = panel; 
-var topPanel = O2Gui.open&lt;Panel&gt;("Tool - Webscarab: Convert Conversations into O2Findings",1000,400);
+var topPanel = O2Gui.open<Panel>("Tool - Webscarab: Convert Conversations into O2Findings",1000,400);
 var findingsViewer = topPanel.add_FindingsViewer(true);
 findingsViewer.setFilter1Value("vulnName");
 var webScarab_Loader = new O2AssesmentLoad_WebScarab();
@@ -10,10 +8,11 @@ ascx_FindingsViewer.o2AssessmentLoadEngines.Clear();
 ascx_FindingsViewer.addO2AssessmentLoadEngine_static(webScarab_Loader);
 OunceAvailableEngines.addAvailableEnginesToControl(typeof(ascx_FindingsViewer)); 
  
-//using O2.ImportExport.OunceLabs
-//using O2.Views.ASCX.O2Findings
+//using O2.XRules.Database.APIs
 //using O2.XRules.Database.Findings
 //using O2.ImportExport.Misc.WebScarab
+//using O2.ImportExport.OunceLabs
+
 //O2File:Findings_ExtensionMethods.cs
 //O2File:O2AssesmentLoad_WebScarab.cs
 //O2File:OunceAvailableEngines.cs
@@ -21,6 +20,4 @@ OunceAvailableEngines.addAvailableEnginesToControl(typeof(ascx_FindingsViewer));
 //O2Ref:PresentationCore.dll
 //O2Ref:PresentationFramework.dll
 //O2Ref:WindowsBase.dll
-//O2Ref:System.Xaml.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Ref:System.Xaml.dll

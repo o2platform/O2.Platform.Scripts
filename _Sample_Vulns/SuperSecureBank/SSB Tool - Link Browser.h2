@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//panel.clear();
+//panel.clear();
 
 //var topPanel = panel.clear().add_Panel();
 var topPanel = "SSB Link Browser".popupWindow();
@@ -10,8 +8,8 @@ var ie = topPanel.add_IE().silent(true);
 ie.disableFlashing();
 ie.open("http://127.0.0.1:1234");
 
-Action&lt;string,string&gt; login = 
-	(username, password)=&gt;{		
+Action<string,string> login = 
+	(username, password)=>{		
 							ie.link("Log in").flash().click();
 							
 							ie.field("ctl00_MainContent_UserName").value(username); 
@@ -23,14 +21,14 @@ Action&lt;string,string&gt; login =
 
 var treeView = topPanel.insert_Left("links").add_TreeView();
 
-treeView.afterSelect&lt;string&gt;(
-	(url)=&gt;{
+treeView.afterSelect<string>(
+	(url)=>{
 				url.info();
 				ie.open_ASync(url);
 			}); 
 
 ie.onNavigate(
-	(url)=&gt; {
+	(url)=> {
 				treeView.clear();
 				treeView.add_Nodes(ie.links().urls());
 				//treeView.selectFirst();
@@ -42,8 +40,7 @@ ie.link(" Apply for a line of credit").click();
 
 return ie.url();
 
-//O2File:WatiN_IE_ExtensionMethods.cs
-//O2Ref:WatiN.Core.1x.dll
-//O2Ref:Interop.SHDocVw.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//using FluentSharp.Watin
+//O2Ref:FluentSharp.Watin.dll
+//O2Ref:Watin.Core.dll
+//O2Ref:Interop.SHDocVw.dll

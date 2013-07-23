@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>
+
 /*panel.clear();
 var topPanel = panel.add_Panel();
 topPanel.fill(false)
@@ -8,14 +6,14 @@ topPanel.fill(false)
 		.height(170); 
 */
 var title = "Use OWASP Projects";
-var topPanel = O2Gui.open&lt;Panel&gt;("O2 GUI - " + title, 800,570);    
+var topPanel = O2Gui.open<Panel>("O2 GUI - " + title, 800,570);    
 
 topPanel.parentForm().top(60).left(60); 
 
 var logoNoShadow = "O2_Logo_no_Shadow.jpg".local(); 
 var smallLogo = "O2Logo_Small.gif".local();
 
-var ribbon = topPanel.insert_Above&lt;WPF_Ribbon&gt;(135); 
+var ribbon = topPanel.insert_Above<WPF_Ribbon>(135); 
 
 var owaspWiki = ribbon.Ribbon.add_RibbonTab("OWASP Wiki");   
 
@@ -41,8 +39,8 @@ openSamm.add_RibbonGroup("OpenSAMM")
 
 var securityFacts = ribbon.Ribbon.add_RibbonTab("Security Facts"); 
 securityFacts.add_RibbonGroup("Security Facts")  
-			 .add_RibbonButton("Scorecard",()=&gt;topPanel.clear().add_Control&lt;WebBrowser&gt;().open(@"C:\O2\O2Scripts_Database\_Scripts\APIs\OWASP\SecurityFacts\Security Facts.jpg"))
-			 .add_RibbonButton("Keys",()=&gt;topPanel.clear().add_Control&lt;WebBrowser&gt;().open(@"C:\O2\O2Scripts_Database\_Scripts\APIs\OWASP\SecurityFacts\Security Facts - Keys.png"));
+			 .add_RibbonButton("Scorecard",()=>topPanel.clear().add_Control<WebBrowser>().open(@"C:\O2\O2Scripts_Database\_Scripts\APIs\OWASP\SecurityFacts\Security Facts.jpg"))
+			 .add_RibbonButton("Keys",()=>topPanel.clear().add_Control<WebBrowser>().open(@"C:\O2\O2Scripts_Database\_Scripts\APIs\OWASP\SecurityFacts\Security Facts - Keys.png"));
 
 var webGoat = ribbon.Ribbon.add_RibbonTab("WebGoat");
 webGoat.add_RibbonGroup("Exploits")  
@@ -67,18 +65,22 @@ webScarab.add_RibbonGroup("APIs")
 				 
 				 
 topPanel.backColor("Control"); 
-topPanel.parent&lt;SplitContainer&gt;().backColor(Color.White); 
+topPanel.parent<SplitContainer>().backColor(Color.White); 
 var designerCanvas = topPanel.add_DesignerCanvas(); 
 designerCanvas.add_Label(title ,160,140).fontSize(30);     
  
 return "ok";
  
+//using O2.XRules.Database.Utils
+//using O2.XRules.Database.APIs
+
 //using Microsoft.Windows.Controls.Ribbon;
 //using WPF= System.Windows.Controls
 //using DiagramDesigner
 //O2File:WPF_Ribbon.cs 
 //O2File:WPF_Ribbon_ExtensionMethods.cs
 //O2File:DiagramDesigner_ExtensionMethods.cs
+//using FluentSharp.WPF
 //O2Ref:FluentSharp.WPF.dll
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:DiagramDesigner.exe
@@ -87,5 +89,4 @@ return "ok";
 //O2Ref:PresentationCore.dll
 //O2Ref:PresentationFramework.dll
 //O2Ref:WindowsBase.dll
-//O2Ref:System.Xaml.dll</SourceCode>
-</H2>
+//O2Ref:System.Xaml.dll

@@ -1,10 +1,8 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var title = "OWASP Summit 2011";  
+var title = "OWASP Summit 2011";  
 
 //var topPanel = panel.clear().add_Panel(); 
-var topPanel = O2Gui.open&lt;Panel&gt;("OWASP O2 Summit (custom O2)",1024,600);
-topPanel.insert_Below&lt;Panel&gt;(120).add_LogViewer(); 
+var topPanel = O2Gui.open<Panel>("OWASP O2 Summit (custom O2)",1024,600);
+topPanel.insert_Below<Panel>(120).add_LogViewer(); 
 var ribbon = topPanel.add_Ribbon(title,true);
 topPanel.backColor("Control");
 
@@ -19,7 +17,7 @@ webPages.add_RibbonGroup("Web Pages")
 	  	.add_RibbonButton_Web(topPanel,"Summit Internals","http://www.owasp.org/index.php/Summit_2011_Internals");
 
 webPages.add_RibbonGroup("Attendees Funding")
-		.add_RibbonButton_Web(topPanel,"Compiled funding information from Summit sponsorship applicants ","https://spreadsheets.google.com/ccc?key=0ApZ9zE0hx0LNdERFaW9iWmVEeUY4QXd4ZnR6N0xCWGc&amp;hl=en&amp;authkey=CKPE8O0J");
+		.add_RibbonButton_Web(topPanel,"Compiled funding information from Summit sponsorship applicants ","https://spreadsheets.google.com/ccc?key=0ApZ9zE0hx0LNdERFaW9iWmVEeUY4QXd4ZnR6N0xCWGc&hl=en&authkey=CKPE8O0J");
 	  	
 webPages.add_RibbonGroup("Utils ")  
 		.add_Script("View/Edit Attendee's Data", "Util - Attendees Mappings (first GUI).h2".local())
@@ -30,9 +28,14 @@ webPages.add_RibbonGroup("Utils ")
 //ribbon.add_Tab_BrowserAutomation();
 ribbon.add_Tab_MiscTools();
 
-return webPages.group("Web Pages").buttons()[0].click(); 
-//O2File:CustomO2.cs  
+return webPages.group("Web Pages").buttons().first().click(); 
+
+//using O2.XRules.Database.Utils
+
+//O2File:CustomO2.cs
+//O2File:WPF_Ribbon.cs
  
+//using FluentSharp.WPF
 //O2Ref:FluentSharp.WPF.dll
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:RibbonControlsLibrary.dll
@@ -41,5 +44,3 @@ return webPages.group("Web Pages").buttons()[0].click();
 //O2Ref:PresentationFramework.dll
 //O2Ref:WindowsBase.dll
 //O2Ref:System.Xaml.dll
-</SourceCode>
-</H2>

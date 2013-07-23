@@ -1,18 +1,16 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var credential = @"C:\O2\_USERDATA\WikiAccounts.xml".credential("OwaspWiki");
+var credential = @"C:\O2\_USERDATA\WikiAccounts.xml".credential("OwaspWiki");
 
 //var topPanel = panel.clear().add_Panel();
-var topPanel = O2Gui.open&lt;Panel&gt;("Calculate Ranking (attendee Stats) page", 1000,500);
+var topPanel = O2Gui.open<Panel>("Calculate Ranking (attendee Stats) page", 1000,500);
 var wikiApi = new OwaspWikiAPI(false);
 var statsPageName = "Summit_2011_Attendee/Summit Attendees Funds - Ranking for 18th Jan 2010";	
-Func&lt;bool&gt; wikiLogin = 
-	()=&gt;{
+Func<bool> wikiLogin = 
+	()=>{
 			return wikiApi.login(credential.username(),credential.password());  
 		};
 
-Action&lt;string&gt; saveStatsPage = 
-	(pageContents)=&gt;{					  
+Action<string> saveStatsPage = 
+	(pageContents)=>{					  
 						if (wikiLogin())
 						{
 							wikiApi.save(statsPageName,pageContents); 
@@ -24,11 +22,11 @@ Action&lt;string&gt; saveStatsPage =
 
 
 
-var actionPanel = topPanel.insert_Above&lt;GroupBox&gt;(50).add_Panel();	
+var actionPanel = topPanel.insert_Above<GroupBox>(50).add_Panel();	
 var statsPage = topPanel.add_TextArea();
 
 actionPanel.add_Link("Save page", 0,0,
-				()=&gt;{
+				()=>{
 						statsPage.backColor("LightPink");
 						saveStatsPage(statsPage.get_Text()); 
 						statsPage.backColor("White");
@@ -38,8 +36,8 @@ actionPanel.add_Link("Save page", 0,0,
 var summitApi = new API_OWASP_Summit_2011();  
 var useCache = true ;
 var statsText = "==Summit Attendees Funds - Ranking for 18th Jan 2010)==".line();
-var rankingRulesText = "The ranking is calculated the following way.&lt;br/&gt; ".line() +
-					   "The OWASP leader in the list bellow gets a number of points based on his/hers past OWASP contributions:&lt;br&gt;".line() + 
+var rankingRulesText = "The ranking is calculated the following way.<br/> ".line() +
+					   "The OWASP leader in the list bellow gets a number of points based on his/hers past OWASP contributions:<br>".line() + 
 					   "* Committee Member: 2 Points".line() + 
 					   "* Project/Release leadership: 1 Point".line() +
 					   "* Project/Release contribution: 1 Point".line() +			   
@@ -47,14 +45,14 @@ var rankingRulesText = "The ranking is calculated the following way.&lt;br/&gt; 
 					   "* Conference Organizer: 3 Points".line() + 
 					   "* Leader funds its own time (or takes holidays) : 1 Point".line() + 
 					   "* Leader was able to secure partial funding: 10 Points".line() +
-					   "&lt;br/&gt;".line();
+					   "<br/>".line();
 statsText += rankingRulesText;
 						
 Action addSeekFunds = 
-	()=&gt;{
+	()=>{
 			var budgetAvailable = 17100;
 			//statsText += "==Confirmed need funds==".line();
-			var seekFunds = new Dictionary&lt;string, SummitAttendee&gt;();
+			var seekFunds = new Dictionary<string, SummitAttendee>();
 			var attendees = summitApi.getAttendees(summitApi.attendees_SeekingFunds(useCache));
 			foreach(var attendee in attendees) 
 				seekFunds.add(attendee.Name, attendee);
@@ -71,7 +69,7 @@ Action addSeekFunds =
 							    
 			statsText += "===Ranking and Funding status ===".line().format(budgetAvailable); 
 			
-			statsText += "Funds Available: {0:c0}&lt;br/&gt;&lt;br&gt;".line().format(budgetAvailable);
+			statsText += "Funds Available: {0:c0}<br/><br>".line().format(budgetAvailable);
 			statsText += "{| border=\"1\"".line() + 					    
 					    "! Position".line() + 
 					    "! Name".line() +
@@ -89,7 +87,7 @@ Action addSeekFunds =
 			{ 			
 				var attendee = seekFunds[name];
 				costSubTotal += attendee.ProjectedFundingCost;				
-				if (costSubTotal &lt; budgetAvailable)
+				if (costSubTotal < budgetAvailable)
 					status = "Approved";
 				else
 				{
@@ -140,7 +138,7 @@ Action addSeekFunds =
 
 
 Action addConfirmed = 
-	()=&gt;{
+	()=>{
 			statsText += "".line().line();
 			statsText += "==Confirmed==".line();
 			var confirmed = summitApi.getAttendees(summitApi.attendees_Confirmed(useCache)); 
@@ -169,7 +167,7 @@ Action addConfirmed =
 		};
 		
  Action addUnconfirmed = 
- 	()=&gt;{ 
+ 	()=>{ 
 			statsText += "".line().line();	
 			statsText += "==UnConfirmed==".line();
 			var unconfirmed = summitApi.getAttendees(summitApi.attendees_UnConfirmed(useCache)); 
@@ -200,7 +198,9 @@ return wikiApi.raw(statsPageName);
 
 return wikiApi;
  
+//using O2.XRules.Database.APIs
+//using FluentSharp.CoreLib.Utils
+
+
 //O2File:API_OWASP_Summit_2011.cs  
-//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll

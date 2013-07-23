@@ -1,4 +1,3 @@
-
 var topPanel = O2Gui.open<Panel>("Util - Copy Clipboard Image to GitHub Repository",400,400);
 //var topPanel = panel.clear().add_Panel();
 var actionsPanel = topPanel.insert_Above(40, "Actions");
@@ -36,6 +35,10 @@ actionsPanel.add_Link("Open Screenshot tool", ()=> API_Cropper.openGui())
 return nGit;
 
 
+//using O2.XRules.Database.APIs
+//using FluentSharp.Git.APIs
+//using FluentSharp.Git
+
 //O2File:API_Cropper.cs
 
 //O2Ref:FluentSharp.NGit.dll
@@ -43,5 +46,3 @@ return nGit;
 //O2Ref:NSch.dll
 //O2Ref:Mono.Security.dll 
 //O2Ref:Sharpen.dll 
-
-//O2Tag_DontAddExtraO2Files 

@@ -1,16 +1,14 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//panel.clear();
+//panel.clear();
 //var topPanel = panel.add_Panel();
 
-var topPanel = O2Gui.open&lt;Panel&gt;("O2 GUI - Browser Automation / BlackBox Testing", 800,570);    
+var topPanel = O2Gui.open<Panel>("O2 GUI - Browser Automation / BlackBox Testing", 800,570);    
 
 topPanel.parentForm().top(60).left(60); 
 
 var logoNoShadow = "O2_Logo_no_Shadow.jpg".local(); 
 var smallLogo = "O2Logo_Small.gif".local();
 
-var ribbon = topPanel.insert_Above&lt;WPF_Ribbon&gt;(135); 
+var ribbon = topPanel.insert_Above<WPF_Ribbon>(135); 
  
 var browserAutomation = ribbon.Ribbon.add_RibbonTab("Browser Automation");   
 browserAutomation.add_RibbonGroup("IE Script development environments") 				 
@@ -46,13 +44,19 @@ demoVulnerableApplications.add_RibbonGroup("HacmeBank")
 				 
 //O2File:ascx_IE_ScriptExecution.cs 
 //Splash message
-topPanel.parent&lt;SplitContainer&gt;().backColor(Color.White); 
+topPanel.parent<SplitContainer>().backColor(Color.White); 
 topPanel.backColor("Control"); 
 var designerCanvas = topPanel.add_DesignerCanvas(); 
 designerCanvas.add_Label("Browser Automation / BlackBox Testing",160,140).fontSize(30);     
  
 return "ok";
  
+ 
+//using FluentSharp.WPF
+//using O2.XRules.Database.APIs
+//using O2.XRules.Database.Utils
+//using FluentSharp.CSharpAST
+//using FluentSharp.CSharpAST.Utils
 //using Microsoft.Windows.Controls.Ribbon;
 //using WPF= System.Windows.Controls
 //using DiagramDesigner
@@ -70,5 +74,4 @@ return "ok";
 //O2Ref:PresentationFramework.dll
 //O2Ref:WindowsBase.dll
 //O2Ref:System.Xaml.dll
-//O2Ref:WatiN.Core.1x.dll</SourceCode>
-</H2>
+//O2Ref:WatiN.Core.1x.dll

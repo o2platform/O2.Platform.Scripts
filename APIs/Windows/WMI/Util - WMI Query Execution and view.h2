@@ -1,22 +1,20 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - WMI Query Execution and view",700,400); 
+var topPanel = O2Gui.open<Panel>("Util - WMI Query Execution and view",700,400); 
 //var topPanel = panel.clear().add_Panel();
 
 var tabControl = topPanel.add_TabControl();
-var showInfo = tabControl.add_Tab("Property Grid View").add_Control&lt;ascx_ShowInfo&gt;();
+var showInfo = tabControl.add_Tab("Property Grid View").add_Control<ctrl_ShowInfo>();
 
 var sampleQueries_TreeView = tabControl.parent().insert_Left(200).add_TreeView();
 var tableList = tabControl.add_Tab("Table List View").add_TableList(); 
 
-Action&lt;string&gt; executeWmiQuery = 
-	(query)=&gt;{
+Action<string> executeWmiQuery = 
+	(query)=>{
 				tabControl.enabled(false);
 				O2Thread.mtaThread(
-					()=&gt;{							
+					()=>{							
 							var searchResults = query.wmiSearch(); 
 							
-							if (searchResults.notNull() &amp;&amp; searchResults.size() &gt; 0) 
+							if (searchResults.notNull() && searchResults.size() > 0) 
 							{								
 								var wmiQueryItems = searchResults.createObjectWithSearchResults();
 								searchResults.show_in_TableList(tableList);
@@ -26,15 +24,15 @@ Action&lt;string&gt; executeWmiQuery =
 						});	
 			 };
 			 
-var query_ComboBox = tabControl.insert_Above(20).add_LabelAndComboBoxAndButton("Query","SELECT * FROM Win32_Service","Run",executeWmiQuery).controls&lt;ComboBox&gt;();  
+var query_ComboBox = tabControl.insert_Above(20).add_LabelAndComboBoxAndButton("Query","SELECT * FROM Win32_Service","Run",executeWmiQuery).controls<ComboBox>();  
 
-sampleQueries_TreeView.afterSelect&lt;string&gt;(
-	(query)=&gt;{	
+sampleQueries_TreeView.afterSelect<string>(
+	(query)=>{	
 				query_ComboBox.set_Text(query);
 				executeWmiQuery(query);
 			 });
 
-var sampleQueries = new List&lt;string&gt; {  
+var sampleQueries = new List<string> {  
 										"SELECT * FROM Win32_Desktop", 
 										"SELECT * FROM Win32_Service",
 										"SELECT * FROM Win32_Process",
@@ -43,12 +41,10 @@ sampleQueries_TreeView.add_Nodes(sampleQueries);
 
 sampleQueries_TreeView.selectFirst();
 
+//using O2.XRules.Database.APIs
+
 //O2File:API_WMI.cs
 //using System.Management
-//using O2.Views.ASCX.DataViewers
 //O2Ref:System.Management.dll
 //using System.DirectoryServices;
 //O2Ref:System.DirectoryServices.dll
-</SourceCode>
-  <ReferencedAssemblies />
-</H2>

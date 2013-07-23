@@ -185,6 +185,9 @@ openTestSolution();
 //O2File:API_CatNet.cs
 //O2File:_Extra_methods_Roslyn_API.cs
 //O2File:Findings_ExtensionMethods.cs
+
+//using O2.XRules.Database.APIs
+//using FluentSharp.FluentRoslyn
 //using O2.XRules.Database.Findings;
 //using Roslyn.Compilers.CSharp
 //using System.Threading

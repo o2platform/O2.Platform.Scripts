@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using FluentSharp.CoreLib;
 using FluentSharp.WinForms;
-
 //O2File:WindowFinder.cs
 
 namespace O2.XRules.Database.APIs

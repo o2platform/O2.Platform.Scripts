@@ -76,7 +76,7 @@ step4_Button.onClick_Wpf(
 			//alert user to check his email			
 			var step6_Label = designerCanvas.add_Label("step 6) Check your email and follow the account validation link",440,25); 
 			designerCanvas.connect(step5_Label, step6_Label,"Left","Left");
-			WPF_Controls_ExtensionMethods_Control.color(step6_Label, "Red");			
+			Control_ExtensionMethods.color(step6_Label, "Red");			
 		});
 
 
@@ -86,11 +86,16 @@ updateDataGridValues();
 
 step5_IE.open("http://google.com"); 
 
-//O2File:WatiN_IE_ExtensionMethods.cs 		
+//using O2.XRules.Database.APIs
+//using FluentSharp.WPF
+
+//using FluentSharp.Watin
+//O2Ref:FluentSharp.Watin.dll
+//O2Ref:Watin.Core.dll
+
 //O2File:DiagramDesigner_ExtensionMethods.cs
 //O2Ref:DiagramDesigner.exe
 //O2Ref:WindowsFormsIntegration.dll
-//O2Ref:WatiN.Core.1x.dll
 
 //O2Ref:FluentSharp.WPF.dll
 //O2Ref:PresentationCore.dll

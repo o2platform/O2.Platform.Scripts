@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//"process: {0}".info(Processes.getCurrentProcessID());  
+//"process: {0}".info(Processes.getCurrentProcessID());  
   
 var topPanel ="Util - Javascript Format (and Beautify)".popupWindow();
 //topPanel.insert_Below(100).add_LogViewer();  
@@ -14,44 +12,44 @@ var autoRefresh = false;
 
 var tempIE = topPanel.insert_Below(1).add_IE(); // will not be visible to the user and will be used for formating the code
 
-Action&lt;string&gt; formatCode =    
-	(jsCode)=&gt; {					 
+Action<string> formatCode =    
+	(jsCode)=> {					 
 					if (jsCode.valid())  
 					{
 						jsOriginal.azure(); 
 						O2Thread.mtaThread( 
-							()=&gt;{
+							()=>{
 									jsDecoded.show_Formated_Javascript(tempIE, jsCode);
 									jsOriginal.white();
 								});
 					}
 			   };
 Action refresh =
-	()=&gt; formatCode(jsOriginal.get_Text()); 
+	()=> formatCode(jsOriginal.get_Text()); 
 	
-Action&lt;string&gt; setSourceText = 
-	(text)=&gt;jsOriginal.set_Text(text); 
+Action<string> setSourceText = 
+	(text)=>jsOriginal.set_Text(text); 
 	
-Action&lt;string&gt; loadFile =
-	(file)=&gt; setSourceText(file.fileContents());
+Action<string> loadFile =
+	(file)=> setSourceText(file.fileContents());
 	
 jsOriginal.onTextChange(
-	(text)=&gt; {
+	(text)=> {
 				if (autoRefresh) 
 					formatCode(text);
 			 });
 	 
 var actionsPanel = jsOriginal.parent().insert_Below(50,"Actions");
-actionsPanel.add_Link("See prettify.js",4,0, ()=&gt; loadFile("prettify.js".local())) 
-			.append_Link("See beautify.js",()=&gt; loadFile("beautify.js".local())) 
-			.append_Link("clear", ()=&gt;setSourceText(""))
-			.append_Link("refresh (ie. format)", ()=&gt;refresh());
+actionsPanel.add_Link("See prettify.js",4,0, ()=> loadFile("prettify.js".local())) 
+			.append_Link("See beautify.js",()=> loadFile("beautify.js".local())) 
+			.append_Link("clear", ()=>setSourceText(""))
+			.append_Link("refresh (ie. format)", ()=>refresh());
  
-actionsPanel.add_CheckBox("Auto Refresh", 0,340,(value)=&gt;autoRefresh=value).check();
+actionsPanel.add_CheckBox("Auto Refresh", 0,340,(value)=>autoRefresh=value).check();
  
 jsOriginal.set_Text ("if ('this_is' == /an___example/) { of_beautifer();} else {   var a = b ? (c % d) : e[f];}");
 
-jsOriginal.onDrop((file)=&gt;loadFile(file));
+jsOriginal.onDrop((file)=>loadFile(file));
 
 //jsOriginal.set_Text("prettify.js".local().fileContents());
 //return "prettify.js".local();
@@ -59,8 +57,7 @@ jsOriginal.onDrop((file)=&gt;loadFile(file));
 return "ok";
 
 
- 
-//O2File:WatiN_IE_ExtensionMethods.cs
-//O2Ref:WatiN.Core.1x.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+
+//using FluentSharp.Watin
+//O2Ref:FluentSharp.Watin.dll
+//O2Ref:Watin.Core.dll

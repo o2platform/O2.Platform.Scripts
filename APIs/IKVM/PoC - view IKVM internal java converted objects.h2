@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//O2Ref:IKVM\ikvm-7.1.4532.2\bin\IKVM.OpenJDK.SwingAWT.dll
+//O2Ref:IKVM\ikvm-7.1.4532.2\bin\IKVM.OpenJDK.SwingAWT.dll
 //O2Ref:IKVM\ikvm-7.1.4532.2\bin\IKVM.OpenJDK.Security.dll
 //O2Ref:IKVM\ikvm-7.1.4532.2\bin\IKVM.Runtime.dll
 //O2Ref:IKVM\ikvm-7.1.4532.2\bin\IKVM.OpenJDK.Util.dll
@@ -19,14 +17,14 @@ var topPanel = "util - view IKVM internal java converted objects".popupWindow(10
 //using java.util.zip 
 //using ikvm.runtime 
 //using System.Reflection
-//var comp = new IkvmcCompiler();   
+//var comp = new IkvmcCompiler();    
 
 var treeView = topPanel.add_TreeView();//_with_PropertyGrid(false);  
-var objectViewer = treeView.insert_Right().add_Control&lt;ascx_ObjectViewer&gt;();
-treeView.afterSelect&lt;object&gt;(objectViewer.show);
+var objectViewer = treeView.insert_Right().add_Control<ctrl_ObjectViewer>();
+treeView.afterSelect<object>(objectViewer.show);
 				
-Action&lt;string&gt; loadFile = 
-	(jarToLoad)=&gt;{
+Action<string> loadFile = 
+	(jarToLoad)=>{
 				
 				treeView.clear();
 				treeView.azure();
@@ -47,7 +45,7 @@ Action&lt;string&gt; loadFile =
 				
 				var args = jarToLoad.wrapOnList().GetEnumerator();
 				
-				var targets = typeof(List&lt;&gt;).MakeGenericType(new System.Type[] { compilerOptions.type()}).ctor();
+				var targets = typeof(List<>).MakeGenericType(new System.Type[] { compilerOptions.type()}).ctor();
 				
 				ikvmcCompiler.invoke("ParseCommandLine", args, targets, compilerOptions);  
 				
@@ -65,15 +63,15 @@ Action&lt;string&gt; loadFile =
 					var classFile = ctor.Invoke(new object[] { bytes,0,bytes.Length, null,1 });   //1= Nuno2 = ClassFileParseOptions.LineNumberTable  
 					var classNode = treeView.add_Node(@class.Key.str(),classFile);
 					
-					var constantPoolRaw = new Dictionary&lt;int,object&gt;();
+					var constantPoolRaw = new Dictionary<int,object>();
 					var constantPool =  (IEnumerable)classFile.field("constantpool");  
 					var index = 0;
 					foreach(var constant in constantPool)
 						constantPoolRaw.add(index++, constant); 
 						
-					var constantPoolValues = new Dictionary&lt;int,string&gt;();	 
-				//	var stillToMap = new List&lt;object&gt;();
-					for(int i=0; i &lt; constantPoolRaw.size() ; i++)
+					var constantPoolValues = new Dictionary<int,string>();	 
+				//	var stillToMap = new List<object>();
+					for(int i=0; i < constantPoolRaw.size() ; i++)
 					{  
 						var currentItem = constantPoolRaw[i];
 						switch(currentItem.str())
@@ -147,7 +145,7 @@ Action&lt;string&gt; loadFile =
 							{ 
 								var normalizedOpCode = instruction.prop("NormalizedOpCode").str(); 
 								var targetIndex = instruction.prop("TargetIndex").str().toInt();
-								if (targetIndex&gt;0)
+								if (targetIndex>0)
 								{
 									var _signature =  constantPoolValues.hasKey(targetIndex) ? constantPoolValues[targetIndex] : "(constant not mapped)";			
 									methodNode.add_Node("{0} {1} {2}".format(normalizedOpCode,targetIndex,_signature), instruction);  
@@ -165,7 +163,7 @@ Action&lt;string&gt; loadFile =
 				treeView.white();
 			};
 
-treeView.onDrop((file)=&gt;O2Thread.mtaThread(()=&gt;loadFile(file)));
+treeView.onDrop((file)=>O2Thread.mtaThread(()=>loadFile(file)));
 			
 
 //loadFile( commons_Logging_Jar);			
@@ -174,9 +172,9 @@ return "ok";
 
 //return O2.DotNetWrappers.DotNet.GacUtils.currentGacAssemblies();
 //using O2.XRules.Database.APIs.IKVM
+
+//using O2.XRules.Database.APIs
 //O2File:API_IKVM.cs
    
 //using System.Collections 
- </SourceCode>
-  <ReferencedAssemblies />
-</H2>
+ 

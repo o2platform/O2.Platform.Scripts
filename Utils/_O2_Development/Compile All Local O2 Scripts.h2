@@ -30,7 +30,7 @@ dataGridView.CellMouseDown += (sender,e)=>
 	
 var currentFile = "";
 var showSkippedFiles = false;
-var showOKFiles      = false;
+var showOKFiles      = false; 
 var okFiles          = 0;	
 var skipped			 = 0;
 
@@ -38,7 +38,8 @@ dataGridView.afterSelect(
 	(row)=>{				
 				var values = row.values();
 				var fileName = 	values.first();			
-				currentFile = fileName.info();;				
+				//currentFile = fileName.info();;			
+				fileName.clipboardText_Set();
 			});
 
 var cancelExecution = false;
@@ -59,11 +60,12 @@ Action<string> compileTargetFile =
 				var compiler2Result = true;
 				var rowId = 0;
 				
-				if (file.extension(".h2"))  // skip for now
+				//if (file.extension(".h2"))  // skip for now
+				/*if (file.extension(".cs"))  // skip for now
 				{
 					skipped++;
 					return;
-				}
+				}*/
 				
 				if (file.extension(".h2"))
 					compiler1Result = file.compile_H2Script() != null;
@@ -123,17 +125,31 @@ Action startCompilation =
 					});
 	};
 
+Action<string> editFile =
+	(file)=>{
+				O2Thread.mtaThread(
+					()=>{
+							//if(file.extension(".h2"))
+							//	open.scriptEditor(file.local());
+							//	"edit h2 script".popupWindow().add_Script().openFile(file);
+							//else
+								currentFile.showInCodeEditor();
+						});
+	    	};
 actionPanel.add_Link("Start Compilation", startCompilation).top(5)
 		   .append_Link("Stop", ()=> cancelExecution = true)
 		   .append_CheckBox("Show Skipped", (value)=> showSkippedFiles = value)
 		   .append_CheckBox("Show Ok", (value)=> showOKFiles = value);   
 		   
 dataGridView.add_ContextMenu()
-			.add_MenuItem("Edit Script"			,true, ()=> currentFile.showInCodeEditor())
+			.add_MenuItem("Edit Script"			,true, ()=> editFile(currentFile))
 			.add_MenuItem("Execute Script"		,true,()=> currentFile.compileScriptFile().executeFirstMethod())
 			.add_MenuItem("Re-Compile Script"	,true, ()=> compileTargetFile(currentFile))
 			.add_MenuItem("Clear Results"		,true, ()=> dataGridView.remove_Rows());
+
+
 topPanel.onClosed(()=> cancelExecution=true );
+
 startCompilation();		   
 
 //O2Ref:System.Data.dll

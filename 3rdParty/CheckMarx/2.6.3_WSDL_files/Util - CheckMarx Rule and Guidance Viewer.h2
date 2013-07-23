@@ -12,7 +12,7 @@ settingsPanel.add_Label("Server:",2).append_TextBox(cxPortal.Url).align_Right();
 			 //.append_Link("Connect", ()=>{});
 
 "cxSessionId".o2Cache(null);
-var sessionId = "cxSessionId".o2Cache(
+var sessionId = "cxSessionId".o2Cache<string>(
 	()=>{
 			var user = "What user do you want to use".askUser();
 			var pwd  = "What is the pwd for user {0}".format(user).askUser();
@@ -22,7 +22,7 @@ var sessionId = "cxSessionId".o2Cache(
 					User = user,
 					Pass = pwd
 				};
-			var result = cxPortal.Login(credentials);
+			var result = cxPortal.Login(credentials,0);
 			
 			if (result.SessionId.valid())
 				return result.SessionId;
@@ -122,4 +122,4 @@ var visibleToOtherUsers = true;
 return response;
 */
 //O2File:CxPortalWebService.cs
-//O2Ref:System.Web.Services.dll 
+//O2Ref:System.Web.Services.dll

@@ -18,7 +18,8 @@ namespace O2.XRules.Database.APIs
 		{												 
 			config("IOLanguage",  
 				   "SynrcIo-1.0.rar",
-				   "http://download-codeplex.sec.s-msft.com/Download/Release?ProjectName=io&DownloadId=65740&FileTime=128844177523700000&Build=20154".uri(),
+				   "http://download-codeplex.sec.s-msft.com/Download/Release?ProjectName=io&DownloadId=65740&FileTime=128844177523700000&Build=20626".uri(),
+				   //"http://download-codeplex.sec.s-msft.com/Download/Release?ProjectName=io&DownloadId=65740&FileTime=128844177523700000&Build=20154".uri(),
 				   @"ioclr\bin\IoCLI.exe");
 				   
     		installFromZip_Web();    		

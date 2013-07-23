@@ -1,7 +1,5 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//O2Ref:WatiN.Core.1x.dll
-var topPanel = O2Gui.open&lt;Panel&gt;("Amazon S3 Browser",700,400); 
+//O2Ref:WatiN.Core.1x.dll
+var topPanel = O2Gui.open<Panel>("Amazon S3 Browser",700,400); 
 var autoPreviewSelectedFile = false; 
 var amazonS3 = new API_AmazonS3();   
 
@@ -13,28 +11,28 @@ statusLabel.set_Text("Welcome to O2's Amazon S3 Browser (click on folder to see 
 var foldersTreeView = topPanel.add_TreeView()
 						   .showSelection();
 						   
-var previewArea = foldersTreeView.insert_Right&lt;Panel&gt;(topPanel.width() /2 ).add_1x1("Selected File Url", "Selected File Contents",false, 65) ; 
+var previewArea = foldersTreeView.insert_Right<Panel>(topPanel.width() /2 ).add_1x1("Selected File Url", "Selected File Contents",false, 65) ; 
 var previewPanel = previewArea[1];
 var selectFile = previewArea[0].add_TextBox().fill(); 
-previewArea[0].add_CheckBox("Auto Preview selected File (to see single files just press enter above)",40,4, (value) =&gt; autoPreviewSelectedFile = value).autoSize();  
+previewArea[0].add_CheckBox("Auto Preview selected File (to see single files just press enter above)",40,4, (value) => autoPreviewSelectedFile = value).autoSize();  
 
-var filesTreeView = foldersTreeView.insert_Below&lt;TreeView&gt;(topPanel.height()/2) 
+var filesTreeView = foldersTreeView.insert_Below<TreeView>(topPanel.height()/2) 
 								   .showSelection();   
 
 MethodInvoker refreshFolders = 
-	()=&gt;{
+	()=>{
 			foldersTreeView.clear();
 			foldersTreeView.add_Nodes(amazonS3.folders());
 		};
 		
 MethodInvoker refreshFileView = 
-	()=&gt;{
+	()=>{
 			amazonS3.showFilesInTreeView(filesTreeView, foldersTreeView.selected().get_Text());			
 		};		
 								   
-foldersTreeView.insert_Below&lt;Panel&gt;(25)   
+foldersTreeView.insert_Below<Panel>(25)   
 			   .add_LabelAndTextAndButton("New folder name:", "", "create",
-			   			(newFolderName)=&gt;
+			   			(newFolderName)=>
 			   				{
 								statusLabel.set_Text("Creating folder:{0}".format(newFolderName));
 			   					if (amazonS3.create_Folder(newFolderName).valid())
@@ -44,12 +42,12 @@ foldersTreeView.insert_Below&lt;Panel&gt;(25)
 			   					};
 			   				}); 
 filesTreeView.onDrop(
-	(fileOrFolder)=&gt;{
+	(fileOrFolder)=>{
 						if (fileOrFolder.isFile())
 						{
 							filesTreeView.backColor(Color.LightPink);
 							O2Thread.mtaThread(
-								()=&gt;{
+								()=>{
 										statusLabel.set_Text("adding file:{0}".format(fileOrFolder));
 										var currentFolder = foldersTreeView.selected().get_Text();
 										amazonS3.add_S3_Object(currentFolder, fileOrFolder);
@@ -66,7 +64,7 @@ var filesContextMenu = filesTreeView.add_ContextMenu();
 
 //menu actions  
 foldersContextMenu.add_MenuItem("Delete Folder",  
-							()=&gt;{
+							()=>{
 									var folderToDelete = foldersTreeView.selected().get_Text();
 									if ("Are you sure you want to Delete the folder: {0}".format(folderToDelete).askUserQuestion())
 										if (amazonS3.delete_Folder(folderToDelete).valid())			   						
@@ -77,7 +75,7 @@ foldersContextMenu.add_MenuItem("Delete Folder",
 								});
  
 filesContextMenu.add_MenuItem("Delete File",  
-							()=&gt;{
+							()=>{
 									//filesTreeView.SelectedNode = 
 									var currentFolder = foldersTreeView.selected().get_Text();
 									var fileToDelete = filesTreeView.selected().get_Text();
@@ -90,14 +88,14 @@ filesContextMenu.add_MenuItem("Delete File",
 								});
 
 // events 
-foldersTreeView.afterSelect&lt;string&gt;(
-	(folder) =&gt;{
+foldersTreeView.afterSelect<string>(
+	(folder) =>{
 					statusLabel.set_Text("Showing files in folder: {0}".format(folder));
 					refreshFileView();
 				});
 
-filesTreeView.afterSelect&lt;Uri&gt;(
-	(uri)=&gt;	{				
+filesTreeView.afterSelect<Uri>(
+	(uri)=>	{				
 				var url = uri.str(); 
 				"url: {0}".info(url);
 				statusLabel.set_Text("Showing details for file: {0} ".format(url));
@@ -107,7 +105,7 @@ filesTreeView.afterSelect&lt;Uri&gt;(
 			}); 
 
 selectFile.onEnter(
-	(url)=&gt; {				
+	(url)=> {				
 				amazonS3.showFileInControl(previewPanel, url.uri());		
 		 	});
 
@@ -128,7 +126,7 @@ amazonS3.showFilesInTreeView(filesTreeView,"");
 return "done";
 return null;
 
-
+//using O2.XRules.Database.APIs
 //using O2.External.IE.ExtensionMethods
 
 //O2File:API_AmazonS3.cs
@@ -137,6 +135,3 @@ return null;
 //O2Ref:System.Xml.dll
 //O2Ref:System.Xml.Linq.dll
 
-</SourceCode>
-  <ReferencedAssemblies />
-</H2>

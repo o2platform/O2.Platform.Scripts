@@ -1,4 +1,4 @@
- //var topPanel = panel.clear().add_Panel();
+//var topPanel = panel.clear().add_Panel();
 var topPanel = "PoC - RealTime code scanning using Cat.NET and Roslyn".popupWindow(1000,500).insert_LogViewer();
 
 API_CatNet_Deployment.ensure_CatNet_Instalation();
@@ -78,12 +78,13 @@ codeEditor.set_Text(code, ".cs");
 
 //topPanel.insert_Script();
 
+//using O2.XRules.Database.APIs
 //using O2.XRules.Database.Findings;
+//using FluentSharp.FluentRoslyn
+
 //O2File:API_CatNet.cs
 //O2File:API_CatNetGui.cs
 //O2File:Findings_ExtensionMethods.cs
 //O2Ref:FluentSharp.Roslyn.dll
 //O2Ref:Roslyn.Compilers.dll
 //O2Ref:Roslyn.Compilers.CSharp.dll
-
-//O2Tag_DontAddExtraO2Files

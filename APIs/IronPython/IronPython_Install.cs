@@ -19,8 +19,9 @@ namespace O2.XRules.Database.APIs
 		{			
 			config("IronPython", 
 				   "IronPython.msi", 
-				   "http://download-codeplex.sec.s-msft.com/Download/Release?ProjectName=ironpython&DownloadId=423690&FileTime=129858605577070000&Build=20154".uri(),
-//http://download-codeplex.sec.s-msft.com/Download/Release?ProjectName=ironpython&DownloadId=423690&FileTime=129858605577070000&Build=19219
+				   "http://download-codeplex.sec.s-msft.com/Download/Release?ProjectName=ironpython&DownloadId=423690&FileTime=129858605577070000&Build=20626".uri(),
+					//"http://download-codeplex.sec.s-msft.com/Download/Release?ProjectName=ironpython&DownloadId=423690&FileTime=129858605577070000&Build=20154".uri(),
+					//"http://download-codeplex.sec.s-msft.com/Download/Release?ProjectName=ironpython&DownloadId=423690&FileTime=129858605577070000&Build=19219
 				   "SourceDir\\IronPython 2.7\\ipy.exe");
 			install_JustMsiExtract_into_TargetDir();	       		
 		}	

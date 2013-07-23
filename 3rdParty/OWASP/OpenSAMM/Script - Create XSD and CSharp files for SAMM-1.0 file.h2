@@ -1,8 +1,6 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//panel.clear();
+//panel.clear();
 //var topPanel = panel;
-var topPanel = O2Gui.open&lt;Panel&gt;("SAMM Xml",400,400);
+var topPanel = O2Gui.open<Panel>("SAMM Xml",400,400);
 
 var xmlFile = "SAMM-1.0-XML-0.3-en_US.xml".local();
 var xsdFile = xmlFile.replace(".xml",".xsd");
@@ -21,6 +19,9 @@ if (xsdFile.fileExists())
 	if (csharpFile.fileExists())
 		"Created CSharpFile for Xml File: {0}".info(csharpFile);	
 }
-return "done";</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+return "done";
+
+//using O2.XRules.Database.Utils
+//using FluentSharp.XObjects;
+//O2File:_Extra_methods_Xml_XSD.cs
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll

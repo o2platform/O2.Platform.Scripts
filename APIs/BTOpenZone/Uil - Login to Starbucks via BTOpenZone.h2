@@ -1,10 +1,8 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//var topPanel = panel.clear().add_Panel();
+//var topPanel = panel.clear().add_Panel();
 var topPanel = "Uil - Login to Starbucks via BTOpenZone".popupWindow(800,400);
 var ie = topPanel.add_IE_with_NavigationBar().silent(true);
-Action&lt;string,string&gt; loginOnStarbucksViaByOpenZone = 
-	(username, password)=&gt;{
+Action<string,string> loginOnStarbucksViaByOpenZone = 
+	(username, password)=>{
 							ie.field("username").value(username);
 							ie.field("password").value(password);
 							ie.checkBox("termsCheckBox").check(); 
@@ -22,7 +20,7 @@ clickHereLink.click();
 
 loginOnStarbucksViaByOpenZone(credential.UserName, credential.Password); 
 
-//O2File:WatiN_IE_ExtensionMethods.cs
-//O2Ref:WatiN.Core.1x.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//using FluentSharp.CoreLib.Utils
+//using FluentSharp.Watin
+//O2Ref:FluentSharp.Watin.dll
+//O2Ref:Watin.Core.dll

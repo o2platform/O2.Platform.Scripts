@@ -1,14 +1,12 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>/*panel.clear();
+/*panel.clear();
 var topPanel = panel.add_Panel();
 topPanel.fill(false)
 		.width(800)
 		.height(170);  
 */
 var title = "OWASP Projects and Website (Custom O2)";
-var topPanel = O2Gui.open&lt;Panel&gt;(title, 800,283);   
-var ribbonPanel = topPanel.insert_Above&lt;Panel&gt;(150);
+var topPanel = O2Gui.open<Panel>(title, 800,283);   
+var ribbonPanel = topPanel.insert_Above<Panel>(150);
 ribbonPanel.add_CustomO2_Image("owasp_logo.jpg");
 var ribbon = ribbonPanel.add_Ribbon();
 topPanel.add_LogViewer();
@@ -38,8 +36,8 @@ openSamm.add_RibbonGroup("OpenSAMM")
 
 /*var securityFacts = ribbon.Ribbon.add_RibbonTab("Security Facts"); 
 securityFacts.add_RibbonGroup("Security Facts")  
-			 .add_RibbonButton("Scorecard",()=&gt;topPanel.clear().add_Control&lt;WebBrowser&gt;().open("Security Facts.jpg".local()))
-			 .add_RibbonButton("Keys",()=&gt;topPanel.clear().add_Control&lt;WebBrowser&gt;().open("Security Facts - Keys.png".local()));
+			 .add_RibbonButton("Scorecard",()=>topPanel.clear().add_Control<WebBrowser>().open("Security Facts.jpg".local()))
+			 .add_RibbonButton("Keys",()=>topPanel.clear().add_Control<WebBrowser>().open("Security Facts - Keys.png".local()));
 */
 var webGoat = ribbon.Ribbon.add_RibbonTab("WebGoat");
 webGoat.add_RibbonGroup("Exploits")   
@@ -60,6 +58,8 @@ webScarab.add_RibbonGroup("APIs")
 
 				 				 
 return "ok";
+
+//using O2.XRules.Database.Utils
  
 //using Microsoft.Windows.Controls.Ribbon;
 //O2File:WPF_Ribbon.cs 
@@ -70,6 +70,4 @@ return "ok";
 //O2Ref:PresentationCore.dll
 //O2Ref:PresentationFramework.dll
 //O2Ref:WindowsBase.dll
-//O2Ref:System.Xaml.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Ref:System.Xaml.dll

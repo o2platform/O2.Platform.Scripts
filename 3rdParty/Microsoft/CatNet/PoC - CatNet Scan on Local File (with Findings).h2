@@ -1,3 +1,7 @@
+//O2Tag:SkipGlobalCompilation
+
+// the CefSharp.dll can not being used to compiled on 4.0 CLR
+
 //var topPanel = O2Gui.open<Panel>("{name}",700,400);
 //var topPanel = panel.clear().add_Panel();
 var topPanel = "PoC - CatNet Scan on Local File (with Findings)".popupWindow(1000,500);

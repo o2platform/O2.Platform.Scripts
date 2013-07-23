@@ -1,13 +1,15 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>O2.Kernel.O2ConfigSettings.CheckForTempDirMaxSizeCheck = false;
+//O2Tag:SkipGlobalCompilation
+
+// the CefSharp.dll can not being used to compiled on 4.0 CLR
+
+O2.Kernel.O2ConfigSettings.CheckForTempDirMaxSizeCheck = false;
 O2Setup.extractEmbededConfigZips();
 open.logViewer();
 var pathToFileToCompile = "PoC - Chrome Browser (WinForms).h2".local();
 var csharpCompiler = new CSharp_FastCompiler();
 csharpCompiler.CompilationVersion = "v3.5";
 var compileProcess = new System.Threading.AutoResetEvent(false);            
-//csharpCompiler.onCompileOK = () =&gt; compileProcess.Set();
+//csharpCompiler.onCompileOK = () => compileProcess.Set();
 csharpCompiler.compileSnippet(pathToFileToCompile.contents()); 
 2000.wait();
 
@@ -19,5 +21,4 @@ assembly.executeFirstMethod();
 //CLR_3.5 
 //using O2.External.SharpDevelop.AST 
 //O2Package:API_Chrome.cs,PoC - Chrome Browser (WinForms).h2
-//O2EmbedTool:CefSharp </SourceCode>
-</H2>
+//O2EmbedTool:CefSharp 

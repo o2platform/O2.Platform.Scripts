@@ -167,6 +167,9 @@ return codeViewer.open(workspace.file("o2.cs").FilePath);
 
 //O2File:_Extra_methods_Roslyn_API.cs
 //O2File:Findings_ExtensionMethods.cs
+
+//using FluentSharp.FluentRoslyn
+
 //using O2.XRules.Database.Findings;
 //using Roslyn.Compilers.CSharp
 //using Roslyn.Compilers.Common

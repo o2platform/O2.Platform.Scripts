@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//THIS IS OUT OF DATE (Since it points to the older version of the O2 platform code base)
+//THIS IS OUT OF DATE (Since it points to the older version of the O2 platform code base)
 // but since the new one uses Git, to replicate this script we need to find a way to get the file listing from it
 
 //var topPanel = panel.clear().add_Panel();
@@ -11,8 +9,8 @@ var ie = topPanel.add_IE().silent(true);
 
 var treeView = topPanel.insert_Left().add_TreeView().sort();
 
-Action&lt;string&gt; addUrlMappingsToTreeView = 
-	(urlWithLinks)=&gt;{
+Action<string> addUrlMappingsToTreeView = 
+	(urlWithLinks)=>{
 						ie.open(urlWithLinks);
 						var links = from link in ie.links()
 							where link.text() != ".."
@@ -26,8 +24,8 @@ addUrlMappingsToTreeView("http://o2platform.googlecode.com/svn/trunk/O2_Binaries
 
 topPanel.splitContainer().panel2Collapsed(true); 
 
-treeView.onDoubleClick&lt;string&gt;( 
-	(url)=&gt; {
+treeView.onDoubleClick<string>( 
+	(url)=> {
 				treeView.pink(); 
 				"you selected the url: {0}".info(url);
 				var localTempFile = url.uri().download();
@@ -37,7 +35,7 @@ treeView.onDoubleClick&lt;string&gt;(
 			});
 return "ok";
 
-//O2File:WatiN_IE_ExtensionMethods.cs
-//O2Ref:WatiN.Core.1x.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+
+//using FluentSharp.Watin
+//O2Ref:FluentSharp.Watin.dll
+//O2Ref:Watin.Core.dll

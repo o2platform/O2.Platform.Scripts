@@ -21,7 +21,9 @@ return ""done"";
 
 chromeHijack.WebDriver_Script_Me.set_Code(firstScript);
 codeEditor.open("API_ChromeDriver.cs".local());			 				     
+
 //O2File:API_Chrome_Hijack.cs
+//using O2.XRules.Database.APIs
 
 
 //O2Ref:WebDriver.dll

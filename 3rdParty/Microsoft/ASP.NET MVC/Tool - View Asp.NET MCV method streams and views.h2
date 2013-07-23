@@ -1,29 +1,27 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//panel.clear();
+//panel.clear();
 //var topPanel = panel; 
 var baseFolder = "";
-var referencesToLoad = new List&lt;string&gt;(); 
-var topPanel = O2Gui.open&lt;Panel&gt;("Tool - View Asp.NET MVC Method streams and Views", 1000,600);   
+var referencesToLoad = new List<string>(); 
+var topPanel = O2Gui.open<Panel>("Tool - View Asp.NET MVC Method streams and Views", 1000,600);   
 var astDataCacheKey = "astData ASP.NET MVC"; 
 var useCachedData = true; //false;//true ;
 var showLogViewer = true; 
 var onlyShowSelectedMethod = false; 
 var showViewSourceCode = false;
-//var manualMethodStreams = topPanel.add_Control&lt;ascx_ManualMethodStreams&gt;();
+//var manualMethodStreams = topPanel.add_Control<ascx_ManualMethodStreams>();
 
 //var sourceCodeViewer = topPanel.add_SourceCodeViewer();
 
-var methodStreamViewer = topPanel.add_Control&lt;ascx_ManualMethodStreams&gt;()
+var methodStreamViewer = topPanel.add_Control<ascx_ManualMethodStreams>()
 							   .buildGui(showLogViewer);  
 
 var astData = (O2MappedAstData)O2LiveObjects.get(astDataCacheKey);
 
-var treeView = methodStreamViewer.insert_Left&lt;TreeView&gt;(400) 
+var treeView = methodStreamViewer.insert_Left<TreeView>(400) 
 							     .showSelection();   
 
-treeView.afterSelect&lt;IMethod&gt;(
-	   		(iMethod)=&gt;
+treeView.afterSelect<IMethod>(
+	   		(iMethod)=>
 	   			{ 
 	   				try
 	   				{
@@ -41,12 +39,12 @@ treeView.afterSelect&lt;IMethod&gt;(
 		   				
 		   				if (showViewSourceCode)
 		   				{		   				
-			   				foreach(var returnStatement in methodDeclaration.iNodes&lt;ReturnStatement&gt;())
+			   				foreach(var returnStatement in methodDeclaration.iNodes<ReturnStatement>())
 			   				{	   					
-			   					var identifiers = returnStatement.iNodes&lt;IdentifierExpression&gt;();
-			   					var primitives = returnStatement.iNodes&lt;PrimitiveExpression&gt;();
-			   					var identifier  = identifiers.size()&gt;0 ? identifiers[0].Identifier : "";
-			   					var primitive  = primitives.size()&gt;0 ? primitives[0].StringValue : "";		   							   					
+			   					var identifiers = returnStatement.iNodes<IdentifierExpression>();
+			   					var primitives = returnStatement.iNodes<PrimitiveExpression>();
+			   					var identifier  = identifiers.size()>0 ? identifiers[0].Identifier : "";
+			   					var primitive  = primitives.size()>0 ? primitives[0].StringValue : "";		   							   					
 			   					if (identifier == "View")	   					   					
 			   					{  
 			   						//var file = astData.file(iMethod);
@@ -72,10 +70,10 @@ treeView.afterSelect&lt;IMethod&gt;(
 		   				//treeView.add_Nodes(methodDeclaration.iNodes());
 		   				var url =  "http://x.x.x.x/{0}/{1}".format(iMethod.DeclaringType.Name.remove("Controller"), iMethod.Name ); 
 		   				var parameters = "";		   				
-		   				var iClassesInParameters = new Dictionary&lt;string,List&lt;IClass&gt;&gt;();
+		   				var iClassesInParameters = new Dictionary<string,List<IClass>>();
 		   				foreach(var parameter in iMethod.Parameters)
 		   				{
-		   					parameters+= "{0}=[...]&amp;".info(parameter.Name); 
+		   					parameters+= "{0}=[...]&".info(parameter.Name); 
 		   					//parameter.ReturnType.FullyQualifiedName.info(); 
 		   					//if (astData.MapAstToNRefactory.IClassToTypeDeclaration.hasKey(parameter.ReturnType as IClass))  
 		   					var iClassInParameter = astData.iClass(parameter.ReturnType.FullyQualifiedName); 
@@ -89,13 +87,13 @@ treeView.afterSelect&lt;IMethod&gt;(
 		   				var top = "/**********************************************".line() + 
 		   						  "      {0} ".format(url).line();
 		   				foreach(var iClassInParameter in iClassesInParameters)		  		   				
-		   					if (iClassInParameter.Value.size() &gt; 0)
+		   					if (iClassInParameter.Value.size() > 0)
 		   					{
 			   					var classDetails = "/**   Class in parameter: {0}".format(iClassInParameter.Key).line();  
 			   					foreach(var iPartialClass in iClassInParameter.Value)		   						   						
 			   						foreach(var property in iPartialClass.Properties)
-			   							if (property.IsPublic &amp;&amp; property.GetterRegion.IsEmpty.isFalse())
-			   								classDetails+= "       -&gt;   {0}".info(property.Name).line();
+			   							if (property.IsPublic && property.GetterRegion.IsEmpty.isFalse())
+			   								classDetails+= "       ->   {0}".info(property.Name).line();
 			   								   						
 			   					classDetails = classDetails.lineBeforeAndAfter();	
 			   					top += classDetails; 
@@ -120,8 +118,8 @@ treeView.afterSelect&lt;IMethod&gt;(
 	   				treeView.focus(); 
 	   			});
 
-Action&lt;string&gt; loadAstData = 
-	(folder) =&gt; {
+Action<string> loadAstData = 
+	(folder) => {
 					treeView.backColor(Color.Azure);
 					baseFolder = folder;
 					if (useCachedData.isFalse() || astData == null)
@@ -135,14 +133,14 @@ Action&lt;string&gt; loadAstData =
 					}
 				};
 				
-Action&lt;string&gt; loadFilesFromFolder = 
-	(folder) =&gt; {
+Action<string> loadFilesFromFolder = 
+	(folder) => {
 					loadAstData(folder);	
 										
-					var controllers = new List&lt;IClass&gt;();
+					var controllers = new List<IClass>();
 					foreach(var iClass in astData.iClasses())
 					{	
-						if (iClass.BaseTypes.Count  &gt;0)
+						if (iClass.BaseTypes.Count  >0)
 						{	
 							foreach(var baseType in iClass.BaseTypes)								
 								if(baseType.FullyQualifiedName == "System.Web.Mvc.Controller" || baseType.FullyQualifiedName == "ContentController")   
@@ -152,7 +150,7 @@ Action&lt;string&gt; loadFilesFromFolder =
 					treeView.clear();						
 					foreach(var controller  in controllers)
 						foreach(var method in controller.Methods) 
-							if (method.IsConstructor.isFalse() &amp;&amp; method.IsPublic)// &amp;&amp;  method.fullName().contains("Dinner dinner"))  							
+							if (method.IsConstructor.isFalse() && method.IsPublic)// &&  method.fullName().contains("Dinner dinner"))  							
 									treeView.add_Node(method.fullName(), method);															
 					treeView.backColor(Color.White);
 					treeView.selectFirst();
@@ -160,18 +158,18 @@ Action&lt;string&gt; loadFilesFromFolder =
 
 
 treeView.onDrop(
-		(folder)=&gt;{
+		(folder)=>{
 					useCachedData = false;
 					loadFilesFromFolder(folder);
 				  });
 
-var optionsPanel = treeView.insert_Below&lt;Panel&gt;(60);
-optionsPanel.add_CheckBox("Show 'View' Source Code", 0 ,0,(value)=&gt;{ showViewSourceCode = value; })
+var optionsPanel = treeView.insert_Below<Panel>(60);
+optionsPanel.add_CheckBox("Show 'View' Source Code", 0 ,0,(value)=>{ showViewSourceCode = value; })
 			.autoSize(); 
-optionsPanel.add_CheckBox("Only Show selected Method", 20 ,0,(value)=&gt;{ onlyShowSelectedMethod = value; })
+optionsPanel.add_CheckBox("Only Show selected Method", 20 ,0,(value)=>{ onlyShowSelectedMethod = value; })
 			.autoSize();			
-optionsPanel.add_Link("Clear AstData cache",40,0,()=&gt; O2LiveObjects.set(astDataCacheKey,null))
-		    .append_Link("Reload base folder",()=&gt; loadFilesFromFolder(baseFolder));
+optionsPanel.add_Link("Clear AstData cache",40,0,()=> O2LiveObjects.set(astDataCacheKey,null))
+		    .append_Link("Reload base folder",()=> loadFilesFromFolder(baseFolder));
 
 
 
@@ -184,13 +182,8 @@ loadFilesFromFolder(sourceFolder);
 
 return astData;
 //manualMethodStreams.buildGui();
-
-//using O2.API.AST.CSharp
-//using O2.API.AST.ExtensionMethods;
-//using O2.API.AST.ExtensionMethods.CSharp;
-//using O2.External.SharpDevelop.ExtensionMethods;
-//using O2.External.SharpDevelop.AST;
-//using O2.External.SharpDevelop.Ascx;
+//using FluentSharp.CSharpAST
+//using FluentSharp.CSharpAST.Utils
 //using O2.XRules.Database.Languages_and_Frameworks.DotNet	
 //using ICSharpCode.SharpDevelop.Dom;
 //using ICSharpCode.NRefactory;
@@ -202,6 +195,4 @@ return astData;
 //O2Ref:Quickgraph.dll
 //O2Ref:GraphSharp.dll
 //O2Ref:GraphSharp.Controls.dll
-//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll

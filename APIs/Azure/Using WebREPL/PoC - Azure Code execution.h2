@@ -12,7 +12,7 @@ replResponse.set_Code(
 return webService;
 
 //O2Ref:System.Web.Services.dll
-//O2Ref:{0}".format(apiAzure.webService.type().assemblyLocation().fileName()));
+//O2Ref:{0}".format(apiAzure.webService.type().assembly_Location().fileName()));
 
 
 
@@ -29,5 +29,6 @@ Action executeOnAzure =
 script.executeButton.set_Text("Execute Locally");
 script.executeButton.insert_Left().add_Button("Execute on Azure").onClick(()=> executeOnAzure()).fill();
 
+//using O2.XRules.Database.APIs
 //O2File:API_Azure_via_WebREPL.cs
 //O2Ref:System.Web.Services.dll

@@ -1,8 +1,6 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//panel.clear(); 
+//panel.clear(); 
 //var topPanel = panel;  
-var topPanel = O2Gui.open&lt;Panel&gt;("Tool - View Method Invocations", 1000,600); 
+var topPanel = O2Gui.open<Panel>("Tool - View Method Invocations", 1000,600); 
 
 var baseFolder = "";
 O2MappedAstData astData = null;
@@ -11,68 +9,68 @@ var showLogViewer = true;
 bool showSourceCodeLine = false;
 bool onlyShowSourceCodeLine = false;
 var sourceCodeViewer = topPanel.add_SourceCodeViewer();
-var treeViewPanel = sourceCodeViewer.insert_Left&lt;Panel&gt;();		  	 				     
-treeViewPanel.parent&lt;SplitContainer&gt;().splitterDistance(400);							     
-var propertyViewer = treeViewPanel.insert_Below&lt;Panel&gt;(200)
+var treeViewPanel = sourceCodeViewer.insert_Left<Panel>();		  	 				     
+treeViewPanel.parent<SplitContainer>().splitterDistance(400);							     
+var propertyViewer = treeViewPanel.insert_Below<Panel>(200)
 							      .add_PropertyGrid(); 
-var optionsPanel = 	propertyViewer.insert_Below&lt;Panel&gt;(60) 
+var optionsPanel = 	propertyViewer.insert_Below<Panel>(60) 
 								  .add_GroupBox("Options")
 								  .add_Panel();
 
-var methodMappingsFilter = treeViewPanel.insert_Above&lt;Panel&gt;(20).add_TextBox().fill();
+var methodMappingsFilter = treeViewPanel.insert_Above<Panel>(20).add_TextBox().fill();
 TreeView methodsMappings_TreeView = null;
 MethodMappings loadedMethodMappings = null;  
 
 var resultsFolder = "_AstEngine_ExternalMappings".tempDir(); 
 
 Action showMethodMappings =	
-	()=&gt;{ 
-			if (methodsMappings_TreeView.notNull() &amp;&amp; loadedMethodMappings.notNull())
+	()=>{ 
+			if (methodsMappings_TreeView.notNull() && loadedMethodMappings.notNull())
 			{
 				loadedMethodMappings.showInTreeView(methodsMappings_TreeView,methodMappingsFilter.get_Text(),showSourceCodeLine,onlyShowSourceCodeLine);
 				methodsMappings_TreeView.selectFirst();				 	        
 			}
 			else
-				"in showMethodMappings: methodsMappings_TreeView.notNull() &amp;&amp; loadedMethodMappings.notNull()".error();
+				"in showMethodMappings: methodsMappings_TreeView.notNull() && loadedMethodMappings.notNull()".error();
 		};
 
 optionsPanel.add_CheckBox("Show SourceCode line ", 0,0,
-							 (value) =&gt; {
+							 (value) => {
 							 				showSourceCodeLine = value; 
 											showMethodMappings();				 				
 							 		   	}).autoSize();
 optionsPanel.add_CheckBox("Only show SourceCode line ", 0,150,
-							 (value) =&gt; {
+							 (value) => {
 							 				onlyShowSourceCodeLine = value; 
 											showMethodMappings();				 				
 							 		   	}).autoSize();
 optionsPanel.add_Link("Copy toplevel notes text to clipboard",20,0,
-	()=&gt;{
+	()=>{
 			if (methodsMappings_TreeView.notNull())
 			{
 				var clipboardText = "";
 				foreach(var node in methodsMappings_TreeView.nodes())
 					clipboardText+=node.get_Text().line(); 
 				"placed string with {0} chars in the clipboard".info(clipboardText.size()); 
-				O2Thread.staThread(()=&gt;Clipboard.SetText(clipboardText));
+				O2Thread.staThread(()=>Clipboard.SetText(clipboardText));
 			}
 		});
 							 		   	
 							 		   	
-methodMappingsFilter.onEnter((text)=&gt; showMethodMappings()); 
+methodMappingsFilter.onEnter((text)=> showMethodMappings()); 
 
-Action&lt;string&gt; loadFiles = null; 
+Action<string> loadFiles = null; 
 
-loadFiles = (sourceFolder)=&gt;{
+loadFiles = (sourceFolder)=>{
 		O2Thread.mtaThread(
-			()=&gt;{
+			()=>{
 					if (sourceFolder.valid().isFalse())
 						return;
 					"loading files from: {0}".info(sourceFolder); 	 									
 					var methodFilder = @"";
 //					var references = referencesToLoad.get_Text().lines();
 					//var results = MethodMappings_Engine.calculateMethodMappings(sourceFolder, resultsFolder,references,false);     
-					var targetFiles = new List&lt;string&gt;();
+					var targetFiles = new List<string>();
 					if (sourceFolder.fileExists())
 						targetFiles.add(sourceFolder);
 					else  
@@ -81,8 +79,8 @@ loadFiles = (sourceFolder)=&gt;{
 					treeViewPanel.clear();
 					methodsMappings_TreeView = treeViewPanel.CreateTreeViewFor_MethodMappingsView(sourceCodeViewer)
 														    .onDrop(loadFiles);
-					methodsMappings_TreeView.afterSelect&lt;List&lt;MethodMapping&gt;&gt;(
-						(methodMappings)=&gt; propertyViewer.show(methodMappings[0])); 
+					methodsMappings_TreeView.afterSelect<List<MethodMapping>>(
+						(methodMappings)=> propertyViewer.show(methodMappings[0])); 
 					showMethodMappings();														
 					"Compleded loading files from: {0}".info(sourceFolder);
 					
@@ -96,12 +94,8 @@ treeViewPanel.onDrop(loadFiles);
 return astData; 
 
 
-//using O2.API.AST.CSharp
-//using O2.API.AST.ExtensionMethods;
-//using O2.API.AST.ExtensionMethods.CSharp;
-//using O2.External.SharpDevelop.ExtensionMethods;
-//using O2.External.SharpDevelop.AST;
-//using O2.External.SharpDevelop.Ascx;
+//using FluentSharp.CSharpAST
+//using FluentSharp.CSharpAST.Utils
 //using O2.XRules.Database.Languages_and_Frameworks.DotNet	
 //using ICSharpCode.SharpDevelop.Dom;
 //using ICSharpCode.NRefactory;
@@ -114,5 +108,4 @@ return astData;
 //O2Ref:Quickgraph.dll
 //O2Ref:GraphSharp.dll 
 //O2Ref:GraphSharp.Controls.dll
-//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll</SourceCode>
-</H2>
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll

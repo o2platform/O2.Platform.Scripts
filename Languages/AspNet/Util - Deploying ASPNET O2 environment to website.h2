@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - Deploying ASPNET O2 environment to website",700,550);
+var topPanel = O2Gui.open<Panel>("Util - Deploying ASPNET O2 environment to website",700,550);
 //var topPanel = panel.clear().add_Panel();
 
 topPanel.insert_LogViewer();
@@ -10,24 +8,24 @@ MS_VS_WebServer webServer = null;
 var websiteName = "";
 var websiteDir = "";
 var webserverPort = 0;
-var filesToCompile = new List&lt;string&gt;();
+var filesToCompile = new List<string>();
  
-var websiteName_TextBox = configPanel.add_TextBox(0,"WebSite Name:","").left(100).align_Right(configPanel).onTextChange((text)=&gt;websiteName = text);
-var websiteDir_TextBox = configPanel.add_TextBox(20,"WebSite Dir:","").left(100).align_Right(configPanel).onTextChange((text)=&gt;websiteDir = text); 
-var websitePort_TextBox = configPanel.add_TextBox(40,"WebServer Port:","0").left(100).align_Right(configPanel).onTextChange((text)=&gt;webserverPort = text.toInt()); 
+var websiteName_TextBox = configPanel.add_TextBox(0,"WebSite Name:","").left(100).align_Right(configPanel).onTextChange((text)=>websiteName = text);
+var websiteDir_TextBox = configPanel.add_TextBox(20,"WebSite Dir:","").left(100).align_Right(configPanel).onTextChange((text)=>websiteDir = text); 
+var websitePort_TextBox = configPanel.add_TextBox(40,"WebServer Port:","0").left(100).align_Right(configPanel).onTextChange((text)=>webserverPort = text.toInt()); 
 
 
 var ie = topPanel.add_IE_with_NavigationBar();
 var codeEditor = topPanel.insert_Left().add_SourceCodeViewer();
 
 
-Action&lt;string&gt; addFileToCompile = 
-	(file)=&gt; filesToCompile.add(file);
+Action<string> addFileToCompile = 
+	(file)=> filesToCompile.add(file);
 		
 
 
-Action&lt;string&gt; openWebPage = 
-	(virtualPath)=&gt; {						
+Action<string> openWebPage = 
+	(virtualPath)=> {						
 						var url = webServer.uri(virtualPath).str();				
 						"Opening virtual path '{0}' which mapped to '{1}'".info(virtualPath,url);
 						ie.open(url);  
@@ -35,9 +33,9 @@ Action&lt;string&gt; openWebPage =
 
 
 Action startWebServer = 
-	()=&gt;{
+	()=>{
 			"Starting WebServer".info();
-			if (websiteDir.dirExists() &amp;&amp; webserverPort &gt;0)
+			if (websiteDir.dirExists() && webserverPort >0)
 			{ 
 				webServer = websiteDir.startWebServer(webserverPort);												
 				"completed starting website".info();
@@ -49,11 +47,11 @@ Action startWebServer =
 
 
 Action showTestPage = 
-	()=&gt;{
+	()=>{
 			var defaultCode = 
-@"@&lt;%@ Page Language=""C#"" %&gt;
-&lt;head runat=""server"" /&gt;
-&lt;html&gt;&lt;body&gt;&lt;%=\""hello\"" %&gt;&lt;/body&gt;&lt;/html&gt;";			
+@"@<%@ Page Language=""C#"" %>
+<head runat=""server"" />
+<html><body><%=\""hello\"" %></body></html>";			
 			var tempFileName = "a.aspx";
 			var tempFile = websiteDir.pathCombine(tempFileName);									
 			if (tempFile.fileExists().isFalse())
@@ -64,18 +62,18 @@ Action showTestPage =
 		};
 
 Action stopWebServer = 
-	()=&gt;{
+	()=>{
 			webServer.stop();
 		};
 
-Action&lt;string,string&gt; copyFileToWebSite = 
-	 (baseFolder, file)=&gt;{
+Action<string,string> copyFileToWebSite = 
+	 (baseFolder, file)=>{
 	 						"Copying file: {0}".debug(file);
 	 						//Files.Copy(file,baseFolder);
 	 						file.file_Copy(baseFolder.pathCombine("bin"));
 	 					 };
 	 	
-var supportDlls = new List&lt;string&gt; {
+var supportDlls = new List<string> {
 										//Needed for FluentSharp
 										"FluentSharp.CoreLib.dll".assembly().Location,
 										"FluentSharp.BCL.dll".assembly().Location,										
@@ -85,7 +83,7 @@ var supportDlls = new List&lt;string&gt; {
 									};
 									
 Action copySupportFilesToServer = 
-	() =&gt;{
+	() =>{
 			var targetFolder = websiteDir;
 			var tempAspxFolder = targetFolder.pathCombine("_O2_AspNet").createDir();			
 			targetFolder.pathCombine("bin").createDir(); 
@@ -104,7 +102,7 @@ Action copySupportFilesToServer =
 				"there was no web.config: ({0}) ".debug(webConfig);
 				Files.Copy("3.5_compiler_web.config".local(), webConfig);
 			}*/			
-			if (filesToCompile.size()&gt;0 )
+			if (filesToCompile.size()>0 )
 			{
 				"Compiling and publishing files in filesToCompile".debug();
 				foreach(var fileToCompile in filesToCompile)
@@ -113,25 +111,25 @@ Action copySupportFilesToServer =
 		 };
 
 Action openO2ToolsPage = 
-	()=&gt;{
+	()=>{
 			codeEditor.open(websiteDir.pathCombine("/_O2_AspNet/Open_O2_Tools.aspx"));  
 			openWebPage("/_O2_AspNet/Open_O2_Tools.aspx");
 		};
 										
-actionsPanel.add_Link("Start WebServer", 0, 0, ()=&gt;startWebServer()); 
-actionsPanel.add_Link("Copy Support Files To Server", 20, 0, ()=&gt; copySupportFilesToServer()); 
-actionsPanel.add_Link("Show Test Page", 40, 0, ()=&gt;showTestPage()); 
-actionsPanel.add_Link("Open 'Open_O2_Tools.aspx' page", 60,0, () =&gt; openO2ToolsPage());
-actionsPanel.add_Link("Close WebServer", 80, 0, ()=&gt;stopWebServer()); 
+actionsPanel.add_Link("Start WebServer", 0, 0, ()=>startWebServer()); 
+actionsPanel.add_Link("Copy Support Files To Server", 20, 0, ()=> copySupportFilesToServer()); 
+actionsPanel.add_Link("Show Test Page", 40, 0, ()=>showTestPage()); 
+actionsPanel.add_Link("Open 'Open_O2_Tools.aspx' page", 60,0, () => openO2ToolsPage());
+actionsPanel.add_Link("Close WebServer", 80, 0, ()=>stopWebServer()); 
 
-actionsPanel.add_Link("Open WebSiteDir in Explorer", 140, 0, ()=&gt;websiteDir.startProcess()); 
+actionsPanel.add_Link("Open WebSiteDir in Explorer", 140, 0, ()=>websiteDir.startProcess()); 
 /*
 codeEditor.open(tempFile);
 //codeEditor.set_ColorsForCSharp();
 
 */
-Action&lt;string, string,int&gt; set_Values = 
-	(name, dir, port)=&gt;{
+Action<string, string,int> set_Values = 
+	(name, dir, port)=>{
 			websiteName_TextBox.set_Text(name);
 			websiteDir_TextBox.set_Text(dir);
 			websitePort_TextBox.set_Text(port.str());
@@ -139,14 +137,14 @@ Action&lt;string, string,int&gt; set_Values =
 
 
 actionsPanel.add_Link("Create Test Site", 180, 0, 
-	()=&gt;{
+	()=>{
 			set_Values("_temp_IIS", "_temp_IIS".tempDir(false)	, 12345);			 
 			startWebServer();
 			showTestPage();
 		});
 
 
-var returnValues = new Dictionary&lt;string,Object&gt;();
+var returnValues = new Dictionary<string,Object>();
 returnValues.add("topPanel",topPanel);
 returnValues.add("actionsPanel",actionsPanel);
 returnValues.add("set_Values",set_Values);
@@ -162,7 +160,6 @@ return returnValues;
 
 //using O2.XRules.Database.Languages_and_Frameworks.DotNet
 //O2File:MS_VS_WebServer.cs
-//O2File:WatiN_IE_ExtensionMethods.cs
-//O2Ref:WatiN.Core.1x.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//using FluentSharp.Watin
+//O2Ref:FluentSharp.Watin.dll
+//O2Ref:Watin.Core.dll

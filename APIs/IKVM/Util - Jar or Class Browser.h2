@@ -1,18 +1,16 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - Jar or Class Browser",700,400);
+var topPanel = O2Gui.open<Panel>("Util - Jar or Class Browser",700,400);
 
-var objectViewer = topPanel.add_Control&lt;ascx_ObjectViewer&gt;(); 
+var objectViewer = topPanel.add_Control<ctrl_ObjectViewer>(); 
 objectViewer.simpleView();
 
-var leftTreeView = objectViewer.controls&lt;TreeView&gt;(true)[0];
+var leftTreeView = objectViewer.controls<TreeView>(true)[0];
 API_IKVMC ikvmc = null;
 leftTreeView.onDrop(
-	(fileOrFolder)=&gt;{		
+	(fileOrFolder)=>{		
 				leftTreeView.clear();
 				leftTreeView.azure(); 
 				O2Thread.mtaThread(
-					()=&gt;{
+					()=>{
 							if (fileOrFolder.dirExists())
 							{
 								"Item dropped was a folder, so creating zip of it".info();
@@ -28,11 +26,9 @@ leftTreeView.onDrop(
 leftTreeView.add_Node("Drop jar or class here to view it"); 
 
 topPanel.mainMenu().add_Menu("REPL")
-				   .add_MenuItem("Repl API_IKVMC object", ()=&gt; ikvmc.script_Me())
-				   .add_MenuItem("Repl Form", ()=&gt; topPanel.parentForm().script_Me("form"));
+				   .add_MenuItem("Repl API_IKVMC object", ()=> ikvmc.script_Me())
+				   .add_MenuItem("Repl Form", ()=> topPanel.parentForm().script_Me("form"));
 				   
 return "done"; 
 //using O2.XRules.Database.APIs.IKVM
-//O2File:API_IKVMC.cs</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2File:API_IKVMC.cs

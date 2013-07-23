@@ -1,8 +1,6 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>Web.Https.ignoreServerSslErrors();                 
+Web.Https.ignoreServerSslErrors();                 
    	                  
-var topPanel = O2Gui.open&lt;Panel&gt;("Util - O2 Web Proxy (Simple View)",300,400).insert_LogViewer(); 
+var topPanel = O2Gui.open<Panel>("Util - O2 Web Proxy (Simple View)",300,400).insert_LogViewer(); 
 //var topPanel = panel.clear().add_Panel();  
 var o2WebProxy = new O2_Web_Proxy();                    
 o2WebProxy.Proxy.ProxyDisabled = false;       
@@ -19,9 +17,9 @@ o2WebProxy.createGui_Proxy_SimpleView(topPanel);
 
 return "done";    
  
+ //using O2.XRules.Database.APIs
+ 
 //using HTTPProxyServer
 //O2File:ProxyServer.cs
 //O2File:O2_Web_Proxy.cs
-//O2File:O2_Web_Proxy_ExtensionMethods_GUI_Helpers.cs</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2File:O2_Web_Proxy_ExtensionMethods_GUI_Helpers.cs

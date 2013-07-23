@@ -1,13 +1,11 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Web - Javascript AST Viewer", 1000,500);
+var topPanel = O2Gui.open<Panel>("Web - Javascript AST Viewer", 1000,500);
 //var topPanel = panel;
 topPanel.clear(); 
    
 var mainGui = topPanel.add_1x1("Browser","", true, topPanel.width()/3); 
 var browser = (O2BrowserIE)mainGui[0].add_WebBrowserWithLocationBar();
-var javascriptAst = mainGui[1].parent().clear().add_Control&lt;ascx_Javascript_AST&gt;().buildGui();
-var browserTextBox = browser.parent&lt;SplitContainer&gt;().controls&lt;TextBox&gt;(true)[0];
+var javascriptAst = mainGui[1].parent().clear().add_Control<ascx_Javascript_AST>().buildGui();
+var browserTextBox = browser.parent<SplitContainer>().controls<TextBox>(true)[0];
 browser.silent(true);
 
 /*var rawAST = tabControl.add_Tab("Javascript - RAW Ast View")
@@ -20,16 +18,16 @@ rawAST.jint_configure_showSelectionDetails(sourceCode, codeSnippet); */
 //context menu
 browserTextBox.add_ContextMenu()
 			  .add_MenuItem("Refresh", true, 
-			  		()=&gt; {
+			  		()=> {
 			  				var url = browserTextBox.get_Text();
 			  				browser.open("about:blank");
 			  				browser.open(url);
 			  			})
-			  .add_MenuItem("Un Silent Browser", ()=&gt; browser.silent(false));			  
+			  .add_MenuItem("Un Silent Browser", ()=> browser.silent(false));			  
 
 				
 browser.onDocumentCompleted +=
-	(htmlPage)=&gt; {
+	(htmlPage)=> {
 					htmlPage.typeFullName().info();
 					javascriptAst.pagesVisited.insert_Item(htmlPage);		
 					javascriptAst.pagesVisited.select_Item(0);
@@ -45,7 +43,7 @@ return null;
 //using O2.External.IE.ExtensionMethods 
 //using O2.External.IE.Wrapper
 //using O2.External.IE.WebObjects
-//using O2.XRules.Database.APIs
+
 //using O2.XRules.Database.Languages_and_Frameworks.Javascript
 
 //O2File:Jint_ExtensionMethods.cs
@@ -56,6 +54,3 @@ return null;
 //O2Ref:O2_External_IE.dll
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll 
 
-</SourceCode>
-  <ReferencedAssemblies />
-</H2>

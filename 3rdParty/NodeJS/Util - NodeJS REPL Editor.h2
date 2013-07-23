@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>O2ConfigSettings.O2Version = "NodeJS_v1";
+O2ConfigSettings.O2Version = "NodeJS_v1";
 O2Setup.extractEmbededConfigZips(); 
 var topPanel = "NodeJS REPL Script".popupWindow(600,400)
 								   .add_Panel();		// to allow toplevel panel injection
@@ -13,13 +11,13 @@ var nodeJS = new API_NodeJS();
 
 Process executionProcess = null;
 
-Action&lt;string&gt; onConsoleOut =
-	(line)=&gt;{
+Action<string> onConsoleOut =
+	(line)=>{
 				consoleOut.append_Text(line.line());
 			}; 
 			
 Action stopExecution = 
-	()=&gt;{
+	()=>{
 			if (executionProcess.notNull())
 			{
 				try
@@ -36,8 +34,8 @@ Action stopExecution =
 		};
 
 			
-Action&lt;string&gt; executeScript = 
-	(script) =&gt; {					
+Action<string> executeScript = 
+	(script) => {					
 					stopExecution();					
 					consoleOut.set_Text("");
 					consoleOut.azure();
@@ -60,19 +58,19 @@ Action&lt;string&gt; executeScript =
 var codeEditor = topPanel.insert_Left(400,"Javascript Code").add_SourceCodeViewer().set_Text(code,".cs");
 var executeOnTextChange = false;
 codeEditor.onTextChange(
-	(text)=&gt; {
+	(text)=> {
 				code = text;
 				if (executeOnTextChange)
-					O2Thread.mtaThread(()=&gt;executeScript(code));
+					O2Thread.mtaThread(()=>executeScript(code));
 			});
 topPanel.parent().parent().insert_Above(40,"Actions")
-						  .add_Link("Execute Javascript code" , ()=&gt; executeScript(code))
-						  .append_Link("Termine execution", ()=&gt;stopExecution())
-						  .append_Link("Open NodeJs Scripts folder", ()=&gt; "Hello World.js".local().directoryName().startProcess())
-						  .append_CheckBox("Execute on text Change",(value)=&gt; executeOnTextChange = value);				  						  
+						  .add_Link("Execute Javascript code" , ()=> executeScript(code))
+						  .append_Link("Termine execution", ()=>stopExecution())
+						  .append_Link("Open NodeJs Scripts folder", ()=> "Hello World.js".local().directoryName().startProcess())
+						  .append_CheckBox("Execute on text Change",(value)=> executeOnTextChange = value);				  						  
 						  //.tick();
 						  
-topPanel.onClosed(()=&gt; stopExecution());
+topPanel.onClosed(()=> stopExecution());
 	    
 /*dynamic expando = new ExpandoObject();	
 expando.topPanel 		  = topPanel;
@@ -85,13 +83,11 @@ expando.form 	 		  = topPanel.parentForm();
 nodeJsGui.cmd(".help"); 
 nodeJsGui.HostControl.parentForm().set_Text("NodeJs Gui"); */
 
-
+//using O2.XRules.Database.APIs
 //using System.Diagnostics
 //using System.Dynamic
 //O2File:API_NodeJS.cs
 //O2File:CmdExeAPI.cs
 //O2Ref: Microsoft.CSharp.dll
 //O2EmbedTool:NodeJs_Exe
-//O2Package:Hello World.js,Simple WebServer.js,Simple WebServer II.js</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Package:Hello World.js,Simple WebServer.js,Simple WebServer II.js

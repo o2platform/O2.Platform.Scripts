@@ -105,6 +105,6 @@ treeView.afterSelect<O2AppDomainFactory>(showAppDomain);
 showAppDomains();
 return topPanel;
 
-//using O2.Kernel.Objects 
+//using O2.XRules.Database.APIs
 
 //O2File:API_Mscoree.cs

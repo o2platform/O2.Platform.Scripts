@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - Convert VB to CSharp (or CSharp to VB)",640,480);
+var topPanel = O2Gui.open<Panel>("Util - Convert VB to CSharp (or CSharp to VB)",640,480);
 var mainGui = topPanel.add_1x1("Files", "Source Code",true, 200); 
 var code = mainGui[1].add_1x1("CSharp", "VB.Net",false); 
 var sourceFiles = mainGui[0].add_TreeView().showSelection();
@@ -9,11 +7,11 @@ var vbCode = code[1].add_SourceCodeViewer();
 var targetDirectory = PublicDI.config.getTempFolderInTempDirectory("_DotNet_CodeTransformation");
 
 var actionsPanel = sourceFiles.parent()
-							  .insert_Above&lt;Panel&gt;(100)
+							  .insert_Above<Panel>(100)
 							  .add_GroupBox("Options");
 
-Func&lt;string,string, string&gt; transformFile_CS_to_VB =
-	(fullPath, virtualPath)=&gt;{
+Func<string,string, string> transformFile_CS_to_VB =
+	(fullPath, virtualPath)=>{
 	
 				var astCSharp = new Ast_CSharp(fullPath);
 				var transformedFile = targetDirectory.pathCombine(virtualPath);
@@ -21,12 +19,12 @@ Func&lt;string,string, string&gt; transformFile_CS_to_VB =
 				transformedFile.directoryName().createDir();
 				
 				astCSharp.AstDetails.VBNetCode.save(transformedFile);				
-				"transformed {0} -&gt; {1}".info(virtualPath, transformedFile);
+				"transformed {0} -> {1}".info(virtualPath, transformedFile);
 				return transformedFile;
 			};
 
-Func&lt;string,string, string&gt; transformFile_VB_to_CS =
-	(fullPath, virtualPath)=&gt;{
+Func<string,string, string> transformFile_VB_to_CS =
+	(fullPath, virtualPath)=>{
 	
 				var astCSharp = new Ast_CSharp(fullPath);
 				var transformedFile = targetDirectory.pathCombine(virtualPath);
@@ -34,13 +32,13 @@ Func&lt;string,string, string&gt; transformFile_VB_to_CS =
 				transformedFile.directoryName().createDir();
 				
 				astCSharp.AstDetails.CSharpCode.save(transformedFile);				 
-				"transformed {0} -&gt; {1}".info(virtualPath, transformedFile);
+				"transformed {0} -> {1}".info(virtualPath, transformedFile);
 				return transformedFile;
 			};
 
 
 Action transformAllFiles =
-	()=&gt;{
+	()=>{
 			foreach(var node in sourceFiles.nodes())
 			{
 				var fullPath =(string)node.get_Tag(); 
@@ -53,13 +51,13 @@ Action transformAllFiles =
 				
 		};
 
-Action&lt;string&gt; setTargetDirectory = 
-	(path)=&gt;{
+Action<string> setTargetDirectory = 
+	(path)=>{
 				targetDirectory = path;
 			};
 	
-Action&lt;string&gt; loadFilesFromDirectory = 
-	(path)=&gt;{
+Action<string> loadFilesFromDirectory = 
+	(path)=>{
 					sourceFiles.clear();
 					var targetFiles = path.files("*.cs",true);
 					targetFiles.AddRange(path.files("*.vb",true));  
@@ -70,8 +68,8 @@ Action&lt;string&gt; loadFilesFromDirectory =
 					}
 				 };
 
-sourceFiles.afterSelect&lt;string&gt;(
-	(file)=&gt;{
+sourceFiles.afterSelect<string>(
+	(file)=>{
 				if (file.extension(".cs"))
 				{
 					csharpCode.open(file);				
@@ -88,14 +86,14 @@ sourceFiles.afterSelect&lt;string&gt;(
 				
 			});
 
-var sourceComboBox = topPanel.insert_Above&lt;Panel&gt;(25)
+var sourceComboBox = topPanel.insert_Above<Panel>(25)
 						    .add_LabelAndComboBoxAndButton("Source folder:","","load",loadFilesFromDirectory)
-						    .controls&lt;ComboBox&gt;();
-var targetComboBox = topPanel.insert_Above&lt;Panel&gt;(25)
+						    .controls<ComboBox>();
+var targetComboBox = topPanel.insert_Above<Panel>(25)
 							.add_LabelAndComboBoxAndButton("Target folder: ","","create",setTargetDirectory)
-							.controls&lt;ComboBox&gt;();
+							.controls<ComboBox>();
 				
-actionsPanel.add_Button("Transform All",0,0,()=&gt; transformAllFiles()).fill();  
+actionsPanel.add_Button("Transform All",0,0,()=> transformAllFiles()).fill();  
 
 sourceComboBox.sendKeys(PublicDI.config.LocalScriptsFolder.line());  
 
@@ -105,9 +103,6 @@ sourceFiles.selectFirst();
 
 return "ok";
 
-//using O2.External.SharpDevelop.AST
-//using O2.API.AST.ExtensionMethods;
-//using O2.API.AST.ExtensionMethods.CSharp;
-//O2Ref:QuickGraph.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//using FluentSharp.CSharpAST.Utils
+
+//O2Ref:QuickGraph.dll

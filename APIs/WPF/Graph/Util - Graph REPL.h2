@@ -2,7 +2,7 @@ open.logViewer();
 O2ConfigSettings.CheckForTempDirMaxSizeCheck = false;
 O2Setup.extractEmbededConfigZips();
  
-var assembly = "ascx_GraphWithInspector.cs.o2".local().compile();
+var assembly = "ascx_GraphWithInspector.cs".local().compile();
 assembly.type("ascx_GraphWithInspector").invokeStatic("runControl");
 
 //ascx_GraphWithInspector.runControl(); 

@@ -1,3 +1,7 @@
+//O2Tag:SkipGlobalCompilation
+
+// the CefSharp.dll can not being used to compiled on 4.0 CLR
+
 //var webView = "webView_xSiW".o2Cache<WebView>(()=> panel.clear().add_Chrome_Wpf());  
 //webView.Load("http://www.whatismybrowser.com"); 
 

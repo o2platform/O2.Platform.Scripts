@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("AspNet_Page_Viewer",1400,700);  
+var topPanel = O2Gui.open<Panel>("AspNet_Page_Viewer",1400,700);  
 
 //var topPanel = panel.clear().add_Panel();
  
@@ -11,38 +9,38 @@ var addressBar = internetView.parent().insert_Above(20).add_TextBox("Current pag
 var ie = internetView.add_IE();
 var htmlCode = internetView.parent().insert_Below(200).add_GroupBox("Html Code").add_SourceCodeEditor(); 
 ie.onNavigate(
-	(url)=&gt; {
+	(url)=> {
 				addressBar.set_Text(url);				
 				htmlCode.set_Text(ie.html(), "a.html");
 			});
 
-addressBar.onEnter((text)=&gt; ie.open_ASync(text));
+addressBar.onEnter((text)=> ie.open_ASync(text));
 //O2Ref:Interop.SHDocVw.dll
 
 
 
-var aspNetPages = new Dictionary&lt;string, AspNet_Page&gt;();
+var aspNetPages = new Dictionary<string, AspNet_Page>();
 
-var actionsPanel = topPanel.insert_Above&lt;Panel&gt;(40).add_GroupBox("Actions").add_Panel() ;
+var actionsPanel = topPanel.insert_Above<Panel>(40).add_GroupBox("Actions").add_Panel() ;
 var aspNet_codeViewer = topPanel.add_GroupBox("Selected ASP.NET file").add_SourceCodeEditor(); 
  
-var ascxCodeStreams = aspNet_codeViewer.parent().insert_Below().add_GroupBox("Method and Code Streams").add_Control&lt;ascx_CodeStreams&gt;();
-var availableStreams = ascxCodeStreams.insert_Left&lt;Panel&gt;(100).add_TreeView();
-var files = topPanel.insert_Left&lt;Panel&gt;().add_GroupBox("ASP.NET Files").add_TreeView();
-var aspNetPage_properties = files.parent().insert_Below&lt;Panel&gt;().add_GroupBox("Selected file properties").add_PropertyGrid();  
+var ascxCodeStreams = aspNet_codeViewer.parent().insert_Below().add_GroupBox("Method and Code Streams").add_Control<ascx_CodeStreams>();
+var availableStreams = ascxCodeStreams.insert_Left<Panel>(100).add_TreeView();
+var files = topPanel.insert_Left<Panel>().add_GroupBox("ASP.NET Files").add_TreeView();
+var aspNetPage_properties = files.parent().insert_Below<Panel>().add_GroupBox("Selected file properties").add_PropertyGrid();  
 files.splitterDistance(300); 
-var codeBlocks =  topPanel.insert_Above&lt;Panel&gt;(100).add_GroupBox("Selected page ASP.NET components").add_TreeView(); 
-var codeBlock_properties = codeBlocks.insert_Right&lt;Panel&gt;(400).add_GroupBox("Selected Block Properties").add_PropertyGrid(); 
+var codeBlocks =  topPanel.insert_Above<Panel>(100).add_GroupBox("Selected page ASP.NET components").add_TreeView(); 
+var codeBlock_properties = codeBlocks.insert_Right<Panel>(400).add_GroupBox("Selected Block Properties").add_PropertyGrid(); 
 
-var otherFilesTab = aspNet_codeViewer.insert_Right&lt;Panel&gt;(aspNet_codeViewer.width()/2).add_GroupBox("Selected ASP.NET file dependencies").add_TabControl();
+var otherFilesTab = aspNet_codeViewer.insert_Right<Panel>(aspNet_codeViewer.width()/2).add_GroupBox("Selected ASP.NET file dependencies").add_TabControl();
 
-ascx_SourceCodeEditor csharp_codeViewer = null;
+SourceCodeEditor csharp_codeViewer = null;
 
 var currentPath = "";
-availableStreams.afterSelect&lt;Saved_MethodStream&gt;((savedMethodStream)=&gt; ascxCodeStreams.loadMethodStream(savedMethodStream));						
+availableStreams.afterSelect<Saved_MethodStream>((savedMethodStream)=> ascxCodeStreams.loadMethodStream(savedMethodStream));						
 
-Action&lt;string, int, int&gt; handleCaretMove =
-	(file, line, column) =&gt; {								
+Action<string, int, int> handleCaretMove =
+	(file, line, column) => {								
 								if (availableStreams.get_Tag().str() != file)
 								{
 									"Finding codestreams".info();
@@ -51,15 +49,15 @@ Action&lt;string, int, int&gt; handleCaretMove =
 									if (ascxCodeStreams.AllSavedMethodStreams_MappedByFileName.hasKey(file))																	
 										foreach(var methodStreamInFile in ascxCodeStreams.AllSavedMethodStreams_MappedByFileName[file])									
 										{
-											if (line+1 &gt;= methodStreamInFile.RootMethod.Location.Line &amp;&amp; line+1 &lt;= methodStreamInFile.RootMethod.Location.Line_End) 										    
+											if (line+1 >= methodStreamInFile.RootMethod.Location.Line && line+1 <= methodStreamInFile.RootMethod.Location.Line_End) 										    
 												ascxCodeStreams.loadMethodStream(methodStreamInFile);						
 											availableStreams.add_Node(methodStreamInFile.RootMethod.Name, methodStreamInFile);						
 										}
 								}
 							};
 
-Action&lt;AspNet_Page&gt; viewFile = 
-	(aspNetPage)=&gt;{				
+Action<AspNet_Page> viewFile = 
+	(aspNetPage)=>{				
 						var virtualPath = aspNetPage.Virtual_Path;//ConfigItems[0].Value.info();
 						if (currentPath == virtualPath)
 							return;						
@@ -84,7 +82,7 @@ Action&lt;AspNet_Page&gt; viewFile =
 						if (csharp_codeViewer_File.fileExists())
 						{
 							csharp_codeViewer.open(csharp_codeViewer_File)
-											 .onCaretMove((caret)=&gt; handleCaretMove(csharp_codeViewer_File, caret.Line, caret.Column));
+											 .onCaretMove((caret)=> handleCaretMove(csharp_codeViewer_File, caret.Line, caret.Column));
 						}
 												
 						foreach(var sourceDependency in aspNetPage.SourceDependencies)					
@@ -95,7 +93,7 @@ Action&lt;AspNet_Page&gt; viewFile =
 								otherFilesTab.add_Tab(sourceDependency)
 											 .add_SourceCodeEditor()											 
 											 //.set_Text(sourceCodeFolder.pathCombine(sourceDependency).fileContents(), "a.aspx")
-											 .onCaretMove((caret)=&gt; handleCaretMove(sourceDependency_File, caret.Line, caret.Column))
+											 .onCaretMove((caret)=> handleCaretMove(sourceDependency_File, caret.Line, caret.Column))
 											 .open(sourceCodeFolder.pathCombine(sourceDependency)).setDocumentHighlightingStrategy("a.aspx");
 								// add codebehind			 
 								var sourceDependency_CSharpFile = sourceCodeFolder.pathCombine(sourceDependency + ".cs");
@@ -103,7 +101,7 @@ Action&lt;AspNet_Page&gt; viewFile =
 									otherFilesTab.add_Tab(sourceDependency + ".cs")
 											 	.add_SourceCodeEditor()
 											 	.open(sourceDependency_CSharpFile) 
-											 	.onCaretMove((caret)=&gt; handleCaretMove(sourceDependency_CSharpFile, caret.Line, caret.Column));
+											 	.onCaretMove((caret)=> handleCaretMove(sourceDependency_CSharpFile, caret.Line, caret.Column));
 							}
 								
 						otherFilesTab.visible(true);	
@@ -113,8 +111,8 @@ Action&lt;AspNet_Page&gt; viewFile =
 					};
 
 
-Action&lt;AspNet_Page&gt; load_AspNet_Page = 
-	(aspNetPage) =&gt; {										
+Action<AspNet_Page> load_AspNet_Page = 
+	(aspNetPage) => {										
 						aspNetPage_properties.show(aspNetPage);
 						//aspNet_codeViewer.set_Text(aspNetPage.AspNet_SourceCode,"a.aspx");
 						viewFile(aspNetPage);
@@ -126,25 +124,25 @@ Action&lt;AspNet_Page&gt; load_AspNet_Page =
 						files.focus();
 					};
 					
-files.afterSelect&lt;AspNet_Page&gt;(load_AspNet_Page);
+files.afterSelect<AspNet_Page>(load_AspNet_Page);
 	
 
-files.onDoubleClick&lt;AspNet_Page&gt;(load_AspNet_Page);
+files.onDoubleClick<AspNet_Page>(load_AspNet_Page);
  
-codeBlocks.afterSelect&lt;CodeBlock&gt;(
-	(codeBlock)=&gt;{
+codeBlocks.afterSelect<CodeBlock>(
+	(codeBlock)=>{
 					codeBlock_properties.show(codeBlock);
-					if (codeBlock.Line &gt;0)
+					if (codeBlock.Line >0)
 						aspNet_codeViewer.gotoLine(codeBlock.Line); 
 					codeBlocks.focus();
 				 });
 
 Action viewAllCodeBlocks =
-	()=&gt;{			
-			var allCodeBlocks = new List&lt;CodeBlock&gt;();
+	()=>{			
+			var allCodeBlocks = new List<CodeBlock>();
 			foreach(var node in files.nodes())
 			{
-				var aspNetPage = (AspNet_Page)node.tag&lt;AspNet_Page&gt;();
+				var aspNetPage = (AspNet_Page)node.tag<AspNet_Page>();
 				foreach(var codeBlock in aspNetPage.allCodeBlocks())
 					if(codeBlock.BlockType != "System.String")
 						allCodeBlocks.add(codeBlock);				 
@@ -152,7 +150,7 @@ Action viewAllCodeBlocks =
 			
 			allCodeBlocks.show_In_ListView()
 						 .afterSelect(
-						 	(selectedItems)=&gt;{ 
+						 	(selectedItems)=>{ 
 			 									if (selectedItems.size()==1)
 			 									{
 			 										var listViewItem = selectedItems[0].values();
@@ -163,39 +161,39 @@ Action viewAllCodeBlocks =
 			 											viewFile(aspNetPage);
 			 											
 	 													var line = listViewItem[5].toInt();
-	 													if (line &gt;0)
+	 													if (line >0)
 															aspNet_codeViewer.gotoLine(line);  			 														 														 											
 			 										}
 			 									} 
 						 					  });
 		};
 
-Action&lt;string&gt; loadFilesFromFolder = 
-	(folder) =&gt; {
+Action<string> loadFilesFromFolder = 
+	(folder) => {
 					O2Thread.mtaThread(
-						()=&gt;{					
+						()=>{					
 								foreach(var file in folder.files())
 								{						
 									"processing file:{0}".info(file);
-									var aspNetPage = file.load&lt;AspNet_Page&gt;();						
+									var aspNetPage = file.load<AspNet_Page>();						
 									aspNetPages.add(aspNetPage.Virtual_Path, aspNetPage);																			
 								}					
-								files.add_Nodes(aspNetPages.Values, (aspNetPage)=&gt; aspNetPage.Virtual_Path);  
+								files.add_Nodes(aspNetPages.Values, (aspNetPage)=> aspNetPage.Virtual_Path);  
 							});
 				};
  
-Action&lt;string&gt; loadMethodStreams = 
-	(methodStreamsDir)=&gt;{	
+Action<string> loadMethodStreams = 
+	(methodStreamsDir)=>{	
 							if (ascxCodeStreams.AllSavedMethodStreams.isNull())
 							{
 								ascxCodeStreams.load_SavedMethodStreams(methodStreamsDir.files());
-								O2.Kernel.O2LiveObjects.set("AllSavedMethodStreams", ascxCodeStreams.AllSavedMethodStreams);	
+								O2LiveObjects.set("AllSavedMethodStreams", ascxCodeStreams.AllSavedMethodStreams);	
 							}
 
 						};	
 							
-Action&lt;string,string, string&gt; loadData = 
-	(filesFolder, methodsStreamsFolder, _websiteUrl)=&gt;{
+Action<string,string, string> loadData = 
+	(filesFolder, methodsStreamsFolder, _websiteUrl)=>{
 			//loadFilesFromFolder("what is the folder with the Methods Streams".askUser());
 			//loadMethodStreams("what is the folder with the Methods Streams".askUser());			
 			loadFilesFromFolder(filesFolder);
@@ -204,23 +202,23 @@ Action&lt;string,string, string&gt; loadData =
 			files.selectFirst();
 		};
 
-actionsPanel.add_Link("view all codeblocks",0,0, ()=&gt; viewAllCodeBlocks())
+actionsPanel.add_Link("view all codeblocks",0,0, ()=> viewAllCodeBlocks())
 			.append_Link("show compiled source code", 
-				()=&gt;{
+				()=>{
 						var aspNetPage = (AspNet_Page)files.selected().get_Tag();
 						aspNetPage.AspNet_Compiled_SourceCode[0].showInCodeEditor(); 
 					})
 			.append_Link("Compile project", 
-				()=&gt;{
+				()=>{
 						var msBuild = @"C:\Windows\Microsoft.NET\Framework\v3.5\MSBuild.exe"; 
 						var parameters = @"c:\o2\demos\webclient\WebClient.sln";
-						msBuild.startProcess(parameters,(log)=&gt; log.info()); 
+						msBuild.startProcess(parameters,(log)=> log.info()); 
 					})
-			.append_Link("refresh IE", ()=&gt;ie.open_ASync(ie.url()));
+			.append_Link("refresh IE", ()=>ie.open_ASync(ie.url()));
 
 
 files.onDrop(
-	(folder)=&gt;{
+	(folder)=>{
 					loadFilesFromFolder(folder);
 					//loadMethodStreams(folder);
 			  });
@@ -232,7 +230,7 @@ files.onDrop(
 
 return loadData;
 /*
-ascxCodeStreams.AllSavedMethodStreams_MappedByFileName = new Dictionary&lt;string,List&lt;Saved_MethodStream&gt;&gt;();
+ascxCodeStreams.AllSavedMethodStreams_MappedByFileName = new Dictionary<string,List<Saved_MethodStream>>();
 
 foreach(var savedMethodStream in ascxCodeStreams.AllSavedMethodStreams)
 {
@@ -254,18 +252,14 @@ foreach(var savedMethodStream in ascxCodeStreams.AllSavedMethodStreams)
 //files.selectFirst();
 
 
-
+//viewAllCodeBlocks();
 
 return "ok";
 
-	
-
-//viewAllCodeBlocks();
 
 //O2File:AspNet_Page.cs
 //O2File:ascx_CodeStreams.cs
 //using O2.XRules.Database.Languages_and_Frameworks.DotNet
-//O2File:WatiN_IE_ExtensionMethods.cs
-//O2Ref:WatiN.Core.1x.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//using FluentSharp.Watin
+//O2Ref:FluentSharp.Watin.dll
+//O2Ref:Watin.Core.dll

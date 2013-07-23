@@ -1,7 +1,5 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//var topPanel = panel.clear().add_Panel();
-var topPanel = O2Gui.open&lt;Panel&gt;("OWASP Summit 2011 - Attendees Mappings", 1000,400 );
+//var topPanel = panel.clear().add_Panel();
+var topPanel = O2Gui.open<Panel>("OWASP Summit 2011 - Attendees Mappings", 1000,400 );
 
 var wikiApi = new OwaspWikiAPI(false);  
 var useCacheForFirstPage = true;
@@ -10,22 +8,22 @@ var useCacheForFirstPage = true;
 
 //var fileCache = new FileCache("OWASP MediaWiki");    
 var tabs = topPanel.add_TabControl();  
-var treeView = topPanel.insert_Left&lt;Panel&gt;().add_TreeView().sort();
-var optionsPanel = tabs.insert_Above&lt;Panel&gt;(50).add_GroupBox("Options").add_Panel();
+var treeView = topPanel.insert_Left<Panel>().add_TreeView().sort();
+var optionsPanel = tabs.insert_Above<Panel>(50).add_GroupBox("Options").add_Panel();
 var numberOfAttendees = optionsPanel.add_Label("Number of Attendees:");
 var textArea = tabs.add_Tab("Raw Wiki Text (cached data)").add_TextArea();
-var pageEditor = tabs.add_Tab("Edit Page (live data)").add_Control&lt;ascx_MediaWiki_PageEditor_Simple&gt;(); 
+var pageEditor = tabs.add_Tab("Edit Page (live data)").add_Control<ascx_MediaWiki_PageEditor_Simple>(); 
 var loadPageInEditor = false;
-optionsPanel.add_CheckBox("Load selected page in Editor", 15,200,(value)=&gt;loadPageInEditor = value).autoSize();
+optionsPanel.add_CheckBox("Load selected page in Editor", 15,200,(value)=>loadPageInEditor = value).autoSize();
 optionsPanel.add_Link("reload current page",15,0,
-				()=&gt;{
+				()=>{
 						var currentPage = treeView.selectedNode().get_Tag().str();						
 						wikiApi.WikiContentLocalCache.cacheRemove(currentPage);						
 						var wikiText = wikiApi.raw(currentPage,true);
 						textArea.set_Text(wikiText); 
 					})
 			.append_Link("clear all cache",
-				()=&gt; wikiApi.WikiContentLocalCache.clearCache());//.bringToFront();
+				()=> wikiApi.WikiContentLocalCache.clearCache());//.bringToFront();
  
 
 treeView.splitContainer().splitterDistance(400);                    
@@ -46,21 +44,21 @@ return TextParsed ;
 */
  
 //var pageName = "Summit 2011"; 
-//var text =  fileCache.cacheGet(pageName,()=&gt;{ return wikiApi.raw(pageName);});    
+//var text =  fileCache.cacheGet(pageName,()=>{ return wikiApi.raw(pageName);});    
 var mappings = new WikiText_HeadersAndTemplates()
 				   .useCache(useCacheForFirstPage)
 				   .parse(wikiApi,pageName1)
 				   .parse(wikiApi,pageName2)
 				   .Templates;
 				   
-treeView.beforeExpand&lt;List&lt;string&gt;&gt;(
-	(node,templates) =&gt; {
+treeView.beforeExpand<List<string>>(
+	(node,templates) => {
 							node.nodes().size().str().error();
-							if(node.nodes().size()&gt;0)
+							if(node.nodes().size()>0)
 								return;
 						  	var dummyNode = node.add_Node("...");
 							O2Thread.mtaThread(
-								()=&gt;{
+								()=>{
 										foreach(var template in templates)
 										{
 											if(template.contains("Summit_2011_Attendee"))
@@ -82,8 +80,8 @@ treeView.beforeExpand&lt;List&lt;string&gt;&gt;(
 									
 				 		});
 				 		
-treeView.afterSelect&lt;string&gt;(
-	(page)=&gt;{
+treeView.afterSelect<string>(
+	(page)=>{
 					//textArea.backColor(Color.DarkSalmon);
 					Application.DoEvents(); 
 					var wikiText = wikiApi.raw(page,true);
@@ -110,12 +108,12 @@ return mappings;
 //using Irony.Interpreter 
 //return  TextParsed ;
    
+//using O2.XRules.Database.APIs
+   
 //using Irony.Parsing;
 
 
 //O2File:OwaspWikiAPI.cs
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
 //O2File:WikiText.cs
-//O2File:ascx_MediaWiki_PageEditor_Simple.cs</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2File:ascx_MediaWiki_PageEditor_Simple.cs

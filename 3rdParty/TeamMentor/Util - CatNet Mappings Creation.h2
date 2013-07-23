@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var topPanel = "Util - CatNet Mappings Creation".popupWindow(1200,400);
+var topPanel = "Util - CatNet Mappings Creation".popupWindow(1200,400);
 var targetDir = "HeaderImage.jpg".local().parentFolder();
 
 //Create mappings for embeded resourcses
@@ -39,6 +37,6 @@ mappings.saveAs(targetFile);
 topPanel.insert_Right("CatNet_Mappings_TM_OWASP").add_SourceCodeEditor().open(targetFile);
 return targetFile;
 
-//O2File:API_CatNet.cs   </SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//using O2.XRules.Database.APIs
+
+//O2File:API_CatNet.cs   

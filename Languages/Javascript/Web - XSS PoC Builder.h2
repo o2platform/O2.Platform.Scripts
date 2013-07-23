@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("XSS PoC Builder",1100,550);   
+var topPanel = O2Gui.open<Panel>("XSS PoC Builder",1100,550);   
 
 var processOnNavigateEvents= false;
 
@@ -11,7 +9,7 @@ var designerCanvas = topPanel.add_DesignerCanvas();
 
 designerCanvas.add_Label("XSS PoC builder",00,20).fontSize(30);
   
-var image = designerCanvas.add_Item&lt;System.Windows.Controls.Image&gt;(0,1000,100,100) 
+var image = designerCanvas.add_Item<System.Windows.Controls.Image>(0,1000,100,100) 
 			  .open(@"C:\O2\_tempDir\O2_Logo.gif");
 			    
 
@@ -68,7 +66,7 @@ string elementValue = "";
 // local Methods
 
 MethodInvoker refreshInjectionPointList = 
-	()=&gt;{
+	()=>{
 			step3_TreeView.clear();
 			step3_TreeView.add_Nodes(step2_IE.elements()
 						  .indexedByTagName(false)); 
@@ -76,27 +74,27 @@ MethodInvoker refreshInjectionPointList =
 				step3_TreeView.selectFirst();
 		};
 		
-Action&lt;string&gt; openUrl = 
-	(url)=&gt; {
+Action<string> openUrl = 
+	(url)=> {
 				O2Thread.mtaThread(
-					()=&gt;{
+					()=>{
 							"opening in Browser: {0}".info(url); 
 							step2_IE.open(url);
 							refreshInjectionPointList();
 						});
 			};
  
- Action&lt;Element&gt; onSelectedHtmlElement =
- 	(element)=&gt; {
+ Action<Element> onSelectedHtmlElement =
+ 	(element)=> {
  					try
  					{
- 						O2Thread.mtaThread(()=&gt;element.flash());	
+ 						O2Thread.mtaThread(()=>element.flash());	
  						 						 						
  						step3_PropertyGrid.show((Element)element);				 	 
  						var elementText = element.str(); 
- 						if (elementText.size() &gt; 7)
+ 						if (elementText.size() > 7)
  							elementText = elementText.Substring(0,7) + "...";  						  						
-						step3_Label.set_Text_Wpf("step3) select injection point -&gt; {0}: {1}".format(element.tagName(),elementText)); 						
+						step3_Label.set_Text_Wpf("step3) select injection point -> {0}: {1}".format(element.tagName(),elementText)); 						
 						selectedElement = element;
 						elementTag = selectedElement.tagName(); 
 						elementValue = selectedElement.str();
@@ -109,13 +107,13 @@ Action&lt;string&gt; openUrl =
  				};
 
 MethodInvoker tryExploit =  
-	()=&gt;{									
+	()=>{									
 			if (selectedElement.isNull())
 				"There is no IE Element selected, aborting payload injection".error();
 			else 
 			{
 				O2Thread.mtaThread(
-					()=&gt;{
+					()=>{
 							try
 							{
 								var page = step1_TextBox.get_Text_Wpf();													
@@ -147,7 +145,7 @@ MethodInvoker tryExploit =
 		};
  				 
 MethodInvoker publishExploit = 
-	()=&gt;{
+	()=>{
 			"publishing Exploit".info();
 			var page = step1_TextBox.get_Text_Wpf();													
 			var injectionMethod = step4_ComboBox.get_Text_Wpf();
@@ -161,11 +159,12 @@ MethodInvoker publishExploit =
 							    "  target.flash();".line() +  
 								"  target.injectHtml(\"" + injectionMethod + "\"," + payload.encodeAsO2ScriptText("",5).trim() + ");".line() + 
 								"".line() + 
-								"//O2File:WatiN_IE_ExtensionMethods.cs".line() + 
-								"//O2Ref:WatiN.Core.1x.dll".line();
+								"//using FluentSharp.Watin".line() + 
+								"//O2Ref:FluentSharp.Watin.dll".line() + 
+								"//O2Ref:Watin.Core.dll".line();
 								
 			
-			var exploitGui = O2Gui.open&lt;ascx_IE_ScriptExecution&gt;("Xss Exploit",600,600); 
+			var exploitGui = O2Gui.open<ascx_IE_ScriptExecution>("Xss Exploit",600,600); 
 			exploitGui.buildGui(exploitScript); 
 			//var scriptEngine = exploitGui.add_Script(); 			
 		};
@@ -174,27 +173,27 @@ MethodInvoker publishExploit =
 
 // Events
 
-step3_TreeView.beforeExpand&lt;List&lt;Element&gt;&gt;(
-			  		(treeNode, elements) =&gt;  
+step3_TreeView.beforeExpand<List<Element>>(
+			  		(treeNode, elements) =>  
 			  					{ 
 			  						try { treeNode.add_Nodes(elements);}
-			  						catch(Exception ex) { ex.log("in beforeExpand&lt;List&lt;Element&gt;&gt;");}
+			  						catch(Exception ex) { ex.log("in beforeExpand<List<Element>>");}
 			  					})
-			  .afterSelect&lt;Element&gt;(onSelectedHtmlElement)
-			  .afterSelect&lt;List&lt;Element&gt;&gt;((elements)=&gt; onSelectedHtmlElement(elements[0]));
+			  .afterSelect<Element>(onSelectedHtmlElement)
+			  .afterSelect<List<Element>>((elements)=> onSelectedHtmlElement(elements[0]));
 					   
 step1_Button.onClick_Wpf(
-	()=&gt;{			
+	()=>{			
 			var url = step1_TextBox.get_Text_Wpf();			
 			openUrl(url);			
 		});  
 
-step6_Button.onClick_Wpf(()=&gt; tryExploit());
+step6_Button.onClick_Wpf(()=> tryExploit());
 		
-step7_Button.onClick_Wpf(()=&gt;publishExploit());
+step7_Button.onClick_Wpf(()=>publishExploit());
 
 step2_IE.onNavigate(
-	(url)=&gt; {
+	(url)=> {
 				if (processOnNavigateEvents)
 					if (url.neq("about:blank"))
 					{
@@ -209,14 +208,14 @@ step2_IE.onNavigate(
 var defaultPage = "http://www.google.co.uk";
 
 step6_Button.wpfInvoke(
-	()=&gt;{			
+	()=>{			
 			step1_TextBox.set_Text_Wpf(defaultPage);
 			
 			openUrl(defaultPage);
 			step5_SourceCodeEditor.set_Text("xss was here".line() + 
-											"&lt;script DEFER&gt;".line() +
+											"<script DEFER>".line() +
 											"    alert('xss')".line() + 
-											"&lt;/script&gt;");  					 						
+											"</script>");  					 						
 		});
 
 //using WatiN.Core
@@ -230,6 +229,10 @@ step6_Button.wpfInvoke(
 //using System.Windows.Media
 //using System.Windows.Media.Imaging
 //using System.Windows.Markup
+//using O2.XRules.Database.APIs
+//using O2.XRules.Database.Utils
+//using FluentSharp.WPF
+//using FluentSharp.Watin
 
 //O2File:WatiN_IE_ExtensionMethods.cs 		
 //O2File:DiagramDesigner_ExtensionMethods.cs
@@ -240,6 +243,9 @@ step6_Button.wpfInvoke(
 
 //O2Ref:FluentSharp.WPF.dll
 
+
+//O2Ref:FluentSharp.Watin.dll
+//O2Ref:Watin.Core.dll
 //O2Ref:System.Web.dll
 //O2Ref:System.Xml.dll
 //O2Ref:System.Xml.Linq.dll
@@ -253,8 +259,6 @@ step6_Button.wpfInvoke(
 //O2Ref:GraphSharp.Controls.dll
 //O2Ref:ICSharpCode.AvalonEdit.dll
 //O2Ref:DiagramDesigner.exe
-//O2Ref:WatiN.Core.1x.dll
 //O2Ref:Microsoft.mshtml.dll
 //O2Ref:Interop.SHDocVw.dll
-//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll</SourceCode>
-</H2>
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll

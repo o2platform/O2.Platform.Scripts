@@ -1,15 +1,13 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//var topPanel = panel.clear().add_Panel(); 
-var topPanel = O2Gui.open&lt;Panel&gt;("Tool - AmazonEC2 Browser",630,500);   
+//var topPanel = panel.clear().add_Panel(); 
+var topPanel = O2Gui.open<Panel>("Tool - AmazonEC2 Browser",630,500);   
 topPanel.insert_Below(100).add_LogViewer();  
   
 var apiKey = @"C:\O2\_USERDATA\accounts.xml".credential("AmazonAWS"); 
 	
 var amazonEC2 = new API_AmazonEC2(apiKey);
 	 						
-Action&lt;RunningInstance&gt; rdpIntoBox =
-	(runningInstance)=&gt;{				
+Action<RunningInstance> rdpIntoBox =
+	(runningInstance)=>{				
 							"Creating RDP connection to instance with ID: {0} and IP ".info(runningInstance.InstanceId,runningInstance.IpAddress);			
 							var username = "Administrator";
 							var password = "What is the Administrator Password".askUser();//amazonEC2.getPassword(runningInstance);
@@ -17,8 +15,8 @@ Action&lt;RunningInstance&gt; rdpIntoBox =
 						};
 
 
-/*Action&lt;RunningInstance&gt; testInstance = 
-	(runningInstance)=&gt;{							
+/*Action<RunningInstance> testInstance = 
+	(runningInstance)=>{							
 							"Tests on  instance with ID: {0}".info(runningInstance.InstanceId);										
 							var ec2Client = getEC2Client(runningInstance.Placement.AvailabilityZone.removeLastChar());
 							var passwordResponse = ec2Client.GetPasswordData(new GetPasswordDataRequest().WithInstanceId(runningInstance.InstanceId));
@@ -30,15 +28,15 @@ Action&lt;RunningInstance&gt; rdpIntoBox =
 					    
 
 						
-Action&lt;Panel&gt; showRunningInstancesDetails = 
-	(targetPanel)=&gt; { 
+Action<Panel> showRunningInstancesDetails = 
+	(targetPanel)=> { 
 						
 						var treeView = targetPanel.add_GroupBox("Amazon EC Instances").add_TreeView().sort();
 						var actionsPanel = treeView.insert_Below(100);	 	  	 			
-						treeView.beforeExpand&lt;List&lt;RunningInstance&gt;&gt;(
-							(treeNode, runningInstanceList) =&gt;{
+						treeView.beforeExpand<List<RunningInstance>>(
+							(treeNode, runningInstanceList) =>{
 																treeNode.clear();
-																treeNode.add_Nodes(runningInstanceList , (runningInstance)=&gt;amazonEC2.getRunningInstanceSignature(runningInstance));
+																treeNode.add_Nodes(runningInstanceList , (runningInstance)=>amazonEC2.getRunningInstanceSignature(runningInstance));
 																foreach(var node in treeNode.nodes())
 																	if (node.get_Text().contains("stopped"))
 																		node.color(Color.DarkGreen);
@@ -48,14 +46,14 @@ Action&lt;Panel&gt; showRunningInstancesDetails =
 																		node.color(Color.DarkBlue);  
 																		
 															 }); 
-						Action&lt;bool&gt; refresh = 
-							(onlyShowDefaultRegion)=&gt;{
+						Action<bool> refresh = 
+							(onlyShowDefaultRegion)=>{
 									treeView.backColor(Color.Azure);
 									O2Thread.mtaThread(
-										()=&gt;{																				
+										()=>{																				
 												var ec2Instances = 	amazonEC2.getEC2Instances(onlyShowDefaultRegion); 
 												treeView.clear();
-												treeView.add_Nodes(ec2Instances.keys(), (text)=&gt;text, (text) =&gt; ec2Instances.value(text), (text) =&gt; ec2Instances.value(text).size() &gt; 0);
+												treeView.add_Nodes(ec2Instances.keys(), (text)=>text, (text) => ec2Instances.value(text), (text) => ec2Instances.value(text).size() > 0);
 												//treeView.selectFirst().selected().expand().nodes()[0].selected(); 
 												treeView.expand();
 												treeView.selectFirst();
@@ -63,28 +61,28 @@ Action&lt;Panel&gt; showRunningInstancesDetails =
 											});
 								}; 
 								
-						actionsPanel.add_Link("Refresh Instances list (default Region)", 0,0, ()=&gt; refresh(true)).click();		
-						actionsPanel.add_Link("Refresh Instances list (all Regions)",20,0, ()=&gt; refresh(false)); 
+						actionsPanel.add_Link("Refresh Instances list (default Region)", 0,0, ()=> refresh(true)).click();		
+						actionsPanel.add_Link("Refresh Instances list (all Regions)",20,0, ()=> refresh(false)); 
 						 
 						RunningInstance selectedInstance = null; 
-						actionsPanel.add_Link("Show Instance Details", 40,0, ()=&gt;  selectedInstance.details()); 
-						actionsPanel.add_Link("View Instance  Console Out", 60,0, ()=&gt;  amazonEC2.showConsoleOut(selectedInstance));
-						//var link = actionsPanel.add_Link("Show Decrypted password  ", 80,0, ()=&gt; amazonEC2.getPassword(selectedInstance)); 
-						actionsPanel.add_Link("Start Instance ", 0,220, ()=&gt; amazonEC2.startInstance(selectedInstance));
-						actionsPanel.add_Link("Reboot Instance ", 20,220, ()=&gt; { if ("are you sure you want to reboot?".askUserQuestion()) amazonEC2.rebootInstance(selectedInstance); });						
-						actionsPanel.add_Link("Stop Instance (careful)", 40,220, ()=&gt; { if ("are you sure you want to stop?".askUserQuestion())  amazonEC2.stopInstance(selectedInstance); });  
-						actionsPanel.add_Link("RDP Instance ", 60,220, ()=&gt; rdpIntoBox(selectedInstance));   						
-				 		actionsPanel.add_Link("View Available Images (AMIs) ", 80,220, ()=&gt; amazonEC2.show_ImagesList_In_TreeView());   
+						actionsPanel.add_Link("Show Instance Details", 40,0, ()=>  selectedInstance.details()); 
+						actionsPanel.add_Link("View Instance  Console Out", 60,0, ()=>  amazonEC2.showConsoleOut(selectedInstance));
+						//var link = actionsPanel.add_Link("Show Decrypted password  ", 80,0, ()=> amazonEC2.getPassword(selectedInstance)); 
+						actionsPanel.add_Link("Start Instance ", 0,220, ()=> amazonEC2.startInstance(selectedInstance));
+						actionsPanel.add_Link("Reboot Instance ", 20,220, ()=> { if ("are you sure you want to reboot?".askUserQuestion()) amazonEC2.rebootInstance(selectedInstance); });						
+						actionsPanel.add_Link("Stop Instance (careful)", 40,220, ()=> { if ("are you sure you want to stop?".askUserQuestion())  amazonEC2.stopInstance(selectedInstance); });  
+						actionsPanel.add_Link("RDP Instance ", 60,220, ()=> rdpIntoBox(selectedInstance));   						
+				 		actionsPanel.add_Link("View Available Images (AMIs) ", 80,220, ()=> amazonEC2.show_ImagesList_In_TreeView());   
 						
 						amazonEC2.addStopInstanceGui(actionsPanel.insert_Right(240),treeView);   
 						
-						/*var link = actionsPanel.add_Link("Test request Instance ", 80,220, ()=&gt; testInstance(selectedInstance));
-						O2Thread.mtaThread(()=&gt;{
+						/*var link = actionsPanel.add_Link("Test request Instance ", 80,220, ()=> testInstance(selectedInstance));
+						O2Thread.mtaThread(()=>{
 								link.sleep(1000); 
 								link.click();
 							});*/						 											
 						
-						treeView.afterSelect&lt;RunningInstance&gt;((runningInstance)=&gt; selectedInstance = runningInstance);	
+						treeView.afterSelect<RunningInstance>((runningInstance)=> selectedInstance = runningInstance);	
 						
 					};
 									 
@@ -92,12 +90,12 @@ Action&lt;Panel&gt; showRunningInstancesDetails =
 
 showRunningInstancesDetails(topPanel);  
 
+//using O2.XRules.Database.APIs
+//using FluentSharp.CoreLib.Utils
+
 //O2File:API_AmazonEC2.cs
 //O2File:API_RDP.cs
 //using Amazon.EC2
 //using Amazon.EC2.Model
 //O2Ref:AWSSDK.dll
 //O2Ref:White.Core.dll
-</SourceCode>
-  <ReferencedAssemblies />
-</H2>

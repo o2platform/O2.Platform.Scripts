@@ -1,17 +1,14 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var progressBar = "Util - Download/Update O2 Scripts".popupWindow(400,50).add_ProgressBar();
+"script not working at the moment".alert();
+return "abort";
+var progressBar = "Util - Download/Update O2 Scripts".popupWindow(400,50).add_ProgressBar();
 var statusBar = progressBar.parentForm().add_StatusStrip();
 progressBar.maximum(3);
-Action&lt;string&gt; _statusMessage = 
-	(text)=&gt;{
+Action<string> _statusMessage = 
+	(text)=>{
 				statusBar.set_Text(text);
 				progressBar.increment(1);
 				this.sleep(500);
 			};
 
-O2Scripts.downloadO2Scripts(_statusMessage);
+//O2Scripts.downloadO2Scripts(_statusMessage);
 return "done";
-//using O2.FluentSharp.REPL</SourceCode>
-  <ReferencedAssemblies />
-</H2>

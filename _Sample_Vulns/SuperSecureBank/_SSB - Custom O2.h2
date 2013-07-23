@@ -1,24 +1,22 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var title = "SuperSecureBank";  
+var title = "SuperSecureBank";  
 var ipAddress = "127.0.0.1";
 var codeFolder = @"C:\O2\Demos\SI - SuperSecureBank\SecurityInnovation-SuperSecureBank-938fde3\"; 
 var port = 1234; 
    
-Func&lt;string&gt; getBaseUrl =
-	()=&gt;{
+Func<string> getBaseUrl =
+	()=>{
 			return "http://{0}:{1}/".format(ipAddress, port);
 		};
 
-Action&lt;string&gt; openO2AspxPageWithGetRequest = 
-	(page)=&gt;	{
+Action<string> openO2AspxPageWithGetRequest = 
+	(page)=>	{
 						var commandUrl = "{0}_O2_AspNet/{1}".format(getBaseUrl(), page); 
 						commandUrl.debug();
 						commandUrl.url().getHtml(); 
 					};
 					
-Action&lt;string&gt; openO2ServerSideControlViaAspx = 
-	(o2Control)=&gt;{
+Action<string> openO2ServerSideControlViaAspx = 
+	(o2Control)=>{
 					openO2AspxPageWithGetRequest("Open_O2_Tools.aspx?action={1}".format(port, o2Control));			
 				};
 		
@@ -36,11 +34,11 @@ ssbScripts.add_Group("Utils")
 
 
 ssbScripts.add_Group("O2 ServerSide Controls via Aspx") 
-		  .add_Button("LogViewer", ()=&gt; openO2ServerSideControlViaAspx("LogViewer"))
-		  .add_Button("ScriptEditor", ()=&gt; openO2ServerSideControlViaAspx("ScriptEditor"))
-		  .add_Button("QuickDevelopmentGui", ()=&gt; openO2ServerSideControlViaAspx("QuickDevelopmentGui"))
-	   	  .add_Button("AspNetPageRender", ()=&gt; openO2ServerSideControlViaAspx("AspNetPageRender"))
-	   	  .add_Button("Aspx Context Object", ()=&gt; openO2AspxPageWithGetRequest("Show_Aspx_Context.aspx"));;
+		  .add_Button("LogViewer", ()=> openO2ServerSideControlViaAspx("LogViewer"))
+		  .add_Button("ScriptEditor", ()=> openO2ServerSideControlViaAspx("ScriptEditor"))
+		  .add_Button("QuickDevelopmentGui", ()=> openO2ServerSideControlViaAspx("QuickDevelopmentGui"))
+	   	  .add_Button("AspNetPageRender", ()=> openO2ServerSideControlViaAspx("AspNetPageRender"))
+	   	  .add_Button("Aspx Context Object", ()=> openO2AspxPageWithGetRequest("Show_Aspx_Context.aspx"));;
 	  	 
 //ssbScripts.add_Group("O2 Asp.Net Tools")
 
@@ -55,16 +53,16 @@ exploits.add_Group("Creation")
 	   
 var configTab = ribbon.add_Tab("Config");
 configTab.add_Group("Server")
-		 .add_Button("Set IpAddress", ()=&gt; { ipAddress = "what is the website's IP address (or URL)".askUser(); })
-		 .add_Button("Set Port", ()=&gt; { port = "what is the website's port".askUser().toInt(); });
+		 .add_Button("Set IpAddress", ()=> { ipAddress = "what is the website's IP address (or URL)".askUser(); })
+		 .add_Button("Set Port", ()=> { port = "what is the website's port".askUser().toInt(); });
 configTab.add_Group("Test site")		 
-		 .add_Button("Open Website in Default Browser", ()=&gt; getBaseUrl().startProcess() ); 
+		 .add_Button("Open Website in Default Browser", ()=> getBaseUrl().startProcess() ); 
 configTab.add_Group("Folders")		 		
-		.add_Button("Open Website root", ()=&gt; codeFolder.pathCombine("SuperSecureBank").startProcess())
-		.add_Button("Open WebServices root", ()=&gt; codeFolder.pathCombine("SuperSecureBankService").startProcess());
+		.add_Button("Open Website root", ()=> codeFolder.pathCombine("SuperSecureBank").startProcess())
+		.add_Button("Open WebServices root", ()=> codeFolder.pathCombine("SuperSecureBankService").startProcess());
 		
 configTab.add_Group("Source Code")
- 		 .add_Button("Open Visual Studio Project", ()=&gt; codeFolder.pathCombine("SuperSecureBank.sln").startProcess());
+ 		 .add_Button("Open Visual Studio Project", ()=> codeFolder.pathCombine("SuperSecureBank.sln").startProcess());
 		
 		 
 var otherO2Utils = ribbon.add_Tab("O2 Utils");
@@ -90,6 +88,8 @@ ribbon.add_Tab_MiscTools();
 
 return "ok";
 
+//using O2.XRules.Database.Utils
+
 //O2File:CustomO2.cs  
 
 //O2Ref:WindowsFormsIntegration.dll
@@ -99,6 +99,3 @@ return "ok";
 //O2Ref:PresentationFramework.dll
 //O2Ref:WindowsBase.dll
 //O2Ref:System.Xaml.dll
-</SourceCode>
-  <ReferencedAssemblies />
-</H2>

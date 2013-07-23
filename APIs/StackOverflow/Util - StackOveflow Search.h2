@@ -1,7 +1,5 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//var topPanel = panel;
-var topPanel = O2Gui.open&lt;Panel&gt;("StackOverflow API Gui (Questions, Answers and Comments", 700,400).insert_LogViewer();
+//var topPanel = panel;
+var topPanel = O2Gui.open<Panel>("StackOverflow API Gui (Questions, Answers and Comments", 700,400).insert_LogViewer();
 
 topPanel.clear();
 
@@ -9,25 +7,25 @@ var soApi = new API_StackOverflow();
 //soApi.disableGzip();     				// use this when using Fiddler
 
 var browser = topPanel.add_WebBrowser();
-var treeView = browser.insert_Left&lt;TreeView&gt;(topPanel.width()/3);   
+var treeView = browser.insert_Left<TreeView>(topPanel.width()/3);   
 				 	  
-treeView.afterSelect&lt;Question&gt;((question) =&gt; browser.set_Text(question.body()));
+treeView.afterSelect<Question>((question) => browser.set_Text(question.body()));
  
-treeView.afterSelect&lt;Answer&gt;((answer) =&gt; browser.set_Text(answer.body()));
+treeView.afterSelect<Answer>((answer) => browser.set_Text(answer.body()));
 
-treeView.beforeExpand&lt;Question&gt;(
-	(treeNode, question) =&gt; {
+treeView.beforeExpand<Question>(
+	(treeNode, question) => {
 								var answers = question.answers();
 								"There are {0} answers".info(answers.size());
-								for(int i = 0; i &lt; answers.size(); i++)
+								for(int i = 0; i < answers.size(); i++)
 									treeNode.add_Node("answer #{0}".format(i + 1), answers[i]);
 							});
 
-var searchText = treeView.insert_Above&lt;TextBox&gt;(25)
-						 .onEnter((text) =&gt; {
+var searchText = treeView.insert_Above<TextBox>(25)
+						 .onEnter((text) => {
 						 						treeView.backColor(Color.LightGray);
 						 						O2Thread.mtaThread(
-						 							()=&gt;{
+						 							()=>{
 						 									var searchResults = soApi.search(text); 
 															treeView.clear();
 															foreach(var question in searchResults) //("security")) 	
@@ -36,15 +34,14 @@ var searchText = treeView.insert_Above&lt;TextBox&gt;(25)
 														});
 											});
 											
-O2.DotNetWrappers.Network.Web.DefaultHttpWebRequestTimeout = 30 * 1000;
+Web.DefaultHttpWebRequestTimeout = 30 * 1000;
 
 searchText.sendKeys("owasp".line());
 
 
-  
+//using O2.XRules.Database.APIs
+
 //using TheWorldsWorst.ApiWrapper
 //using TheWorldsWorst.ApiWrapper.Model
 //O2File:API_StackOverflow.cs
-//O2Ref:TheWorldsWorst.ApiWrapper.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Ref:TheWorldsWorst.ApiWrapper.dll

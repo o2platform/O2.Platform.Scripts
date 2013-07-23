@@ -1,5 +1,8 @@
 new API_NUnit_Gui().insert_REPL_Below(); 
 
+
+//using O2.XRules.Database.APIs
+//O2Ref:FluentSharp.NGit.dll
 //O2Ref:nunit-gui-runner.dll
 //O2Ref:nunit.util.dll
 //O2File:API_NUnit_Gui.cs

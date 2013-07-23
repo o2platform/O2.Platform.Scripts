@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//based on example from http://www.datatables.net/release-datatables/examples/data_sources/js_array.html
+//based on example from http://www.datatables.net/release-datatables/examples/data_sources/js_array.html
 //var topPanel = panel.clear().add_Panel();  
 var topPanel = "Poc - jQuery jsDataTable".popupWindow(900,400); 
 
@@ -24,7 +22,7 @@ jsDataTable.add_Columns("Engine", "Browser", "Platform");
 jsDataTable.add_Column("Version", "center");
 jsDataTable.add_Column("Grade", "center");
 //adding without using extension methods
-/*jsDataTable.aaData.Add(new List&lt;string&gt; { "Trident", "Internet Explorer 4.0", "Win 95+", "4", "X" }); 
+/*jsDataTable.aaData.Add(new List<string> { "Trident", "Internet Explorer 4.0", "Win 95+", "4", "X" }); 
 jsDataTable.aoColumns.add(new JsDataTable.JsDataColumn { sTitle = "Engine"  });
 jsDataTable.aoColumns.add(new JsDataTable.JsDataColumn { sTitle = "Browser"  });
 jsDataTable.aoColumns.add(new JsDataTable.JsDataColumn { sTitle = "Platform"  });
@@ -40,7 +38,7 @@ ie.showMessage("loading dataTable js and css");
 
 var jQuery = new IE_JQuery(ie);     
 var cssFile = @"dataTable_demo.css".local();
-var styleHtml =  "&lt;style type=\"text/css\"&gt; {0} &lt;/style&gt;".format(cssFile.fileContents().fixCRLF().remove("".line()).replace("'", "\""));
+var styleHtml =  "<style type=\"text/css\"> {0} </style>".format(cssFile.fileContents().fix_CRLF().remove("".line()).replace("'", "\""));
 
 var injectCSS = "$('body').append($('"  + styleHtml + "' ))";
 ie.invokeEval(injectCSS);
@@ -49,8 +47,8 @@ ie.invokeEval(injectCSS);
 ie.invokeEval("jquery.dataTables.min.js".local().fileContents());
 jQuery.element("div").html("creating local table"); 
 
-ie.invokeEval("$('body').append($('&lt;div id=\"testDataTable\"/&gt;')); $('#testDataTable').html('test DataTable will go here');");
-ie.invokeEval("$('#testDataTable').html( '&lt;table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" class=\"display\" id=\"example\"&gt;&lt;/table&gt;' );");
+ie.invokeEval("$('body').append($('<div id=\"testDataTable\"/>')); $('#testDataTable').html('test DataTable will go here');");
+ie.invokeEval("$('#testDataTable').html( '<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" class=\"display\" id=\"example\"></table>' );");
 //ie.invokeEval("%('#example').html('aaaaaaaaa')"); 
 /*var dataToBuildTable =  "						{ " + 	
 						"								'aaData': [" +
@@ -76,8 +74,11 @@ ie.invokeEval(" $('#example').dataTable( " + dataToBuildTable +" );"  );
 
 return "done"; 
 
+//using O2.XRules.Database.APIs
+
 //O2File:IE_JQuery.cs
-//O2Ref:WatiN.Core.1x.dll
-//O2Ref:Microsoft.mshtml.dll </SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//using FluentSharp.Watin
+//O2Ref:FluentSharp.Watin.dll
+//O2Ref:Watin.Core.dll
+//O2Ref:Microsoft.mshtml.dll 
+

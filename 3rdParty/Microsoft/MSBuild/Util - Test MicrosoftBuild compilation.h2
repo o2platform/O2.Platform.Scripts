@@ -20,8 +20,8 @@ Action compileSourceScript =
 			var compiledScript =  scriptFile.compileScriptFile_into_SeparateFolder();	 
 			pathToAssemblies = compiledScript.directoryName();
 			O2Setup.createEmbeddedFolder_Scripts(pathToAssemblies)
-				   .copyFileReferencesToEmbeddedFolder(scriptFile);
-			O2Setup.createEmbeddedFolder_Data(pathToAssemblies,projectName);
+				   .copyFileReferencesToFolder(scriptFile);
+			//O2Setup.createEmbeddedFolder_Data(pathToAssemblies,projectName);
 		};
  
 Action createProjectFile =   
@@ -83,3 +83,5 @@ return "";
 		   
 
 //O2File:API_MicrosoftBuild.cs
+
+//using O2.XRules.Database.APIs

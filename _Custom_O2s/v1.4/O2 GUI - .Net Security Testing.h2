@@ -1,20 +1,18 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//panel.clear();
+//panel.clear();
 //var topPanel = panel.add_Panel();
 //topPanel.fill(false)
 //		.width(800)
 //		.height(170); 
 
 var title = ".NET Security Testing"; 
-var topPanel = O2Gui.open&lt;Panel&gt;("O2 GUI - " + title, 800,570);     
+var topPanel = O2Gui.open<Panel>("O2 GUI - " + title, 800,570);     
 
 topPanel.parentForm().top(60).left(60); 
 
 var logoNoShadow = "O2_Logo_no_Shadow.jpg".local(); 
 var smallLogo = "O2Logo_Small.gif".local();
 
-var ribbon = topPanel.insert_Above&lt;WPF_Ribbon&gt;(135); 
+var ribbon = topPanel.insert_Above<WPF_Ribbon>(135); 
 var browserAutomation = ribbon.Ribbon.add_RibbonTab(".NET Static Analysis");   
 browserAutomation.add_RibbonGroup("Method Streams") 				 	  
 	  .add_RibbonButton_H2Script(topPanel,"Method Streams Viewer","Util - MethodStreams Viewer.h2")
@@ -65,13 +63,18 @@ demoFiles.add_RibbonGroup("HacmeBank")
 		 .add_RibbonButton_StartProcess("Method Invocations",@"C:\O2\DemoData\HacmeBank_Analysis\HacmeBank_MethodInvocations", "");			 
 
 
-topPanel.parent&lt;SplitContainer&gt;().backColor(Color.White); 
+topPanel.parent<SplitContainer>().backColor(Color.White); 
 topPanel.backColor("Control"); 
 var designerCanvas = topPanel.add_DesignerCanvas(); 
 designerCanvas.add_Label(title ,160,140).fontSize(30);     
  
 return "ok";
  
+//using FluentSharp.WPF
+//using O2.XRules.Database.APIs
+//using O2.XRules.Database.Utils
+//using FluentSharp.CSharpAST
+//using FluentSharp.CSharpAST.Utils
 //using Microsoft.Windows.Controls.Ribbon;
 //using WPF= System.Windows.Controls
 //using DiagramDesigner
@@ -86,5 +89,4 @@ return "ok";
 //O2Ref:PresentationCore.dll
 //O2Ref:PresentationFramework.dll
 //O2Ref:WindowsBase.dll
-//O2Ref:System.Xaml.dll</SourceCode>
-</H2>
+//O2Ref:System.Xaml.dll

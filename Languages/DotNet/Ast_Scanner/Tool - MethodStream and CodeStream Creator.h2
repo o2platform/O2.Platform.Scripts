@@ -1,52 +1,50 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Tool - MethodStream and CodeStream Creator",900,600);
+var topPanel = O2Gui.open<Panel>("Tool - MethodStream and CodeStream Creator",900,600);
  
 //var topPanel = panel.clear().add_Panel();  
-topPanel.insert_Below&lt;Panel&gt;(100).add_LogViewer();
+topPanel.insert_Below<Panel>(100).add_LogViewer();
 var sourceCodeFolders = topPanel.add_GroupBox("Source Code Folders").add_TextArea();
-var references = sourceCodeFolders.insert_Below&lt;Panel&gt;().add_GroupBox("References").add_TextArea();
-var statusLabel = topPanel.insert_Below&lt;Panel&gt;(20).add_Label("").autoSize();;
-var progressBar = topPanel.insert_Below&lt;Panel&gt;(30).add_ProgressBar(); 
+var references = sourceCodeFolders.insert_Below<Panel>().add_GroupBox("References").add_TextArea();
+var statusLabel = topPanel.insert_Below<Panel>(20).add_Label("").autoSize();;
+var progressBar = topPanel.insert_Below<Panel>(30).add_ProgressBar(); 
 
-var targetFolderFiles = topPanel.insert_Left&lt;Panel&gt;(500).add_GroupBox("Files in Target folder").add_TreeView();     
-var configPanel = targetFolderFiles.insert_Above&lt;Panel&gt;(180).add_GroupBox("Config").add_Panel();  
+var targetFolderFiles = topPanel.insert_Left<Panel>(500).add_GroupBox("Files in Target folder").add_TreeView();     
+var configPanel = targetFolderFiles.insert_Above<Panel>(180).add_GroupBox("Config").add_Panel();  
 
-targetFolderFiles.onDoubleClick&lt;string&gt;((file)=&gt; O2Thread.mtaThread(()=&gt;{file.showInCodeViewer();}));
+targetFolderFiles.onDoubleClick<string>((file)=> O2Thread.mtaThread(()=>{file.showInCodeViewer();}));
 
 var cancelCreationProcess = false;
 var forceReload = false;//true;  
 var forceCreate = false;  
 var createCodeStreams = false;  
-configPanel.add_CheckBox("Force Reload of Source Code Files", 50,0,(value)=&gt; forceReload= value).autoSize();
-configPanel.add_CheckBox("Force Method Stream Creation", 70,00,(value)=&gt; forceCreate= value).autoSize(); 
-configPanel.add_CheckBox("Create Code Streams", 90,00,(value)=&gt; createCodeStreams= value).autoSize().check(); 
+configPanel.add_CheckBox("Force Reload of Source Code Files", 50,0,(value)=> forceReload= value).autoSize();
+configPanel.add_CheckBox("Force Method Stream Creation", 70,00,(value)=> forceCreate= value).autoSize(); 
+configPanel.add_CheckBox("Create Code Streams", 90,00,(value)=> createCodeStreams= value).autoSize().check(); 
 
 var targetFolder = configPanel.add_TextBox("Target Folder","");
 
-Action&lt;List&lt;string&gt;&gt; addToSourceCodeFolders = 
-	(folders)=&gt; {
+Action<List<string>> addToSourceCodeFolders = 
+	(folders)=> {
 					foreach(var folder in folders)
 						sourceCodeFolders.append_Line(folder);
 				};
 
-Action&lt;List&lt;string&gt;&gt; addReferences = 
-	(referencesToAdd)=&gt; {
+Action<List<string>> addReferences = 
+	(referencesToAdd)=> {
 					foreach(var referenceToAdd in referencesToAdd)
 						references.append_Line(referenceToAdd);  
 				};
 
  
-Func&lt;O2MappedAstData,string,string , IMethod, string&gt; create_And_Save_MethodStream_Data = 
- 	(astData,methodStreams_CacheLocation, file, iMethod)=&gt;{ 						  									
+Func<O2MappedAstData,string,string , IMethod, string> create_And_Save_MethodStream_Data = 
+ 	(astData,methodStreams_CacheLocation, file, iMethod)=>{ 						  									
  										   	var savedMethodStream = Saved_MethodStream.Create(astData, iMethod, methodStreams_CacheLocation, false);   
- 										   	if (createCodeStreams &amp;&amp; savedMethodStream.hasCodeStreamsMapped().isFalse())
+ 										   	if (createCodeStreams && savedMethodStream.hasCodeStreamsMapped().isFalse())
  										   		savedMethodStream.codeStreams_CreateInAppDomain();   										   												
 											return "";											
  									    };
  									    
-Action&lt;O2MappedAstData,string, string&gt; createAllMethodStreamsForFile = 
-	(astData,methodStreams_CacheLocation, file)=&gt;{
+Action<O2MappedAstData,string, string> createAllMethodStreamsForFile = 
+	(astData,methodStreams_CacheLocation, file)=>{
 						var o2Timer = new O2Timer("Created all method streams for file: {0}".format(file)).start();
 						var allINodes = astData.FileToINodes[file];				
 						if (allINodes.NodesByType.hasKey("MethodDeclaration"))
@@ -62,13 +60,13 @@ Action&lt;O2MappedAstData,string, string&gt; createAllMethodStreamsForFile =
 						}
 					};
 
-Action&lt;O2MappedAstData, string&gt; createMethodStreamForAllFiles = 
-	(astData, methodStreams_CacheLocation)=&gt;{
+Action<O2MappedAstData, string> createMethodStreamForAllFiles = 
+	(astData, methodStreams_CacheLocation)=>{
 					var files = astData.FileToINodes.keys();
 					var max = files.size(); 
 					progressBar.maximum(max);
 					progressBar.value(0);	
-					for(int i=0 ; i &lt; max ; i++)
+					for(int i=0 ; i < max ; i++)
 					{	
 						var file = files[i];
 						statusLabel.set_Text("[{0}/{1}] Creating MethodStream (and if selected the CodeStreams) for: {2}".debug(i, max,file));
@@ -80,8 +78,8 @@ Action&lt;O2MappedAstData, string&gt; createMethodStreamForAllFiles =
 				} ;
 
  
-Action&lt;string, List&lt;string&gt;, List&lt;string&gt;&gt; createMethodStreams = 
-	(methodStreams_CacheLocation, referencesToAdd, sourceCodeFoldersToProcess )=&gt; 
+Action<string, List<string>, List<string>> createMethodStreams = 
+	(methodStreams_CacheLocation, referencesToAdd, sourceCodeFoldersToProcess )=> 
 		{
 			var rawMethodStreams_CacheLocation = methodStreams_CacheLocation.createDir().pathCombine("Raw");			
 			//var fileCache = new FileCache(rawMethodStreams_CacheLocation); 
@@ -101,7 +99,7 @@ Action&lt;string, List&lt;string&gt;, List&lt;string&gt;&gt; createMethodStreams
 					progressBar.increment(1);
 					astData.O2AstResolver.addReference(reference); 
 				}				
-				var filesToLoad = new List&lt;string&gt;();	
+				var filesToLoad = new List<string>();	
 				foreach(var sourceFolder in sourceCodeFoldersToProcess) 
 					filesToLoad.add(sourceFolder.files("*.cs",true)); 	
 				statusLabel.set_Text("Loading {0} source code files".info(filesToLoad.size()));
@@ -124,10 +122,10 @@ Action&lt;string, List&lt;string&gt;, List&lt;string&gt;&gt; createMethodStreams
 		};
 
 Action refreshCreatedFilesList = 
-	()=&gt;{
+	()=>{
 			"Refreshing folder: {0}".info(targetFolder.get_Text()); 
 			targetFolderFiles.clear();
-			targetFolderFiles.add_Nodes(targetFolder.get_Text().files(), (file)=&gt; file.fileName());
+			targetFolderFiles.add_Nodes(targetFolder.get_Text().files(), (file)=> file.fileName());
 		};
 
 var createButton = configPanel.add_Button("Create Method Streams", 120,0)
@@ -140,7 +138,7 @@ var cancelButton = configPanel.add_Button("Cancel", 90,340)
 						      .anchor_BottomRight()
 							  .enabled(false);
 
-createButton.onClick(()=&gt;{
+createButton.onClick(()=>{
 							cancelButton.enabled(true);
 							createButton.enabled(false);
 							createMethodStreams(targetFolder.get_Text(),
@@ -150,19 +148,19 @@ createButton.onClick(()=&gt;{
 							createButton.enabled(true);
 						 }); 
 
-cancelButton.onClick(()=&gt;{
+cancelButton.onClick(()=>{
 							statusLabel.set_Text("Cancel Button was clicked, stopping create process");
 							cancelCreationProcess = true;		 					
 						 });
  
-targetFolderFiles.insert_Above&lt;Panel&gt;(15).add_Link("refresh list below",0,0,  ()=&gt;refreshCreatedFilesList());  
+targetFolderFiles.insert_Above<Panel>(15).add_Link("refresh list below",0,0,  ()=>refreshCreatedFilesList());  
 
 statusLabel.set_Text("Method and Code Streams Creator");
 
 //DemoData
 /*var sourceCodeDir = @"C:\_WorkDir\SI\GitHub\TeamMentor";  
 
-addToSourceCodeFolders(new List&lt;string&gt;()  
+addToSourceCodeFolders(new List<string>()  
 							{
 								sourceCodeDir.pathCombine(@"WebProjects\WebClient")	,	
 								sourceCodeDir.pathCombine(@"Libraries\DataAccess"),
@@ -174,7 +172,7 @@ targetFolder.set_Text(@"C:\_WorkDir\SI\O2 Data\WebSite_Library_MethodStreams_ALL
 */
 addToSourceCodeFolders(@"C:\_WorkDir\SI\_TeamMentor-v3.0_Latest\Web Applications\TM_Website".wrapOnList());
 targetFolder.set_Text(@"C:\_WorkDir\SI\O2 Data\TM_V3_MethodStreams");
-addReferences( new List&lt;string&gt;() { "System.Web","System.Data", "System.Xml", "System.Linq" }); 
+addReferences( new List<string>() { "System.Web","System.Data", "System.Xml", "System.Linq" }); 
 
 refreshCreatedFilesList();
 				
@@ -192,8 +190,8 @@ return "ok";
  //astData.debugMode = true;
  
 
-/*Func&lt;string , IMethod, MethodDeclaration, Saved_MethodStream&gt; create_Saved_MethodStream = 
- 	(file, iMethod, methodDeclaration) =&gt;  
+/*Func<string , IMethod, MethodDeclaration, Saved_MethodStream> create_Saved_MethodStream = 
+ 	(file, iMethod, methodDeclaration) =>  
  		{	 						    
 			var savedMethodStream = new Saved_MethodStream(astData_LoadedFiles, iMethod);     									
 					
@@ -215,17 +213,16 @@ return "ok";
 //astData_LoadedFiles.loadFiles(sourceFolder.files("*.cs",true));
 //return astData_LoadedFiles;
 
+
+//using FluentSharp.CSharpAST.Utils
+
 //using ICSharpCode.SharpDevelop.Dom;
 //using ICSharpCode.NRefactory; 
 //using ICSharpCode.NRefactory.Ast;
 
-//using O2.API.AST.CSharp
-//using O2.API.AST.ExtensionMethods.CSharp
 //using O2.XRules.Database.Languages_and_Frameworks.DotNet				
 //O2File:ascx_ManualMethodStreams.cs
 //O2File:SharpDevelop_O2MappedAstData_ExtensionMethods.cs
 //O2File:Ast_Engine_ExtensionMethods.cs 
 //O2File:Saved_MethodStream.cs
-//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll

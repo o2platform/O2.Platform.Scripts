@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - EtherPad (both Text and IE Views)",700,400); 
+var topPanel = O2Gui.open<Panel>("Util - EtherPad (both Text and IE Views)",700,400); 
 //var topPanel = panel.clear().add_Panel();
 
 var etherPad = new API_EtherpadLite();
@@ -14,21 +12,21 @@ var ie = topPanel.insert_Right("IE view").add_IE();
 
 var padText = topPanel.add_GroupBox("Text view")
 				      .add_TextArea()
-					  .onTextChange( (text)=&gt; O2Thread.mtaThread(()=&gt; etherPad.set_Text(text)));;		    
+					  .onTextChange( (text)=> O2Thread.mtaThread(()=> etherPad.set_Text(text)));;		    
 
 
 
 Action refresh = 
-	()=&gt;{
-			padText.set_Text(etherPad.contents().fixCRLF());
+	()=>{
+			padText.set_Text(etherPad.contents().fix_CRLF());
 			if (ie.url().isNull() || ie.url() != etherPad.pad_Url())
 				ie.open_ASync(etherPad.pad_Url());
 		};
 
 etherPad.open_Pad("O2_Test_Pad");
 actionsPanel.add_Label("Current Pad").top(2)
-		    .append_TextBox(etherPad.CurrentPad).onTextChange((text)=&gt; etherPad.CurrentPad = text)
-		    .append_Link("refresh", ()=&gt; refresh());
+		    .append_TextBox(etherPad.CurrentPad).onTextChange((text)=> etherPad.CurrentPad = text)
+		    .append_Link("refresh", ()=> refresh());
 
 refresh();
 
@@ -67,8 +65,10 @@ return "ok";
 //EtherpadLite.CreateGroupPad(groupId, "testPad11","text");
 //return EtherpadLite.ListPads(groupId).Data.PadIDs;
 
+//using O2.XRules.Database.APIs
 //using using Etherpad;
 //O2File:API_EtherpadLite.cs 
-//O2Ref:WatiN.Core.1x.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+
+//using FluentSharp.Watin
+//O2Ref:FluentSharp.Watin.dll
+//O2Ref:Watin.Core.dll

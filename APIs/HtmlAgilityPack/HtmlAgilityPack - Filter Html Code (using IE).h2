@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var topPanel = "HtmlAgilityPack - Filter Html Code".popupWindow();
+var topPanel = "HtmlAgilityPack - Filter Html Code".popupWindow();
 //var topPanel = panel.clear().add_Panel();
 var treeView = topPanel.insert_Right("XPath query result")
 					   .add_TreeView_for_HtmlTags();
@@ -15,7 +13,9 @@ var query = "//tr";
 
 treeView.add_Nodes(htmlContent.htmlDocument().select(query));
 
+
+//using O2.XRules.Database.Utils
+//using FluentSharp.For_HtmlAgilityPack
+
+//O2File:HtmlAgilityPack_Extra_ExtensionMethods.cs
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
-//O2File:HtmlAgilityPack_Extra_ExtensionMethods.cs</SourceCode>
-  <ReferencedAssemblies />
-</H2>

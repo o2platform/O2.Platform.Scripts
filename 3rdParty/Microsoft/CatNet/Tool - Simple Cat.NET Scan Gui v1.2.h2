@@ -49,6 +49,8 @@ catch(Exception ex)
 	ex.log("in script body");
 }
 
+//using O2.XRules.Database.APIs
+
 //O2File:API_CatNet.cs
 //O2Package:Web_SQL_Injection.cs
 //O2Package:DotNetGoat.dll

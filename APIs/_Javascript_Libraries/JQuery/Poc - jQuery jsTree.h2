@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//var topPanel = panel.clear().add_Panel();  
+//var topPanel = panel.clear().add_Panel();  
 var topPanel = "Poc - jQuery jsTree".popupWindow(600,200);
  
 var ie = topPanel.add_IE();				 
@@ -10,14 +8,14 @@ ie.showMessage("loading jstree js");
 var jQuery = new IE_JQuery(ie);   
 
 var cssFile = @"jquery.jstree.style.css".local();
-var styleHtml =  "&lt;style type=\"text/css\"&gt; {0} &lt;/style&gt;".format(cssFile.fileContents().remove("".line()));
+var styleHtml =  "<style type=\"text/css\"> {0} </style>".format(cssFile.fileContents().remove("".line()));
 var injectCSS = "$('body').append($('"  + styleHtml + "' ))";
 ie.invokeEval(injectCSS);
 
 //ie.invokeEval("http://static.jstree.com/v.1.0pre/jquery.jstree.js".uri().getHtml());  // use to get jstree from jstree.com website
 ie.invokeEval("jquery.jstree.js".local().fileContents());
 jQuery.element("div").html("creating local tree"); 
-ie.invokeEval("$('body').append($('&lt;div id=\"testJsTree\"/&gt;')); $('#testJsTree').html('test JsTree will go here');");
+ie.invokeEval("$('body').append($('<div id=\"testJsTree\"/>')); $('#testJsTree').html('test JsTree will go here');");
 
 var jsTree = new JsTree();
 jsTree.add_Node("node 1");
@@ -32,10 +30,13 @@ ie.invokeEval("jQuery('#testJsTree').jstree({ 'json_data' : treeData ,  'plugins
 
 jQuery.element("div").html("tree created"); 
 
-return "ok"; 
+return "ok";  
+//using O2.XRules.Database.APIs
 //O2File:JsTreeNode.cs
 //O2File:IE_JQuery.cs
-//O2Ref:WatiN.Core.1x.dll
-//O2Ref:Microsoft.mshtml.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+
+//using FluentSharp.Watin
+//O2Ref:FluentSharp.Watin.dll
+//O2Ref:Watin.Core.dll
+
+//O2Ref:Microsoft.mshtml.dll

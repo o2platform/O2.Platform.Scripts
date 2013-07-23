@@ -1,20 +1,18 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//panel.clear(); 
+//panel.clear(); 
 var currentVersion = "v1.2 Beta";  
 var defaultWebsiteOnMainTab = "http://o2-platform.com/wiki/OWASP O2 Platform {0}".format(currentVersion);
 var formTitle = "OWASP O2 Platform {0} ({1})".format(currentVersion,"O2_XRules_Database.exe".assembly().version());
-var wpfGui = O2Gui.open&lt;WPF_GUI&gt;(formTitle,1020,700); 
+var wpfGui = O2Gui.open<WPF_GUI>(formTitle,1020,700); 
 wpfGui.setExecuteScriptsEnvironment();
 wpfGui.parentForm()
 	  .top(10)
 	  .left(10);
-//var wpfGui = panel.add_Control&lt;WPF_GUI&gt;();    
+//var wpfGui = panel.add_Control<WPF_GUI>();    
 wpfGui.SideBarWidth = 190;       
 wpfGui.buildGui();
 
-Func&lt;Control&gt; buildMainControl =
- 	()=&gt;{
+Func<Control> buildMainControl =
+ 	()=>{
  			var sidePanel = new Panel().fill().backColor(Color.White);
    			sidePanel.height(700);
    			sidePanel.width(300);
@@ -38,7 +36,7 @@ Func&lt;Control&gt; buildMainControl =
 					   	         .bringToFront();
 							
 			O2Thread.mtaThread(
-				()=&gt;{
+				()=>{
 						browser.silent(true);
 						browser.set_Text("");	// (to show the scroolbars)
 						if (defaultWebsiteOnMainTab.uri().exists())
@@ -99,7 +97,7 @@ wpfGui.add_Section("Source-Code Reviews", "If you are performing securiiy review
 	  .add_Link_O2Script("Convert VB.NET into C#","Util - Convert VB.Net to CSharp.h2");
 	  	  
 	  //.add_Label("Java")
-	  //.add_Label("     Struts &amp; Spring MVC Viewer",false);
+	  //.add_Label("     Struts & Spring MVC Viewer",false);
 	  //.add_Label("Spring MVC Viewer (soon)",false);
 
 wpfGui.add_Section("O2Findings", "Tools to create and manipulate O2 Findings")
@@ -117,7 +115,7 @@ wpfGui.add_Section("Productivity Tools", "Here are a number of links to multiple
 	  .add_Link_O2Script("StackOverflow search","Util - StackOveflow Search.h2")
 	  
 	  .add_Label("media tools:")	  
-	  .add_Link("screenshot tool",()=&gt;wpfGui.ExecuteScripts.invoke("screenShotTool"))
+	  .add_Link("screenshot tool",()=>wpfGui.ExecuteScripts.invoke("screenShotTool"))
 	  .add_Link_O2Script("Image Editor", "Util - DiagramDesigner Editor.h2")	  	  
 	  .add_Link_O2Script("Movie Creator","Util - Movie Creator.h2")	  	  	  
 	  
@@ -172,15 +170,15 @@ wpfGui.add_Section("API / Script Development", "There are a number of developmen
 	//.add_Label("[Dev GUIs]:")	
 	.add_Link("Source Code Editor",wpfGui.ExecuteScripts.openSourceCodeEditor)
 	//.add_Link_O2Script("Simple Script Editor","ascx_Simple_Script_Editor.cs.o2")
-	.add_Link("Quick development GUI", ()=&gt; open.scriptEditor()) // "ascx_Quick_Development_GUI.cs.o2")			
+	.add_Link("Quick development GUI", ()=> open.scriptEditor()) // "ascx_Quick_Development_GUI.cs.o2")			
 	.add_Link_O2Script("'Graph' development gui","ascx_GraphWithInspector.cs")		
-	.add_Link("O2 Development Environment",() =&gt; open.devEnvironment())
+	.add_Link("O2 Development Environment",() => open.devEnvironment())
 	.add_Label("Unit Tests:")
 	.add_Link_O2Script("Execute Unit Tests","Execute Unit Tests.h2")			
 	.add_Link_O2Script("Write and Execute Unit Tests","Write and Execute Unit Tests.h2")				
 	.add_Label("Utils:")
-	.add_Link("O2 Object Model", () =&gt; open.o2ObjectModel())
-	.add_Link("O2 Executable Directory", () =&gt; open.directory(PublicDI.config.CurrentExecutableDirectory, true))
+	.add_Link("O2 Object Model", () => open.o2ObjectModel())
+	.add_Link("O2 Executable Directory", () => open.directory(PublicDI.config.CurrentExecutableDirectory, true))
 	.add_Link("View Loaded Script Source",wpfGui.ExecuteScripts.showLoadedScriptSourceCode)
 	.add_Link_O2Script("SVN Download (via HTTP)","Wizard - SVN Download (via HTTP).cs.o2");
 	
@@ -208,7 +206,7 @@ wpfGui.add_Section("Demos and Videos", "Demos: If you are unsure on where to sta
 	  .add_Link_YouTube("Javascript: XSS PoC builder","YsVX5-nGHWI")
 	  .add_Link_YouTube("Javascript: AST Viewer","_pqY_6-P-xU")	  
 	  .add_Link_YouTube("DotNet: O2 .NET Ast Engine","j0d3F3wqfRU")
-	  .add_Link_YouTube("DotNet: Convert C#-&gt;VBNet","3eVeG2Pwa4U")
+	  .add_Link_YouTube("DotNet: Convert C#->VBNet","3eVeG2Pwa4U")
 	  .add_Link_YouTube("IE: Create a GMail account","rTD31e7HY4E");	  
 
 	  
@@ -224,7 +222,7 @@ wpfGui.add_Section("Help", "If you are looking for help, here are the best place
 	  .add_Label("Debug O2")
 	  .add_Link_O2Script("Compile ALL Scripts","Compile All Local O2 Scripts.h2")
 	  .add_Link("Rebuild Main Control", 
-	  		()=&gt;{
+	  		()=>{
 		  			wpfGui.GuiSections[0].WinFormsControl = buildMainControl();
 		  		})
 	  .add_Link_O2Script("Edit O2Platform.com Wiki Page","ascx_MediaWiki_PageEditor_Simple.cs")
@@ -239,20 +237,20 @@ wpfGui.statusMessage("Welcome to the OWASP O2 Platform");
 
 return null;
 
+//using O2.XRules.Database.APIs
+//using O2.XRules.Database.Utils
 
 //using O2.External.IE.ExtensionMethods
 //O2File:WPF_Gui.cs
 
+//O2Ref:FluentSharp.O2Platform.exe
 //O2Ref:Odyssey.dll
 //O2Ref:O2_External_IE.dll
 //O2Ref:GraphSharp.Controls.dll
 //O2Ref:GraphSharp.dll
 //O2Ref:QuickGraph.dll
 //O2Ref:ICSharpCode.AvalonEdit.dll
-
 //O2Ref:PresentationCore.dll
 //O2Ref:PresentationFramework.dll
 //O2Ref:WindowsBase.dll
-//O2Ref:System.Xaml.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Ref:System.Xaml.dll

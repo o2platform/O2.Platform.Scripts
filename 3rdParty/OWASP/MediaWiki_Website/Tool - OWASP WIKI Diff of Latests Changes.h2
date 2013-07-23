@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Tool - OWASP WIKI Diff of Latests Changes", 800,500).insert_LogViewer();
+var topPanel = O2Gui.open<Panel>("Tool - OWASP WIKI Diff of Latests Changes", 800,500).insert_LogViewer();
 //var topPanel = panel.add_Panel(true);   
    
 //Web.Https.ignoreServerSslErrors();
@@ -8,7 +6,7 @@ var diffOnly = false;
 var numberOfArticles = 100;  
 
 Action loadData = 
-	()=&gt;{
+	()=>{
 			var wikiApi = new OwaspWikiAPI();         
 			topPanel.show_Diff_LatestPagesChanges(wikiApi,numberOfArticles,diffOnly);    
 		};
@@ -16,15 +14,13 @@ Action loadData =
 topPanel.insert_Above(40,"Options")
 		.add_Link("Reload Data", loadData).top(3)
 		.append_Label("Number of Diffs to Load (only the 'pages diff' will be shown)")
-		.append_TextBox(numberOfArticles.str()).onTextChange((value)=&gt;numberOfArticles = value.toInt())
-		.append_CheckBox("Only Load Diffs (vs loading the current page data)", (value)=&gt; diffOnly = value).tick();
+		.append_TextBox(numberOfArticles.str()).onTextChange((value)=>numberOfArticles = value.toInt())
+		.append_CheckBox("Only Load Diffs (vs loading the current page data)", (value)=> diffOnly = value).tick();
 
 loadData();		
 return "done";
+//using O2.XRules.Database.APIs
 //O2File:OwaspWikiAPI.cs  
 //O2File:O2MediaWikiAPI.cs 
 //O2Ref:O2_External_IE.dll 
 //O2Package:owasp.ico
-</SourceCode>
-  <ReferencedAssemblies />
-</H2>

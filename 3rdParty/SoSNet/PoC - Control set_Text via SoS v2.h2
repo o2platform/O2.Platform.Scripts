@@ -79,8 +79,10 @@ return "done";
 //using SOS.Net
 //using SOS.Net.Core.Cdb
 //using System.Diagnostics
+//using O2.XRules.Database.Utils
 
 //O2File:SoSNet_ExtensionMethods.cs
+
 //O2Ref:SosNet\Debug\SOS.Net.exe
 //O2Tag_DontAddExtraO2Files
 //O2Ref:SOS.Net.Core.dll

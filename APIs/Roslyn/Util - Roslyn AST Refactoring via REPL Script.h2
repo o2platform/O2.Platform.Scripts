@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>O2Setup.extractEmbededConfigZips();
+O2Setup.extractEmbededConfigZips();
 
 var topPanel = "Util - Roslyn AST Refactoring via REPL Script".popupWindow(1200,600).insert_LogViewer();
 //var topPanel = panel.clear().add_Panel(); 
@@ -22,18 +20,18 @@ var refactorCodeCompileErrors = refactoredCodePanel.insert_Below(30).add_RichTex
 var script = topPanel.add_Script(); 
 script.onCompileExecuteOnce(); 
 
-codeToRefactor.view_Ast(codeToRefactor.view_Ast(originalCodePanel)).control&lt;ascx_SourceCodeEditor&gt;(true)
+codeToRefactor.view_Ast(codeToRefactor.view_Ast(originalCodePanel)).control<SourceCodeEditor>(true)
 	.onTextChange(
-		(text)=&gt;{
+		(text)=>{
 					script.InvocationParameters.Clear();
 					script.InvocationParameters.add("originalCode", text);
 				});
 script.InvocationParameters.Add("originalCode", codeToRefactor);
 
 script.onExecute =
-	(result)=&gt;{
+	(result)=>{
 				refactoredCodePanel.add_AstViewer(result.str(),false);
-				refactoredCodePanel.controls&lt;TreeView&gt;(true).second().expandAll();
+				refactoredCodePanel.controls<TreeView>(true).second().expandAll();
 				refactorCodeCompileErrors.set_Text(result.str().ast_Script().compiler().errors_Details());
 		 	  };
 
@@ -57,7 +55,7 @@ return refactoredCode;
 
 return "done";	   
 
-
+//using FluentSharp.FluentRoslyn
 //using Roslyn.Compilers.CSharp;
 //using Roslyn.Compilers;
 //O2Ref:Roslyn.Compilers.dll
@@ -69,5 +67,3 @@ return "done";
 //O2File:_Extra_methods_Roslyn_API_GuiHelpers.cs
 
 //O2Package:_Extra_methods_Roslyn_API.cs,_Extra_methods_Roslyn_API_GuiHelpers.cs,_Extra_methods_Roslyn_API_Refactoring.cs
-</SourceCode>
-</H2>

@@ -8,7 +8,7 @@ using FluentSharp.REPL.Utils;
 using FluentSharp.WinForms;
 using FluentSharp.WinForms.Controls;
 
-namespace O2.XRules.Database.APIs
+namespace FluentSharp.CoreLib
 {
     public class API_FuzzDB_View
     {

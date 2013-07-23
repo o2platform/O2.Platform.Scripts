@@ -41,5 +41,3 @@ filterText.onTextChange((text)=>
 	
 
 return "done";
-
-//using O2.Platform.BCL.O2_Views_ASCX

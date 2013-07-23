@@ -24,9 +24,10 @@ return chrome;
 repl.onCompileExecuteOnce()
 	.set_Code(firstScript); 
 //chrome.open("http://o2platform.com"); 
-
-//O2Ref:WatiN.Core.1x.dll
+//using O2.XRules.Database.APIs
+//using FluentSharp.Watin
+//O2Ref:FluentSharp.Watin.dll
+//O2Ref:Watin.Core.dll
 //O2Ref:WebDriver.dll
-//O2File:WatiN_IE_ExtensionMethods.cs
 //O2File:API_Chrome_Hijack.cs
 //O2File:API_ChromeDriver.cs

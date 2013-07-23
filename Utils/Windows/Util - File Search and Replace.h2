@@ -1,7 +1,5 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var windowTitle = "Util - File Search and Replace";
-var topPanel = O2Gui.open&lt;Panel&gt;(windowTitle,700,400);
+var windowTitle = "Util - File Search and Replace";
+var topPanel = O2Gui.open<Panel>(windowTitle,700,400);
 //var topPanel = panel.clear().add_Panel();
 var dataGridView = topPanel.add_DataGridView();
 
@@ -14,39 +12,39 @@ var replaceWith = "";
 
 var sourceFolder_TextBox = actionsPanel.add_TextBox(0, "SourceCode Folder:", "")
 									   .left(120)
-									   .onTextChange((text)=&gt;sourceFolder = text);
+									   .onTextChange((text)=>sourceFolder = text);
 var searchExtension_TextBox = actionsPanel.add_TextBox(20, "Search Extension:", "")
 										  .left(120)
-										  .onTextChange((text)=&gt;searchExtension = text);
+										  .onTextChange((text)=>searchExtension = text);
 var searchFor_TextBox = actionsPanel.add_TextBox(40, "Search For:", "")
 									.left(120)
-									.onTextChange((text)=&gt;searchFor = text);;
+									.onTextChange((text)=>searchFor = text);;
 var replaceWith_TextBox = actionsPanel.add_TextBox(60, "Replace With:", "")
 									  .left(120)
-									  .onTextChange((text)=&gt;replaceWith = text);
+									  .onTextChange((text)=>replaceWith = text);
 
 sourceFolder_TextBox.onTextChange(
-	(text)=&gt; sourceFolder_TextBox.backColor(text.dirExists() ? Color.Azure : Color.LightPink )); 
+	(text)=> sourceFolder_TextBox.backColor(text.dirExists() ? Color.Azure : Color.LightPink )); 
 				
 
-Action&lt;string&gt; showSearchFor = 
-	(searchText) =&gt;	{
+Action<string> showSearchFor = 
+	(searchText) =>	{
 						if (searchText.valid())
 						{			 
-							var searchResults = new SearchEngine()
-													.loadFiles(sourceFolder.files(searchExtension,true))
-													.searchFor(searchText);				
-							SearchUtils.loadInDataGridView_textSearchResults(dataGridView, searchResults);  						
+							 var searchEngine = new SearchEngine();
+							searchEngine.loadFiles(sourceFolder.files(searchExtension,true));
+							var searchResults	= searchEngine.searchFor(searchText);
+							SearchUtils.loadInDataGridView_textSearchResults(searchResults,dataGridView);
 						}			
 					};
 Action preview = 
-	()=&gt;{						
+	()=>{						
 			showSearchFor(searchFor);			
 		};
 		
 
 Action replace = 
-	()=&gt;{
+	()=>{
 			if (searchFor.inValid())
 				"searchFor value was empty".error();
 			else
@@ -68,8 +66,8 @@ Action replace =
 		};
 
 
-actionsPanel.add_Link("Preview",85 ,120, ()=&gt; preview())   
-		    .append_Link("Replace", ()=&gt;replace());  
+actionsPanel.add_Link("Preview",85 ,120, ()=> preview())   
+		    .append_Link("Replace", ()=>replace());  
 
 
 sourceFolder_TextBox.set_Text("".tempDir());
@@ -81,9 +79,8 @@ topPanel.link("Preview")
 		.click();
 
 return "ok";
-		
+
+//using FluentSharp.CoreLib.API;
+//using FluentSharp.WinForms.Utils
 //O2File:SearchEngine.cs
 //O2File:SearchUtils.cs
-</SourceCode>
-  <ReferencedAssemblies />
-</H2>

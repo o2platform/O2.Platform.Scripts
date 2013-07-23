@@ -1,6 +1,6 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>API_MiniFramework.whoIs();
+API_MiniFramework.whoIs();
+
+//using O2.XRules.Database.APIs
 
 //O2File:API_MiniFramework.cs 
 //O2Ref:WindowsFormsIntegration.dll
@@ -9,6 +9,3 @@
 //O2Ref:PresentationFramework.dll
 //O2Ref:PresentationCore.dll
 //O2Ref:System.Xaml.dll.dll
-</SourceCode>
-  <ReferencedAssemblies />
-</H2>

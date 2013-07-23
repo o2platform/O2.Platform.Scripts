@@ -1,15 +1,13 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>
+
 
 //panel.clear();
 //var topPanel = panel;  
-var topPanel = O2Gui.open&lt;Panel&gt;("Tool - Method Invocations Viewer (Method Streams)", 1000,600); 
+var topPanel = O2Gui.open<Panel>("Tool - Method Invocations Viewer (Method Streams)", 1000,600); 
 
 var baseFolder = "";
 O2MappedAstData astData = null;
 /*topPanel.parentForm().onClosed(
-	()=&gt;{
+	()=>{
 			if (astData.notNull())
 				astData.dispose();
 		});*/
@@ -18,17 +16,17 @@ var showLogViewer = true;
 var useAstCacheData = false;
 //var sourceCodeViewer = topPanel.add_SourceCodeViewer();
 var codeViewerPanel = topPanel.add_Panel();
-var treeViewPanel = codeViewerPanel.insert_Left&lt;Panel&gt;();		  	 				     
-treeViewPanel.parent&lt;SplitContainer&gt;().splitterDistance(400);							     
-var optionsPanel = treeViewPanel.insert_Below&lt;Panel&gt;(100);
-var references = treeViewPanel.insert_Below&lt;GroupBox&gt;(70).set_Text("References").add_TextArea();
+var treeViewPanel = codeViewerPanel.insert_Left<Panel>();		  	 				     
+treeViewPanel.parent<SplitContainer>().splitterDistance(400);							     
+var optionsPanel = treeViewPanel.insert_Below<Panel>(100);
+var references = treeViewPanel.insert_Below<GroupBox>(70).set_Text("References").add_TextArea();
 
 
-//var CodeStreamTreeView = sourceCodeViewer.insert_Right&lt;TreeView&gt;(200).fill().showSelection(); 
-//CodeStreamTreeView.afterSelect&lt;O2CodeStreamNode&gt;
-//	((streamNode)=&gt; sourceCodeViewer.editor().setSelectionText(streamNode.INode.StartLocation, streamNode.INode.EndLocation));																				        
+//var CodeStreamTreeView = sourceCodeViewer.insert_Right<TreeView>(200).fill().showSelection(); 
+//CodeStreamTreeView.afterSelect<O2CodeStreamNode>
+//	((streamNode)=> sourceCodeViewer.editor().setSelectionText(streamNode.INode.StartLocation, streamNode.INode.EndLocation));																				        
 
-var methodMappingsFilter = treeViewPanel.insert_Above&lt;Panel&gt;(20)
+var methodMappingsFilter = treeViewPanel.insert_Above<Panel>(20)
 										.add_Label("Filter")										
 										.top(3)
 										.append_TextBox("")
@@ -57,24 +55,24 @@ methodStreamsFileCache.set_Text("".tempDir().pathCombine("_fileCache_MethodStrea
 bool showMethodStreams = false; 
 
 Action showMethodMappings =	
-	()=&gt;{ 
-			if (methodsMappings_TreeView.notNull() &amp;&amp; loadedMethodMappings.notNull())
+	()=>{ 
+			if (methodsMappings_TreeView.notNull() && loadedMethodMappings.notNull())
 			{
 				loadedMethodMappings.showInTreeView(methodsMappings_TreeView,methodMappingsFilter.get_Text());
 				methodsMappings_TreeView.selectFirst();				 	        
 			}
 			else
-				"in showMethodMappings: methodsMappings_TreeView.notNull() &amp;&amp; loadedMethodMappings.notNull()".error();
+				"in showMethodMappings: methodsMappings_TreeView.notNull() && loadedMethodMappings.notNull()".error();
 		};
 
-methodMappingsFilter.onEnter((text)=&gt; showMethodMappings()); 
+methodMappingsFilter.onEnter((text)=> showMethodMappings()); 
 
-Action&lt;string&gt; loadMethodMappings = null; 
+Action<string> loadMethodMappings = null; 
 
 loadMethodMappings= 
-	(fileOrFolder)=&gt;{
+	(fileOrFolder)=>{
 		O2Thread.mtaThread(
-			()=&gt;{
+			()=>{
 					baseFolder = fileOrFolder;
 					if (fileOrFolder.valid().isFalse())
 						return;
@@ -109,7 +107,7 @@ loadMethodMappings=
 								methodsMappings_TreeView = treeViewPanel.add_TreeView() //CreateTreeViewFor_MethodMappingsView(sourceCodeViewer)
 																		.sort()
 																        .onDrop(loadMethodMappings);
-								var manualMethodStreams = codeViewerPanel.add_Control&lt;ascx_ManualMethodStreams&gt;();	 	
+								var manualMethodStreams = codeViewerPanel.add_Control<ascx_ManualMethodStreams>();	 	
 								manualMethodStreams.buildGui(false);
 								/*if (astData.notNull())
 								{
@@ -119,12 +117,12 @@ loadMethodMappings=
 								astData = originalSourceCodeLocation.getAstData(originalReferences,true); 
 								//show.info(astData);  
 								
-								methodsMappings_TreeView.afterSelect&lt;MethodMapping&gt;(
-									(methodMapping)=&gt;
+								methodsMappings_TreeView.afterSelect<MethodMapping>(
+									(methodMapping)=>
 										{
 											methodsMappings_TreeView.backColor(Color.LightPink);
 											O2Thread.mtaThread(
-												()=&gt;{
+												()=>{
 								
 														//show.info(methodMapping); 
 														
@@ -212,7 +210,7 @@ loadMethodMappings=
 			};
 							     
 optionsPanel.add_CheckBox("Show Method Streams", 60,2,  
-				(value)=&gt;
+				(value)=>
 					{
 						showMethodStreams = value;
 						loadMethodMappings(baseFolder);
@@ -227,14 +225,10 @@ treeViewPanel.onDrop(loadMethodMappings);
 loadMethodMappings(@"C:\O2\DemoData\HameBank_MethodMappings\WebSite\ConsolidatedMethodMappings.xml");
 return astData; 
 
+//using FluentSharp.CSharpAST
+//using FluentSharp.CSharpAST.Utils
+//using O2.XRules.Database.Languages_and_Frameworks.DotNet
 
-//using O2.API.AST.CSharp
-//using O2.API.AST.ExtensionMethods;
-//using O2.API.AST.ExtensionMethods.CSharp;
-//using O2.External.SharpDevelop.ExtensionMethods;
-//using O2.External.SharpDevelop.AST;
-//using O2.External.SharpDevelop.Ascx;
-//using O2.XRules.Database.Languages_and_Frameworks.DotNet	
 //using ICSharpCode.SharpDevelop.Dom;
 //using ICSharpCode.NRefactory;
 //using ICSharpCode.NRefactory.Ast;
@@ -246,5 +240,3 @@ return astData;
 //O2Ref:O2_Platform_External_SharpDevelop.dll
 //O2Ref:Quickgraph.dll
 //O2Ref:GraphSharp.dll 
-</SourceCode>
-</H2>

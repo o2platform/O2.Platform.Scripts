@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var title = "HacmeBank"; 
+var title = "HacmeBank"; 
 //var ribbon = CustomO2.create(panel.clear().add_Panel(),title); 
 var ribbon = CustomO2.create(title); 
 
@@ -20,6 +18,7 @@ hacmeBankDemos.add_RibbonGroup("Installion")
 ribbon.add_Tab_BrowserAutomation();
 return "ok";
 
+//using O2.XRules.Database.Utils
 //O2File:CustomO2.cs  
 
 //using Microsoft.Windows.Controls.Ribbon;
@@ -30,6 +29,4 @@ return "ok";
 //O2Ref:PresentationCore.dll
 //O2Ref:PresentationFramework.dll
 //O2Ref:WindowsBase.dll
-//O2Ref:System.Xaml.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Ref:System.Xaml.dll
