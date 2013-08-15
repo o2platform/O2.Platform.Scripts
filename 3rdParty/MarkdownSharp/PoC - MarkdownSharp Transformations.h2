@@ -1,4 +1,4 @@
-//O2ConfigSettings.O2Version = "MarkdownTest";
+O2ConfigSettings.O2Version = "MarkdownTest";
 //var topPanel = panel.add_Panel(true);
 var topPanel = "PoC - MarkdownSharp Transformations".popupWindow()
 													.insert_LogViewer();
@@ -18,11 +18,14 @@ textArea_Source.onTextChange((text)=>markdown.transform(text))
 	           .set_Text("#Hello World".line().add(
 	           			 "* an item"));
 
+topPanel.insert_Above_ToolStrip()
+	    .add_Button("REPL markdown object", "text_x_script".formImage(), 
+	    				()=> markdown.script_Me("markdownApi")
+	    						     .code_Append("//using FluentSharp.For_Markdown"));
  
-//browser.script_Me();
            
 return markdown;
 
-//using O2.XRules.Database.APIs
 
 //O2File:API_MarkdownSharp.cs
+//using FluentSharp.For_Markdown

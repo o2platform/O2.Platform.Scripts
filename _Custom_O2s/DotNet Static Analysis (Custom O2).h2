@@ -18,7 +18,7 @@ var ast  = ribbon.add_Tab("AST & PoCs");
 ast.add_RibbonGroup("Ast Utils") 
    .add_Script("ascx_ViewAST","ascx_ViewAST.cs")
    .add_Script("ascx_SearchAST","ascx_SearchAST.cs")
-   .add_Script("View SourceCode AST","ascx_View_SourceCode_AST.cs.o2")
+   .add_Script("View SourceCode AST","ascx_View_SourceCode_AST.cs")
    .add_Script("Convert VB.Net to CSharp.h2", "Util - Convert VB.Net to CSharp.h2");
 			  
 ast.add_RibbonGroup("PoCs")
@@ -42,12 +42,12 @@ mvcAntiXss.add_RibbonGroup("AntiXss Library")
 var dotNetUtils  = ribbon.add_Tab(".NET Utils");
 dotNetUtils.add_RibbonGroup("Reflection")
 	       .add_Button("ILSpy", ()=> new ILSpy_Installer().start()) 
-		   .add_Script("View Assembly Attributes","ascx_AssemblyAttributes.cs.o2")
-		   .add_Script("Mono Decompiler","ascx_MonoDecompiler.cs.o2")		   
+		   .add_Script("View Assembly Attributes","ascx_AssemblyAttributes.cs")
+		   .add_Script("Mono Decompiler","ascx_MonoDecompiler.cs")		   
 		   .add_Script("View .NET Assembly References Mappings","Tool - View .NET Assembly References Mappings.h2");
 
 dotNetUtils.add_RibbonGroup(".Net debug utils")
-           .add_Script("SunOfStrikeApi","SunOfStrikeApi.h2");
+           .add_Script("SunOfStrikeApi","SunOfStrikeApi.cs");
            
 dotNetUtils.add_RibbonGroup("ASP.NET")
    		   .add_Script("ViewState_Decoder (for ASP.NET 3.0)","Util - ViewState_Decoder_ASP.NET 3.0.h2")		

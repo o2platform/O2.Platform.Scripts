@@ -1,0 +1,70 @@
+//var topPanel = "{name}".popupWindow(700,400);
+var topPanel = panel.clear().add_Panel();
+//var rainbowTable = new Dictionary<string,string>();
+var values = new List<string>(); 
+var md5RainbowTable = new StringBuilder();
+
+Func<string,int, string> appendPayload    = null;			// only this is needed here, since it is the only Lambda that is recursive
+Func<string> 		     generatePayloads = null;
+Func<string> 		     generateMd5s 	  = null;
+Func<string> 		     saveMD5s 	  	  = null;
+
+var targetFolder = "MD5_Hashes".tempDir(false);
+var targetChars = "01234567890";							 // max depth in 32bit process of 6
+//var targetChars = "01234567890qwertyuiopasdfghjklzxcvbnm"; // max depth in 32bit process of 4
+var maxDepth = 6;
+
+
+appendPayload  = 
+	(seed, depth)=>{
+						if (depth <1)
+							return seed;
+						foreach(var @char in targetChars)
+						{
+							var newValue = "{0}{1}".format(seed, @char);
+							values.Add(appendPayload(newValue, depth -1));
+						}
+						//GC.Collect();
+						return seed;
+				   };
+generatePayloads = 
+	()=>{
+			var start = DateTime.Now;
+			appendPayload("",maxDepth);
+			return (DateTime.Now - start).TotalSeconds.str();
+		};
+
+generateMd5s = 
+	()=>{
+			var start = DateTime.Now;
+			foreach(var value in values)
+				md5RainbowTable.Append("{0}\t{1}\r\n".format(value.md5Hash(), value));
+			return (DateTime.Now - start).TotalSeconds.str();
+		};
+
+saveMD5s = 
+	()=>{
+			var start = DateTime.Now;
+			var fileName = targetFolder.pathCombine("M5_for_{0}_chars_with_{1}_depth.txt".format(targetChars.size(), maxDepth));
+			md5RainbowTable.str().saveAs(fileName);
+			"{0} payloads saved to: {1}".info(values.size(), fileName);
+			return (DateTime.Now - start).TotalSeconds.str();
+		};		
+
+var duration_GeneratePayloads = generatePayloads().info();
+var duration_generateMd5s 	  = generateMd5s().info();
+var duration_saveMD5s 		  = saveMD5s().info();
+
+
+targetFolder.startProcess();
+return "Completed: for {0} values, the Generation took {1}s the MD5s took {2}s, the save took {3}s".info(
+				values.size(),
+				duration_GeneratePayloads, 
+				duration_generateMd5s,
+				duration_saveMD5s);
+return values;
+
+//rainbowTable.Append("{0}\t{1}\n".format(value.md5Hash(), value));
+//return rainbowTable.str();
+
+//using System.Text;

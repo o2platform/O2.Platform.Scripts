@@ -1,0 +1,38 @@
+O2ConfigSettings.O2Version = "MarkdownTest";  
+//var topPanel = panel.add_Panel(true);
+var topPanel = "PoC - MarkdownSharp Transformations".popupWindow(1200,600)
+													.insert_LogViewer();
+"tempdir: {0}".info(PublicDI.config.O2TempDir);
+
+var textArea_Source = topPanel.add_TextArea();
+var textArea_Transformed = textArea_Source.insert_Right()
+										  .add_TextArea();
+var browser = textArea_Transformed.insert_Above()
+								  .add_WebBrowser(); 
+
+var	markdown = 	new API_MarkdownSharp();			 			  
+markdown.syncWith_Browser(browser)
+		.syncWith_TextArea(textArea_Transformed);
+ 
+textArea_Source.onTextChange((text)=>markdown.transform(text))
+	           .set_Text("#Hello World".line().add(
+	           			 "* an item"));
+
+//textArea_Source.insert_Below().add_Script_Me(markdown,"markdownApi")
+//	    				      .code_Append("//using FluentSharp.For_MarkdownDeep")
+//	    					  .code_Append("//O2Ref:MarkdownDeep.dll")
+textArea_Source.insert_Below().add_PropertyGrid().show(markdown.Markdown);
+							  
+topPanel.insert_Above_ToolStrip()
+	    .add_Button("REPL markdown object", "text_x_script".formImage(), 
+	    				()=> markdown.script_Me("markdownApi")
+	    						     .code_Append("//using FluentSharp.For_MarkdownDeep")
+	    						     .code_Append("//O2Ref:MarkdownDeep.dll"));
+ 
+           
+return markdown;
+
+ 
+//O2File:API_MarkdownDeep.cs
+//using FluentSharp.For_MarkdownDeep
+//O2Ref:MarkdownDeep.dll

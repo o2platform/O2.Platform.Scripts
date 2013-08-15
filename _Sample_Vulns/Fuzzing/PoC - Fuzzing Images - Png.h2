@@ -1,0 +1,8 @@
+//O2Include:PoC - Fuzzing Images.h2
+  
+var baseFolder = @"C:\Users\o2\AppData\Roaming\OWASP_O2_Platform_5.3\8_15_2013";
+var sourceFolder = baseFolder.pathCombine("badImages_Png");
+//maxItems = 10;
+fuzzFromFolder(sourceFolder);
+
+return "done";

@@ -1,0 +1,35 @@
+var topPanel = "PoC - Consume Simple MD5 Rainbow Table".popupWindow(700,200);
+//var topPanel = panel.clear().add_Panel();
+
+"Loading data".info();
+var baseFolder = @"C:\Users\o2\AppData\Roaming\OWASP_O2_Platform_5.3\8_12_2013\MD5_Hashes";
+var md5HashesFile = baseFolder.pathCombine("(10x numbers - 6x length) M5_for_10_chars_with_6_depth.txt");
+var md5Hashes = md5HashesFile.fileContents();
+var mappings = new Dictionary<string,string>();
+foreach(var line in md5Hashes.lines())
+{	
+	var splittedline = line.split("\t");
+	mappings.Add(splittedline[0].lower(), splittedline[1]);
+}
+"There were {0} hashes loaded".info(md5Hashes.size());
+
+var result = topPanel.add_Label("(click Go)").fill().font_bold().font("Arial",40).text_Center();
+
+Action<string> resolveHash = 
+	(md5Hash)=> {
+					var value = mappings.value(md5Hash.lower());					
+					if(value.isNull())					
+						result.set_Text("(no match for {0})".format(md5Hash)).pink();						
+					else
+						result.set_Text(value).green();																		
+				};
+
+topPanel.insert_Above(5);
+topPanel.insert_Above(25)
+	    .add_LabelAndTextAndButton("Hash to solve",						// label text
+								   "FBD7939D674997CDB4692D34DE8633C4",  // initial value
+								   "Go", 								// button text
+								   resolveHash);						// onButtonClick callback
+
+return mappings.take(100);
+return "done";

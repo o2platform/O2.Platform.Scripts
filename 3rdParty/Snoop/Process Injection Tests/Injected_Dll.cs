@@ -32,7 +32,7 @@ namespace O2.Script
     		//Debug.Write("[Info] " + message);
     		try
     		{
-	    		var type = assembly.GetType("O2.Kernel.PublicDI");
+	    		var type = assembly.GetType("FluentSharp.CoreLib.API.PublicDI");
 				var method = type.GetMethod("get_log");
 				var kConfig = method.Invoke(null, new object[] { });
 				var info = kConfig.GetType().GetMethod("info");				
@@ -88,7 +88,7 @@ namespace O2.Script
     	
     	public static Assembly compileFile(string file)
     	{
-			var compileEngineType = assembly.GetType("O2.DotNetWrappers.DotNet.CompileEngine");
+			var compileEngineType = assembly.GetType("FluentSharp.CoreLib.API.CompileEngine");
 			//info("compileEngineType: " + compileEngineType);
 			var compileEngine = Activator.CreateInstance(compileEngineType);
 			//info("compileEngine: " + compileEngine);

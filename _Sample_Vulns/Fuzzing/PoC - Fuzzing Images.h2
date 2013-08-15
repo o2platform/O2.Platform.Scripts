@@ -1,0 +1,27 @@
+
+var topPanel = "Fuzz Image in IE".popupWindow(1200,800);
+
+var maxItems = -1;
+ 
+var browser = topPanel.add_WebBrowser_Control();
+
+Action<string> fuzzFromFolder =
+	(folder)=>{
+				var images = folder.files().take(maxItems);
+				var count = 0;
+				var total = images.size();
+				
+				var htmlTemplate = @"<html><body><h1>{0}</h1>
+					<h2>[{1}/{2}]</h2>
+					<img src='{0}'/>
+					<img src='{0}' width='10'/>
+					<img src='{0}' width='100'/>
+					<img src='{0}' width='500'/>
+					</body></html>";
+				
+				foreach(var image in images.take(-1))
+				{
+					var html = htmlTemplate.format(image,++count,total);
+					browser.set_Html(html);
+				}
+			};

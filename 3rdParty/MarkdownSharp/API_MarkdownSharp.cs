@@ -9,7 +9,7 @@ using MarkdownSharp;
 
 //O2Ref:MarkdownSharp.dll
 
-namespace O2.XRules.Database.APIs
+namespace FluentSharp.For_Markdown
 {	
 	public class API_MarkdownSharp
 	{						
@@ -18,6 +18,7 @@ namespace O2.XRules.Database.APIs
 		public string 		LastText_Transformed 	{ get; set; }
 		public WebBrowser 	Browser					{ get; set; }
 		public TextBox 		TextArea				{ get; set; }
+		public Markdown     Markdown				{ get; set; }
 		
 		public API_MarkdownSharp() : this("")
 		{
@@ -27,7 +28,8 @@ namespace O2.XRules.Database.APIs
 		public API_MarkdownSharp(string text)
 		{
 			AfterTransform  = new List<Action>();
-			Text = text;			
+			Text 			= text;	
+			Markdown 		= new Markdown();
 		}
 	}
 	
@@ -35,62 +37,62 @@ namespace O2.XRules.Database.APIs
 
 	public static class API_MarkdownSharp_ExtensionMethods
 	{
-		public static API_MarkdownSharp transform(this API_MarkdownSharp markdown, string text)
+		public static API_MarkdownSharp transform(this API_MarkdownSharp markdownApi, string text)
 		{
-			markdown.Text = text;
-			return markdown.transform();
+			markdownApi.Text = text;
+			return markdownApi.transform();
 		}
-		public static API_MarkdownSharp transform(this API_MarkdownSharp markdown)
+		public static API_MarkdownSharp transform(this API_MarkdownSharp markdownApi)
 		{
-			markdown.LastText_Transformed = markdown.Text.markdown_Transform();
-			markdown.AfterTransform.invoke();		
-			return markdown;
+			markdownApi.LastText_Transformed = markdownApi.Markdown.Transform(markdownApi.Text);
+			markdownApi.AfterTransform.invoke();		
+			return markdownApi;
 		}
-		public static API_MarkdownSharp showIn_Browser(this API_MarkdownSharp markdown)
+		public static API_MarkdownSharp showIn_Browser(this API_MarkdownSharp markdownApi)
 		{
-			if (markdown.Browser.isNull())
-				markdown.Browser ="Markdown Transformation".popupWindow().add_WebBrowser();
+			if (markdownApi.Browser.isNull())
+				markdownApi.Browser ="Markdown Transformation".popupWindow().add_WebBrowser();
 			//var browser = open.webBrowser();			
-			O2Thread.mtaThread(()=>markdown.Browser.html(markdown.LastText_Transformed));
-			return markdown;
+			O2Thread.mtaThread(()=>markdownApi.Browser.html(markdownApi.LastText_Transformed));
+			return markdownApi;
 		}
 		
-		public static API_MarkdownSharp showIn_TextArea(this API_MarkdownSharp markdown)
+		public static API_MarkdownSharp showIn_TextArea(this API_MarkdownSharp markdownApi)
 		{
-			if (markdown.TextArea.isNull())
-				markdown.TextArea ="Markdown Transformation".popupWindow().add_TextArea();
+			if (markdownApi.TextArea.isNull())
+				markdownApi.TextArea ="Markdown Transformation".popupWindow().add_TextArea();
 			//var browser = open.webBrowser();			
-			markdown.TextArea.set_Text(markdown.LastText_Transformed);
-			return markdown;
+			markdownApi.TextArea.set_Text(markdownApi.LastText_Transformed);
+			return markdownApi;
 		}
 		
-		public static API_MarkdownSharp syncWith_Browser(this API_MarkdownSharp markdown, WebBrowser browser)
+		public static API_MarkdownSharp syncWith_Browser(this API_MarkdownSharp markdownApi, WebBrowser browser)
 		{
-			markdown.Browser = browser;
-			markdown.AfterTransform.add(()=>markdown.showIn_Browser());
-			return markdown;
+			markdownApi.Browser = browser;
+			markdownApi.AfterTransform.add(()=>markdownApi.showIn_Browser());
+			return markdownApi;
 		}
 		
-		public static API_MarkdownSharp syncWith_TextArea(this API_MarkdownSharp markdown, TextBox textBox)
+		public static API_MarkdownSharp syncWith_TextArea(this API_MarkdownSharp markdownApi, TextBox textBox)
 		{
-			markdown.TextArea = textBox;
-			markdown.AfterTransform.add(()=>markdown.showIn_TextArea());
-			return markdown;
+			markdownApi.TextArea = textBox;
+			markdownApi.AfterTransform.add(()=>markdownApi.showIn_TextArea());
+			return markdownApi;
 		}
 		
-		public static string text(this API_MarkdownSharp markdown)
+		public static string text(this API_MarkdownSharp markdownApi)
 		{
-			return markdown.Text;
+			return markdownApi.Text;
 		}
-		public static API_MarkdownSharp text(this API_MarkdownSharp markdown , string value)
+		public static API_MarkdownSharp text(this API_MarkdownSharp markdownApi , string value)
 		{
-			markdown.Text = value;
-			return markdown;
+			markdownApi.Text = value;
+			return markdownApi;
 		}
 		
-		public static string html(this API_MarkdownSharp markdown)
+		public static string html(this API_MarkdownSharp markdownApi)
 		{			
-			return markdown.transform().LastText_Transformed;
+			return markdownApi.transform().LastText_Transformed;
 		}
 		
 		

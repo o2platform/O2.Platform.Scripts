@@ -173,8 +173,7 @@ selectedFileContents.onCaretMove(
 					});
 			});
 
-
-			 
+	 
 sourceFiles.onDrop(
 	(fileOrFolder)=>{
 						sourceFiles.backColor(Color.Azure);						
@@ -223,7 +222,7 @@ references.append_Line("System.Web");
 references.append_Line("System.Web.Services");
 references.append_Line("System.Data");
 
-var testFiles = @"E:\_Tests\Demos_Files\HacmeBank_v2.0 (7 Dec 08)\HacmeBank_v2_WS";
+//var testFiles = @"E:\_Tests\Demos_Files\HacmeBank_v2.0 (7 Dec 08)\HacmeBank_v2_WS";
 
 
 //dev tests

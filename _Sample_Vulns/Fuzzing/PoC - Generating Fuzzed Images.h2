@@ -1,0 +1,51 @@
+//var topPanel = "{name}".popupWindow(700,400);
+var topPanel = panel.clear().add_Panel();
+var file = @"O2Logo_Small.gif".local();
+//var file = @"Clojure-icon.png".local();
+//var file = @"blogs-stack.ico".local();
+var fileType = file.extension().removeFirstChar();
+var generateAllBytes = false;
+var forceGeneration = false;
+var targetFolder = "badImages_{0}_{1}".format(fileType,generateAllBytes).tempDir(false);
+
+targetFolder.startProcess();
+
+var bytes = file.fileContents_AsByteArray();
+
+var createdFiles = 0;
+var skippedFiles = 0;
+
+Action<int,byte> generateFile = 
+	(pos,value)=>{
+					var clone = bytes.clone();					
+					clone[pos] = value;
+					var fileName = "Fuzz_{0}_{1}_{2}.{0}".format(fileType,pos, value);
+					var fullPath = targetFolder.pathCombine(fileName);
+					if (forceGeneration.isFalse() && fullPath.fileExists())
+						skippedFiles++;
+					else
+					{
+						clone.saveAs(fullPath);
+						createdFiles++;
+					}				
+				 };
+
+for(var i = 1 ; i < bytes.size() ; i++)
+{
+	if (generateAllBytes)
+	{
+		for(var j=0 ; j < 256 ; j++)
+			generateFile(i,(byte)j);
+	}
+	else
+	{
+		generateFile(i,0x00);
+		generateFile(i,0x22);
+		generateFile(i,0x66);
+		generateFile(i,0xA0);
+		generateFile(i,0xFF);
+	}
+		
+	
+}
+return "{0} - {1}".format(createdFiles , skippedFiles);

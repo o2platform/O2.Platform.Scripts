@@ -48,11 +48,15 @@ using O2.XRules.Database.Utils;
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
 //O2Ref:GraphSharp.dll
 //O2Ref:GraphSharp.Controls.dll
+//O2Ref:ICSharpCode.AvalonEdit.dll
+//O2Ref:FluentSharp.WPF.dll
 //O2Ref:PresentationFramework.dll 
 //O2Ref:PresentationCore.dll 
 //O2Ref:QuickGraph.dll
 //O2Ref:WindowsBase.dll
 //O2Ref:WindowsFormsIntegration.dll
+
+
 
 namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 {	

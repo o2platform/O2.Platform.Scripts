@@ -49,7 +49,7 @@ var o2tools_Mappings = 	 new Items().add("Package O2 Script", "Util - Package O2
 									.add("Screenshot tool", "Util - Show ScreenShot Tool.h2")
 									.add("Inject O2 into ...", "Util - Inject O2 into other processes.h2")
 							 		.add("Search Engine", "Tool - Search Engine.h2")
-							 		.add("Windows Handles Viewer", "Util - Windows Handles Viewer (Simple GUI with REPL).h2")
+							 		.add("Windows Hijack GUI", "Util - Win32 Window Handle Hijack (simple).h2")
 									.add("Search O2 Scripts", "Util - Quick File Search.h2")
 									.add("Execute Unit Tests", "Execute Unit Tests.h2")
 									.add("WSDL (Web Services)", "ascx_WSDL_Creation_and_Execution.cs")																		

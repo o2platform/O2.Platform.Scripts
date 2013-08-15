@@ -30,8 +30,13 @@ wpfRibbon.tab("Movie Creation")
 		 .add_Group("Record") 
 		 .add_Button(" Start Recording", "redled.png", 
 		 		()=> movieEditor.start_ImageCapture(
-		 								(count)=>FramesRecordedInfo.prop("Label","{0} Frames Recorded".format(count)) ) )
-		 .add_Button(" Stop Recording", "player_stop.png", ()=> movieEditor.stop_ImageCapture() )
+		 								(count)=>{
+		 											FramesRecordedInfo.wpfInvoke(()=>FramesRecordedInfo.prop("Label","{0} Frames Recorded".format(count)) );
+		 										 }) )
+		 .add_Button(" Stop Recording", "player_stop.png", 
+				()=>{
+						movieEditor.invokeOnThread(()=> movieEditor.stop_ImageCapture());
+					})
 		 .add_Button(" 0 Frames Recorded"); 
 		 
 FramesRecordedInfo = wpfRibbon.tab("Movie Creation").group("Record").button("0 Frames Recorded");
@@ -78,7 +83,7 @@ return "done";
  
 //using O2.XRules.Database.APIs
 //using O2.XRules.Database.Utils
-
+//using FluentSharp.WPF
 //using Microsoft.Windows.Controls.Ribbon;
 //O2File:ascx_MovieEditor.cs
 //O2File:WPF_Ribbon.cs
@@ -86,7 +91,7 @@ return "done";
 //O2File:API_MiniFramework.cs
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:RibbonControlsLibrary.dll
-
+//O2Ref:FluentSharp.WPF.dll
 //O2Ref:PresentationCore.dll
 //O2Ref:PresentationFramework.dll
 //O2Ref:WindowsBase.dll

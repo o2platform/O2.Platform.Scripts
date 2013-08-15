@@ -66,7 +66,7 @@ namespace O2.XRules.Database.APIs.IKVM
 		{
 			var mappedFile = SourceCodeMappingsUtils.mapFile(File);
 			if(mappedFile.fileExists())
-				return mappedFile.fileContents().lines(false)[Line-1];
+				return mappedFile.fileContents().lines(false).value(Line-1);
 			return Signature ?? "...Signature value not set...";
 		}
 	}
