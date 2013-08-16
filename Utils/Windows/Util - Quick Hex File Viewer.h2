@@ -1,0 +1,46 @@
+//var topPanel = panel.clear().add_Panel();
+
+var topPanel = "Tool - Quick Hex File Viewer".popupWindow(650,400);
+var tableList = topPanel.add_TableList();
+
+tableList.field("resizeColumnsWidth",false); 
+tableList.links().forEach<Control>(link=>link.visible(false)); 
+
+tableList.add_Columns("0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F","","As String");
+tableList.set_ColumnsWidth(25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,50);
+tableList.white();
+var infoLabel = tableList.add_Label("Drop file here to view its Hex/Bytes \n\n (recommended max size of 50k)").font("Arial",25).fill().text_Center();
+
+Action<string> showFile = 
+	(file)=>{	
+				infoLabel.set_Text("...Loading...");
+				tableList.listView().visible(false);				
+				tableList.clearRows().title(file);				
+				O2Thread.mtaThread(
+					()=>{
+							var bytes = file.fileContents_AsByteArray().toList();
+							
+							var blocksOf16 = (bytes.size() / 16);
+							for(var i=0 ; i <= blocksOf16 ; i++)
+							{
+								var pos = i*16;
+								var asString = "";
+								var rowData = new List<string>();
+								for(var j=0; j< 16; j++)
+								{
+									rowData.add(bytes.value(pos+j).hex());
+									asString += (char)bytes.value(pos+j);
+								}
+								rowData.add("").add(asString);
+								tableList.add_Row(rowData);
+							}
+							tableList.listView().visible(true);
+						});
+			};
+
+//var testFile = "O2Logo_Small.gif".local(); 
+tableList.listView().visible(false);				
+//showFile(testFile);
+tableList.onDrop(showFile);
+tableList.listView().onDrop(showFile);
+//O2Embed:Utility.ico

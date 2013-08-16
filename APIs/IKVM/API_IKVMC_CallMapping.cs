@@ -65,8 +65,15 @@ namespace O2.XRules.Database.APIs.IKVM
 		public override string ToString()
 		{
 			var mappedFile = SourceCodeMappingsUtils.mapFile(File);
-			if(mappedFile.fileExists())
-				return mappedFile.fileContents().lines(false).value(Line-1);
+			try
+			{
+				if(mappedFile.fileExists())
+					return mappedFile.fileContents().lines(false).value(Line-1);
+			}
+			catch(Exception ex)
+			{
+				ex.log();
+			}
 			return Signature ?? "...Signature value not set...";
 		}
 	}
