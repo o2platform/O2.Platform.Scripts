@@ -38,11 +38,15 @@ namespace O2.XRules.Database.APIs
 			"[cURL]: {0}".info(data);
 		}
 		
-		
-		public API_cURL execute(string arguments)
+		public API_cURL execute(string url)
+		{
+			return execute("", url);
+		}
+		public API_cURL execute(string url, string optionalArguments)
 		{									
-			" *** Executing cURL with commands: {0} **** ".debug(arguments);
-			CURL_Process = Processes.startProcessAndRedirectIO(CURL_Exe, arguments, OnConsoleData);			
+			var processArguments = "{0} {1}".format(optionalArguments, url);
+			" *** Executing cURL with commands: {0} **** ".debug(processArguments);
+			CURL_Process = Processes.startProcessAndRedirectIO(CURL_Exe, processArguments, OnConsoleData);			
 			return this;
 		}
 		

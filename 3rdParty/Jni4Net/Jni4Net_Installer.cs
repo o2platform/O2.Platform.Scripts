@@ -17,8 +17,9 @@ namespace O2.XRules.Database.APIs
 	{				
 		public Jni4Net_Installer()
 		{			
-			config("Jni4Net",
-				   "http://switch.dl.sourceforge.net/project/jni4net/0.8.6/jni4net-0.8.6.0-bin.zip".uri(),
+			config("Jni4Net_Patched",
+				   "https://dl.dropboxusercontent.com/u/81532342/O2%20Files/jni4net-0.8.7.0-bin_Patched.zip".uri(),
+				   //"http://switch.dl.sourceforge.net/project/jni4net/0.8.6/jni4net-0.8.6.0-bin.zip".uri(),
 				   @"bin/proxygen.exe");
 			installFromZip_Web();	       		
 		}	

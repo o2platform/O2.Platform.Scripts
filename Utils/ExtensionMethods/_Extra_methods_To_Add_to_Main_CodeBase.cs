@@ -1,17 +1,48 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
 using FluentSharp.WinForms;
 
 //O2Ref:Ionic.Zip.dll
 
 
-namespace O2.XRules.Database.APIs
+namespace FluentSharp.CoreLib
 {	
-
+	public static class Extra_Process
+	{
+		public static Process       startProcess(this string processExe, string arguments, string workingDirectory)
+		{
+			return processExe.startProcess(arguments, workingDirectory, (line)=>line.info());
+		}
+		
+		public static Process       startProcess(this string processExe, string arguments, string workingDirectory,  Action<string> onDataReceived)
+		{
+			return Processes.startProcessAndRedirectIO(processExe, arguments, workingDirectory, onDataReceived, onDataReceived);
+		}		
+	}
+	public static class Extra_IO
+	{
+		public static string fileContents(this string folder, string file)
+		{
+			return folder.pathCombine(file).fileContents();
+		}
+		public static List<string> fileNames(this string folder)
+		{
+			return folder.files().fileNames();
+		}
+		public static string folder(this string basePath, string folderName)
+		{
+			var targetFolder = basePath.pathCombine(folderName);
+			if(targetFolder.dirExists())
+				return targetFolder;
+			return null;
+		}
+	}
 	public static class Extra_Misc
 	{			
 		// do this propely when adding to main O2 code base since this will not work as expected when there are other textboxes and buttons on the same 'control' object

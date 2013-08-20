@@ -18,8 +18,9 @@ namespace O2.XRules.Database.APIs
 		public ZAProxy_Install() 
 		{			
 			config("ZAProxy",
-				   "https://zaproxy.googlecode.com/files/ZAP_WEEKLY_D-2013-05-20.zip".uri(),
-				   @"ZAP_D-2013-05-20\zap.bat");
+				   "https://zaproxy.googlecode.com/files/ZAP_WEEKLY_D-2013-08-12.zip".url(),
+				  // "https://zaproxy.googlecode.com/files/ZAP_WEEKLY_D-2013-05-20.zip".uri(),
+				   @"ZAP_D-2013-08-12\zap.bat");
 			installFromZip_Web();	       		
 		}	
 		//

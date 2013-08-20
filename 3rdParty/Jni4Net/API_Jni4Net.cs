@@ -12,10 +12,9 @@ using java.util.zip;
 using java.lang.reflect;
 using net.sf.jni4net;
 using net.sf.jni4net.jni;
-//Installer:Jni4Net_Installer.cs!Jni4Net/bin/proxygen.exe
-//O2Ref:Jni4Net/lib/jni4net.n-0.8.6.0.dll
+//Installer:Jni4Net_Installer.cs!Jni4Net_Patched/jni4net-0.8.7.0-bin/bin/proxygen.exe
 
-//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
+//O2Ref:Jni4Net_Patched/jni4net-0.8.7.0-bin/lib/jni4net.n-0.8.7.0_Patched.dll
 
 namespace O2.XRules.Database.APIs
 {

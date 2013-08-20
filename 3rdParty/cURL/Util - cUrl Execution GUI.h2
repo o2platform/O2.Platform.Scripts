@@ -1,16 +1,35 @@
 //var topPanel = panel.clear().add_Panel();
 var topPanel = "Util - cUrl Execution GUI".popupWindow(600,300);
 var consoleOut = topPanel.add_RichTextBox();
-var urlToGet = consoleOut.insert_Above(20)
-						  .add_TextBox("cURL arguments:","http://www.google.com");
+
 var cUrl = new API_cURL();
 cUrl.OnConsoleData = 
 	(text)=>{
 				consoleOut.append_Line(text);				
 			};
+			 
+var urlToGet = "http://www.google.com";
+var arguments = "-v";
+ 
+Action executeCUrl = 
+	()=>{
+			consoleOut.set_Text(""); 
+			cUrl.execute(urlToGet, arguments);
+		};
+consoleOut.insert_Above(1);		
+consoleOut.insert_Above(20).add_TextBox("cURL arguments:",urlToGet)
+		  		  		   .onTextChange((text)=>urlToGet = text)
+		  				   .onEnter((text)=>executeCUrl())
+		  .insert_Right().add_TextBox("Arguments","-v -l")
+						 .onTextChange((text)=>arguments = text)
+						 .onEnter((text)=>executeCUrl())
+						 .sendEnter();
+		  //.insert_Right(80).add_Button("send")
+		  //				   .onClick( ()=> executeCUrl()); // DC: I'm still not happy with this GUI (The button is not aligned)
+				
 			
-urlToGet.onEnter((text)=>{ consoleOut.set_Text(""); cUrl.execute(text); })
-		.sendEnter();
+//urlToGet.onEnter((text)=>{  })
+//		.sendEnter();
 
 //using O2.XRules.Database.APIs
 //O2File:API_cURL.cs
