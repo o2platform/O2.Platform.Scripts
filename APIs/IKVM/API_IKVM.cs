@@ -6,9 +6,7 @@ using FluentSharp.CoreLib.API;
 
 //using O2.XRules.Database.Languages_and_Frameworks.DotNet;
 
-//Installer:IKVM_Installer.cs!IKVM\ikvm-7.1.4532.2\bin\ikvm.exe
-
-//_O2File:DotNet_SDK_GacUtil.cs  
+//Installer:IKVM_Installer.cs!IKVM\ikvm-7.2.4630.5\bin\ikvm.exe
 
 namespace O2.XRules.Database.APIs.IKVM
 {
@@ -33,7 +31,7 @@ namespace O2.XRules.Database.APIs.IKVM
         public API_IKVM()
         {        	
         
-        	_IKVMRuntimeDir = PublicDI.config.ToolsOrApis.pathCombine(@"\IKVM\ikvm-7.1.4532.2\bin");        	
+        	_IKVMRuntimeDir = PublicDI.config.ToolsOrApis.pathCombine(@"\IKVM\ikvm-7.2.4630.5\bin");        	
         	//"_IKVM_Runtime.zip";
         	 
         	IKVMExecutable = Path.Combine(_IKVMRuntimeDir, "ikvm.exe");

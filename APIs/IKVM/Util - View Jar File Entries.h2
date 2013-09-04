@@ -1,23 +1,21 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - View Jar File Entries",700,400);
+var topPanel = O2Gui.open<Panel>("Util - View Jar File Entries",700,400);
 //var topPanel = panel.clear().add_Panel(); 
 
 var treeView = topPanel.add_TreeView().sort();
  
-Action&lt;string&gt; showJarEntries =
-	(file)=&gt;{				
+Action<string> showJarEntries =
+	(file)=>{				
 				"Loading file: {0}".info(file);
 				var jarFile = new JarFile(file);
 				var entries = jarFile.entries();
-				var zipEntries = new List&lt;ZipEntry&gt;();				
+				var zipEntries = new List<ZipEntry>();				
 				while (entries.hasMoreElements())
 					zipEntries.add((ZipEntry)entries.nextElement());					
 				treeView.add_Nodes(zipEntries);
 			};
 
 treeView.onDrop(
-	(fileOrFolder)=&gt;{
+	(fileOrFolder)=>{
 						treeView.clear();
 						if (fileOrFolder.fileExists())
 							showJarEntries(fileOrFolder);
@@ -33,7 +31,5 @@ treeView.add_Node("Drop here a local Jar file or Folder (with Jars) to view its 
 
 //using java.util.jar
 //using java.util.zip	 
-//O2Ref:IKVM\ikvm-7.1.4532.2\bin\IKVM.OpenJDK.Core.dll
-//O2Ref:IKVM\ikvm-7.1.4532.2\bin\IKVM.OpenJDK.Util.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Ref:IKVM\ikvm-7.2.4630.5\bin\IKVM.OpenJDK.Core.dll
+//O2Ref:IKVM\ikvm-7.2.4630.5\bin\IKVM.OpenJDK.Util.dll

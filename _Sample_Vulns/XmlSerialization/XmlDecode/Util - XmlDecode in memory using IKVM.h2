@@ -1,7 +1,7 @@
 //var topPanel = panel.add_Panel(true);
 var topPanel = "Util - XmlDecode in memory using IKVM.h2".popupWindow(1200,600).insert_LogViewer();
 
-bool autoConvert 	  = false;
+bool autoConvert 	  = false; 
 var exploitsFolder    = "exploits";
 XMLDecoder xmlDecoder = null;
 
@@ -90,9 +90,9 @@ exploits.selectFirst();
 
 //using java.io
 //using java.beans
-//O2Ref:IKVM\ikvm-7.1.4532.2\bin\IKVM.OpenJDK.Core.dll
-//O2Ref:IKVM\ikvm-7.1.4532.2\bin\IKVM.OpenJDK.XML.API.dll
-//O2Ref:IKVM\ikvm-7.1.4532.2\bin\IKVM.OpenJDK.Beans.dll
-//O2Ref:IKVM\ikvm-7.1.4532.2\bin\IKVM.OpenJDK.Util.dll
+//O2Ref:IKVM.OpenJDK.Core.dll
+//O2Ref:IKVM.OpenJDK.XML.API.dll
+//O2Ref:IKVM.OpenJDK.Beans.dll
+//O2Ref:IKVM.OpenJDK.Util.dll
 //O2File:API_IKVMC.cs
 //_O2EmbedTool:IKVM

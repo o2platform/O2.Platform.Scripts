@@ -4,17 +4,22 @@ var topPanel = O2Gui.open<Panel>("Util - Java Methods CallTo and IsCalledBy Mapp
 JavaMetadata_XRefs javaXRefs = null;    
  
 var filter = "";
-var show_CallsTo = false;
-var show_IsCalledBy = false;	     
-var show_ImplementedBy = false;
-var show_Implements = false; 
+var show_CallsTo 		 = false;
+var show_IsCalledBy 	 = false;	     
+var show_ImplementedBy	 = false;
+var show_Implements 	 = false; 
 var show_EnclosingMethod = false;
-var show_SourceCode = false; 	
-var showStubTreeNodes = false;
-Action showData = ()=>{};     
-   
+var show_SourceCode 	 = false; 	
+var showStubTreeNodes 	 = false;
+var useJad				 = false;
+var apiJad			     = new API_Jad();
+
+Action  showData = ()=>{};     
+TextBox textSearch = null;   
+
 var codeViewer = topPanel.add_SourceCodeViewer();        
-  
+
+//var toolStrip = topPanel.insert_Above_ToolStrip(); 
       
 //var treeView = topPanel.insert_Left().add_TreeView_with_PropertyGrid();           
 var treeView = topPanel.insert_Left().add_TreeView();    
@@ -25,6 +30,7 @@ var showCallsTo_Checkbox =    configPanel.add_CheckBox("show 'Calls To' mappings
 var showIsCalledBy_CheckBox = configPanel.add_CheckBox("show 'IsCalledBy' mappings", 0,200,  		(value)=> { show_IsCalledBy= value; 				showData(); }).autoSize().check(); 							  
 							  configPanel.add_CheckBox("show 'Implements' mappings", 20,200, 		(value)=> { show_Implements = value ; 				showData(); }).autoSize().check();							  							  							  
 							  configPanel.add_CheckBox("show 'EnclosingMethod' mappings", 40,200, 	(value)=> { show_EnclosingMethod = value ; 			showData(); }).autoSize().check();							  							  
+							  configPanel.add_CheckBox("use JAD"          , 20,400, 				(value)=> { useJad = value 				 ; 					    }).autoSize();//.check();							  
 							  configPanel.add_CheckBox("Hide 'Type Nodes'", 40,400, 				(value)=> { showStubTreeNodes = value ; 			showData(); }).autoSize().check();							  
 		          							  
 							  configPanel.add_CheckBox("on Select, open Source Code ", 40,0, 		(value)=> { show_SourceCode= value;								}).autoSize().check();
@@ -45,28 +51,46 @@ treeView.beforeExpand<Method_CallMapping>(
 								if(show_IsCalledBy)    
 									treeNode.add_IsCalledBy(callMapping, javaXRefs.CallMappings, javaXRefs.Methods_by_Signature, showStubTreeNodes);
 								if (show_Implements)		
-									treeNode.add_Implements(callMapping, javaXRefs.CallMappings,javaXRefs.Methods_by_Signature, showStubTreeNodes);	
-								
-								
-								
+									treeNode.add_Implements(callMapping, javaXRefs.CallMappings,javaXRefs.Methods_by_Signature, showStubTreeNodes);								
 								if (show_EnclosingMethod)	 
 									treeNode.add_EnclosingMethod(callMapping, javaXRefs, showStubTreeNodes);	 		 															
 							});    
 							  
 treeView.afterSelect<Method_CallMapping>(  
-	(callMapping)=> {						   
-						if (show_SourceCode)
+	(callMapping)=> {								
+						if (javaXRefs.Methods_by_Signature.hasKey(callMapping.Signature))
 						{
-							if (javaXRefs.Methods_by_Signature.hasKey(callMapping.Signature))
-							{
-								var method = javaXRefs.Methods_by_Signature[callMapping.Signature];
-								var methodClass = javaXRefs.Classes_by_Signature[method.ClassName]; 							
-								codeViewer.showInCodeViewer(methodClass,method);
+							var method = javaXRefs.Methods_by_Signature[callMapping.Signature];
+							var methodClass = javaXRefs.Classes_by_Signature[method.ClassName]; 							
+							if (show_SourceCode)
+							{								
+								codeViewer.showInCodeViewer(methodClass,method); 
 							}
 							else
-								codeViewer.set_Text("...no code for method");
-							treeView.focus();	
-						}						 
+							{ 
+								if(useJad)
+								{
+									"Using JAD for class: {0}".info(method.ClassName);	
+									var jadCode = apiJad.decompile_From_JavaSignature(method.ClassName);
+									if (jadCode.valid())
+									{
+										codeViewer.set_Text(jadCode);
+										textSearch.set_Text(" " + method.Name);
+									}
+									else
+										codeViewer.set_Text("... class to decompile not available, drag & drop jar again with the 'use JAD' checkbox selected");
+								}
+								else
+								{
+									codeViewer.set_Text("...no code reference for selected method: {0}".format(callMapping.Signature));
+								}
+							}
+						}
+						else
+						{
+							codeViewer.set_Text("...no code reference for selected method: {0}".format(callMapping.Signature));
+						}	
+						treeView.focus();	
 					});
 
 
@@ -97,7 +121,23 @@ showData =
 				treeView.nodes().first().expand();   
 			
 		}; 
-  
+Action hack_ShowCodeViewerSearchBar =
+	()=>{
+			codeViewer.editor()._ShowSearchAndAstDetails=true;
+			var tabControl = codeViewer.controls<TabControl>(true).first();
+			var tabs = tabControl.tabs();
+			tabs.RemoveAt(0);
+			tabs.forEach<TabPage>(tab => tabControl.remove_Tab(tab));
+			tabControl.splitContainer().fixedPanel2();
+			tabControl.splitterDistance(codeViewer.splitContainer().height()-80);
+			textSearch = tabControl.controls<TextBox>(true).first();
+		};
+Action<string> extractForJAD = 
+	(file)=>{				
+				if (useJad) 
+					apiJad.extractJarIntoTempFolder(file);	
+			};
+			
 Action<string> loadData = 
 	(file)=>{ 
 				treeView.azure();
@@ -109,15 +149,27 @@ Action<string> loadData =
 								"could not get Java Metadata from file: {0}".error(file);
 							else 
 							{ 								
-								javaXRefs = javaMetadata.map_JavaMetadata_XRefs();					 								
+								javaXRefs = javaMetadata.map_JavaMetadata_XRefs();
 								showData();		  
+								extractForJAD(file);
 								treeView.focus();	  
 							}     
 							treeView.white();   
 						});     
 			};        
-       
+
 treeView.onDrop(loadData);           
+hack_ShowCodeViewerSearchBar();
+
+loadData("commons-logging-1.1.1.jar".local());
+//return "";
+topPanel.mainMenu().clear()
+		.add_Menu("Sample files")
+			.add_MenuItem("commons-logging-1.1.1.jar", ()=> loadData("commons-logging-1.1.1.jar".local()))
+		.add_Menu("REPL (Script UI)")
+			.add_MenuItem("REPL Java Objects", ()=> javaXRefs.script_Me())
+			.add_MenuItem("REPL this GUI", ()=> topPanel.script_Me());
+
 treeView.add_Node("Drop here Jar or Class file to view its call mappings");    
    
 //loadData(@"C:\O2\DemoData\WebGoat\WebGoat-5.3_RC1\tomcat\webapps\webgoat\WEB-INF\lib\commons-logging-1.0.4.jar");
@@ -128,7 +180,7 @@ treeView.add_Node("Drop here Jar or Class file to view its call mappings");
 return "ok";
 
 //O2File:API_IKVMC_JavaMetadata.cs 
- 
+//O2File:API_Jad.cs
 //using O2.XRules.Database.APIs.IKVM  
 //O2File:API_IKVMC.cs 
 //O2File:API_IKVMC_CallMapping.cs

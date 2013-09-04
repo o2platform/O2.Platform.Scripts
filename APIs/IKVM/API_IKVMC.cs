@@ -14,21 +14,16 @@ using FluentSharp.REPL;
 using FluentSharp.REPL.Controls;
 using FluentSharp.WinForms;
 
-//O2File:API_IKVMC_JavaMetadata.cs
-//O2Ref:IKVM\ikvm-7.1.4532.2\bin\IKVM.Runtime.dll
-//O2Ref:IKVM\ikvm-7.1.4532.2\bin\IKVM.Runtime.JNI.dll
-//O2Ref:IKVM\ikvm-7.1.4532.2\bin\IKVM.OpenJDK.Util.dll
-//O2Ref:IKVM\ikvm-7.1.4532.2\bin\IKVM.OpenJDK.Core.dll
-//O2Ref:IKVM\ikvm-7.1.4532.2\bin\IKVM.Reflection.dll
-//O2Ref:IKVM\ikvm-7.1.4532.2\bin\ikvmc.exe
+//O2Ref:IKVM\ikvm-7.2.4630.5\bin\IKVM.Runtime.dll
+//O2Ref:IKVM\ikvm-7.2.4630.5\bin\IKVM.Runtime.JNI.dll
+//O2Ref:IKVM\ikvm-7.2.4630.5\bin\IKVM.OpenJDK.Util.dll
+//O2Ref:IKVM\ikvm-7.2.4630.5\bin\IKVM.OpenJDK.Core.dll
+//O2Ref:IKVM\ikvm-7.2.4630.5\bin\IKVM.Reflection.dll
+//O2Ref:IKVM\ikvm-7.2.4630.5\bin\IKVM.OpenJDK.XML.API.dll
+//O2Ref:IKVM\ikvm-7.2.4630.5\bin\IKVM.OpenJDK.Beans.dll
+//O2Ref:IKVM\ikvm-7.2.4630.5\bin\ikvmc.exe
 
-//_O2Ref:IKVM.OpenJDK.SwingAWT.dll
-//_O2Ref:IKVM.OpenJDK.Security.dll
-//_O2Ref:IKVM.Runtime.dll
-//_O2Ref:IKVM.OpenJDK.Util.dll
-//_O2Ref:IKVM.OpenJDK.Core.dll
-//_O2Ref:IKVM.Reflection.dll
-//_O2Ref:IKVM.Runtime.JNI.dll
+//O2File:API_IKVMC_JavaMetadata.cs
 
 namespace O2.XRules.Database.APIs.IKVM
 {
@@ -49,7 +44,7 @@ namespace O2.XRules.Database.APIs.IKVM
     	public void setup()
     	{    		
     		//IkvmcAssembly = "ikvmc.exe".assembly();
-    		var basePath = @"IKVM\ikvm-7.1.4532.2\bin\";
+    		var basePath = @"IKVM\ikvm-7.2.4630.5\bin\";
     		IkvmcAssembly = basePath.add(@"ikvmc.exe").assembly();
     		StaticCompiler = IkvmcAssembly.type("StaticCompiler");
 			//IkvmRuntime = StaticCompiler.invokeStatic("LoadFile",Environment.CurrentDirectory.pathCombine("IKVM.Runtime.dll")); 

@@ -1,23 +1,5 @@
-//O2Ref:IKVM\ikvm-7.1.4532.2\bin\IKVM.OpenJDK.SwingAWT.dll
-//O2Ref:IKVM\ikvm-7.1.4532.2\bin\IKVM.OpenJDK.Security.dll
-//O2Ref:IKVM\ikvm-7.1.4532.2\bin\IKVM.Runtime.dll
-//O2Ref:IKVM\ikvm-7.1.4532.2\bin\IKVM.OpenJDK.Util.dll
-//O2Ref:IKVM\ikvm-7.1.4532.2\bin\IKVM.OpenJDK.Core.dll
-//O2Ref:IKVM\ikvm-7.1.4532.2\bin\IKVM.Reflection.dll
-//O2Ref:IKVM\ikvm-7.1.4532.2\bin\IKVM.Runtime.JNI.dll
-
 var topPanel = "util - view IKVM internal java converted objects".popupWindow(1000,600).insert_LogViewer();
 //var topPanel = panel.clear().add_Panel();
-
-//using IKVM.Runtime
-//using IKVM.Internal
-//using java.lang
-//using java.lang.reflect 
-//using java.util.jar
-//using java.util.zip 
-//using ikvm.runtime 
-//using System.Reflection
-//var comp = new IkvmcCompiler();    
 
 var treeView = topPanel.add_TreeView();//_with_PropertyGrid(false);  
 var objectViewer = treeView.insert_Right().add_Control<ctrl_ObjectViewer>();
@@ -171,10 +153,23 @@ treeView.onDrop((file)=>O2Thread.mtaThread(()=>loadFile(file)));
 return "ok";
 
 //return O2.DotNetWrappers.DotNet.GacUtils.currentGacAssemblies();
-//using O2.XRules.Database.APIs.IKVM
 
-//using O2.XRules.Database.APIs
-//O2File:API_IKVM.cs
+//using IKVM.Runtime
+//using IKVM.Internal
+//using java.lang
+//using java.lang.reflect 
+//using java.util.jar
+//using java.util.zip 
+//using ikvm.runtime 
+//using System.Reflection
+
+//O2Ref:IKVM\ikvm-7.2.4630.5\bin\IKVM.OpenJDK.SwingAWT.dll
+//O2Ref:IKVM\ikvm-7.2.4630.5\bin\IKVM.OpenJDK.Security.dll
+//O2Ref:IKVM\ikvm-7.2.4630.5\bin\IKVM.Runtime.dll
+//O2Ref:IKVM\ikvm-7.2.4630.5\bin\IKVM.OpenJDK.Util.dll
+//O2Ref:IKVM\ikvm-7.2.4630.5\bin\IKVM.OpenJDK.Core.dll
+//O2Ref:IKVM\ikvm-7.2.4630.5\bin\IKVM.Reflection.dll
+//O2Ref:IKVM\ikvm-7.2.4630.5\bin\IKVM.Runtime.JNI.dll
+
    
-//using System.Collections 
- 
+//using System.Collections
