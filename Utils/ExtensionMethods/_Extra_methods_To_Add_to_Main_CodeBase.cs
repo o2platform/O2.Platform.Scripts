@@ -1,5 +1,6 @@
 // This file is part of the OWASP O2 Platform (http://www.owasp.org/index.php/OWASP_O2_Platform) and is released under the Apache 2.0 License (http://www.apache.org/licenses/LICENSE-2.0)
 using System;
+using System.Drawing;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
@@ -7,12 +8,46 @@ using System.Runtime.InteropServices;
 using FluentSharp.CoreLib;
 using FluentSharp.CoreLib.API;
 using FluentSharp.WinForms;
-
+using Ionic.Zip;
 //O2Ref:Ionic.Zip.dll
 
 
 namespace FluentSharp.CoreLib
 {	
+	public static class Extra_Web
+	{
+		public static string GET(this string url, string cookies)
+		{			
+			return new Web().getUrlContents(url,cookies, false);
+		}
+		
+		public static string GET(this Web web, string url)
+		{
+			if (web.notNull())
+				return web.getUrlContents(url);
+			return null;
+		}
+	}
+	public static class Extra_Zip
+	{
+		public static bool isZipFile(this string zipFile)
+		{
+			if (zipFile.fileExists())
+			{
+				try
+				{
+					var entries = new ZipFile(zipFile).Entries;
+					return entries.size() >0;
+				}
+				catch(Exception ex)
+				{
+					ex.log("[zipFile] isZipFile");
+				}				
+			}
+			return false;
+		}
+	}
+
 	public static class Extra_Process
 	{
 		public static Process       startProcess(this string processExe, string arguments, string workingDirectory)
@@ -25,6 +60,33 @@ namespace FluentSharp.CoreLib
 			return Processes.startProcessAndRedirectIO(processExe, arguments, workingDirectory, onDataReceived, onDataReceived);
 		}		
 	}
+	public static class Extra_Icon
+	{
+		public static Icon file_Icon(this string filePath)
+		{
+			if(filePath.fileExists())
+			{
+				try
+				{
+					return Icon.ExtractAssociatedIcon(filePath);
+				}
+				catch(Exception ex)
+				{
+					ex.log("[filePath].file_Icon");
+				}
+			}
+			return null;
+		}
+		
+		public static Image toImage(this Icon icon)
+		{
+			if (icon.notNull())
+				return icon.ToBitmap();
+			return null;
+			
+		}
+	}
+	
 	public static class Extra_IO
 	{
 		public static string fileContents(this string folder, string file)
@@ -42,6 +104,15 @@ namespace FluentSharp.CoreLib
 				return targetFolder;
 			return null;
 		}
+		
+		public static bool file_Doesnt_Exist(this string file)
+		{
+			return file.file_Exists().isFalse();
+		}
+		public static bool file_Exists(this string file)
+		{
+			return file.fileExists();
+		}
 	}
 	public static class Extra_Misc
 	{			
@@ -52,6 +123,17 @@ namespace FluentSharp.CoreLib
 			textBox = control.control<TextBox>();
 			button = control.control<Button>();
 			return control;
+		}
+	}
+	public static class Extra_Lines
+	{
+		public static List<string> lines_RegEx(this string target, string regEx)
+		{
+			return target.lines().containing_RegEx(regEx);
+		}
+		public static List<string> containing_RegEx(this List<string> items, string regEx)
+		{
+			return items.where(item=>item.regEx(regEx));
 		}
 	}
 
@@ -73,6 +155,7 @@ namespace FluentSharp.CoreLib
 		}
 		
 	}
+	
 	
 	public static class Extra_WinForm_Controls_TreeView
 	{	

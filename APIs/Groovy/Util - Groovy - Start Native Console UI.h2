@@ -1,0 +1,10 @@
+new API_IKVMC(); 			  // ensure all required IKVM assemblies are loaded
+
+var args = new string[] {};   // no arguments passed
+groovy.ui.Console.main(args); // starts Groovy console UI
+
+//O2Ref:Groovy\DotNet_IKVM\groovy-all-2.1.6.dll
+//O2Ref:IKVM.OpenJDK.Core.dll
+//O2Ref:IKVM.OpenJDK.SwingAWT.dll
+//O2File:API_IKVMC.cs
+//using O2.XRules.Database.APIs.IKVM

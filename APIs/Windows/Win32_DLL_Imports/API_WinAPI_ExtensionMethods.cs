@@ -112,6 +112,22 @@ namespace O2.XRules.Database.APIs
 			WinAPI.MoveWindow(windowHandle,x,y,width, height,true);
 			return windowHandle; 
 		}
+		public static IntPtr window_Maximized(this IntPtr windowHandle)
+		{
+			WinAPI.ShowWindow(windowHandle,WinAPI.ShowWindowCommands.ShowMaximized);
+			return windowHandle; 
+		}
+		public static IntPtr window_Minimized(this IntPtr windowHandle)
+		{
+			WinAPI.ShowWindow(windowHandle,WinAPI.ShowWindowCommands.ShowMinimized);
+			return windowHandle; 
+		}
+		public static IntPtr window_Default(this IntPtr windowHandle)
+		{
+			WinAPI.ShowWindow(windowHandle,WinAPI.ShowWindowCommands.ShowDefault);
+			return windowHandle; 
+		}
+		
 		
 		public static IntPtr window_Show(this IntPtr windowHandle)
 		{
@@ -175,6 +191,14 @@ namespace O2.XRules.Database.APIs
 			
 			return windowHandle;
 		}
+		
+		public static WinAPI.RECT window_Rectangle(this IntPtr windowHandle)
+		{
+			WinAPI.RECT rect = new WinAPI.RECT(0, 0, 0, 0);
+			WinAPI.GetWindowRect(windowHandle, ref rect);
+			return rect;
+		}
+		
 		//public static Bitmap PrintWindow(IntPtr hwnd)    
 		public static Bitmap window_ScreenShot(this IntPtr windowHandle)
 		{					

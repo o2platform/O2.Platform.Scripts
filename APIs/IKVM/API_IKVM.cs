@@ -2,13 +2,14 @@
 using System;
 using System.IO;
 using FluentSharp.CoreLib;
-using FluentSharp.CoreLib.API;
+//using FluentSharp.CoreLib.API;
 
 //using O2.XRules.Database.Languages_and_Frameworks.DotNet;
 
 //Installer:IKVM_Installer.cs!IKVM\ikvm-7.2.4630.5\bin\ikvm.exe
 
-namespace O2.XRules.Database.APIs.IKVM
+//namespace O2.XRules.Database.APIs.IKVM
+namespace FluentSharp.CoreLib.API
 {
     public class API_IKVM	
     {
@@ -29,8 +30,7 @@ namespace O2.XRules.Database.APIs.IKVM
         public string javaParserExecutable { get; set; }
         
         public API_IKVM()
-        {        	
-        
+        {        	        
         	_IKVMRuntimeDir = PublicDI.config.ToolsOrApis.pathCombine(@"\IKVM\ikvm-7.2.4630.5\bin");        	
         	//"_IKVM_Runtime.zip";
         	 
@@ -121,9 +121,11 @@ namespace O2.XRules.Database.APIs.IKVM
                 Files.deleteFile(destinationFile);
                 var executionParameters = string.Format(ikvm.IKVMCompilerArgumentsFormat, pathToJarFile,
                                                         destinationFile);
-                var executionResult =
-                    Processes.startProcessAsConsoleApplicationAndReturnConsoleOutput(ikvm.IKVMCompilerExecutable,
-                                                                                     executionParameters);
+                //var executionResult =
+                //    Processes.startProcessAsConsoleApplicationAndReturnConsoleOutput(ikvm.IKVMCompilerExecutable,
+                //                                                                     executionParameters);
+                var process = ikvm.IKVMCompilerExecutable.startProcess(executionParameters, (line)=>line.info());
+                process.WaitForExit();
                 if (File.Exists(destinationFile))
                     return destinationFile;
                 

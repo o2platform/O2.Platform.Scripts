@@ -18,7 +18,7 @@ namespace O2.XRules.Database.APIs
 		{
 			config("Selenium", 			
 				   "http://selenium.googlecode.com/files/selenium-dotnet-2.33.0.zip".uri(),
-				   @"Selenium\WebDriver.dll");
+				   @"Selenium\net40\WebDriver.dll");
     		installFromZip_Web(); 		
 		}
 		

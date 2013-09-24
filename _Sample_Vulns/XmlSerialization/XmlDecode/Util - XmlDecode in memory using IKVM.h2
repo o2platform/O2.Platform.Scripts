@@ -22,7 +22,7 @@ toolStrip.add_CheckBox("Auto Convert", (value)=> autoConvert = value);
 
 var fileLoaded  = toolStrip.add_Label("Exploit:").add_TextBox("").width(150);
 toolStrip.add_Button("Save", "SaveFile".formImage(),()=> saveFile()).add_Separator();;
-
+ 
 toolStrip.add_Button("REPL Last XmlDecoder", "text_x_script".formImage(), ()=> xmlDecoder.script_Me().code_Append("//O2Ref:IKVM.OpenJDK.Core.dll"));
 
 convert = ()=>{			

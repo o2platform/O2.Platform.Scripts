@@ -29,37 +29,57 @@ namespace O2.XRules.Database.APIs.IKVM
 {
     public class API_IKVMC	
     {
+    	public  string BasePath			{ get; set; }    	
     	public Assembly IkvmcAssembly   { get; set;}
-    	public Type StaticCompiler  { get; set;}
-    	public object IkvmRuntime 	  { get; set;}
-    	public object IkvmRuntimeJni  { get; set;}
-    	public object IkvmcCompiler   { get; set;}
-    	public object CompilerOptions { get; set;}
-    	 
+    	public Type StaticCompiler  	{ get; set;}
+    	public object IkvmRuntime 	  	{ get; set;}
+    	public object IkvmRuntimeJni  	{ get; set;}
+    	public object IkvmcCompiler   	{ get; set;}
+    	public object CompilerOptions 	{ get; set;}
+    	     	
     	public API_IKVMC()
     	{
     		setup();
     	}
     	
     	public void setup()
-    	{    		
+    	{   
+    		BasePath = @"IKVM\ikvm-7.2.4630.5\bin\";
     		//IkvmcAssembly = "ikvmc.exe".assembly();
-    		var basePath = @"IKVM\ikvm-7.2.4630.5\bin\";
-    		IkvmcAssembly = basePath.add(@"ikvmc.exe").assembly();
+    	
+    		IkvmcAssembly = BasePath.add(@"ikvmc.exe").assembly();
     		StaticCompiler = IkvmcAssembly.type("StaticCompiler");
 			//IkvmRuntime = StaticCompiler.invokeStatic("LoadFile",Environment.CurrentDirectory.pathCombine("IKVM.Runtime.dll")); 
-			IkvmRuntime = StaticCompiler.invokeStatic("LoadFile",basePath.add("IKVM.Runtime.dll").assembly().Location); 			 			
+			IkvmRuntime = StaticCompiler.invokeStatic("LoadFile",BasePath.add("IKVM.Runtime.dll").assembly().Location); 			 			
 			PublicDI.reflection.setField((FieldInfo)StaticCompiler.field("runtimeAssembly"),IkvmRuntime);  				
 			
 			//IkvmRuntimeJni = StaticCompiler.invokeStatic("LoadFile",Environment.CurrentDirectory.pathCombine("IKVM.Runtime.JNI.dll")); 
-			IkvmRuntimeJni = StaticCompiler.invokeStatic("LoadFile",basePath.add("IKVM.Runtime.JNI.dll").assembly().Location); 
+			IkvmRuntimeJni = StaticCompiler.invokeStatic("LoadFile",BasePath.add("IKVM.Runtime.JNI.dll").assembly().Location); 
 			PublicDI.reflection.setField((FieldInfo)StaticCompiler.field("runtimeJniAssembly"),IkvmRuntimeJni);  
 			
 			IkvmcCompiler =  IkvmcAssembly.type("IkvmcCompiler").ctor();
 			
 			CompilerOptions = IkvmcAssembly.type("CompilerOptions").ctor();
 			PublicDI.reflection.setField((FieldInfo)StaticCompiler.field("toplevel"),CompilerOptions);  
+			//ensure assemblies are loaded into memory()						
+			loadCoreIKVMAssemblies();
     	}
+    	public void loadCoreIKVMAssemblies()
+    	{    	
+    		BasePath.add("IKVM.Runtime.dll"   			).assembly();
+    		BasePath.add("IKVM.Runtime.JNI.dll"   		).assembly();
+			BasePath.add("IKVM.OpenJDK.Util.dll"   		).assembly();
+			BasePath.add("IKVM.OpenJDK.Core.dll"   		).assembly();
+			BasePath.add("IKVM.Reflection.dll"	   		).assembly();
+			BasePath.add("IKVM.OpenJDK.XML.API.dll"		).assembly();
+			BasePath.add("IKVM.OpenJDK.Beans.dll"  		).assembly();		
+			BasePath.add("IKVM.OpenJDK.SwingAWT.dll"  	).assembly();	
+			BasePath.add("IKVM.OpenJDK.Naming.dll"  	).assembly();			
+			BasePath.add("IKVM.OpenJDK.Management.dll"  ).assembly();	
+			BasePath.add("IKVM.OpenJDK.Text.dll"  		).assembly();	
+			
+			
+		}
 	}
 	
 	public static class API_IKVMC_ExtensionMethods_CreateJavaMetadata

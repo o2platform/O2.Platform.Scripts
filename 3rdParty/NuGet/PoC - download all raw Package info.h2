@@ -5,6 +5,9 @@ var urlTemplate = "https://nuget.org/api/v2/Search()?$filter=IsLatestVersion&$or
 var start = DateTime.Now;
 var top = 30;
 var skip = 0;
+
+targetDir.startProcess();
+
 while(skip < 20000)
 {
 	var url = urlTemplate.format(skip, top);
@@ -19,4 +22,6 @@ while(skip < 20000)
 	}
 	skip+= top;	
 }
+
+
 return start.duration_To_Now();

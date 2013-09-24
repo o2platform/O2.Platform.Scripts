@@ -18,9 +18,9 @@ namespace O2.XRules.Database.APIs
 		public EasyHook_Installer()
 		{			
 			config("EasyHook", 
-				   "EasyHook 2.6 Binaries.zip", 
-				   "http://download-codeplex.sec.s-msft.com/Download/Release?ProjectName=easyhook&DownloadId=61309&FileTime=128810691555630000&Build=19727".uri(),
-				   "README.txt");
+				   "EasyHook-2.7.4761.0-Binaries.zip", 
+				   "http://download-codeplex.sec.s-msft.com/Download/Release?ProjectName=easyhook&DownloadId=371803&FileTime=130025275074470000&Build=20748".uri(),
+				   "NetFX4.0\\README.txt");
 			installFromZip_Web();	       		
 		}			
 		

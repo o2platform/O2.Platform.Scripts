@@ -1,0 +1,91 @@
+//var topPanel = "{name}".popupWindow(700,400);	
+Web.Https.ignoreServerSslErrors();									// in case we have fiddler on
+
+//var topPanel     	= panel.clear().add_Panel();                       			    		// use when in developent
+var topPanel 		= "PoC - View TeamMentor Article (using GUID)".popupWindow(1200,500);	// use when done
+
+Func<string,string,string,string> getArticle = 
+	(contentType, articleId, sessionId)
+		=>{
+			 var tmArticleUrl = "https://teammentor.net/{0}/{1}"; 		// REST GET call for content						   			
+			 return tmArticleUrl.format(contentType,articleId)			// set contentType and session
+							   .GET("Session=" + sessionId);			// make GET request with provided cookie value
+		  };
+
+Func<string,string> wrapCss = 
+	(bodyContent) =>{
+						return @"<html>
+									<head>
+										<link href='http://getbootstrap.com/dist/css/bootstrap.css' rel='stylesheet'>
+									</head>
+									<body>
+										{0}
+									</body>
+								</html>".format(bodyContent);
+					};
+
+Action loadData		= null;															// placeholder for this lamda method
+
+var configPanel = topPanel.insert_ActionPanel();
+var username_TextBox = configPanel	   .add_Label   ("Username:"      ).top(2).append_TextBox("");
+var password_TextBox = username_TextBox.append_Label("Password:"      ).top(2).append_TextBox("").isPasswordField();
+var article_TextBox  = password_TextBox.append_Label("Article to Show").top(2).append_TextBox("").width(400);					
+var loadData_Link    = article_TextBox .append_Link ("Load Data"   , () => loadData());
+
+var htmlViewer 	= topPanel.title	   ("Article as Html" ).add_WebBrowser().silent(true);      // use webBrowser to see article's content        				 
+var rawViewer 	= topPanel.insert_Right("Article as Raw"  ).add_WebBrowser().silent(true);      // use webBrowser to see article's object as jsonp 
+var jsonpViewer = topPanel.insert_Below("Article as Jsonp").add_WebBrowser().silent(true);      // use webBrowser to see article's object as raw xml 
+
+Func<string,string,string> getLoginId = 
+	(username, password)
+		  =>{		  		
+		  		var loginRequest 	= "https://teammentor.net/rest/login/{0}/{1}"						// create GET URL
+											.format(username, password);	
+			  	return username.add(password)												 			// use username+password as cache key
+			  				   .o2Cache<string>(()=>loginRequest.GET().xRoot().innerXml());             // login request made here
+			};
+Action<string> showMessageInBrowsers = 
+	(messageToShow)
+		  =>{
+				htmlViewer .showMessage(messageToShow);		  		
+		  		jsonpViewer.showMessage(messageToShow);		  		
+		  		rawViewer  .showMessage(messageToShow);		  		
+			};	
+Action<string,string,string> showArticle = 
+	(articleId, username, password)
+		  =>{
+		  		showMessageInBrowsers("....logging in...");
+		  		
+			  	var userId 	=  getLoginId(username, password);
+			  	
+				if (userId.guid() == Guid.Empty)						// handle failed login attempt				
+					showMessageInBrowsers("...login failed! ...");
+				else
+				{
+					showMessageInBrowsers(".... loading data ...");								
+					htmlViewer	.set_Html(wrapCss(getArticle("content",articleId, userId)));
+					rawViewer	.set_Html(getArticle("raw"	  ,articleId, userId));			    
+					jsonpViewer	.set_Html(getArticle("jsonp"  ,articleId, userId));		
+				}
+			};
+
+loadData = ()=>	showArticle(article_TextBox.get_Text(), username_TextBox.get_Text(), password_TextBox.get_Text());			
+
+article_TextBox.set_Text("7d647e95-e47f-42e3-bb84-fd0dd727245c");
+ 
+var crendential 	= "TestAccounts.xml".credential("TeamMentor");		// load username/password from disk
+
+if (crendential.notNull())
+{
+	crendential.UserName.add(crendential.Password).o2Cache(null);			// just in case, clear login cache
+	username_TextBox.set_Text(crendential.UserName);					// set default values on TextBoxes
+	password_TextBox.set_Text(crendential.Password);	
+	loadData_Link.click();													// trigger show article workflow
+}
+
+rawViewer.showMessage("... please set the login account and article Id (a GUID) on the Textboxes above ...");
+
+return "done";
+
+//using FluentSharp.CoreLib.Utils
+//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs

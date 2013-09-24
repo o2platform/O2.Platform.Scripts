@@ -34,7 +34,6 @@ files.afterSelect<string>(
 			});
 files.onDrop(extractClassesFromJar);
 
-//using O2.XRules.Database.APIs
 
 //O2File:API_Jad.cs
 //O2EmbedTool:Jad

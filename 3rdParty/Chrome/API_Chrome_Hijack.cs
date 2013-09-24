@@ -57,12 +57,15 @@ namespace O2.XRules.Database.APIs
 			ChromeDriver = new ChromeDriver(ChromeDriverService, ChromeOptions);
 			
 			//resolve driverServiceProcess
-			var fieldInfo  = (FieldInfo)typeof(DriverService).field("driverServiceProcess");
-			ChromeDriverProcess = (Process)fieldInfo.GetValue(ChromeDriverService);
+			//var fieldInfo  = (FieldInfo)typeof(DriverService).field("driverServiceProcess");
+			var fieldInfo = typeof(DriverService).fieldInfo("driverServiceProcess");
+			if (fieldInfo.notNull())
+			{
+				ChromeDriverProcess = (Process)fieldInfo.GetValue(ChromeDriverService);
 			
-			ChromeDriverProcess.waitFor_MainWindowHandle();
-			ChromeProcess = ChromeDriverProcess.getProcessWithParentHandle();
-		
+				ChromeDriverProcess.waitFor_MainWindowHandle();
+				ChromeProcess = ChromeDriverProcess.getProcessWithParentHandle();
+			}
 			return this;
 		}
 				

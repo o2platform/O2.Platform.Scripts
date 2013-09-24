@@ -14,11 +14,15 @@ using FluentSharp.REPL.Utils;
 using FluentSharp.WinForms;
 //O2File:_7_Zip.cs
 
+//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
+
 namespace O2.XRules.Database.APIs
 {
 	// this calls exists to simplify the creation of new Tool APIs
 	public class Tool_API
     {   
+    	public static string CODEPLEX_BUILD_ID	= "20748"; 
+    	
     	public string ToolName 					{ get; set; }
     	public string Version 					{ get; set; }    	
     	public string VersionWebDownload 		{ get; set; } 
@@ -269,8 +273,16 @@ namespace O2.XRules.Database.APIs
     		var localPath = localDownloadsDir.pathCombine(file);
     		if (localPath.fileExists())
     		{
-    			"found previously downloaded copy: {0}".info(localPath);
-    			return localPath;
+    			if (localPath.extension(".zip") && localPath.isZipFile().isFalse())
+    			{    				
+    				"found previously downloaded zip file, but it was corrupted, so downloading it again: {0}".error(localPath);
+    				localPath.delete_File();
+    			}
+    			else
+    			{
+    				"found previously downloaded copy: {0}".info(localPath);
+    				return localPath;
+    			}
     		}    		
     		
     		var s3Path = "{0}{1}".format(s3DownloadFolder, file);    		
@@ -363,6 +375,25 @@ namespace O2.XRules.Database.APIs
 				Files.deleteFile(tempLocalDownload);
 			delete_Install_Dir();
 		}
-					
+		
+		public string buildCodePlexDownloadUri(string projectName, int downloadId, long fileTime)
+		{			
+			 var codePlexBuildId =  "codePlex_Html".o2Cache<string>("http://www.codeplex.com/".GET)
+										.lines_RegEx("<li>Version.*</li>")
+									  	.first().trim()
+									   	.split(".").last()
+									   	.remove("</li>");
+			if(codePlexBuildId.valid())
+			{
+				"[ToolAPI] Found CodePlex Build Id: {0}".info(codePlexBuildId);
+				var downloadUrl = "http://download-codeplex.sec.s-msft.com/Download/Release?ProjectName={0}&DownloadId={1}&FileTime={2}&Build={3}"
+									.format(projectName, downloadId, fileTime, codePlexBuildId);
+				"[ToolAPI] Mapped DownloadUrl to : {0}".info(downloadUrl);
+				return downloadUrl;
+			}
+			"[ToolAPI] Could not find CodePlex Build id".error();
+			return null;
+		}
+		
     }
 }

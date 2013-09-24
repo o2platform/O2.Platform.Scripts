@@ -1,0 +1,28 @@
+new API_IKVMC();
+
+var topPanel = "Util - Simple Groovy Shell".popupWindow(700,400);
+//var topPanel = panel.clear().add_Panel();
+var replUI = topPanel.add_REPL_Gui();
+var code  = replUI.Code_Panel.add_SourceCodeViewer();
+
+var groovyShell = new groovy.lang.GroovyShell();
+replUI.On_ExecuteCode = 
+	()=>{
+			try
+			{
+				var result = groovyShell.evaluate(code.get_Text());
+				replUI.showOutput(result.str());
+			}
+			catch(Exception ex)
+			{
+				replUI.showOutput(ex.Message + " : " + ex.StackTrace);
+			}
+		 };
+		 
+code.set_Text("java.lang.System.getProperties();");
+replUI.Execute_Button.click();
+
+//O2File:API_IKVMC.cs
+//O2Ref:IKVM\ikvm-7.2.4630.5\bin\IKVM.OpenJDK.Core.dll
+//O2Ref:Groovy\DotNet_IKVM\groovy-all-2.1.6.dll
+//using O2.XRules.Database.APIs.IKVM
