@@ -1,5 +1,17 @@
 //panel.clear();
 //globalvars
+
+Action fixForPcRegistryBug = 
+	()=>{			
+		var persistanceFolder = PublicDI.config.O2TempDir
+						.pathCombine("..//_CSharpCodeCompletion")
+					  	.fullPath().createFolder();;			
+		new ProjectContentRegistry().ActivatePersistence(persistanceFolder);
+	    };
+
+fixForPcRegistryBug();
+
+
 var fileCache = new FileCache("".tempDir().pathCombine("_fileCache"));
 
 var astData_LoadedFiles = new O2MappedAstData();
