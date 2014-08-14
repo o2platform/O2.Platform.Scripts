@@ -14,105 +14,39 @@ using Ionic.Zip;
 
 namespace FluentSharp.CoreLib
 {	
+	public class utils
+	{
+		
+	}
+	public static class Extra_TimeSpan
+	{
+		
+	}
 	public static class Extra_Web
 	{
-		public static string GET(this string url, string cookies)
-		{			
-			return new Web().getUrlContents(url,cookies, false);
-		}
 		
-		public static string GET(this Web web, string url)
-		{
-			if (web.notNull())
-				return web.getUrlContents(url);
-			return null;
-		}
 	}
 	public static class Extra_Zip
 	{
-		public static bool isZipFile(this string zipFile)
-		{
-			if (zipFile.fileExists())
-			{
-				try
-				{
-					var entries = new ZipFile(zipFile).Entries;
-					return entries.size() >0;
-				}
-				catch(Exception ex)
-				{
-					ex.log("[zipFile] isZipFile");
-				}				
-			}
-			return false;
-		}
+		
 	}
 
 	public static class Extra_Process
 	{
-		public static Process       startProcess(this string processExe, string arguments, string workingDirectory)
-		{
-			return processExe.startProcess(arguments, workingDirectory, (line)=>line.info());
-		}
-		
-		public static Process       startProcess(this string processExe, string arguments, string workingDirectory,  Action<string> onDataReceived)
-		{
-			return Processes.startProcessAndRedirectIO(processExe, arguments, workingDirectory, onDataReceived, onDataReceived);
-		}		
+				
 	}
 	public static class Extra_Icon
 	{
-		public static Icon file_Icon(this string filePath)
-		{
-			if(filePath.fileExists())
-			{
-				try
-				{
-					return Icon.ExtractAssociatedIcon(filePath);
-				}
-				catch(Exception ex)
-				{
-					ex.log("[filePath].file_Icon");
-				}
-			}
-			return null;
-		}
 		
-		public static Image toImage(this Icon icon)
-		{
-			if (icon.notNull())
-				return icon.ToBitmap();
-			return null;
-			
-		}
 	}
 	
 	public static class Extra_IO
 	{
-		public static string fileContents(this string folder, string file)
-		{
-			return folder.pathCombine(file).fileContents();
-		}
-		public static List<string> fileNames(this string folder)
-		{
-			return folder.files().fileNames();
-		}
-		public static string folder(this string basePath, string folderName)
-		{
-			var targetFolder = basePath.pathCombine(folderName);
-			if(targetFolder.dirExists())
-				return targetFolder;
-			return null;
-		}
 		
-		public static bool file_Doesnt_Exist(this string file)
-		{
-			return file.file_Exists().isFalse();
-		}
-		public static bool file_Exists(this string file)
-		{
-			return file.fileExists();
-		}
+		
+		
+		
+		
 	}
 	public static class Extra_Misc
 	{			
@@ -127,14 +61,7 @@ namespace FluentSharp.CoreLib
 	}
 	public static class Extra_Lines
 	{
-		public static List<string> lines_RegEx(this string target, string regEx)
-		{
-			return target.lines().containing_RegEx(regEx);
-		}
-		public static List<string> containing_RegEx(this List<string> items, string regEx)
-		{
-			return items.where(item=>item.regEx(regEx));
-		}
+		
 	}
 
 	public static class Extra_WinForm_Controls_ToolStrip

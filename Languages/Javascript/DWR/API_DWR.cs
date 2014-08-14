@@ -10,6 +10,9 @@ using FluentSharp.REPL;
 using FluentSharp.WinForms;
 using O2.XRules.Database.Languages_and_Frameworks.Javascript;
 using Jint.Expressions;
+using FluentSharp.Web35;
+using FluentSharp.Web35.API;
+
 //O2File:Jint_ExtensionMethods.cs
 //O2File:Jint_Objects.cs
 //O2File:Jint_Visitors.cs

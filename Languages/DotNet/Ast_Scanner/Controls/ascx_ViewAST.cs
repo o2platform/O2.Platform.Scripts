@@ -17,6 +17,7 @@ using ICSharpCode.NRefactory.Ast;
 //O2File:SharpDevelop_O2MappedAstData_ExtensionMethods.cs
 //O2File:TextEditor_O2CodeStream_ExtensionMethods.cs
 //O2Ref:QuickGraph.dll
+//O2Ref:FluentSharp.Ast.dll
 
 namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 {

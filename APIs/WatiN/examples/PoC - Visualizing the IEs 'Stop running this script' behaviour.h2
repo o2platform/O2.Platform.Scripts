@@ -83,7 +83,7 @@ Action<int,int> runTest =
 								else
 								{										
 									popups++;
-									 "No".click_Button_in_Window("Web Browser", 5);							
+									 "No".click_Button_in_Window("PoC - Visualizing the IEs 'Stop running this script' behaviour", 5);							
 								}
 							}											
 				};						
@@ -95,9 +95,9 @@ Action<int,int> runMultipleTests =
 								runTest(i, multiplier);												
 							}
 						};
-//runMultipleTests(1,5000); 						
+runMultipleTests(3,5000); 						
 //runMultipleTests(15,350); 
-runMultipleTests(15,500); 
+//runMultipleTests(15,500); 
 
 
 return "ok";
@@ -109,4 +109,3 @@ return "ok";
 
 //O2File:API_GuiAutomation.cs
 //O2Ref:White.Core.dll
-

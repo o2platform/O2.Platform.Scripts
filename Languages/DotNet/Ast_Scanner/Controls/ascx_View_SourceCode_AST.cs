@@ -7,6 +7,8 @@ using FluentSharp.CoreLib.API;
 using FluentSharp.REPL;
 using FluentSharp.REPL.Controls;
 using FluentSharp.WinForms;
+using FluentSharp.CSharpAST.Utils;
+//O2Ref:FluentSharp.Ast
 
 namespace O2.XRules.Database.Utils
 {		

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Windows.Forms;
 using System.Text;
+using FluentSharp.Web35;
 using FluentSharp.CoreLib;
 using FluentSharp.For_HtmlAgilityPack;
 using FluentSharp.REPL;

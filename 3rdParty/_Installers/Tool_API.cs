@@ -12,6 +12,8 @@ using FluentSharp.CoreLib.Interfaces;
 using FluentSharp.REPL;
 using FluentSharp.REPL.Utils;
 using FluentSharp.WinForms;
+using FluentSharp.Zip;
+using FluentSharp.Web35;
 //O2File:_7_Zip.cs
 
 //O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs

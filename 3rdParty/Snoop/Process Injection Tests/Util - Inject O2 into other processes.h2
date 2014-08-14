@@ -138,6 +138,7 @@ codeEditor.set_Text("Debug.Write(\"Testing 123...\");".line() +
 
 refreshProcessList();  
 
+return "done";
 
 //injectO2IntoProcess();  
 

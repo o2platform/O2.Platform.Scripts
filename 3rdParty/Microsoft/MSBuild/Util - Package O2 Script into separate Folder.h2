@@ -12,7 +12,7 @@ var dropZone = topPanel.insert_Left(200)
 					  .font_bold();
 	 	 		    
 var lastScriptFile = "";					  
-var compiledScript = "";
+var compiledScript = ""; 
 	
 Action<string> packageScript =  
 	(scriptFile)=>{		   
@@ -48,7 +48,7 @@ dropZone.add_MenuItem_with_TestScripts(packageScript);
 
 return packageScript;
 
-//using O2.XRules.Database.APIs 
-//O2File:API_MicrosoftBuild.cs
-
+//_O2File:API_MicrosoftBuild.cs
+//using FluentSharp.MsBuild
+//O2Ref:FluentSharp.MsBuild.dll
 //O2Package:ALL_SCRIPTS
