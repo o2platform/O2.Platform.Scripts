@@ -22,8 +22,6 @@ using FluentSharp.REPL;
 //O2Ref:Roslyn.Compilers.CSharp.dll
 //O2Ref:Roslyn.Utilities.dll
 
-//_O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
-//O2Ref:WeifenLuo.WinFormsUI.Docking.dll
 
 namespace FluentSharp.FluentRoslyn
 {	

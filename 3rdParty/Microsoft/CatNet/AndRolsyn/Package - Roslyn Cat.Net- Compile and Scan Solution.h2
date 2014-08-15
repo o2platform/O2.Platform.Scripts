@@ -11,7 +11,7 @@ Action<List<string>> beforeAddingReferences =
 	(referencesToAdd)=> {   
 							foreach(var file in referencesToAdd.toList())
 								if(file.fileName_Is("O2_External_SharpDevelop.dll","Ionic.Zip.dll", "Mono.Cecil.dll","QuickGraph.dll",
-													"Microsoft.ACESec.CATNet.Core.dll","WeifenLuo.WinFormsUI.Docking.dll"
+													"Microsoft.ACESec.CATNet.Core.dll" //,"WeifenLuo.WinFormsUI.Docking.dll"
 								
 													//"Roslyn.Compilers.dll","Roslyn.Services.dll","Roslyn.Utilities.dll",
 													))
@@ -39,6 +39,5 @@ createdExe.file_Copy(testFolder);
 testFolder.startProcess(); 
 
 //O2File:API_MicrosoftBuild.cs
-//O2File:_Extra_methods_To_Add_to_Main_CodeBase.cs
 
 //using O2.XRules.Database.APIs

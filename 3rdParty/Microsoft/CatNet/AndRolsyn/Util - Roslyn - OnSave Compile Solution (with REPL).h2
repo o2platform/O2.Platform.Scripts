@@ -181,4 +181,3 @@ return codeViewer.open(workspace.file("o2.cs").FilePath);
 //O2Ref:Roslyn.Compilers.dll
 //O2Ref:Roslyn.Compilers.CSharp.dll
 //O2Ref:FluentSharp.Roslyn.dll 
-//O2Ref:WeifenLuo.WinFormsUI.Docking.dll

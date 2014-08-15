@@ -16,7 +16,6 @@ using Microsoft.Windows.Controls.Ribbon;
 //O2Ref:PresentationCore.dll
 //O2Ref:PresentationFramework.dll
 //O2Ref:WindowsBase.dll
-//O2Ref:WeifenLuo.WinFormsUI.Docking.dll
 
 namespace O2.XRules.Database.Utils
 {
