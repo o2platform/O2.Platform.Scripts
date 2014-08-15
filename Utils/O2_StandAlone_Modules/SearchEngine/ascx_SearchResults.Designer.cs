@@ -3,7 +3,7 @@
 //O2File:ascx_SearchResults.Controllers.cs
 //O2File:ascx_SearchResults.cs 
 
-namespace O2.Tool.SearchEngine.Ascx
+namespace O2.Tool
 {
     partial class ascx_SearchResults
     {

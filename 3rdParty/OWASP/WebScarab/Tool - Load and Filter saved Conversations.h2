@@ -1,55 +1,51 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>//var testFile = @"C:\O2\US_Tour\O2 Scripts - WebScarab\WebScarab - WebGoat XSS";
+//var testFile = @"C:\O2\US_Tour\O2 Scripts - WebScarab\WebScarab - WebGoat XSS";
 
 //panel.clear();
 //var topPanel = panel; 
 
-var topPanel = O2Gui.open&lt;Panel&gt;("Tool - WebScarab: load and filter conversations",1000,500);
+var topPanel = O2Gui.open<Panel>("Tool - WebScarab: load and filter conversations",1000,500);
 var tableList = topPanel.add_TableList(); 
-var script = tableList.insert_Above&lt;Panel&gt;(200).add_Script(false);    
+var script = tableList.insert_Above<Panel>(200).add_Script(false);    
 script.onCompileExecuteOnce();
 script.InvocationParameters.add("file","");
 script.InvocationParameters.add("tableList",tableList);   
 
-script.set_Command( "if ((returnData.isNull() || returnData is string)&amp;&amp; file.valid().isFalse())".line()+
+script.set_Command( "if ((returnData.isNull() || returnData is string)&& file.valid().isFalse())".line()+
 					"	return \"drop a WebScarab conversationLog in the table list below\".line();".line()+
-					"List&lt;IWebscarabConversation&gt; conversations = null;".line()+
-					"if (returnData.isNull() || (returnData is List&lt;IWebscarabConversation&gt;).isFalse())".line()+
+					"List<IWebscarabConversation> conversations = null;".line()+
+					"if (returnData.isNull() || (returnData is List<IWebscarabConversation>).isFalse())".line()+
 					"	conversations = new API_WebScarab().loadConversationsFile(file); 				".line()+
 					"else".line()+ 
-					" 	conversations = (List&lt;IWebscarabConversation&gt;)returnData; ".line()+
+					" 	conversations = (List<IWebscarabConversation>)returnData; ".line()+
 					"var filter = (from conversation in conversations".line()+
-					"              where conversation.URL.extension().neq(\".gif\") ".line()+
+					"              where conversation.URL.extension().notEqual(\".gif\") ".line()+
 					"              //where conversation.URL.contains(\"?\")".line()+
 					"              //where conversation.METHOD == \"POST\" ".line()+
 					"              select conversation).toList(); ".line()+
 					"tableList.show(filter);".line()+
 					"tableList._Title = \"Showing {0} WebScarab log entries\".format(filter.size());  ".line()+
 					"return conversations; ".line()+
-					"//O2File:Ref:API_WebScarab.cs ".line()); 
+					"//O2File:API_WebScarab.cs ".line()); 
 					
 script.commandsToExecute.editor().gotoLine(8);
 script.commandsToExecute.editor().caret(12,0);   
 script.commandsToExecute.editor().caret(8,0);    
  
-Action&lt;string&gt; loadFile = 
-	(file)=&gt;{
+Action<string> loadFile = 
+	(file)=>{
 				"file droppped: {0}".info(file);								
 				script.InvocationParameters.add("file", file); 
 				//script.InvocationParameters.add("conversations",conversations.ToArray());  				
 				script.execute();
 			};	
 						  
-topPanel.onDrop((folder)=&gt; loadFile(folder));
-tableList.getListViewControl().onDrop((folder)=&gt; loadFile(folder));
+topPanel.onDrop((folder)=> loadFile(folder));
+tableList.getListViewControl().onDrop((folder)=> loadFile(folder));
 
 //loadFile(testFile);
-//O2File:Ref:API_WebScarab.cs 
+//O2File:API_WebScarab.cs 
 
 //O2Ref:PresentationCore.dll
 //O2Ref:WindowsBase.dll
 //O2Ref:System.Xaml.dll
-//O2Ref:PresentationFramework.dll</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//O2Ref:PresentationFramework.dll

@@ -195,7 +195,7 @@ step7_Button.onClick_Wpf(()=>publishExploit());
 step2_IE.onNavigate(
 	(url)=> {
 				if (processOnNavigateEvents)
-					if (url.neq("about:blank"))
+					if (url.notEqual("about:blank"))
 					{
 						step1_TextBox.set_Text_Wpf(url);
 						image.rotate();		
@@ -229,10 +229,9 @@ step6_Button.wpfInvoke(
 //using System.Windows.Media
 //using System.Windows.Media.Imaging
 //using System.Windows.Markup
-//using O2.XRules.Database.APIs
-//using O2.XRules.Database.Utils
 //using FluentSharp.WPF
 //using FluentSharp.Watin
+//using O2.XRules.Database.Utils;
 
 //O2File:WatiN_IE_ExtensionMethods.cs 		
 //O2File:DiagramDesigner_ExtensionMethods.cs
@@ -261,4 +260,3 @@ step6_Button.wpfInvoke(
 //O2Ref:DiagramDesigner.exe
 //O2Ref:Microsoft.mshtml.dll
 //O2Ref:Interop.SHDocVw.dll
-//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll

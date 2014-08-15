@@ -984,7 +984,7 @@ namespace O2.XRules.Database.APIs
 									selectedFunction.set_Text("{0}.{1}".format(dwrFunction.ClassName, dwrFunction.FunctionName));
 									functionParameters.remove_Rows();
 									foreach(var parameter in dwrFunction.Parameters)
-										if (parameter.neq("callback"))
+										if (parameter.not_Equal("callback"))
 											functionParameters.add_Row(parameter);
 									functionParametersRaw.enabled(dwrFunction.Parameters.size()>1);  												
 								});

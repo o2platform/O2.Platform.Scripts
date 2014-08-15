@@ -14,8 +14,6 @@ using WpfImaging = System.Windows.Media.Imaging;
 //O2Ref:System.Core.dll
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:System.Xaml.dll
-//O2Ref:GraphSharp.dll
-//O2Ref:QuickGraph.dll 
 //O2Ref:GraphSharp.Controls.dll
 
 namespace O2.XRules.Database.APIs

@@ -79,7 +79,7 @@ namespace O2.XRules.Database.APIs
 		
 			var response = twitter.Request();
 		
-			if (response.ResponseHttpStatusCode.neq(200))
+			if (response.ResponseHttpStatusCode != 200)
 			{
 				"error in first twitter response".error();
 				return null;

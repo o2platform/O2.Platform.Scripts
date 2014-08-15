@@ -9,8 +9,6 @@ using Gong = GongSolutions.Wpf.DragDrop	;
 //O2Ref:WPFToolkit.dll
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:ICSharpCode.AvalonEdit.dll
-//O2Ref:QuickGraph.dll
-//O2Ref:GraphSharp.dll
 //O2Ref:GraphSharp.Controls.dll
 //O2Ref:PresentationCore.dll
 //O2Ref:WindowsBase.dll

@@ -5,7 +5,7 @@ using FluentSharp.WinForms.Utils;
 
 //O2File:ascx_TextSearch.Designer.cs
 
-namespace O2.Tool.SearchEngine.Ascx
+namespace O2.Tool
 {
     public partial class ascx_TextSearch : UserControl
     {

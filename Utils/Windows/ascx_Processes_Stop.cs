@@ -83,7 +83,7 @@ namespace O2.Script
      	{
      		var cell = dataGridView.value(rowId,columnId).ToString();
      		//this.info(cell);
-     		if (cell.eq("stop"))
+     		if (cell.equal("stop"))
      		{
      			dataGridView.set_Value(rowId,columnId,"stopping");
      			O2Thread.mtaThread(

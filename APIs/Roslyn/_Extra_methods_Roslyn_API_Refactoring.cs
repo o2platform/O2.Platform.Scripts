@@ -7,7 +7,6 @@ using FluentSharp.CoreLib;
 //O2File:_Extra_methods_Roslyn_API.cs
 
 //O2Ref:FluentSharp.Roslyn.dll
-//O2Ref:QuickGraph.dll
 //O2Ref:Roslyn.Services.dll
 //O2Ref:Roslyn.Services.CSharp.dll
 //O2Ref:Roslyn.Compilers.dll

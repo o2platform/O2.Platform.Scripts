@@ -226,3 +226,4 @@ return "ok";
 //O2File:Ast_Engine_ExtensionMethods.cs 
 //O2File:Saved_MethodStream.cs
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
+//O2Ref:FluentSharp.AST.dll

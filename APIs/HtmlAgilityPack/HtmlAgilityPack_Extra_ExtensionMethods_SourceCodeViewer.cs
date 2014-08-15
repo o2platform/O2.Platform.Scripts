@@ -1,12 +1,14 @@
 using System;
 using FluentSharp.CoreLib;
-using FluentSharp.For_HtmlAgilityPack;
+using FluentSharp.HtmlAgilityPacK;
 using FluentSharp.REPL;
 using FluentSharp.REPL.Controls;
 using System.Windows.Forms;
 using FluentSharp.WinForms;
 
-//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
+//O2Ref:FluentSharp.HtmlAgilityPack.dll
+//O2Ref:HtmlAgilityPack.dll
+//O2Ref:FluentSharp.Xml.dll
 
 namespace O2.XRules.Database.Utils
 {

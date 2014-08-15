@@ -14,7 +14,6 @@ using FluentSharp.WinForms;
 using FluentSharp.WinForms.Controls;
 
 //O2Ref:AWSSDK.dll
-//O2File:ascx_AskUserForLoginDetails.cs	
 //_O2File:API_RSA.cs
 
 namespace O2.XRules.Database.APIs

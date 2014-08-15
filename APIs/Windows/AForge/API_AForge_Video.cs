@@ -19,7 +19,7 @@ using FluentSharp.WinForms;
 //O2Ref:AForge.Video.DirectShow.dll
 //O2Ref:AForge.Controls.dll
 //O2Ref:AForge.Video.dll
-
+//O2Ref:FluentSharp.Ast.dll
 
 namespace O2.XRules.Database.APIs
 {
@@ -129,7 +129,7 @@ namespace O2.XRules.Database.APIs
 		
 		public static API_AForge_Video add_Image(this API_AForge_Video aforgeVideo, string pathToImage)
 		{
-			aforgeVideo.add_Image(Misc_ExtensionMethods_BitMap.bitmap(pathToImage));		// using the extension methods creates a weird conflic with the other bitmap<T>() where T : Control
+			aforgeVideo.add_Image(BitMap_ExtensionMethods.bitmap(pathToImage));		// using the extension methods creates a weird conflic with the other bitmap<T>() where T : Control
 			return aforgeVideo;
 		}
 		
@@ -150,8 +150,7 @@ namespace O2.XRules.Database.APIs
 					aforgeVideo.newVideo();
 				if (image.isNull())
 					return aforgeVideo;
-				if (image.Width.neq(aforgeVideo.VideoWidth).or(
-					image.Height.neq(aforgeVideo.VideoHeight)))
+				if (image.Width  != aforgeVideo.VideoWidth || image.Height != aforgeVideo.VideoHeight)
 					image = image.resize(aforgeVideo.VideoWidth,aforgeVideo.VideoHeight);
 				aforgeVideo.VideoWriter.AddFrame(image);	
 			}

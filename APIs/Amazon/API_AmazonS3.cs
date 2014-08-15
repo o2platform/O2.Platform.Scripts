@@ -4,6 +4,7 @@ using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using FluentSharp.REPL;
 using FluentSharp.CoreLib;
 using FluentSharp.CoreLib.API;
 using FluentSharp.CoreLib.Utils;
@@ -16,7 +17,6 @@ using Amazon;
 
 //O2File:ISecretData.cs
 //O2File:SecretData_ExtensionMethods.cs
-//O2File:ascx_AskUserForLoginDetails.cs
 
 //O2Ref:AWSSDK.dll
 

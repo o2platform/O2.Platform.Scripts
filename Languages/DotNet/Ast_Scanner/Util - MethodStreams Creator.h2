@@ -1,0 +1,289 @@
+//panel.clear();
+//globalvars
+
+Action fixForPcRegistryBug = 
+	()=>{			
+		var persistanceFolder = PublicDI.config.O2TempDir
+						.pathCombine("..//_CSharpCodeCompletion")
+					  	.fullPath().createFolder();;			
+		new ProjectContentRegistry().ActivatePersistence(persistanceFolder);
+	    };
+
+fixForPcRegistryBug();
+
+
+var fileCache = new FileCache("".tempDir().pathCombine("_fileCache"));
+
+var astData_LoadedFiles = new O2MappedAstData();
+String selectedFile = null;
+
+//build gui
+//var topPanel = panel;
+var topPanel = O2Gui.open<Panel>("Util - MethodStreams Creator",1000,500);
+var topPanels = topPanel.add_1x1x1("Source Files and References", "Selected File", "Method Stream Details");  
+var sourceFiles = topPanels[0].add_TreeView().showSelection().sort(); 
+var sourceFileFilter = sourceFiles.insert_Above<TextBox>(20);
+var references = sourceFiles.insert_Below<TextBox>(100).multiLine();
+var selectedFileContents = topPanels[1].add_SourceCodeViewer(); 
+var selectedFileMethods = selectedFileContents.insert_Below<GroupBox>(100).set_Text("Methods in File").add_TreeView().showSelection().sort(); 
+//var methodStreamDetails = topPanels[2].add_PropertyGrid();
+//var methodStreamCode = methodStreamDetails.insert_Below<Panel>().add_SourceCodeViewer();
+//var methodStreamCode = topPanels[2].add_SourceCodeViewer();
+var methodStreamCode = topPanels[2].add_Control<ascx_ManualMethodStreams>();
+methodStreamCode.buildGui();
+
+var selectedFilePanel = selectedFileContents.insert_Below<Panel>(20);
+
+var currentINodeLabel = selectedFilePanel.add_Label("Current INode");
+
+//methods
+Func<O2MappedAstData, string, ICSharpCode.TextEditor.Caret,INode> findINodeAtCaretLocation = 
+	(astData, file, caret)=>
+		{			
+			if (astData!=null)
+			{
+				var iNode = astData.iNode(file, caret);
+				if (iNode != null)	
+				{
+					//CodeViewer.editor().selectTextWithColor(iNode);	
+					if (iNode is TypeReference)
+						iNode = iNode.Parent;
+						
+					//CurrentINode = iNode;
+					currentINodeLabel.set_Text("current iNode:{0}".format(iNode.typeName()));						
+					return iNode;
+					//"current iNode:{0} : {1}".debug(iNode.typeName(), iNode);	
+					
+					//createAndShowCodeStream(iNode);
+				}
+			}
+			return null;
+		};
+
+Action loadReferences = 		
+	()=>{
+			var referencesToLoad = references.get_Text().lines();
+			"Loading {0} References".info(referencesToLoad.size());
+			foreach(var reference in referencesToLoad)
+				astData_LoadedFiles.O2AstResolver.addReference(reference);			
+		};
+						
+Action<List<string>,string> showSourceFiles = 
+	(filesToLoad, filter)=> {								
+								sourceFiles.clear();
+								foreach(var file in astData_LoadedFiles.files())
+									if (filter.valid().isFalse() || file.regEx(filter))
+									sourceFiles.add_Node(file.fileName(),file);	
+							};
+Action refreshSourceFiles = ()=> showSourceFiles(astData_LoadedFiles.files(),sourceFileFilter.get_Text());																
+
+Action clearO2MethodStreamCache = ()=> O2MethodStream_ExtensionMethods.O2MethodStreamCache.Clear();
+
+Func<IMethod,string> createMethodStream =
+	(iMethod)=> {							
+					return astData_LoadedFiles.createO2MethodStream_UseCache_ReturnFile(iMethod, fileCache, ".cs");										
+				};
+
+Action<string> createMethodStreamForFile = 
+	(file)=>{
+				"Creating all method streams for file: {0}".debug(file); 
+				var allINodes = astData_LoadedFiles.FileToINodes[file];
+				if (allINodes.NodesByType.hasKey("MethodDeclaration"))
+				{
+					foreach(var methodDeclaration in allINodes.NodesByType["MethodDeclaration"])
+					{
+						var iMethod = astData_LoadedFiles.iMethod(methodDeclaration as MethodDeclaration);
+						if (iMethod.notNull())
+							createMethodStream(iMethod);
+					}
+					"Created all method streams for file: {0}".debug(file);
+				}
+			};
+
+Action createMethodStreamForSelectedFile = 
+	()=>{
+			var targetFile = sourceFiles.selected().Tag.str();			
+			createMethodStreamForFile(targetFile);			
+		};
+Action createMethodStreamForSelectedAllFileterdFiles = 		
+	()=>{
+			var filesToProcess = new List<string>();
+			foreach(var node in sourceFiles.nodes())
+				filesToProcess.Add(node.Tag.str());
+		
+			"Creating method streams for {0} files".lineBeforeAndAfter().debug(filesToProcess.size());
+			
+			foreach(var file in filesToProcess)
+				createMethodStreamForFile(file);
+				
+			"Created method streams for {0} files".lineBeforeAndAfter().debug(filesToProcess.size());	
+				
+		};
+// events
+
+sourceFileFilter.onEnter((text)=>refreshSourceFiles());
+
+sourceFiles.afterSelect<string>(
+	(file)=>{
+				selectedFile = file;
+				selectedFileContents.open(file);				
+				selectedFileMethods.clear();
+				try
+				{
+					var allINodes = astData_LoadedFiles.FileToINodes[file];
+					foreach(var methodDeclaration in allINodes.NodesByType["MethodDeclaration"])
+					{
+						var iMethod = astData_LoadedFiles.iMethod(methodDeclaration as MethodDeclaration);
+						if (iMethod.notNull())
+							selectedFileMethods.add_Node(iMethod.fullName(), methodDeclaration);
+						else
+							selectedFileMethods.add_Node(methodDeclaration.str(), methodDeclaration); 
+					}
+				}
+				catch(Exception ex)
+				{
+					ex.log("sourceFiles.afterSelect");
+				}
+			});
+
+selectedFileContents.onCaretMove(
+	(caret)=>{				
+				methodStreamCode.set_Text("");
+				O2Thread.mtaThread(
+					()=>{
+							try
+							{
+								IMethod iMethod = null;
+								var iNode = findINodeAtCaretLocation(astData_LoadedFiles, selectedFile,caret);
+								
+								if (iNode is Expression)
+				 				{
+									iMethod = astData_LoadedFiles.fromExpressionGetIMethod(iNode as Expression);
+									if (iMethod.notNull())					
+										"Found method called IMethod: {0}".debug(iMethod.DotNetName);											
+									else
+										"Could NOT resolve INode expression into IMethod: {0}".debug(iNode.str());
+								}
+								else 
+									if (iNode is MethodDeclaration)
+									{
+										iMethod = astData_LoadedFiles.iMethod(iNode as MethodDeclaration);										
+									}								
+								
+								if (iMethod.notNull())
+								{
+									"creating method stream for: {0}".format(iMethod.DotNetName); 
+									var csharpCodeFile = createMethodStream(iMethod);
+									methodStreamCode.loadFile(csharpCodeFile); 
+									//methodStreamCode.set_Text(methodStream.csharpCode(),".cs");
+								}						
+							}
+							catch(Exception ex)
+							{
+								ex.log("in selectedFileContents.onCaretMove",true);
+							}
+					});
+			});
+
+	 
+sourceFiles.onDrop(
+	(fileOrFolder)=>{
+						sourceFiles.backColor(Color.Azure);						
+						O2Thread.mtaThread(
+							()=>{
+									"Loading file(s) from {0}".info(fileOrFolder);
+									if(fileOrFolder.fileExists()) 
+										astData_LoadedFiles.loadFile(fileOrFolder);
+									else
+										if(fileOrFolder.isFolder())
+										{
+											//clearO2MethodStreamCache();
+											//astData_LoadedFiles = new O2MappedAstData();
+											loadReferences();																						
+											astData_LoadedFiles.loadFiles(fileOrFolder.files("*.cs",true));
+										}
+									refreshSourceFiles();
+									sourceFiles.backColor(Color.White);
+									//topPanels[0].clear();
+									//topPanels[0].add_TreeViewWithFilter(astData_SelectedFile.files());
+								});
+					
+					});
+
+selectedFileMethods.afterSelect<MethodDeclaration>(
+	(methodDeclaration)=>{						
+							selectedFileContents.editor().setSelectedLineNumber(methodDeclaration.StartLocation.Line);
+							selectedFileMethods.focus();
+							//selectedFileContents.editor().caret(methodDeclaration.StartLocation.Line, methodDeclaration.StartLocation.Column);
+							//show.info(methodDeclaration);
+						 });
+			 
+//astData_LoadedFiles.afterSelect_ShowInSourceCodeEditor(selectedFileMethods,selectedFileContents.editor());
+			
+//Menu items
+references.add_ContextMenu()
+		  .add_MenuItem("Reload References", true, ()=> loadReferences())
+		  .add_MenuItem("Clear O2MethodStreamCache", ()=> clearO2MethodStreamCache());
+
+sourceFiles.add_ContextMenu()
+		   .add_MenuItem("Create All MethodStreams for Selected File", true, ()=> createMethodStreamForSelectedFile())
+		   .add_MenuItem("Create All MethodStreams for ALL files (currently shown in TreeView)", ()=>createMethodStreamForSelectedAllFileterdFiles()); 
+		   
+// load test data
+references.append_Line("System.Web");
+references.append_Line("System.Web.Services");
+references.append_Line("System.Data");
+
+//var testFiles = @"E:\_Tests\Demos_Files\HacmeBank_v2.0 (7 Dec 08)\HacmeBank_v2_WS";
+
+
+//dev tests
+/*
+astData_LoadedFiles = (O2MappedAstData)O2LiveObjects.get("astData");
+
+
+if (astData_LoadedFiles.isNull())
+{
+	"Creating and populating O2MappedAstData object".debug();
+	astData_LoadedFiles = new O2MappedAstData();
+	astData_LoadedFiles.loadFiles(testFiles.files("*.cs",true)); 
+	foreach(var reference in references.get_Text().lines())
+		astData_LoadedFiles.O2AstResolver.addReference(reference);
+		
+	O2LiveObjects.set("astData", astData_LoadedFiles);
+}*/
+
+references.insert_Right<Panel>(100).add_PropertyGrid().show(astData_LoadedFiles);
+
+/*foreach(var file in testFiles.files("*.cs",true))
+	sourceFiles.add_Node(file.fileName(),file);
+
+
+//sourceFiles.select("SqlServerEngine.cs");//.select("InstallToos.cs");
+//selectedFileContents.editor().caret(48,25).focus();   
+  
+//this.sleep(1000);
+sourceFiles.select("UserManagement.asmx.cs");//.select("InstallToos.cs")  ;
+selectedFileContents.editor().caret(49,20).focus();
+*/
+
+return "ok";
+
+//using FluentSharp.CSharpAST
+//using FluentSharp.CSharpAST.Utils
+//using ICSharpCode.SharpDevelop.Dom;
+//using ICSharpCode.NRefactory;
+//using ICSharpCode.NRefactory.Ast;
+//using FluentSharp.CoreLib.Utils
+//using O2.XRules.Database.Languages_and_Frameworks.DotNet				
+
+//O2File:ascx_ManualMethodStreams.cs
+//O2File:SharpDevelop_O2MappedAstData_ExtensionMethods.cs
+//O2File:Ast_Engine_ExtensionMethods.cs 
+
+//O2Ref:FluentSharp.AST.dll
+
+
+//generateDebugSymbols
+
+//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll

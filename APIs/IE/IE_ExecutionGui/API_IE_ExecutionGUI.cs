@@ -8,6 +8,7 @@ using FluentSharp.CoreLib.API;
 using FluentSharp.REPL;
 using FluentSharp.Watin;
 using FluentSharp.WinForms;
+using FluentSharp.Web35.API;
 
 //O2Ref:FluentSharp.Watin.dll
 //O2Ref:Watin.Core.dll

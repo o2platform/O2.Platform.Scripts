@@ -5,8 +5,10 @@ using System.Collections.Generic;
 using FluentSharp.CoreLib;
 using FluentSharp.CoreLib.API;
 using FluentSharp.O2Platform.Controls;
+using FluentSharp.REPL;
 using FluentSharp.REPL.Controls;
 using FluentSharp.WPF;
+using FluentSharp.Web35;
 using FluentSharp.WinForms;
 using FluentSharp.WinForms.Controls;
 using Odyssey.Controls;
@@ -20,8 +22,6 @@ using O2.XRules.Database.Utils;
 
 //O2Ref:Odyssey.dll
 //O2Ref:WindowsFormsIntegration.dll
-//O2Ref:GraphSharp.dll
-//O2Ref:QuickGraph.dll 
 //O2Ref:GraphSharp.Controls.dll
 //O2Ref:ICSharpCode.AvalonEdit.dll
 //O2Ref:FluentSharp.O2Platform.dll
@@ -241,7 +241,7 @@ namespace O2.XRules.Database.APIs
     					};
     			wpf_Gui.ExecuteScripts.csharpCompiler_OnCompileFail = 
     				()=>{
-    						var compilationErrors = wpf_Gui.ExecuteScripts.csharpCompiler.CompilationErrors;
+    						var compilationErrors = wpf_Gui.ExecuteScripts.csharpCompiler.compilationErrors();
     						var errorMessage = "Compilation Failed!".line() + 
     										   "<br><hr><h4>".line() +
     										   compilationErrors.Replace("".line(), "<br>") + 
@@ -301,7 +301,7 @@ namespace O2.XRules.Database.APIs
     	{       		
 			wpf_Gui.show_O2Browser();
 			wpf_Gui.statusMessage("Showing URL:{0}",url);
-    		if (url.uri().exists())    		
+    		if (url.uri().HEAD())    		
     			wpf_Gui.O2Browser.open(url);    		
     		else
     			wpf_Gui.showOffineMessage("Could not open url: {0}".format(url));

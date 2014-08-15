@@ -7,6 +7,7 @@ using FluentSharp.CoreLib.API;
 using FluentSharp.CoreLib.Utils;
 using FluentSharp.WinForms;
 using FluentSharp.WinForms.Controls;
+using FluentSharp.Web35;
 
 //O2File:O2MediaWikiAPI.cs
 //O2File:O2PlatformWikiApi.cs

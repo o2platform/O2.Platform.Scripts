@@ -8,7 +8,9 @@ using FluentSharp.CoreLib.API;
 using FluentSharp.REPL;
 using FluentSharp.REPL.Controls;
 using FluentSharp.WinForms;
-
+using FluentSharp.AST;
+using FluentSharp.CSharpAST.Utils;
+//O2Ref:FluentSharp.Ast.dll
 //O2File:Saved_MethodStream.cs
 
 

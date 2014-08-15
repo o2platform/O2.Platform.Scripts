@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using FluentSharp.Zip;
 using FluentSharp.CoreLib;
 using FluentSharp.CoreLib.API;
 using FluentSharp.REPL;
@@ -12,6 +13,7 @@ using Microsoft.Build.Logging;
 
 //O2Ref:Microsoft.Build.Framework.dll
 //O2Ref:Microsoft.Build.dll
+//O2Ref:FluentSharp.Zip.dll
 
 
 namespace O2.XRules.Database.APIs
@@ -102,9 +104,7 @@ namespace O2.XRules.Database.APIs
 				{				
 					//ignore these since they are already embded in the FluentSharp.REPL.exe dll
                     if(extraEmbebbedResources.fileNames().contains("FluentSharp.REPL.exe") && 
-                       (extraResource.contains(
-								//"WeifenLuo.WinFormsUI.Docking.dll",
-                    			//"QuickGraph.dll",
+                       (extraResource.contains(								
                     			"Ionic.Zip.dll", "Mono.Cecil.dll" )))
                     {			
                         continue;										

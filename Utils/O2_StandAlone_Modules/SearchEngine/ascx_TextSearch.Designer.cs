@@ -4,7 +4,7 @@ using FluentSharp.REPL.Controls;
 
 //O2File:ascx_TextSearch.cs
 
-namespace O2.Tool.SearchEngine.Ascx
+namespace O2.Tool
 {
     partial class ascx_TextSearch
     {

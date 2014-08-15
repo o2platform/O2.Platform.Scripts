@@ -246,10 +246,6 @@ return null;
 //O2Ref:FluentSharp.O2Platform.exe
 //O2Ref:Odyssey.dll
 //O2Ref:O2_External_IE.dll
-//O2Ref:GraphSharp.Controls.dll
-//O2Ref:GraphSharp.dll
-//O2Ref:QuickGraph.dll
-//O2Ref:ICSharpCode.AvalonEdit.dll
 //O2Ref:PresentationCore.dll
 //O2Ref:PresentationFramework.dll
 //O2Ref:WindowsBase.dll

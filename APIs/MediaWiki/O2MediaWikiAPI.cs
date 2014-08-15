@@ -11,17 +11,22 @@ using System.Drawing.Imaging;
 using FluentSharp.CoreLib;
 using FluentSharp.CoreLib.API;
 using FluentSharp.CoreLib.Utils;
-using FluentSharp.For_HtmlAgilityPack;
+using FluentSharp.HtmlAgilityPacK;
 using FluentSharp.WinForms;
 using FluentSharp.WinForms.Controls;
+using FluentSharp.Web35;
+using FluentSharp.Web35.API;
+using FluentSharp.Xml;
 
 //using O2.External.IE.Wrapper;
 //using O2.External.IE.ExtensionMethods;
 
-//_O2Ref:O2_External_IE.dll
 //O2Ref:System.Xml.Linq.dll
 //O2Ref:System.Xml.dll
-//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
+//_O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
+//O2Ref:FluentSharp.Xml.dll
+//O2Ref:HtmlAgilityPack.dll
+//O2Ref:FluentSharp.HtmlAgilityPack.dll
 
 namespace O2.XRules.Database.APIs
 {

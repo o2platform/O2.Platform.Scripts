@@ -12,15 +12,14 @@ using FluentSharp.WinForms.Controls;
 using FluentSharp.WinForms.Utils;
 using WinForms = System.Windows.Forms;
 using System.Collections.Generic;
-using  O2.XRules.Database.Utils;
-
+using O2.XRules.Database.Utils;
+using FluentSharp.Xml;
 //O2File:ElementHost_ExtensionMethods.cs
 //O2File:Xaml_ExtensionMethods.cs
 
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:ICSharpCode.AvalonEdit.dll
-//O2Ref:QuickGraph.dll   
-//O2Ref:GraphSharp.dll
+//O2Ref:FluentSharp.Xml.dll
 //O2Ref:GraphSharp.Controls.dll
 //O2Ref:DiagramDesigner.exe
 

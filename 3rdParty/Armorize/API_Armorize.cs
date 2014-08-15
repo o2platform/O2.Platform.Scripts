@@ -7,8 +7,9 @@ using System.Text;
 using System.Xml.Linq;
 using FluentSharp.CoreLib;
 using FluentSharp.WinForms;
-
-
+using FluentSharp.Xml;
+//O2Ref:FluentSharp.Xml.dll
+//O2Ref:FluentSharp.HtmlAgilityPack.WinForms.dll
 
 namespace O2.XRules.Database.APIs
 {

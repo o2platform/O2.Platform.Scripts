@@ -8,19 +8,24 @@ using O2.Core.FileViewers.Ascx.O2Rules;
 using O2.Core.FileViewers.Ascx.tests;*/
 
 using FluentSharp.CoreLib;
+using FluentSharp.CoreLib.API;
 using FluentSharp.CoreLib.Interfaces;
 using FluentSharp.REPL.Controls;
 using FluentSharp.REPL.Utils;
-using FluentSharp.WinFormUI.Utils;
+//using FluentSharp.WinFormUI.Utils;
 using FluentSharp.WinForms.Controls;
+using FluentSharp.WinFormUI.Utils;
 using O2.ImportExport.OunceLabs;
-using O2.Tool.SearchEngine.Ascx;
+
 //O2File:ascx_SearchResults.cs
 //O2File:ascx_SearchTargets.cs
 //O2File:ascx_TextSearch.cs
 //O2File:OunceAvailableEngines.cs
 
-namespace O2.Tool.SearchEngine
+//O2Ref:FluentSharp.WinFormsUI.dll
+//O2Ref:FluentSharp.REPL.exe
+
+namespace O2.Tool
 {
 	public class SearchEngineGui_Test
 	{
@@ -32,15 +37,15 @@ namespace O2.Tool.SearchEngine
 	
 	public class SearchEngineGui
 	{
-		public static FluentSharp.CoreLib.API.SearchEngine searchEngineAPI { get; set; }        
+		public static SearchEngine searchEngineAPI { get; set; }        
 		
 		public SearchEngineGui()
 		{
-			searchEngineAPI = new FluentSharp.CoreLib.API.SearchEngine();
+			searchEngineAPI = new SearchEngine();
 		}
 		
 		public void buildGui()
-		{				            
+		{				            			
 	        // this will make files to be opened on the main Document window   
 	        HandleO2MessageOnSD.setO2MessageFileEventListener();        
 	

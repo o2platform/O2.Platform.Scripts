@@ -11,7 +11,7 @@ using FluentSharp.WinForms.Utils;
 //O2File:ascx_SearchResults.cs 
 //O2File:SearchEngineGui.cs
 
-namespace O2.Tool.SearchEngine.Ascx
+namespace O2.Tool
 {
     public partial class ascx_SearchResults
     {

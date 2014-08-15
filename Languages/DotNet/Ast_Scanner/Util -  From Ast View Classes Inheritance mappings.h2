@@ -70,7 +70,7 @@ Action<string> loadAstData =
 												
 						foreach(var iClass in astData.iClasses())
 							foreach(var inheritClass in iClass.ClassInheritanceTree)	
-								if (iClass != inheritClass && inheritClass.Name.neq("Object"))
+								if (iClass != inheritClass && inheritClass.Name.notEqual("Object"))
 								{											
 									mappedByRootClass.add(iClass, inheritClass); 
 									mappedByInheritClass.add(inheritClass,iClass); 
@@ -96,7 +96,8 @@ referencesToLoad.Add("System.Data");
 referencesToLoad.Add("System.Web");
 referencesToLoad.Add("System.Web.Services");
 //loadAstData(sourceFolder); 	
-return null;
+
+return "done";
 
 //using FluentSharp.CSharpAST.Utils
 //using O2.XRules.Database.Languages_and_Frameworks.DotNet	
@@ -106,6 +107,6 @@ return null;
 //O2File:ascx_ManualMethodStreams.cs
 //O2File:Ast_Engine_ExtensionMethods.cs
 //O2File:ascx_ManualMethodStreams.cs
-//O2Ref:O2_External_SharpDevelop.dll
+//O2Ref:FluentSharp.Ast.dll
 //O2Ref:QuickGraph.dll
 //O2Ref:O2_Misc_Microsoft_MPL_Libs.dll

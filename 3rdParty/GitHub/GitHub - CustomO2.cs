@@ -10,7 +10,6 @@ using O2.XRules.Database.Utils;
 //O2File:CustomO2.cs  
 //O2File:API_GitHub.cs
 //O2File:Git_Installer.cs
-//O2File:ascx_AskUserForLoginDetails.cs
 //O2File:API_GitHub_Issues.cs
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:RibbonControlsLibrary.dll

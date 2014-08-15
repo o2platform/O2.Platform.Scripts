@@ -3,7 +3,8 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
-using AvalonDock;
+using AvalonDock; 
+using FluentSharp.REPL;
 using FluentSharp.CoreLib;
 using FluentSharp.CoreLib.API;
 using FluentSharp.WPF;
@@ -20,6 +21,7 @@ using FluentSharp.WinForms.Controls;
 //O2File:ascx_MediaWiki_Backup.cs
 //O2File:ascx_MediaWiki_PageEditor_Simple.cs
 
+//O2Ref:FluentSharp.HtmlAgilityPack.dll
 //O2Ref:FluentSharp.WPF.dll
 //O2Ref:AvalonDock.dll
 //O2Ref:PresentationCore.dll
@@ -28,11 +30,7 @@ using FluentSharp.WinForms.Controls;
 //O2Ref:WindowsFormsIntegration.dll
 //O2Ref:System.Xaml.dll
 //O2Ref:ICSharpCode.AvalonEdit.dll
-//O2Ref:O2_External_IE.dll
-//O2Ref:QuickGraph.dll
-//O2Ref:GraphSharp.dll
 //O2Ref:GraphSharp.Controls.dll
-//O2Ref:O2_Misc_Microsoft_MPL_Libs.dll
 	
 namespace O2.XRules.Database.APIs
 {

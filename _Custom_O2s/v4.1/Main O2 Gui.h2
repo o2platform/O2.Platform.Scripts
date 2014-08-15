@@ -87,10 +87,13 @@ var o2Guis_Mappings = 	 new Items().add("Security Consultants", "Security Consul
 									.add("SuperSecureBank", "_SSB - Custom O2.h2")
 									.add("HacmeBank", "HacmeBank - Vulnerable Web Application (Custom O2).h2");
 
-var help_Mappings = 	 new Items().add("O2 Documentation", "http://o2platform.com/wiki/Documentation")
-								  	.add("O2 Mailing list", "https://lists.owasp.org/mailman/listinfo/owasp-o2-platform")
-								  	.add("O2 Blog (tons of script samples", "http://o2platform.wordpress.com")
-								  	.add("O2 Website (at OWASP)", "http://owasp.org/index.php/O2");			  
+var help_Mappings = 	 new Items().add("Start here"						, "https://github.com/o2platform/FluentSharp/blob/master/README.md")
+								  	.add("O2 Mailing list"					, "https://groups.google.com/a/owasp.org/forum/#!forum/o2-platform")
+								  	.add("Web Scripting (book)"				, "https://github.com/o2platform/Book_WebAutomation/blob/master/O2Documentation.md")
+								  	.add("WinForms Scripting (book)"		, "https://github.com/o2platform/Book_WebAutomation/blob/master/WinForms.md")
+								  	.add("O2 Blogs (tons of script samples)", "http://blog.diniscruz.com/search/label/O2%20Platform")
+								  	.add("O2 Blogs (older script samples)"	, "http://o2platform.wordpress.com")
+								  	.add("O2 Website (at OWASP)"		 	, "http://owasp.org/index.php/O2");			  
  	
 
 menu.add_MenuItem("Main")
@@ -106,10 +109,12 @@ menu.add_MenuItem("Debug")
 	.add_MenuItem("REPL this GUI",()=>  topPanel.parentForm().script_Me("form"))
 	.add_MenuItem("Edit this Gui's Script", ()=> open.scriptEditor("Main O2 Gui.h2".local()))
 	.add_MenuItem("Folders",false)
+		.add_MenuItem("O2.Platform.Scripts",()=> PublicDI.config.LocalScriptsFolder.startProcess())
 		.add_MenuItem("TempDir",()=> PublicDI.config.O2TempDir.startProcess())
 		.add_MenuItem("References Downloaded",()=> PublicDI.config.ReferencesDownloadLocation.startProcess())		
 		.add_MenuItem("Embedded Assemblies",()=> PublicDI.config.EmbeddedAssemblies.startProcess())
 		.add_MenuItem("Tools or APIs",()=> PublicDI.config.ToolsOrApis.startProcess())
+		.add_MenuItem("NuGet Packages",()=> new API_NuGet().Packages_Folder.startProcess())
 		.add_MenuItem("of current Executable",()=> PublicDI.config.CurrentExecutableDirectory.startProcess());
 		
 menu.add_MenuItem("Compilation Cache(s)")		
@@ -139,6 +144,7 @@ logViewerPanel.add_LogViewer().white();
  
 return "done";		 
 
+//using FluentSharp.CoreLib.APIs
 //O2Embed:FluentSharp.Roslyn.dll
 //O2Embed:FluentSharp.WatiN.dll
 //O2Embed:WatiN.Core.dll

@@ -1,17 +1,15 @@
-<?xml version="1.0"?>
-<H2>
-  <SourceCode>var topPanel = O2Gui.open&lt;Panel&gt;("Util - Saved MethodStream files Viewer",1200,500);
+var topPanel = O2Gui.open<Panel>("Util - Saved MethodStream files Viewer",1200,500);
 //var topPanel = panel.clear().add_Panel(); 
  
-var codeStreams = topPanel.add_Control&lt;ascx_CodeStreams&gt;(); 
+var codeStreams = topPanel.add_Control<ascx_CodeStreams>(); 
 var methodStreams= topPanel.insert_Left().add_TreeView();
-var filesLoaded = new List&lt;string&gt;();
-methodStreams.afterSelect&lt;string&gt;(
-				(file)=&gt;{	
+var filesLoaded = new List<string>();
+methodStreams.afterSelect<string>(
+				(file)=>{	
 							codeStreams.loadMethodStreamFile(file); 
 						});
 methodStreams.onDrop(
-	(fileOrFolder)=&gt;{
+	(fileOrFolder)=>{
 						if (fileOrFolder.fileExists())
 						{
 							filesLoaded.add(fileOrFolder);
@@ -25,7 +23,7 @@ methodStreams.onDrop(
 						}
 					});
 methodStreams.insert_Above(20).add_TextBox("Filter","")
-			 .onTextChange((text)=&gt; {
+			 .onTextChange((text)=> {
 			 							methodStreams.clear();
 			 							var filteredItems = (from file in filesLoaded
 			 												 where file.regEx(text)
@@ -33,8 +31,7 @@ methodStreams.insert_Above(20).add_TextBox("Filter","")
 			 												 
 			 							methodStreams.add_Files(filteredItems);
 							 	 	});
-
+ 
 //O2File:ascx_CodeStreams.cs
-//using O2.XRules.Database.Languages_and_Frameworks.DotNet</SourceCode>
-  <ReferencedAssemblies />
-</H2>
+//using O2.XRules.Database.Languages_and_Frameworks.DotNet
+//O2Ref:FluentSharp.Ast.dll
