@@ -20,4 +20,5 @@ script.Code =
 
 //O2Embed:scripts.ico
 //O2Ref:WeifenLuo.WinFormsUI.Docking.dll
-//NuGet:FluentSharp.WinFormsUI
+//O2Ref:FluentSharp.WinFormsUI.dll
+//__NuGet:FluentSharp.WinFormsUI
