@@ -1,8 +1,8 @@
 //O2Include:PoC - Fuzzing Images.h2
   
 //var sourceFolder = "badImages_Ico".tempDir(false);	
-var baseFolder = @"C:\Users\o2\AppData\Roaming\OWASP_O2_Platform_5.3\8_15_2013";
-var sourceFolder = baseFolder.pathCombine("badImages_Gif");
+var baseFolder = @"E:\O2\Releases\O2_Platform_5.5_RC1\O2.Temp\10_23_2014";
+var sourceFolder = baseFolder.pathCombine("badImages_Gif_False");
 //maxItems = 10;
 fuzzFromFolder(sourceFolder);
 //var topPanel = "{name}".popupWindow(700,400);

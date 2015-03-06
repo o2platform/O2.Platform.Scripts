@@ -17,10 +17,11 @@ namespace O2.XRules.Database.APIs
 		{
 		}
 		
-		public Snoop_Installer(bool installNow) 
+		public Snoop_Installer(bool installNow)
 		{
 			config("Snoop", "Snoop v2.7.1", "Snoop.zip");	
-			Install_Uri = "http://download-codeplex.sec.s-msft.com/Download/Release?ProjectName=snoopwpf&DownloadId=500789&FileTime=129938679247600000&Build=20928".uri();    		
+			Install_Uri = "http://download-codeplex.sec.s-msft.com/Download/Release?ProjectName=snoopwpf&DownloadId=500789&FileTime=129938679247600000&Build=20928".uri();
+    		//Install_Uri = "https://github.com/downloads/cplotts/snoopwpf/Snoop.zip".uri();
     		if (installNow)
     			install();		
 		}
@@ -35,7 +36,7 @@ namespace O2.XRules.Database.APIs
 		public Process start()
 		{
 			if (install())
-				return Install_Dir.pathCombine("Snoop\\Snoop\\snoop.exe").startProcess();
+				return Install_Dir.pathCombine("Snoop\\snoop.exe").startProcess();
 			return null;
 		}		
 	}

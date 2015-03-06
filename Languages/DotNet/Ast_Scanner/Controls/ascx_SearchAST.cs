@@ -11,19 +11,18 @@ using FluentSharp.REPL.Controls;
 using FluentSharp.WinForms;
 using FluentSharp.WinForms.Controls;
 using ICSharpCode.NRefactory.Ast;
+using O2.XRules.Database.Languages_and_Frameworks.DotNet;
 //O2Ref:FluentSharp.Ast.dll
 //O2File:Ast_Engine_ExtensionMethods.cs
 //O2File:SharpDevelop_O2MappedAstData_ExtensionMethods.cs
 //O2File:TextEditor_O2CodeStream_ExtensionMethods.cs
 //O2Ref:QuickGraph.dll
 
-
-
-namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
+namespace FluentSharp.MsBuild
 {
-	public class test_ascx_SearchAST
-	{		
-		public void launchGui()
+	public class DynamicType
+	{
+		public void dynamicMethod()
 		{
 			var astData = new O2MappedAstData();
 			
@@ -36,7 +35,11 @@ namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 			
 		}
 	}
+}
 
+
+namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
+{	
 	public class ascx_SearchAST : Control
 	{
 		public O2MappedAstData AstData {get;set;}	
@@ -153,13 +156,20 @@ namespace O2.XRules.Database.Languages_and_Frameworks.DotNet
 											if (addedLines.contains(addedLine).isFalse())
 											{
 												addedLines.add(addedLine);
-												var fileContents = file.fileContents();
+												var fileContents = file.fileContents().fix_CRLF();
 												if (fileContents.valid())
 												{
-													var lineText = fileContents.split_onLines()[line-1];												
-													var location = "[{0}:{1}]      {2} ".format(file.fileName(), line, file);
-													SourceCodeLines.add_Node(lineText, iNode)
-																   .add_Node(location);
+													try
+													{
+														var lineText = fileContents.split_onLines()[line-1];												
+														var location = "[{0}:{1}]      {2} ".format(file.fileName(), line, file);
+														SourceCodeLines.add_Node(lineText, iNode)
+																	   .add_Node(location);
+													}
+													catch(Exception ex)
+													{
+														ex.log();
+													}
 												}
 											}
 										}
