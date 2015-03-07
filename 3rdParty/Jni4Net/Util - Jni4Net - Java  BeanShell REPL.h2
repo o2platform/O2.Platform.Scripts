@@ -138,6 +138,6 @@ return "done";
 //using java.lang;
 //using java.net;
 //O2File:API_Jni4Net.cs
-//O2Ref:Jni4Net\lib\jni4net.n-0.8.6.0.dll
+//O2Ref:Jni4Net\lib\jni4net.n-0.8.8.0.dll
 //O2Embed:java.ico
 //O2EmbedTool:Jni4Net

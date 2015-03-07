@@ -4,7 +4,7 @@ var topPanel = "PoC - Jni4Net - List JavaProperties: {0}".format(clr.details()).
 var tableList = topPanel.clear().add_TableList("Java Properties").add_Columns("Key", "Value");
 tableList.insert_Below().add_ConsoleOut();
 
-BridgeSetup.Patch_IgnoreArgsInAttach=true;
+//BridgeSetup.Patch_IgnoreArgsInAttach=true;
 
 var bridgeSetup = new BridgeSetup(){Verbose=true};
 try
@@ -30,7 +30,7 @@ return "ok";
 //using java.util;
 //using net.sf.jni4net;
 //using net.sf.jni4net.adaptors;
-//O2Ref:jni4net.n-0.8.7.0_Patched.dll
-//O2Ref:Jni4Net_Patched/jni4net-0.8.7.0-bin/lib/jni4net.n-0.8.7.0_Patched.dll
+//O2Ref:jni4net.n-0.8.8.0.dll
+//O2Ref:Jni4Net/lib/jni4net.n-0.8.8.0.dll
 //O2File:API_ConsoleOut.cs
 //O2EmbedTool:Jni4Net

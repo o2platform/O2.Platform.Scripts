@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using FluentSharp.CoreLib;
 using FluentSharp.WinForms;
+using FluentSharp.Web35;
 using java.lang;
 using java.io;
 using java.net;
@@ -12,9 +13,10 @@ using java.util.zip;
 using java.lang.reflect;
 using net.sf.jni4net;
 using net.sf.jni4net.jni;
-//Installer:Jni4Net_Installer.cs!Jni4Net_Patched/jni4net-0.8.7.0-bin/bin/proxygen.exe
 
-//O2Ref:Jni4Net_Patched/jni4net-0.8.7.0-bin/lib/jni4net.n-0.8.7.0_Patched.dll
+//Installer:Jni4Net_Installer.cs!Jni4Net/bin/proxygen.exe
+//O2Ref:FluentSharp.Web.dll
+//O2Ref:Jni4Net/lib/jni4net.n-0.8.8.0.dll
 
 namespace O2.XRules.Database.APIs
 {
