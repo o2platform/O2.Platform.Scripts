@@ -7,6 +7,8 @@ using FluentSharp.CoreLib.API;
 using FluentSharp.REPL.Utils;
 using FluentSharp.WinForms;
 using FluentSharp.WinForms.Controls;
+using FluentSharp.Web35.API;
+using FluentSharp.Zip;
 
 namespace FluentSharp.CoreLib
 {
@@ -21,8 +23,12 @@ namespace FluentSharp.CoreLib
     			treeView.add_Node("Error:FuzzDB Not installed");
     		else
     		{
-    			treeView.add_Node("XSS Payloads")
-    					.add_Nodes(fuzzDb.payloads_Xss());
+    			treeView.add_Node("XSS Payloads").add_Nodes(fuzzDb.payloads_Xss());
+    			treeView.add_Node("SQLi_Generic Payloads").add_Nodes(fuzzDb.payloads_SQLi_Generic());
+    			treeView.add_Node("SQLi_SqlServer Payloads").add_Nodes(fuzzDb.payloads_SQLi_SqlServer());
+    			treeView.add_Node("SQLi_MySql Payloads").add_Nodes(fuzzDb.payloads_SQLi_MySql());
+    			treeView.add_Node("names list").add_Nodes(fuzzDb.lists_Names());
+    			
     		}
     	}
     }
@@ -147,5 +153,11 @@ namespace FluentSharp.CoreLib
     											 @"attack-payloads\sql-injection\exploit\mysql-read-local-files.txt");
 			return xssPayloads;
     	}    
+    	
+    	public static List<String> lists_Names(this API_FuzzDB fuzzDB)
+    	{
+    		var xssPayloads = fuzzDB.getPayloads(@"wordlists-user-passwd\names\namelist.txt");
+			return xssPayloads;
+    	}        	
     }
 }

@@ -10,6 +10,7 @@ using FluentSharp.REPL.Controls;
 using FluentSharp.WinForms;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using FluentSharp.Zip;
 
 //O2File:API_Win32_Handle_Hijack.cs
 //O2Ref:Selenium\net40\WebDriver.dll
@@ -35,10 +36,13 @@ namespace O2.XRules.Database.APIs
 		
 		public API_Chrome_Hijack()
 		{
-			ChromeDriverDownloadLink = @"http://chromedriver.googlecode.com/files/chromedriver_win_26.0.1383.0.zip";
+			ChromeDriverDownloadLink = @"http://chromedriver.storage.googleapis.com/2.21/chromedriver_win32.zip";
 			WebDriver_Folder 		 = @"Selenium\net40\WebDriver.dll".assembly().location().parentFolder();
 			ChromeDriver_Exe 		 = WebDriver_Folder.pathCombine("chromedriver.exe");
 			ChromeOptions 			 = new ChromeOptions();
+			
+			ensureChromeDriverExists();
+			
 			ChromeDriverService 	 = ChromeDriverService.CreateDefaultService();
 		}
 		

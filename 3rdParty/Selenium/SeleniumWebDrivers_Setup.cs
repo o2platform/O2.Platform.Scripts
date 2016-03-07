@@ -3,8 +3,10 @@ using System;
 using FluentSharp.CoreLib;
 using FluentSharp.REPL;
 using FluentSharp.WinForms;
+using FluentSharp.Zip;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.IE;
+
 
 //O2Ref:Selenium\net40\WebDriver.dll
 
